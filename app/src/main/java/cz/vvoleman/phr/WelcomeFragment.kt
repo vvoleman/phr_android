@@ -7,34 +7,32 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import cz.vvoleman.phr.databinding.FragmentLoginBinding
+import cz.vvoleman.phr.databinding.FragmentWelcomeBinding
 
-class LoginFragment : Fragment(R.layout.fragment_login){
+class WelcomeFragment : Fragment(R.layout.fragment_login){
 
-    private var _binding: FragmentLoginBinding? = null
+    private val args: WelcomeFragmentArgs by navArgs()
+
+    private var _binding: FragmentWelcomeBinding? = null
     private val binding get() = _binding!!
-    private val args: LoginFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentLoginBinding.inflate(inflater, container, false)
+        _binding = FragmentWelcomeBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val usernameDeeplink = args.username
-        binding.editTextUsername.setText(usernameDeeplink)
+        binding.textViewUsername.text = args.username
+        binding.textViewPassword.text = args.password
 
-        binding.buttonConfirm.setOnClickListener {
-            val username = binding.editTextUsername.text.toString()
-            val password = binding.editTextPassword.text.toString()
-
-            val action = LoginFragmentDirections.actionLoginFragmentToWelcomeFragment(username, password)
+        binding.buttonOk.setOnClickListener {
+            val action = WelcomeFragmentDirections.actionWelcomeFragmentToHomeFragment()
             findNavController().navigate(action)
         }
     }
