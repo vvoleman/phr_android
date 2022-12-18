@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:gravity="center"
-    tools:context=".HomeFragment"
+    android:id="@+id/search_fragment"
+    tools:context=".SearchFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -12,12 +13,6 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:text="Home fragment" />
-
-    <Button
-        android:id="@+id/button_login"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Login" />
+        android:text="Search" />
 
 </LinearLayout>
