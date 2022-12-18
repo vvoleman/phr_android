@@ -2,4 +2,8 @@
     <string name="app_name">PHR</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="overview">Úvod</string>
+    <string name="medical_records">Lékařské zprávy</string>
+    <string name="medicine">Léky</string>
+    <string name="measurements">Měření</string>
 </resources>

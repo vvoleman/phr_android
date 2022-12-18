@@ -3,76 +3,25 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/homeFragment">
-
+    app:startDestination="@id/overviewFragment">
     <fragment
-        android:id="@+id/homeFragment"
-        android:name="cz.vvoleman.phr.HomeFragment"
-        android:label="Home"
-        tools:layout="@layout/fragment_home">
-        <action
-            android:id="@+id/action_homeFragment_to_loginFragment"
-            app:destination="@id/loginFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
-    </fragment>
+        android:id="@+id/overviewFragment"
+        android:name="cz.vvoleman.phr.overview.OverviewFragment"
+        android:label="@string/overview"
+        tools:layout="@layout/fragment_overview" />
     <fragment
-        android:id="@+id/loginFragment"
-        android:name="cz.vvoleman.phr.LoginFragment"
-        android:label="Login"
-        tools:layout="@layout/fragment_login">
-        <action
-            android:id="@+id/action_loginFragment_to_welcomeFragment"
-            app:destination="@id/welcomeFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
-        <argument
-            android:name="username"
-            android:defaultValue="@null"
-            app:argType="string"
-            app:nullable="true" />
-        <deepLink
-            android:id="@+id/deepLink2"
-            app:uri="example.com/login/{username}" />
-    </fragment>
+        android:id="@+id/medicineFragment2"
+        android:name="cz.vvoleman.phr.medicine.MedicineFragment"
+        android:label="@string/medicine"
+        tools:layout="@layout/fragment_medicine" />
     <fragment
-        android:id="@+id/welcomeFragment"
-        android:name="cz.vvoleman.phr.WelcomeFragment"
-        android:label="{username}"
-        tools:layout="@layout/fragment_welcome" >
-        <argument
-            android:name="username"
-            app:argType="string" />
-        <argument
-            android:name="password"
-            app:argType="string" />
-        <action
-            android:id="@+id/action_welcomeFragment_to_homeFragment"
-            app:destination="@id/homeFragment"
-            app:popUpTo="@id/homeFragment"
-            app:popUpToInclusive="true" />
-    </fragment>
+        android:id="@+id/measurementsFragment2"
+        android:name="cz.vvoleman.phr.measurements.MeasurementsFragment"
+        android:label="@string/measurements"
+        tools:layout="@layout/fragment_measurements" />
     <fragment
-        android:id="@+id/settingsFragment"
-        android:name="cz.vvoleman.phr.SettingsFragment"
-        android:label="Settings"
-        tools:layout="@layout/fragment_settings" />
-    <fragment
-        android:id="@+id/termsFragment2"
-        android:name="cz.vvoleman.phr.TermsFragment"
-        android:label="Terms &amp; Conditions"
-        app:enterAnim="@anim/slide_in_top"
-        app:exitAnim="@anim/slide_out_bottom"
-        app:popEnterAnim="@anim/slide_in_bottom"
-        app:popExitAnim="@anim/slide_out_top"
-        tools:layout="@layout/fragment_terms" /><action android:id="@+id/action_global_termsFragment2" app:destination="@id/termsFragment2"/>
-    <fragment
-        android:id="@+id/searchFragment"
-        android:name="cz.vvoleman.phr.SearchFragment"
-        android:label="fragment_search"
-        tools:layout="@layout/fragment_search" />
+        android:id="@+id/medicalRecordsFragment2"
+        android:name="cz.vvoleman.phr.medical_records.MedicalRecordsFragment"
+        android:label="@string/medical_records"
+        tools:layout="@layout/fragment_medical_records" />
 </navigation>

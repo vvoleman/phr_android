@@ -2,8 +2,6 @@ package cz.vvoleman.phr
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
@@ -25,30 +23,13 @@ class MainActivity : AppCompatActivity() {
         navController = navHostFragment.findNavController()
 
         appBarConfiguration = AppBarConfiguration(
-            setOf(R.id.homeFragment, R.id.searchFragment),
+            setOf(R.id.overviewFragment, R.id.medicalRecordsFragment, R.id.medicineFragment, R.id.measurementsFragment),
             binding.drawerLayout
         )
 
         setupActionBarWithNavController(navController, appBarConfiguration)
 
-        binding.bottomNav.setupWithNavController(navController)
         binding.navView.setupWithNavController(navController)
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.options_menu, menu)
-
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return if (item.itemId == R.id.termsAndConditions) {
-            val action = NavGraphDirections.actionGlobalTermsFragment2()
-            navController.navigate(action)
-            true
-        } else {
-            return item.onNavDestinationSelected(navController) || super.onOptionsItemSelected(item)
-        }
     }
 
     override fun onSupportNavigateUp(): Boolean {
