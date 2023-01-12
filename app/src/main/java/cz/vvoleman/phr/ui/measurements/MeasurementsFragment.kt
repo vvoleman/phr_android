@@ -1,4 +1,4 @@
-package cz.vvoleman.phr.measurements
+package cz.vvoleman.phr.ui.measurements
 
 import androidx.fragment.app.Fragment
 import cz.vvoleman.phr.R
