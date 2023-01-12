@@ -1,4 +1,4 @@
-package cz.vvoleman.phr
+package cz.vvoleman.phr.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -6,8 +6,11 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.*
+import cz.vvoleman.phr.R
 import cz.vvoleman.phr.databinding.ActivityMainBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private lateinit var navController: NavController
@@ -23,7 +26,12 @@ class MainActivity : AppCompatActivity() {
         navController = navHostFragment.findNavController()
 
         appBarConfiguration = AppBarConfiguration(
-            setOf(R.id.overviewFragment, R.id.medicalRecordsFragment, R.id.medicineFragment, R.id.measurementsFragment),
+            setOf(
+                R.id.overviewFragment,
+                R.id.medicalRecordsFragment,
+                R.id.medicineFragment,
+                R.id.measurementsFragment
+            ),
             binding.drawerLayout
         )
 

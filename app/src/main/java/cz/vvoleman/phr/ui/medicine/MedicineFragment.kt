@@ -1,4 +1,4 @@
-package cz.vvoleman.phr.medicine
+package cz.vvoleman.phr.ui.medicine
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import cz.vvoleman.phr.R
 import cz.vvoleman.phr.databinding.FragmentMedicineBinding
-import cz.vvoleman.phr.viewmodels.MedicineViewModelFactory
 
 class MedicineFragment : Fragment(R.layout.fragment_medicine) {
 

@@ -6,22 +6,22 @@
     app:startDestination="@id/medicineFragment">
     <fragment
         android:id="@+id/overviewFragment"
-        android:name="cz.vvoleman.phr.overview.OverviewFragment"
+        android:name="cz.vvoleman.phr.ui.overview.OverviewFragment"
         android:label="@string/overview"
         tools:layout="@layout/fragment_overview" />
     <fragment
         android:id="@+id/medicineFragment"
-        android:name="cz.vvoleman.phr.medicine.MedicineFragment"
+        android:name="cz.vvoleman.phr.ui.medicine.MedicineFragment"
         android:label="@string/medicine"
         tools:layout="@layout/fragment_medicine" />
     <fragment
         android:id="@+id/measurementsFragment"
-        android:name="cz.vvoleman.phr.measurements.MeasurementsFragment"
+        android:name="cz.vvoleman.phr.ui.measurements.MeasurementsFragment"
         android:label="@string/measurements"
         tools:layout="@layout/fragment_measurements" />
     <fragment
         android:id="@+id/medicalRecordsFragment"
-        android:name="cz.vvoleman.phr.medical_records.MedicalRecordsFragment"
+        android:name="cz.vvoleman.phr.ui.medical_records.MedicalRecordsFragment"
         android:label="@string/medical_records"
         tools:layout="@layout/fragment_medical_records" />
 </navigation>
