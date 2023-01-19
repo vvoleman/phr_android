@@ -2,7 +2,10 @@ package cz.vvoleman.phr.data.medicine
 
 import android.annotation.SuppressLint
 import androidx.room.ColumnInfo
+import androidx.room.Entity
 import androidx.room.PrimaryKey
+
+@Entity
 data class Medicine (
     @PrimaryKey val id: Int,
     val name: String,

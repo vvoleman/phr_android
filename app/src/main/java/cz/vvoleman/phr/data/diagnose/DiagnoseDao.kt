@@ -5,26 +5,27 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface DiagnoseDao {
 
-    @Query("SELECT * FROM diagnose")
-    fun getAllDiagnoses(): List<Diagnose>
+    @Query("SELECT * FROM diagnoses")
+    fun getAllDiagnoses(): Flow<List<Diagnose>>
 
-    @Query("SELECT * FROM diagnose WHERE id = :id")
-    fun getDiagnoseById(id: Int): Diagnose
+    @Query("SELECT * FROM diagnoses WHERE id = :id")
+    fun getDiagnoseById(id: Int): Flow<Diagnose>
 
-    @Query("SELECT * FROM diagnose WHERE name LIKE :name")
-    fun getDiagnoseByName(name: String): Diagnose
+    @Query("SELECT * FROM diagnoses WHERE name LIKE :name")
+    fun getDiagnosesByName(name: String): Flow<List<Diagnose>>
 
     @Insert
-    fun insertDiagnose(diagnose: Diagnose)
+    suspend fun insertDiagnose(diagnose: Diagnose)
 
     @Update
-    fun updateDiagnose(diagnose: Diagnose)
+    suspend fun updateDiagnose(diagnose: Diagnose)
 
     @Delete
-    fun deleteDiagnose(diagnose: Diagnose)
+    suspend fun deleteDiagnose(diagnose: Diagnose)
 
 }

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.medical_records.add_edit.AddEditMedicalRecordFragment"
+    xmlns:tools="http://schemas.android.com/tools">
+
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/button_action_camera"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:contentDescription="@string/medical_record_attach_new_photo"
+        app:icon="@drawable/ic_camera"
+        app:iconGravity="textStart"
+        android:layout_marginEnd="8dp"
+        app:iconPadding="0dp"
+        app:layout_constraintEnd_toStartOf="@id/button_action_file"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/button_action_file"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_marginEnd="8dp"
+        android:contentDescription="@string/medical_record_attach_record"
+        android:gravity="center"
+        app:icon="@drawable/ic_attach_file"
+        app:iconGravity="textStart"
+        app:iconPadding="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        app:layout_constraintTop_toBottomOf="@id/button_action_camera"
+        android:layout_marginTop="32dp"
+        android:padding="16dp"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_height="wrap_content">
+
+
+        <EditText
+            android:id="@+id/edit_text_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="date"
+            android:hint="Datum zprávy"
+            android:autofillHints="" />
+
+        <EditText
+            android:id="@+id/edit_text_record_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:autofillHints=""
+            android:hint="Text zprávy"
+            android:inputType="text" />
+
+        <Button
+            android:id="@+id/button_save"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:text="Uložit" />
+
+    </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

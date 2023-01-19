@@ -1,22 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item
-        android:id="@+id/overviewFragment"
-        android:icon="@drawable/ic_home"
-        android:title="@string/overview" />
+    <group android:id="@+id/group_base_actions">
+        <item
+            android:id="@+id/overviewFragment"
+            android:icon="@drawable/ic_home"
+            android:checked="true"
+            android:title="@string/overview" />
 
-    <item
-        android:id="@+id/medicalRecordsFragment"
-        android:icon="@drawable/ic_medical_reports"
-        android:title="@string/medical_records" />
+        <item
+            android:id="@+id/medicalRecordsFragment"
+            android:icon="@drawable/ic_medical_reports"
+            android:title="@string/medical_records" />
 
-    <item
-        android:id="@+id/medicineFragment"
-        android:icon="@drawable/ic_medicine"
-        android:title="@string/medicine" />
-
-    <item
-        android:id="@+id/measurementsFragment"
-        android:icon="@drawable/ic_measurements"
-        android:title="@string/measurements" />
+        <item
+            android:id="@+id/medicineFragment"
+            android:icon="@drawable/ic_medicine"
+            android:title="@string/medicine" />
+        <item
+            android:id="@+id/measurementsFragment"
+            android:icon="@drawable/ic_measurements"
+            android:title="@string/measurements" />
+    </group>
+    <group android:id="@+id/group_settings">
+        <item
+            android:id="@+id/settingsFragment"
+            android:icon="@drawable/ic_settings"
+            android:title="@string/settings" />
+    </group>
 </menu>

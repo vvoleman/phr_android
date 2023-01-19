@@ -1,28 +1,31 @@
 package cz.vvoleman.phr.data.patient
 
+import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
+import kotlinx.coroutines.flow.Flow
 
+@Dao
 interface PatientDao {
 
     @Query("SELECT * FROM patient")
-    fun getAllPatients(): List<Patient>
+    fun getAllPatients(): Flow<List<Patient>>
 
     @Query("SELECT * FROM patient WHERE id = :id")
-    fun getPatientById(id: Int): Patient
+    fun getPatientById(id: Int): Flow<Patient>
 
-    @Query("SELECT * FROM patient WHERE name LIKE :name")
-    fun getPatientByName(name: String): Patient
+    @Query("SELECT * FROM patient WHERE name LIKE '%'||:name||'%'")
+    fun getPatientByName(name: String): Flow<List<Patient>>
 
     @Insert
-    fun insertPatient(patient: Patient)
+    suspend fun insertPatient(patient: Patient)
 
     @Update
-    fun updatePatient(patient: Patient)
+    suspend fun updatePatient(patient: Patient)
 
     @Delete
-    fun deletePatient(patient: Patient)
+    suspend fun deletePatient(patient: Patient)
 
 }

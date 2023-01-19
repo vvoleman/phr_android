@@ -7,6 +7,10 @@ buildscript {
         hilt_androidX_version = "1.0.0"
         room_version = "2.4.3"
         lifecycle_version = "2.4.0"
+        glide_version = '4.11.0'
+        retrofit_version = '2.9.0'
+        paging_version = '3.1.0'
+        datastore_version = '1.0.0-alpha02'
     }
     dependencies {
         classpath "com.google.dagger:hilt-android-gradle-plugin:$hilt_version"

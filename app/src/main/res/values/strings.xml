@@ -6,4 +6,15 @@
     <string name="medical_records">Lékařské zprávy</string>
     <string name="medicine">Léky</string>
     <string name="measurements">Měření</string>
+    <string name="add_medical_record">Přidat novou zprávu</string>
+    <string name="edit">Upravit</string>
+    <string name="delete">Smazat</string>
+    <string name="export">Exportovat</string>
+    <string name="medical_recold_deleted">Lékařská zpráva smazána</string>
+    <string name="undo">Obnovit</string>
+    <string name="medical_record_attach_record">Přiložit dokument</string>
+    <string name="medical_record_attach_new_photo">Vyfotit zprávu</string>
+    <string name="selected_patient">Vybraný pacient</string>
+    <string name="settings">Nastavení</string>
+
 </resources>

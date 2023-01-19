@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/medicineFragment">
+    app:startDestination="@id/overviewFragment">
     <fragment
         android:id="@+id/overviewFragment"
         android:name="cz.vvoleman.phr.ui.overview.OverviewFragment"
@@ -23,5 +23,20 @@
         android:id="@+id/medicalRecordsFragment"
         android:name="cz.vvoleman.phr.ui.medical_records.MedicalRecordsFragment"
         android:label="@string/medical_records"
-        tools:layout="@layout/fragment_medical_records" />
+        tools:layout="@layout/fragment_medical_records" >
+        <action
+            android:id="@+id/action_medicalRecordsFragment_to_addEditMedicalRecord"
+            app:destination="@id/addEditMedicalRecord" />
+    </fragment>
+    <fragment
+        android:id="@+id/addEditMedicalRecord"
+        android:name="cz.vvoleman.phr.ui.medical_records.add_edit.AddEditMedicalRecordFragment"
+        android:label="Úprava zprávy"
+        tools:layout="@layout/fragment_add_edit_medical_record" >
+        <argument
+            android:name="medicalRecord"
+            app:argType="cz.vvoleman.phr.data.medical_records.MedicalRecord"
+            app:nullable="true"
+            android:defaultValue="@null" />
+    </fragment>
 </navigation>
