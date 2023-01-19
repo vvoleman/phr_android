@@ -1,18 +1,21 @@
 package cz.vvoleman.phr.data.medical_records
 
-import androidx.room.Embedded
+import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import cz.vvoleman.phr.data.diagnose.Diagnose
-import cz.vvoleman.phr.data.facility.Facility
-import cz.vvoleman.phr.data.patient.Patient
+import kotlinx.parcelize.Parcelize
+import java.util.Calendar
+import java.util.Date
 
 @Entity(tableName = "medical_records")
+@Parcelize
 data class MedicalRecord(
-    @PrimaryKey(autoGenerate = true) val id: Int,
-    @Embedded val facility: Facility,
-    @Embedded val patient: Patient,
-    @Embedded val diagnose: Diagnose,
-    val date: String,
+    @PrimaryKey(autoGenerate = true) val recordId: Int = 0,
+    val facilityId: Int,
+    val patientId: Int,
+    val diagnoseId: String,
+    val date: Date,
     val text: String
-)
+) : Parcelable {
+
+}

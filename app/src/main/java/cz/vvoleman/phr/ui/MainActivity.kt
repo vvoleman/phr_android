@@ -1,21 +1,36 @@
 package cz.vvoleman.phr.ui
 
+import android.app.Activity
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.AttributeSet
+import android.util.Log
+import android.view.MenuItem
+import android.view.View
+import android.widget.ArrayAdapter
+import android.widget.Spinner
+import androidx.activity.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.*
 import cz.vvoleman.phr.R
+import cz.vvoleman.phr.data.AdapterPair
+import cz.vvoleman.phr.data.patient.Patient
 import cz.vvoleman.phr.databinding.ActivityMainBinding
+import cz.vvoleman.phr.ui.main.MainViewModel
+import cz.vvoleman.phr.ui.views.dialog_spinner.DialogSpinner
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), DialogSpinner.DialogSpinnerListener {
 
     private lateinit var navController: NavController
     private lateinit var binding: ActivityMainBinding
     private lateinit var appBarConfiguration: AppBarConfiguration
+    private lateinit var patientSpinner: DialogSpinner<Patient>
+    private val viewModel: MainViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,9 +53,39 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
 
         binding.navView.setupWithNavController(navController)
+
+        patientSpinner = binding.navView.getHeaderView(0).findViewById(R.id.spinner_patient)
+
+        viewModel.allPatients.observe(this) { patients ->
+            Log.d("MainActivity", "Patients: $patients")
+            val pairs = patients.map { it.getAdapterPair() }
+            Log.d("MainActivity", "Pairs: $pairs")
+            patientSpinner.setData(pairs)
+        }
+
+        viewModel.patient.observe(this) { patient ->
+            patientSpinner.setSelectedItem(patient.getAdapterPair())
+        }
+
+        patientSpinner.setListener(this)
     }
 
     override fun onSupportNavigateUp(): Boolean {
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
+
+    override fun onItemSelected(item: AdapterPair): Boolean {
+        val patient = item.objectValue as Patient
+        viewModel.updatePatient(patient.id)
+
+        return true
+    }
+
+    override fun onSearch(query: String) {
+        viewModel.searchQuery.value = query
+    }
+
 }
+
+const val ADD_OK = Activity.RESULT_FIRST_USER
+const val EDIT_OK = Activity.RESULT_FIRST_USER + 1

@@ -5,7 +5,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import cz.vvoleman.phr.data.address.Address
 
-@Entity
+@Entity(tableName = "facilities")
 data class Facility(
     @PrimaryKey val id: Int,
     @Embedded val address: Address,
