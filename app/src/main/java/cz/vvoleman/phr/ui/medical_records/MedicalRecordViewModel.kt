@@ -1,13 +1,16 @@
 package cz.vvoleman.phr.ui.medical_records
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import cz.vvoleman.phr.data.PreferencesManager
 import cz.vvoleman.phr.data.medical_records.MedicalRecordDao
 import cz.vvoleman.phr.data.medical_records.MedicalRecordWithDetails
+import cz.vvoleman.phr.data.repository.DiagnoseRepository
 import cz.vvoleman.phr.ui.ADD_OK
 import cz.vvoleman.phr.ui.EDIT_OK
+import cz.vvoleman.phr.ui.shared.PatientSharedViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.Channel
@@ -19,7 +22,8 @@ import javax.inject.Inject
 @OptIn(ExperimentalCoroutinesApi::class)
 class MedicalRecordViewModel @Inject constructor(
     private val medicalRecordDao: MedicalRecordDao,
-    private val preferencesManager: PreferencesManager
+    private val diagnoseRepository: DiagnoseRepository,
+    private val preferencesManager: PreferencesManager,
 ) : ViewModel() {
 
     private val medicalRecordsEventChannel = Channel<MedicalRecordsEvent>()
@@ -31,8 +35,8 @@ class MedicalRecordViewModel @Inject constructor(
     val patientId = preferencesFlow.map { userPreferences ->
         userPreferences.patientId
     }
-    val medicalRecords = patientId.flatMapLatest { id ->
-        medicalRecordDao.getMedicalRecordByPatient(id)
+    val medicalRecords = patientId.flatMapLatest { patientId ->
+        medicalRecordDao.getMedicalRecordByPatient(patientId)
     }.asLiveData()
 
     // Deletes record
@@ -66,6 +70,7 @@ class MedicalRecordViewModel @Inject constructor(
         data class ShowUndoDeleteRecordMessage(val medicalRecord: MedicalRecordWithDetails) :
             MedicalRecordsEvent()
         data class ShowSavedConfirmationMessage(val msg: String) : MedicalRecordsEvent()
+        data class NetworkError(val msg: String) : MedicalRecordsEvent()
     }
 
 }

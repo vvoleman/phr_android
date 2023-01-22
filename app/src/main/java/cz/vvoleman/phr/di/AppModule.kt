@@ -1,12 +1,15 @@
 package cz.vvoleman.phr.di
 
 import android.app.Application
+import android.content.Context
+import android.net.ConnectivityManager
 import androidx.room.Room
 import cz.vvoleman.phr.api.backend.BackendApi
 import cz.vvoleman.phr.data.PatientDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
@@ -40,6 +43,9 @@ object AppModule {
 
     @Provides
     fun provideMedicalRecordDao(db: PatientDatabase) = db.medicalRecordDao()
+
+    @Provides
+    fun provideConnectivityManager(@ApplicationContext context: Context) = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
     @Provides
     @Singleton

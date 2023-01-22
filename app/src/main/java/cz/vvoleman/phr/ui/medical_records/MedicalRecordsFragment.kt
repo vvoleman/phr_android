@@ -92,6 +92,9 @@ class MedicalRecordsFragment : Fragment(R.layout.fragment_medical_records),
                     is MedicalRecordViewModel.MedicalRecordsEvent.ShowSavedConfirmationMessage -> {
                         Snackbar.make(requireView(), event.msg, Snackbar.LENGTH_SHORT).show()
                     }
+                    is MedicalRecordViewModel.MedicalRecordsEvent.NetworkError -> {
+                        Snackbar.make(requireView(), event.msg, Snackbar.LENGTH_SHORT).show()
+                    }
                 }.exhaustive
             }
         }

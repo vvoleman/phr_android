@@ -1,29 +1,48 @@
 package cz.vvoleman.phr.data.repository
 
-import com.bumptech.glide.load.engine.Resource
+import android.net.ConnectivityManager
 import cz.vvoleman.phr.api.backend.BackendApi
 import cz.vvoleman.phr.api.backend.DiagnoseResponse
 import cz.vvoleman.phr.data.diagnose.DiagnoseDao
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.zip
+import cz.vvoleman.phr.data.diagnose.DiagnoseWithGroup
+import cz.vvoleman.phr.util.network.NetworkConnectivityObserver
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 import javax.inject.Singleton
 
+@OptIn(FlowPreview::class)
 @Singleton
 class DiagnoseRepository @Inject constructor(
     private val backendApi: BackendApi,
-    private val DiagnoseDao: DiagnoseDao
+    private val DiagnoseDao: DiagnoseDao,
+    private val connectivityManager: ConnectivityManager
 ) {
 
-    suspend fun getDiagnoses(query: String) : DiagnoseResponse {
-        // Create a Flow
-        // First, we add data from Room to the Flow
-        // Then, we add data from API to the Flow
-        // Finally, we return the Flow
+    fun getDiagnoses(query: String): Flow<List<DiagnoseWithGroup>> {
+        val localData = DiagnoseDao.getDiagnoseWithGroupByName(query)
 
-        val localData = DiagnoseDao.getDiagnosesByName(query)
-        val networkData = backendApi.searchDiagnoses(query, 1)
+        if (connectivityManager.activeNetwork == null) {
+            return localData
+        }
+
+        val retrofitFlow: Flow<DiagnoseResponse> = flow {
+            emit(backendApi.searchDiagnoses(query, 1))
+        }.flowOn(Dispatchers.IO)
+
+        val networkData = retrofitFlow
+            .map { response ->
+                // remap the response to a list of DiagnoseWithGroup
+                response.data.map { diagnose ->
+                    DiagnoseWithGroup(
+                        diagnose.getEntity(),
+                        diagnose.parent.getEntity()
+                    )
+                }
+            }.catch {
+                DiagnoseDao.getDiagnoseWithGroupByName(query)
+            }
 
         return networkData
     }
