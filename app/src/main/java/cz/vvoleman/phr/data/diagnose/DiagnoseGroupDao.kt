@@ -28,6 +28,9 @@ interface DiagnoseGroupDao {
     @Update
     suspend fun update(diagnoseGroup: DiagnoseGroup)
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertOrUpdate(diagnoseGroup: DiagnoseGroup)
+
     @Delete
     suspend fun delete(diagnoseGroup: DiagnoseGroup)
 

@@ -1,16 +1,11 @@
 package cz.vvoleman.phr.ui
 
 import android.app.Activity
-import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.AttributeSet
 import android.util.Log
-import android.view.MenuItem
-import android.view.View
-import android.widget.ArrayAdapter
-import android.widget.Spinner
 import androidx.activity.viewModels
+import androidx.lifecycle.asLiveData
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
@@ -20,6 +15,7 @@ import cz.vvoleman.phr.data.AdapterPair
 import cz.vvoleman.phr.data.patient.Patient
 import cz.vvoleman.phr.databinding.ActivityMainBinding
 import cz.vvoleman.phr.ui.main.MainViewModel
+import cz.vvoleman.phr.ui.shared.PatientSharedViewModel
 import cz.vvoleman.phr.ui.views.dialog_spinner.DialogSpinner
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -30,7 +26,9 @@ class MainActivity : AppCompatActivity(), DialogSpinner.DialogSpinnerListener {
     private lateinit var binding: ActivityMainBinding
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var patientSpinner: DialogSpinner<Patient>
+
     private val viewModel: MainViewModel by viewModels()
+    private val patientSharedViewModel: PatientSharedViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,7 +61,7 @@ class MainActivity : AppCompatActivity(), DialogSpinner.DialogSpinnerListener {
             patientSpinner.setData(pairs)
         }
 
-        viewModel.patient.observe(this) { patient ->
+        patientSharedViewModel.selectedPatient.asLiveData().observe(this) { patient ->
             patientSpinner.setSelectedItem(patient.getAdapterPair())
         }
 
@@ -76,7 +74,7 @@ class MainActivity : AppCompatActivity(), DialogSpinner.DialogSpinnerListener {
 
     override fun onItemSelected(item: AdapterPair): Boolean {
         val patient = item.objectValue as Patient
-        viewModel.updatePatient(patient.id)
+        patientSharedViewModel.updatePatient(patient.id)
 
         return true
     }

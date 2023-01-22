@@ -1,7 +1,7 @@
 package cz.vvoleman.phr.api.backend
 
-import cz.vvoleman.phr.data.diagnose.Diagnose
+import cz.vvoleman.phr.api.backend.data.Diagnose
 
 data class DiagnoseResponse(
-    val results: List<Diagnose>
+    val data: List<Diagnose>
 )

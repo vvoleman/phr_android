@@ -13,29 +13,15 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
+@OptIn(ExperimentalCoroutinesApi::class)
 class MainViewModel @Inject constructor(
     private val patientDao: PatientDao,
-    private val preferencesManager: PreferencesManager,
 ) : ViewModel() {
-
-    private val preferencesFlow = preferencesManager.preferencesFlow
-
-    @OptIn(ExperimentalCoroutinesApi::class)
-    val patient = preferencesFlow.map { userPreferences ->
-        userPreferences.patientId
-    }.flatMapLatest {id ->
-        patientDao.getPatientById(id)
-    }.asLiveData()
 
     val searchQuery = MutableStateFlow("")
 
-    @OptIn(ExperimentalCoroutinesApi::class)
     val allPatients = searchQuery.flatMapLatest { searchQuery ->
         patientDao.getPatientByName(searchQuery)
     }.asLiveData()
-
-    fun updatePatient(patientId: Int) = viewModelScope.launch {
-        preferencesManager.updatePatient(patientId)
-    }
 
 }
