@@ -1,9 +1,12 @@
 package cz.vvoleman.phr.data.repository
 
 import android.net.ConnectivityManager
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
 import cz.vvoleman.phr.api.backend.BackendApi
 import cz.vvoleman.phr.api.backend.DiagnoseResponse
 import cz.vvoleman.phr.data.diagnose.DiagnoseDao
+import cz.vvoleman.phr.data.diagnose.DiagnosePagingSource
 import cz.vvoleman.phr.data.diagnose.DiagnoseWithGroup
 import cz.vvoleman.phr.util.network.NetworkConnectivityObserver
 import kotlinx.coroutines.Dispatchers
@@ -20,31 +23,14 @@ class DiagnoseRepository @Inject constructor(
     private val connectivityManager: ConnectivityManager
 ) {
 
-    fun getDiagnoses(query: String): Flow<List<DiagnoseWithGroup>> {
-        val localData = DiagnoseDao.getDiagnoseWithGroupByName(query)
-
-        if (connectivityManager.activeNetwork == null) {
-            return localData
-        }
-
-        val retrofitFlow: Flow<DiagnoseResponse> = flow {
-            emit(backendApi.searchDiagnoses(query, 1))
-        }.flowOn(Dispatchers.IO)
-
-        val networkData = retrofitFlow
-            .map { response ->
-                // remap the response to a list of DiagnoseWithGroup
-                response.data.map { diagnose ->
-                    DiagnoseWithGroup(
-                        diagnose.getEntity(),
-                        diagnose.parent.getEntity()
-                    )
-                }
-            }.catch {
-                DiagnoseDao.getDiagnoseWithGroupByName(query)
-            }
-
-        return networkData
-    }
+    fun getDiagnoses(query: String) =
+        Pager(
+            config = PagingConfig(
+                pageSize = 20,
+                maxSize = 100,
+                enablePlaceholders = false,
+            ),
+            pagingSourceFactory = {DiagnosePagingSource(backendApi, query)}
+        )
 
 }

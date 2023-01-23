@@ -41,6 +41,7 @@
         android:layout_height="wrap_content">
 
         <cz.vvoleman.phr.ui.views.date_picker.DatePicker
+            android:id="@+id/date_picker"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 

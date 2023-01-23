@@ -12,7 +12,8 @@ interface BackendApi {
     @GET("diagnose")
     suspend fun searchDiagnoses(
         @Query("search") query: String,
-        @Query("page") page: Int
+        @Query("page") page: Int,
+        @Query("per_page") per_page: Int
     ): DiagnoseResponse
 
 }

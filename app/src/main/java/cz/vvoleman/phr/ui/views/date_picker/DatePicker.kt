@@ -3,12 +3,15 @@ package cz.vvoleman.phr.ui.views.date_picker
 import android.app.AlertDialog
 import android.content.Context
 import android.util.AttributeSet
+import android.util.Log
 import android.view.LayoutInflater
 import android.widget.EditText
 import android.widget.LinearLayout
+import cz.vvoleman.phr.R
+import cz.vvoleman.phr.databinding.DatePickerDialogBinding
 import cz.vvoleman.phr.databinding.DatePickerLayoutBinding
 
-class DatePicker constructor(
+class DatePicker @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
@@ -24,24 +27,36 @@ class DatePicker constructor(
 
         editText = layoutBinding.datePicker
 
+        // Binding for the dialog
+        val binding = DatePickerDialogBinding.inflate(LayoutInflater.from(context), null, false)
+
         val builder = AlertDialog.Builder(context)
-        builder.setView(layoutBinding.root)
+        builder.setView(R.layout.date_picker_dialog)
         builder.setPositiveButton("OK") { dialog, _ ->
-            val date = editText.text.toString()
+            val picker = binding.datePicker
+            val date = "${picker.year}-${picker.month+1}-${picker.dayOfMonth}"
+            Log.d("DatePicker", "Date: $date")
             if (listener != null) {
-                val result = listener?.onSelected(date)
+                val result = listener?.onDateSelected(date)
                 if (result != null && result) {
                     dialog.dismiss()
+                    editText.clearFocus()
                 }
             }
         }
         builder.setNegativeButton("Cancel") { dialog, _ ->
             dialog.dismiss()
+            editText.clearFocus()
         }
         dialog = builder.create()
 
-        editText.setOnClickListener {
-            dialog.show()
+        // On click show dialog
+        Log.d("DatePicker", "has listeners?: ${editText.hasOnClickListeners()}")
+        editText.setOnFocusChangeListener { v, hasFocus ->
+            Log.d("DatePicker", "has focus?: $hasFocus")
+            if (hasFocus) {
+                dialog.show()
+            }
         }
     }
 
@@ -58,7 +73,7 @@ class DatePicker constructor(
     }
 
     interface DatePickerListener {
-        fun onSelected(date: String): Boolean
+        fun onDateSelected(date: String): Boolean
     }
 
 }
