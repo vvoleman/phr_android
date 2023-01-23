@@ -11,22 +11,28 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.paging.map
 import com.google.android.material.snackbar.Snackbar
 import cz.vvoleman.phr.R
 import cz.vvoleman.phr.data.AdapterPair
 import cz.vvoleman.phr.data.diagnose.DiagnoseWithGroup
 import cz.vvoleman.phr.databinding.FragmentAddEditMedicalRecordBinding
+import cz.vvoleman.phr.ui.views.date_picker.DatePicker
 import cz.vvoleman.phr.ui.views.dialog_spinner.DialogSpinner
 import cz.vvoleman.phr.util.exhaustive
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class AddEditMedicalRecordFragment : Fragment(R.layout.fragment_add_edit_medical_record), DialogSpinner.DialogSpinnerListener {
+class AddEditMedicalRecordFragment :
+    Fragment(R.layout.fragment_add_edit_medical_record), DialogSpinner.DialogSpinnerListener, DatePicker.DatePickerListener {
 
     private val TAG = "AddEditMedicalRecordFragment"
 
     private val viewModel: AddEditMedicalRecordViewModel by viewModels()
+
+//    private val _binding: cz.vvoleman.phr.databinding.FragmentAddEditMedicalRecordBinding? = null
+//    private val binding get() = _binding!!
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -34,12 +40,8 @@ class AddEditMedicalRecordFragment : Fragment(R.layout.fragment_add_edit_medical
         val binding = FragmentAddEditMedicalRecordBinding.bind(view)
 
         binding.apply {
-            editTextDate.setText(viewModel.recordDate)
-            editTextRecordText.setText(viewModel.recordText)
-
-            editTextDate.addTextChangedListener {
-                viewModel.recordDate = it.toString()
-            }
+            datePicker.setValue(viewModel.recordDate)
+            datePicker.setListener(this@AddEditMedicalRecordFragment)
 
             editTextRecordText.addTextChangedListener {
                 viewModel.recordText = it.toString()
@@ -56,9 +58,11 @@ class AddEditMedicalRecordFragment : Fragment(R.layout.fragment_add_edit_medical
 
         viewModel.allDiagnoses.observe(viewLifecycleOwner) { diagnoses ->
             Log.d(TAG, "Diagnoses: $diagnoses")
-            val pairs = diagnoses.map { it.getAdapterPair() }
+            val pairs = diagnoses.map {
+                it.getAdapterPair()
+            }
             Log.d(TAG, "allDiagnoses collected: $pairs")
-            binding.dialogSpinnerDiagnose.setData(pairs)
+            //binding.dialogSpinnerDiagnose.setData(pairs)
         }
 
         viewModel.selectedDiagnose.asLiveData().observe(viewLifecycleOwner) { diagnose ->
@@ -99,5 +103,13 @@ class AddEditMedicalRecordFragment : Fragment(R.layout.fragment_add_edit_medical
 
     override fun onSearch(query: String) {
         viewModel.diagnoseSearchQuery.value = query
+    }
+
+    override fun onDateSelected(date: String): Boolean {
+        viewModel.recordDate = date
+
+        Log.d(TAG, "onDateSelected: $date")
+
+        return true
     }
 }

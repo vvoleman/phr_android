@@ -15,8 +15,8 @@ interface DiagnoseDao {
     @Query("SELECT * FROM diagnoses WHERE name LIKE '%'||:name||'%'")
     fun getDiagnosesByName(name: String): Flow<List<Diagnose>>
 
-    @Query("SELECT * FROM diagnoses WHERE name LIKE '%'||:name||'%'")
-    fun getDiagnoseWithGroupByName(name: String): Flow<List<DiagnoseWithGroup>>
+    @Query("SELECT * FROM diagnoses WHERE name LIKE '%'||:name||'%' LIMIT :limit OFFSET :offset")
+    fun getDiagnoseWithGroupByName(name: String, limit: Int, offset: Int): Flow<List<DiagnoseWithGroup>>
 
     @Insert
     suspend fun insertDiagnose(diagnose: Diagnose)

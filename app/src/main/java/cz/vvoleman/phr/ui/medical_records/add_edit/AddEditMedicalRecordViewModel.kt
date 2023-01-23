@@ -5,6 +5,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
+import androidx.paging.cachedIn
 import cz.vvoleman.phr.data.PreferencesManager
 import cz.vvoleman.phr.data.diagnose.DiagnoseDao
 import cz.vvoleman.phr.data.diagnose.DiagnoseGroupDao
@@ -57,7 +58,7 @@ class AddEditMedicalRecordViewModel @Inject constructor(
     val diagnoseSearchQuery = MutableStateFlow("")
     val allDiagnoses = diagnoseSearchQuery.flatMapLatest {query ->
         Log.d(TAG, "allDiagnoses: $query")
-        diagnoseRepository.getDiagnoses(query)
+        diagnoseRepository.getDiagnoses(query).flow.cachedIn(viewModelScope)
     }.catch {
         medicalRecordsEventChannel.send(MedicalRecordEvent.NetworkError("Nelze načíst diagnózy ze serveru"))
     }.asLiveData()
