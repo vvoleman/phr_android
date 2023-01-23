@@ -1,15 +1,20 @@
 package cz.vvoleman.phr.ui.views.date_picker
 
-import android.app.AlertDialog
+import android.app.DatePickerDialog
 import android.content.Context
 import android.util.AttributeSet
 import android.util.Log
 import android.view.LayoutInflater
 import android.widget.EditText
 import android.widget.LinearLayout
-import cz.vvoleman.phr.R
-import cz.vvoleman.phr.databinding.DatePickerDialogBinding
 import cz.vvoleman.phr.databinding.DatePickerLayoutBinding
+import cz.vvoleman.phr.util.getCurrentDay
+import cz.vvoleman.phr.util.getCurrentMonth
+import cz.vvoleman.phr.util.getCurrentYear
+import java.time.LocalDate
+import java.util.Date
+
+private val TAG = "DatePicker"
 
 class DatePicker @JvmOverloads constructor(
     context: Context,
@@ -17,7 +22,7 @@ class DatePicker @JvmOverloads constructor(
     defStyleAttr: Int = 0
 ) : LinearLayout(context, attrs, defStyleAttr) {
 
-    private lateinit var dialog: AlertDialog
+    private lateinit var dialog: DatePickerDialog
     private var editText: EditText
     private var listener: DatePickerListener? = null
 
@@ -26,29 +31,24 @@ class DatePicker @JvmOverloads constructor(
             DatePickerLayoutBinding.inflate(LayoutInflater.from(context), this, true)
 
         editText = layoutBinding.datePicker
+        editText.showSoftInputOnFocus = false
 
-        // Binding for the dialog
-        val binding = DatePickerDialogBinding.inflate(LayoutInflater.from(context), null, false)
+        // Create DatePickerDialog
+        dialog = DatePickerDialog(context)
 
-        val builder = AlertDialog.Builder(context)
-        builder.setView(R.layout.date_picker_dialog)
-        builder.setPositiveButton("OK") { dialog, _ ->
-            val picker = binding.datePicker
-            val date = "${picker.year}-${picker.month+1}-${picker.dayOfMonth}"
-            Log.d("DatePicker", "Date: $date")
-            if (listener != null) {
-                val result = listener?.onDateSelected(date)
-                if (result != null && result) {
-                    dialog.dismiss()
-                    editText.clearFocus()
-                }
-            }
+        dialog.setOnDateSetListener { view, year, month, dayOfMonth ->
+            val date = LocalDate.of(year, month+1, dayOfMonth).toString()
+
+            Log.d(TAG, "Date set: $date")
+            editText.setText(date)
+            editText.clearFocus()
+            listener?.onDateSelected(date)
         }
-        builder.setNegativeButton("Cancel") { dialog, _ ->
-            dialog.dismiss()
+
+        dialog.setOnDismissListener {
             editText.clearFocus()
         }
-        dialog = builder.create()
+
 
         // On click show dialog
         Log.d("DatePicker", "has listeners?: ${editText.hasOnClickListeners()}")
@@ -61,7 +61,12 @@ class DatePicker @JvmOverloads constructor(
     }
 
     fun setValue(value: String) {
+        Log.d(TAG, "Setting value: $value")
         editText.setText(value)
+
+        // value to Date
+        val date = LocalDate.parse(value)
+        dialog.updateDate(date.year, date.monthValue - 1, date.dayOfMonth)
     }
 
     fun getValue(): String {
@@ -72,8 +77,13 @@ class DatePicker @JvmOverloads constructor(
         this.listener = listener
     }
 
-    interface DatePickerListener {
-        fun onDateSelected(date: String): Boolean
+    fun setDate(date: Date) {
+        dialog.updateDate(date.getCurrentYear(), date.getCurrentMonth(), date.getCurrentDay())
     }
+
+    interface DatePickerListener {
+        fun onDateSelected(date: String)
+    }
+
 
 }
