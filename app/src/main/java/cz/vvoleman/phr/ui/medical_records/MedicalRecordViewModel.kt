@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
+import cz.vvoleman.phr.data.OrderRecordsBy
 import cz.vvoleman.phr.data.PreferencesManager
 import cz.vvoleman.phr.data.medical_records.MedicalRecordDao
 import cz.vvoleman.phr.data.medical_records.MedicalRecordWithDetails
@@ -11,12 +12,18 @@ import cz.vvoleman.phr.data.repository.DiagnoseRepository
 import cz.vvoleman.phr.ui.ADD_OK
 import cz.vvoleman.phr.ui.EDIT_OK
 import cz.vvoleman.phr.ui.shared.PatientSharedViewModel
+import cz.vvoleman.phr.util.getByPattern
+import cz.vvoleman.phr.util.getNameOfMonth
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import java.sql.Date
+import java.time.LocalDate
 import javax.inject.Inject
+
+private val TAG = "MedicalRecordViewModel"
 
 @HiltViewModel
 @OptIn(ExperimentalCoroutinesApi::class)
@@ -37,6 +44,33 @@ class MedicalRecordViewModel @Inject constructor(
     }
     val medicalRecords = patientId.flatMapLatest { patientId ->
         medicalRecordDao.getMedicalRecordByPatient(patientId)
+    }
+
+    val orderBy = preferencesFlow.map { userPreferences ->
+        userPreferences.orderRecordsBy
+    }
+
+    val sections = combine(medicalRecords, orderBy) { medicalRecords, orderBy ->
+        val sections = mutableListOf<Section>()
+        when (orderBy) {
+            OrderRecordsBy.BY_DATE -> {
+                medicalRecords.groupBy { it.medicalRecord.date.getByPattern("yyyy-MM") }
+                    .forEach { (date, records) ->
+                        val month = date.split("-")[1].toInt()
+
+                        // Get locale name of month
+                        val convertedDate = Date.valueOf(LocalDate.of(2021, month, 1).toString())
+                        sections.add(Section(convertedDate.getNameOfMonth(), records))
+                    }
+            }
+            OrderRecordsBy.BY_FACILITY -> {
+                medicalRecords.groupBy { it.facility.name }
+                    .forEach { (facility, records) ->
+                        sections.add(Section(facility, records))
+                    }
+            }
+        }
+        sections
     }.asLiveData()
 
     // Deletes record
