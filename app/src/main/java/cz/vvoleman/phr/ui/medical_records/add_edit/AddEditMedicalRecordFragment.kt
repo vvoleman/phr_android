@@ -31,13 +31,13 @@ class AddEditMedicalRecordFragment :
 
     private val viewModel: AddEditMedicalRecordViewModel by viewModels()
 
-//    private val _binding: cz.vvoleman.phr.databinding.FragmentAddEditMedicalRecordBinding? = null
-//    private val binding get() = _binding!!
+    private var _binding: FragmentAddEditMedicalRecordBinding? = null
+    private val binding get() = _binding!!
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val binding = FragmentAddEditMedicalRecordBinding.bind(view)
+        _binding = FragmentAddEditMedicalRecordBinding.bind(view)
 
         binding.apply {
             datePicker.setValue(viewModel.recordDate)
@@ -105,11 +105,8 @@ class AddEditMedicalRecordFragment :
         viewModel.diagnoseSearchQuery.value = query
     }
 
-    override fun onDateSelected(date: String): Boolean {
+    override fun onDateSelected(date: String) {
         viewModel.recordDate = date
-
         Log.d(TAG, "onDateSelected: $date")
-
-        return true
     }
 }

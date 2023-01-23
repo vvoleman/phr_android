@@ -43,7 +43,7 @@ class AddEditMedicalRecordViewModel @Inject constructor(
     val medicalRecord = state.get<MedicalRecord>(MEDICAL_RECORD)
 
     var recordDate =
-        state.get<String>(DATE) ?: medicalRecord?.date?.getByPattern("yyyy-MM-dd") ?: ""
+        state.get<String>(DATE) ?: medicalRecord?.date?.getByPattern("yyyy-MM-dd") ?: Date().getByPattern("yyyy-MM-dd")
         set(value) {
             field = value
             state[DATE] = value
