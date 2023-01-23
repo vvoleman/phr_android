@@ -15,7 +15,9 @@ import javax.inject.Singleton
 
 private const val TAG = "PreferencesManager"
 
-data class UserPreferences(val patientId: Int)
+enum class OrderRecordsBy { BY_DATE, BY_FACILITY }
+
+data class UserPreferences(val patientId: Int, val orderRecordsBy: OrderRecordsBy)
 
 @Singleton
 class PreferencesManager @Inject constructor(@ApplicationContext context: Context) {
@@ -33,7 +35,10 @@ class PreferencesManager @Inject constructor(@ApplicationContext context: Contex
         }
         .map { preferences ->
             val patientId = preferences[PreferencesKeys.PATIENT_ID] ?: 1
-            UserPreferences(patientId)
+            val orderRecordsBy = OrderRecordsBy.valueOf(
+                preferences[PreferencesKeys.ORDER_RECORDS_BY] ?: OrderRecordsBy.BY_DATE.name
+            )
+            UserPreferences(patientId, orderRecordsBy)
         }
 
     suspend fun updatePatient(patientId: Int) {
@@ -44,6 +49,7 @@ class PreferencesManager @Inject constructor(@ApplicationContext context: Contex
 
     private object PreferencesKeys {
         val PATIENT_ID = preferencesKey<Int>("patient_id")
+        val ORDER_RECORDS_BY = preferencesKey<String>("order_records_by")
     }
 
 }
