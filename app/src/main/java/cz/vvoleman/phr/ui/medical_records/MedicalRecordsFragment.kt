@@ -49,13 +49,13 @@ class MedicalRecordsFragment : Fragment(R.layout.fragment_medical_records),
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val medicalRecordAdapter = MedicalRecordAdapter(this)
+        val sectionAdapter = SectionAdapter(this)
 
-        Log.d(TAG, "Number of records loaded: ${medicalRecordAdapter.itemCount}")
+        Log.d(TAG, "Number of records loaded: ${sectionAdapter.itemCount}")
 
         binding.apply {
             medicalRecordsRecyclerView.apply {
-                adapter = medicalRecordAdapter
+                adapter = sectionAdapter
                 layoutManager = LinearLayoutManager(requireContext())
                 setHasFixedSize(true)
             }
@@ -70,8 +70,9 @@ class MedicalRecordsFragment : Fragment(R.layout.fragment_medical_records),
         }
 
         // When medicalRecords changes, update recyclerview
-        viewModel.medicalRecords.observe(viewLifecycleOwner) {
-            medicalRecordAdapter.submitList(it)
+        viewModel.sections.observe(viewLifecycleOwner) {
+            Log.d(TAG, "Number of records loaded: ${it.size}")
+            sectionAdapter.submitList(it)
             Log.d(TAG, "onViewCreated: ${it.toString()}")
         }
 

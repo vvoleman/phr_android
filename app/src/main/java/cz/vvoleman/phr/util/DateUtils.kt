@@ -27,7 +27,7 @@ fun Date.getNameOfDay(short: Boolean = false): String {
 }
 
 fun Date.getNameOfMonth(short: Boolean = false): String {
-    val pattern = if (short) Calendar.SHORT else Calendar.LONG
+    val pattern = if (short) Calendar.SHORT else Calendar.LONG_STANDALONE
     return this.getCalendar().getDisplayName(Calendar.MONTH, pattern, Locale.getDefault()) ?: ""
 }
 
