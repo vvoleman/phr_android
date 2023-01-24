@@ -13,6 +13,7 @@ import cz.vvoleman.phr.ui.ADD_OK
 import cz.vvoleman.phr.ui.EDIT_OK
 import cz.vvoleman.phr.ui.shared.PatientSharedViewModel
 import cz.vvoleman.phr.util.getByPattern
+import cz.vvoleman.phr.util.getCurrentYear
 import cz.vvoleman.phr.util.getNameOfMonth
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -56,11 +57,14 @@ class MedicalRecordViewModel @Inject constructor(
             OrderRecordsBy.BY_DATE -> {
                 medicalRecords.groupBy { it.medicalRecord.date.getByPattern("yyyy-MM") }
                     .forEach { (date, records) ->
-                        val month = date.split("-")[1].toInt()
+                        val parts = date.split("-")
+                        val month = parts[1].toInt()
+                        val year = parts[0].toInt()
 
                         // Get locale name of month
-                        val convertedDate = Date.valueOf(LocalDate.of(2021, month, 1).toString())
-                        sections.add(Section(convertedDate.getNameOfMonth(), records))
+                        val convertedDate = Date.valueOf(LocalDate.of(year, month, 1).toString())
+                        val name = "${convertedDate.getNameOfMonth()} ${convertedDate.getCurrentYear()}"
+                        sections.add(Section(name, records))
                     }
             }
             OrderRecordsBy.BY_FACILITY -> {
