@@ -40,7 +40,7 @@ class AddEditMedicalRecordViewModel @Inject constructor(
 
     private val patientId = preferencesManager.preferencesFlow.map { it.patientId }
 
-    val medicalRecord = state.get<MedicalRecord>(MEDICAL_RECORD)
+    private val medicalRecord = state.get<MedicalRecord>(MEDICAL_RECORD)
 
     var recordDate =
         state.get<String>(DATE) ?: medicalRecord?.date?.getByPattern("yyyy-MM-dd") ?: Date().getByPattern("yyyy-MM-dd")
@@ -67,6 +67,16 @@ class AddEditMedicalRecordViewModel @Inject constructor(
 
     private val medicalRecordsEventChannel = Channel<MedicalRecordEvent>()
     val medicalRecordsEvent = medicalRecordsEventChannel.receiveAsFlow()
+
+    init {
+        viewModelScope.launch {
+            if (medicalRecord != null) {
+                recordDate = medicalRecord.date.getByPattern("yyyy-MM-dd")
+                recordText = medicalRecord.text
+                selectedDiagnose.value = diagnoseDao.getDiagnoseById(medicalRecord.diagnoseId).first()
+            }
+        }
+    }
 
     suspend fun onSaveClick() {
         if (recordText.isBlank()) {

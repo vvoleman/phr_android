@@ -9,10 +9,15 @@ import android.view.View
 import android.widget.*
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.app.AlertDialog
+import androidx.core.view.isVisible
+import androidx.paging.LoadState
+import androidx.paging.PagingData
 import androidx.recyclerview.widget.LinearLayoutManager
 import cz.vvoleman.phr.data.AdapterPair
 import cz.vvoleman.phr.databinding.CustomDialogSpinnerDialogBinding
 import cz.vvoleman.phr.databinding.CustomDialogSpinnerLayoutBinding
+
+private val TAG = "DialogSpinner"
 
 class DialogSpinner<T : Any> @JvmOverloads constructor(
     context: Context,
@@ -57,6 +62,23 @@ class DialogSpinner<T : Any> @JvmOverloads constructor(
         dialog = builder.create()
 
         recyclerViewAdapter = DialogOptionsAdapter(this)
+        recyclerViewAdapter.addLoadStateListener {loadState ->
+            binding.apply {
+                progressBar.isVisible = loadState.source.refresh is LoadState.Loading
+                recyclerViewDialogSpinner.isVisible = loadState.source.refresh !is LoadState.Loading
+                buttonRetry.isVisible = loadState.source.refresh is LoadState.Error
+                textViewError.isVisible = loadState.source.refresh is LoadState.Error
+
+                // Empty view
+                if (loadState.source.refresh is LoadState.NotLoading &&
+                    loadState.append.endOfPaginationReached && recyclerViewAdapter.itemCount < 1) {
+                    textViewEmpty.isVisible = true
+                    recyclerViewDialogSpinner.isVisible = true
+                } else {
+                    textViewEmpty.isVisible = false
+                }
+            }
+        }
 
         // In dialog layout, we have a recyclerView with a list of items
         // We need to set the adapter for the recyclerView here
@@ -82,20 +104,20 @@ class DialogSpinner<T : Any> @JvmOverloads constructor(
 
     }
 
-    fun setData(data: List<AdapterPair>) {
-        val adapter = ArrayAdapter(context, android.R.layout.simple_spinner_item, data)
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        spinner.adapter = adapter
-
+    suspend fun setData(data: List<AdapterPair>) {
         val mutableList = data.toMutableList()
-        recyclerViewAdapter.submitList(mutableList)
-        Log.d("DialogSpinner", "Number of items in list: ${data.size}")
-        Log.d("DialogSpinner", "Number of items in adapter: ${recyclerViewAdapter.itemCount}")
+        recyclerViewAdapter.submitData(PagingData.from(data))
+    }
+
+    suspend fun setData(data: PagingData<AdapterPair>) {
+        recyclerViewAdapter.submitData(data)
     }
 
     fun setSelectedItem(selected: AdapterPair) {
-        val adapter = spinner.adapter as ArrayAdapter<AdapterPair>
-        val position = adapter.getPosition(selected)
+        val adapter = ArrayAdapter(context, android.R.layout.simple_spinner_item, listOf(selected))
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spinner.adapter = adapter
+        val position = 0
 
         if (position != -1) {
             spinner.setSelection(position)
@@ -107,7 +129,7 @@ class DialogSpinner<T : Any> @JvmOverloads constructor(
     }
 
     override fun onTouch(v: View?, event: MotionEvent?): Boolean {
-        Log.d("DialogSpinner", event?.action.toString())
+        Log.d(TAG, event?.action.toString())
 
         if (event?.action == MotionEvent.ACTION_UP) {
             dialog.show()
@@ -117,10 +139,12 @@ class DialogSpinner<T : Any> @JvmOverloads constructor(
     }
 
     override fun onItemClicked(item: AdapterPair, position: Int): Boolean {
+        Log.d(TAG, "before listener called: $dialogListener")
         val listenerResult = dialogListener?.onItemSelected(item)
+        Log.d(TAG, "after listener called: $dialogListener")
         dialog.dismiss()
         Log.d("DialogSpinner", "Listener result: $listenerResult")
-        spinner.setSelection(position)
+        setSelectedItem(item)
 
         return listenerResult ?: false
     }
