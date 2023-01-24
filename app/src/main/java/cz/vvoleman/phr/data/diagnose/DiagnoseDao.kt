@@ -7,13 +7,13 @@ import kotlinx.coroutines.flow.Flow
 interface DiagnoseDao {
 
     @Query("SELECT * FROM diagnoses")
-    fun getAllDiagnoses(): Flow<List<Diagnose>>
+    fun getAllDiagnoses(): Flow<List<DiagnoseWithGroup>>
 
     @Query("SELECT * FROM diagnoses WHERE id = :id")
-    fun getDiagnoseById(id: Int): Flow<Diagnose>
+    fun getDiagnoseById(id: String): Flow<DiagnoseWithGroup>
 
     @Query("SELECT * FROM diagnoses WHERE name LIKE '%'||:name||'%'")
-    fun getDiagnosesByName(name: String): Flow<List<Diagnose>>
+    fun getDiagnosesByName(name: String): Flow<List<DiagnoseWithGroup>>
 
     @Query("SELECT * FROM diagnoses WHERE name LIKE '%'||:name||'%' LIMIT :limit OFFSET :offset")
     fun getDiagnoseWithGroupByName(name: String, limit: Int, offset: Int): Flow<List<DiagnoseWithGroup>>

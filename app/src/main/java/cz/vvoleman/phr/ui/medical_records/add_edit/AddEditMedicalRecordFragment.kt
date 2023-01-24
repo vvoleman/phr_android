@@ -21,6 +21,7 @@ import cz.vvoleman.phr.ui.views.date_picker.DatePicker
 import cz.vvoleman.phr.ui.views.dialog_spinner.DialogSpinner
 import cz.vvoleman.phr.util.exhaustive
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -62,9 +63,10 @@ class AddEditMedicalRecordFragment :
                 it.getAdapterPair()
             }
             Log.d(TAG, "allDiagnoses collected: $pairs")
-            //binding.dialogSpinnerDiagnose.setData(pairs)
+            viewLifecycleOwner.lifecycleScope.launch {
+                binding.dialogSpinnerDiagnose.setData(pairs)
+            }
         }
-
         viewModel.selectedDiagnose.asLiveData().observe(viewLifecycleOwner) { diagnose ->
             if (diagnose != null) {
                 Log.d(TAG, "Selected diagnose: ${diagnose.diagnose}")
@@ -89,6 +91,11 @@ class AddEditMedicalRecordFragment :
                         Snackbar.make(requireView(), event.msg, Snackbar.LENGTH_LONG).show()
                     }
                 }.exhaustive
+            }
+
+            val firstDiagnose = viewModel.selectedDiagnose.first()
+            if (firstDiagnose != null) {
+                binding.dialogSpinnerDiagnose.setSelectedItem(firstDiagnose.diagnose.getAdapterPair())
             }
 
         }

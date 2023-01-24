@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.activity.viewModels
 import androidx.lifecycle.asLiveData
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
@@ -18,6 +19,7 @@ import cz.vvoleman.phr.ui.main.MainViewModel
 import cz.vvoleman.phr.ui.shared.PatientSharedViewModel
 import cz.vvoleman.phr.ui.views.dialog_spinner.DialogSpinner
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity(), DialogSpinner.DialogSpinnerListener {
@@ -58,7 +60,11 @@ class MainActivity : AppCompatActivity(), DialogSpinner.DialogSpinnerListener {
             Log.d("MainActivity", "Patients: $patients")
             val pairs = patients.map { it.getAdapterPair() }
             Log.d("MainActivity", "Pairs: $pairs")
-            patientSpinner.setData(pairs)
+
+            // Launch scope
+            lifecycleScope.launch {
+                patientSpinner.setData(pairs)
+            }
         }
 
         patientSharedViewModel.selectedPatient.asLiveData().observe(this) { patient ->

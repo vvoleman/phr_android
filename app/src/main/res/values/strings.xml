@@ -16,5 +16,8 @@
     <string name="medical_record_attach_new_photo">Vyfotit zprávu</string>
     <string name="selected_patient">Vybraný pacient</string>
     <string name="settings">Nastavení</string>
+    <string name="retry">Zkusit znovu</string>
+    <string name="results_could_not_be_loaded">Nelze načíst výsledky</string>
+    <string name="no_results">Žádné výsledky</string>
 
 </resources>
