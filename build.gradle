@@ -11,6 +11,7 @@ buildscript {
         retrofit_version = '2.9.0'
         paging_version = '3.1.0'
         datastore_version = '1.0.0-alpha02'
+        material_components_version = '1.9.0-alpha01'
     }
     dependencies {
         classpath "com.google.dagger:hilt-android-gradle-plugin:$hilt_version"
