@@ -14,6 +14,8 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.sidesheet.SideSheetBehavior
+import com.google.android.material.sidesheet.SideSheetDialog
 import com.google.android.material.snackbar.Snackbar
 import cz.vvoleman.phr.R
 import cz.vvoleman.phr.data.core.medical_record.MedicalRecord
@@ -35,6 +37,7 @@ class MedicalRecordsFragment : Fragment(R.layout.fragment_medical_records),
     private var _binding: FragmentMedicalRecordsBinding? = null
     private val binding get() = _binding!!
 
+    private lateinit var filterSheet: SideSheetDialog
     private val viewModel: MedicalRecordViewModel by viewModels()
 
     override fun onCreateView(
@@ -51,7 +54,8 @@ class MedicalRecordsFragment : Fragment(R.layout.fragment_medical_records),
 
         val sectionAdapter = SectionAdapter(this)
 
-        Log.d(TAG, "Number of records loaded: ${sectionAdapter.itemCount}")
+        filterSheet = SideSheetDialog(requireContext())
+        filterSheet.setContentView(R.layout.sheet_records_filter)
 
         binding.apply {
             medicalRecordsRecyclerView.apply {
@@ -61,6 +65,9 @@ class MedicalRecordsFragment : Fragment(R.layout.fragment_medical_records),
             }
             fabAddMedicalRecord.setOnClickListener {
                 navigateToAddEdit()
+            }
+            fabFilterMedicalRecords.setOnClickListener {
+                filterSheet.show()
             }
         }
 
@@ -83,9 +90,13 @@ class MedicalRecordsFragment : Fragment(R.layout.fragment_medical_records),
     private fun handleViewModelEvents() {
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.medicalRecordsEvent.collect { event ->
-                when(event) {
+                when (event) {
                     is MedicalRecordViewModel.MedicalRecordsEvent.ShowUndoDeleteRecordMessage -> {
-                        Snackbar.make(requireView(), getString(R.string.medical_recold_deleted), Snackbar.LENGTH_LONG)
+                        Snackbar.make(
+                            requireView(),
+                            getString(R.string.medical_recold_deleted),
+                            Snackbar.LENGTH_LONG
+                        )
                             .setAction(getString(R.string.undo)) {
                                 viewModel.onUndoDeleteRecord(event.medicalRecord)
                             }.show()
@@ -102,11 +113,16 @@ class MedicalRecordsFragment : Fragment(R.layout.fragment_medical_records),
     }
 
     override fun onItemClicked(item: MedicalRecordWithDetails) {
-        Snackbar.make(requireView(), "Detail zprávy ještě není implementován", Snackbar.LENGTH_SHORT).show()
+        Snackbar.make(
+            requireView(),
+            "Detail zprávy ještě není implementován",
+            Snackbar.LENGTH_SHORT
+        ).show()
     }
 
     private fun navigateToAddEdit(item: MedicalRecord? = null) {
-        val action = MedicalRecordsFragmentDirections.actionMedicalRecordsFragmentToAddEditMedicalRecord(item)
+        val action =
+            MedicalRecordsFragmentDirections.actionMedicalRecordsFragmentToAddEditMedicalRecord(item)
         findNavController().navigate(action)
     }
 
@@ -134,7 +150,6 @@ class MedicalRecordsFragment : Fragment(R.layout.fragment_medical_records),
 
         popup.show()
     }
-
 
 
 }
