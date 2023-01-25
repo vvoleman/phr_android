@@ -19,5 +19,6 @@
     <string name="retry">Zkusit znovu</string>
     <string name="results_could_not_be_loaded">Nelze načíst výsledky</string>
     <string name="no_results">Žádné výsledky</string>
+    <string name="record_filter">Filtrování zpráv</string>
 
 </resources>
