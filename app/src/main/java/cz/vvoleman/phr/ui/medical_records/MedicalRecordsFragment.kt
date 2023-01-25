@@ -3,7 +3,6 @@ package cz.vvoleman.phr.ui.medical_records
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
@@ -14,23 +13,25 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.sidesheet.SideSheetBehavior
+import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.sidesheet.SideSheetDialog
 import com.google.android.material.snackbar.Snackbar
 import cz.vvoleman.phr.R
-import cz.vvoleman.phr.data.core.medical_record.MedicalRecord
-import cz.vvoleman.phr.data.room.medical_record.MedicalRecordWithDetails
+import cz.vvoleman.phr.data.OrderRecordsBy
+import cz.vvoleman.phr.data.PreferencesManager
+import cz.vvoleman.phr.data.medical_records.MedicalRecord
+import cz.vvoleman.phr.data.medical_records.MedicalRecordWithDetails
 import cz.vvoleman.phr.databinding.FragmentMedicalRecordsBinding
+import cz.vvoleman.phr.databinding.SheetRecordsFilterBinding
+import cz.vvoleman.phr.util.collectLatestLifecycleFlow
 import cz.vvoleman.phr.util.exhaustive
-import cz.vvoleman.phr.util.getNameOfDay
-import cz.vvoleman.phr.util.getNameOfMonth
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
-import java.util.*
+import kotlinx.coroutines.flow.first
 
 @AndroidEntryPoint
 class MedicalRecordsFragment : Fragment(R.layout.fragment_medical_records),
-    MedicalRecordAdapter.OnItemClickListener {
+    MedicalRecordAdapter.OnItemClickListener, FilterAdapter.FilterAdapterListener {
 
     private val TAG = "MedicalRecordsFragment"
 
@@ -52,11 +53,29 @@ class MedicalRecordsFragment : Fragment(R.layout.fragment_medical_records),
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val sectionAdapter = SectionAdapter(this)
 
+
+        val sideSheetBinding = SheetRecordsFilterBinding
+            .inflate(LayoutInflater.from(requireContext()), null, false)
         filterSheet = SideSheetDialog(requireContext())
-        filterSheet.setContentView(R.layout.sheet_records_filter)
+        filterSheet.setContentView(sideSheetBinding.root)
+        val topAppBar = filterSheet.findViewById<MaterialToolbar>(R.id.topAppBar)
+        topAppBar?.setNavigationOnClickListener {
+            filterSheet.hide()
+        }
 
+        val diagnoseAdapter = FilterAdapter(this)
+        val facilityAdapter = FilterAdapter(this)
+        sideSheetBinding.apply {
+            recyclerViewDiagnose.adapter = diagnoseAdapter
+            recyclerViewDiagnose.layoutManager = LinearLayoutManager(requireContext())
+            recyclerViewFacility.adapter = facilityAdapter
+            recyclerViewFacility.layoutManager = LinearLayoutManager(requireContext())
+            buttonFilter.text = "Prenk"
+            Log.d(TAG, "sideSheetBinding: $buttonFilter")
+        }
+
+        val sectionAdapter = SectionAdapter(this)
         binding.apply {
             medicalRecordsRecyclerView.apply {
                 adapter = sectionAdapter
@@ -83,32 +102,46 @@ class MedicalRecordsFragment : Fragment(R.layout.fragment_medical_records),
             Log.d(TAG, "onViewCreated: ${it.toString()}")
         }
 
-        // Handle events from view model
-        handleViewModelEvents()
-    }
+        collectLatestLifecycleFlow(viewModel.filter.facilities) { list->
+            Log.d(TAG, "onViewCreated facility: $list")
+            val pairs = list.map { FilterPair(it.id.toString(), it.name, it, true) }
+            facilityAdapter.submitList(pairs)
+        }
 
-    private fun handleViewModelEvents() {
-        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-            viewModel.medicalRecordsEvent.collect { event ->
-                when (event) {
-                    is MedicalRecordViewModel.MedicalRecordsEvent.ShowUndoDeleteRecordMessage -> {
-                        Snackbar.make(
-                            requireView(),
-                            getString(R.string.medical_recold_deleted),
-                            Snackbar.LENGTH_LONG
-                        )
-                            .setAction(getString(R.string.undo)) {
-                                viewModel.onUndoDeleteRecord(event.medicalRecord)
-                            }.show()
-                    }
-                    is MedicalRecordViewModel.MedicalRecordsEvent.ShowSavedConfirmationMessage -> {
-                        Snackbar.make(requireView(), event.msg, Snackbar.LENGTH_SHORT).show()
-                    }
-                    is MedicalRecordViewModel.MedicalRecordsEvent.NetworkError -> {
-                        Snackbar.make(requireView(), event.msg, Snackbar.LENGTH_SHORT).show()
-                    }
-                }.exhaustive
+        collectLatestLifecycleFlow(viewModel.filter.diagnoses) {list ->
+            Log.d(TAG, "onViewCreated diagnose: $list")
+            val pairs = list.map { FilterPair(it.id, it.name, it) }
+
+            diagnoseAdapter.submitList(pairs)
+        }
+
+        collectLatestLifecycleFlow(viewModel.filter.sortBy) {
+            val id = when(it){
+                OrderRecordsBy.BY_DATE -> R.id.by_date
+                OrderRecordsBy.BY_FACILITY -> R.id.by_facility
             }
+            sideSheetBinding.radioGroupSort.check(id)
+        }
+
+        collectLatestLifecycleFlow(viewModel.medicalRecordsEvent) { event ->
+            when (event) {
+                is MedicalRecordViewModel.MedicalRecordsEvent.ShowUndoDeleteRecordMessage -> {
+                    Snackbar.make(
+                        requireView(),
+                        getString(R.string.medical_recold_deleted),
+                        Snackbar.LENGTH_LONG
+                    )
+                        .setAction(getString(R.string.undo)) {
+                            viewModel.onUndoDeleteRecord(event.medicalRecord)
+                        }.show()
+                }
+                is MedicalRecordViewModel.MedicalRecordsEvent.ShowSavedConfirmationMessage -> {
+                    Snackbar.make(requireView(), event.msg, Snackbar.LENGTH_SHORT).show()
+                }
+                is MedicalRecordViewModel.MedicalRecordsEvent.NetworkError -> {
+                    Snackbar.make(requireView(), event.msg, Snackbar.LENGTH_SHORT).show()
+                }
+            }.exhaustive
         }
     }
 
@@ -133,7 +166,7 @@ class MedicalRecordsFragment : Fragment(R.layout.fragment_medical_records),
         popup.setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.action_edit -> {
-                    navigateToAddEdit(record.toMedicalRecord())
+                    navigateToAddEdit(record.medicalRecord)
                     true
                 }
                 R.id.action_delete -> {
@@ -149,6 +182,10 @@ class MedicalRecordsFragment : Fragment(R.layout.fragment_medical_records),
         }
 
         popup.show()
+    }
+
+    override fun onOptionCheckChanged(item: FilterPair) {
+        Log.d(TAG, "onOptionCheckChanged: $item (${item.checked})")
     }
 
 

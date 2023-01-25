@@ -1,6 +1,5 @@
 package cz.vvoleman.phr.ui.medical_records
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
@@ -11,7 +10,7 @@ import cz.vvoleman.phr.data.room.medical_record.MedicalRecordDao
 import cz.vvoleman.phr.data.room.medical_record.MedicalRecordWithDetails
 import cz.vvoleman.phr.ui.ADD_OK
 import cz.vvoleman.phr.ui.EDIT_OK
-import cz.vvoleman.phr.ui.shared.PatientSharedViewModel
+import cz.vvoleman.phr.util.filter.RecordsFilter
 import cz.vvoleman.phr.util.getByPattern
 import cz.vvoleman.phr.util.getCurrentYear
 import cz.vvoleman.phr.util.getNameOfMonth
@@ -48,6 +47,8 @@ class MedicalRecordViewModel @Inject constructor(
         medicalRecordDao.getByPatientId(patientId)
     }.onEach { medicalRecords ->
         Log.d(TAG, "Medical records: $medicalRecords") }
+
+    val filter = RecordsFilter(medicalRecords, preferencesManager)
 
     val orderBy = preferencesFlow.map { userPreferences ->
         userPreferences.orderRecordsBy
