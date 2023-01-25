@@ -94,6 +94,9 @@ dependencies {
     // Data Store
     implementation("androidx.datastore:datastore-preferences:$datastore_version")
 
+    // Material
+    implementation "com.google.android.material:material:$material_components_version"
+
 }
 
 kapt {
