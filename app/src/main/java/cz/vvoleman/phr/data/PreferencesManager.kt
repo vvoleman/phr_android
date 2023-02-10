@@ -47,6 +47,12 @@ class PreferencesManager @Inject constructor(@ApplicationContext context: Contex
         }
     }
 
+    suspend fun setOrderRecordsBy(orderRecordsBy: String) {
+        dataStore.edit { preferences ->
+            preferences[PreferencesKeys.ORDER_RECORDS_BY] = orderRecordsBy
+        }
+    }
+
     private object PreferencesKeys {
         val PATIENT_ID = preferencesKey<Int>("patient_id")
         val ORDER_RECORDS_BY = preferencesKey<String>("order_records_by")

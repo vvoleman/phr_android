@@ -53,8 +53,6 @@ class MedicalRecordsFragment : Fragment(R.layout.fragment_medical_records),
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
-
         val sideSheetBinding = SheetRecordsFilterBinding
             .inflate(LayoutInflater.from(requireContext()), null, false)
         filterSheet = SideSheetDialog(requireContext())
@@ -71,8 +69,15 @@ class MedicalRecordsFragment : Fragment(R.layout.fragment_medical_records),
             recyclerViewDiagnose.layoutManager = LinearLayoutManager(requireContext())
             recyclerViewFacility.adapter = facilityAdapter
             recyclerViewFacility.layoutManager = LinearLayoutManager(requireContext())
-            buttonFilter.text = "Prenk"
             Log.d(TAG, "sideSheetBinding: $buttonFilter")
+
+            radioGroupSort.setOnCheckedChangeListener{
+                _, checkedId ->
+                when(checkedId){
+                    R.id.by_date -> lifecycleScope.launchWhenCreated { viewModel.filter.changeSortBy(OrderRecordsBy.BY_DATE.name) }
+                    R.id.by_facility -> lifecycleScope.launchWhenCreated { viewModel.filter.changeSortBy(OrderRecordsBy.BY_FACILITY.name) }
+                }
+            }
         }
 
         val sectionAdapter = SectionAdapter(this)
@@ -100,6 +105,10 @@ class MedicalRecordsFragment : Fragment(R.layout.fragment_medical_records),
             Log.d(TAG, "Number of records loaded: ${it.size}")
             sectionAdapter.submitList(it)
             Log.d(TAG, "onViewCreated: ${it.toString()}")
+        }
+
+        collectLatestLifecycleFlow(viewModel.filter.sortBy) { sortBy ->
+//            Snackbar.make(requireView(), "Sort by $sortBy", Snackbar.LENGTH_SHORT).show()
         }
 
         collectLatestLifecycleFlow(viewModel.filter.facilities) { list->
