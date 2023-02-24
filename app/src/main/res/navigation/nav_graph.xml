@@ -38,5 +38,22 @@
             app:argType="cz.vvoleman.phr.data.medical_records.MedicalRecord"
             app:nullable="true"
             android:defaultValue="@null" />
+        <action
+            android:id="@+id/action_addEditMedicalRecord_to_recognizerFragment"
+            app:destination="@id/recognizerFragment" />
+        <argument
+            android:name="recognizedOptions"
+            app:argType="cz.vvoleman.phr.util.ocr.record.RecognizedOptions"
+            app:nullable="true"
+            android:defaultValue="@null" />
+    </fragment>
+    <fragment
+        android:id="@+id/recognizerFragment"
+        android:name="cz.vvoleman.phr.ui.medical_records.add_edit.recognizer.RecognizerFragment"
+        android:label="fragment_recognizer"
+        tools:layout="@layout/fragment_recognizer" >
+        <action
+            android:id="@+id/action_recognizerFragment_to_addEditMedicalRecord"
+            app:destination="@id/addEditMedicalRecord" />
     </fragment>
 </navigation>

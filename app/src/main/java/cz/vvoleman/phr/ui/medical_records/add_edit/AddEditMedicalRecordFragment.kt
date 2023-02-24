@@ -7,6 +7,7 @@ import androidx.core.os.bundleOf
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResult
+import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.lifecycleScope
@@ -20,13 +21,15 @@ import cz.vvoleman.phr.databinding.FragmentAddEditMedicalRecordBinding
 import cz.vvoleman.phr.ui.views.date_picker.DatePicker
 import cz.vvoleman.phr.ui.views.dialog_spinner.DialogSpinner
 import cz.vvoleman.phr.util.exhaustive
+import cz.vvoleman.phr.util.ocr.record.RecognizedOptions
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class AddEditMedicalRecordFragment :
-    Fragment(R.layout.fragment_add_edit_medical_record), DialogSpinner.DialogSpinnerListener, DatePicker.DatePickerListener {
+    Fragment(R.layout.fragment_add_edit_medical_record), DialogSpinner.DialogSpinnerListener,
+    DatePicker.DatePickerListener {
 
     private val TAG = "AddEditMedicalRecordFragment"
 
@@ -34,6 +37,11 @@ class AddEditMedicalRecordFragment :
 
     private var _binding: FragmentAddEditMedicalRecordBinding? = null
     private val binding get() = _binding!!
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -48,8 +56,14 @@ class AddEditMedicalRecordFragment :
                 viewModel.recordText = it.toString()
             }
 
+            buttonActionCamera.setOnClickListener {
+                val action =
+                    AddEditMedicalRecordFragmentDirections.actionAddEditMedicalRecordToRecognizerFragment()
+                findNavController().navigate(action)
+            }
+
             buttonSave.setOnClickListener {
-               viewLifecycleOwner.lifecycleScope.launch {
+                viewLifecycleOwner.lifecycleScope.launch {
                     viewModel.onSaveClick()
                 }
             }
@@ -75,8 +89,8 @@ class AddEditMedicalRecordFragment :
         }
 
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-            viewModel.medicalRecordsEvent.collect { event->
-                when(event) {
+            viewModel.medicalRecordsEvent.collect { event ->
+                when (event) {
                     is AddEditMedicalRecordViewModel.MedicalRecordEvent.NavigateBackWithResult -> {
                         setFragmentResult(
                             requestKey = "add_edit_request",
