@@ -11,10 +11,7 @@ import cz.vvoleman.phr.ui.medical_records.add_edit.AddEditMedicalRecordViewModel
 import cz.vvoleman.phr.util.ocr.record.RecordProcessor
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import kotlinx.parcelize.Parcelize
 import java.time.LocalDate
@@ -48,7 +45,7 @@ class RecognizerViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            options.onEach {
+            options.collect {
                 if (it != null) {
                     selectedDate.value = it.visitDate.firstOrNull()?.value
                     selectedPatient.value = it.patient.firstOrNull()?.value

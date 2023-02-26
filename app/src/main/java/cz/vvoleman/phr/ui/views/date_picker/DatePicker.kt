@@ -12,6 +12,7 @@ import cz.vvoleman.phr.util.getCurrentDay
 import cz.vvoleman.phr.util.getCurrentMonth
 import cz.vvoleman.phr.util.getCurrentYear
 import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import java.util.Date
 
 private val TAG = "DatePicker"
@@ -78,6 +79,7 @@ class DatePicker @JvmOverloads constructor(
     }
 
     fun setDate(date: LocalDate) {
+        editText.setText(date.format(DateTimeFormatter.ofPattern("dd.MM.yyyy")))
         dialog.updateDate(date.year, date.monthValue, date.dayOfMonth)
     }
 

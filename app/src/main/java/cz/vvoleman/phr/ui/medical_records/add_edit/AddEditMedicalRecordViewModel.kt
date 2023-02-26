@@ -46,11 +46,7 @@ class AddEditMedicalRecordViewModel @Inject constructor(
     private val medicalRecord = state.get<MedicalRecord>(MEDICAL_RECORD)
 
     var recordDate =
-        state.get<LocalDate>(DATE) ?: medicalRecord?.date ?: LocalDate.now()
-        set(value) {
-            field = value
-            state[DATE] = value
-        }
+        state.getStateFlow<LocalDate>(DATE, medicalRecord?.date ?: LocalDate.now())
 
     var recordText = state.get<String>(TEXT) ?: medicalRecord?.text ?: ""
         set(value) {
@@ -80,7 +76,7 @@ class AddEditMedicalRecordViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             if (medicalRecord != null) {
-                recordDate = medicalRecord.date
+                setDate(medicalRecord.date)
                 recordText = medicalRecord.text
                 selectedDiagnose.value =
                     diagnoseDao.getDiagnoseById(medicalRecord.diagnoseId).first()
@@ -121,7 +117,7 @@ class AddEditMedicalRecordViewModel @Inject constructor(
         if (medicalRecord != null) {
             val updatedRecord = medicalRecord.copy(
                 text = recordText,
-                date = date,
+                date = date.value,
                 diagnoseId = diagnose.diagnose.id
             )
             updateRecord(updatedRecord)
@@ -129,7 +125,7 @@ class AddEditMedicalRecordViewModel @Inject constructor(
             Log.d(TAG, "onSaveClick patient ID: $patientId")
             val newRecord = MedicalRecord(
                 text = recordText,
-                date = date,
+                date = date.value,
                 facilityId = 1,
                 patientId = patientId,
                 diagnoseId = diagnose.diagnose.id
@@ -167,7 +163,7 @@ class AddEditMedicalRecordViewModel @Inject constructor(
             }?.let { selectedDiagnose.value = it }
 
             options.visitDate?.let {
-                recordDate = it
+                setDate(it)
             }
 
             options.patient?.let {
@@ -177,6 +173,10 @@ class AddEditMedicalRecordViewModel @Inject constructor(
                 }
             }
         }
+
+    fun setDate(date: LocalDate) {
+        state[DATE] = date
+    }
 
     private fun updateRecord(record: MedicalRecord) = viewModelScope.launch {
         medicalRecordDao.updateMedicalRecord(record)

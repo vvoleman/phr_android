@@ -3,14 +3,17 @@ package cz.vvoleman.phr.ui.medical_records.add_edit
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.core.app.ComponentActivity
 import androidx.core.os.bundleOf
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.paging.map
 import com.google.android.material.snackbar.Snackbar
@@ -24,6 +27,8 @@ import cz.vvoleman.phr.ui.views.date_picker.DatePicker
 import cz.vvoleman.phr.ui.views.dialog_spinner.DialogSpinner
 import cz.vvoleman.phr.util.exhaustive
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import java.time.LocalDate
@@ -43,12 +48,13 @@ class AddEditMedicalRecordFragment :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        childFragmentManager.setFragmentResultListener(
-            RecognizerFragment.KEY_REQUEST,
-            this
-        ) { key, bundle ->
+        setFragmentResultListener(RecognizerFragment.KEY_REQUEST) { key, bundle ->
+            Log.d(TAG, "Received result from RecognizerFragment")
+
             val options =
                 bundle.getParcelable<RecognizerViewModel.SelectedOptions>(RecognizerFragment.KEY_OPTIONS)
+
+            Log.d(TAG, options.toString())
 
             if (options == null) return@setFragmentResultListener
 
@@ -62,7 +68,7 @@ class AddEditMedicalRecordFragment :
         _binding = FragmentAddEditMedicalRecordBinding.bind(view)
 
         binding.apply {
-            datePicker.setDate(viewModel.recordDate)
+            datePicker.setDate(viewModel.recordDate.value)
             datePicker.setListener(this@AddEditMedicalRecordFragment)
 
             editTextRecordText.addTextChangedListener {
@@ -99,6 +105,10 @@ class AddEditMedicalRecordFragment :
                 Log.d(TAG, "Selected diagnose: ${diagnose.diagnose}")
                 binding.dialogSpinnerDiagnose.setSelectedItem(diagnose.diagnose.getAdapterPair())
             }
+        }
+
+        collectLatest(viewModel.recordDate) {
+            binding.datePicker.setDate(it)
         }
 
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
@@ -149,6 +159,17 @@ class AddEditMedicalRecordFragment :
     }
 
     override fun onDateSelected(date: LocalDate) {
-        viewModel.recordDate = date
+        viewModel.setDate(date)
+    }
+}
+
+fun <T> Fragment.collectLatest(
+    flow: Flow<T>,
+    action: suspend (T) -> Unit
+) {
+    lifecycleScope.launchWhenStarted {
+        repeatOnLifecycle(Lifecycle.State.STARTED) {
+            flow.collectLatest(action)
+        }
     }
 }
