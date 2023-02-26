@@ -16,6 +16,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 
 import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.text.TextRecognition
@@ -40,12 +41,6 @@ class RecognizerFragment : Fragment(R.layout.fragment_recognizer) {
 
     private var _binding: FragmentRecognizerBinding? = null
     private val binding get() = _binding!!
-
-    private val dialog: Dialog by lazy {
-        Dialog(requireContext()).apply {
-            setContentView(R.layout.dialog_select_recognized_options)
-        }
-    }
 
     private lateinit var recognizer: TextRecognizer
     private var latestTmpUri: Uri? = null
@@ -129,16 +124,22 @@ class RecognizerFragment : Fragment(R.layout.fragment_recognizer) {
             }
 
             findViewById<Button>(R.id.confirm_button).setOnClickListener {
-                setFragmentResult(KEY_REQUEST, bundleOf(KEY_OPTIONS to viewModel.getSelectedOptions()))
+                Log.d("RecognizerFragment", "Confirm button clicked")
+                val bundle = bundleOf(KEY_OPTIONS to viewModel.getSelectedOptions())
+                Log.d("RecognizerFragment", "Bundle: $bundle")
+                this.dismiss()
+                setFragmentResult(KEY_REQUEST, bundle)
+                findNavController().popBackStack()
 
             }
 
             findViewById<Button>(R.id.cancel_button).setOnClickListener {
-                dialog.cancel()
+                this.dismiss()
             }
 
         }
 
+        Log.d("RecognizerFragment", "Showing dialog")
         dialog.show()
     }
 
