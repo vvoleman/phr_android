@@ -37,10 +37,10 @@ class DatePicker @JvmOverloads constructor(
         dialog = DatePickerDialog(context)
 
         dialog.setOnDateSetListener { view, year, month, dayOfMonth ->
-            val date = LocalDate.of(year, month+1, dayOfMonth).toString()
+            val date = LocalDate.of(year, month+1, dayOfMonth)
 
             Log.d(TAG, "Date set: $date")
-            editText.setText(date)
+            editText.setText(date.toString())
             editText.clearFocus()
             listener?.onDateSelected(date)
         }
@@ -77,12 +77,12 @@ class DatePicker @JvmOverloads constructor(
         this.listener = listener
     }
 
-    fun setDate(date: Date) {
-        dialog.updateDate(date.getCurrentYear(), date.getCurrentMonth(), date.getCurrentDay())
+    fun setDate(date: LocalDate) {
+        dialog.updateDate(date.year, date.monthValue, date.dayOfMonth)
     }
 
     interface DatePickerListener {
-        fun onDateSelected(date: String)
+        fun onDateSelected(date: LocalDate)
     }
 
 

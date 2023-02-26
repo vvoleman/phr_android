@@ -4,7 +4,7 @@ import androidx.room.Embedded
 import androidx.room.Relation
 import cz.vvoleman.phr.data.diagnose.Diagnose
 import cz.vvoleman.phr.data.facility.Facility
-import cz.vvoleman.phr.data.patient.Patient
+import cz.vvoleman.phr.data.room.patient.PatientEntity
 
 data class MedicalRecordWithDetails(
     @Embedded val medicalRecord: MedicalRecord,
@@ -17,7 +17,7 @@ data class MedicalRecordWithDetails(
         parentColumn = "patientId",
         entityColumn = "id"
     )
-    val patient: Patient,
+    val patient: PatientEntity,
     @Relation(
         parentColumn = "diagnoseId",
         entityColumn = "id"

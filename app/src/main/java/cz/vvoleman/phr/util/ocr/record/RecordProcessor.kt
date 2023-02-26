@@ -1,23 +1,28 @@
 package cz.vvoleman.phr.util.ocr.record
 
+import android.util.Log
 import com.google.mlkit.vision.text.Text
-import cz.vvoleman.phr.util.ocr.record.field.DateFieldProcessor
 import cz.vvoleman.phr.util.ocr.record.field.DiagnoseFieldProcessor
+import cz.vvoleman.phr.util.ocr.record.field.PatientFieldProcessor
+import cz.vvoleman.phr.util.ocr.text_processor.DateFieldProcessor
+import javax.inject.Inject
 
-class RecordProcessor {
+class RecordProcessor @Inject constructor(
+    private val patientFieldProcessor: PatientFieldProcessor
+) {
     private val TAG = "RecordProcessor"
 
-    private val fieldProcessors = mapOf(
-        "visitDate" to DateFieldProcessor(),
-        "diagnose" to DiagnoseFieldProcessor(),
-    )
+    suspend fun process(rawText: Text): RecognizedOptions {
+        Log.d(TAG, rawText.text)
+        val options = RecognizedOptions()
+        options.visitDate = DateFieldProcessor().process(rawText)
+        options.diagnose = DiagnoseFieldProcessor().process(rawText)
 
-    fun process(rawText: Text): RecognizedOptions {
-        return RecognizedOptions(
-            visitDate = fieldProcessors["visitDate"]?.process(rawText) ?: listOf(),
-            diagnose = fieldProcessors["diagnose"]?.process(rawText) ?: listOf(),
-            doctor = listOf("doctor"),
-            patient = listOf("patient"),
-        )
+        options.patient = patientFieldProcessor.let {
+            it.setOptions(options)
+            it.process(rawText)
+        }
+
+        return options
     }
 }

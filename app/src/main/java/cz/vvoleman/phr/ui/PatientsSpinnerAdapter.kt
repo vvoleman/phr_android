@@ -5,7 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.TextView
-import cz.vvoleman.phr.data.patient.Patient
+import cz.vvoleman.phr.data.core.Patient
 
 class PatientsSpinnerAdapter (context: Context, patients: List<Patient>) :
     ArrayAdapter<Patient>(context, android.R.layout.simple_list_item_1, patients) {

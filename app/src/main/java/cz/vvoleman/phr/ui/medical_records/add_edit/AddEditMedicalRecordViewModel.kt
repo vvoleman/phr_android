@@ -7,6 +7,7 @@ import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
 import cz.vvoleman.phr.data.PreferencesManager
+import cz.vvoleman.phr.data.core.Patient
 import cz.vvoleman.phr.data.diagnose.DiagnoseDao
 import cz.vvoleman.phr.data.diagnose.DiagnoseGroupDao
 import cz.vvoleman.phr.data.diagnose.DiagnoseWithGroup
@@ -15,6 +16,7 @@ import cz.vvoleman.phr.data.medical_records.MedicalRecordDao
 import cz.vvoleman.phr.data.repository.DiagnoseRepository
 import cz.vvoleman.phr.ui.ADD_OK
 import cz.vvoleman.phr.ui.EDIT_OK
+import cz.vvoleman.phr.ui.medical_records.add_edit.recognizer.RecognizerViewModel
 import cz.vvoleman.phr.util.getByPattern
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -22,6 +24,7 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
+import java.time.LocalDate
 import java.util.*
 import javax.inject.Inject
 
@@ -43,7 +46,7 @@ class AddEditMedicalRecordViewModel @Inject constructor(
     private val medicalRecord = state.get<MedicalRecord>(MEDICAL_RECORD)
 
     var recordDate =
-        state.get<String>(DATE) ?: medicalRecord?.date?.getByPattern("yyyy-MM-dd") ?: Date().getByPattern("yyyy-MM-dd")
+        state.get<LocalDate>(DATE) ?: medicalRecord?.date ?: LocalDate.now()
         set(value) {
             field = value
             state[DATE] = value
@@ -55,8 +58,14 @@ class AddEditMedicalRecordViewModel @Inject constructor(
             state[TEXT] = value
         }
 
+    var patient = state.get<Patient>(PATIENT)
+        set(value) {
+            field = value
+            state[PATIENT] = value
+        }
+
     val diagnoseSearchQuery = MutableStateFlow("")
-    val allDiagnoses = diagnoseSearchQuery.flatMapLatest {query ->
+    val allDiagnoses = diagnoseSearchQuery.flatMapLatest { query ->
         Log.d(TAG, "allDiagnoses: $query")
         diagnoseRepository.getDiagnoses(query).flow.cachedIn(viewModelScope)
     }.catch {
@@ -71,9 +80,10 @@ class AddEditMedicalRecordViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             if (medicalRecord != null) {
-                recordDate = medicalRecord.date.getByPattern("yyyy-MM-dd")
+                recordDate = medicalRecord.date
                 recordText = medicalRecord.text
-                selectedDiagnose.value = diagnoseDao.getDiagnoseById(medicalRecord.diagnoseId).first()
+                selectedDiagnose.value =
+                    diagnoseDao.getDiagnoseById(medicalRecord.diagnoseId).first()
             }
         }
     }
@@ -83,7 +93,7 @@ class AddEditMedicalRecordViewModel @Inject constructor(
             showInvalidInputMessage("Text zprávy musí být vyplněn")
             return
         }
-        if (recordDate.isBlank()) {
+        if (recordDate == null) {
             showInvalidInputMessage("Datum musí být vyplněno")
             return
         }
@@ -94,25 +104,36 @@ class AddEditMedicalRecordViewModel @Inject constructor(
 
         val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
 
-        var date: Date? = null
-        try {
-            date = sdf.parse(recordDate)
-        } catch (e: Exception) {
-            showInvalidInputMessage("Neplatné datum")
-            return
-        }
+        val date = recordDate
+//        var date: LocalDate? = null
+//        try {
+//            date = LocalDate.parse(recordDate)
+//        } catch (e: Exception) {
+//            showInvalidInputMessage("Neplatné datum")
+//            return
+//        }
 
         val diagnose = selectedDiagnose.value!!
         insertOrUpdateDiagnose(diagnose)
 
-        val patientId = patientId.first()
+        val patientId = patient?.id ?: patientId.first()
 
         if (medicalRecord != null) {
-            val updatedRecord = medicalRecord.copy(text = recordText, date = date, diagnoseId = diagnose.diagnose.id)
+            val updatedRecord = medicalRecord.copy(
+                text = recordText,
+                date = date,
+                diagnoseId = diagnose.diagnose.id
+            )
             updateRecord(updatedRecord)
         } else {
             Log.d(TAG, "onSaveClick patient ID: $patientId")
-            val newRecord = MedicalRecord(text = recordText, date = date, facilityId = 1, patientId = patientId, diagnoseId = diagnose.diagnose.id)
+            val newRecord = MedicalRecord(
+                text = recordText,
+                date = date,
+                facilityId = 1,
+                patientId = patientId,
+                diagnoseId = diagnose.diagnose.id
+            )
             Log.d(TAG, "onSaveClick: $newRecord")
             createRecord(newRecord)
         }
@@ -136,6 +157,27 @@ class AddEditMedicalRecordViewModel @Inject constructor(
         )
     }
 
+    fun setRecognizedOptions(options: RecognizerViewModel.SelectedOptions) =
+        viewModelScope.launch {
+            //1. Get diagnose object (local or remote)
+            //2. If patient is not current profile, show snackbar with info. Allow to undo this
+            //3. Set values
+            options.diagnose?.let {
+                diagnoseRepository.getDiagnoseById(it)
+            }?.let { selectedDiagnose.value = it }
+
+            options.visitDate?.let {
+                recordDate = it
+            }
+
+            options.patient?.let {
+                patient = options.patient
+                if (it.id != patient?.id) {
+                    medicalRecordsEventChannel.send(MedicalRecordEvent.DifferentPatientSelected(it))
+                }
+            }
+        }
+
     private fun updateRecord(record: MedicalRecord) = viewModelScope.launch {
         medicalRecordDao.updateMedicalRecord(record)
         medicalRecordsEventChannel.send(
@@ -147,12 +189,14 @@ class AddEditMedicalRecordViewModel @Inject constructor(
         private const val MEDICAL_RECORD = "medicalRecord"
         private const val DATE = "date"
         private const val TEXT = "text"
+        private const val PATIENT = "patient"
     }
 
     sealed class MedicalRecordEvent {
         data class ShowInvalidInputMessage(val msg: String) : MedicalRecordEvent()
         data class NavigateBackWithResult(val result: Int) : MedicalRecordEvent()
         data class NetworkError(val msg: String) : MedicalRecordEvent()
+        data class DifferentPatientSelected(val differentPatient: Patient) : MedicalRecordEvent()
     }
 
 }

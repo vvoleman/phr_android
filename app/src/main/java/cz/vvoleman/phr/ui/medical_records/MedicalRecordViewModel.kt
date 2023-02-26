@@ -62,7 +62,7 @@ class MedicalRecordViewModel @Inject constructor(
                         val year = parts[0].toInt()
 
                         // Get locale name of month
-                        val convertedDate = Date.valueOf(LocalDate.of(year, month, 1).toString())
+                        val convertedDate = LocalDate.of(year, month, 1)
                         val name = "${convertedDate.getNameOfMonth()} ${convertedDate.getCurrentYear()}"
                         sections.add(Section(name, records))
                     }
