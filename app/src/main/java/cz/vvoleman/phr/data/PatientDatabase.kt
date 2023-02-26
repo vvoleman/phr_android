@@ -18,6 +18,7 @@ import cz.vvoleman.phr.data.medical_records.MedicalRecord
 import cz.vvoleman.phr.data.medical_records.MedicalRecordDao
 import cz.vvoleman.phr.data.medicine.Medicine
 import cz.vvoleman.phr.data.room.address.AddressEntity
+import cz.vvoleman.phr.data.room.medicine.MedicineDao
 import cz.vvoleman.phr.data.room.patient.PatientDao
 import cz.vvoleman.phr.data.room.patient.PatientEntity
 import cz.vvoleman.phr.di.ApplicationScope
@@ -43,6 +44,8 @@ abstract class PatientDatabase : RoomDatabase() {
     abstract fun facilityDao(): FacilityDao
 
     abstract fun medicalRecordDao(): MedicalRecordDao
+
+    abstract fun medicineDao(): MedicineDao
 
     abstract fun patientDao(): PatientDao
 
