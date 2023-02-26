@@ -2,38 +2,43 @@ package cz.vvoleman.phr.util
 
 import android.util.Log
 import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.time.format.TextStyle
 import java.util.*
 
 // Add method getDayOfMonth to every date instance
 
-fun Date.getCurrentDay(): Int {
-    val cal = this.getCalendar()
-    return cal.get(Calendar.DAY_OF_MONTH)
+fun LocalDate.getCurrentDay(): Int {
+//    val cal = this.getCalendar()
+//    return cal.get(Calendar.DAY_OF_MONTH)
+    return this.dayOfMonth
 }
 
-fun Date.getCurrentMonth(): Int {
-    val cal = this.getCalendar()
-    return cal.get(Calendar.MONTH) + 1
+fun LocalDate.getCurrentMonth(): Int {
+//    val cal = this.getCalendar()
+//    return cal.get(Calendar.MONTH) + 1
+    return this.monthValue
 }
 
-fun Date.getCurrentYear(): Int {
-    val cal = this.getCalendar()
-    return cal.get(Calendar.YEAR)
+fun LocalDate.getCurrentYear(): Int {
+//    val cal = this.getCalendar()
+//    return cal.get(Calendar.YEAR)
+    return this.year
 }
 
-fun Date.getNameOfDay(short: Boolean = false): String {
-    val pattern = if (short) Calendar.SHORT else Calendar.LONG
-    return this.getCalendar().getDisplayName(Calendar.DAY_OF_WEEK, pattern, Locale.getDefault()) ?: ""
+fun LocalDate.getNameOfDay(short: Boolean = false): String {
+    return this.dayOfWeek.getDisplayName(TextStyle.SHORT_STANDALONE, Locale.getDefault())
 }
 
-fun Date.getNameOfMonth(short: Boolean = false): String {
-    val pattern = if (short) Calendar.SHORT else Calendar.LONG_STANDALONE
-    return this.getCalendar().getDisplayName(Calendar.MONTH, pattern, Locale.getDefault()) ?: ""
+fun LocalDate.getNameOfMonth(short: Boolean = false): String {
+    val pattern = if (short) TextStyle.SHORT_STANDALONE else TextStyle.FULL_STANDALONE
+    return this.month.getDisplayName(pattern, Locale.getDefault())
 }
 
-fun Date.getByPattern(pattern: String): String {
-    val sdf = SimpleDateFormat(pattern, Locale.getDefault())
-    return sdf.format(this)
+fun LocalDate.getByPattern(pattern: String): String {
+    val formatter = DateTimeFormatter.ofPattern(pattern)
+    return this.format(formatter)
 }
 
 fun Date.getCalendar(): Calendar {

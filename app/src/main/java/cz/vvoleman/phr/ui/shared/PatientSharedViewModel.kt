@@ -1,10 +1,9 @@
 package cz.vvoleman.phr.ui.shared
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import cz.vvoleman.phr.data.PreferencesManager
-import cz.vvoleman.phr.data.patient.PatientDao
+import cz.vvoleman.phr.data.room.patient.PatientDao
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flatMapLatest
@@ -25,7 +24,7 @@ class PatientSharedViewModel @Inject constructor(
         userPreferences.patientId
     }.flatMapLatest {id ->
         patientDao.getPatientById(id)
-    }
+    }.map { it.toPatient() }
 
     val selectedPatient = _selectedFlow
 

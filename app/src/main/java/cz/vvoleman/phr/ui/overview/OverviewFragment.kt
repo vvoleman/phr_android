@@ -8,11 +8,7 @@ import androidx.core.graphics.drawable.DrawableCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import cz.vvoleman.phr.R
-import cz.vvoleman.phr.data.patient.Patient
 import cz.vvoleman.phr.databinding.FragmentOverviewBinding
-import cz.vvoleman.phr.ui.main.MainViewModel
-import cz.vvoleman.phr.data.AdapterPair
-import cz.vvoleman.phr.ui.views.dialog_spinner.DialogSpinner
 import cz.vvoleman.phr.util.network.IConnectivityObserver
 import dagger.hilt.android.AndroidEntryPoint
 
