@@ -1,8 +1,6 @@
 package cz.vvoleman.phr.data.medical_records
 
 import androidx.room.*
-import cz.vvoleman.phr.data.facility.Facility
-import cz.vvoleman.phr.data.patient.Patient
 import kotlinx.coroutines.flow.Flow
 
 @Dao

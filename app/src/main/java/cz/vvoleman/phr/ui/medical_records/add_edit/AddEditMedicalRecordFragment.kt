@@ -18,13 +18,15 @@ import cz.vvoleman.phr.R
 import cz.vvoleman.phr.data.AdapterPair
 import cz.vvoleman.phr.data.diagnose.DiagnoseWithGroup
 import cz.vvoleman.phr.databinding.FragmentAddEditMedicalRecordBinding
+import cz.vvoleman.phr.ui.medical_records.add_edit.recognizer.RecognizerFragment
+import cz.vvoleman.phr.ui.medical_records.add_edit.recognizer.RecognizerViewModel
 import cz.vvoleman.phr.ui.views.date_picker.DatePicker
 import cz.vvoleman.phr.ui.views.dialog_spinner.DialogSpinner
 import cz.vvoleman.phr.util.exhaustive
-import cz.vvoleman.phr.util.ocr.record.RecognizedOptions
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import java.time.LocalDate
 
 @AndroidEntryPoint
 class AddEditMedicalRecordFragment :
@@ -41,6 +43,17 @@ class AddEditMedicalRecordFragment :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        childFragmentManager.setFragmentResultListener(
+            RecognizerFragment.KEY_REQUEST,
+            this
+        ) { key, bundle ->
+            val options =
+                bundle.getParcelable<RecognizerViewModel.SelectedOptions>(RecognizerFragment.KEY_OPTIONS)
+
+            if (options == null) return@setFragmentResultListener
+
+            viewModel.setRecognizedOptions(options)
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -49,7 +62,7 @@ class AddEditMedicalRecordFragment :
         _binding = FragmentAddEditMedicalRecordBinding.bind(view)
 
         binding.apply {
-            datePicker.setValue(viewModel.recordDate)
+            datePicker.setDate(viewModel.recordDate)
             datePicker.setListener(this@AddEditMedicalRecordFragment)
 
             editTextRecordText.addTextChangedListener {
@@ -104,6 +117,15 @@ class AddEditMedicalRecordFragment :
                     is AddEditMedicalRecordViewModel.MedicalRecordEvent.NetworkError -> {
                         Snackbar.make(requireView(), event.msg, Snackbar.LENGTH_LONG).show()
                     }
+                    is AddEditMedicalRecordViewModel.MedicalRecordEvent.DifferentPatientSelected -> {
+                        Snackbar.make(
+                            requireView(),
+                            "Lékařská zpráva se váže k jinému pacientovi než je aktuálně vybrán",
+                            Snackbar.LENGTH_LONG
+                        ).setAction("Zrušit") {
+                            viewModel.patient = null
+                        }
+                    }
                 }.exhaustive
             }
 
@@ -126,8 +148,7 @@ class AddEditMedicalRecordFragment :
         viewModel.diagnoseSearchQuery.value = query
     }
 
-    override fun onDateSelected(date: String) {
+    override fun onDateSelected(date: LocalDate) {
         viewModel.recordDate = date
-        Log.d(TAG, "onDateSelected: $date")
     }
 }

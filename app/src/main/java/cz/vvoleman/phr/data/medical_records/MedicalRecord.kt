@@ -4,6 +4,7 @@ import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import kotlinx.parcelize.Parcelize
+import java.time.LocalDate
 import java.util.Calendar
 import java.util.Date
 
@@ -14,7 +15,7 @@ data class MedicalRecord(
     val facilityId: Int,
     val patientId: Int,
     val diagnoseId: String,
-    val date: Date,
+    val date: LocalDate,
     val text: String
 ) : Parcelable {
 

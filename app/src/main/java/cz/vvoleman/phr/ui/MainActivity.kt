@@ -13,7 +13,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.*
 import cz.vvoleman.phr.R
 import cz.vvoleman.phr.data.AdapterPair
-import cz.vvoleman.phr.data.patient.Patient
+import cz.vvoleman.phr.data.core.Patient
 import cz.vvoleman.phr.databinding.ActivityMainBinding
 import cz.vvoleman.phr.ui.main.MainViewModel
 import cz.vvoleman.phr.ui.shared.PatientSharedViewModel
@@ -80,7 +80,9 @@ class MainActivity : AppCompatActivity(), DialogSpinner.DialogSpinnerListener {
 
     override fun onItemSelected(item: AdapterPair): Boolean {
         val patient = item.objectValue as Patient
-        patientSharedViewModel.updatePatient(patient.id)
+        patient.id?.let {
+            patientSharedViewModel.updatePatient(it)
+        }
 
         return true
     }
