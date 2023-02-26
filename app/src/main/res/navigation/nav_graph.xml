@@ -54,6 +54,8 @@
         tools:layout="@layout/fragment_recognizer" >
         <action
             android:id="@+id/action_recognizerFragment_to_addEditMedicalRecord"
+            app:popUpTo="@id/addEditMedicalRecord"
+            app:popUpToInclusive="true"
             app:destination="@id/addEditMedicalRecord" />
     </fragment>
 </navigation>
