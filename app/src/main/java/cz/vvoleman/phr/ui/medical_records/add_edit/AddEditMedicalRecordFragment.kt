@@ -20,6 +20,8 @@ import com.google.android.material.snackbar.Snackbar
 import cz.vvoleman.phr.R
 import cz.vvoleman.phr.data.AdapterPair
 import cz.vvoleman.phr.data.diagnose.DiagnoseWithGroup
+import cz.vvoleman.phr.data.room.medicine.MedicineDao
+import cz.vvoleman.phr.data.room.medicine.substance.SubstanceDao
 import cz.vvoleman.phr.databinding.FragmentAddEditMedicalRecordBinding
 import cz.vvoleman.phr.ui.medical_records.add_edit.recognizer.RecognizerFragment
 import cz.vvoleman.phr.ui.medical_records.add_edit.recognizer.RecognizerViewModel
@@ -32,6 +34,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import java.time.LocalDate
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class AddEditMedicalRecordFragment :

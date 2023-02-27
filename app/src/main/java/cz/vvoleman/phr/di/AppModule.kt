@@ -45,6 +45,9 @@ object AppModule {
     fun provideMedicineDao(db: PatientDatabase) = db.medicineDao()
 
     @Provides
+    fun provideSubstanceDao(db: PatientDatabase) = db.substanceDao()
+
+    @Provides
     fun provideMedicalRecordDao(db: PatientDatabase) = db.medicalRecordDao()
 
     @Provides

@@ -7,7 +7,7 @@ import java.time.LocalDate
 
 @Entity(tableName = "medicine")
 data class MedicineEntity(
-    @PrimaryKey val id: String,
+    @PrimaryKey val medicineId: String,
     val name: String,
     val dosage: String,
     val info: String,
@@ -18,7 +18,7 @@ data class MedicineEntity(
     companion object {
         fun from(medicine: Medicine): MedicineEntity {
             return MedicineEntity(
-                id = medicine.id,
+                medicineId = medicine.id,
                 name = medicine.name,
                 dosage = medicine.dosage,
                 info = medicine.info,
@@ -30,7 +30,7 @@ data class MedicineEntity(
 
     fun toMedicine(): Medicine {
         return Medicine(
-            id = id,
+            id = medicineId,
             name = name,
             dosage = dosage,
             info = info,
