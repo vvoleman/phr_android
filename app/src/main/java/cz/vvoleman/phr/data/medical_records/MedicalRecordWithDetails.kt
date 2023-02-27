@@ -2,8 +2,8 @@ package cz.vvoleman.phr.data.medical_records
 
 import androidx.room.Embedded
 import androidx.room.Relation
-import cz.vvoleman.phr.data.diagnose.Diagnose
 import cz.vvoleman.phr.data.facility.Facility
+import cz.vvoleman.phr.data.room.diagnose.DiagnoseEntity
 import cz.vvoleman.phr.data.room.patient.PatientEntity
 
 data class MedicalRecordWithDetails(
@@ -22,5 +22,5 @@ data class MedicalRecordWithDetails(
         parentColumn = "diagnoseId",
         entityColumn = "id"
     )
-    val diagnose: Diagnose
+    val diagnose: DiagnoseEntity
 )

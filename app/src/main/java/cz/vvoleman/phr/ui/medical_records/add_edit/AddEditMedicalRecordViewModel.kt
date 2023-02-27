@@ -7,13 +7,14 @@ import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
 import cz.vvoleman.phr.data.PreferencesManager
+import cz.vvoleman.phr.data.core.Diagnose
+import cz.vvoleman.phr.data.core.DiagnoseWithGroup
 import cz.vvoleman.phr.data.core.Patient
-import cz.vvoleman.phr.data.diagnose.DiagnoseDao
-import cz.vvoleman.phr.data.diagnose.DiagnoseGroupDao
-import cz.vvoleman.phr.data.diagnose.DiagnoseWithGroup
 import cz.vvoleman.phr.data.medical_records.MedicalRecord
 import cz.vvoleman.phr.data.medical_records.MedicalRecordDao
 import cz.vvoleman.phr.data.repository.DiagnoseRepository
+import cz.vvoleman.phr.data.room.diagnose.DiagnoseDao
+import cz.vvoleman.phr.data.room.diagnose.DiagnoseGroupDao
 import cz.vvoleman.phr.ui.ADD_OK
 import cz.vvoleman.phr.ui.EDIT_OK
 import cz.vvoleman.phr.ui.medical_records.add_edit.recognizer.RecognizerViewModel
@@ -68,7 +69,7 @@ class AddEditMedicalRecordViewModel @Inject constructor(
         medicalRecordsEventChannel.send(MedicalRecordEvent.NetworkError("Nelze načíst diagnózy ze serveru"))
     }.asLiveData()
 
-    val selectedDiagnose = MutableStateFlow<DiagnoseWithGroup?>(null)
+    val selectedDiagnose = MutableStateFlow<cz.vvoleman.phr.data.core.DiagnoseWithGroup?>(null)
 
     private val medicalRecordsEventChannel = Channel<MedicalRecordEvent>()
     val medicalRecordsEvent = medicalRecordsEventChannel.receiveAsFlow()
@@ -79,7 +80,7 @@ class AddEditMedicalRecordViewModel @Inject constructor(
                 setDate(medicalRecord.date)
                 recordText = medicalRecord.text
                 selectedDiagnose.value =
-                    diagnoseDao.getDiagnoseById(medicalRecord.diagnoseId).first()
+                    diagnoseDao.getById(medicalRecord.diagnoseId).first().toDiagnoseWithGroup()
             }
         }
     }
@@ -110,7 +111,7 @@ class AddEditMedicalRecordViewModel @Inject constructor(
 //        }
 
         val diagnose = selectedDiagnose.value!!
-        insertOrUpdateDiagnose(diagnose)
+        diagnoseRepository.create(diagnose)
 
         val patientId = patient?.id ?: patientId.first()
 
@@ -141,11 +142,6 @@ class AddEditMedicalRecordViewModel @Inject constructor(
         )
     }
 
-    private fun insertOrUpdateDiagnose(diagnose: DiagnoseWithGroup) = viewModelScope.launch {
-        diagnoseDao.insertOrUpdateDiagnose(diagnose.diagnose)
-        diagnoseGroupDao.insertOrUpdate(diagnose.diagnoseGroup)
-    }
-
     private fun createRecord(record: MedicalRecord) = viewModelScope.launch {
         medicalRecordDao.insertMedicalRecord(record)
         medicalRecordsEventChannel.send(
@@ -160,7 +156,7 @@ class AddEditMedicalRecordViewModel @Inject constructor(
             //3. Set values
             options.diagnose?.let {
                 diagnoseRepository.getDiagnoseById(it)
-            }?.let { selectedDiagnose.value = it }
+            }?.let { selectedDiagnose.value = it.toDiagnoseWithGroup() }
 
             options.visitDate?.let {
                 setDate(it)
