@@ -6,7 +6,7 @@ import cz.vvoleman.phr.data.core.Substance
 
 @Entity(tableName = "substance")
 data class SubstanceEntity(
-    @PrimaryKey val id: String,
+    @PrimaryKey val substanceId: String,
     val name: String,
     val is_addictive: Boolean,
     val is_doping: Boolean,
@@ -15,7 +15,7 @@ data class SubstanceEntity(
     companion object {
         fun from(substance: Substance): SubstanceEntity {
             return SubstanceEntity(
-                id = substance.id,
+                substanceId = substance.id,
                 name = substance.name,
                 is_addictive = substance.isAddictive,
                 is_doping = substance.isDoping
@@ -25,7 +25,7 @@ data class SubstanceEntity(
 
     fun toSubstance(): Substance {
         return Substance(
-            id = id,
+            id = substanceId,
             name = name,
             isAddictive = is_addictive,
             isDoping = is_doping
