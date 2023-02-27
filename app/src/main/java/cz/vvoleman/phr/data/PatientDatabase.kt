@@ -5,19 +5,17 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import androidx.sqlite.db.SupportSQLiteDatabase
-import cz.vvoleman.phr.data.core.Address
-import cz.vvoleman.phr.data.core.Gender
-import cz.vvoleman.phr.data.core.Patient
-import cz.vvoleman.phr.data.diagnose.Diagnose
-import cz.vvoleman.phr.data.diagnose.DiagnoseDao
-import cz.vvoleman.phr.data.diagnose.DiagnoseGroup
-import cz.vvoleman.phr.data.diagnose.DiagnoseGroupDao
+import cz.vvoleman.phr.data.core.*
 import cz.vvoleman.phr.data.facility.Facility
 import cz.vvoleman.phr.data.facility.FacilityDao
 import cz.vvoleman.phr.data.medical_records.MedicalRecord
 import cz.vvoleman.phr.data.medical_records.MedicalRecordDao
-import cz.vvoleman.phr.data.medicine.Medicine
+import cz.vvoleman.phr.data.repository.DiagnoseRepository
 import cz.vvoleman.phr.data.room.address.AddressEntity
+import cz.vvoleman.phr.data.room.diagnose.DiagnoseDao
+import cz.vvoleman.phr.data.room.diagnose.DiagnoseEntity
+import cz.vvoleman.phr.data.room.diagnose.DiagnoseGroupDao
+import cz.vvoleman.phr.data.room.diagnose.DiagnoseGroupEntity
 import cz.vvoleman.phr.data.room.medicine.MedicineDao
 import cz.vvoleman.phr.data.room.medicine.MedicineEntity
 import cz.vvoleman.phr.data.room.medicine.MedicineSubstanceCrossRef
@@ -38,8 +36,8 @@ import javax.inject.Provider
     entities = [
         PatientEntity::class,
         Facility::class,
-        Diagnose::class,
-        DiagnoseGroup::class,
+        DiagnoseEntity::class,
+        DiagnoseGroupEntity::class,
         MedicalRecord::class,
         MedicineEntity::class,
         SubstanceEntity::class,
@@ -66,7 +64,7 @@ abstract class PatientDatabase : RoomDatabase() {
 
     class Callback @Inject constructor(
         private val database: Provider<PatientDatabase>,
-        @ApplicationScope private val applicationScope: CoroutineScope
+        @ApplicationScope private val applicationScope: CoroutineScope,
     ) : RoomDatabase.Callback() {
 
         override fun onCreate(db: SupportSQLiteDatabase) {
@@ -146,27 +144,22 @@ abstract class PatientDatabase : RoomDatabase() {
                     )
                 )
 
-                diagnoseGroupDao.insert(
-                    DiagnoseGroup(
-                        "I",
-                        "Jiné a neurčené infekční nemoci"
-                    )
-                )
-                diagnoseGroupDao.insert(
-                    DiagnoseGroup(
-                        "XXII",
-                        "Rezistence na protinádorové léky"
+                val groupA = DiagnoseGroup(
+                    "I", "Jiné a neurčené infekční nemoci",
+                    listOf(
+                        Diagnose("A00", "Cholera"),
                     )
                 )
 
-                diagnoseDao.insertDiagnose(Diagnose("A00", "Cholera", "I"))
-                diagnoseDao.insertDiagnose(
-                    Diagnose(
-                        "U071",
-                        "COVID–19, virus laboratorně prokázán",
-                        "XXII"
+                val groupB = DiagnoseGroup(
+                    "XXII", "Rezistence na protinádorové léky",
+                    listOf(
+                        Diagnose("U071", "COVID–19, virus laboratorně prokázán")
                     )
                 )
+
+                createGroup(diagnoseDao, diagnoseGroupDao ,groupA)
+                createGroup(diagnoseDao, diagnoseGroupDao ,groupB)
 
                 val calendarA = Calendar.getInstance()
                 calendarA.set(2020, 0, 1)
@@ -194,6 +187,24 @@ abstract class PatientDatabase : RoomDatabase() {
                     )
                 )
             }
+        }
+
+        suspend fun createGroup(
+            diagnoseDao: DiagnoseDao,
+            diagnoseGroupDao: DiagnoseGroupDao,
+            group: DiagnoseGroup,
+            createDiagnoses: Boolean = true
+        ) {
+            diagnoseGroupDao.insert(DiagnoseGroupEntity.from(group))
+
+            if (!createDiagnoses) return
+
+            val diagnoses = mutableListOf<DiagnoseEntity>()
+            for (diagnose in group.diagnoses) {
+                diagnoses.add(DiagnoseEntity.from(diagnose, group))
+            }
+
+            diagnoseDao.insert(diagnoses)
         }
     }
 

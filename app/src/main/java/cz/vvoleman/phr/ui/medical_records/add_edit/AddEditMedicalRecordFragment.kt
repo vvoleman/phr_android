@@ -19,9 +19,7 @@ import androidx.paging.map
 import com.google.android.material.snackbar.Snackbar
 import cz.vvoleman.phr.R
 import cz.vvoleman.phr.data.AdapterPair
-import cz.vvoleman.phr.data.diagnose.DiagnoseWithGroup
-import cz.vvoleman.phr.data.room.medicine.MedicineDao
-import cz.vvoleman.phr.data.room.medicine.substance.SubstanceDao
+import cz.vvoleman.phr.data.core.DiagnoseWithGroup
 import cz.vvoleman.phr.databinding.FragmentAddEditMedicalRecordBinding
 import cz.vvoleman.phr.ui.medical_records.add_edit.recognizer.RecognizerFragment
 import cz.vvoleman.phr.ui.medical_records.add_edit.recognizer.RecognizerViewModel
@@ -96,7 +94,7 @@ class AddEditMedicalRecordFragment :
         viewModel.allDiagnoses.observe(viewLifecycleOwner) { diagnoses ->
             Log.d(TAG, "Diagnoses: $diagnoses")
             val pairs = diagnoses.map {
-                it.getAdapterPair()
+                it.toDiagnoseWithGroup().getAdapterPair()
             }
             Log.d(TAG, "allDiagnoses collected: $pairs")
             viewLifecycleOwner.lifecycleScope.launch {
@@ -105,8 +103,8 @@ class AddEditMedicalRecordFragment :
         }
         viewModel.selectedDiagnose.asLiveData().observe(viewLifecycleOwner) { diagnose ->
             if (diagnose != null) {
-                Log.d(TAG, "Selected diagnose: ${diagnose.diagnose}")
-                binding.dialogSpinnerDiagnose.setSelectedItem(diagnose.diagnose.getAdapterPair())
+                Log.d(TAG, "Selected diagnose: ${diagnose.diagnose.name}")
+                binding.dialogSpinnerDiagnose.setSelectedItem(diagnose.getAdapterPair())
             }
         }
 
@@ -144,7 +142,7 @@ class AddEditMedicalRecordFragment :
 
             val firstDiagnose = viewModel.selectedDiagnose.first()
             if (firstDiagnose != null) {
-                binding.dialogSpinnerDiagnose.setSelectedItem(firstDiagnose.diagnose.getAdapterPair())
+                binding.dialogSpinnerDiagnose.setSelectedItem(firstDiagnose.getAdapterPair())
             }
 
         }
