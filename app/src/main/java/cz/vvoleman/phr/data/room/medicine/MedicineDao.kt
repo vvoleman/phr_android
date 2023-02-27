@@ -7,16 +7,22 @@ import kotlinx.coroutines.flow.Flow
 interface MedicineDao {
 
     @Query("SELECT * FROM medicine")
-    fun getAllMedicines(): Flow<List<MedicineWithSubstances>>
+    fun getAll(): Flow<List<MedicineWithSubstances>>
 
-    @Query("SELECT * FROM medicine WHERE id = :id")
-    fun getMedicineById(id: Int): Flow<MedicineWithSubstances>
+    @Query("SELECT * FROM medicine WHERE medicineId = :id")
+    fun getById(id: String): Flow<MedicineWithSubstances>
 
     @Query("SELECT * FROM medicine WHERE name LIKE '%'||:name||'%'")
-    fun getMedicineByName(name: String): Flow<List<MedicineWithSubstances>>
+    fun getByName(name: String): Flow<List<MedicineWithSubstances>>
 
     @Insert
     suspend fun insert(medicine: MedicineEntity)
+
+    @Insert
+    suspend fun insert(medicine: MedicineSubstanceCrossRef)
+
+    @Insert
+    suspend fun insert(medicine: List<MedicineSubstanceCrossRef>)
 
     @Update
     suspend fun update(medicine: MedicineEntity)

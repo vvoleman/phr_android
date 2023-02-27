@@ -19,6 +19,10 @@ import cz.vvoleman.phr.data.medical_records.MedicalRecordDao
 import cz.vvoleman.phr.data.medicine.Medicine
 import cz.vvoleman.phr.data.room.address.AddressEntity
 import cz.vvoleman.phr.data.room.medicine.MedicineDao
+import cz.vvoleman.phr.data.room.medicine.MedicineEntity
+import cz.vvoleman.phr.data.room.medicine.MedicineSubstanceCrossRef
+import cz.vvoleman.phr.data.room.medicine.substance.SubstanceDao
+import cz.vvoleman.phr.data.room.medicine.substance.SubstanceEntity
 import cz.vvoleman.phr.data.room.patient.PatientDao
 import cz.vvoleman.phr.data.room.patient.PatientEntity
 import cz.vvoleman.phr.di.ApplicationScope
@@ -31,7 +35,16 @@ import javax.inject.Inject
 import javax.inject.Provider
 
 @Database(
-    entities = [PatientEntity::class, Facility::class, Diagnose::class, DiagnoseGroup::class, MedicalRecord::class, Medicine::class],
+    entities = [
+        PatientEntity::class,
+        Facility::class,
+        Diagnose::class,
+        DiagnoseGroup::class,
+        MedicalRecord::class,
+        MedicineEntity::class,
+        SubstanceEntity::class,
+        MedicineSubstanceCrossRef::class,
+    ],
     version = 1
 )
 @TypeConverters(Converters::class)
@@ -46,6 +59,8 @@ abstract class PatientDatabase : RoomDatabase() {
     abstract fun medicalRecordDao(): MedicalRecordDao
 
     abstract fun medicineDao(): MedicineDao
+
+    abstract fun substanceDao(): SubstanceDao
 
     abstract fun patientDao(): PatientDao
 
@@ -95,12 +110,14 @@ abstract class PatientDatabase : RoomDatabase() {
                 facilityDao.insertFacility(
                     Facility(
                         1,
-                        AddressEntity.from(Address(
-                            city = "Ústí nad Labem",
-                            street = "Sociální péče",
-                            houseNumber = "3316",
-                            zipCode = "4001"
-                        )),
+                        AddressEntity.from(
+                            Address(
+                                city = "Ústí nad Labem",
+                                street = "Sociální péče",
+                                houseNumber = "3316",
+                                zipCode = "4001"
+                            )
+                        ),
                         "Nemocnice Ústí nad Labem",
                         "123456789",
                         "test@usti.cz",
@@ -113,12 +130,14 @@ abstract class PatientDatabase : RoomDatabase() {
                 facilityDao.insertFacility(
                     Facility(
                         2,
-                        AddressEntity.from(Address(
-                            city = "Děčín",
-                            street = "U Nemocnice",
-                            houseNumber = "1",
-                            zipCode = "40502"
-                        )),
+                        AddressEntity.from(
+                            Address(
+                                city = "Děčín",
+                                street = "U Nemocnice",
+                                houseNumber = "1",
+                                zipCode = "40502"
+                            )
+                        ),
                         "Nemocnice Děčín",
                         "654321879",
                         "test@decin.cz",
