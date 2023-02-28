@@ -1,6 +1,6 @@
 package cz.vvoleman.phr.data.retrofit.diagnose
 
-import cz.vvoleman.phr.data.core.DiagnoseGroup
+import cz.vvoleman.phr.data.core.diagnose.DiagnoseGroup
 
 data class DiagnoseGroupEntity(
     val id: String,

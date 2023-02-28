@@ -6,9 +6,9 @@ import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import cz.vvoleman.phr.data.OrderRecordsBy
 import cz.vvoleman.phr.data.PreferencesManager
-import cz.vvoleman.phr.data.medical_records.MedicalRecordDao
-import cz.vvoleman.phr.data.medical_records.MedicalRecordWithDetails
 import cz.vvoleman.phr.data.repository.DiagnoseRepository
+import cz.vvoleman.phr.data.room.medical_record.MedicalRecordDao
+import cz.vvoleman.phr.data.room.medical_record.MedicalRecordWithDetails
 import cz.vvoleman.phr.ui.ADD_OK
 import cz.vvoleman.phr.ui.EDIT_OK
 import cz.vvoleman.phr.ui.shared.PatientSharedViewModel
@@ -44,8 +44,10 @@ class MedicalRecordViewModel @Inject constructor(
         userPreferences.patientId
     }
     val medicalRecords = patientId.flatMapLatest { patientId ->
-        medicalRecordDao.getMedicalRecordByPatient(patientId)
-    }
+        Log.d(TAG, "Patient id: $patientId")
+        medicalRecordDao.getByPatientId(patientId)
+    }.onEach { medicalRecords ->
+        Log.d(TAG, "Medical records: $medicalRecords") }
 
     val orderBy = preferencesFlow.map { userPreferences ->
         userPreferences.orderRecordsBy
@@ -55,7 +57,7 @@ class MedicalRecordViewModel @Inject constructor(
         val sections = mutableListOf<Section>()
         when (orderBy) {
             OrderRecordsBy.BY_DATE -> {
-                medicalRecords.groupBy { it.medicalRecord.date.getByPattern("yyyy-MM") }
+                medicalRecords.groupBy { it.medicalRecord.created_at.getByPattern("yyyy-MM") }
                     .forEach { (date, records) ->
                         val parts = date.split("-")
                         val month = parts[1].toInt()
@@ -67,10 +69,16 @@ class MedicalRecordViewModel @Inject constructor(
                         sections.add(Section(name, records))
                     }
             }
-            OrderRecordsBy.BY_FACILITY -> {
-                medicalRecords.groupBy { it.facility.name }
-                    .forEach { (facility, records) ->
-                        sections.add(Section(facility, records))
+            OrderRecordsBy.BY_MEDICAL_WORKER -> {
+                medicalRecords.groupBy { it.medicalWorker?.name }
+                    .forEach { (worker, records) ->
+                        sections.add(Section(worker ?: "-", records))
+                    }
+            }
+            OrderRecordsBy.BY_CATEGORY -> {
+                medicalRecords.groupBy { it.problemCategory.name }
+                    .forEach { (category, records) ->
+                        sections.add(Section(category, records))
                     }
             }
         }
@@ -79,7 +87,7 @@ class MedicalRecordViewModel @Inject constructor(
 
     // Deletes record
     fun onRecordDeleteClick(medicalRecord: MedicalRecordWithDetails) = viewModelScope.launch {
-        medicalRecordDao.deleteMedicalRecord(medicalRecord.medicalRecord)
+        medicalRecordDao.delete(medicalRecord.medicalRecord)
         medicalRecordsEventChannel.send(
             MedicalRecordsEvent.ShowUndoDeleteRecordMessage(
                 medicalRecord
@@ -95,7 +103,7 @@ class MedicalRecordViewModel @Inject constructor(
     }
 
     fun onUndoDeleteRecord(medicalRecord: MedicalRecordWithDetails) = viewModelScope.launch {
-        medicalRecordDao.insertMedicalRecord(medicalRecord.medicalRecord)
+        medicalRecordDao.insert(medicalRecord.medicalRecord)
     }
 
     private fun showSavedConfirmation(text: String) = viewModelScope.launch {

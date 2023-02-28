@@ -4,14 +4,11 @@ import android.net.ConnectivityManager
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import cz.vvoleman.phr.api.backend.BackendApi
-import cz.vvoleman.phr.api.backend.DiagnoseResponse
-import cz.vvoleman.phr.data.core.DiagnoseGroup
-import cz.vvoleman.phr.data.core.DiagnoseWithGroup
+import cz.vvoleman.phr.data.core.diagnose.DiagnoseGroup
+import cz.vvoleman.phr.data.core.diagnose.DiagnoseWithGroup
 import cz.vvoleman.phr.data.diagnose.DiagnosePagingSource
 import cz.vvoleman.phr.data.room.diagnose.*
 import cz.vvoleman.phr.data.room.diagnose.DiagnoseWithGroup as RoomDiagnoseWithGroup
-import cz.vvoleman.phr.util.network.NetworkConnectivityObserver
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject
