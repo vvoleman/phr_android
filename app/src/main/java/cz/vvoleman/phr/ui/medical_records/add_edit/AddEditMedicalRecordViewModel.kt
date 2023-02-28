@@ -7,18 +7,20 @@ import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
 import cz.vvoleman.phr.data.PreferencesManager
-import cz.vvoleman.phr.data.core.Diagnose
-import cz.vvoleman.phr.data.core.DiagnoseWithGroup
+import cz.vvoleman.phr.data.core.Color
+import cz.vvoleman.phr.data.core.diagnose.DiagnoseWithGroup
 import cz.vvoleman.phr.data.core.Patient
-import cz.vvoleman.phr.data.medical_records.MedicalRecord
-import cz.vvoleman.phr.data.medical_records.MedicalRecordDao
+import cz.vvoleman.phr.data.core.medical_record.MedicalRecord
+import cz.vvoleman.phr.data.core.medical_record.ProblemCategory
 import cz.vvoleman.phr.data.repository.DiagnoseRepository
 import cz.vvoleman.phr.data.room.diagnose.DiagnoseDao
 import cz.vvoleman.phr.data.room.diagnose.DiagnoseGroupDao
+import cz.vvoleman.phr.data.room.medical_record.MedicalRecordDao
+import cz.vvoleman.phr.data.room.medical_record.MedicalRecordEntity
+import cz.vvoleman.phr.data.room.patient.PatientDao
 import cz.vvoleman.phr.ui.ADD_OK
 import cz.vvoleman.phr.ui.EDIT_OK
 import cz.vvoleman.phr.ui.medical_records.add_edit.recognizer.RecognizerViewModel
-import cz.vvoleman.phr.util.getByPattern
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.Channel
@@ -34,7 +36,7 @@ import javax.inject.Inject
 class AddEditMedicalRecordViewModel @Inject constructor(
     private val medicalRecordDao: MedicalRecordDao,
     private val diagnoseDao: DiagnoseDao,
-    private val diagnoseGroupDao: DiagnoseGroupDao,
+    private val patientDao: PatientDao,
     private val state: SavedStateHandle,
     private val preferencesManager: PreferencesManager,
     private val diagnoseRepository: DiagnoseRepository
@@ -47,9 +49,9 @@ class AddEditMedicalRecordViewModel @Inject constructor(
     private val medicalRecord = state.get<MedicalRecord>(MEDICAL_RECORD)
 
     var recordDate =
-        state.getStateFlow<LocalDate>(DATE, medicalRecord?.date ?: LocalDate.now())
+        state.getStateFlow<LocalDate>(DATE, medicalRecord?.createdAt ?: LocalDate.now())
 
-    var recordText = state.get<String>(TEXT) ?: medicalRecord?.text ?: ""
+    var recordText = state.get<String>(TEXT) ?: medicalRecord?.comment ?: ""
         set(value) {
             field = value
             state[TEXT] = value
@@ -69,7 +71,7 @@ class AddEditMedicalRecordViewModel @Inject constructor(
         medicalRecordsEventChannel.send(MedicalRecordEvent.NetworkError("Nelze načíst diagnózy ze serveru"))
     }.asLiveData()
 
-    val selectedDiagnose = MutableStateFlow<cz.vvoleman.phr.data.core.DiagnoseWithGroup?>(null)
+    val selectedDiagnose = MutableStateFlow<DiagnoseWithGroup?>(null)
 
     private val medicalRecordsEventChannel = Channel<MedicalRecordEvent>()
     val medicalRecordsEvent = medicalRecordsEventChannel.receiveAsFlow()
@@ -77,10 +79,13 @@ class AddEditMedicalRecordViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             if (medicalRecord != null) {
-                setDate(medicalRecord.date)
-                recordText = medicalRecord.text
-                selectedDiagnose.value =
-                    diagnoseDao.getById(medicalRecord.diagnoseId).first().toDiagnoseWithGroup()
+                setDate(medicalRecord.createdAt)
+                recordText = medicalRecord.comment
+
+                medicalRecord.diagnose?.let {
+                    selectedDiagnose.value =
+                        diagnoseDao.getById(it.id).first().toDiagnoseWithGroup()
+                }
             }
         }
     }
@@ -113,23 +118,34 @@ class AddEditMedicalRecordViewModel @Inject constructor(
         val diagnose = selectedDiagnose.value!!
         diagnoseRepository.create(diagnose)
 
-        val patientId = patient?.id ?: patientId.first()
+        val id = patientId.first()
+        val selectedPatient: Patient =
+            patient ?: patientDao.getPatientById(patientId.first()).first().toPatient()
+
+        Log.d(TAG, "selected patient: $selectedPatient")
 
         if (medicalRecord != null) {
             val updatedRecord = medicalRecord.copy(
-                text = recordText,
-                date = date.value,
-                diagnoseId = diagnose.diagnose.id
+                comment = recordText,
+                createdAt = date.value,
+                diagnose = diagnose.diagnose.copy()
             )
             updateRecord(updatedRecord)
         } else {
             Log.d(TAG, "onSaveClick patient ID: $patientId")
             val newRecord = MedicalRecord(
-                text = recordText,
-                date = date.value,
-                facilityId = 1,
-                patientId = patientId,
-                diagnoseId = diagnose.diagnose.id
+                comment = recordText,
+                createdAt = date.value,
+                problemCategory = ProblemCategory(
+                    1,
+                    "Nemoc",
+                    LocalDate.now(),
+                    Color.BLUE,
+                    selectedPatient.id!!
+                ),
+                // TODO ADD MEDICAL_WORKER
+                patient = selectedPatient,
+                diagnose = diagnose.diagnose
             )
             Log.d(TAG, "onSaveClick: $newRecord")
             createRecord(newRecord)
@@ -143,7 +159,7 @@ class AddEditMedicalRecordViewModel @Inject constructor(
     }
 
     private fun createRecord(record: MedicalRecord) = viewModelScope.launch {
-        medicalRecordDao.insertMedicalRecord(record)
+        medicalRecordDao.insert(MedicalRecordEntity.from(record))
         medicalRecordsEventChannel.send(
             MedicalRecordEvent.NavigateBackWithResult(ADD_OK)
         )
@@ -175,7 +191,7 @@ class AddEditMedicalRecordViewModel @Inject constructor(
     }
 
     private fun updateRecord(record: MedicalRecord) = viewModelScope.launch {
-        medicalRecordDao.updateMedicalRecord(record)
+        medicalRecordDao.update(MedicalRecordEntity.from(record))
         medicalRecordsEventChannel.send(
             MedicalRecordEvent.NavigateBackWithResult(EDIT_OK)
         )
