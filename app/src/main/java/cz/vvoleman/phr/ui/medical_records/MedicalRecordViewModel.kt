@@ -76,9 +76,9 @@ class MedicalRecordViewModel @Inject constructor(
                     }
             }
             OrderRecordsBy.BY_CATEGORY -> {
-                medicalRecords.groupBy { it.problemCategory.name }
+                medicalRecords.groupBy { it.problemCategory?.name }
                     .forEach { (category, records) ->
-                        sections.add(Section(category, records))
+                        sections.add(Section("$category", records))
                     }
             }
         }
