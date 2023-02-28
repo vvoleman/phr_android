@@ -1,6 +1,7 @@
 package cz.vvoleman.phr.ui.medical_records.add_edit.recognizer
 
 import android.os.Parcelable
+import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -27,7 +28,7 @@ class RecognizerViewModel @Inject constructor(
     val recognizerEvent = recognizerEventChannel.receiveAsFlow()
 
     private val rawText: MutableStateFlow<Text?> = MutableStateFlow(null)
-    val options = rawText.map{ text ->
+    val options = rawText.map { text ->
         text?.let {
             recordProcessor.process(it)
         }
@@ -59,6 +60,15 @@ class RecognizerViewModel @Inject constructor(
             selectedPatient.value,
             selectedDiagnose.value
         )
+    }
+
+    fun setSelectedOptions(datePosition: Int, patientPosition: Int, diagnosePosition: Int) = viewModelScope.launch {
+        val data = options.first()
+        selectedDate.value = data?.visitDate?.get(datePosition)?.value
+        selectedPatient.value = data?.patient?.get(patientPosition)?.value
+        selectedDiagnose.value = data?.diagnose?.get(diagnosePosition)?.value
+
+        Log.d(TAG, "Selected options: $selectedDate, $selectedPatient, $selectedDiagnose")
     }
 
     sealed class RecognizerEvent {
