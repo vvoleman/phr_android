@@ -27,6 +27,7 @@ import cz.vvoleman.phr.R
 import cz.vvoleman.phr.databinding.FragmentRecognizerBinding
 import cz.vvoleman.phr.util.ocr.record.RecognizedOptions
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.first
 import java.io.File
 
 @AndroidEntryPoint
@@ -74,13 +75,22 @@ class RecognizerFragment : Fragment(R.layout.fragment_recognizer) {
             galleryButton.setOnClickListener {
                 choosePicture()
             }
+            optionButton.setOnClickListener {
+                lifecycleScope.launchWhenStarted {
+                    viewModel.options.first()?.let { options -> displaySelectOptionsDialog(options) }
+                }
+            }
         }
 
         recognizer = TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS)
 
         lifecycleScope.launchWhenStarted {
             viewModel.options.collect { options ->
-                options ?: return@collect
+                if (options == null) {
+                    binding.optionButton.visibility = View.GONE
+                    return@collect
+                }
+                binding.optionButton.visibility = View.VISIBLE
                 // Display Popup with options
                 displaySelectOptionsDialog(options)
             }
@@ -125,6 +135,16 @@ class RecognizerFragment : Fragment(R.layout.fragment_recognizer) {
 
             findViewById<Button>(R.id.confirm_button).setOnClickListener {
                 Log.d("RecognizerFragment", "Confirm button clicked")
+
+                Log.d("RecognizerFragment", "Selected diagnose: ${findViewById<Spinner>(R.id.diagnose_spinner).selectedItemPosition}")
+                Log.d("RecognizerFragment", "Selected date: ${findViewById<Spinner>(R.id.date_spinner).selectedItemPosition}")
+                Log.d("RecognizerFragment", "Selected patient: ${findViewById<Spinner>(R.id.patient_spinner).selectedItemPosition}")
+                viewModel.setSelectedOptions(
+                    findViewById<Spinner>(R.id.diagnose_spinner).selectedItemPosition,
+                    findViewById<Spinner>(R.id.date_spinner).selectedItemPosition,
+                    findViewById<Spinner>(R.id.patient_spinner).selectedItemPosition
+                )
+
                 val bundle = bundleOf(KEY_OPTIONS to viewModel.getSelectedOptions())
                 Log.d("RecognizerFragment", "Bundle: $bundle")
                 this.dismiss()
