@@ -6,8 +6,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.mlkit.vision.text.Text
 import cz.vvoleman.phr.data.core.Patient
-import cz.vvoleman.phr.data.diagnose.DiagnoseWithGroup
-import cz.vvoleman.phr.ui.medical_records.add_edit.AddEditMedicalRecordViewModel
 import cz.vvoleman.phr.util.ocr.record.RecordProcessor
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
