@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="category_orange">#fa8100</color>
+    <color name="category_red">#ff2b10</color>
+    <color name="category_green">#00ff00</color>
+    <color name="category_blue">#0000ff</color>
+    <color name="category_purple">#800080</color>
+    <color name="category_yellow">#ffff00</color>
+    <color name="category_pink">#ffc0cb</color>
+    <color name="category_brown">#a52a2a</color>
+    <color name="category_gray">#808080</color>
+</resources>

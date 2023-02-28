@@ -2,8 +2,8 @@ package cz.vvoleman.phr.data.room.diagnose
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import cz.vvoleman.phr.data.core.Diagnose
-import cz.vvoleman.phr.data.core.DiagnoseGroup
+import cz.vvoleman.phr.data.core.diagnose.Diagnose
+import cz.vvoleman.phr.data.core.diagnose.DiagnoseGroup
 
 @Entity(tableName = "diagnose")
 data class DiagnoseEntity(

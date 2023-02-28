@@ -35,9 +35,8 @@
         tools:layout="@layout/fragment_add_edit_medical_record" >
         <argument
             android:name="medicalRecord"
-            app:argType="cz.vvoleman.phr.data.medical_records.MedicalRecord"
-            app:nullable="true"
-            android:defaultValue="@null" />
+            app:argType="cz.vvoleman.phr.data.core.medical_record.MedicalRecord"
+            app:nullable="true" />
         <action
             android:id="@+id/action_addEditMedicalRecord_to_recognizerFragment"
             app:destination="@id/recognizerFragment" />
