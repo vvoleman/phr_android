@@ -15,7 +15,7 @@ interface DiagnoseDao {
     @Query("SELECT * FROM diagnose WHERE parent = :id")
     fun getByParent(id: String): Flow<List<DiagnoseEntity>>
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(diagnose: DiagnoseEntity)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

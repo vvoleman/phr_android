@@ -51,6 +51,15 @@ object AppModule {
     fun provideMedicalRecordDao(db: PatientDatabase) = db.medicalRecordDao()
 
     @Provides
+    fun provideMedicalRecordAssetDao(db: PatientDatabase) = db.medicalRecordAssetDao()
+
+    @Provides
+    fun provideProblemCategoryDao(db: PatientDatabase) = db.problemCategoryDao()
+
+    @Provides
+    fun provideMedicalWorkerDao(db: PatientDatabase) = db.medicalWorkerDao()
+
+    @Provides
     fun provideConnectivityManager(@ApplicationContext context: Context) = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
     @Provides

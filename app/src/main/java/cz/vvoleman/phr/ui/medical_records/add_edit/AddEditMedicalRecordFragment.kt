@@ -3,7 +3,6 @@ package cz.vvoleman.phr.ui.medical_records.add_edit
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import androidx.core.app.ComponentActivity
 import androidx.core.os.bundleOf
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
@@ -19,7 +18,7 @@ import androidx.paging.map
 import com.google.android.material.snackbar.Snackbar
 import cz.vvoleman.phr.R
 import cz.vvoleman.phr.data.AdapterPair
-import cz.vvoleman.phr.data.core.DiagnoseWithGroup
+import cz.vvoleman.phr.data.core.diagnose.DiagnoseWithGroup
 import cz.vvoleman.phr.databinding.FragmentAddEditMedicalRecordBinding
 import cz.vvoleman.phr.ui.medical_records.add_edit.recognizer.RecognizerFragment
 import cz.vvoleman.phr.ui.medical_records.add_edit.recognizer.RecognizerViewModel
@@ -32,7 +31,6 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import java.time.LocalDate
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class AddEditMedicalRecordFragment :

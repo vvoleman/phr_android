@@ -1,7 +1,8 @@
-package cz.vvoleman.phr.data.core
+package cz.vvoleman.phr.data.core.diagnose
 
 import android.os.Parcelable
 import cz.vvoleman.phr.data.AdapterPair
+import cz.vvoleman.phr.data.core.BaseData
 import kotlinx.parcelize.Parcelize
 
 @Parcelize

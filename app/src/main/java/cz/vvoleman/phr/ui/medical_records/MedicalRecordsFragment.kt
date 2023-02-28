@@ -16,8 +16,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import cz.vvoleman.phr.R
-import cz.vvoleman.phr.data.medical_records.MedicalRecord
-import cz.vvoleman.phr.data.medical_records.MedicalRecordWithDetails
+import cz.vvoleman.phr.data.core.medical_record.MedicalRecord
+import cz.vvoleman.phr.data.room.medical_record.MedicalRecordWithDetails
 import cz.vvoleman.phr.databinding.FragmentMedicalRecordsBinding
 import cz.vvoleman.phr.util.exhaustive
 import cz.vvoleman.phr.util.getNameOfDay
@@ -117,7 +117,7 @@ class MedicalRecordsFragment : Fragment(R.layout.fragment_medical_records),
         popup.setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.action_edit -> {
-                    navigateToAddEdit(record.medicalRecord)
+                    navigateToAddEdit(record.toMedicalRecord())
                     true
                 }
                 R.id.action_delete -> {

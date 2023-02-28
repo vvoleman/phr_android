@@ -6,8 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import cz.vvoleman.phr.data.medical_records.MedicalRecord
-import cz.vvoleman.phr.data.medical_records.MedicalRecordWithDetails
+import cz.vvoleman.phr.data.room.medical_record.MedicalRecordWithDetails
 import cz.vvoleman.phr.databinding.ItemMedicalRecordBinding
 import cz.vvoleman.phr.util.getCurrentDay
 import cz.vvoleman.phr.util.getCurrentMonth
@@ -56,11 +55,11 @@ class MedicalRecordAdapter(
 
         fun bind(item: MedicalRecordWithDetails) {
             binding.apply {
-                textViewDateDay.text = item.medicalRecord.date.getCurrentDay().toString()+"."
-                textViewDateMonth.text = item.medicalRecord.date.getNameOfMonth(true)
-                textViewFacility.text = item.facility.name
+                textViewDateDay.text = item.medicalRecord.created_at.getNameOfDay(true)
+                textViewDateMonth.text = item.medicalRecord.created_at.getNameOfMonth(true)
+                textViewFacility.text = item.medicalWorker?.name
                 textViewDoctor.text = item.patient.name
-                textViewDiagnose.text = item.diagnose.name
+                textViewDiagnose.text = item.diagnose?.name
             }
         }
 
@@ -73,7 +72,7 @@ class MedicalRecordAdapter(
 
     class DiffCallback : DiffUtil.ItemCallback<MedicalRecordWithDetails>() {
         override fun areItemsTheSame(oldItem: MedicalRecordWithDetails, newItem: MedicalRecordWithDetails): Boolean {
-            return oldItem.medicalRecord.recordId == newItem.medicalRecord.recordId
+            return oldItem.medicalRecord.id == newItem.medicalRecord.id
         }
 
         override fun areContentsTheSame(
