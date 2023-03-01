@@ -22,6 +22,7 @@ import cz.vvoleman.phr.data.core.diagnose.DiagnoseWithGroup
 import cz.vvoleman.phr.databinding.FragmentAddEditMedicalRecordBinding
 import cz.vvoleman.phr.ui.medical_records.add_edit.recognizer.RecognizerFragment
 import cz.vvoleman.phr.ui.medical_records.add_edit.recognizer.RecognizerViewModel
+import cz.vvoleman.phr.ui.medical_records.add_edit.recognizer.dialog.SelectedOptions
 import cz.vvoleman.phr.ui.views.date_picker.DatePicker
 import cz.vvoleman.phr.ui.views.dialog_spinner.DialogSpinner
 import cz.vvoleman.phr.util.exhaustive
@@ -51,7 +52,7 @@ class AddEditMedicalRecordFragment :
             Log.d(TAG, "Received result from RecognizerFragment")
 
             val options =
-                bundle.getParcelable<RecognizerViewModel.SelectedOptions>(RecognizerFragment.KEY_OPTIONS)
+                bundle.getParcelable<SelectedOptions>(RecognizerFragment.KEY_OPTIONS)
 
             Log.d(TAG, options.toString())
 
@@ -67,6 +68,7 @@ class AddEditMedicalRecordFragment :
         _binding = FragmentAddEditMedicalRecordBinding.bind(view)
 
         binding.apply {
+            Log.d(TAG, "Date is ${viewModel.recordDate.value}")
             datePicker.setDate(viewModel.recordDate.value)
             datePicker.setListener(this@AddEditMedicalRecordFragment)
 

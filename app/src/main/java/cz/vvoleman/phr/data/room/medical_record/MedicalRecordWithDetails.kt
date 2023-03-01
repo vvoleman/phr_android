@@ -48,6 +48,7 @@ data class MedicalRecordWithDetails(
             patient = patient.toPatient(),
             diagnose = diagnose?.toDiagnose(),
             medicalWorker = medicalWorker?.toMedicalWorker(),
+            createdAt = medicalRecord.created_at,
             assets = assets.map { it.toMedicalRecordAsset() },
             problemCategory = problemCategory?.toProblemCategory(),
         )
