@@ -55,7 +55,7 @@ class MedicalRecordAdapter(
 
         fun bind(item: MedicalRecordWithDetails) {
             binding.apply {
-                textViewDateDay.text = item.medicalRecord.created_at.getNameOfDay(true)
+                textViewDateDay.text = item.medicalRecord.created_at.getCurrentDay().toString()+"."
                 textViewDateMonth.text = item.medicalRecord.created_at.getNameOfMonth(true)
                 textViewFacility.text = item.medicalWorker?.name
                 textViewDoctor.text = item.patient.name

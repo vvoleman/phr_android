@@ -8,7 +8,6 @@ import cz.vvoleman.phr.data.core.*
 import cz.vvoleman.phr.data.core.diagnose.Diagnose
 import cz.vvoleman.phr.data.core.diagnose.DiagnoseGroup
 import cz.vvoleman.phr.data.core.medical_record.MedicalRecord
-import cz.vvoleman.phr.data.facility.Facility
 import cz.vvoleman.phr.data.facility.FacilityDao
 import cz.vvoleman.phr.data.room.address.AddressEntity
 import cz.vvoleman.phr.data.room.diagnose.DiagnoseDao
@@ -42,7 +41,6 @@ import javax.inject.Provider
 @Database(
     entities = [
         PatientEntity::class,
-        Facility::class,
         DiagnoseEntity::class,
         DiagnoseGroupEntity::class,
         MedicalRecordEntity::class,
@@ -61,8 +59,6 @@ abstract class PatientDatabase : RoomDatabase() {
     abstract fun diagnoseDao(): DiagnoseDao
 
     abstract fun diagnoseGroupDao(): DiagnoseGroupDao
-
-    abstract fun facilityDao(): FacilityDao
 
     abstract fun medicalRecordDao(): MedicalRecordDao
 
@@ -89,7 +85,6 @@ abstract class PatientDatabase : RoomDatabase() {
             // Fixtures
             val database = database.get()
             val patientDao: PatientDao = database.patientDao()
-            val facilityDao: FacilityDao = database.facilityDao()
             val diagnoseDao: DiagnoseDao = database.diagnoseDao()
             val medicalRecordDao: MedicalRecordDao = database.medicalRecordDao()
             val diagnoseGroupDao: DiagnoseGroupDao = database.diagnoseGroupDao()
@@ -122,45 +117,6 @@ abstract class PatientDatabase : RoomDatabase() {
                 patientDao.insertPatient(
                     PatientEntity.from(
                         patientB
-                    )
-                )
-
-                facilityDao.insertFacility(
-                    Facility(
-                        1,
-                        AddressEntity.from(
-                            Address(
-                                city = "Ústí nad Labem",
-                                street = "Sociální péče",
-                                houseNumber = "3316",
-                                zipCode = "4001"
-                            )
-                        ),
-                        "Nemocnice Ústí nad Labem",
-                        "123456789",
-                        "test@usti.cz",
-                        null,
-                        null
-                    )
-                )
-
-
-                facilityDao.insertFacility(
-                    Facility(
-                        2,
-                        AddressEntity.from(
-                            Address(
-                                city = "Děčín",
-                                street = "U Nemocnice",
-                                houseNumber = "1",
-                                zipCode = "40502"
-                            )
-                        ),
-                        "Nemocnice Děčín",
-                        "654321879",
-                        "test@decin.cz",
-                        null,
-                        null
                     )
                 )
 

@@ -14,6 +14,7 @@ import androidx.core.content.FileProvider
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResult
+import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -25,6 +26,8 @@ import com.google.mlkit.vision.text.latin.TextRecognizerOptions
 import cz.vvoleman.phr.BuildConfig
 import cz.vvoleman.phr.R
 import cz.vvoleman.phr.databinding.FragmentRecognizerBinding
+import cz.vvoleman.phr.ui.medical_records.add_edit.recognizer.dialog.OptionsDialogFragment
+import cz.vvoleman.phr.ui.medical_records.add_edit.recognizer.dialog.SelectedOptions
 import cz.vvoleman.phr.util.ocr.record.RecognizedOptions
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.first
@@ -98,69 +101,17 @@ class RecognizerFragment : Fragment(R.layout.fragment_recognizer) {
     }
 
     private fun displaySelectOptionsDialog(options: RecognizedOptions) {
-        // create dialog with template
-        val dialog = Dialog(requireContext()).apply {
-            setContentView(R.layout.dialog_select_recognized_options)
+        val dialog = OptionsDialogFragment.newInstance(options)
+        dialog.show(childFragmentManager, OptionsDialogFragment.TAG)
 
-            // set value to text view
-            findViewById<Spinner>(R.id.diagnose_spinner).apply {
-                adapter = ArrayAdapter(
-                    requireContext(),
-                    android.R.layout.simple_spinner_dropdown_item,
-                    options.diagnose.map { it.value }
-                )
-            }
-
-            findViewById<Spinner>(R.id.date_spinner).apply {
-                adapter = ArrayAdapter(
-                    requireContext(),
-                    android.R.layout.simple_spinner_dropdown_item,
-                    options.visitDate.map { it.toString() }
-                )
-            }
-
-            findViewById<LinearLayout>(R.id.patient_layout).apply {
-                this.visibility = if (options.patient.size > 1) View.VISIBLE else View.GONE
-            }
-
-            if (options.patient.size > 1) {
-                findViewById<Spinner>(R.id.patient_spinner).apply {
-                    adapter = ArrayAdapter(
-                        requireContext(),
-                        android.R.layout.simple_spinner_dropdown_item,
-                        options.patient.map { it.value }
-                    )
-                }
-            }
-
-            findViewById<Button>(R.id.confirm_button).setOnClickListener {
-                Log.d("RecognizerFragment", "Confirm button clicked")
-
-                Log.d("RecognizerFragment", "Selected diagnose: ${findViewById<Spinner>(R.id.diagnose_spinner).selectedItemPosition}")
-                Log.d("RecognizerFragment", "Selected date: ${findViewById<Spinner>(R.id.date_spinner).selectedItemPosition}")
-                Log.d("RecognizerFragment", "Selected patient: ${findViewById<Spinner>(R.id.patient_spinner).selectedItemPosition}")
-                viewModel.setSelectedOptions(
-                    findViewById<Spinner>(R.id.diagnose_spinner).selectedItemPosition,
-                    findViewById<Spinner>(R.id.date_spinner).selectedItemPosition,
-                    findViewById<Spinner>(R.id.patient_spinner).selectedItemPosition
-                )
-
-                val bundle = bundleOf(KEY_OPTIONS to viewModel.getSelectedOptions())
-                Log.d("RecognizerFragment", "Bundle: $bundle")
-                this.dismiss()
-                setFragmentResult(KEY_REQUEST, bundle)
+        requireActivity().supportFragmentManager.setFragmentResultListener(OptionsDialogFragment.REQUEST_KEY, viewLifecycleOwner) { _, bundle ->
+            Log.d("RecognizerFragment", "Options selected")
+            val selectedOptions = bundle.getParcelable<SelectedOptions>(OptionsDialogFragment.OPTIONS_KEY)
+            selectedOptions?.let {
+                setFragmentResult(KEY_REQUEST, bundleOf(KEY_OPTIONS to it))
                 findNavController().popBackStack()
-
             }
-
-            findViewById<Button>(R.id.cancel_button).setOnClickListener {
-                this.dismiss()
-            }
-
         }
-
-        Log.d("RecognizerFragment", "Showing dialog")
-        dialog.show()
     }
 
     private fun takePicture() {
