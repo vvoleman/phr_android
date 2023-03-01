@@ -21,6 +21,7 @@ import cz.vvoleman.phr.data.room.patient.PatientDao
 import cz.vvoleman.phr.ui.ADD_OK
 import cz.vvoleman.phr.ui.EDIT_OK
 import cz.vvoleman.phr.ui.medical_records.add_edit.recognizer.RecognizerViewModel
+import cz.vvoleman.phr.ui.medical_records.add_edit.recognizer.dialog.SelectedOptions
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.Channel
@@ -79,6 +80,8 @@ class AddEditMedicalRecordViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             if (medicalRecord != null) {
+                Log.d(TAG, "init medicalRecord: $medicalRecord")
+                Log.d(TAG, "init medicalRecord: ${medicalRecord.createdAt}")
                 setDate(medicalRecord.createdAt)
                 recordText = medicalRecord.comment
 
@@ -103,8 +106,6 @@ class AddEditMedicalRecordViewModel @Inject constructor(
             showInvalidInputMessage("Nebyla vybrána žádná diagnóza")
             return
         }
-
-        val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
 
         val date = recordDate
 //        var date: LocalDate? = null
@@ -165,7 +166,7 @@ class AddEditMedicalRecordViewModel @Inject constructor(
         )
     }
 
-    fun setRecognizedOptions(options: RecognizerViewModel.SelectedOptions) =
+    fun setRecognizedOptions(options: SelectedOptions) =
         viewModelScope.launch {
             //1. Get diagnose object (local or remote)
             //2. If patient is not current profile, show snackbar with info. Allow to undo this

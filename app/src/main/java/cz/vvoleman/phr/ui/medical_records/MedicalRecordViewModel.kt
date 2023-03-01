@@ -1,5 +1,6 @@
 package cz.vvoleman.phr.ui.medical_records
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope

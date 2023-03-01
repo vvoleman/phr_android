@@ -65,10 +65,16 @@
                         android:text="Datumu" />
 
                     <com.google.android.material.radiobutton.MaterialRadioButton
-                        android:id="@+id/by_facility"
+                        android:id="@+id/by_medical_worker"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Lék. zařízení" />
+                        android:text="Lékaře" />
+
+                    <com.google.android.material.radiobutton.MaterialRadioButton
+                        android:id="@+id/by_category"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Kategorie" />
                 </RadioGroup>
 
             </LinearLayout>

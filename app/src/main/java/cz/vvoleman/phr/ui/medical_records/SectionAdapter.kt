@@ -1,5 +1,6 @@
 package cz.vvoleman.phr.ui.medical_records
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -30,6 +31,7 @@ class SectionAdapter(private val listener: MedicalRecordAdapter.OnItemClickListe
                 textViewTitle.text = item.name
                 val recordAdapter = MedicalRecordAdapter(listener)
                 recordAdapter.submitList(item.items)
+                Log.d("SectionAdapter", "bind: ${item.items}")
                 recyclerView.apply {
                     adapter = recordAdapter
                     layoutManager = LinearLayoutManager(context)
