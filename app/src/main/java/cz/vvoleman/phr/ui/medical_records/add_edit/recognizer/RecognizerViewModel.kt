@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.mlkit.vision.text.Text
 import cz.vvoleman.phr.data.core.Patient
+import cz.vvoleman.phr.ui.medical_records.add_edit.recognizer.dialog.SelectedOptions
 import cz.vvoleman.phr.util.ocr.record.RecordProcessor
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
@@ -74,12 +75,7 @@ class RecognizerViewModel @Inject constructor(
     sealed class RecognizerEvent {
     }
 
-    @Parcelize
-    data class SelectedOptions(
-        val visitDate: LocalDate?,
-        val patient: Patient?,
-        val diagnose: String?
-    ) : Parcelable {}
+
 
 }
 

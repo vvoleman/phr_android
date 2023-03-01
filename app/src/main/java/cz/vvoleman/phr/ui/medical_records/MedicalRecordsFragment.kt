@@ -19,8 +19,8 @@ import com.google.android.material.snackbar.Snackbar
 import cz.vvoleman.phr.R
 import cz.vvoleman.phr.data.OrderRecordsBy
 import cz.vvoleman.phr.data.PreferencesManager
-import cz.vvoleman.phr.data.medical_records.MedicalRecord
-import cz.vvoleman.phr.data.medical_records.MedicalRecordWithDetails
+import cz.vvoleman.phr.data.core.medical_record.MedicalRecord
+import cz.vvoleman.phr.data.room.medical_record.MedicalRecordWithDetails
 import cz.vvoleman.phr.databinding.FragmentMedicalRecordsBinding
 import cz.vvoleman.phr.databinding.SheetRecordsFilterBinding
 import cz.vvoleman.phr.util.collectLatestLifecycleFlow
@@ -75,7 +75,8 @@ class MedicalRecordsFragment : Fragment(R.layout.fragment_medical_records),
                 _, checkedId ->
                 when(checkedId){
                     R.id.by_date -> lifecycleScope.launchWhenCreated { viewModel.filter.changeSortBy(OrderRecordsBy.BY_DATE.name) }
-                    R.id.by_facility -> lifecycleScope.launchWhenCreated { viewModel.filter.changeSortBy(OrderRecordsBy.BY_FACILITY.name) }
+                    R.id.by_medical_worker -> lifecycleScope.launchWhenCreated { viewModel.filter.changeSortBy(OrderRecordsBy.BY_MEDICAL_WORKER.name) }
+                    R.id.by_category -> lifecycleScope.launchWhenCreated { viewModel.filter.changeSortBy(OrderRecordsBy.BY_CATEGORY.name) }
                 }
             }
         }
@@ -111,15 +112,15 @@ class MedicalRecordsFragment : Fragment(R.layout.fragment_medical_records),
 //            Snackbar.make(requireView(), "Sort by $sortBy", Snackbar.LENGTH_SHORT).show()
         }
 
-        collectLatestLifecycleFlow(viewModel.filter.facilities) { list->
-            Log.d(TAG, "onViewCreated facility: $list")
-            val pairs = list.map { FilterPair(it.id.toString(), it.name, it, true) }
-            facilityAdapter.submitList(pairs)
-        }
+//        collectLatestLifecycleFlow(viewModel.filter.facilities) { list->
+//            Log.d(TAG, "onViewCreated facility: $list")
+//            val pairs = list.map { FilterPair(it.id.toString(), it.name, it, true) }
+//            facilityAdapter.submitList(pairs)
+//        }
 
         collectLatestLifecycleFlow(viewModel.filter.diagnoses) {list ->
             Log.d(TAG, "onViewCreated diagnose: $list")
-            val pairs = list.map { FilterPair(it.id, it.name, it) }
+            val pairs = list.filterNotNull().map { FilterPair(it.id, it.name, it) }
 
             diagnoseAdapter.submitList(pairs)
         }
@@ -127,7 +128,8 @@ class MedicalRecordsFragment : Fragment(R.layout.fragment_medical_records),
         collectLatestLifecycleFlow(viewModel.filter.sortBy) {
             val id = when(it){
                 OrderRecordsBy.BY_DATE -> R.id.by_date
-                OrderRecordsBy.BY_FACILITY -> R.id.by_facility
+                OrderRecordsBy.BY_MEDICAL_WORKER -> R.id.by_medical_worker
+                OrderRecordsBy.BY_CATEGORY -> R.id.by_category
             }
             sideSheetBinding.radioGroupSort.check(id)
         }
@@ -175,7 +177,7 @@ class MedicalRecordsFragment : Fragment(R.layout.fragment_medical_records),
         popup.setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.action_edit -> {
-                    navigateToAddEdit(record.medicalRecord)
+                    navigateToAddEdit(record.toMedicalRecord())
                     true
                 }
                 R.id.action_delete -> {
