@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.Flow
 interface ProblemCategoryDao {
 
     @Query("SELECT * FROM problem_category WHERE patient_id = :patientId")
-    fun getByPatientId(patientId: Int): Flow<List<ProblemCategoryEntity>>
+    fun getByPatientId(patientId: Int): Flow<List<>>
 
     @Query("SELECT * FROM problem_category WHERE id = :id")
     fun getById(id: Int): Flow<ProblemCategoryEntity>
