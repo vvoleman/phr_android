@@ -97,6 +97,10 @@ dependencies {
     // Material
     implementation "com.google.android.material:material:$material_components_version"
 
+
+    implementation project(':base')
+    implementation project(':common')
+    implementation project(':feature-medicalrecord')
 }
 
 kapt {
