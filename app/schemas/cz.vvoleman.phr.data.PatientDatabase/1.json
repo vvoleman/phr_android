@@ -2,17 +2,17 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "1d23bc5caa21547e9f1ebb79797a631f",
+    "identityHash": "af2a56582ec759de8b0bf67880e991c4",
     "entities": [
       {
-        "tableName": "Patient",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT NOT NULL, `info` TEXT)",
+        "tableName": "patient",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT NOT NULL, `birth_date` INTEGER, `gender` TEXT, `city` TEXT, `street` TEXT, `house_number` TEXT, `zip_code` TEXT)",
         "fields": [
           {
             "fieldPath": "id",
             "columnName": "id",
             "affinity": "INTEGER",
-            "notNull": true
+            "notNull": false
           },
           {
             "fieldPath": "name",
@@ -21,8 +21,38 @@
             "notNull": true
           },
           {
-            "fieldPath": "info",
-            "columnName": "info",
+            "fieldPath": "birth_date",
+            "columnName": "birth_date",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "gender",
+            "columnName": "gender",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "address.city",
+            "columnName": "city",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "address.street",
+            "columnName": "street",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "address.house_number",
+            "columnName": "house_number",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "address.zip_code",
+            "columnName": "zip_code",
             "affinity": "TEXT",
             "notNull": false
           }
@@ -37,81 +67,7 @@
         "foreignKeys": []
       },
       {
-        "tableName": "facilities",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `name` TEXT NOT NULL, `phone` TEXT, `email` TEXT, `fax` TEXT, `website` TEXT, `city` TEXT NOT NULL, `street` TEXT NOT NULL, `house_number` TEXT NOT NULL, `zip_code` TEXT NOT NULL, PRIMARY KEY(`id`))",
-        "fields": [
-          {
-            "fieldPath": "id",
-            "columnName": "id",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "name",
-            "columnName": "name",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "phone",
-            "columnName": "phone",
-            "affinity": "TEXT",
-            "notNull": false
-          },
-          {
-            "fieldPath": "email",
-            "columnName": "email",
-            "affinity": "TEXT",
-            "notNull": false
-          },
-          {
-            "fieldPath": "fax",
-            "columnName": "fax",
-            "affinity": "TEXT",
-            "notNull": false
-          },
-          {
-            "fieldPath": "website",
-            "columnName": "website",
-            "affinity": "TEXT",
-            "notNull": false
-          },
-          {
-            "fieldPath": "address.city",
-            "columnName": "city",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "address.street",
-            "columnName": "street",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "address.houseNumber",
-            "columnName": "house_number",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "address.zipCode",
-            "columnName": "zip_code",
-            "affinity": "TEXT",
-            "notNull": true
-          }
-        ],
-        "primaryKey": {
-          "columnNames": [
-            "id"
-          ],
-          "autoGenerate": false
-        },
-        "indices": [],
-        "foreignKeys": []
-      },
-      {
-        "tableName": "diagnoses",
+        "tableName": "diagnose",
         "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `name` TEXT NOT NULL, `parent` TEXT NOT NULL, PRIMARY KEY(`id`))",
         "fields": [
           {
@@ -143,7 +99,7 @@
         "foreignKeys": []
       },
       {
-        "tableName": "diagnose_groups",
+        "tableName": "diagnose_group",
         "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `name` TEXT NOT NULL, PRIMARY KEY(`id`))",
         "fields": [
           {
@@ -169,49 +125,55 @@
         "foreignKeys": []
       },
       {
-        "tableName": "medical_records",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`recordId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `facilityId` INTEGER NOT NULL, `patientId` INTEGER NOT NULL, `diagnoseId` TEXT NOT NULL, `date` INTEGER NOT NULL, `text` TEXT NOT NULL)",
+        "tableName": "medical_record",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `patient_id` INTEGER NOT NULL, `problem_category_id` INTEGER, `diagnose_id` TEXT, `medical_worker_id` INTEGER, `created_at` INTEGER NOT NULL, `comment` TEXT NOT NULL)",
         "fields": [
           {
-            "fieldPath": "recordId",
-            "columnName": "recordId",
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "patient_id",
+            "columnName": "patient_id",
             "affinity": "INTEGER",
             "notNull": true
           },
           {
-            "fieldPath": "facilityId",
-            "columnName": "facilityId",
+            "fieldPath": "problem_category_id",
+            "columnName": "problem_category_id",
             "affinity": "INTEGER",
-            "notNull": true
+            "notNull": false
           },
           {
-            "fieldPath": "patientId",
-            "columnName": "patientId",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "diagnoseId",
-            "columnName": "diagnoseId",
+            "fieldPath": "diagnose_id",
+            "columnName": "diagnose_id",
             "affinity": "TEXT",
-            "notNull": true
+            "notNull": false
           },
           {
-            "fieldPath": "date",
-            "columnName": "date",
+            "fieldPath": "medical_worker_id",
+            "columnName": "medical_worker_id",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "created_at",
+            "columnName": "created_at",
             "affinity": "INTEGER",
             "notNull": true
           },
           {
-            "fieldPath": "text",
-            "columnName": "text",
+            "fieldPath": "comment",
+            "columnName": "comment",
             "affinity": "TEXT",
             "notNull": true
           }
         ],
         "primaryKey": {
           "columnNames": [
-            "recordId"
+            "id"
           ],
           "autoGenerate": true
         },
@@ -219,13 +181,163 @@
         "foreignKeys": []
       },
       {
-        "tableName": "Medicine",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `name` TEXT NOT NULL, `dosage` TEXT NOT NULL, `info` TEXT NOT NULL, `expires_at` TEXT, `created_at` TEXT, PRIMARY KEY(`id`))",
+        "tableName": "problem_category",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT NOT NULL, `createdAt` INTEGER NOT NULL, `color` TEXT NOT NULL, `patient_id` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "id",
             "columnName": "id",
             "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "createdAt",
+            "columnName": "createdAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "color",
+            "columnName": "color",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "patient_id",
+            "columnName": "patient_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "medical_worker",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT NOT NULL, `email` TEXT, `phone` TEXT, `city` TEXT NOT NULL, `street` TEXT NOT NULL, `house_number` TEXT NOT NULL, `zip_code` TEXT NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "email",
+            "columnName": "email",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "phone",
+            "columnName": "phone",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "address.city",
+            "columnName": "city",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "address.street",
+            "columnName": "street",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "address.house_number",
+            "columnName": "house_number",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "address.zip_code",
+            "columnName": "zip_code",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "medical_record_asset",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `medical_record_id` INTEGER NOT NULL, `type` TEXT NOT NULL, `uri` TEXT NOT NULL, `createdAt` INTEGER NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "medical_record_id",
+            "columnName": "medical_record_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "type",
+            "columnName": "type",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "uri",
+            "columnName": "uri",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "createdAt",
+            "columnName": "createdAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "medicine",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`medicineId` TEXT NOT NULL, `name` TEXT NOT NULL, `dosage` TEXT NOT NULL, `info` TEXT NOT NULL, `expires_at` INTEGER, `created_at` INTEGER, PRIMARY KEY(`medicineId`))",
+        "fields": [
+          {
+            "fieldPath": "medicineId",
+            "columnName": "medicineId",
+            "affinity": "TEXT",
             "notNull": true
           },
           {
@@ -247,21 +359,86 @@
             "notNull": true
           },
           {
-            "fieldPath": "expiresAt",
+            "fieldPath": "expires_at",
             "columnName": "expires_at",
-            "affinity": "TEXT",
+            "affinity": "INTEGER",
             "notNull": false
           },
           {
-            "fieldPath": "createdAt",
+            "fieldPath": "created_at",
             "columnName": "created_at",
-            "affinity": "TEXT",
+            "affinity": "INTEGER",
             "notNull": false
           }
         ],
         "primaryKey": {
           "columnNames": [
-            "id"
+            "medicineId"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "substance",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`substanceId` TEXT NOT NULL, `name` TEXT NOT NULL, `is_addictive` INTEGER NOT NULL, `is_doping` INTEGER NOT NULL, PRIMARY KEY(`substanceId`))",
+        "fields": [
+          {
+            "fieldPath": "substanceId",
+            "columnName": "substanceId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "is_addictive",
+            "columnName": "is_addictive",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "is_doping",
+            "columnName": "is_doping",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "substanceId"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "MedicineSubstanceCrossRef",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`medicineId` TEXT NOT NULL, `substanceId` TEXT NOT NULL, PRIMARY KEY(`medicineId`, `substanceId`))",
+        "fields": [
+          {
+            "fieldPath": "medicineId",
+            "columnName": "medicineId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "substanceId",
+            "columnName": "substanceId",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "medicineId",
+            "substanceId"
           ],
           "autoGenerate": false
         },
@@ -272,7 +449,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '1d23bc5caa21547e9f1ebb79797a631f')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'af2a56582ec759de8b0bf67880e991c4')"
     ]
   }
 }

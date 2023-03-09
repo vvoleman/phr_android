@@ -12,18 +12,18 @@ import kotlinx.coroutines.flow.Flow
 interface ProblemCategoryDao {
 
     @Query("SELECT * FROM problem_category WHERE patient_id = :patientId")
-    fun getByPatientId(patientId: Int): Flow<List<ProblemCategoryEntity>>
+    fun getByPatientId(patientId: Int): Flow<List<ProblemCategoryDataSourceModel>>
 
     @Query("SELECT * FROM problem_category WHERE id = :id")
-    fun getById(id: Int): Flow<ProblemCategoryEntity>
+    fun getById(id: Int): Flow<ProblemCategoryDataSourceModel>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(problemCategory: ProblemCategoryEntity)
+    suspend fun insert(problemCategory: ProblemCategoryDataSourceModel)
 
     @Update
-    suspend fun update(problemCategory: ProblemCategoryEntity)
+    suspend fun update(problemCategory: ProblemCategoryDataSourceModel)
 
     @Delete
-    suspend fun delete(problemCategory: ProblemCategoryEntity)
+    suspend fun delete(problemCategory: ProblemCategoryDataSourceModel)
 
 }

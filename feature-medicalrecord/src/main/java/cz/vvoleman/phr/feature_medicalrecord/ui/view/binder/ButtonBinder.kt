@@ -10,6 +10,6 @@ class ButtonBinder: ViewStateBinder<ListMedicalRecordsViewState, FragmentListMed
         viewBinding: FragmentListMedicalRecordsBinding,
         viewState: ListMedicalRecordsViewState
     ) {
-        viewBinding.btn.text = viewState.groupBy.name
+        viewBinding.btn.text = "Počet skupin: ${viewState.groupedRecords.size}"
     }
 }

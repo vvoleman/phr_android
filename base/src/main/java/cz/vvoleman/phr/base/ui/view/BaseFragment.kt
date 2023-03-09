@@ -16,15 +16,16 @@ import cz.vvoleman.phr.base.ui.mapper.ViewStateBinder
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
 
-abstract class BaseFragment<VIEW_STATE : Any, NOTIFICATION : Any> : Fragment() {
+abstract class BaseFragment<VIEW_STATE : Any, NOTIFICATION : Any, VIEW_BINDING : ViewBinding> :
+    Fragment() {
 
     protected abstract val viewModel: BaseViewModel<VIEW_STATE, NOTIFICATION>
 
     open val TAG = "BaseFragment"
 
     abstract val destinationMapper: DestinationUiMapper
-    abstract val viewStateBinders: List<ViewStateBinder<VIEW_STATE, ViewBinding>>
-    private var _binding: ViewBinding? = null
+    abstract val viewStateBinder: ViewStateBinder<VIEW_STATE, VIEW_BINDING>
+    private var _binding: VIEW_BINDING? = null
     protected val binding get() = _binding!!
 
     @CallSuper
@@ -36,17 +37,25 @@ abstract class BaseFragment<VIEW_STATE : Any, NOTIFICATION : Any> : Fragment() {
         _binding = setupBinding(inflater, container)
         observeViewModel()
 
-        return super.onCreateView(inflater, container, savedInstanceState)
+        return binding.root
     }
 
-    protected abstract fun setupBinding(inflater: LayoutInflater, container: ViewGroup?): ViewBinding
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        observeViewModel()
+    }
+
+    protected abstract fun setupBinding(
+        inflater: LayoutInflater,
+        container: ViewGroup?
+    ): VIEW_BINDING
 
     private fun observeViewModel() {
         collectLatestLifecycleFlow(viewModel.viewState) {
             it?.let { applyViewState(it) }
         }
         collectLifecycleFlow(viewModel.notification) {
-            showNotification(it)
+            handleNotification(it)
         }
         collectLifecycleFlow(viewModel.destination) {
             navigateToDestination(it)
@@ -54,14 +63,10 @@ abstract class BaseFragment<VIEW_STATE : Any, NOTIFICATION : Any> : Fragment() {
     }
 
     private fun applyViewState(viewState: VIEW_STATE) {
-        for (binder in viewStateBinders) {
-            binder.bind(binding, viewState)
-        }
+        viewStateBinder.bind(binding, viewState)
     }
 
-    private fun showNotification(notification: NOTIFICATION) {
-        Log.d(TAG, "showNotification: $notification")
-    }
+    protected abstract fun handleNotification(notification: NOTIFICATION)
 
     private fun navigateToDestination(destination: PresentationDestination) {
         destinationMapper.navigate(destination)
@@ -72,10 +77,6 @@ abstract class BaseFragment<VIEW_STATE : Any, NOTIFICATION : Any> : Fragment() {
         _binding = null
     }
 
-    companion object {
-        val NO_LAYOUT_RESOURCE = 0
-    }
-
     private fun <T> Fragment.collectLatestLifecycleFlow(flow: Flow<T>, block: (T) -> Unit) {
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             flow.collectLatest(block)
@@ -83,6 +84,7 @@ abstract class BaseFragment<VIEW_STATE : Any, NOTIFICATION : Any> : Fragment() {
     }
 
     private fun <T> Fragment.collectLifecycleFlow(flow: Flow<T>, block: (T) -> Unit) {
+
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             flow.collect(block)
         }
