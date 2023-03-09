@@ -1,8 +1,11 @@
 package cz.vvoleman.phr.di.medical_record
 
+import cz.vvoleman.phr.feature_medicalrecord.data.datasource.model.room.MedicalRecordDao
 import cz.vvoleman.phr.feature_medicalrecord.data.datasource.model.room.category.ProblemCategoryDataSourceModel
 import cz.vvoleman.phr.feature_medicalrecord.data.datasource.model.room.worker.MedicalWorkerDataSourceModel
 import cz.vvoleman.phr.feature_medicalrecord.data.mapper.*
+import cz.vvoleman.phr.feature_medicalrecord.data.repository.MedicalRecordRepository
+import cz.vvoleman.phr.feature_medicalrecord.domain.repository.MedicalRecordFilterRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -11,6 +14,18 @@ import dagger.hilt.components.SingletonComponent
 @Module
 @InstallIn(SingletonComponent::class)
 class DataModule {
+
+    @Provides
+    fun providesMedicalRecordFilterRepository(
+        medicalRecordDao: MedicalRecordDao,
+        filterRequestDomainModelToDataMapper: FilterRequestDomainModelToDataMapper,
+        medicalRecordDataSourceToDomainMapper: MedicalRecordDataSourceToDomainMapper,
+    ): MedicalRecordFilterRepository =
+        MedicalRecordRepository(
+            medicalRecordDao,
+            filterRequestDomainModelToDataMapper,
+            medicalRecordDataSourceToDomainMapper
+        )
 
     @Provides
     fun providesAddressDataSourceToDomainMapper() = AddressDataSourceToDomainMapper()
@@ -36,5 +51,15 @@ class DataModule {
             problemCategoryDataSourceModel
         )
 
+    @Provides
+    fun providesMedicalWorkerDataSourceToDomainMapper(address: AddressDataSourceToDomainMapper) =
+        MedicalWorkerDataSourceToDomainMapper(address)
 
+    @Provides
+    fun providesPatientDataSourceToDomainMapper() =
+        PatientDataSourceToDomainMapper()
+
+    @Provides
+    fun providesProblemCategoryDataSourceToDomainMapper() =
+        ProblemCategoryDataSourceToDomainMapper()
 }

@@ -17,6 +17,8 @@ abstract class BaseViewModel<VIEW_STATE : Any, NOTIFICATION : Any>(
     private val useCaseExecutorProvider: UseCaseExecutorProvider
 ) : ViewModel() {
 
+    protected abstract val TAG: String
+
     private val _viewState = MutableStateFlow<VIEW_STATE?>(null)
         .apply { value = initState() }
     val viewState = _viewState.asStateFlow()
