@@ -3,58 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/overviewFragment">
-    <fragment
-        android:id="@+id/overviewFragment"
-        android:name="cz.vvoleman.phr.ui.overview.OverviewFragment"
-        android:label="@string/overview"
-        tools:layout="@layout/fragment_overview" />
-    <fragment
-        android:id="@+id/medicineFragment"
-        android:name="cz.vvoleman.phr.ui.medicine.MedicineFragment"
-        android:label="@string/medicine"
-        tools:layout="@layout/fragment_medicine" />
-    <fragment
-        android:id="@+id/measurementsFragment"
-        android:name="cz.vvoleman.phr.ui.measurements.MeasurementsFragment"
-        android:label="@string/measurements"
-        tools:layout="@layout/fragment_measurements" />
-    <fragment
-        android:id="@+id/medicalRecordsFragment"
-        android:name="cz.vvoleman.phr.ui.medical_records.MedicalRecordsFragment"
-        android:label="@string/medical_records"
-        tools:layout="@layout/fragment_medical_records" >
-        <action
-            android:id="@+id/action_medicalRecordsFragment_to_addEditMedicalRecord"
-            app:destination="@id/addEditMedicalRecord" />
-    </fragment>
-    <fragment
-        android:id="@+id/addEditMedicalRecord"
-        android:name="cz.vvoleman.phr.ui.medical_records.add_edit.AddEditMedicalRecordFragment"
-        android:label="Úprava zprávy"
-        tools:layout="@layout/fragment_add_edit_medical_record" >
-        <argument
-            android:name="medicalRecord"
-            app:argType="cz.vvoleman.phr.data.core.medical_record.MedicalRecord"
-            app:nullable="true" />
-        <action
-            android:id="@+id/action_addEditMedicalRecord_to_recognizerFragment"
-            app:destination="@id/recognizerFragment" />
-        <argument
-            android:name="recognizedOptions"
-            app:argType="cz.vvoleman.phr.util.ocr.record.RecognizedOptions"
-            app:nullable="true"
-            android:defaultValue="@null" />
-    </fragment>
-    <fragment
-        android:id="@+id/recognizerFragment"
-        android:name="cz.vvoleman.phr.ui.medical_records.add_edit.recognizer.RecognizerFragment"
-        android:label="fragment_recognizer"
-        tools:layout="@layout/fragment_recognizer" >
-        <action
-            android:id="@+id/action_recognizerFragment_to_addEditMedicalRecord"
-            app:popUpTo="@id/addEditMedicalRecord"
-            app:popUpToInclusive="true"
-            app:destination="@id/addEditMedicalRecord" />
-    </fragment>
+    app:startDestination="@id/medical_record_nav_graph">
+
+    <include app:graph="@navigation/nav_medical_record" />
+
 </navigation>

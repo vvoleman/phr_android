@@ -1,5 +1,6 @@
 package cz.vvoleman.phr.feature_medicalrecord.domain.usecase
 
+import android.util.Log
 import cz.vvoleman.phr.base.domain.coroutine.CoroutineContextProvider
 import cz.vvoleman.phr.base.domain.usecase.BackgroundExecutingUseCase
 import cz.vvoleman.phr.feature_medicalrecord.domain.model.MedicalRecordDomainModel
@@ -18,7 +19,6 @@ class GetFilteredRecordsUseCase(
 
     override suspend fun executeInBackground(request: FilterRequestDomainModel): List<GroupedMedicalRecordsDomainModel> {
         val records = medicalRecordFilterRepository.filterRecords(request)
-
         return when (request.groupBy) {
             GroupByDomainModel.DATE -> byDate(records)
             GroupByDomainModel.PROBLEM_CATEGORY -> byProblemCategory(records)

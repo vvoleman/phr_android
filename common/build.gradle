@@ -1,15 +1,14 @@
 plugins {
-    id 'com.android.application'
+    id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
 }
 
 android {
     namespace 'cz.vvoleman.phr.common_datasource'
-    compileSdk 32
+    compileSdk 33
 
     defaultConfig {
-        applicationId "cz.vvoleman.phr.common_datasource"
         minSdk 26
         targetSdk 32
         versionCode 1

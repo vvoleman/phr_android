@@ -5,6 +5,8 @@ import cz.vvoleman.phr.feature_medicalrecord.domain.repository.AddEditMedicalRec
 import cz.vvoleman.phr.feature_medicalrecord.domain.model.add_edit.AddEditMedicalRecordDomainModel
 import cz.vvoleman.phr.feature_medicalrecord.domain.usecase.AddEditMedicalRecordUseCase
 import cz.vvoleman.phr.feature_medicalrecord.test.coroutine.FakeCoroutineContextProvider
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.runTest
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
@@ -14,6 +16,7 @@ import org.mockito.Mock
 import org.mockito.junit.MockitoJUnitRunner
 import java.time.LocalDate
 
+@OptIn(ExperimentalCoroutinesApi::class)
 @RunWith(MockitoJUnitRunner::class)
 class AddEditMedicalRecordUseCaseTest {
 
@@ -33,7 +36,7 @@ class AddEditMedicalRecordUseCaseTest {
     }
 
     @Test
-    fun `Create new medical record`() {
+    fun `Create new medical record`() = runTest {
         // Given
         val request = AddEditMedicalRecordDomainModel(
             createdAt = LocalDate.now(),

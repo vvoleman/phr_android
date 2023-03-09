@@ -1,5 +1,6 @@
 package cz.vvoleman.phr.data
 
+import android.util.Log
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
@@ -10,7 +11,10 @@ import cz.vvoleman.phr.common.data.datasource.model.PatientDataSourceModel
 import cz.vvoleman.phr.data.core.Gender
 import cz.vvoleman.phr.data.core.diagnose.Diagnose
 import cz.vvoleman.phr.data.room.medicine.MedicineDao
+import cz.vvoleman.phr.data.room.medicine.MedicineEntity
+import cz.vvoleman.phr.data.room.medicine.MedicineSubstanceCrossRef
 import cz.vvoleman.phr.data.room.medicine.substance.SubstanceDao
+import cz.vvoleman.phr.data.room.medicine.substance.SubstanceEntity
 import cz.vvoleman.phr.di.ApplicationScope
 import cz.vvoleman.phr.feature_medicalrecord.data.datasource.model.room.MedicalRecordDao
 import cz.vvoleman.phr.feature_medicalrecord.data.datasource.model.room.MedicalRecordDataSourceModel
@@ -42,9 +46,9 @@ import javax.inject.Provider
         ProblemCategoryDataSourceModel::class,
         MedicalWorkerDataSourceModel::class,
         MedicalRecordAssetDataSourceModel::class,
-//        MedicineEntity::class,
-//        SubstanceEntity::class,
-//        MedicineSubstanceCrossRef::class,
+        MedicineEntity::class,
+        SubstanceEntity::class,
+        MedicineSubstanceCrossRef::class,
     ],
     version = 1
 )
@@ -84,7 +88,11 @@ abstract class PatientDatabase : RoomDatabase() {
             val medicalRecordDao: MedicalRecordDao = database.medicalRecordDao()
             val diagnoseGroupDao: DiagnoseGroupDao = database.diagnoseGroupDao()
 
+            Log.d("PatientDatabase", "onCreate")
+
             applicationScope.launch {
+                Log.d("PatientDatabase", "onCreate launch")
+
                 val patientA = PatientDataSourceModel(
                     1, "Vojta", AddressDataSourceModel(
                         city = "Ústí nad Labem",
@@ -118,8 +126,8 @@ abstract class PatientDatabase : RoomDatabase() {
                 diagnoseGroupDao.insert(groupA)
                 diagnoseGroupDao.insert(groupB)
 
-                val diagnoseA = Diagnose("A00", "Cholera")
-                val diagnoseB = Diagnose("U071", "COVID–19, virus laboratorně prokázán")
+                val diagnoseA = DiagnoseDataSourceModel("A00", "Cholera", groupA.id)
+                val diagnoseB = DiagnoseDataSourceModel("U071", "COVID–19, virus laboratorně prokázán", groupB.id)
 
                 diagnoseDao.insert(diagnoseA)
                 diagnoseDao.insert(diagnoseB)

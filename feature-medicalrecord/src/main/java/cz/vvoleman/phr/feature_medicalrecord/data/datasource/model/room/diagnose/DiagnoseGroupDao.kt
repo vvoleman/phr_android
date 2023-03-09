@@ -7,21 +7,21 @@ import kotlinx.coroutines.flow.Flow
 interface DiagnoseGroupDao {
 
     @Query("SELECT * FROM diagnose_group")
-    fun getAll(): Flow<List<DiagnoseGroupEntity>>
+    fun getAll(): Flow<List<DiagnoseGroupDataSourceModel>>
 
     @Query("SELECT * FROM diagnose_group WHERE id = :id")
-    fun getById(id: String): Flow<DiagnoseGroupEntity>
+    fun getById(id: String): Flow<DiagnoseGroupDataSourceModel>
 
     @Query("SELECT * FROM diagnose_group WHERE name = :name")
-    fun getByName(name: String): Flow<DiagnoseGroupEntity>
+    fun getByName(name: String): Flow<DiagnoseGroupDataSourceModel>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(diagnoseGroup: DiagnoseGroupEntity)
+    suspend fun insert(diagnoseGroup: DiagnoseGroupDataSourceModel)
 
     @Update
-    suspend fun update(diagnoseGroup: DiagnoseGroupEntity)
+    suspend fun update(diagnoseGroup: DiagnoseGroupDataSourceModel)
 
     @Delete
-    suspend fun delete(diagnoseGroup: DiagnoseGroupEntity)
+    suspend fun delete(diagnoseGroup: DiagnoseGroupDataSourceModel)
 
 }
