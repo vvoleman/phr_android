@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/medical_record_nav_graph"
+    app:startDestination="@id/listMedicalRecordsFragment">
+
+    <fragment
+        android:id="@+id/listMedicalRecordsFragment"
+        android:name="cz.vvoleman.phr.feature_medicalrecord.ui.view.ListMedicalRecordsFragment"
+        android:label="Lékařské zprávy"
+        tools:layout="@layout/fragment_list_medical_records" />
+</navigation>

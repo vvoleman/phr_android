@@ -7,24 +7,24 @@ import kotlinx.coroutines.flow.Flow
 interface DiagnoseDao {
 
     @Query("SELECT * FROM diagnose")
-    fun getAll(): Flow<List<DiagnoseEntity>>
+    fun getAll(): Flow<List<DiagnoseWithGroup>>
 
     @Query("SELECT * FROM diagnose WHERE id = :id")
     fun getById(id: String): Flow<DiagnoseWithGroup>
 
     @Query("SELECT * FROM diagnose WHERE parent = :id")
-    fun getByParent(id: String): Flow<List<DiagnoseEntity>>
+    fun getByParent(id: String): Flow<List<DiagnoseWithGroup>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(diagnose: DiagnoseEntity)
+    suspend fun insert(diagnose: DiagnoseDataSourceModel)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(diagnoses: List<DiagnoseEntity>)
+    suspend fun insert(diagnoses: List<DiagnoseDataSourceModel>)
 
     @Update
-    suspend fun update(diagnose: DiagnoseEntity)
+    suspend fun update(diagnose: DiagnoseDataSourceModel)
 
     @Delete
-    suspend fun delete(diagnose: DiagnoseEntity)
+    suspend fun delete(diagnose: DiagnoseDataSourceModel)
 
 }

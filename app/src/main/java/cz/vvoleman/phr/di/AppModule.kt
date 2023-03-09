@@ -30,31 +30,13 @@ object AppModule {
             .build()
 
     @Provides
-    fun providePatientDao(db: PatientDatabase) = db.patientDao()
-
-    @Provides
-    fun provideDiagnoseDao(db: PatientDatabase) = db.diagnoseDao()
-
-    @Provides
-    fun provideDiagnoseGroup(db: PatientDatabase) = db.diagnoseGroupDao()
-
-    @Provides
     fun provideMedicineDao(db: PatientDatabase) = db.medicineDao()
 
     @Provides
     fun provideSubstanceDao(db: PatientDatabase) = db.substanceDao()
 
     @Provides
-    fun provideMedicalRecordDao(db: PatientDatabase) = db.medicalRecordDao()
-
-    @Provides
     fun provideMedicalRecordAssetDao(db: PatientDatabase) = db.medicalRecordAssetDao()
-
-    @Provides
-    fun provideProblemCategoryDao(db: PatientDatabase) = db.problemCategoryDao()
-
-    @Provides
-    fun provideMedicalWorkerDao(db: PatientDatabase) = db.medicalWorkerDao()
 
     @Provides
     fun provideConnectivityManager(@ApplicationContext context: Context) = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
