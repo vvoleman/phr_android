@@ -13,10 +13,12 @@ buildscript {
         datastore_version = '1.0.0-alpha02'
         material_components_version = '1.9.0-alpha01'
         coroutines_version = '1.6.1'
+        junit_version = '5.8.1'
     }
     dependencies {
         classpath "com.google.dagger:hilt-android-gradle-plugin:$hilt_version"
         classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$nav_version"
+        classpath "de.mannodermaus.gradle.plugins:android-junit5:1.8.2.1"
     }
 }
 

@@ -13,31 +13,31 @@ import cz.vvoleman.phr.feature_medicalrecord.domain.repository.MedicalRecordFilt
 import cz.vvoleman.phr.feature_medicalrecord.test.coroutine.FakeCoroutineContextProvider
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
-import org.junit.Assert.*
-import org.junit.Before
-import org.junit.Test
-import org.junit.runner.RunWith
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.Mock
-import org.mockito.junit.MockitoJUnitRunner
+import org.mockito.junit.jupiter.MockitoExtension
 import org.mockito.kotlin.given
 import java.time.LocalDate
 
-@RunWith(MockitoJUnitRunner::class)
+@ExtendWith(MockitoExtension::class)
 @OptIn(ExperimentalCoroutinesApi::class)
 class GetFilteredRecordsUseCaseTest {
 
-    private lateinit var classUnderTest: GetFilteredRecordsUseCase
+    private lateinit var useCase: GetFilteredRecordsUseCase
 
     @Mock
     private lateinit var medicalRecordFilterRepository: MedicalRecordFilterRepository
 
     private lateinit var coroutineContextProvider: CoroutineContextProvider
 
-    @Before
+    @BeforeEach
     fun setUp() {
         coroutineContextProvider = FakeCoroutineContextProvider
 
-        classUnderTest =
+        useCase =
             GetFilteredRecordsUseCase(medicalRecordFilterRepository, coroutineContextProvider)
     }
 
@@ -55,7 +55,7 @@ class GetFilteredRecordsUseCaseTest {
         given(medicalRecordFilterRepository.filterRecords(request)).willReturn(willReturn)
 
         // When
-        val actualValue = classUnderTest.executeInBackground(request)
+        val actualValue = useCase.executeInBackground(request)
         val expected = listOf(
             GroupedMedicalRecordsDomainModel(
                 value = LocalDate.of(2020,1,1),
@@ -95,7 +95,7 @@ class GetFilteredRecordsUseCaseTest {
         given(medicalRecordFilterRepository.filterRecords(request)).willReturn(willReturn)
 
         // When
-        val actualValue = classUnderTest.executeInBackground(request)
+        val actualValue = useCase.executeInBackground(request)
         val expected = listOf(
             GroupedMedicalRecordsDomainModel(
                 value = "Category 1",
@@ -125,7 +125,7 @@ class GetFilteredRecordsUseCaseTest {
     fun `Filter records and group by medical worker`() =runTest {
         // Given
         val request = FilterRequestDomainModel(
-            groupBy = GroupByDomainModel.PROBLEM_CATEGORY,
+            groupBy = GroupByDomainModel.MEDICAL_WORKER,
             sortBy = SortByDomainModel.DESC,
             selectedCategoryProblemIds = listOf(),
             selectedMedicalWorkerIds = listOf()
@@ -135,7 +135,7 @@ class GetFilteredRecordsUseCaseTest {
         given(medicalRecordFilterRepository.filterRecords(request)).willReturn(willReturn)
 
         // When
-        val actualValue = classUnderTest.executeInBackground(request)
+        val actualValue = useCase.executeInBackground(request)
         val expected = listOf(
             GroupedMedicalRecordsDomainModel(
                 value = "Medical Worker 1",
@@ -144,13 +144,13 @@ class GetFilteredRecordsUseCaseTest {
                 )
             ),
             GroupedMedicalRecordsDomainModel(
-                value = "Category 2",
+                value = "Medical Worker 2",
                 records = listOf(
                     willReturn[1], willReturn[3]
                 )
             ),
             GroupedMedicalRecordsDomainModel(
-                value = "Category 3",
+                value = "Medical Worker 3",
                 records = listOf(
                     willReturn[2]
                 )
@@ -174,12 +174,12 @@ class GetFilteredRecordsUseCaseTest {
                 medicalWorker = "Medical Worker 2"
             ),
             getMedicalRecord(
-                date = LocalDate.of(2020, 2, 2),
+                date = LocalDate.of(2020, 2, 1),
                 category = "Category 1",
                 medicalWorker = "Medical Worker 3"
             ),
             getMedicalRecord(
-                date = LocalDate.of(2021, 2, 2),
+                date = LocalDate.of(2021, 1, 1),
                 category = "Category 3",
                 medicalWorker = "Medical Worker 2"
             ),
