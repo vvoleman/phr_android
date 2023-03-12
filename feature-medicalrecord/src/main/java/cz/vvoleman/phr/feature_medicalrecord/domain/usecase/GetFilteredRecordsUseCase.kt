@@ -34,7 +34,7 @@ class GetFilteredRecordsUseCase(
             dates[date] = LocalDate.of(record.createdAt.year, record.createdAt.monthValue, 1)
 
             if (!map.containsKey(date)) {
-                map[date] = mutableListOf(record)
+                map[date] = mutableListOf()
             }
 
             map[date]?.add(record)
@@ -49,7 +49,7 @@ class GetFilteredRecordsUseCase(
             val category = record.problemCategory?.name ?: "-"
 
             if (!map.containsKey(category)) {
-                map[category] = mutableListOf(record)
+                map[category] = mutableListOf()
             }
 
             map[category]?.add(record)
@@ -64,7 +64,7 @@ class GetFilteredRecordsUseCase(
             val worker = record.medicalWorker?.name ?: "-"
 
             if (!map.containsKey(worker)) {
-                map[worker] = mutableListOf(record)
+                map[worker] = mutableListOf()
             }
 
             map[worker]?.add(record)
