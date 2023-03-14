@@ -1,11 +1,12 @@
 package cz.vvoleman.phr.feature_medicalrecord.presentation.list.model
 
+import cz.vvoleman.phr.common.domain.GroupedItemsDomainModel
+import cz.vvoleman.phr.feature_medicalrecord.domain.model.MedicalRecordDomainModel
 import cz.vvoleman.phr.feature_medicalrecord.domain.model.list.GroupByDomainModel
-import cz.vvoleman.phr.feature_medicalrecord.domain.model.list.GroupedMedicalRecordsDomainModel
 import cz.vvoleman.phr.feature_medicalrecord.domain.model.list.SortByDomainModel
 
 data class ListMedicalRecordsViewState(
-    val groupedRecords: List<GroupedMedicalRecordsDomainModel> = emptyList(),
+    val groupedRecords: List<GroupedItemsDomainModel<MedicalRecordDomainModel>> = emptyList(),
     val isLoading: Boolean = false,
 
     val groupBy: GroupByDomainModel = GroupByDomainModel.DATE,
