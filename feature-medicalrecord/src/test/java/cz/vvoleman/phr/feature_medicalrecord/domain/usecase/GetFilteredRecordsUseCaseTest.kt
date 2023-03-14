@@ -1,13 +1,13 @@
 package cz.vvoleman.phr.feature_medicalrecord.domain.usecase
 
 import cz.vvoleman.phr.base.domain.coroutine.CoroutineContextProvider
+import cz.vvoleman.phr.common.domain.GroupedItemsDomainModel
 import cz.vvoleman.phr.feature_medicalrecord.domain.model.MedicalRecordDomainModel
 import cz.vvoleman.phr.feature_medicalrecord.domain.model.MedicalWorkerDomainModel
 import cz.vvoleman.phr.feature_medicalrecord.domain.model.PatientDomainModel
 import cz.vvoleman.phr.feature_medicalrecord.domain.model.ProblemCategoryDomainModel
 import cz.vvoleman.phr.feature_medicalrecord.domain.model.list.FilterRequestDomainModel
 import cz.vvoleman.phr.feature_medicalrecord.domain.model.list.GroupByDomainModel
-import cz.vvoleman.phr.feature_medicalrecord.domain.model.list.GroupedMedicalRecordsDomainModel
 import cz.vvoleman.phr.feature_medicalrecord.domain.model.list.SortByDomainModel
 import cz.vvoleman.phr.feature_medicalrecord.domain.repository.MedicalRecordFilterRepository
 import cz.vvoleman.phr.feature_medicalrecord.test.coroutine.FakeCoroutineContextProvider
@@ -57,21 +57,21 @@ class GetFilteredRecordsUseCaseTest {
         // When
         val actualValue = useCase.executeInBackground(request)
         val expected = listOf(
-            GroupedMedicalRecordsDomainModel(
+            GroupedItemsDomainModel(
                 value = LocalDate.of(2020,1,1),
-                records = listOf(
+                items = listOf(
                     willReturn[0],willReturn[1]
                 )
             ),
-            GroupedMedicalRecordsDomainModel(
+            GroupedItemsDomainModel(
                 value = LocalDate.of(2020,2,1),
-                records = listOf(
+                items = listOf(
                     willReturn[2]
                 )
             ),
-            GroupedMedicalRecordsDomainModel(
+            GroupedItemsDomainModel(
                 value = LocalDate.of(2021,1,1),
-                records = listOf(
+                items = listOf(
                     willReturn[3]
                 )
             ),
@@ -97,21 +97,21 @@ class GetFilteredRecordsUseCaseTest {
         // When
         val actualValue = useCase.executeInBackground(request)
         val expected = listOf(
-            GroupedMedicalRecordsDomainModel(
+            GroupedItemsDomainModel(
                 value = "Category 1",
-                records = listOf(
+                items = listOf(
                     willReturn[0],willReturn[2]
                 )
             ),
-            GroupedMedicalRecordsDomainModel(
+            GroupedItemsDomainModel(
                 value = "Category 2",
-                records = listOf(
+                items = listOf(
                     willReturn[1]
                 )
             ),
-            GroupedMedicalRecordsDomainModel(
+            GroupedItemsDomainModel(
                 value = "Category 3",
-                records = listOf(
+                items = listOf(
                     willReturn[3]
                 )
             ),
@@ -137,21 +137,21 @@ class GetFilteredRecordsUseCaseTest {
         // When
         val actualValue = useCase.executeInBackground(request)
         val expected = listOf(
-            GroupedMedicalRecordsDomainModel(
+            GroupedItemsDomainModel(
                 value = "Medical Worker 1",
-                records = listOf(
+                items = listOf(
                     willReturn[0]
                 )
             ),
-            GroupedMedicalRecordsDomainModel(
+            GroupedItemsDomainModel(
                 value = "Medical Worker 2",
-                records = listOf(
+                items = listOf(
                     willReturn[1], willReturn[3]
                 )
             ),
-            GroupedMedicalRecordsDomainModel(
+            GroupedItemsDomainModel(
                 value = "Medical Worker 3",
-                records = listOf(
+                items = listOf(
                     willReturn[2]
                 )
             ),

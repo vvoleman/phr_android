@@ -1,9 +1,10 @@
 package cz.vvoleman.phr.feature_medicalrecord.presentation.list.viewmodel
 
 import android.util.Log
+import cz.vvoleman.phr.common.domain.GroupedItemsDomainModel
 import cz.vvoleman.phr.base.presentation.viewmodel.BaseViewModel
 import cz.vvoleman.phr.base.presentation.viewmodel.usecase.UseCaseExecutorProvider
-import cz.vvoleman.phr.feature_medicalrecord.domain.model.list.GroupedMedicalRecordsDomainModel
+import cz.vvoleman.phr.feature_medicalrecord.domain.model.MedicalRecordDomainModel
 import cz.vvoleman.phr.feature_medicalrecord.domain.usecase.GetFilteredRecordsUseCase
 import cz.vvoleman.phr.feature_medicalrecord.presentation.list.mapper.ListViewStateToDomainMapper
 import cz.vvoleman.phr.feature_medicalrecord.presentation.list.model.ListMedicalRecordsDestination
@@ -45,7 +46,7 @@ class ListMedicalRecordsViewModel @Inject constructor(
         execute(getFilteredRecordsUseCase, filterRequest, ::handleRecordsResult)
     }
 
-    private fun handleRecordsResult(groupedRecords: List<GroupedMedicalRecordsDomainModel>) {
+    private fun handleRecordsResult(groupedRecords: List<GroupedItemsDomainModel<MedicalRecordDomainModel>>) {
         Log.d(TAG, "handleRecordsResult")
         updateViewState(currentViewState.copy(groupedRecords=groupedRecords, isLoading = false))
     }

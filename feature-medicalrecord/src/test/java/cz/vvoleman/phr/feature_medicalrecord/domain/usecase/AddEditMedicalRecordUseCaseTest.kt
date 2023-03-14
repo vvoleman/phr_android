@@ -1,9 +1,8 @@
 package cz.vvoleman.phr.feature_medicalrecord.domain.usecase
 
 import cz.vvoleman.phr.base.domain.coroutine.CoroutineContextProvider
+import cz.vvoleman.phr.feature_medicalrecord.domain.model.add_edit.AddEditDomainModel
 import cz.vvoleman.phr.feature_medicalrecord.domain.repository.AddEditMedicalRecordRepository
-import cz.vvoleman.phr.feature_medicalrecord.domain.model.add_edit.AddEditMedicalRecordDomainModel
-import cz.vvoleman.phr.feature_medicalrecord.domain.usecase.AddEditMedicalRecordUseCase
 import cz.vvoleman.phr.feature_medicalrecord.test.coroutine.FakeCoroutineContextProvider
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
@@ -38,7 +37,7 @@ class AddEditMedicalRecordUseCaseTest {
     @Test
     fun `Create new medical record`() = runTest {
         // Given
-        val request = AddEditMedicalRecordDomainModel(
+        val request = AddEditDomainModel(
             createdAt = LocalDate.now(),
             patientId = "#1",
         )
