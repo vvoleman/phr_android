@@ -8,7 +8,7 @@
             android:title="@string/overview" />
 
         <item
-            android:id="@+id/medicalRecordsFragment"
+            android:id="@+id/listMedicalRecordsFragment"
             android:icon="@drawable/ic_medical_reports"
             android:title="@string/medical_records" />
 

@@ -2,8 +2,11 @@ package cz.vvoleman.phr.di.medical_record
 
 import cz.vvoleman.phr.base.domain.coroutine.CoroutineContextProvider
 import cz.vvoleman.phr.feature_medicalrecord.data.repository.MedicalRecordRepository
+import cz.vvoleman.phr.feature_medicalrecord.domain.repository.GetSelectedPatientRepository
 import cz.vvoleman.phr.feature_medicalrecord.domain.repository.MedicalRecordFilterRepository
 import cz.vvoleman.phr.feature_medicalrecord.domain.usecase.GetFilteredRecordsUseCase
+import cz.vvoleman.phr.feature_medicalrecord.domain.usecase.GetSelectedPatientUseCase
+import cz.vvoleman.phr.feature_medicalrecord.presentation.addedit.mapper.PatientDomainModelToPresentationMapper
 import cz.vvoleman.phr.feature_medicalrecord.presentation.list.mapper.ListViewStateToDomainMapper
 import dagger.Module
 import dagger.Provides
@@ -22,6 +25,16 @@ class PresentationModule {
         medicalRecordRepository,
         coroutineContextProvider
     )
+
+    @Provides
+    fun providesGetSelectedPatientUseCase(
+        getSelectedPatientRepository: GetSelectedPatientRepository
+    ) = GetSelectedPatientUseCase(
+        getSelectedPatientRepository
+    )
+
+    @Provides
+    fun providesPatientDomainToPresentationMapper() = PatientDomainModelToPresentationMapper()
 
     @Provides
     fun providesListViewStateToDomainMapper() = ListViewStateToDomainMapper()

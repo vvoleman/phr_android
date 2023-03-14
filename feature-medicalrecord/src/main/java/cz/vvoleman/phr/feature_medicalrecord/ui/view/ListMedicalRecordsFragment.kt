@@ -1,6 +1,7 @@
 package cz.vvoleman.phr.feature_medicalrecord.ui.view
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -26,8 +27,8 @@ class ListMedicalRecordsFragment : BaseFragment<
 
     override val viewModel: ListMedicalRecordsViewModel by viewModels()
 
-    override val destinationMapper: DestinationUiMapper
-        get() = TODO("Not yet implemented")
+    @Inject
+    override lateinit var destinationMapper: DestinationUiMapper
 
     @Inject
     override lateinit var viewStateBinder:
@@ -40,13 +41,9 @@ class ListMedicalRecordsFragment : BaseFragment<
         return FragmentListMedicalRecordsBinding.inflate(inflater, container, false)
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        binding.apply {
-            btn.setOnClickListener {
-                viewModel.onSelect()
-            }
+    override fun setupListeners() {
+        binding.btn.setOnClickListener {
+            viewModel.onSelect()
         }
     }
 
