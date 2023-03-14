@@ -1,10 +1,6 @@
 package cz.vvoleman.phr.common.data.datasource.model
 
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.Query
-import androidx.room.Update
+import androidx.room.*
 import kotlinx.coroutines.flow.Flow
 import java.time.LocalDate
 
@@ -12,24 +8,24 @@ import java.time.LocalDate
 interface PatientDao {
 
     @Query("SELECT * FROM patient")
-    fun getAllPatients(): Flow<List<PatientDataSourceModel>>
+    fun getAll(): Flow<List<PatientDataSourceModel>>
 
     @Query("SELECT * FROM patient WHERE id = :id")
-    fun getPatientById(id: Int): Flow<PatientDataSourceModel>
+    fun getById(id: Int): Flow<PatientDataSourceModel>
 
     @Query("SELECT * FROM patient WHERE name LIKE '%'||:name||'%'")
-    fun getPatientByName(name: String): Flow<List<PatientDataSourceModel>>
+    fun getByName(name: String): Flow<List<PatientDataSourceModel>>
 
     @Query("SELECT * FROM patient WHERE birth_date = :date")
-    fun getPatientByBirthDate(date: LocalDate): Flow<List<PatientDataSourceModel>>
+    fun getByBirthDate(date: LocalDate): Flow<List<PatientDataSourceModel>>
 
-    @Insert
-    suspend fun insertPatient(patient: PatientDataSourceModel)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insert(patient: PatientDataSourceModel)
 
     @Update
-    suspend fun updatePatient(patient: PatientDataSourceModel)
+    suspend fun update(patient: PatientDataSourceModel)
 
     @Delete
-    suspend fun deletePatient(patient: PatientDataSourceModel)
+    suspend fun delete(patient: PatientDataSourceModel)
 
 }
