@@ -102,7 +102,7 @@ abstract class PatientDatabase : RoomDatabase() {
                     ), LocalDate.of(2001, 2, 7), Gender.MALE.name
                 )
 
-                patientDao.insertPatient(patientA)
+                patientDao.insert(patientA)
 
                 val patientB = PatientDataSourceModel(
                     2, "Petr", AddressDataSourceModel(
@@ -113,7 +113,7 @@ abstract class PatientDatabase : RoomDatabase() {
                     ), LocalDate.of(2000, 1, 1), Gender.MALE.name
                 )
 
-                patientDao.insertPatient(patientB)
+                patientDao.insert(patientB)
 
                 val groupA = DiagnoseGroupDataSourceModel(
                     "I", "Jiné a neurčené infekční nemoci",

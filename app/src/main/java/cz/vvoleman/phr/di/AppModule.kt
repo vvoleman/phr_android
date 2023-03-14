@@ -3,6 +3,7 @@ package cz.vvoleman.phr.di
 import android.app.Application
 import android.content.Context
 import android.net.ConnectivityManager
+import androidx.navigation.NavController
 import androidx.room.Room
 import cz.vvoleman.phr.api.backend.BackendApi
 import cz.vvoleman.phr.data.PatientDatabase

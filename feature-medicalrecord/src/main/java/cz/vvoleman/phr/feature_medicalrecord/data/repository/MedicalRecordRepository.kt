@@ -8,12 +8,10 @@ import cz.vvoleman.phr.feature_medicalrecord.data.model.FilterRequestDataModel
 import cz.vvoleman.phr.feature_medicalrecord.data.model.FilterRequestStateDataModel
 import cz.vvoleman.phr.feature_medicalrecord.domain.repository.AddEditMedicalRecordRepository
 import cz.vvoleman.phr.feature_medicalrecord.domain.model.MedicalRecordDomainModel
-import cz.vvoleman.phr.feature_medicalrecord.domain.model.add_edit.AddEditMedicalRecordDomainModel
+import cz.vvoleman.phr.feature_medicalrecord.domain.model.add_edit.AddEditDomainModel
 import cz.vvoleman.phr.feature_medicalrecord.domain.model.list.FilterRequestDomainModel
 import cz.vvoleman.phr.feature_medicalrecord.domain.repository.MedicalRecordFilterRepository
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.map
 
 class MedicalRecordRepository(
     private val medicalRecordDao: MedicalRecordDao,
@@ -21,7 +19,7 @@ class MedicalRecordRepository(
     private val medicalRecordDataSourceToDomainMapper: MedicalRecordDataSourceToDomainMapper
 ) : AddEditMedicalRecordRepository, MedicalRecordFilterRepository {
 
-    override suspend fun save(addEditMedicalRecordModel: AddEditMedicalRecordDomainModel): String {
+    override suspend fun save(addEditMedicalRecordModel: AddEditDomainModel): String {
         TODO("Not yet implemented")
     }
 

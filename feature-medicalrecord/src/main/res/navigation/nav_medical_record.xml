@@ -9,5 +9,18 @@
         android:id="@+id/listMedicalRecordsFragment"
         android:name="cz.vvoleman.phr.feature_medicalrecord.ui.view.ListMedicalRecordsFragment"
         android:label="Lékařské zprávy"
-        tools:layout="@layout/fragment_list_medical_records" />
+        tools:layout="@layout/fragment_list_medical_records" >
+        <action
+            android:id="@+id/action_listMedicalRecordsFragment_to_addEditMedicalRecordsFragment"
+            app:destination="@id/addEditMedicalRecordsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addEditMedicalRecordsFragment"
+        android:name="cz.vvoleman.phr.feature_medicalrecord.ui.view.addedit.AddEditMedicalRecordsFragment"
+        android:label="fragment_add_edit_medical_record"
+        tools:layout="@layout/fragment_add_edit_medical_record" >
+        <action
+            android:id="@+id/action_addEditMedicalRecordsFragment_to_listMedicalRecordsFragment"
+            app:destination="@id/listMedicalRecordsFragment" />
+    </fragment>
 </navigation>

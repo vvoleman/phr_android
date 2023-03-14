@@ -9,12 +9,14 @@ import androidx.annotation.CallSuper
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.viewbinding.ViewBinding
+import cz.vvoleman.phr.base.R
 import cz.vvoleman.phr.base.presentation.model.PresentationDestination
 import cz.vvoleman.phr.base.presentation.viewmodel.BaseViewModel
 import cz.vvoleman.phr.base.ui.mapper.DestinationUiMapper
 import cz.vvoleman.phr.base.ui.mapper.ViewStateBinder
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 abstract class BaseFragment<VIEW_STATE : Any, NOTIFICATION : Any, VIEW_BINDING : ViewBinding> :
     Fragment() {
@@ -36,19 +38,16 @@ abstract class BaseFragment<VIEW_STATE : Any, NOTIFICATION : Any, VIEW_BINDING :
     ): View? {
         _binding = setupBinding(inflater, container)
         observeViewModel()
-
+        setupListeners()
         return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        observeViewModel()
     }
 
     protected abstract fun setupBinding(
         inflater: LayoutInflater,
         container: ViewGroup?
     ): VIEW_BINDING
+
+    protected open fun setupListeners() {}
 
     private fun observeViewModel() {
         collectLatestLifecycleFlow(viewModel.viewState) {
@@ -83,9 +82,11 @@ abstract class BaseFragment<VIEW_STATE : Any, NOTIFICATION : Any, VIEW_BINDING :
         }
     }
 
-    private fun <T> Fragment.collectLifecycleFlow(flow: Flow<T>, block: (T) -> Unit) {
+    protected fun getNavHostController() {
+    }
 
-        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+    private fun <T> Fragment.collectLifecycleFlow(flow: Flow<T>, block: (T) -> Unit) {
+        viewLifecycleOwner.lifecycleScope.launch {
             flow.collect(block)
         }
     }

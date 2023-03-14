@@ -6,6 +6,7 @@ import cz.vvoleman.phr.base.presentation.viewmodel.usecase.UseCaseExecutorProvid
 import cz.vvoleman.phr.feature_medicalrecord.domain.model.list.GroupedMedicalRecordsDomainModel
 import cz.vvoleman.phr.feature_medicalrecord.domain.usecase.GetFilteredRecordsUseCase
 import cz.vvoleman.phr.feature_medicalrecord.presentation.list.mapper.ListViewStateToDomainMapper
+import cz.vvoleman.phr.feature_medicalrecord.presentation.list.model.ListMedicalRecordsDestination
 import cz.vvoleman.phr.feature_medicalrecord.presentation.list.model.ListMedicalRecordsNotification
 import cz.vvoleman.phr.feature_medicalrecord.presentation.list.model.ListMedicalRecordsViewState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -34,7 +35,7 @@ class ListMedicalRecordsViewModel @Inject constructor(
     }
 
     fun onSelect() {
-        notify(ListMedicalRecordsNotification.Success)
+        navigateTo(ListMedicalRecordsDestination.NewMedicalRecord)
     }
 
     private fun filterRecords() {

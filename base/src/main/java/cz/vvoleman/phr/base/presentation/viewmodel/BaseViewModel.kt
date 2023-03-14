@@ -1,5 +1,6 @@
 package cz.vvoleman.phr.base.presentation.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
@@ -53,12 +54,16 @@ abstract class BaseViewModel<VIEW_STATE : Any, NOTIFICATION : Any>(
 
     protected fun notify(notification: NOTIFICATION) {
         viewModelScope.launch {
+            Log.d(TAG, "notify: $notification")
             _notification.emit(notification)
         }
     }
 
     protected fun navigateTo(destination: PresentationDestination) {
-        viewModelScope.launch { _destination.emit(destination) }
+        viewModelScope.launch {
+            Log.d(TAG, "navigateTo: $destination")
+            _destination.emit(destination)
+        }
     }
 
 }
