@@ -35,6 +35,23 @@ class ListMedicalRecordsViewModel @Inject constructor(
         filterRecords()
     }
 
+    fun onRecordDelete(id: String) {
+        notify(ListMedicalRecordsNotification.RecordDeleted(id))
+        filterRecords()
+    }
+
+    fun onRecordExport(id: String) {
+        notify(ListMedicalRecordsNotification.NotImplemented)
+    }
+
+    fun onRecordEdit(id: String) {
+        navigateTo(ListMedicalRecordsDestination.EditMedicalRecord(id))
+    }
+
+    fun onRecordDeleteUndo(id: String) {
+        notify(ListMedicalRecordsNotification.NotImplemented)
+    }
+
     fun onSelect() {
         navigateTo(ListMedicalRecordsDestination.NewMedicalRecord)
     }

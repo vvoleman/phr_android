@@ -7,8 +7,9 @@ import cz.vvoleman.phr.feature_medicalrecord.databinding.FragmentAddEditMedicalR
 import cz.vvoleman.phr.feature_medicalrecord.databinding.FragmentListMedicalRecordsBinding
 import cz.vvoleman.phr.feature_medicalrecord.presentation.addedit.model.AddEditViewState
 import cz.vvoleman.phr.feature_medicalrecord.presentation.list.model.ListMedicalRecordsViewState
+import cz.vvoleman.phr.feature_medicalrecord.ui.mapper.GroupedItemsDomainModelToUiMapper
 import cz.vvoleman.phr.feature_medicalrecord.ui.mapper.ListMedicalRecordsDestinationUiMapper
-import cz.vvoleman.phr.feature_medicalrecord.ui.mapper.MedicalRecordDomainModelToUiMapper
+import cz.vvoleman.phr.feature_medicalrecord.ui.mapper.MedicalRecorDomainModelToUiMapper
 import cz.vvoleman.phr.feature_medicalrecord.ui.view.addedit.binder.AddEditBinder
 import cz.vvoleman.phr.feature_medicalrecord.ui.view.binder.MedicalRecordsBinder
 import dagger.Module
@@ -21,8 +22,8 @@ import dagger.hilt.components.SingletonComponent
 class UiModule {
 
     @Provides
-    fun providesButtonViewStateBinder(): ViewStateBinder<ListMedicalRecordsViewState, FragmentListMedicalRecordsBinding> =
-        MedicalRecordsBinder()
+    fun providesButtonViewStateBinder(uiMapper: GroupedItemsDomainModelToUiMapper): ViewStateBinder<ListMedicalRecordsViewState, FragmentListMedicalRecordsBinding> =
+        MedicalRecordsBinder(uiMapper)
 
     @Provides
     fun providesAddEditBinder(): ViewStateBinder<AddEditViewState, FragmentAddEditMedicalRecordBinding> =
@@ -32,6 +33,9 @@ class UiModule {
     fun providesListMedicalRecordsDestinationUiMapper(navManager: NavManager): DestinationUiMapper = ListMedicalRecordsDestinationUiMapper(navManager)
 
     @Provides
-    fun providesMedicalRecordDomainToUiMapper() = MedicalRecordDomainModelToUiMapper()
+    fun providesMedicalRecordDomainToUiMapper() = MedicalRecorDomainModelToUiMapper()
+
+    @Provides
+    fun providesGroupedItemsDomainToUiMapper(mapper: MedicalRecorDomainModelToUiMapper) = GroupedItemsDomainModelToUiMapper(mapper)
 
 }

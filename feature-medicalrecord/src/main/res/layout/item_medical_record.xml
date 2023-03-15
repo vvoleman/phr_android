@@ -53,19 +53,19 @@
             tools:text="Chřipka" />
 
         <TextView
-            android:id="@+id/text_view_doctor"
+            android:id="@+id/text_view_problem_category"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:textSize="11sp"
-            tools:text="MUDr. Jan Novák" />
+            tools:text="Zlomenná ruka" />
 
         <TextView
-            android:id="@+id/text_view_facility"
+            android:id="@+id/text_view_medical_worker"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="11sp"
-            tools:text="Nemocnice Děčín" />
+            tools:text="MUDr. Jan Novák" />
 
     </LinearLayout>
 

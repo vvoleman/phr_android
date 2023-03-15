@@ -12,6 +12,8 @@ import androidx.viewbinding.ViewBinding
 import cz.vvoleman.phr.base.R
 import cz.vvoleman.phr.base.presentation.model.PresentationDestination
 import cz.vvoleman.phr.base.presentation.viewmodel.BaseViewModel
+import cz.vvoleman.phr.base.ui.ext.collectLatestLifecycleFlow
+import cz.vvoleman.phr.base.ui.ext.collectLifecycleFlow
 import cz.vvoleman.phr.base.ui.mapper.DestinationUiMapper
 import cz.vvoleman.phr.base.ui.mapper.ViewStateBinder
 import kotlinx.coroutines.flow.Flow
@@ -74,20 +76,5 @@ abstract class BaseFragment<VIEW_STATE : Any, NOTIFICATION : Any, VIEW_BINDING :
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
-    }
-
-    private fun <T> Fragment.collectLatestLifecycleFlow(flow: Flow<T>, block: (T) -> Unit) {
-        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-            flow.collectLatest(block)
-        }
-    }
-
-    protected fun getNavHostController() {
-    }
-
-    private fun <T> Fragment.collectLifecycleFlow(flow: Flow<T>, block: (T) -> Unit) {
-        viewLifecycleOwner.lifecycleScope.launch {
-            flow.collect(block)
-        }
     }
 }

@@ -31,6 +31,10 @@ class AddEditViewModel @Inject constructor(
         loadSelectedPatient()
     }
 
+    fun onInit() {
+        loadSelectedPatient()
+    }
+
     fun onSubmit(input: AddEditPresentationModel) {
 
     }
