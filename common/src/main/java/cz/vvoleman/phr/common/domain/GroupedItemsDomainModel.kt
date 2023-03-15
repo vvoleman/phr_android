@@ -1,6 +1,6 @@
 package cz.vvoleman.phr.common.domain
 
-data class GroupedItemsDomainModel<VALUE,ITEM: Any>(
-    val value: VALUE,
+data class GroupedItemsDomainModel<ITEM: Any>(
+    val value: Any,
     val items: List<ITEM>
 )

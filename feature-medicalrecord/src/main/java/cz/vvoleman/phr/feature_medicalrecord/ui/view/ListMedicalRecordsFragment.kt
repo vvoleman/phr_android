@@ -1,21 +1,24 @@
 package cz.vvoleman.phr.feature_medicalrecord.ui.view
 
-import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
-import androidx.viewbinding.ViewBinding
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import cz.vvoleman.phr.base.ui.mapper.DestinationUiMapper
 import cz.vvoleman.phr.base.ui.mapper.ViewStateBinder
 import cz.vvoleman.phr.base.ui.view.BaseFragment
+import cz.vvoleman.phr.common.ui.adapter.GroupedItemsAdapter
+import cz.vvoleman.phr.common.ui.adapter.OnAdapterItemListener
+import cz.vvoleman.phr.common.ui.model.GroupedItemsUiModel
+import cz.vvoleman.phr.common_datasource.databinding.ItemGroupedItemsBinding
 import cz.vvoleman.phr.feature_medicalrecord.databinding.FragmentListMedicalRecordsBinding
+import cz.vvoleman.phr.feature_medicalrecord.domain.model.MedicalRecordDomainModel
 import cz.vvoleman.phr.feature_medicalrecord.presentation.list.model.ListMedicalRecordsNotification
 import cz.vvoleman.phr.feature_medicalrecord.presentation.list.model.ListMedicalRecordsViewState
 import cz.vvoleman.phr.feature_medicalrecord.presentation.list.viewmodel.ListMedicalRecordsViewModel
-import cz.vvoleman.phr.feature_medicalrecord.ui.view.binder.ButtonBinder
+import cz.vvoleman.phr.feature_medicalrecord.ui.mapper.MedicalRecordDomainModelToUiMapper
+import cz.vvoleman.phr.feature_medicalrecord.ui.model.MedicalRecordUiModel
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -23,7 +26,7 @@ import javax.inject.Inject
 class ListMedicalRecordsFragment : BaseFragment<
         ListMedicalRecordsViewState,
         ListMedicalRecordsNotification,
-        FragmentListMedicalRecordsBinding>() {
+        FragmentListMedicalRecordsBinding>(), OnAdapterItemListener<MedicalRecordUiModel> {
 
     override val viewModel: ListMedicalRecordsViewModel by viewModels()
 
@@ -33,6 +36,9 @@ class ListMedicalRecordsFragment : BaseFragment<
     @Inject
     override lateinit var viewStateBinder:
             ViewStateBinder<ListMedicalRecordsViewState, FragmentListMedicalRecordsBinding>
+
+    @Inject
+    lateinit var medicalRecordDomainModelToUiMapper: MedicalRecordDomainModelToUiMapper
 
     override fun setupBinding(
         inflater: LayoutInflater,
@@ -45,6 +51,14 @@ class ListMedicalRecordsFragment : BaseFragment<
         binding.btn.setOnClickListener {
             viewModel.onSelect()
         }
+
+        val listAdapter = GroupedItemsAdapter(this)
+        binding.recyclerView.apply {
+            adapter = listAdapter
+            layoutManager = LinearLayoutManager(context)
+            setHasFixedSize(true)
+        }
+        viewStateBinder.addAdapter(listAdapter)
     }
 
     override fun handleNotification(notification: ListMedicalRecordsNotification) {
@@ -57,4 +71,17 @@ class ListMedicalRecordsFragment : BaseFragment<
             }
         }
     }
+
+    override fun onItemClicked(item: MedicalRecordUiModel) {
+        TODO("Not yet implemented")
+    }
+
+    override fun bind(
+        binding: ItemGroupedItemsBinding,
+        item: GroupedItemsUiModel<MedicalRecordUiModel>
+    ) {
+        binding.apply {  }
+    }
+
+
 }
