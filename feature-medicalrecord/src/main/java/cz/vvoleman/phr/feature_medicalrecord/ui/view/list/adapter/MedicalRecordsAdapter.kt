@@ -1,7 +1,10 @@
 package cz.vvoleman.phr.feature_medicalrecord.ui.view.list.adapter
 
+import android.graphics.Color
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import cz.vvoleman.phr.common.ui.adapter.OnAdapterItemListener
@@ -13,7 +16,8 @@ class MedicalRecordsAdapter (
 ) : ListAdapter<MedicalRecordUiModel, MedicalRecordsAdapter.MedicalRecordViewHolder>(DiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MedicalRecordViewHolder {
-        val binding = ItemMedicalRecordBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding =
+            ItemMedicalRecordBinding.inflate(LayoutInflater.from(parent.context), parent, false)
 
         return MedicalRecordViewHolder(binding)
     }
@@ -23,7 +27,8 @@ class MedicalRecordsAdapter (
         holder.bind(currentItem)
     }
 
-    inner class MedicalRecordViewHolder(private val binding: ItemMedicalRecordBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class MedicalRecordViewHolder(private val binding: ItemMedicalRecordBinding) :
+        RecyclerView.ViewHolder(binding.root) {
 
         init {
             binding.apply {
@@ -48,32 +53,38 @@ class MedicalRecordsAdapter (
             }
         }
 
-        fun bind(item: MedicalRecordWithDetails) {
+        fun bind(item: MedicalRecordUiModel) {
             binding.apply {
-                textViewDateDay.text = item.medicalRecord.date.getCurrentDay().toString()+"."
-                textViewDateMonth.text = item.medicalRecord.date.getNameOfMonth(true)
-                textViewFacility.text = item.facility.name
-                textViewDoctor.text = item.patient.name
-                textViewDiagnose.text = item.diagnose.name
+                textViewDateDay.text = item.createdAt.dayOfMonth.toString()
+                textViewDateMonth.text = item.createdAt.month.toString()
+                textViewMedicalWorker.text = item.medicalWorker
+                textViewProblemCategory.text = item.problemCategoryName
+                textViewDiagnose.text = item.diagnoseName
+
+                layoutDate.setBackgroundColor(Color.parseColor(item.problemCategoryColor ?: "#00000000"))
             }
         }
 
     }
 
     interface OnItemClickListener {
-        fun onItemClicked(item: MedicalRecordWithDetails)
-        fun onOptionsMenuClick(record: MedicalRecordWithDetails, anchorView: View)
+        fun onItemClicked(item: MedicalRecordUiModel)
+        fun onOptionsMenuClick(record: MedicalRecordUiModel, anchorView: View)
     }
 
-    class DiffCallback : DiffUtil.ItemCallback<MedicalRecordWithDetails>() {
-        override fun areItemsTheSame(oldItem: MedicalRecordWithDetails, newItem: MedicalRecordWithDetails): Boolean {
-            return oldItem.medicalRecord.recordId == newItem.medicalRecord.recordId
+    class DiffCallback : DiffUtil.ItemCallback<MedicalRecordUiModel>() {
+        override fun areItemsTheSame(
+            oldItem: MedicalRecordUiModel,
+            newItem: MedicalRecordUiModel
+        ): Boolean {
+            return oldItem.id == newItem.id
         }
 
         override fun areContentsTheSame(
-            oldItem: MedicalRecordWithDetails,
-            newItem: MedicalRecordWithDetails
+            oldItem: MedicalRecordUiModel,
+            newItem: MedicalRecordUiModel
         ): Boolean {
             return oldItem == newItem
         }
     }
+}

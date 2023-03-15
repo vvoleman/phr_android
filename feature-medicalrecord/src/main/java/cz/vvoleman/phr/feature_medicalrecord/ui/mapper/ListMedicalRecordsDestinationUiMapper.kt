@@ -14,12 +14,13 @@ class ListMedicalRecordsDestinationUiMapper(
     override fun navigate(destination: PresentationDestination) {
         when (destination) {
             is ListMedicalRecordsDestination.NewMedicalRecord -> {
-                val action = ListMedicalRecordsFragmentDirections.actionListMedicalRecordsFragmentToAddEditMedicalRecordsFragment()
+                val action = ListMedicalRecordsFragmentDirections.actionListMedicalRecordsFragmentToAddEditMedicalRecordsFragment(null)
                 Log.d("ListMedicalRecordsDestinationUiMapper", "NewMedicalRecord")
                 navManager.navigate(action)
             }
             is ListMedicalRecordsDestination.EditMedicalRecord -> {
-                Log.d("ListMedicalRecordsDestinationUiMapper", "EditMedicalRecord")
+                val action = ListMedicalRecordsFragmentDirections.actionListMedicalRecordsFragmentToAddEditMedicalRecordsFragment(destination.id)
+                navManager.navigate(action)
             }
         }
     }
