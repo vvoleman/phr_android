@@ -1,6 +1,6 @@
 package cz.vvoleman.phr.common.ui.model
 
-data class GroupedItemsUiModel<VALUE,ITEM: Any>(
-    val value: VALUE,
+data class GroupedItemsUiModel<ITEM: Any>(
+    val value: Any,
     val items: List<ITEM>
 )
