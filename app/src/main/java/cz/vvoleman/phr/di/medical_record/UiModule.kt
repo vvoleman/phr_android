@@ -8,8 +8,9 @@ import cz.vvoleman.phr.feature_medicalrecord.databinding.FragmentListMedicalReco
 import cz.vvoleman.phr.feature_medicalrecord.presentation.addedit.model.AddEditViewState
 import cz.vvoleman.phr.feature_medicalrecord.presentation.list.model.ListMedicalRecordsViewState
 import cz.vvoleman.phr.feature_medicalrecord.ui.mapper.ListMedicalRecordsDestinationUiMapper
+import cz.vvoleman.phr.feature_medicalrecord.ui.mapper.MedicalRecordDomainModelToUiMapper
 import cz.vvoleman.phr.feature_medicalrecord.ui.view.addedit.binder.AddEditBinder
-import cz.vvoleman.phr.feature_medicalrecord.ui.view.binder.ButtonBinder
+import cz.vvoleman.phr.feature_medicalrecord.ui.view.binder.MedicalRecordsBinder
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -21,7 +22,7 @@ class UiModule {
 
     @Provides
     fun providesButtonViewStateBinder(): ViewStateBinder<ListMedicalRecordsViewState, FragmentListMedicalRecordsBinding> =
-        ButtonBinder()
+        MedicalRecordsBinder()
 
     @Provides
     fun providesAddEditBinder(): ViewStateBinder<AddEditViewState, FragmentAddEditMedicalRecordBinding> =
@@ -29,5 +30,8 @@ class UiModule {
 
     @Provides
     fun providesListMedicalRecordsDestinationUiMapper(navManager: NavManager): DestinationUiMapper = ListMedicalRecordsDestinationUiMapper(navManager)
+
+    @Provides
+    fun providesMedicalRecordDomainToUiMapper() = MedicalRecordDomainModelToUiMapper()
 
 }
