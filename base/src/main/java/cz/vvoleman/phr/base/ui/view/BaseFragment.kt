@@ -39,6 +39,7 @@ abstract class BaseFragment<VIEW_STATE : Any, NOTIFICATION : Any, VIEW_BINDING :
         savedInstanceState: Bundle?
     ): View? {
         _binding = setupBinding(inflater, container)
+        viewStateBinder.init(binding, requireContext())
         observeViewModel()
         setupListeners()
         return binding.root

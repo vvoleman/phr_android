@@ -3,4 +3,6 @@
     <string name="edit">Upravit</string>
     <string name="export">Exportovat</string>
     <string name="delete">Smazat</string>
+    <string name="add_medical_record">Přidat lékařskou zprávu</string>
+    <string name="filter_medical_records">Filtrovat lékařské zprávy</string>
 </resources>

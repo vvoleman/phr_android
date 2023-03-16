@@ -10,6 +10,7 @@ class FilterRequestDomainModelToDataMapper {
         return FilterRequestDataModel(
             sortDirection = filterRequest.sortBy.name,
             sortBy = getSortBy(filterRequest.groupBy),
+            patientId = filterRequest.patientId!!,
             selectedMedicalWorkerIds = filterRequest.selectedMedicalWorkerIds,
             selectedCategoryProblemIds = filterRequest.selectedCategoryProblemIds
         )

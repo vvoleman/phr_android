@@ -9,6 +9,7 @@ class ListViewStateToDomainMapper {
         return FilterRequestDomainModel(
             groupBy = viewState.groupBy,
             sortBy = viewState.sortBy,
+            patientId = null,
             selectedMedicalWorkerIds = viewState.selectedMedicalWorkers,
             selectedCategoryProblemIds = viewState.selectedProblemCategories
         )
