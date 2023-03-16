@@ -47,6 +47,7 @@ class GetFilteredRecordsUseCaseTest {
         val request = FilterRequestDomainModel(
             groupBy = GroupByDomainModel.DATE,
             sortBy = SortByDomainModel.DESC,
+            patientId = "1",
             selectedCategoryProblemIds = listOf(),
             selectedMedicalWorkerIds = listOf()
         )
@@ -87,6 +88,7 @@ class GetFilteredRecordsUseCaseTest {
         val request = FilterRequestDomainModel(
             groupBy = GroupByDomainModel.PROBLEM_CATEGORY,
             sortBy = SortByDomainModel.DESC,
+            patientId = "1",
             selectedCategoryProblemIds = listOf(),
             selectedMedicalWorkerIds = listOf()
         )
@@ -127,6 +129,7 @@ class GetFilteredRecordsUseCaseTest {
         val request = FilterRequestDomainModel(
             groupBy = GroupByDomainModel.MEDICAL_WORKER,
             sortBy = SortByDomainModel.DESC,
+            patientId = "1",
             selectedCategoryProblemIds = listOf(),
             selectedMedicalWorkerIds = listOf()
         )

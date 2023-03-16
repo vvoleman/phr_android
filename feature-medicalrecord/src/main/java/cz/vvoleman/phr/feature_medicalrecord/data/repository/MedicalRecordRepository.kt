@@ -33,16 +33,19 @@ class MedicalRecordRepository(
 
         val medicalRecords = when (state) {
             FilterRequestStateDataModel.Category -> medicalRecordDao.filterInCategory(
+                filterRequest.patientId,
                 filterRequest.sortBy,
                 filterRequest.selectedCategoryProblemIds
             )
             FilterRequestStateDataModel.CategoryAndWorker -> medicalRecordDao.filter(
+                filterRequest.patientId,
                 filterRequest.sortBy,
                 filterRequest.selectedMedicalWorkerIds,
                 filterRequest.selectedCategoryProblemIds
             )
-            FilterRequestStateDataModel.Empty -> medicalRecordDao.getAll(filterRequest.sortBy)
+            FilterRequestStateDataModel.Empty -> medicalRecordDao.getByPatientId(filterRequest.patientId, filterRequest.sortBy)
             FilterRequestStateDataModel.Worker -> medicalRecordDao.filterInWorker(
+                filterRequest.patientId,
                 filterRequest.sortBy,
                 filterRequest.selectedMedicalWorkerIds
             )

@@ -13,24 +13,27 @@ interface MedicalRecordDao {
     @Query("SELECT * FROM medical_record WHERE id = :id")
     fun getById(id: Int): Flow<MedicalRecordWithDetails>
 
-    @Query("SELECT * FROM medical_record WHERE patient_id = :patientId")
-    fun getByPatientId(patientId: Int): Flow<List<MedicalRecordWithDetails>>
+    @Query("SELECT * FROM medical_record WHERE patient_id = :patientId ORDER BY :sortBy DESC")
+    fun getByPatientId(patientId: String, sortBy: String): Flow<List<MedicalRecordWithDetails>>
 
-    @Query("SELECT * FROM medical_record WHERE medical_worker_id IN (:workerIds) AND problem_category_id IN (:categoryIds) ORDER BY :sortBy DESC")
+    @Query("SELECT * FROM medical_record WHERE patient_id = :patientId AND medical_worker_id IN (:workerIds) AND problem_category_id IN (:categoryIds) ORDER BY :sortBy DESC")
     fun filter(
+        patientId: String,
         sortBy: String,
         workerIds: List<String>,
         categoryIds: List<String>
     ): Flow<List<MedicalRecordWithDetails>>
 
-    @Query("SELECT * FROM medical_record WHERE problem_category_id IN (:categoryIds) ORDER BY :sortBy DESC")
+    @Query("SELECT * FROM medical_record WHERE patient_id = :patientId AND problem_category_id IN (:categoryIds) ORDER BY :sortBy DESC")
     fun filterInCategory(
+        patientId: String,
         sortBy: String,
         categoryIds: List<String>
     ): Flow<List<MedicalRecordWithDetails>>
 
-    @Query("SELECT * FROM medical_record WHERE medical_worker_id IN (:workerIds) ORDER BY :sortBy DESC")
+    @Query("SELECT * FROM medical_record WHERE patient_id = :patientId AND medical_worker_id IN (:workerIds) ORDER BY :sortBy DESC")
     fun filterInWorker(
+        patientId: String,
         sortBy: String,
         workerIds: List<String>
     ): Flow<List<MedicalRecordWithDetails>>

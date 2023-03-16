@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import cz.vvoleman.phr.common.ui.adapter.OnAdapterItemListener
+import cz.vvoleman.phr.common.ui.adapter.grouped.OnAdapterItemListener
 import cz.vvoleman.phr.feature_medicalrecord.databinding.ItemMedicalRecordBinding
 import cz.vvoleman.phr.feature_medicalrecord.ui.model.MedicalRecordUiModel
 

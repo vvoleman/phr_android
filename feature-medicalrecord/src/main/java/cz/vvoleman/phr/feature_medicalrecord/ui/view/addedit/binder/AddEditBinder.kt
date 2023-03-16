@@ -1,5 +1,6 @@
 package cz.vvoleman.phr.feature_medicalrecord.ui.view.addedit.binder
 
+import android.content.Context
 import android.view.View
 import cz.vvoleman.phr.base.ui.mapper.ViewStateBinder
 import cz.vvoleman.phr.feature_medicalrecord.databinding.FragmentAddEditMedicalRecordBinding
@@ -21,5 +22,9 @@ class AddEditBinder:
             viewBinding.progressBar.visibility = View.VISIBLE
             viewBinding.currentPatientButton.visibility = View.GONE
         }
+    }
+
+    override fun init(viewBinding: FragmentAddEditMedicalRecordBinding, context: Context) {
+        TODO("Not yet implemented")
     }
 }

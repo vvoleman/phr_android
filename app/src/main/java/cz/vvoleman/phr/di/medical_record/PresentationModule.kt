@@ -20,9 +20,11 @@ class PresentationModule {
     @Provides
     fun providesGetFilteredRecordsUseCase(
         medicalRecordRepository: MedicalRecordFilterRepository,
+        getSelectedPatientRepository: GetSelectedPatientRepository,
         coroutineContextProvider: CoroutineContextProvider
     ) = GetFilteredRecordsUseCase(
         medicalRecordRepository,
+        getSelectedPatientRepository,
         coroutineContextProvider
     )
 

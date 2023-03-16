@@ -1,4 +1,4 @@
-package cz.vvoleman.phr.common.ui.adapter
+package cz.vvoleman.phr.common.ui.adapter.grouped
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
