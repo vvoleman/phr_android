@@ -1,22 +1,31 @@
 package cz.vvoleman.phr.feature_medicalrecord.presentation.list.viewmodel
 
 import android.util.Log
+import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.viewModelScope
 import cz.vvoleman.phr.common.domain.GroupedItemsDomainModel
 import cz.vvoleman.phr.base.presentation.viewmodel.BaseViewModel
 import cz.vvoleman.phr.base.presentation.viewmodel.usecase.UseCaseExecutorProvider
+import cz.vvoleman.phr.common.data.datasource.model.PatientDataStore
 import cz.vvoleman.phr.feature_medicalrecord.domain.model.MedicalRecordDomainModel
 import cz.vvoleman.phr.feature_medicalrecord.domain.usecase.GetFilteredRecordsUseCase
+import cz.vvoleman.phr.feature_medicalrecord.domain.usecase.GetSelectedPatientUseCase
 import cz.vvoleman.phr.feature_medicalrecord.presentation.list.mapper.ListViewStateToDomainMapper
 import cz.vvoleman.phr.feature_medicalrecord.presentation.list.model.ListMedicalRecordsDestination
 import cz.vvoleman.phr.feature_medicalrecord.presentation.list.model.ListMedicalRecordsNotification
 import cz.vvoleman.phr.feature_medicalrecord.presentation.list.model.ListMedicalRecordsViewState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class ListMedicalRecordsViewModel @Inject constructor(
     private val getFilteredRecordsUseCase: GetFilteredRecordsUseCase,
     private val listViewStateToDomainMapper: ListViewStateToDomainMapper,
+    private val getSelectedPatientUseCase: GetSelectedPatientUseCase,
+    private val patientDataStore: PatientDataStore,
     useCaseExecutorProvider: UseCaseExecutorProvider
 ) : BaseViewModel<ListMedicalRecordsViewState, ListMedicalRecordsNotification>(useCaseExecutorProvider) {
 
@@ -27,7 +36,7 @@ class ListMedicalRecordsViewModel @Inject constructor(
     }
 
     init {
-        Log.d(TAG, "init")
+        listenForPatientChange()
         filterRecords()
     }
 
@@ -38,6 +47,10 @@ class ListMedicalRecordsViewModel @Inject constructor(
     fun onRecordDelete(id: String) {
         notify(ListMedicalRecordsNotification.RecordDeleted(id))
         filterRecords()
+    }
+
+    fun onRecordAdd() {
+        navigateTo(ListMedicalRecordsDestination.NewMedicalRecord)
     }
 
     fun onRecordExport(id: String) {
@@ -52,8 +65,24 @@ class ListMedicalRecordsViewModel @Inject constructor(
         notify(ListMedicalRecordsNotification.NotImplemented)
     }
 
+    fun onRecordSelect(id: String) = viewModelScope.launch{
+        Log.d(TAG, "onRecordSelect")
+        val patient = getSelectedPatientUseCase.execute(null).first()
+        patientDataStore.updatePatient((patient.id.toInt() % 2) + 1)
+    }
+
     fun onSelect() {
         navigateTo(ListMedicalRecordsDestination.NewMedicalRecord)
+    }
+
+    private fun listenForPatientChange() {
+        val flow = getSelectedPatientUseCase.execute(null)
+        Log.d(TAG, "listenForPatientChange")
+        viewModelScope.launch {
+            flow.collect {
+                filterRecords()
+            }
+        }
     }
 
     private fun filterRecords() {

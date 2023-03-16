@@ -6,18 +6,28 @@ import cz.vvoleman.phr.base.domain.usecase.BackgroundExecutingUseCase
 import cz.vvoleman.phr.feature_medicalrecord.domain.model.MedicalRecordDomainModel
 import cz.vvoleman.phr.feature_medicalrecord.domain.model.list.FilterRequestDomainModel
 import cz.vvoleman.phr.feature_medicalrecord.domain.model.list.GroupByDomainModel
+import cz.vvoleman.phr.feature_medicalrecord.domain.repository.GetSelectedPatientRepository
 import cz.vvoleman.phr.feature_medicalrecord.domain.repository.MedicalRecordFilterRepository
+import kotlinx.coroutines.flow.first
 import java.time.LocalDate
 
 class GetFilteredRecordsUseCase(
     private val medicalRecordFilterRepository: MedicalRecordFilterRepository,
+    private val getSelectedPatientRepository: GetSelectedPatientRepository,
     coroutineContextProvider: CoroutineContextProvider
 ) : BackgroundExecutingUseCase<FilterRequestDomainModel, List<GroupedItemsDomainModel<MedicalRecordDomainModel>>>(
     coroutineContextProvider
 ) {
 
     override suspend fun executeInBackground(request: FilterRequestDomainModel): List<GroupedItemsDomainModel<MedicalRecordDomainModel>> {
-        val records = medicalRecordFilterRepository.filterRecords(request)
+        var patientId = request.patientId
+
+        if (patientId == null) {
+            patientId = getSelectedPatientRepository.getSelectedPatient().first().id
+        }
+        val updatedRequest = request.copy(patientId = patientId)
+
+        val records = medicalRecordFilterRepository.filterRecords(updatedRequest)
         return when (request.groupBy) {
             GroupByDomainModel.DATE -> byDate(records)
             GroupByDomainModel.PROBLEM_CATEGORY -> byProblemCategory(records)

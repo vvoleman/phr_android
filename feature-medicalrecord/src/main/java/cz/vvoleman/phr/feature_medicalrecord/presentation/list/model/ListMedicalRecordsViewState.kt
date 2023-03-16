@@ -8,7 +8,6 @@ import cz.vvoleman.phr.feature_medicalrecord.domain.model.list.SortByDomainModel
 data class ListMedicalRecordsViewState(
     val groupedRecords: List<GroupedItemsDomainModel<MedicalRecordDomainModel>> = emptyList(),
     val isLoading: Boolean = false,
-
     val groupBy: GroupByDomainModel = GroupByDomainModel.DATE,
     val sortBy: SortByDomainModel = SortByDomainModel.DESC,
     val selectedProblemCategories: List<String> = emptyList(),

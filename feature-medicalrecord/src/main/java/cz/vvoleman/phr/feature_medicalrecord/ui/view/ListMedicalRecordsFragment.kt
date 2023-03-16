@@ -11,8 +11,8 @@ import cz.vvoleman.phr.base.ui.ext.collectLatestLifecycleFlow
 import cz.vvoleman.phr.base.ui.mapper.DestinationUiMapper
 import cz.vvoleman.phr.base.ui.mapper.ViewStateBinder
 import cz.vvoleman.phr.base.ui.view.BaseFragment
-import cz.vvoleman.phr.common.ui.adapter.GroupedItemsAdapter
-import cz.vvoleman.phr.common.ui.adapter.OnAdapterItemListener
+import cz.vvoleman.phr.common.ui.adapter.grouped.GroupedItemsAdapter
+import cz.vvoleman.phr.common.ui.adapter.grouped.OnAdapterItemListener
 import cz.vvoleman.phr.common.ui.model.GroupedItemsUiModel
 import cz.vvoleman.phr.common_datasource.databinding.ItemGroupedItemsBinding
 import cz.vvoleman.phr.feature_medicalrecord.R
@@ -65,6 +65,12 @@ class ListMedicalRecordsFragment : BaseFragment<
             adapter = listAdapter
             layoutManager = LinearLayoutManager(context)
             setHasFixedSize(true)
+        }
+
+        binding.apply {
+            fabAddMedicalRecord.setOnClickListener {
+                viewModel.onRecordAdd()
+            }
         }
 
         (viewStateBinder as MedicalRecordsBinder).setAdapter(listAdapter)
@@ -121,7 +127,7 @@ class ListMedicalRecordsFragment : BaseFragment<
     }
 
     override fun onItemClicked(item: MedicalRecordUiModel) {
-        Snackbar.make(binding.root, "Item clicked", Snackbar.LENGTH_SHORT).show()
+        viewModel.onRecordSelect(item.id)
     }
 
     override fun bind(
