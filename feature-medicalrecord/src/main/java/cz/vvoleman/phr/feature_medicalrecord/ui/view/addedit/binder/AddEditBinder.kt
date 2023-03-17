@@ -25,6 +25,6 @@ class AddEditBinder:
     }
 
     override fun init(viewBinding: FragmentAddEditMedicalRecordBinding, context: Context) {
-        TODO("Not yet implemented")
+        //
     }
 }

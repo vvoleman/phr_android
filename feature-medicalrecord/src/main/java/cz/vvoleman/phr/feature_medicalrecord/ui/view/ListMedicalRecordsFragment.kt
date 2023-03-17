@@ -8,6 +8,7 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import cz.vvoleman.phr.base.ui.ext.collectLatestLifecycleFlow
+import cz.vvoleman.phr.base.ui.ext.collectLifecycleFlow
 import cz.vvoleman.phr.base.ui.mapper.DestinationUiMapper
 import cz.vvoleman.phr.base.ui.mapper.ViewStateBinder
 import cz.vvoleman.phr.base.ui.view.BaseFragment
@@ -48,7 +49,7 @@ class ListMedicalRecordsFragment : BaseFragment<
     lateinit var groupedItemsDomainModelToUiMapper: GroupedItemsDomainModelToUiMapper
 
 
-    val medicalRecordsAdapter: MedicalRecordsAdapter by lazy {
+    private val medicalRecordsAdapter: MedicalRecordsAdapter by lazy {
         MedicalRecordsAdapter(this)
     }
 
@@ -66,15 +67,24 @@ class ListMedicalRecordsFragment : BaseFragment<
             layoutManager = LinearLayoutManager(context)
             setHasFixedSize(true)
         }
-
+        val medicalBinder = (viewStateBinder as MedicalRecordsBinder)
         binding.apply {
             fabAddMedicalRecord.setOnClickListener {
                 viewModel.onRecordAdd()
             }
+            fabFilterMedicalRecords.setOnClickListener {
+                medicalBinder.toggleFilterSheet()
+            }
         }
 
-        (viewStateBinder as MedicalRecordsBinder).setAdapter(listAdapter)
+        medicalBinder.setAdapter(listAdapter)
+        collectLifecycleFlow(medicalBinder.notification) {
+            when (it) {
+                is MedicalRecordsBinder.Notification.OptionCheckChanged -> {
 
+                }
+            }
+        }
         collectLatestLifecycleFlow(viewModel.viewState) {
             if (it == null) return@collectLatestLifecycleFlow
 
