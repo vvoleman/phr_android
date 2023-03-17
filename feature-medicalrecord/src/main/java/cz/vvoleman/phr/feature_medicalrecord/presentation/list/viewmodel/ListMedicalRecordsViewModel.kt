@@ -8,6 +8,7 @@ import cz.vvoleman.phr.base.presentation.viewmodel.BaseViewModel
 import cz.vvoleman.phr.base.presentation.viewmodel.usecase.UseCaseExecutorProvider
 import cz.vvoleman.phr.common.data.datasource.model.PatientDataStore
 import cz.vvoleman.phr.feature_medicalrecord.domain.model.MedicalRecordDomainModel
+import cz.vvoleman.phr.feature_medicalrecord.domain.model.list.GroupByDomainModel
 import cz.vvoleman.phr.feature_medicalrecord.domain.usecase.GetFilteredRecordsUseCase
 import cz.vvoleman.phr.feature_medicalrecord.domain.usecase.GetSelectedPatientUseCase
 import cz.vvoleman.phr.feature_medicalrecord.presentation.list.mapper.ListViewStateToDomainMapper
@@ -51,6 +52,11 @@ class ListMedicalRecordsViewModel @Inject constructor(
 
     fun onRecordAdd() {
         navigateTo(ListMedicalRecordsDestination.NewMedicalRecord)
+    }
+
+    fun onFilterGroupByChange(groupBy: GroupByDomainModel) {
+        updateViewState(currentViewState.copy(groupBy = groupBy))
+        filterRecords()
     }
 
     fun onRecordExport(id: String) {
