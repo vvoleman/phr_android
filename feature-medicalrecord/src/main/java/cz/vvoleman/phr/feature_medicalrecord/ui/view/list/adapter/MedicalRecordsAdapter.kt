@@ -1,6 +1,7 @@
 package cz.vvoleman.phr.feature_medicalrecord.ui.view.list.adapter
 
 import android.graphics.Color
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -33,14 +34,14 @@ class MedicalRecordsAdapter (
         init {
             binding.apply {
                 root.setOnClickListener {
-                    val position = adapterPosition
+                    val position = bindingAdapterPosition
                     if (position != RecyclerView.NO_POSITION) {
                         val item = getItem(position)
                         listener.onItemClicked(item)
                     }
                 }
                 textViewOptions.setOnClickListener {
-                    val position = adapterPosition
+                    val position = bindingAdapterPosition
 
                     if (position != RecyclerView.NO_POSITION) {
                         val item = getItem(position)
@@ -54,6 +55,7 @@ class MedicalRecordsAdapter (
         }
 
         fun bind(item: MedicalRecordUiModel) {
+            Log.d("MedicalRecordsAdapter", "bind: $item")
             binding.apply {
                 textViewDateDay.text = item.createdAt.dayOfMonth.toString()
                 textViewDateMonth.text = item.createdAt.month.toString()
