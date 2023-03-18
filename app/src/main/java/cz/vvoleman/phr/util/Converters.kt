@@ -9,6 +9,7 @@ import java.util.*
 class Converters {
     @TypeConverter
     fun fromTimestamp(value: Long?): LocalDate? {
+        Log.d("Converters", "fromTimestamp: $value")
         return value?.let { LocalDate.ofEpochDay(it) }
     }
 

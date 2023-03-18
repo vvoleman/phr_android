@@ -7,6 +7,7 @@ import cz.vvoleman.phr.feature_medicalrecord.databinding.FragmentAddEditMedicalR
 import cz.vvoleman.phr.feature_medicalrecord.databinding.FragmentListMedicalRecordsBinding
 import cz.vvoleman.phr.feature_medicalrecord.presentation.addedit.model.AddEditViewState
 import cz.vvoleman.phr.feature_medicalrecord.presentation.list.model.ListMedicalRecordsViewState
+import cz.vvoleman.phr.feature_medicalrecord.ui.mapper.GroupByDomainModelViewIdMapper
 import cz.vvoleman.phr.feature_medicalrecord.ui.mapper.GroupedItemsDomainModelToUiMapper
 import cz.vvoleman.phr.feature_medicalrecord.ui.mapper.ListMedicalRecordsDestinationUiMapper
 import cz.vvoleman.phr.feature_medicalrecord.ui.mapper.MedicalRecorDomainModelToUiMapper
@@ -22,8 +23,8 @@ import dagger.hilt.components.SingletonComponent
 class UiModule {
 
     @Provides
-    fun providesButtonViewStateBinder(uiMapper: GroupedItemsDomainModelToUiMapper): ViewStateBinder<ListMedicalRecordsViewState, FragmentListMedicalRecordsBinding> =
-        MedicalRecordsBinder(uiMapper)
+    fun providesButtonViewStateBinder(uiMapper: GroupedItemsDomainModelToUiMapper, radio: GroupByDomainModelViewIdMapper): ViewStateBinder<ListMedicalRecordsViewState, FragmentListMedicalRecordsBinding> =
+        MedicalRecordsBinder(uiMapper, radio)
 
     @Provides
     fun providesAddEditBinder(): ViewStateBinder<AddEditViewState, FragmentAddEditMedicalRecordBinding> =
@@ -37,5 +38,8 @@ class UiModule {
 
     @Provides
     fun providesGroupedItemsDomainToUiMapper(mapper: MedicalRecorDomainModelToUiMapper) = GroupedItemsDomainModelToUiMapper(mapper)
+
+    @Provides
+    fun providesGroupByDomainModelViewIdMapper() = GroupByDomainModelViewIdMapper()
 
 }

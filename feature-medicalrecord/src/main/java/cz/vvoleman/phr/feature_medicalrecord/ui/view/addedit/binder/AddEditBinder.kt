@@ -5,6 +5,7 @@ import android.view.View
 import cz.vvoleman.phr.base.ui.mapper.ViewStateBinder
 import cz.vvoleman.phr.feature_medicalrecord.databinding.FragmentAddEditMedicalRecordBinding
 import cz.vvoleman.phr.feature_medicalrecord.presentation.addedit.model.AddEditViewState
+import kotlinx.coroutines.CoroutineScope
 
 
 class AddEditBinder:
@@ -24,7 +25,7 @@ class AddEditBinder:
         }
     }
 
-    override fun init(viewBinding: FragmentAddEditMedicalRecordBinding, context: Context) {
+    override fun init(viewBinding: FragmentAddEditMedicalRecordBinding, context: Context, lifecycleScope: CoroutineScope) {
         //
     }
 }
