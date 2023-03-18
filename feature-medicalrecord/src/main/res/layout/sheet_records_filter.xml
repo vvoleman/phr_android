@@ -59,16 +59,22 @@
                     android:layout_marginStart="16dp">
 
                     <com.google.android.material.radiobutton.MaterialRadioButton
-                        android:id="@+id/by_date"
+                        android:id="@+id/radio_by_date"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Datumu" />
+                        android:text="@string/medical_records_filter_by_date" />
 
                     <com.google.android.material.radiobutton.MaterialRadioButton
-                        android:id="@+id/by_facility"
+                        android:id="@+id/radio_by_problem_category"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Lék. zařízení" />
+                        android:text="@string/medical_records_filter_by_problem_category" />
+
+                    <com.google.android.material.radiobutton.MaterialRadioButton
+                        android:id="@+id/radio_by_medical_worker"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/medical_records_filter_by_medical_worker" />
                 </RadioGroup>
 
             </LinearLayout>

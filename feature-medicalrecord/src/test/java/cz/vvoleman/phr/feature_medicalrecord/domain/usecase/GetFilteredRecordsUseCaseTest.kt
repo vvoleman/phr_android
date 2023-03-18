@@ -9,6 +9,7 @@ import cz.vvoleman.phr.feature_medicalrecord.domain.model.ProblemCategoryDomainM
 import cz.vvoleman.phr.feature_medicalrecord.domain.model.list.FilterRequestDomainModel
 import cz.vvoleman.phr.feature_medicalrecord.domain.model.list.GroupByDomainModel
 import cz.vvoleman.phr.feature_medicalrecord.domain.model.list.SortByDomainModel
+import cz.vvoleman.phr.feature_medicalrecord.domain.repository.GetSelectedPatientRepository
 import cz.vvoleman.phr.feature_medicalrecord.domain.repository.MedicalRecordFilterRepository
 import cz.vvoleman.phr.feature_medicalrecord.test.coroutine.FakeCoroutineContextProvider
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -31,6 +32,9 @@ class GetFilteredRecordsUseCaseTest {
     @Mock
     private lateinit var medicalRecordFilterRepository: MedicalRecordFilterRepository
 
+    @Mock
+    private lateinit var getSelectedPatientRepository: GetSelectedPatientRepository
+
     private lateinit var coroutineContextProvider: CoroutineContextProvider
 
     @BeforeEach
@@ -38,7 +42,7 @@ class GetFilteredRecordsUseCaseTest {
         coroutineContextProvider = FakeCoroutineContextProvider
 
         useCase =
-            GetFilteredRecordsUseCase(medicalRecordFilterRepository, coroutineContextProvider)
+            GetFilteredRecordsUseCase(medicalRecordFilterRepository, getSelectedPatientRepository, coroutineContextProvider)
     }
 
     @Test

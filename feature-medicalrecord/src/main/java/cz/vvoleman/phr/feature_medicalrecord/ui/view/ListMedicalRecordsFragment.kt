@@ -1,5 +1,6 @@
 package cz.vvoleman.phr.feature_medicalrecord.ui.view
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -48,11 +49,6 @@ class ListMedicalRecordsFragment : BaseFragment<
     @Inject
     lateinit var groupedItemsDomainModelToUiMapper: GroupedItemsDomainModelToUiMapper
 
-
-    private val medicalRecordsAdapter: MedicalRecordsAdapter by lazy {
-        MedicalRecordsAdapter(this)
-    }
-
     override fun setupBinding(
         inflater: LayoutInflater,
         container: ViewGroup?
@@ -78,10 +74,14 @@ class ListMedicalRecordsFragment : BaseFragment<
         }
 
         medicalBinder.setAdapter(listAdapter)
+        Log.d(TAG, "setupListeners: $medicalBinder")
         collectLifecycleFlow(medicalBinder.notification) {
             when (it) {
                 is MedicalRecordsBinder.Notification.OptionCheckChanged -> {
-
+                    Log.d(TAG, "OptionCheckChanged: ${it}")
+                }
+                is MedicalRecordsBinder.Notification.GroupByChanged -> {
+                    viewModel.onFilterGroupByChange(it.item)
                 }
             }
         }
@@ -144,6 +144,8 @@ class ListMedicalRecordsFragment : BaseFragment<
         binding: ItemGroupedItemsBinding,
         item: GroupedItemsUiModel<MedicalRecordUiModel>
     ) {
+        val medicalRecordsAdapter = MedicalRecordsAdapter(this)
+        Log.d(TAG, "bind: $item")
         // if item.value is LocalDate, then get date format (january 2023) and set it to textViewTitle
         // if item.value is String, then set it to textViewTitle
         // if item.value is something else, then set it to "-"
@@ -161,8 +163,8 @@ class ListMedicalRecordsFragment : BaseFragment<
                 layoutManager = LinearLayoutManager(context)
                 setHasFixedSize(true)
             }
-            medicalRecordsAdapter.submitList(item.items)
         }
+        medicalRecordsAdapter.submitList(item.items)
     }
 
 

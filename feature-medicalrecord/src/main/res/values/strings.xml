@@ -5,4 +5,7 @@
     <string name="delete">Smazat</string>
     <string name="add_medical_record">Přidat lékařskou zprávu</string>
     <string name="filter_medical_records">Filtrovat lékařské zprávy</string>
+    <string name="medical_records_filter_by_date">Datumu</string>
+    <string name="medical_records_filter_by_problem_category">Kategorie problému</string>
+    <string name="medical_records_filter_by_medical_worker">Lékaře</string>
 </resources>

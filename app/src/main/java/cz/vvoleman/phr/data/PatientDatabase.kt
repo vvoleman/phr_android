@@ -8,6 +8,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import cz.vvoleman.phr.common.data.datasource.model.AddressDataSourceModel
 import cz.vvoleman.phr.common.data.datasource.model.PatientDao
 import cz.vvoleman.phr.common.data.datasource.model.PatientDataSourceModel
+import cz.vvoleman.phr.data.core.Color
 import cz.vvoleman.phr.data.core.Gender
 import cz.vvoleman.phr.data.core.diagnose.Diagnose
 import cz.vvoleman.phr.data.room.medicine.MedicineDao
@@ -143,24 +144,95 @@ abstract class PatientDatabase : RoomDatabase() {
 //
 //                database.problemCategoryDao().insert(problem)
 
-                val calendarA = Calendar.getInstance()
-                calendarA.set(2020, 0, 1)
-                val calendarB = Calendar.getInstance()
-                calendarB.set(2020, 0, 8)
+                val problemA = ProblemCategoryDataSourceModel(
+                    id = 1,
+                    name = "Nehoda 2022",
+                    createdAt = LocalDate.now(),
+                    color = "#FF0000",
+                    patient_id = patientA.id!!,
+                )
+                val problemB = ProblemCategoryDataSourceModel(
+                    id = 1,
+                    name = "Operace 2019",
+                    createdAt = LocalDate.now(),
+                    color = "#00FF00",
+                    patient_id = patientA.id!!,
+                )
+
+                database.problemCategoryDao().insert(problemA)
+                database.problemCategoryDao().insert(problemB)
+
+                val medicalWorkerA = MedicalWorkerDataSourceModel(
+                    id = 1,
+                    name = "MUDr. Jan Novák",
+                    email = "novak.j@seznam.cz",
+                    address = AddressDataSourceModel(
+                        city = "Ústí nad Labem",
+                        street = "Kollárova",
+                        house_number = "226/2",
+                        zip_code = "40003"
+                    ),
+                    phone = "777 777 777",
+                )
+
+                val medicalWorkerB = MedicalWorkerDataSourceModel(
+                    id = 2,
+                    name = "MUDr. Petr Dvořák",
+                    email = "dvorak.j@seznam.cz",
+                    address = AddressDataSourceModel(
+                        city = "Děčín",
+                        street = "U Zámku",
+                        house_number = "1",
+                        zip_code = "41101"
+                    ),
+                    phone = "680 680 680"
+                )
+
+                database.medicalWorkerDao().insert(medicalWorkerA)
+                database.medicalWorkerDao().insert(medicalWorkerB)
+
+                val dateA = LocalDate.of(2023, 1, 1)
+                val dateB = LocalDate.of(2023, 1, 1)
+                val dateC = LocalDate.of(2023, 2, 1)
+                val dateD = LocalDate.of(2023, 3, 1)
 
                 medicalRecordDao.insert(
                     MedicalRecordDataSourceModel(
                         id=1,
                         patient_id = patientA.id!!,
                         diagnose_id = diagnoseA.id,
+                        problem_category_id = problemA.id,
+                        medical_worker_id = medicalWorkerA.id,
+                        created_at = dateA,
+                    )
+                )
+                medicalRecordDao.insert(
+                    MedicalRecordDataSourceModel(
+                        id=2,
+                        patient_id = patientA.id!!,
+                        diagnose_id = diagnoseB.id,
+                        problem_category_id = problemA.id,
+                        medical_worker_id = medicalWorkerB.id,
+                        created_at = dateB,
+                    )
+                )
+                medicalRecordDao.insert(
+                    MedicalRecordDataSourceModel(
+                        id=3,
+                        patient_id = patientA.id!!,
+                        diagnose_id = diagnoseB.id,
+                        problem_category_id = problemB.id,
+                        medical_worker_id = medicalWorkerB.id,
+                        created_at = dateC,
                     )
                 )
 
                 medicalRecordDao.insert(
                     MedicalRecordDataSourceModel(
-                        id=2,
+                        id=4,
                         patient_id = patientB.id!!,
                         diagnose_id = diagnoseB.id,
+                        created_at = dateD,
                     )
                 )
             }
