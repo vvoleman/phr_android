@@ -11,6 +11,7 @@ class MedicalWorkerDataSourceToDomainMapper(
         return MedicalWorkerDomainModel(
             id = medicalWorker.id!!.toString(),
             name = medicalWorker.name,
+            patientId = medicalWorker.patientId.toString(),
             email = medicalWorker.email,
             phone = medicalWorker.phone,
             address = addressMapper.toDomain(medicalWorker.address)

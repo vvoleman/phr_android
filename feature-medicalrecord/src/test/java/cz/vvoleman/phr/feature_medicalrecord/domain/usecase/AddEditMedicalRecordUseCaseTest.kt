@@ -7,16 +7,16 @@ import cz.vvoleman.phr.feature_medicalrecord.test.coroutine.FakeCoroutineContext
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.*
-import org.junit.Before
 import org.junit.Test
-import org.junit.runner.RunWith
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.BDDMockito.given
 import org.mockito.Mock
-import org.mockito.junit.MockitoJUnitRunner
+import org.mockito.junit.jupiter.MockitoExtension
 import java.time.LocalDate
 
 @OptIn(ExperimentalCoroutinesApi::class)
-@RunWith(MockitoJUnitRunner::class)
+@ExtendWith(MockitoExtension::class)
 class AddEditMedicalRecordUseCaseTest {
 
     private lateinit var classUnderTest: AddEditMedicalRecordUseCase
@@ -26,7 +26,7 @@ class AddEditMedicalRecordUseCaseTest {
 
     private lateinit var coroutineContextProvider: CoroutineContextProvider
 
-    @Before
+    @BeforeEach
     fun setUp() {
         coroutineContextProvider = FakeCoroutineContextProvider
 

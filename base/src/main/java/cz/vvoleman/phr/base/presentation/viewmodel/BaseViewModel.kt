@@ -1,6 +1,7 @@
 package cz.vvoleman.phr.base.presentation.viewmodel
 
 import android.util.Log
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
@@ -15,13 +16,13 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 abstract class BaseViewModel<VIEW_STATE : Any, NOTIFICATION : Any>(
+    private val savedStateHandle: SavedStateHandle,
     private val useCaseExecutorProvider: UseCaseExecutorProvider
 ) : ViewModel() {
 
     protected abstract val TAG: String
 
     private val _viewState = MutableStateFlow<VIEW_STATE?>(null)
-        .apply { value = initState() }
     val viewState = _viewState.asStateFlow()
 
     private val _notification = MutableSharedFlow<NOTIFICATION>()
@@ -31,10 +32,27 @@ abstract class BaseViewModel<VIEW_STATE : Any, NOTIFICATION : Any>(
     val destination = _destination.asSharedFlow()
 
     protected val currentViewState: VIEW_STATE
-        get() = viewState.value ?: initState()
+        get() = viewState.value!!
 
     private val useCaseExecutor by lazy {
         useCaseExecutorProvider(viewModelScope)
+    }
+
+
+    open fun onInit() {
+        _viewState.value = setupState()
+    }
+
+
+    private fun setupState(): VIEW_STATE {
+        val saved = savedStateHandle.get<VIEW_STATE>(TAG)
+        Log.d(TAG, "setupState: $saved")
+
+        if (saved != null) {
+            return saved
+        }
+
+        return initState()
     }
 
     protected abstract fun initState(): VIEW_STATE
@@ -48,8 +66,10 @@ abstract class BaseViewModel<VIEW_STATE : Any, NOTIFICATION : Any>(
         useCaseExecutor.execute(useCase, value, onSuccess, onException)
     }
 
-    protected fun updateViewState(newViewState: VIEW_STATE) {
+    protected open fun updateViewState(newViewState: VIEW_STATE) {
         _viewState.value = newViewState
+        savedStateHandle[TAG] =  newViewState
+        Log.d(TAG, "updateViewState: $newViewState")
     }
 
     protected fun notify(notification: NOTIFICATION) {

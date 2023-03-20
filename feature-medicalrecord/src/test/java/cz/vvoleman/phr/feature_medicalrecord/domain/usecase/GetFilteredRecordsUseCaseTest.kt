@@ -207,13 +207,15 @@ class GetFilteredRecordsUseCaseTest {
                 birthDate = LocalDate.of(1990, 1, 1)
             ),
             problemCategory = ProblemCategoryDomainModel(
-                id = 1,
+                id = "1",
                 name = category,
-                color = "#000000"
+                color = "#000000",
+                patientId = "1"
             ),
             medicalWorker = MedicalWorkerDomainModel(
                 id = "1",
                 name = medicalWorker,
+                patientId = "1"
             ),
             createdAt = date
         )

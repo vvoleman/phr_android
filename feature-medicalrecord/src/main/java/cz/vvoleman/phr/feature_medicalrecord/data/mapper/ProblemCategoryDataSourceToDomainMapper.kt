@@ -7,9 +7,10 @@ class ProblemCategoryDataSourceToDomainMapper {
 
     fun toDomain(problemCategory: ProblemCategoryDataSourceModel): ProblemCategoryDomainModel {
         return ProblemCategoryDomainModel(
-            id = problemCategory.id,
+            id = problemCategory.id.toString(),
             name = problemCategory.name,
-            color = problemCategory.color
+            color = problemCategory.color,
+            patientId = problemCategory.patient_id.toString()
         )
     }
 
