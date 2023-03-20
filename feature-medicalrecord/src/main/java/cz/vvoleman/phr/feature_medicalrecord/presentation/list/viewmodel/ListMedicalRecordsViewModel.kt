@@ -23,22 +23,28 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ListMedicalRecordsViewModel @Inject constructor(
+    private val savedStateHandle: SavedStateHandle,
     private val getFilteredRecordsUseCase: GetFilteredRecordsUseCase,
     private val listViewStateToDomainMapper: ListViewStateToDomainMapper,
     private val getSelectedPatientUseCase: GetSelectedPatientUseCase,
     private val patientDataStore: PatientDataStore,
     useCaseExecutorProvider: UseCaseExecutorProvider
-) : BaseViewModel<ListMedicalRecordsViewState, ListMedicalRecordsNotification>(useCaseExecutorProvider) {
+) : BaseViewModel<ListMedicalRecordsViewState, ListMedicalRecordsNotification>(
+    savedStateHandle,
+    useCaseExecutorProvider
+) {
 
     override val TAG = "ListMedicalRecordsViewModel"
 
-    override fun initState(): ListMedicalRecordsViewState {
-        return ListMedicalRecordsViewState()
-    }
+    override fun onInit() {
+        super.onInit()
 
-    init {
         listenForPatientChange()
         filterRecords()
+    }
+
+    override fun initState(): ListMedicalRecordsViewState {
+        return ListMedicalRecordsViewState()
     }
 
     fun onFilter() {
@@ -71,7 +77,7 @@ class ListMedicalRecordsViewModel @Inject constructor(
         notify(ListMedicalRecordsNotification.NotImplemented)
     }
 
-    fun onRecordSelect(id: String) = viewModelScope.launch{
+    fun onRecordSelect(id: String) = viewModelScope.launch {
         Log.d(TAG, "onRecordSelect")
         val patient = getSelectedPatientUseCase.execute(null).first()
         patientDataStore.updatePatient((patient.id.toInt() % 2) + 1)
@@ -100,6 +106,11 @@ class ListMedicalRecordsViewModel @Inject constructor(
 
     private fun handleRecordsResult(groupedRecords: List<GroupedItemsDomainModel<MedicalRecordDomainModel>>) {
         Log.d(TAG, "handleRecordsResult")
-        updateViewState(currentViewState.copy(groupedRecords=groupedRecords, isLoading = false))
+        updateViewState(currentViewState.copy(groupedRecords = groupedRecords, isLoading = false))
     }
+
+    companion object {
+        private const val STATE = "ListMedicalRecordsViewState"
+    }
+
 }

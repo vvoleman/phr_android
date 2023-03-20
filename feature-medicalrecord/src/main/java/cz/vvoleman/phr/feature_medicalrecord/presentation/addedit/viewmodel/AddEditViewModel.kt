@@ -1,6 +1,7 @@
 package cz.vvoleman.phr.feature_medicalrecord.presentation.addedit.viewmodel
 
 import android.util.Log
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import cz.vvoleman.phr.base.presentation.viewmodel.BaseViewModel
 import cz.vvoleman.phr.base.presentation.viewmodel.usecase.UseCaseExecutorProvider
@@ -16,10 +17,11 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AddEditViewModel @Inject constructor(
+    private val savedStateHandle: SavedStateHandle,
     private val getSelectedPatientUseCase: GetSelectedPatientUseCase,
     private val patientDomainModelToPresentation: PatientDomainModelToPresentationMapper,
     useCaseExecutorProvider: UseCaseExecutorProvider
-) : BaseViewModel<AddEditViewState, AddEditNotification>(useCaseExecutorProvider){
+) : BaseViewModel<AddEditViewState, AddEditNotification>(savedStateHandle,useCaseExecutorProvider){
 
     override val TAG = "AddEditViewModel"
 
@@ -31,7 +33,8 @@ class AddEditViewModel @Inject constructor(
         loadSelectedPatient()
     }
 
-    fun onInit() {
+    override fun onInit() {
+        super.onInit()
         loadSelectedPatient()
     }
 

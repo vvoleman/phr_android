@@ -1,6 +1,11 @@
 package cz.vvoleman.phr.common.domain
 
-data class GroupedItemsDomainModel<ITEM: Any>(
-    val value: Any,
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+import kotlinx.parcelize.RawValue
+
+@Parcelize
+data class GroupedItemsDomainModel<ITEM: Parcelable>(
+    val value: @RawValue Any,
     val items: List<ITEM>
-)
+) : Parcelable

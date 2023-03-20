@@ -38,6 +38,7 @@ abstract class BaseFragment<VIEW_STATE : Any, NOTIFICATION : Any, VIEW_BINDING :
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        viewModel.onInit()
         _binding = setupBinding(inflater, container)
         viewStateBinder.init(binding, requireContext(), lifecycleScope)
         observeViewModel()

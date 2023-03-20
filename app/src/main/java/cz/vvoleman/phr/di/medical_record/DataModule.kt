@@ -3,13 +3,13 @@ package cz.vvoleman.phr.di.medical_record
 import cz.vvoleman.phr.common.data.datasource.model.PatientDao
 import cz.vvoleman.phr.common.data.datasource.model.PatientDataStore
 import cz.vvoleman.phr.feature_medicalrecord.data.datasource.model.room.MedicalRecordDao
-import cz.vvoleman.phr.feature_medicalrecord.data.datasource.model.room.category.ProblemCategoryDataSourceModel
-import cz.vvoleman.phr.feature_medicalrecord.data.datasource.model.room.worker.MedicalWorkerDataSourceModel
 import cz.vvoleman.phr.feature_medicalrecord.data.mapper.*
 import cz.vvoleman.phr.feature_medicalrecord.data.repository.MedicalRecordRepository
 import cz.vvoleman.phr.feature_medicalrecord.data.repository.PatientRepository
 import cz.vvoleman.phr.feature_medicalrecord.domain.repository.GetSelectedPatientRepository
+import cz.vvoleman.phr.feature_medicalrecord.domain.repository.GetUsedProblemCategoriesRepository
 import cz.vvoleman.phr.feature_medicalrecord.domain.repository.MedicalRecordFilterRepository
+import cz.vvoleman.phr.feature_medicalrecord.domain.repository.dummy.GetDummyUsedProblemCategoriesRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -74,4 +74,8 @@ class DataModule {
     @Provides
     fun providesProblemCategoryDataSourceToDomainMapper() =
         ProblemCategoryDataSourceToDomainMapper()
+
+    @Provides
+    fun providesGetUsedProblemCategoriesRepository(
+    ): GetUsedProblemCategoriesRepository = GetDummyUsedProblemCategoriesRepository()
 }
