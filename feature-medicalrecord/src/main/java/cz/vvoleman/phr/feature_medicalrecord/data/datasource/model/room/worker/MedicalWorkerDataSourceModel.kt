@@ -9,6 +9,7 @@ import cz.vvoleman.phr.common.data.datasource.model.AddressDataSourceModel
 data class MedicalWorkerDataSourceModel(
     @PrimaryKey(autoGenerate = true) val id: Int? = null,
     val name: String,
+    val patientId: Int,
     val email: String?,
     val phone: String?,
     @Embedded val address: AddressDataSourceModel,
