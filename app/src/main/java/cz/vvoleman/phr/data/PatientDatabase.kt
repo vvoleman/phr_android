@@ -128,7 +128,11 @@ abstract class PatientDatabase : RoomDatabase() {
                 diagnoseGroupDao.insert(groupB)
 
                 val diagnoseA = DiagnoseDataSourceModel("A00", "Cholera", groupA.id)
-                val diagnoseB = DiagnoseDataSourceModel("U071", "COVID–19, virus laboratorně prokázán", groupB.id)
+                val diagnoseB = DiagnoseDataSourceModel(
+                    "U071",
+                    "COVID–19, virus laboratorně prokázán",
+                    groupB.id
+                )
 
                 diagnoseDao.insert(diagnoseA)
                 diagnoseDao.insert(diagnoseB)
@@ -166,6 +170,7 @@ abstract class PatientDatabase : RoomDatabase() {
                     id = 1,
                     name = "MUDr. Jan Novák",
                     email = "novak.j@seznam.cz",
+                    patientId = 1,
                     address = AddressDataSourceModel(
                         city = "Ústí nad Labem",
                         street = "Kollárova",
@@ -179,6 +184,7 @@ abstract class PatientDatabase : RoomDatabase() {
                     id = 2,
                     name = "MUDr. Petr Dvořák",
                     email = "dvorak.j@seznam.cz",
+                    patientId = 1,
                     address = AddressDataSourceModel(
                         city = "Děčín",
                         street = "U Zámku",
@@ -186,6 +192,20 @@ abstract class PatientDatabase : RoomDatabase() {
                         zip_code = "41101"
                     ),
                     phone = "680 680 680"
+                )
+
+                val medicalWorkerC = MedicalWorkerDataSourceModel(
+                    id = 3,
+                    name = "MUDr. Hana Novotná",
+                    email = "novotna.h@seznam.cz",
+                    patientId = 2,
+                    address = AddressDataSourceModel(
+                        city = "Ústí nad Labem",
+                        street = "Kollárova",
+                        house_number = "226/2",
+                        zip_code = "40003"
+                    ),
+                    phone = "777 777 777",
                 )
 
                 database.medicalWorkerDao().insert(medicalWorkerA)
@@ -198,7 +218,7 @@ abstract class PatientDatabase : RoomDatabase() {
 
                 medicalRecordDao.insert(
                     MedicalRecordDataSourceModel(
-                        id=1,
+                        id = 1,
                         patient_id = patientA.id!!,
                         diagnose_id = diagnoseA.id,
                         problem_category_id = problemA.id,
@@ -208,7 +228,7 @@ abstract class PatientDatabase : RoomDatabase() {
                 )
                 medicalRecordDao.insert(
                     MedicalRecordDataSourceModel(
-                        id=2,
+                        id = 2,
                         patient_id = patientA.id!!,
                         diagnose_id = diagnoseB.id,
                         problem_category_id = problemA.id,
@@ -218,18 +238,18 @@ abstract class PatientDatabase : RoomDatabase() {
                 )
                 medicalRecordDao.insert(
                     MedicalRecordDataSourceModel(
-                        id=3,
+                        id = 3,
                         patient_id = patientA.id!!,
                         diagnose_id = diagnoseB.id,
                         problem_category_id = problemB.id,
-                        medical_worker_id = medicalWorkerB.id,
+                        medical_worker_id = medicalWorkerC.id,
                         created_at = dateC,
                     )
                 )
 
                 medicalRecordDao.insert(
                     MedicalRecordDataSourceModel(
-                        id=4,
+                        id = 4,
                         patient_id = patientB.id!!,
                         diagnose_id = diagnoseB.id,
                         created_at = dateD,
