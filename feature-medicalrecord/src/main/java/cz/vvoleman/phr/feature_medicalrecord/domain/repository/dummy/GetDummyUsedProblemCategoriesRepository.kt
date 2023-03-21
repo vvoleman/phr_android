@@ -5,7 +5,7 @@ import cz.vvoleman.phr.feature_medicalrecord.domain.repository.GetUsedProblemCat
 
 class GetDummyUsedProblemCategoriesRepository : GetUsedProblemCategoriesRepository {
 
-    override fun getUsedProblemCategories(patientId: String): List<ProblemCategoryDomainModel> {
+    override suspend fun getUsedProblemCategories(patientId: String): List<ProblemCategoryDomainModel> {
         val allCategories = getDummyData()
         return allCategories.filter { it.patientId == patientId }
     }

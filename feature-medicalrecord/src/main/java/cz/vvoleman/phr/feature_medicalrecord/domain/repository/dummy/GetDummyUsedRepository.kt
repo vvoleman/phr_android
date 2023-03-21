@@ -7,13 +7,13 @@ import cz.vvoleman.phr.feature_medicalrecord.domain.repository.GetUsedMedicalWor
 import cz.vvoleman.phr.feature_medicalrecord.domain.repository.GetUsedProblemCategoriesRepository
 
 class GetDummyUsedRepository : GetUsedProblemCategoriesRepository, GetUsedMedicalWorkersRepository {
-    override fun getUsedMedicalWorkers(patientId: String): List<MedicalWorkerDomainModel> {
+    override suspend fun getUsedMedicalWorkers(patientId: String): List<MedicalWorkerDomainModel> {
         val allWorkers = getDummyWorkers()
         return allWorkers.filter { it.patientId == patientId }
 
     }
 
-    override fun getUsedProblemCategories(patientId: String): List<ProblemCategoryDomainModel> {
+    override suspend fun getUsedProblemCategories(patientId: String): List<ProblemCategoryDomainModel> {
         val allCategories = getDummyCategories()
         return allCategories.filter { it.patientId == patientId }
     }
