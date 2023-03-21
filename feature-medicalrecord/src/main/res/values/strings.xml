@@ -8,4 +8,5 @@
     <string name="medical_records_filter_by_date">Datumu</string>
     <string name="medical_records_filter_by_problem_category">Kategorie problému</string>
     <string name="medical_records_filter_by_medical_worker">Lékaře</string>
+    <string name="text_simple_separator">/</string>
 </resources>
