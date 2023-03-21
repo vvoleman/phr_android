@@ -9,4 +9,7 @@
     <string name="medical_records_filter_by_problem_category">Kategorie problému</string>
     <string name="medical_records_filter_by_medical_worker">Lékaře</string>
     <string name="text_simple_separator">/</string>
+    <string name="medical_records_add_file">Přidat soubor</string>
+    <string name="add_edit_medical_records_save">Uložit</string>
+    <string name="record_filter">Filtrovat</string>
 </resources>

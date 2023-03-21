@@ -16,6 +16,9 @@ interface MedicalWorkerDao {
     @Query("SELECT * FROM medical_worker WHERE id = :id")
     fun getById(id: Int): Flow<MedicalWorkerDataSourceModel>
 
+    @Query("SELECT * FROM medical_worker WHERE id IN (SELECT medical_worker_id FROM medical_record WHERE patient_id = :patientId)")
+    fun getUsedByPatientId(patientId: String): Flow<List<MedicalWorkerDataSourceModel>>
+
     @Query("SELECT * FROM medical_worker WHERE name = :name")
     fun getByName(name: String): Flow<MedicalWorkerDataSourceModel>
 

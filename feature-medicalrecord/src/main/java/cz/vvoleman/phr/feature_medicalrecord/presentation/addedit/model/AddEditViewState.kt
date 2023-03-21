@@ -1,7 +1,10 @@
 package cz.vvoleman.phr.feature_medicalrecord.presentation.addedit.model
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 import java.time.LocalDate
 
+@Parcelize
 data class AddEditViewState(
     val recordId: String? = null,
     val createdAt: LocalDate? = null,
@@ -10,4 +13,4 @@ data class AddEditViewState(
     val problemCategory: ProblemCategoryPresentationModel? = null,
     val patient: PatientPresentationModel?= null,
     val recordIds: List<String> = listOf()
-)
+): Parcelable
