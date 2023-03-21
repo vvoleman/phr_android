@@ -3,10 +3,15 @@ package cz.vvoleman.phr.di.medical_record
 import cz.vvoleman.phr.common.data.datasource.model.PatientDao
 import cz.vvoleman.phr.common.data.datasource.model.PatientDataStore
 import cz.vvoleman.phr.feature_medicalrecord.data.datasource.model.room.MedicalRecordDao
+import cz.vvoleman.phr.feature_medicalrecord.data.datasource.model.room.category.ProblemCategoryDao
+import cz.vvoleman.phr.feature_medicalrecord.data.datasource.model.room.worker.MedicalWorkerDao
 import cz.vvoleman.phr.feature_medicalrecord.data.mapper.*
 import cz.vvoleman.phr.feature_medicalrecord.data.repository.MedicalRecordRepository
+import cz.vvoleman.phr.feature_medicalrecord.data.repository.MedicalWorkerRepository
 import cz.vvoleman.phr.feature_medicalrecord.data.repository.PatientRepository
+import cz.vvoleman.phr.feature_medicalrecord.data.repository.ProblemCategoryRepository
 import cz.vvoleman.phr.feature_medicalrecord.domain.repository.GetSelectedPatientRepository
+import cz.vvoleman.phr.feature_medicalrecord.domain.repository.GetUsedMedicalWorkersRepository
 import cz.vvoleman.phr.feature_medicalrecord.domain.repository.GetUsedProblemCategoriesRepository
 import cz.vvoleman.phr.feature_medicalrecord.domain.repository.MedicalRecordFilterRepository
 import cz.vvoleman.phr.feature_medicalrecord.domain.repository.dummy.GetDummyUsedProblemCategoriesRepository
@@ -77,5 +82,19 @@ class DataModule {
 
     @Provides
     fun providesGetUsedProblemCategoriesRepository(
-    ): GetUsedProblemCategoriesRepository = GetDummyUsedProblemCategoriesRepository()
+        problemCategoryDao: ProblemCategoryDao,
+        problemCategoryDataSourceToDomainMapper: ProblemCategoryDataSourceToDomainMapper,
+    ): GetUsedProblemCategoriesRepository = ProblemCategoryRepository(
+        problemCategoryDao,
+        problemCategoryDataSourceToDomainMapper
+    )
+
+    @Provides
+    fun providesGetUsedMedicalWorkersRepository(
+        medicalWorkerDao: MedicalWorkerDao,
+        medicalWorkerDataSourceToDomainMapper: MedicalWorkerDataSourceToDomainMapper,
+    ): GetUsedMedicalWorkersRepository = MedicalWorkerRepository(
+        medicalWorkerDao,
+        medicalWorkerDataSourceToDomainMapper
+    )
 }

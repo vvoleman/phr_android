@@ -8,9 +8,12 @@ import cz.vvoleman.phr.base.presentation.viewmodel.BaseViewModel
 import cz.vvoleman.phr.base.presentation.viewmodel.usecase.UseCaseExecutorProvider
 import cz.vvoleman.phr.common.data.datasource.model.PatientDataStore
 import cz.vvoleman.phr.feature_medicalrecord.domain.model.MedicalRecordDomainModel
+import cz.vvoleman.phr.feature_medicalrecord.domain.model.PatientDomainModel
+import cz.vvoleman.phr.feature_medicalrecord.domain.model.ProblemCategoryDomainModel
 import cz.vvoleman.phr.feature_medicalrecord.domain.model.list.GroupByDomainModel
 import cz.vvoleman.phr.feature_medicalrecord.domain.usecase.GetFilteredRecordsUseCase
 import cz.vvoleman.phr.feature_medicalrecord.domain.usecase.GetSelectedPatientUseCase
+import cz.vvoleman.phr.feature_medicalrecord.domain.usecase.GetUsedProblemCategoriesUseCase
 import cz.vvoleman.phr.feature_medicalrecord.presentation.list.mapper.ListViewStateToDomainMapper
 import cz.vvoleman.phr.feature_medicalrecord.presentation.list.model.ListMedicalRecordsDestination
 import cz.vvoleman.phr.feature_medicalrecord.presentation.list.model.ListMedicalRecordsNotification
@@ -25,6 +28,7 @@ import javax.inject.Inject
 class ListMedicalRecordsViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle,
     private val getFilteredRecordsUseCase: GetFilteredRecordsUseCase,
+    private val getUsedProblemCategoriesUseCase: GetUsedProblemCategoriesUseCase,
     private val listViewStateToDomainMapper: ListViewStateToDomainMapper,
     private val getSelectedPatientUseCase: GetSelectedPatientUseCase,
     private val patientDataStore: PatientDataStore,
@@ -33,7 +37,7 @@ class ListMedicalRecordsViewModel @Inject constructor(
     savedStateHandle,
     useCaseExecutorProvider
 ) {
-
+    private var counter = 0
     override val TAG = "ListMedicalRecordsViewModel"
 
     override fun onInit() {
@@ -93,15 +97,25 @@ class ListMedicalRecordsViewModel @Inject constructor(
         viewModelScope.launch {
             flow.collect {
                 filterRecords()
+                getUsedProblemCategories(it)
             }
         }
     }
 
     private fun filterRecords() {
-        Log.d(TAG, "filterRecords")
+        Log.d(TAG, "filterRecords ${counter++}")
         val filterRequest = listViewStateToDomainMapper.toDomain(currentViewState)
         updateViewState(currentViewState.copy(isLoading = true))
         execute(getFilteredRecordsUseCase, filterRequest, ::handleRecordsResult)
+    }
+
+    private fun getUsedProblemCategories(patient: PatientDomainModel) {
+        execute(getUsedProblemCategoriesUseCase, patient.id, ::handleProblemCategoriesResult)
+    }
+
+    private fun handleProblemCategoriesResult(problemCategories: List<ProblemCategoryDomainModel>) {
+        Log.d(TAG, "handleProblemCategoriesResult ${problemCategories}")
+        updateViewState(currentViewState.copy(selectedProblemCategories = problemCategories.map { it.id }))
     }
 
     private fun handleRecordsResult(groupedRecords: List<GroupedItemsDomainModel<MedicalRecordDomainModel>>) {
