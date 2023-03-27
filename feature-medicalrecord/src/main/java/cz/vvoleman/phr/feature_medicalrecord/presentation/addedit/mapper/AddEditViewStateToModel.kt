@@ -14,7 +14,7 @@ class AddEditViewStateToModel {
                 problemCategoryId = viewState.problemCategory?.id!!,
                 patientId = viewState.patient?.id!!,
                 medicalWorkerId = viewState.medicalWorkerPresentationModel?.id!!,
-                recordIds = viewState.recordIds
+                files = viewState.files,
             )
         } catch (e: NullPointerException) {
             throw MissingFieldsException()

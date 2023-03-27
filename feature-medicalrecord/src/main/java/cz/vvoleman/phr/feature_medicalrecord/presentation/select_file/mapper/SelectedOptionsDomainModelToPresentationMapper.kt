@@ -12,9 +12,9 @@ class SelectedOptionsDomainModelToPresentationMapper(
 
     fun toPresentation(domainModel: SelectedOptionsDomainModel): SelectedOptionsPresentationModel {
         return SelectedOptionsPresentationModel(
-            patient = domainModel.patient?.let { patientDomainModelToPresentationMapper.toPresentation(it) },
+            diagnoseId = domainModel.diagnoseId,
             visitDate = domainModel.visitDate,
-            diagnose = domainModel.diagnose?.let { diagnoseDomainModelToPresentationMapper.toPresentation(it) }
+            patientId = domainModel.patientId
         )
     }
 

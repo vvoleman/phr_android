@@ -1,24 +1,25 @@
 package cz.vvoleman.phr.di.medical_record
 
+import android.content.Context
 import cz.vvoleman.phr.common.data.datasource.model.PatientDao
 import cz.vvoleman.phr.common.data.datasource.model.PatientDataStore
 import cz.vvoleman.phr.feature_medicalrecord.data.datasource.model.retrofit.BackendApi
 import cz.vvoleman.phr.feature_medicalrecord.data.datasource.model.room.MedicalRecordDao
+import cz.vvoleman.phr.feature_medicalrecord.data.datasource.model.room.asset.MedicalRecordAssetDao
 import cz.vvoleman.phr.feature_medicalrecord.data.datasource.model.room.category.ProblemCategoryDao
 import cz.vvoleman.phr.feature_medicalrecord.data.datasource.model.room.diagnose.DiagnoseDao
 import cz.vvoleman.phr.feature_medicalrecord.data.datasource.model.room.worker.MedicalWorkerDao
 import cz.vvoleman.phr.feature_medicalrecord.data.mapper.*
 import cz.vvoleman.phr.feature_medicalrecord.data.repository.*
-import cz.vvoleman.phr.feature_medicalrecord.domain.repository.GetSelectedPatientRepository
-import cz.vvoleman.phr.feature_medicalrecord.domain.repository.GetUsedMedicalWorkersRepository
-import cz.vvoleman.phr.feature_medicalrecord.domain.repository.GetUsedProblemCategoriesRepository
-import cz.vvoleman.phr.feature_medicalrecord.domain.repository.MedicalRecordFilterRepository
+import cz.vvoleman.phr.feature_medicalrecord.domain.repository.*
 import cz.vvoleman.phr.feature_medicalrecord.domain.repository.dummy.GetDummyUsedProblemCategoriesRepository
 import cz.vvoleman.phr.feature_medicalrecord.domain.repository.select_file.GetDiagnosesByIdsRepository
 import cz.vvoleman.phr.feature_medicalrecord.domain.repository.select_file.GetPatientByBirthDateRepository
+import cz.vvoleman.phr.feature_medicalrecord.domain.repository.select_file.SaveFileRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 
 @Module
@@ -69,12 +70,14 @@ class DataModule {
         diagnose: DiagnoseDataSourceToDomainMapper,
         medicalWorker: MedicalWorkerDataSourceToDomainMapper,
         problemCategoryDataSourceModel: ProblemCategoryDataSourceToDomainMapper,
+        asset: MedicalRecordAssetDataSourceToDomainMapper,
     ) =
         MedicalRecordDataSourceToDomainMapper(
             patient,
             diagnose,
             medicalWorker,
-            problemCategoryDataSourceModel
+            problemCategoryDataSourceModel,
+            asset
         )
 
     @Provides
@@ -117,14 +120,49 @@ class DataModule {
 
     @Provides
     fun providesGetDiagnosesByIdsRepository(
+        diagnoseRepository: DiagnoseRepository
+    ): GetDiagnosesByIdsRepository = diagnoseRepository
+
+    @Provides
+    fun providesDiagnoseRepository(
         diagnoseApiModelToDbMapper: DiagnoseApiModelToDbMapper,
         diagnoseDataSourceToDomainMapper: DiagnoseDataSourceToDomainMapper,
         diagnoseDao: DiagnoseDao,
         backendApi: BackendApi
-    ): GetDiagnosesByIdsRepository = DiagnoseRepository(
+    )= DiagnoseRepository(
         diagnoseApiModelToDbMapper,
         diagnoseDataSourceToDomainMapper,
         backendApi,
         diagnoseDao,
     )
+
+    @Provides
+    fun providesSaveFileRepository(
+        @ApplicationContext context: Context
+    ): SaveFileRepository = FileRepository(context)
+
+    @Provides
+    fun providesCreateMedicalRecordAssetRepository(
+        domainToDataSourceMapper: MedicalRecordAssetDomainToDataSourceMapper,
+        assetDao: MedicalRecordAssetDao
+    ): CreateMedicalRecordAssetRepository =
+        MedicalRecordAssetRepository(domainToDataSourceMapper, assetDao)
+
+    @Provides
+    fun providesMedicalRecordAssetDataSourceToDomainMapper() =
+        MedicalRecordAssetDataSourceToDomainMapper()
+
+    @Provides
+    fun providesMedicalRecordAssetDomainToDataSourceMapper() =
+        MedicalRecordAssetDomainToDataSourceMapper()
+
+    @Provides
+    fun providesGetPatientByIdRepository(
+        patientRepository: PatientRepository
+    ): GetPatientByIdRepository = patientRepository
+
+    @Provides
+    fun providesGetDiagnoseByIdRepository(
+        diagnoseRepository: DiagnoseRepository
+    ): GetDiagnoseByIdRepository = diagnoseRepository
 }

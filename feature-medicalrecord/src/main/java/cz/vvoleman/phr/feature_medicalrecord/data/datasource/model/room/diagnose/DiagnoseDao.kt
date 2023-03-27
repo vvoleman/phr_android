@@ -13,7 +13,7 @@ interface DiagnoseDao {
     fun getById(id: String): Flow<DiagnoseWithGroup>
 
     @Query("SELECT * FROM diagnose WHERE id IN (:ids)")
-    fun getByIds(ids: List<String>): Flow<List<DiagnoseWithGroup>>
+    fun getByIds(ids: List<String>): Flow<List<DiagnoseDataSourceModel>>
 
     @Query("SELECT * FROM diagnose WHERE parent = :id")
     fun getByParent(id: String): Flow<List<DiagnoseWithGroup>>

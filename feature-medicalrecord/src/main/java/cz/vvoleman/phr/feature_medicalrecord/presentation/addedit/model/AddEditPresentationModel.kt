@@ -1,5 +1,6 @@
 package cz.vvoleman.phr.feature_medicalrecord.presentation.addedit.model
 
+import android.net.Uri
 import java.time.LocalDate
 
 data class AddEditPresentationModel(
@@ -8,5 +9,5 @@ data class AddEditPresentationModel(
     val problemCategoryId: String,
     val patientId: String,
     val medicalWorkerId: String,
-    val recordIds: List<String>
+    val files: List<Uri>
 )

@@ -1,5 +1,6 @@
 package cz.vvoleman.phr.feature_medicalrecord.presentation.select_file.viewmodel
 
+import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
@@ -7,6 +8,7 @@ import com.google.mlkit.vision.common.InputImage
 import cz.vvoleman.phr.base.presentation.viewmodel.BaseViewModel
 import cz.vvoleman.phr.base.presentation.viewmodel.usecase.UseCaseExecutorProvider
 import cz.vvoleman.phr.feature_medicalrecord.domain.model.select_file.GetTextFromInputImageResultDomainModel
+import cz.vvoleman.phr.feature_medicalrecord.domain.model.select_file.SelectedOptionsDomainModel
 import cz.vvoleman.phr.feature_medicalrecord.domain.model.select_file.TextDomainModel
 import cz.vvoleman.phr.feature_medicalrecord.domain.usecase.select_file.GetRecognizedOptionsFromTextUseCase
 import cz.vvoleman.phr.feature_medicalrecord.domain.usecase.select_file.GetTextFromInputImageUseCase
@@ -34,13 +36,15 @@ class SelectFileViewModel @Inject constructor(
 ) {
 
     override val TAG = "SelectFileViewModel"
-
+;
     override fun initState(): SelectFileViewState {
         return SelectFileViewState()
     }
 
-    fun onRunImageAnalyze(inputImage: InputImage) {
+    fun onRunImageAnalyze(inputImage: InputImage, uri: Uri) {
         setLoading(true)
+        val bitmap = inputImage.bitmapInternal
+        updateViewState(currentViewState.copy(previewUri = bitmap, uri = uri))
         runRecognizer(inputImage)
     }
 
@@ -48,12 +52,34 @@ class SelectFileViewModel @Inject constructor(
         navigateTo(SelectFileDestination.Cancel)
     }
 
+    fun onConfirmWithOptions(diagnose: String?, visitDate: String?, patient: String?) {
+        val selected = SelectedOptionsPresentationModel(
+            diagnoseId = diagnose,
+            visitDate = LocalDate.parse(visitDate),
+            patientId = patient,
+        )
+
+        updateViewState(currentViewState.copy(selectedOptions = selected))
+        finish()
+    }
+
+    fun onConfirmWithoutOptions() {
+        finish()
+    }
+
+    private fun finish() {
+        if (currentViewState.selectedOptions != null) {
+            navigateTo(SelectFileDestination.SuccessWithOptions(currentViewState.selectedOptions!!, currentViewState.uri!!))
+        } else {
+            navigateTo(SelectFileDestination.Success(currentViewState.uri!!))
+        }
+    }
+
     fun onStartSelectingOptions() {
         if (currentViewState.recognizedOptions == null) {
             notify(SelectFileNotification.Error)
         } else {
-            updateViewState(currentViewState.copy(selectedOptions = SelectedOptionsPresentationModel()))
-            notify(SelectFileNotification.SelectOptions)
+            notify(SelectFileNotification.OptionsRecognized)
         }
     }
 
@@ -93,6 +119,7 @@ class SelectFileViewModel @Inject constructor(
             val presentationOptions = recognizedOptionsDomainModelToPresentationMapper.toPresentation(options)
             Log.d(TAG, "Got recognized options: $presentationOptions")
             updateViewState(currentViewState.copy(recognizedOptions = presentationOptions))
+            notify(SelectFileNotification.OptionsRecognized)
         }
     }
 

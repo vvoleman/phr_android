@@ -4,6 +4,7 @@ import cz.vvoleman.phr.common.data.datasource.model.PatientDao
 import cz.vvoleman.phr.common.data.datasource.model.PatientDataStore
 import cz.vvoleman.phr.feature_medicalrecord.data.mapper.PatientDataSourceToDomainMapper
 import cz.vvoleman.phr.feature_medicalrecord.domain.model.PatientDomainModel
+import cz.vvoleman.phr.feature_medicalrecord.domain.repository.GetPatientByIdRepository
 import cz.vvoleman.phr.feature_medicalrecord.domain.repository.GetSelectedPatientRepository
 import cz.vvoleman.phr.feature_medicalrecord.domain.repository.select_file.GetPatientByBirthDateRepository
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -15,7 +16,7 @@ class PatientRepository(
     private val patientDataStore: PatientDataStore,
     private val patientDao: PatientDao,
     private val patientMapper: PatientDataSourceToDomainMapper
-) : GetSelectedPatientRepository, GetPatientByBirthDateRepository {
+) : GetSelectedPatientRepository, GetPatientByBirthDateRepository, GetPatientByIdRepository {
 
     suspend fun getPatients(): List<PatientDomainModel> {
         val patients = patientDao.getAll()
@@ -41,4 +42,9 @@ class PatientRepository(
         return patients.first().map { patientMapper.toDomain(it) }
     }
 
+    override suspend fun getPatientById(id: String): PatientDomainModel? {
+        val patient = patientDao.getById(id.toInt()).firstOrNull()
+
+        return patient?.let { patientMapper.toDomain(it) }
+    }
 }
