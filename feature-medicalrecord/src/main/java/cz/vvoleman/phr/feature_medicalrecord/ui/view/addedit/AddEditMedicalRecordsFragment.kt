@@ -4,8 +4,10 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import com.google.android.material.snackbar.Snackbar
 import cz.vvoleman.phr.base.ui.mapper.ViewStateBinder
 import cz.vvoleman.phr.base.ui.view.BaseFragment
+import cz.vvoleman.phr.feature_medicalrecord.R
 import cz.vvoleman.phr.feature_medicalrecord.databinding.FragmentAddEditMedicalRecordBinding
 import cz.vvoleman.phr.feature_medicalrecord.presentation.addedit.model.AddEditNotification
 import cz.vvoleman.phr.feature_medicalrecord.presentation.addedit.model.AddEditViewState
@@ -45,7 +47,18 @@ class AddEditMedicalRecordsFragment : BaseFragment<
     }
 
     override fun handleNotification(notification: AddEditNotification) {
-        Log.d("AddEditMedicalRecordsFragment", "handleNotification: $notification")
+        when (notification) {
+            is AddEditNotification.LimitFilesReached -> {
+                Snackbar.make(
+                    binding.root,
+                    getText(R.string.add_eddit_medical_record_file_limit_reached),
+                    Snackbar.LENGTH_SHORT
+                ).show()
+            }
+            AddEditNotification.MissingData -> {
+                Snackbar.make(binding.root, "Missing data", Snackbar.LENGTH_SHORT).show()
+            }
+        }
     }
 
 

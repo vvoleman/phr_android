@@ -12,7 +12,7 @@ class AddEditPresentationModelToDomainMapper {
             problemCategoryId = model.problemCategoryId,
             patientId = model.patientId,
             medicalWorkerId = model.medicalWorkerId,
-            recordIds = model.recordIds
+            files = model.files
         )
     }
 

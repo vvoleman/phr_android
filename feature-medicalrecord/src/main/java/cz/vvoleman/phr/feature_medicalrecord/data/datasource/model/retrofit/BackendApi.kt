@@ -19,7 +19,7 @@ interface BackendApi {
 
     @GET("diagnose/multiple")
     suspend fun getDiagnosesByIds(
-        @Query("ids") ids: Set<String>
+        @Query("ids[]") ids: Set<String>
     ): DiagnoseResponse
 
 }

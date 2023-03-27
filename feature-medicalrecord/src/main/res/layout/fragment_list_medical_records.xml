@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".ui.view.ListMedicalRecordsFragment"
     android:id="@+id/fragment_list_medical_records"
+    android:layout_margin="@dimen/layout_margin"
     android:layout_height="match_parent">
 
     <androidx.recyclerview.widget.RecyclerView

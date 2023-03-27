@@ -82,9 +82,9 @@ class ListMedicalRecordsViewModel @Inject constructor(
     }
 
     fun onRecordSelect(id: String) = viewModelScope.launch {
-        Log.d(TAG, "onRecordSelect")
         val patient = getSelectedPatientUseCase.execute(null).first()
-        patientDataStore.updatePatient((patient.id.toInt() % 2) + 1)
+        val newPatient = (patient.id.toInt() % 2) + 1
+        patientDataStore.updatePatient(newPatient)
     }
 
     fun onSelect() {
@@ -93,33 +93,33 @@ class ListMedicalRecordsViewModel @Inject constructor(
 
     private fun listenForPatientChange() {
         val flow = getSelectedPatientUseCase.execute(null)
-        Log.d(TAG, "listenForPatientChange")
         viewModelScope.launch {
             flow.collect {
-                filterRecords()
+                Log.d(TAG, "Patient changed: ${it.id}")
                 getUsedProblemCategories(it)
+                filterRecords()
             }
         }
     }
 
     private fun filterRecords() {
-        Log.d(TAG, "filterRecords ${counter++}")
         val filterRequest = listViewStateToDomainMapper.toDomain(currentViewState)
         updateViewState(currentViewState.copy(isLoading = true))
         execute(getFilteredRecordsUseCase, filterRequest, ::handleRecordsResult)
     }
 
     private fun getUsedProblemCategories(patient: PatientDomainModel) {
+        Log.d(TAG, "Getting used problem categories for patient ${patient.id}")
         execute(getUsedProblemCategoriesUseCase, patient.id, ::handleProblemCategoriesResult)
     }
 
     private fun handleProblemCategoriesResult(problemCategories: List<ProblemCategoryDomainModel>) {
-        Log.d(TAG, "handleProblemCategoriesResult ${problemCategories}")
+        Log.d(TAG, "Got problem categories: $problemCategories")
         updateViewState(currentViewState.copy(selectedProblemCategories = problemCategories.map { it.id }))
+        Log.d(TAG, "Updated view state: ${problemCategories}")
     }
 
     private fun handleRecordsResult(groupedRecords: List<GroupedItemsDomainModel<MedicalRecordDomainModel>>) {
-        Log.d(TAG, "handleRecordsResult")
         updateViewState(currentViewState.copy(groupedRecords = groupedRecords, isLoading = false))
     }
 

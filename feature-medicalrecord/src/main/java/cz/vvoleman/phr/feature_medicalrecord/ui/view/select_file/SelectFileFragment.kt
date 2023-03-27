@@ -8,15 +8,19 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.FileProvider
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import com.google.android.material.snackbar.Snackbar
 import com.google.mlkit.vision.common.InputImage
 import cz.vvoleman.phr.base.BuildConfig
+import cz.vvoleman.phr.base.ui.ext.collectLifecycleFlow
 import cz.vvoleman.phr.base.ui.mapper.ViewStateBinder
 import cz.vvoleman.phr.base.ui.view.BaseFragment
+import cz.vvoleman.phr.feature_medicalrecord.R
 import cz.vvoleman.phr.feature_medicalrecord.databinding.FragmentSelectFileBinding
 import cz.vvoleman.phr.feature_medicalrecord.presentation.select_file.model.SelectFileViewState
 import cz.vvoleman.phr.feature_medicalrecord.presentation.select_file.model.SelectFileNotification
 import cz.vvoleman.phr.feature_medicalrecord.presentation.select_file.viewmodel.SelectFileViewModel
 import cz.vvoleman.phr.feature_medicalrecord.ui.mapper.SelectFileDestinationUiMapper
+import cz.vvoleman.phr.feature_medicalrecord.ui.view.select_file.binder.SelectFileBinder
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
 import javax.inject.Inject
@@ -37,7 +41,7 @@ class SelectFileFragment : BaseFragment<SelectFileViewState, SelectFileNotificat
             if (success) {
                 latestTmpUri?.let { uri ->
                     val image = InputImage.fromFilePath(requireContext(), uri)
-                    viewModel.onRunImageAnalyze(image)
+                    viewModel.onRunImageAnalyze(image, uri)
                 }
             }
 
@@ -47,7 +51,7 @@ class SelectFileFragment : BaseFragment<SelectFileViewState, SelectFileNotificat
         registerForActivityResult(ActivityResultContracts.GetContent()) {uri ->
             uri?.let {
                 val image = InputImage.fromFilePath(requireContext(), uri)
-                viewModel.onRunImageAnalyze(image)
+                viewModel.onRunImageAnalyze(image, uri)
             }
         }
 
@@ -67,11 +71,32 @@ class SelectFileFragment : BaseFragment<SelectFileViewState, SelectFileNotificat
             cancelButton.setOnClickListener { viewModel.onCancel() }
             takePhotoButton.setOnClickListener { takePicture() }
             attachFileButton.setOnClickListener { choosePicture() }
+            confirmButton.setOnClickListener { viewModel.onStartSelectingOptions() }
+        }
+
+        val binder = (viewStateBinder as SelectFileBinder)
+
+        collectLifecycleFlow(binder.notification) {
+            when (it) {
+                is SelectFileBinder.Notification.ConfirmWithOptions -> {
+                    viewModel.onConfirmWithOptions(it.diagnose, it.visitDate, it.patient)
+                }
+                SelectFileBinder.Notification.ConfirmWithoutOptions -> {
+                    viewModel.onConfirmWithoutOptions()
+                }
+            }
         }
     }
 
     override fun handleNotification(notification: SelectFileNotification) {
-        Log.d("SelectFileFragment", "handleNotification: $notification")
+        when (notification) {
+            is SelectFileNotification.Error -> {
+                Snackbar.make(binding.root, getText(R.string.select_file_error), Snackbar.LENGTH_LONG).show()
+            }
+            SelectFileNotification.OptionsRecognized -> {
+                (viewStateBinder as SelectFileBinder).openDialog()
+            }
+        }
     }
 
     private fun takePicture() {

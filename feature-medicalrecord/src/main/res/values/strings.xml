@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">feature-medicalrecord</string>
+    <string name="app_name">Osobní evidence péče</string>
     <string name="edit">Upravit</string>
     <string name="export">Exportovat</string>
     <string name="delete">Smazat</string>
@@ -15,4 +15,12 @@
     <string name="select_image">Vyberte soubor</string>
     <string name="medical_record_take_photo">Vyfotit zprávu</string>
     <string name="medical_record_attach_file">Vybrat soubor</string>
+    <string name="medical_record_diagnose">Diagnóza</string>
+    <string name="medical_record_visit_date">Datum návštěvy</string>
+    <string name="patient">Pacient</string>
+    <string name="select_options_cancel">Zrušit</string>
+    <string name="select_options_submit">Použít</string>
+    <string name="select_file_error">Při přidávání souboru se vyskytla chyba</string>
+    <string name="select_file_select_only_file">Pouze soubor</string>
+    <string name="add_eddit_medical_record_file_limit_reached">Maximální počet přiložených souborů dosažen</string>
 </resources>

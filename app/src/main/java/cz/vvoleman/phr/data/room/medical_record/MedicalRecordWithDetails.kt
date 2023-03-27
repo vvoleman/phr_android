@@ -5,7 +5,6 @@ import androidx.room.Relation
 import cz.vvoleman.phr.data.core.medical_record.MedicalRecord
 import cz.vvoleman.phr.data.room.diagnose.DiagnoseEntity
 import cz.vvoleman.phr.data.room.medical_record.asset.MedicalRecordAssetEntity
-import cz.vvoleman.phr.data.room.medical_record.category.ProblemCategoryEntity
 import cz.vvoleman.phr.data.room.medical_record.worker.MedicalWorkerEntity
 import cz.vvoleman.phr.data.room.patient.PatientEntity
 
@@ -34,12 +33,6 @@ data class MedicalRecordWithDetails(
         entityColumn = "medical_record_id"
     )
     val assets: List<MedicalRecordAssetEntity>,
-
-    @Relation(
-        parentColumn = "problem_category_id",
-        entityColumn = "id"
-    )
-    val problemCategory: ProblemCategoryEntity?
 ) {
 
     fun toMedicalRecord() : MedicalRecord {
@@ -50,7 +43,6 @@ data class MedicalRecordWithDetails(
             medicalWorker = medicalWorker?.toMedicalWorker(),
             createdAt = medicalRecord.created_at,
             assets = assets.map { it.toMedicalRecordAsset() },
-            problemCategory = problemCategory?.toProblemCategory(),
         )
     }
 
