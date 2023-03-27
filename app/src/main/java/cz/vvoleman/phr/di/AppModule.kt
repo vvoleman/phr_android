@@ -5,8 +5,8 @@ import android.content.Context
 import android.net.ConnectivityManager
 import androidx.navigation.NavController
 import androidx.room.Room
-import cz.vvoleman.phr.api.backend.BackendApi
 import cz.vvoleman.phr.data.PatientDatabase
+import cz.vvoleman.phr.feature_medicalrecord.data.datasource.model.retrofit.BackendApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

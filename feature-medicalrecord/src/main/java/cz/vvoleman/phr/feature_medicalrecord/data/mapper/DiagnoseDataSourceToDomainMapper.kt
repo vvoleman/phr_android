@@ -8,7 +8,8 @@ class DiagnoseDataSourceToDomainMapper {
     fun toDomain(diagnose: DiagnoseDataSourceModel): DiagnoseDomainModel {
         return DiagnoseDomainModel(
             id = diagnose.id,
-            name = diagnose.name
+            name = diagnose.name,
+            parent = diagnose.parent
         )
     }
 

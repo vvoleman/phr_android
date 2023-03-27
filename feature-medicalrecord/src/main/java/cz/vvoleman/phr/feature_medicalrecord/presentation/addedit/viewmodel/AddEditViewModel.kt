@@ -7,6 +7,7 @@ import cz.vvoleman.phr.base.presentation.viewmodel.BaseViewModel
 import cz.vvoleman.phr.base.presentation.viewmodel.usecase.UseCaseExecutorProvider
 import cz.vvoleman.phr.feature_medicalrecord.domain.usecase.GetSelectedPatientUseCase
 import cz.vvoleman.phr.feature_medicalrecord.presentation.addedit.mapper.PatientDomainModelToPresentationMapper
+import cz.vvoleman.phr.feature_medicalrecord.presentation.addedit.model.AddEditDestination
 import cz.vvoleman.phr.feature_medicalrecord.presentation.addedit.model.AddEditNotification
 import cz.vvoleman.phr.feature_medicalrecord.presentation.addedit.model.AddEditPresentationModel
 import cz.vvoleman.phr.feature_medicalrecord.presentation.addedit.model.AddEditViewState
@@ -36,6 +37,10 @@ class AddEditViewModel @Inject constructor(
     override fun onInit() {
         super.onInit()
         loadSelectedPatient()
+    }
+
+    fun onAddNewFile() {
+        navigateTo(AddEditDestination.AddRecordFile)
     }
 
     fun onSubmit(input: AddEditPresentationModel) {
