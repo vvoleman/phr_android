@@ -5,6 +5,7 @@ import cz.vvoleman.phr.base.presentation.model.PresentationDestination
 import cz.vvoleman.phr.base.presentation.navigation.NavManager
 import cz.vvoleman.phr.base.ui.mapper.DestinationUiMapper
 import cz.vvoleman.phr.feature_medicalrecord.presentation.addedit.model.AddEditDestination
+import cz.vvoleman.phr.feature_medicalrecord.ui.view.addedit.AddEditMedicalRecordsFragmentDirections
 
 class AddEditDestinationUiMapper(navManager: NavManager) : DestinationUiMapper(navManager) {
 
@@ -13,8 +14,9 @@ class AddEditDestinationUiMapper(navManager: NavManager) : DestinationUiMapper(n
             is AddEditDestination.RecordSaved -> {
                 Log.d("AddEditDestinationUiMapper", "RecordSaved")
             }
-            is AddEditDestination.AddNewRecordFile -> {
-                Log.d("AddEditDestinationUiMapper", "AddNewRecordFile")
+            is AddEditDestination.AddRecordFile -> {
+                val action = AddEditMedicalRecordsFragmentDirections.actionAddEditMedicalRecordsFragmentToSelectFileFragment()
+                navManager.navigate(action)
             }
         }
     }

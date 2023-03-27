@@ -1,8 +1,8 @@
 package cz.vvoleman.phr.api.backend
 
-import cz.vvoleman.phr.data.retrofit.diagnose.DiagnoseEntity
+import cz.vvoleman.phr.feature_medicalrecord.data.datasource.model.retrofit.diagnose.DiagnoseDataSourceApiModel
 
 
 data class DiagnoseResponse(
-    val data: List<DiagnoseEntity>
+    val data: List<DiagnoseDataSourceApiModel>
 )

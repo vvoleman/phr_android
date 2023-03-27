@@ -12,8 +12,10 @@ import cz.vvoleman.phr.feature_medicalrecord.domain.usecase.GetFilteredRecordsUs
 import cz.vvoleman.phr.feature_medicalrecord.domain.usecase.GetSelectedPatientUseCase
 import cz.vvoleman.phr.feature_medicalrecord.domain.usecase.GetUsedMedicalWorkersUseCase
 import cz.vvoleman.phr.feature_medicalrecord.domain.usecase.GetUsedProblemCategoriesUseCase
+import cz.vvoleman.phr.feature_medicalrecord.presentation.addedit.mapper.DiagnoseDomainModelToPresentationMapper
 import cz.vvoleman.phr.feature_medicalrecord.presentation.addedit.mapper.PatientDomainModelToPresentationMapper
 import cz.vvoleman.phr.feature_medicalrecord.presentation.list.mapper.ListViewStateToDomainMapper
+import cz.vvoleman.phr.feature_medicalrecord.presentation.select_file.mapper.RecognizedOptionsDomainModelToPresentationMapper
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -65,6 +67,16 @@ class PresentationModule {
     @Provides
     fun providesListViewStateToDomainMapper() = ListViewStateToDomainMapper()
 
+    @Provides
+    fun providesDiagnoseDomainToPresentationMapper() = DiagnoseDomainModelToPresentationMapper()
 
+    @Provides
+    fun providesRecognizedOptionsDomainModelToPresentationMapper(
+        diagnoseMapper: DiagnoseDomainModelToPresentationMapper,
+        patientMapper: PatientDomainModelToPresentationMapper
+    ) = RecognizedOptionsDomainModelToPresentationMapper(
+        diagnoseMapper,
+        patientMapper
+    )
 
 }

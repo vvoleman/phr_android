@@ -6,5 +6,6 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class DiagnoseDomainModel(
     val id: String,
-    val name: String
+    val name: String,
+    val parent: String,
 ) : Parcelable
