@@ -2,6 +2,7 @@ package cz.vvoleman.phr.feature_medicalrecord.ui.view.addedit.binder
 
 import android.content.Context
 import android.view.View
+import cz.vvoleman.phr.base.ui.mapper.BaseViewStateBinder
 import cz.vvoleman.phr.base.ui.mapper.ViewStateBinder
 import cz.vvoleman.phr.feature_medicalrecord.databinding.FragmentAddEditMedicalRecordBinding
 import cz.vvoleman.phr.feature_medicalrecord.presentation.addedit.model.AddEditViewState
@@ -10,7 +11,7 @@ import java.time.LocalDate
 
 
 class AddEditBinder:
-    ViewStateBinder<AddEditViewState, FragmentAddEditMedicalRecordBinding> {
+    BaseViewStateBinder<AddEditViewState, FragmentAddEditMedicalRecordBinding, AddEditBinder.Notification>() {
 
     override fun bind(
         viewBinding: FragmentAddEditMedicalRecordBinding,
@@ -29,6 +30,12 @@ class AddEditBinder:
     }
 
     override fun init(viewBinding: FragmentAddEditMedicalRecordBinding, context: Context, lifecycleScope: CoroutineScope) {
+//        viewBinding.buttonAddFile.setOnClickListener {
+//            notify(Notification.AddFile)
+//        }
+    }
 
+    sealed class Notification {
+        object AddFile : Notification()
     }
 }

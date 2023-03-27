@@ -57,6 +57,8 @@ class ListMedicalRecordsFragment : BaseFragment<
     }
 
     override fun setupListeners() {
+        super.setupListeners()
+
         val listAdapter = GroupedItemsAdapter(this)
         binding.recyclerView.apply {
             adapter = listAdapter
