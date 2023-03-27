@@ -10,8 +10,18 @@ import cz.vvoleman.phr.feature_medicalrecord.ui.view.select_file.SelectFileFragm
 class SelectFileDestinationUiMapper(navManager: NavManager) : DestinationUiMapper(navManager) {
     override fun navigate(destination: PresentationDestination) {
         when (destination) {
+            is SelectFileDestination.SuccessWithOptions -> {
+                val action = SelectFileFragmentDirections.actionSelectFileFragmentToAddEditMedicalRecordsFragment(
+                    selectedOptions = destination.selectedOptions,
+                    fileUri = destination.fileUri
+                )
+                navManager.navigate(action)
+            }
             is SelectFileDestination.Success -> {
-                Log.d("SelectFileDestinationUiMapper", "SelectFileDestination")
+                val action = SelectFileFragmentDirections.actionSelectFileFragmentToAddEditMedicalRecordsFragment(
+                    fileUri = destination.fileUri
+                )
+                navManager.navigate(action)
             }
             is SelectFileDestination.Cancel -> {
                 val action = SelectFileFragmentDirections.actionSelectFileFragmentToAddEditMedicalRecordsFragment()

@@ -14,14 +14,11 @@ interface MedicalRecordAssetDao {
     @Query("SELECT * FROM medical_record_asset WHERE medical_record_id = :medicalRecordId")
     fun getAllForRecord(medicalRecordId: Int): Flow<List<MedicalRecordAssetDataSourceModel>>
 
-    @Query("SELECT * FROM medical_record_asset WHERE medical_record_id = :medicalRecordId AND type = :type")
-    fun getAllForRecordAndType(medicalRecordId: Int, type: String): Flow<List<MedicalRecordAssetDataSourceModel>>
-
     @Query("SELECT * FROM medical_record_asset WHERE id = :id")
     fun getById(id: Int): Flow<MedicalRecordAssetDataSourceModel>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(asset: MedicalRecordAssetDataSourceModel)
+    suspend fun insert(asset: MedicalRecordAssetDataSourceModel): Long
 
     @Update
     suspend fun update(asset: MedicalRecordAssetDataSourceModel)

@@ -1,5 +1,6 @@
 package cz.vvoleman.phr.feature_medicalrecord.domain.model.add_edit
 
+import android.net.Uri
 import java.time.LocalDate
 
 data class AddEditDomainModel(
@@ -9,5 +10,5 @@ data class AddEditDomainModel(
     val problemCategoryId: String? = null,
     val medicalWorkerId: String? = null,
     val diagnoseId: String? = null,
-    val recordIds: List<String> = listOf()
+    val files: List<Uri> = listOf()
 )

@@ -8,7 +8,6 @@ import java.time.LocalDate
 data class MedicalRecordAssetDataSourceModel(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
     val medical_record_id: Int,
-    val type: String,
     val uri: String,
     val createdAt: LocalDate
 )

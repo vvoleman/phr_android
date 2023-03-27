@@ -35,6 +35,11 @@
             app:argType="cz.vvoleman.phr.feature_medicalrecord.presentation.select_file.model.SelectedOptionsPresentationModel"
             app:nullable="true"
             android:defaultValue="@null" />
+        <argument
+            android:name="fileUri"
+            app:argType="android.net.Uri"
+            app:nullable="true"
+            android:defaultValue="@null" />
     </fragment>
     <fragment
         android:id="@+id/selectFileFragment"

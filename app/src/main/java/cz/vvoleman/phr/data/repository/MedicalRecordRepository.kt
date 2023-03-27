@@ -3,7 +3,6 @@ package cz.vvoleman.phr.data.repository
 import cz.vvoleman.phr.data.room.medical_record.MedicalRecordDao
 import cz.vvoleman.phr.data.room.medical_record.MedicalRecordWithDetails
 import cz.vvoleman.phr.data.room.medical_record.asset.MedicalRecordAssetDao
-import cz.vvoleman.phr.data.room.medical_record.category.ProblemCategoryDao
 import javax.inject.Inject
 
 class MedicalRecordRepository @Inject constructor(

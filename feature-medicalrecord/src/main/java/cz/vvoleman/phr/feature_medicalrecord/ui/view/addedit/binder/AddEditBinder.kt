@@ -17,7 +17,9 @@ class AddEditBinder:
         viewBinding: FragmentAddEditMedicalRecordBinding,
         viewState: AddEditViewState
     ) {
-        viewBinding.datePicker.setDate(viewState.createdAt ?: LocalDate.now())
+        viewBinding.datePicker.setDate(viewState.visitDate ?: LocalDate.now())
+        viewBinding.textViewCurrentSizeFiles.text = viewState.files.size.toString()
+        viewBinding.buttonAddFile.isEnabled = viewState.canAddMoreFiles()
 
 //        if (viewState.patient != null) {
 //            viewBinding.progressBar.visibility = View.GONE
@@ -30,6 +32,7 @@ class AddEditBinder:
     }
 
     override fun init(viewBinding: FragmentAddEditMedicalRecordBinding, context: Context, lifecycleScope: CoroutineScope) {
+        viewBinding.textViewTotalSizeFiles.text = AddEditViewState.MAX_FILES.toString()
 //        viewBinding.buttonAddFile.setOnClickListener {
 //            notify(Notification.AddFile)
 //        }
