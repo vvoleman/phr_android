@@ -5,11 +5,13 @@ import cz.vvoleman.phr.feature_medicalrecord.data.repository.MedicalRecordReposi
 import cz.vvoleman.phr.feature_medicalrecord.data.repository.MedicalWorkerRepository
 import cz.vvoleman.phr.feature_medicalrecord.data.repository.ProblemCategoryRepository
 import cz.vvoleman.phr.feature_medicalrecord.domain.repository.*
+import cz.vvoleman.phr.feature_medicalrecord.domain.repository.add_edit.SearchDiagnoseRepository
 import cz.vvoleman.phr.feature_medicalrecord.domain.repository.select_file.SaveFileRepository
 import cz.vvoleman.phr.feature_medicalrecord.domain.usecase.GetFilteredRecordsUseCase
 import cz.vvoleman.phr.feature_medicalrecord.domain.usecase.GetSelectedPatientUseCase
 import cz.vvoleman.phr.feature_medicalrecord.domain.usecase.GetUsedMedicalWorkersUseCase
 import cz.vvoleman.phr.feature_medicalrecord.domain.usecase.GetUsedProblemCategoriesUseCase
+import cz.vvoleman.phr.feature_medicalrecord.domain.usecase.add_edit.SearchDiagnoseUseCase
 import cz.vvoleman.phr.feature_medicalrecord.domain.usecase.select_file.GetDataForSelectedOptionsUseCase
 import cz.vvoleman.phr.feature_medicalrecord.domain.usecase.select_file.SaveMedicalRecordFileUseCase
 import cz.vvoleman.phr.feature_medicalrecord.presentation.addedit.mapper.DiagnoseDomainModelToPresentationMapper
@@ -104,5 +106,14 @@ class PresentationModule {
 
     @Provides
     fun providesSelectedOptionsPresentationToDomainMapper() = SelectedOptionsPresentationToDomainMapper()
+
+    @Provides
+    fun providesSearchDiagnoseUseCase(
+        searchDiagnoseRepository: SearchDiagnoseRepository,
+        coroutineContextProvider: CoroutineContextProvider
+    ) = SearchDiagnoseUseCase(
+        searchDiagnoseRepository,
+        coroutineContextProvider
+    )
 
 }

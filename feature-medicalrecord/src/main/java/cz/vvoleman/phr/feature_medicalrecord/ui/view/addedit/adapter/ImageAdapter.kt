@@ -1,4 +1,4 @@
-package cz.vvoleman.phr.feature_medicalrecord.ui.view.addedit
+package cz.vvoleman.phr.feature_medicalrecord.ui.view.addedit.adapter
 
 import android.util.Log
 import android.view.LayoutInflater
@@ -12,6 +12,19 @@ import cz.vvoleman.phr.feature_medicalrecord.ui.model.ImageItemUiModel
 class ImageAdapter(
     private val listener: OnAdapterItemListener
 ) : ListAdapter<ImageItemUiModel, ImageAdapter.ImageViewHolder>(DiffCallback()) {
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImageViewHolder {
+        Log.d("ImageAdapter", "onCreateViewHolder: ")
+        val binding =
+            ItemFileThumbnailBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+
+        return ImageViewHolder(binding)
+    }
+
+    override fun onBindViewHolder(holder: ImageViewHolder, position: Int) {
+        val currentItem = getItem(position)
+        holder.bind(currentItem)
+    }
 
     inner class ImageViewHolder(private val binding: ItemFileThumbnailBinding) : RecyclerView.ViewHolder(binding.root) {
 
@@ -36,26 +49,14 @@ class ImageAdapter(
 
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImageViewHolder {
-        Log.d("ImageAdapter", "onCreateViewHolder: ")
-        val binding =
-            ItemFileThumbnailBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-
-        return ImageViewHolder(binding)
-    }
-
-    override fun onBindViewHolder(holder: ImageViewHolder, position: Int) {
-        val currentItem = getItem(position)
-        holder.bind(currentItem)
-    }
-
     class DiffCallback : DiffUtil.ItemCallback<ImageItemUiModel>() {
         override fun areItemsTheSame(oldItem: ImageItemUiModel, newItem: ImageItemUiModel): Boolean {
-            return oldItem.uri.path == newItem.uri.path
+            Log.d("ImageAdapter", "areItemsTheSame: ${oldItem.uri.path} == ${newItem.uri.path}")
+            return oldItem.uri.path == newItem.uri.path && false
         }
 
         override fun areContentsTheSame(oldItem: ImageItemUiModel, newItem: ImageItemUiModel): Boolean {
-            return oldItem == newItem
+            return oldItem == newItem && false
         }
     }
 

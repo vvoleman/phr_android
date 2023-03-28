@@ -12,6 +12,7 @@ import cz.vvoleman.phr.feature_medicalrecord.data.datasource.model.room.worker.M
 import cz.vvoleman.phr.feature_medicalrecord.data.mapper.*
 import cz.vvoleman.phr.feature_medicalrecord.data.repository.*
 import cz.vvoleman.phr.feature_medicalrecord.domain.repository.*
+import cz.vvoleman.phr.feature_medicalrecord.domain.repository.add_edit.SearchDiagnoseRepository
 import cz.vvoleman.phr.feature_medicalrecord.domain.repository.dummy.GetDummyUsedProblemCategoriesRepository
 import cz.vvoleman.phr.feature_medicalrecord.domain.repository.select_file.GetDiagnosesByIdsRepository
 import cz.vvoleman.phr.feature_medicalrecord.domain.repository.select_file.GetPatientByBirthDateRepository
@@ -165,4 +166,9 @@ class DataModule {
     fun providesGetDiagnoseByIdRepository(
         diagnoseRepository: DiagnoseRepository
     ): GetDiagnoseByIdRepository = diagnoseRepository
+
+    @Provides
+    fun providesSearchDiagnoseRepository(
+        diagnoseRepository: DiagnoseRepository
+    ): SearchDiagnoseRepository = diagnoseRepository
 }

@@ -101,10 +101,10 @@ class SelectFileBinder :
             }
 
             findViewById<Button>(R.id.confirm_button).setOnClickListener {
-                val diagnose = (findViewById<Spinner>(R.id.diagnose_spinner).selectedItem as OptionItem).value
-                val visitDate = (findViewById<Spinner>(R.id.date_spinner).selectedItem as OptionItem).value
+                val diagnose = (findViewById<Spinner>(R.id.diagnose_spinner).selectedItem as OptionItem?)?.value
+                val visitDate = (findViewById<Spinner>(R.id.date_spinner).selectedItem as OptionItem?)?.value
                 val patient = if (hasPatients) {
-                    (findViewById<Spinner>(R.id.patient_spinner).selectedItem as OptionItem).value
+                    (findViewById<Spinner>(R.id.patient_spinner).selectedItem as OptionItem?)?.value
                 } else {
                     null
                 }
