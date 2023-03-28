@@ -1,0 +1,67 @@
+package cz.vvoleman.phr.feature_medicalrecord.ui.view.addedit
+
+import android.util.Log
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
+import androidx.recyclerview.widget.RecyclerView
+import cz.vvoleman.phr.feature_medicalrecord.databinding.ItemFileThumbnailBinding
+import cz.vvoleman.phr.feature_medicalrecord.ui.model.ImageItemUiModel
+
+class ImageAdapter(
+    private val listener: OnAdapterItemListener
+) : ListAdapter<ImageItemUiModel, ImageAdapter.ImageViewHolder>(DiffCallback()) {
+
+    inner class ImageViewHolder(private val binding: ItemFileThumbnailBinding) : RecyclerView.ViewHolder(binding.root) {
+
+        init {
+            binding.apply {
+                root.setOnClickListener {
+                    val position = bindingAdapterPosition
+                    if (position != RecyclerView.NO_POSITION) {
+                        val item = getItem(position)
+                        listener.onItemClicked(item)
+                    }
+                }
+            }
+        }
+
+        fun bind(item: ImageItemUiModel) {
+            Log.d("ImageAdapter", "bind: $item")
+            binding.apply {
+                imageViewThumbnail.setImageURI(item.uri)
+            }
+        }
+
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImageViewHolder {
+        val binding =
+            ItemFileThumbnailBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+
+        return ImageViewHolder(binding)
+    }
+
+    override fun onBindViewHolder(holder: ImageViewHolder, position: Int) {
+        val currentItem = getItem(position)
+        holder.bind(currentItem)
+    }
+
+    class DiffCallback : DiffUtil.ItemCallback<ImageItemUiModel>() {
+        override fun areItemsTheSame(oldItem: ImageItemUiModel, newItem: ImageItemUiModel): Boolean {
+            return oldItem.uri.path == newItem.uri.path
+        }
+
+        override fun areContentsTheSame(oldItem: ImageItemUiModel, newItem: ImageItemUiModel): Boolean {
+            return oldItem == newItem
+        }
+    }
+
+    interface OnAdapterItemListener {
+        fun onItemClicked(item: ImageItemUiModel)
+        fun onItemDeleted(item: ImageItemUiModel)
+    }
+
+
+}
