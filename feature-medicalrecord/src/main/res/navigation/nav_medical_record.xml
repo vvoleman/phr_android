@@ -40,6 +40,11 @@
             app:argType="android.net.Uri"
             app:nullable="true"
             android:defaultValue="@null" />
+        <argument
+            android:name="previousViewState"
+            app:argType="cz.vvoleman.phr.feature_medicalrecord.presentation.addedit.model.AddEditViewState"
+            app:nullable="true"
+            android:defaultValue="@null" />
     </fragment>
     <fragment
         android:id="@+id/selectFileFragment"
@@ -48,6 +53,11 @@
         tools:layout="@layout/fragment_select_file" >
         <action
             android:id="@+id/action_selectFileFragment_to_addEditMedicalRecordsFragment"
-            app:destination="@id/addEditMedicalRecordsFragment" />
+            app:destination="@id/addEditMedicalRecordsFragment"
+            app:popUpTo="@id/addEditMedicalRecordsFragment"
+            app:popUpToInclusive="true"/>
+        <argument
+            android:name="parentViewState"
+            app:argType="cz.vvoleman.phr.feature_medicalrecord.presentation.addedit.model.AddEditViewState" />
     </fragment>
 </navigation>

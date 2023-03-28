@@ -74,7 +74,6 @@ dependencies {
 
     // OCR
     implementation 'com.google.android.gms:play-services-mlkit-text-recognition:18.0.2'
-
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.8.0'
