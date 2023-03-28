@@ -7,8 +7,10 @@ import androidx.lifecycle.viewModelScope
 import cz.vvoleman.phr.base.presentation.viewmodel.BaseViewModel
 import cz.vvoleman.phr.base.presentation.viewmodel.usecase.UseCaseExecutorProvider
 import cz.vvoleman.phr.feature_medicalrecord.domain.model.DiagnoseDomainModel
+import cz.vvoleman.phr.feature_medicalrecord.domain.model.add_edit.SearchRequestDomainModel
 import cz.vvoleman.phr.feature_medicalrecord.domain.model.select_file.SelectedObjectsDomainModel
 import cz.vvoleman.phr.feature_medicalrecord.domain.usecase.GetSelectedPatientUseCase
+import cz.vvoleman.phr.feature_medicalrecord.domain.usecase.add_edit.SearchDiagnoseUseCase
 import cz.vvoleman.phr.feature_medicalrecord.domain.usecase.select_file.GetDataForSelectedOptionsUseCase
 import cz.vvoleman.phr.feature_medicalrecord.presentation.addedit.mapper.DiagnoseDomainModelToPresentationMapper
 import cz.vvoleman.phr.feature_medicalrecord.presentation.addedit.mapper.PatientDomainModelToPresentationMapper
@@ -24,47 +26,44 @@ import javax.inject.Inject
 @HiltViewModel
 class AddEditViewModel @Inject constructor(
     private val getSelectedPatientUseCase: GetSelectedPatientUseCase,
+    private val searchDiagnoseUseCase: SearchDiagnoseUseCase,
     private val getDataForSelectedOptionsUseCase: GetDataForSelectedOptionsUseCase,
     private val selectedOptionsPresentationToDomainMapper: SelectedOptionsPresentationToDomainMapper,
+    private val diagnoseDomainModelToPresentationMapper: DiagnoseDomainModelToPresentationMapper,
     private val savedStateHandle: SavedStateHandle,
     useCaseExecutorProvider: UseCaseExecutorProvider
-) : BaseViewModel<AddEditViewState, AddEditNotification>(savedStateHandle,useCaseExecutorProvider){
+) : BaseViewModel<AddEditViewState, AddEditNotification>(
+    savedStateHandle,
+    useCaseExecutorProvider
+) {
 
     override val TAG = "AddEditViewModel"
 
     override fun initState(): AddEditViewState {
-        Log.d(TAG, "savedStateHandle: ${savedStateHandle.get<AddEditViewState>(TAG)}")
-        val saved = savedStateHandle.get<AddEditViewState>(TAG)
-        Log.d(TAG, "setupState: $saved")
+        val previousViewState = savedStateHandle.get<AddEditViewState>("previousViewState")
 
-        if (saved != null) {
-            return saved
+        if (previousViewState != null) {
+            return previousViewState
         }
-        return AddEditViewState()
-    }
 
-    override fun updateViewState(newViewState: AddEditViewState) {
-        super.updateViewState(newViewState)
-        Log.d(TAG, "updateViewState: $newViewState")
-        savedStateHandle.set(TAG, newViewState)
-        Log.d(TAG, "savedStateHandle: ${savedStateHandle.get<AddEditViewState>(TAG)}")
+        return AddEditViewState()
     }
 
     override fun onInit() {
         super.onInit()
         loadSelectedPatient()
 
-        val previousViewState = savedStateHandle.get<AddEditViewState>("previousViewState")
-        Log.d(TAG, "onInit previousViewState: $previousViewState")
-        if (previousViewState != null) {
-            updateViewState(previousViewState)
-        }
-
         // Get param
-        val selectedOptions = savedStateHandle.get<SelectedOptionsPresentationModel>("selectedOptions")
+        val selectedOptions =
+            savedStateHandle.get<SelectedOptionsPresentationModel>("selectedOptions")
         if (selectedOptions != null) {
             val options = selectedOptionsPresentationToDomainMapper.toDomain(selectedOptions)
-            viewModelScope.launch {  getDataForSelectedOptionsUseCase.execute(options, ::setSelectedOptions) }
+            viewModelScope.launch {
+                getDataForSelectedOptionsUseCase.execute(
+                    options,
+                    ::setSelectedOptions
+                )
+            }
         }
 
         val fileUri = savedStateHandle.get<Uri>("fileUri")
@@ -77,8 +76,26 @@ class AddEditViewModel @Inject constructor(
         navigateTo(AddEditDestination.AddRecordFile(currentViewState))
     }
 
+    fun onDiagnoseSelected(diagnoseId: String) {
+        updateViewState(currentViewState.copy(diagnoseId = diagnoseId))
+    }
+
+    fun onDiagnoseSearch(query: String) = viewModelScope.launch {
+        val data = searchDiagnoseUseCase.execute(
+            SearchRequestDomainModel(
+                query,
+                currentViewState.diagnosePage
+            ), ::handleDiagnoseSearch
+        )
+    }
+
     fun onSubmit(input: AddEditPresentationModel) {
 
+    }
+
+    private fun handleDiagnoseSearch(data: List<DiagnoseDomainModel>) {
+        val list = data.map { diagnoseDomainModelToPresentationMapper.toPresentation(it) }
+        updateViewState(currentViewState.copy(diagnoseSpinnerList = list))
     }
 
     fun onDeleteFile(uri: Uri) {

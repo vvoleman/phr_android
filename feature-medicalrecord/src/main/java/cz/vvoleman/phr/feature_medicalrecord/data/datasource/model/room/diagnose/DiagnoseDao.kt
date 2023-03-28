@@ -18,6 +18,9 @@ interface DiagnoseDao {
     @Query("SELECT * FROM diagnose WHERE parent = :id")
     fun getByParent(id: String): Flow<List<DiagnoseWithGroup>>
 
+    @Query("SELECT * FROM diagnose WHERE name LIKE '%'||:value||'%' OR id LIKE '%'||:value||'%'")
+    fun search(value: String): Flow<List<DiagnoseWithGroup>>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(diagnose: DiagnoseDataSourceModel)
 

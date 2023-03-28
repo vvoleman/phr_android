@@ -23,4 +23,6 @@
     <string name="select_file_error">Při přidávání souboru se vyskytla chyba</string>
     <string name="select_file_select_only_file">Pouze soubor</string>
     <string name="add_eddit_medical_record_file_limit_reached">Maximální počet přiložených souborů dosažen</string>
+    <string name="no_results">Žádné výsledky</string>
+    <string name="results_could_not_be_loaded">Nepodařilo se načíst výsledky</string>
 </resources>

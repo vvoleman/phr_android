@@ -4,18 +4,20 @@ import android.content.Context
 import android.util.Log
 import android.view.View
 import cz.vvoleman.phr.base.ui.mapper.BaseViewStateBinder
-import cz.vvoleman.phr.base.ui.mapper.ViewStateBinder
 import cz.vvoleman.phr.feature_medicalrecord.databinding.FragmentAddEditMedicalRecordBinding
 import cz.vvoleman.phr.feature_medicalrecord.presentation.addedit.model.AddEditViewState
+import cz.vvoleman.phr.feature_medicalrecord.ui.model.DiagnoseItemUiModel
 import cz.vvoleman.phr.feature_medicalrecord.ui.model.ImageItemUiModel
-import cz.vvoleman.phr.feature_medicalrecord.ui.view.addedit.ImageAdapter
+import cz.vvoleman.phr.feature_medicalrecord.ui.view.addedit.adapter.DiagnoseDialogSpinner
+import cz.vvoleman.phr.feature_medicalrecord.ui.view.addedit.adapter.ImageAdapter
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 import java.time.LocalDate
 
 
 class AddEditBinder:
     BaseViewStateBinder<AddEditViewState, FragmentAddEditMedicalRecordBinding, AddEditBinder.Notification>(),
-    ImageAdapter.OnAdapterItemListener {
+    ImageAdapter.OnAdapterItemListener, DiagnoseDialogSpinner.OnDialogListener {
 
     private lateinit var adapter: ImageAdapter
 
@@ -28,25 +30,32 @@ class AddEditBinder:
         viewBinding.buttonAddFile.isEnabled = viewState.canAddMoreFiles()
         val items = viewState.files.map { ImageItemUiModel(it) }
         adapter.submitList(viewState.files.map { ImageItemUiModel(it) })
-//        }
+
+        lifecycleScope.launch {
+            viewBinding.spinnerDiagnose.setData(viewState.diagnoseSpinnerList.map { DiagnoseItemUiModel(it.id, it.name) })
+        }
     }
 
     override fun init(viewBinding: FragmentAddEditMedicalRecordBinding, context: Context, lifecycleScope: CoroutineScope) {
+        super.init(viewBinding, context, lifecycleScope)
+
         viewBinding.textViewTotalSizeFiles.text = AddEditViewState.MAX_FILES.toString()
         adapter = ImageAdapter(this)
         viewBinding.recyclerViewFiles.apply {
             adapter = adapter
-            layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context)
+            layoutManager = androidx.recyclerview.widget.LinearLayoutManager(fragmentContext)
             setHasFixedSize(true)
-        } //        viewBinding.buttonAddFile.setOnClickListener {
-//            notify(Notification.AddFile)
-//        }
+            visibility = View.VISIBLE
+        }
+        viewBinding.spinnerDiagnose.setListener(this)
     }
 
     sealed class Notification {
         object AddFile : Notification()
         data class FileClick(val item: ImageItemUiModel) : Notification()
         data class FileDelete(val item: ImageItemUiModel) : Notification()
+        data class DiagnoseSearch(val query: String) : Notification()
+        data class DiagnoseClick(val item: DiagnoseItemUiModel) : Notification()
     }
 
     override fun onItemClicked(item: ImageItemUiModel) {
@@ -55,5 +64,14 @@ class AddEditBinder:
 
     override fun onItemDeleted(item: ImageItemUiModel) {
         notify(Notification.FileDelete(item))
+    }
+
+    override fun onDiagnoseClicked(item: DiagnoseItemUiModel): Boolean {
+        notify(Notification.DiagnoseClick(item))
+        return true
+    }
+
+    override fun onDiagnoseSearch(query: String) {
+        notify(Notification.DiagnoseSearch(query))
     }
 }

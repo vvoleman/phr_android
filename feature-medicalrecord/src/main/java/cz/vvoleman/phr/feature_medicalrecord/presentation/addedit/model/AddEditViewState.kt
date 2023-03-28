@@ -14,6 +14,8 @@ data class AddEditViewState(
     val problemCategoryId: String? = null,
     val patientId: String?= null,
     val visitDate: LocalDate? = null,
+    val diagnosePage: Int = 1,
+    val diagnoseSpinnerList: List<DiagnosePresentationModel> = listOf(),
     val files: List<Uri> = listOf()
 ): Parcelable {
 
