@@ -15,6 +15,7 @@ import cz.vvoleman.phr.feature_medicalrecord.presentation.addedit.model.AddEditV
 import cz.vvoleman.phr.feature_medicalrecord.presentation.addedit.viewmodel.AddEditViewModel
 import cz.vvoleman.phr.feature_medicalrecord.ui.mapper.AddEditDestinationUiMapper
 import cz.vvoleman.phr.feature_medicalrecord.ui.model.ImageItemUiModel
+import cz.vvoleman.phr.feature_medicalrecord.ui.view.addedit.adapter.ImageAdapter
 import cz.vvoleman.phr.feature_medicalrecord.ui.view.addedit.binder.AddEditBinder
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -55,6 +56,14 @@ class AddEditMedicalRecordsFragment : BaseFragment<
                 is AddEditBinder.Notification.FileClick -> TODO()
                 is AddEditBinder.Notification.FileDelete -> {
                     viewModel.onDeleteFile(it.item.uri)
+                }
+                is AddEditBinder.Notification.DiagnoseClick -> {
+                    viewModel.onDiagnoseSelected(it.item.id)
+                }
+                is AddEditBinder.Notification.DiagnoseSearch -> {
+                    Log.d(TAG, it.toString())
+                    viewModel.onDiagnoseSearch(it.query)
+//                    viewModel.onDiagnoseSearch(it.query)
                 }
             }
         }

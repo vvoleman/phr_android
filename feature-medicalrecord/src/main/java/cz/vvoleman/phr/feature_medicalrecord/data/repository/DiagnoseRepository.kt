@@ -7,15 +7,17 @@ import cz.vvoleman.phr.feature_medicalrecord.data.mapper.DiagnoseApiModelToDbMap
 import cz.vvoleman.phr.feature_medicalrecord.data.mapper.DiagnoseDataSourceToDomainMapper
 import cz.vvoleman.phr.feature_medicalrecord.domain.model.DiagnoseDomainModel
 import cz.vvoleman.phr.feature_medicalrecord.domain.repository.GetDiagnoseByIdRepository
+import cz.vvoleman.phr.feature_medicalrecord.domain.repository.add_edit.SearchDiagnoseRepository
 import cz.vvoleman.phr.feature_medicalrecord.domain.repository.select_file.GetDiagnosesByIdsRepository
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
 
 class DiagnoseRepository(
     private val diagnoseApiModelToDbMapper: DiagnoseApiModelToDbMapper,
     private val diagnoseDataSourceToDomainMapper: DiagnoseDataSourceToDomainMapper,
     private val backendApi: BackendApi,
     private val diagnoseDao: DiagnoseDao,
-) : GetDiagnosesByIdsRepository, GetDiagnoseByIdRepository {
+) : GetDiagnosesByIdsRepository, GetDiagnoseByIdRepository, SearchDiagnoseRepository {
 
     override suspend fun getDiagnosesByIds(ids: List<String>): List<DiagnoseDomainModel> {
 
@@ -53,5 +55,23 @@ class DiagnoseRepository(
 
     override suspend fun getDiagnoseById(id: String): DiagnoseDomainModel? {
         return getDiagnosesByIds(listOf(id)).firstOrNull()
+    }
+
+    override suspend fun searchDiagnose(query: String, page: Int): List<DiagnoseDomainModel> {
+        try {
+            val response = backendApi.searchDiagnoses(query, page, 10)
+
+            val diagnoses = response.data.map { diagnoseApiModelToDbMapper.toDb(it) }
+            diagnoseDao.insert(diagnoses)
+
+            // Map the diagnoses to a list of DiagnoseDomainModel objects and return them
+            return diagnoses.map { diagnoseDataSourceToDomainMapper.toDomain(it) }
+        } catch (e: Exception) {
+            // Log the error
+            Log.e("DiagnoseRepository", "Error while searching diagnoses", e)
+        }
+
+        // If the remote search fails, fall back to the local storage
+        return diagnoseDao.search(query).first().map { diagnoseDataSourceToDomainMapper.toDomain(it.diagnose) }
     }
 }

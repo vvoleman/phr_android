@@ -79,7 +79,6 @@
                 android:id="@+id/recycler_view_files"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 tools:itemCount="1"
                 tools:listitem="@layout/item_file_thumbnail" />
         </GridLayout>
@@ -103,13 +102,18 @@
             android:id="@+id/date_picker"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
-        <Spinner
+        <cz.vvoleman.phr.feature_medicalrecord.ui.view.addedit.adapter.DiagnoseDialogSpinner
             android:id="@+id/spinner_diagnose"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent" />
-
-
-
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <Spinner
+            android:id="@+id/spinner_problem_category"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <Spinner
+            android:id="@+id/spinner_medical_worker"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
         <Button
             android:id="@+id/button_save"
             style="@style/CustomButton"

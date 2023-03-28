@@ -36,8 +36,6 @@ class DatePicker @JvmOverloads constructor(
 
         dialog.setOnDateSetListener { _, year, month, dayOfMonth ->
             val date = LocalDate.of(year, month+1, dayOfMonth)
-            Log.d(TAG, "Date change registered: $date")
-            Log.d(TAG, "Date set: $date")
             setEditTextValue(date)
             editText.clearFocus()
             listener?.onDateSelected(date)
@@ -49,7 +47,6 @@ class DatePicker @JvmOverloads constructor(
 
 
         // On click show dialog
-        Log.d("DatePicker", "has listeners?: ${editText.hasOnClickListeners()}")
         editText.setOnFocusChangeListener { _, hasFocus ->
             Log.d("DatePicker", "has focus?: $hasFocus")
             if (hasFocus) {
@@ -59,7 +56,6 @@ class DatePicker @JvmOverloads constructor(
     }
 
     fun setValue(value: String) {
-        Log.d(TAG, "Setting value: $value")
         editText.setText(value)
 
         // value to Date
