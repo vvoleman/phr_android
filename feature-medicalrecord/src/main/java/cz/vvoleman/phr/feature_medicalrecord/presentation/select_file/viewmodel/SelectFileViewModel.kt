@@ -12,6 +12,7 @@ import cz.vvoleman.phr.feature_medicalrecord.domain.model.select_file.SelectedOp
 import cz.vvoleman.phr.feature_medicalrecord.domain.model.select_file.TextDomainModel
 import cz.vvoleman.phr.feature_medicalrecord.domain.usecase.select_file.GetRecognizedOptionsFromTextUseCase
 import cz.vvoleman.phr.feature_medicalrecord.domain.usecase.select_file.GetTextFromInputImageUseCase
+import cz.vvoleman.phr.feature_medicalrecord.presentation.addedit.model.AddEditViewState
 import cz.vvoleman.phr.feature_medicalrecord.presentation.select_file.mapper.RecognizedOptionsDomainModelToPresentationMapper
 import cz.vvoleman.phr.feature_medicalrecord.presentation.select_file.model.SelectFileDestination
 import cz.vvoleman.phr.feature_medicalrecord.presentation.select_file.model.SelectFileNotification
@@ -28,7 +29,7 @@ class SelectFileViewModel @Inject constructor(
     private val getTextFromInputImageUseCase: GetTextFromInputImageUseCase,
     private val getRecognizedOptionsFromTextUseCase: GetRecognizedOptionsFromTextUseCase,
     private val recognizedOptionsDomainModelToPresentationMapper: RecognizedOptionsDomainModelToPresentationMapper,
-    savedStateHandle: SavedStateHandle,
+    private val savedStateHandle: SavedStateHandle,
     useCaseExecutorProvider: UseCaseExecutorProvider
 ) : BaseViewModel<SelectFileViewState, SelectFileNotification>(
     savedStateHandle,
@@ -68,10 +69,12 @@ class SelectFileViewModel @Inject constructor(
     }
 
     private fun finish() {
+        val parentViewState = savedStateHandle.get<AddEditViewState>("parentViewState")
+            ?: throw IllegalStateException("Parent view state not found")
         if (currentViewState.selectedOptions != null) {
-            navigateTo(SelectFileDestination.SuccessWithOptions(currentViewState.selectedOptions!!, currentViewState.uri!!))
+            navigateTo(SelectFileDestination.SuccessWithOptions(parentViewState, currentViewState.selectedOptions!!, currentViewState.uri!!))
         } else {
-            navigateTo(SelectFileDestination.Success(currentViewState.uri!!))
+            navigateTo(SelectFileDestination.Success(parentViewState, currentViewState.uri!!))
         }
     }
 

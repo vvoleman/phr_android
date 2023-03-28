@@ -45,13 +45,6 @@ abstract class BaseViewModel<VIEW_STATE : Any, NOTIFICATION : Any>(
 
 
     private fun setupState(): VIEW_STATE {
-//        val saved = savedStateHandle.get<VIEW_STATE>(TAG)
-//        Log.d(TAG, "setupState: $saved")
-//
-//        if (saved != null) {
-//            return saved
-//        }
-
         return initState()
     }
 
@@ -68,7 +61,6 @@ abstract class BaseViewModel<VIEW_STATE : Any, NOTIFICATION : Any>(
 
     protected open fun updateViewState(newViewState: VIEW_STATE) {
         _viewState.value = newViewState
-//        savedStateHandle[TAG] =  newViewState
     }
 
     protected fun notify(notification: NOTIFICATION) {

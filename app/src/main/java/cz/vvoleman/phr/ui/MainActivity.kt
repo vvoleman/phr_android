@@ -13,6 +13,7 @@ import cz.vvoleman.phr.base.presentation.navigation.NavManager
 import cz.vvoleman.phr.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
+import com.gu.toolargetool.TooLargeTool;
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -26,6 +27,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        TooLargeTool.startLogging(this.application,)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 

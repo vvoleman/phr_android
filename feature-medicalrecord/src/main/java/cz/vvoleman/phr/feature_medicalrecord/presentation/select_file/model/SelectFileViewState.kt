@@ -2,11 +2,8 @@ package cz.vvoleman.phr.feature_medicalrecord.presentation.select_file.model
 
 import android.graphics.Bitmap
 import android.net.Uri
-import android.os.Parcelable
-import kotlinx.parcelize.Parcelize
 import java.time.LocalDate
 
-@Parcelize
 data class SelectFileViewState(
     val uri: Uri? = null,
     val startedAt: LocalDate? = null,
@@ -14,7 +11,7 @@ data class SelectFileViewState(
     val previewUri: Bitmap? = null,
     val selectedOptions: SelectedOptionsPresentationModel? = null,
     val files: List<Uri> = emptyList(),
-) : Parcelable {
+) {
     fun hasRecognizedOptions() = previewUri != null
     fun isLoading() = startedAt != null
 }

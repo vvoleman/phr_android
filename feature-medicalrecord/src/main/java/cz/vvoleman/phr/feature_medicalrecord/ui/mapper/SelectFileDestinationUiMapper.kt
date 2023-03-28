@@ -11,20 +11,25 @@ class SelectFileDestinationUiMapper(navManager: NavManager) : DestinationUiMappe
     override fun navigate(destination: PresentationDestination) {
         when (destination) {
             is SelectFileDestination.SuccessWithOptions -> {
-                val action = SelectFileFragmentDirections.actionSelectFileFragmentToAddEditMedicalRecordsFragment(
-                    selectedOptions = destination.selectedOptions,
-                    fileUri = destination.fileUri
-                )
+                val action =
+                    SelectFileFragmentDirections.actionSelectFileFragmentToAddEditMedicalRecordsFragment(
+                        previousViewState = destination.parentViewState,
+                        fileUri = destination.fileUri,
+                        selectedOptions = destination.selectedOptions
+                    )
                 navManager.navigate(action)
             }
             is SelectFileDestination.Success -> {
-                val action = SelectFileFragmentDirections.actionSelectFileFragmentToAddEditMedicalRecordsFragment(
-                    fileUri = destination.fileUri
-                )
+                val action =
+                    SelectFileFragmentDirections.actionSelectFileFragmentToAddEditMedicalRecordsFragment(
+                        previousViewState = destination.parentViewState,
+                        fileUri = destination.fileUri
+                    )
                 navManager.navigate(action)
             }
             is SelectFileDestination.Cancel -> {
-                val action = SelectFileFragmentDirections.actionSelectFileFragmentToAddEditMedicalRecordsFragment()
+                val action =
+                    SelectFileFragmentDirections.actionSelectFileFragmentToAddEditMedicalRecordsFragment()
                 navManager.navigate(action)
             }
         }

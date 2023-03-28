@@ -10,10 +10,10 @@ class AddEditViewStateToModel {
         try {
             return AddEditPresentationModel(
                 createdAt = viewState.createdAt!!,
-                diagnoseId = viewState.diagnose?.id!!,
-                problemCategoryId = viewState.problemCategory?.id!!,
-                patientId = viewState.patient?.id!!,
-                medicalWorkerId = viewState.medicalWorkerPresentationModel?.id!!,
+                diagnoseId = viewState.diagnoseId!!,
+                problemCategoryId = viewState.problemCategoryId!!,
+                patientId = viewState.patientId!!,
+                medicalWorkerId = viewState.medicalWorkerId!!,
                 files = viewState.files,
             )
         } catch (e: NullPointerException) {

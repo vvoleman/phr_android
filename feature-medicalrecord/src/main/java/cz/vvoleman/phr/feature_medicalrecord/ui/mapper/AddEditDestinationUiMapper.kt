@@ -15,7 +15,10 @@ class AddEditDestinationUiMapper(navManager: NavManager) : DestinationUiMapper(n
                 Log.d("AddEditDestinationUiMapper", "RecordSaved")
             }
             is AddEditDestination.AddRecordFile -> {
-                val action = AddEditMedicalRecordsFragmentDirections.actionAddEditMedicalRecordsFragmentToSelectFileFragment()
+                val action =
+                    AddEditMedicalRecordsFragmentDirections.actionAddEditMedicalRecordsFragmentToSelectFileFragment(
+                        destination.previousViewState
+                    )
                 navManager.navigate(action)
             }
         }
