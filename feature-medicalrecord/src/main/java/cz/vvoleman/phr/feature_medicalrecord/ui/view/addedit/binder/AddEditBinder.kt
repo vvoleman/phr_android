@@ -27,7 +27,6 @@ class AddEditBinder:
         viewBinding.textViewCurrentSizeFiles.text = viewState.files.size.toString()
         viewBinding.buttonAddFile.isEnabled = viewState.canAddMoreFiles()
         val items = viewState.files.map { ImageItemUiModel(it) }
-        Log.d("AddEditBinder", "bind: ${items}")
         adapter.submitList(viewState.files.map { ImageItemUiModel(it) })
 //        }
     }
@@ -36,11 +35,10 @@ class AddEditBinder:
         viewBinding.textViewTotalSizeFiles.text = AddEditViewState.MAX_FILES.toString()
         adapter = ImageAdapter(this)
         viewBinding.recyclerViewFiles.apply {
-            adapter = ImageAdapter(this@AddEditBinder)
+            adapter = adapter
             layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context)
-
-        }
-//        viewBinding.buttonAddFile.setOnClickListener {
+            setHasFixedSize(true)
+        } //        viewBinding.buttonAddFile.setOnClickListener {
 //            notify(Notification.AddFile)
 //        }
     }

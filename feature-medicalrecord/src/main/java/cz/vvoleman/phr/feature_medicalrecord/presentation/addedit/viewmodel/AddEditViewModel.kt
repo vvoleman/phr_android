@@ -18,17 +18,14 @@ import cz.vvoleman.phr.feature_medicalrecord.presentation.select_file.model.Sele
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
-import retrofit2.http.OPTIONS
 import java.time.LocalDate
 import javax.inject.Inject
 
 @HiltViewModel
 class AddEditViewModel @Inject constructor(
     private val getSelectedPatientUseCase: GetSelectedPatientUseCase,
-    private val patientDomainModelToPresentation: PatientDomainModelToPresentationMapper,
     private val getDataForSelectedOptionsUseCase: GetDataForSelectedOptionsUseCase,
     private val selectedOptionsPresentationToDomainMapper: SelectedOptionsPresentationToDomainMapper,
-    private val diagnoseDomainModelToPresentationMapper: DiagnoseDomainModelToPresentationMapper,
     private val savedStateHandle: SavedStateHandle,
     useCaseExecutorProvider: UseCaseExecutorProvider
 ) : BaseViewModel<AddEditViewState, AddEditNotification>(savedStateHandle,useCaseExecutorProvider){
@@ -36,30 +33,48 @@ class AddEditViewModel @Inject constructor(
     override val TAG = "AddEditViewModel"
 
     override fun initState(): AddEditViewState {
+        Log.d(TAG, "savedStateHandle: ${savedStateHandle.get<AddEditViewState>(TAG)}")
+        val saved = savedStateHandle.get<AddEditViewState>(TAG)
+        Log.d(TAG, "setupState: $saved")
+
+        if (saved != null) {
+            return saved
+        }
         return AddEditViewState()
+    }
+
+    override fun updateViewState(newViewState: AddEditViewState) {
+        super.updateViewState(newViewState)
+        Log.d(TAG, "updateViewState: $newViewState")
+        savedStateHandle.set(TAG, newViewState)
+        Log.d(TAG, "savedStateHandle: ${savedStateHandle.get<AddEditViewState>(TAG)}")
     }
 
     override fun onInit() {
         super.onInit()
         loadSelectedPatient()
 
+        val previousViewState = savedStateHandle.get<AddEditViewState>("previousViewState")
+        Log.d(TAG, "onInit previousViewState: $previousViewState")
+        if (previousViewState != null) {
+            updateViewState(previousViewState)
+        }
+
         // Get param
         val selectedOptions = savedStateHandle.get<SelectedOptionsPresentationModel>("selectedOptions")
         if (selectedOptions != null) {
-            Log.d(TAG, "Selected options: $selectedOptions")
             val options = selectedOptionsPresentationToDomainMapper.toDomain(selectedOptions)
             viewModelScope.launch {  getDataForSelectedOptionsUseCase.execute(options, ::setSelectedOptions) }
         }
 
         val fileUri = savedStateHandle.get<Uri>("fileUri")
         if (fileUri != null) {
-            Log.d(TAG, "File uri: $fileUri")
             addFileThumbnail(fileUri)
         }
     }
 
     fun onAddNewFile() {
-        navigateTo(AddEditDestination.AddRecordFile)
+        navigateTo(AddEditDestination.AddRecordFile(currentViewState))
     }
 
     fun onSubmit(input: AddEditPresentationModel) {
@@ -71,8 +86,6 @@ class AddEditViewModel @Inject constructor(
     }
 
     private fun addFileThumbnail(uri: Uri) {
-        Log.d(TAG, "current size: ${currentViewState.files.size}")
-        Log.d(TAG, "can add more files: ${currentViewState.canAddMoreFiles()}")
         if (!currentViewState.canAddMoreFiles()) {
             notify(AddEditNotification.LimitFilesReached)
             return
@@ -82,17 +95,16 @@ class AddEditViewModel @Inject constructor(
     }
 
     private fun setSelectedOptions(options: SelectedObjectsDomainModel) {
-        Log.d(TAG, "setSelectedOptions: $options")
         var state = currentViewState.copy()
 
-        var diagnose: DiagnosePresentationModel? = null
+        var diagnose: String? = null
         if (options.diagnose != null) {
-            diagnose = diagnoseDomainModelToPresentationMapper.toPresentation(options.diagnose)
+            diagnose = options.diagnose.id
         }
 
-        var patient: PatientPresentationModel? = null
+        var patient: String? = null
         if (options.patient != null) {
-            patient = patientDomainModelToPresentation.toPresentation(options.patient)
+            patient = options.patient.id
         }
 
         var visitDate: LocalDate? = null
@@ -100,8 +112,8 @@ class AddEditViewModel @Inject constructor(
             visitDate = options.visitDate
         }
 
-        diagnose?.let { state = state.copy(diagnose = it) }
-        patient?.let { state = state.copy(patient = it) }
+        diagnose?.let { state = state.copy(diagnoseId = it) }
+        patient?.let { state = state.copy(patientId = it) }
         visitDate?.let { state = state.copy(visitDate = it) }
 
         updateViewState(state)
@@ -109,8 +121,7 @@ class AddEditViewModel @Inject constructor(
 
     private fun loadSelectedPatient() = viewModelScope.launch {
         val patient = getSelectedPatientUseCase.execute(null).first()
-        Log.d(TAG, "loadSelectedPatient: $patient")
-        updateViewState(currentViewState.copy(patient = patientDomainModelToPresentation.toPresentation(patient)))
+        updateViewState(currentViewState.copy(patientId = patient.id))
     }
 
 }

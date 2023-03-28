@@ -37,6 +37,7 @@ class ImageAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImageViewHolder {
+        Log.d("ImageAdapter", "onCreateViewHolder: ")
         val binding =
             ItemFileThumbnailBinding.inflate(LayoutInflater.from(parent.context), parent, false)
 

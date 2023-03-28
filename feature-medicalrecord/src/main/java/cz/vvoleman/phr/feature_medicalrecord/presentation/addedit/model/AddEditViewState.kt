@@ -9,10 +9,10 @@ import java.time.LocalDate
 data class AddEditViewState(
     val recordId: String? = null,
     val createdAt: LocalDate? = null,
-    val diagnose: DiagnosePresentationModel? = null,
-    val medicalWorkerPresentationModel: MedicalWorkerPresentationModel? = null,
-    val problemCategory: ProblemCategoryPresentationModel? = null,
-    val patient: PatientPresentationModel?= null,
+    val diagnoseId: String? = null,
+    val medicalWorkerId: String? = null,
+    val problemCategoryId: String? = null,
+    val patientId: String?= null,
     val visitDate: LocalDate? = null,
     val files: List<Uri> = listOf()
 ): Parcelable {
@@ -21,6 +21,7 @@ data class AddEditViewState(
     fun canAddMoreFiles() = files.size < MAX_FILES
 
     companion object {
-        val MAX_FILES = 1
+        val MAX_FILES = 3
+        val TAG = "AddEditViewState"
     }
 }
