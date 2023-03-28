@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import com.google.android.material.snackbar.Snackbar
+import cz.vvoleman.phr.base.ui.ext.collectLifecycleFlow
 import cz.vvoleman.phr.base.ui.mapper.ViewStateBinder
 import cz.vvoleman.phr.base.ui.view.BaseFragment
 import cz.vvoleman.phr.feature_medicalrecord.R
@@ -13,6 +14,8 @@ import cz.vvoleman.phr.feature_medicalrecord.presentation.addedit.model.AddEditN
 import cz.vvoleman.phr.feature_medicalrecord.presentation.addedit.model.AddEditViewState
 import cz.vvoleman.phr.feature_medicalrecord.presentation.addedit.viewmodel.AddEditViewModel
 import cz.vvoleman.phr.feature_medicalrecord.ui.mapper.AddEditDestinationUiMapper
+import cz.vvoleman.phr.feature_medicalrecord.ui.model.ImageItemUiModel
+import cz.vvoleman.phr.feature_medicalrecord.ui.view.addedit.binder.AddEditBinder
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -20,7 +23,7 @@ import javax.inject.Inject
 class AddEditMedicalRecordsFragment : BaseFragment<
         AddEditViewState,
         AddEditNotification,
-        FragmentAddEditMedicalRecordBinding>() {
+        FragmentAddEditMedicalRecordBinding>(), ImageAdapter.OnAdapterItemListener {
 
     override val viewModel: AddEditViewModel by viewModels()
 
@@ -44,7 +47,21 @@ class AddEditMedicalRecordsFragment : BaseFragment<
         binding.buttonAddFile.setOnClickListener {
             viewModel.onAddNewFile()
         }
+
+        val addEditBinder = (viewStateBinder as AddEditBinder)
+        collectLifecycleFlow(addEditBinder.notification) {
+            when (it) {
+                is AddEditBinder.Notification.AddFile -> TODO()
+                is AddEditBinder.Notification.FileClick -> TODO()
+                is AddEditBinder.Notification.FileDelete -> {
+                    viewModel.onDeleteFile(it.item.uri)
+                }
+            }
+        }
+
     }
+
+
 
     override fun handleNotification(notification: AddEditNotification) {
         when (notification) {
@@ -61,5 +78,11 @@ class AddEditMedicalRecordsFragment : BaseFragment<
         }
     }
 
+    override fun onItemDeleted(item: ImageItemUiModel) {
+        viewModel.onDeleteFile(item.uri)
+    }
 
+    override fun onItemClicked(item: ImageItemUiModel) {
+        TODO("Not yet implemented")
+    }
 }

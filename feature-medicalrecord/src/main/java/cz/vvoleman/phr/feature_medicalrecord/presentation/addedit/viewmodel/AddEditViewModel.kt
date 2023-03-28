@@ -66,6 +66,10 @@ class AddEditViewModel @Inject constructor(
 
     }
 
+    fun onDeleteFile(uri: Uri) {
+        updateViewState(currentViewState.copy(files = currentViewState.files - uri))
+    }
+
     private fun addFileThumbnail(uri: Uri) {
         Log.d(TAG, "current size: ${currentViewState.files.size}")
         Log.d(TAG, "can add more files: ${currentViewState.canAddMoreFiles()}")
