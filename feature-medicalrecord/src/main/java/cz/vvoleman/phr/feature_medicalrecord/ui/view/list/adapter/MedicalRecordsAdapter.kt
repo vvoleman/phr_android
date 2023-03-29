@@ -1,5 +1,7 @@
 package cz.vvoleman.phr.feature_medicalrecord.ui.view.list.adapter
 
+import android.content.Context
+import android.content.res.ColorStateList
 import android.graphics.Color
 import android.util.Log
 import android.view.LayoutInflater
@@ -9,6 +11,8 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import cz.vvoleman.phr.common.ui.adapter.grouped.OnAdapterItemListener
+import cz.vvoleman.phr.common.utils.getNameOfMonth
+import cz.vvoleman.phr.feature_medicalrecord.R
 import cz.vvoleman.phr.feature_medicalrecord.databinding.ItemMedicalRecordBinding
 import cz.vvoleman.phr.feature_medicalrecord.ui.model.MedicalRecordUiModel
 
@@ -20,7 +24,7 @@ class MedicalRecordsAdapter (
         val binding =
             ItemMedicalRecordBinding.inflate(LayoutInflater.from(parent.context), parent, false)
 
-        return MedicalRecordViewHolder(binding)
+        return MedicalRecordViewHolder(binding, parent.context)
     }
 
     override fun onBindViewHolder(holder: MedicalRecordViewHolder, position: Int) {
@@ -28,7 +32,7 @@ class MedicalRecordsAdapter (
         holder.bind(currentItem)
     }
 
-    inner class MedicalRecordViewHolder(private val binding: ItemMedicalRecordBinding) :
+    inner class MedicalRecordViewHolder(private val binding: ItemMedicalRecordBinding, private val appContext: Context) :
         RecyclerView.ViewHolder(binding.root) {
 
         init {
@@ -40,14 +44,14 @@ class MedicalRecordsAdapter (
                         listener.onItemClicked(item)
                     }
                 }
-                textViewOptions.setOnClickListener {
+                buttonOptions.setOnClickListener {
                     val position = bindingAdapterPosition
 
                     if (position != RecyclerView.NO_POSITION) {
                         val item = getItem(position)
 
                         if (item != null) {
-                            listener.onItemOptionsMenuClicked(item, binding.textViewOptions)
+                            listener.onItemOptionsMenuClicked(item, binding.buttonOptions)
                         }
                     };
                 }
@@ -55,15 +59,35 @@ class MedicalRecordsAdapter (
         }
 
         fun bind(item: MedicalRecordUiModel) {
-            Log.d("MedicalRecordsAdapter", "bind: $item")
+            val monthName = item.createdAt.month
             binding.apply {
                 textViewDateDay.text = item.createdAt.dayOfMonth.toString()
-                textViewDateMonth.text = item.createdAt.month.toString()
-                textViewMedicalWorker.text = item.medicalWorker
-                textViewProblemCategory.text = item.problemCategoryName
-                textViewDiagnose.text = item.diagnoseName
+                textViewDateMonth.text = item.createdAt.getNameOfMonth(true)
+                chipMedicalWorker.text = item.medicalWorker
+                chipDiagnose.text = item.diagnoseId
+                textViewTitle.text = item.problemCategoryName ?: "-"
 
-                layoutDate.setBackgroundColor(Color.parseColor(item.problemCategoryColor ?: "#00000000"))
+                if (item.medicalWorker == null) {
+                    chipMedicalWorker.apply {
+                        text = appContext.getString(R.string.medical_record_no_medical_worker)
+                        //set opacity to 0.5
+                        // Use @color/medical_record_badge
+                        setChipBackgroundColorResource(R.color.medical_worker_badge_opaque)
+                    }
+                }
+
+                if (item.diagnoseId == null) {
+                    chipDiagnose.apply {
+                        text = appContext.getString(R.string.medical_record_no_diagnose)
+                        //set opacity to 0.5
+                        // Use @color/medical_record_badge
+                        setChipBackgroundColorResource(R.color.medical_worker_badge_opaque)
+                    }
+                }
+
+                if (item.problemCategoryColor != null) {
+                    layoutDate.setBackgroundColor(Color.parseColor(item.problemCategoryColor))
+                }
             }
         }
 

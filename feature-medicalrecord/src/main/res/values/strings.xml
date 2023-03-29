@@ -28,4 +28,10 @@
     <string name="add_edit_error">Při přidávání se vyskytla chyba</string>
     <string name="add_edit_success">Lékařská zpráva byla úspěšně přidána</string>
     <string name="add_edit_patient_not_selected">Pacient není vybrán</string>
+    <string name="date_picker_description">Vyberte datum návštěvy</string>
+    <string name="medical_record_no_medical_worker">Žádný lékař</string>
+    <string name="medical_record_no_diagnose">Žádná diagnóze</string>
+    <string name="navigation_add_medical_record">Nová lékařská zpráva</string>
+    <string name="navigation_edit_medical_record">Upravit lékařskou zprávu</string>
+    <string name="navigation_select_file">Nový soubor pro lékařskou zprávu</string>
 </resources>

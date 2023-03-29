@@ -16,6 +16,7 @@ import cz.vvoleman.phr.base.ui.view.BaseFragment
 import cz.vvoleman.phr.common.ui.adapter.grouped.GroupedItemsAdapter
 import cz.vvoleman.phr.common.ui.adapter.grouped.OnAdapterItemListener
 import cz.vvoleman.phr.common.ui.model.GroupedItemsUiModel
+import cz.vvoleman.phr.common.utils.getNameOfMonth
 import cz.vvoleman.phr.common_datasource.databinding.ItemGroupedItemsBinding
 import cz.vvoleman.phr.feature_medicalrecord.R
 import cz.vvoleman.phr.feature_medicalrecord.databinding.FragmentListMedicalRecordsBinding
@@ -154,7 +155,8 @@ class ListMedicalRecordsFragment : BaseFragment<
         // if item.value is something else, then set it to "-"
         var title = "-"
         if (item.value is LocalDate) {
-            title = (item.value as LocalDate).format(DateTimeFormatter.ofPattern("MMMM yyyy"))
+            val date = item.value as LocalDate
+            title = "${date.getNameOfMonth()} ${date.year}"
         } else if (item.value is String) {
             title = item.value as String
         }

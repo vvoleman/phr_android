@@ -152,14 +152,14 @@ abstract class PatientDatabase : RoomDatabase() {
                     id = 1,
                     name = "Nehoda 2022",
                     createdAt = LocalDate.now(),
-                    color = "#FF0000",
+                    color = "#6F963D",
                     patient_id = patientA.id!!,
                 )
                 val problemB = ProblemCategoryDataSourceModel(
                     id = 1,
                     name = "Operace 2019",
                     createdAt = LocalDate.now(),
-                    color = "#00FF00",
+                    color = "#6F963D",
                     patient_id = patientA.id!!,
                 )
 
