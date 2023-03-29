@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <group android:id="@+id/group_base_actions">
+    <group
+        android:id="@+id/group_base_actions"
+        android:checkableBehavior="single">
         <item
             android:id="@+id/overviewFragment"
-            android:icon="@drawable/ic_home"
             android:checked="true"
+            android:icon="@drawable/ic_home"
             android:title="@string/overview" />
 
         <item
@@ -21,7 +23,27 @@
             android:icon="@drawable/ic_measurements"
             android:title="@string/measurements" />
     </group>
-    <group android:id="@+id/group_settings">
+    <group
+        android:id="@+id/group_categories"
+        android:checkableBehavior="single">
+        <item android:title="@string/categorization">
+            <menu>
+                <item
+                    android:id="@+id/problemCategoriesFragment"
+                    android:icon="@drawable/ic_problem_categories"
+                    android:title="@string/problem_categories"
+                    />
+                <item
+                    android:id="@+id/medicalWorkersFragment"
+                    android:icon="@drawable/ic_medical_workers"
+                    android:title="@string/medical_workers"
+                    />
+            </menu>
+        </item>
+    </group>
+    <group
+        android:id="@+id/group_settings"
+        android:checkableBehavior="single">
         <item
             android:id="@+id/settingsFragment"
             android:icon="@drawable/ic_settings"
