@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_common"
+    app:startDestination="@id/listPatientsFragment">
+    <fragment
+        android:id="@+id/listPatientsFragment"
+        android:name="cz.vvoleman.phr.common.ui.view.listpatients.ListPatientsFragment"
+        android:label="@string/navigation_list_patients"
+        tools:layout="@layout/fragment_list_patients" />
+</navigation>

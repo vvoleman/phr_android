@@ -11,7 +11,7 @@ interface PatientDao {
     fun getAll(): Flow<List<PatientDataSourceModel>>
 
     @Query("SELECT * FROM patient WHERE id = :id")
-    fun getById(id: Int): Flow<PatientDataSourceModel>
+    fun getById(id: String): Flow<PatientDataSourceModel>
 
     @Query("SELECT * FROM patient WHERE name LIKE '%'||:name||'%'")
     fun getByName(name: String): Flow<List<PatientDataSourceModel>>
@@ -20,7 +20,7 @@ interface PatientDao {
     fun getByBirthDate(date: LocalDate): Flow<List<PatientDataSourceModel>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(patient: PatientDataSourceModel)
+    suspend fun insert(patient: PatientDataSourceModel): Long
 
     @Update
     suspend fun update(patient: PatientDataSourceModel)

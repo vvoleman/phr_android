@@ -3,6 +3,7 @@ package cz.vvoleman.phr.ui
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.Button
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
@@ -38,7 +39,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.listMedicalRecordsFragment,
                 R.id.overviewFragment,
                 R.id.medicineFragment,
-                R.id.measurementsFragment
+                R.id.measurementsFragment,
             ),
             binding.drawerLayout
         )
@@ -47,6 +48,11 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
 
         binding.navView.setupWithNavController(navController)
+        val patientsButton = binding.navView.getHeaderView(0).findViewById<Button>(R.id.button_edit_patient)
+        patientsButton.setOnClickListener {
+            navController.navigate(cz.vvoleman.phr.common_datasource.R.id.nav_common)
+            binding.drawerLayout.close()
+        }
     }
 
     override fun onSupportNavigateUp(): Boolean {

@@ -1,8 +1,8 @@
-package cz.vvoleman.phr.feature_medicalrecord.domain.usecase
+package cz.vvoleman.phr.common.domain.usecase
 
 import cz.vvoleman.phr.base.domain.usecase.FlowUseCase
-import cz.vvoleman.phr.feature_medicalrecord.domain.model.PatientDomainModel
-import cz.vvoleman.phr.feature_medicalrecord.domain.repository.GetSelectedPatientRepository
+import cz.vvoleman.phr.common.domain.model.PatientDomainModel
+import cz.vvoleman.phr.common.domain.repository.GetSelectedPatientRepository
 import kotlinx.coroutines.flow.Flow
 
 class GetSelectedPatientUseCase (
