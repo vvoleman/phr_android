@@ -1,13 +1,16 @@
 package cz.vvoleman.phr.feature_medicalrecord.presentation.addedit.model
 
 import android.net.Uri
+import cz.vvoleman.phr.feature_medicalrecord.domain.model.MedicalRecordAssetDomainModel
 import java.time.LocalDate
 
 data class AddEditPresentationModel(
-    val createdAt: LocalDate,
-    val diagnoseId: String,
-    val problemCategoryId: String,
+    val recordId: String? = null,
+    val createdAt: LocalDate = LocalDate.now(),
+    val diagnoseId: String? = null,
+    val problemCategoryId: String? = null,
+    val visitDate: LocalDate,
     val patientId: String,
-    val medicalWorkerId: String,
-    val files: List<Uri>
+    val medicalWorkerId: String? = null,
+    val assets: List<AssetPresentationModel> = listOf()
 )

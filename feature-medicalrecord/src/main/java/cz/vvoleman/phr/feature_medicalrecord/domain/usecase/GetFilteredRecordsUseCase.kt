@@ -42,8 +42,8 @@ class GetFilteredRecordsUseCase(
         val map = mutableMapOf<String, MutableList<MedicalRecordDomainModel>>()
         val dates = mutableMapOf<String, LocalDate>()
         for (record in records) {
-            val date = "${record.createdAt.year}-${record.createdAt.monthValue}"
-            dates[date] = LocalDate.of(record.createdAt.year, record.createdAt.monthValue, 1)
+            val date = "${record.visitDate.year}-${record.visitDate.monthValue}"
+            dates[date] = LocalDate.of(record.visitDate.year, record.visitDate.monthValue, 1)
 
             if (!map.containsKey(date)) {
                 map[date] = mutableListOf()
@@ -52,7 +52,8 @@ class GetFilteredRecordsUseCase(
             map[date]?.add(record)
         }
 
-        return map.map { GroupedItemsDomainModel(dates[it.key]!!, it.value.toList()) }
+        // Sort map by key
+        return map.toSortedMap().map { GroupedItemsDomainModel(dates[it.key]!!, it.value.toList()) }
     }
 
     private fun byProblemCategory(records: List<MedicalRecordDomainModel>): List<GroupedItemsDomainModel<MedicalRecordDomainModel>> {

@@ -2,6 +2,7 @@ package cz.vvoleman.phr.feature_medicalrecord.data.repository
 
 import android.util.Log
 import cz.vvoleman.phr.feature_medicalrecord.data.datasource.model.room.MedicalRecordDao
+import cz.vvoleman.phr.feature_medicalrecord.data.mapper.AddEditDomainModelToToDataSourceMapper
 import cz.vvoleman.phr.feature_medicalrecord.data.mapper.FilterRequestDomainModelToDataMapper
 import cz.vvoleman.phr.feature_medicalrecord.data.mapper.MedicalRecordDataSourceToDomainMapper
 import cz.vvoleman.phr.feature_medicalrecord.data.model.FilterRequestDataModel
@@ -10,17 +11,27 @@ import cz.vvoleman.phr.feature_medicalrecord.domain.repository.AddEditMedicalRec
 import cz.vvoleman.phr.feature_medicalrecord.domain.model.MedicalRecordDomainModel
 import cz.vvoleman.phr.feature_medicalrecord.domain.model.add_edit.AddEditDomainModel
 import cz.vvoleman.phr.feature_medicalrecord.domain.model.list.FilterRequestDomainModel
+import cz.vvoleman.phr.feature_medicalrecord.domain.repository.GetRecordByIdRepository
 import cz.vvoleman.phr.feature_medicalrecord.domain.repository.MedicalRecordFilterRepository
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.firstOrNull
 
 class MedicalRecordRepository(
     private val medicalRecordDao: MedicalRecordDao,
     private val filterRequestDomainModelToDataMapper: FilterRequestDomainModelToDataMapper,
-    private val medicalRecordDataSourceToDomainMapper: MedicalRecordDataSourceToDomainMapper
-) : AddEditMedicalRecordRepository, MedicalRecordFilterRepository {
+    private val medicalRecordDataSourceToDomainMapper: MedicalRecordDataSourceToDomainMapper,
+    private val addEditDomainModelToToDataSourceMapper: AddEditDomainModelToToDataSourceMapper,
+) : AddEditMedicalRecordRepository, MedicalRecordFilterRepository, GetRecordByIdRepository {
 
     override suspend fun save(addEditMedicalRecordModel: AddEditDomainModel): String {
-        TODO("Not yet implemented")
+        val model = addEditDomainModelToToDataSourceMapper.toDataSource(addEditMedicalRecordModel)
+        val result = medicalRecordDao.insert(model)
+        Log.d("MedicalRecordRepository", "result ID: $result")
+        return result.toString()
+    }
+
+    override suspend fun getRecordById(id: String): MedicalRecordDomainModel? {
+        return medicalRecordDao.getById(id).firstOrNull()?.let { medicalRecordDataSourceToDomainMapper.toDomain(it) }
     }
 
     override suspend fun filterRecords(request: FilterRequestDomainModel): List<MedicalRecordDomainModel> {

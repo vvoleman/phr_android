@@ -19,7 +19,8 @@ class MedicalRecordDataSourceToDomainMapper(
             problemCategory = medicalRecord.problemCategory?.let { problemCategoryMapper.toDomain(it) },
             diagnose = medicalRecord.diagnose?.let { diagnoseMapper.toDomain(it) },
             medicalWorker = medicalRecord.medicalWorker?.let { medicalWorkerMapper.toDomain(it) },
-            assets = medicalRecord.assets.map { MedicalRecordAssetDataSourceToDomainMapper().toDomain(it) }
+            assets = medicalRecord.assets.map { MedicalRecordAssetDataSourceToDomainMapper().toDomain(it) },
+            visitDate = medicalRecord.medicalRecord.visit_date
         )
     }
 

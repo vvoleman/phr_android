@@ -7,12 +7,14 @@ import androidx.lifecycle.viewModelScope
 import com.google.mlkit.vision.common.InputImage
 import cz.vvoleman.phr.base.presentation.viewmodel.BaseViewModel
 import cz.vvoleman.phr.base.presentation.viewmodel.usecase.UseCaseExecutorProvider
+import cz.vvoleman.phr.feature_medicalrecord.domain.model.MedicalRecordAssetDomainModel
 import cz.vvoleman.phr.feature_medicalrecord.domain.model.select_file.GetTextFromInputImageResultDomainModel
 import cz.vvoleman.phr.feature_medicalrecord.domain.model.select_file.SelectedOptionsDomainModel
 import cz.vvoleman.phr.feature_medicalrecord.domain.model.select_file.TextDomainModel
 import cz.vvoleman.phr.feature_medicalrecord.domain.usecase.select_file.GetRecognizedOptionsFromTextUseCase
 import cz.vvoleman.phr.feature_medicalrecord.domain.usecase.select_file.GetTextFromInputImageUseCase
 import cz.vvoleman.phr.feature_medicalrecord.presentation.addedit.model.AddEditViewState
+import cz.vvoleman.phr.feature_medicalrecord.presentation.addedit.model.AssetPresentationModel
 import cz.vvoleman.phr.feature_medicalrecord.presentation.select_file.mapper.RecognizedOptionsDomainModelToPresentationMapper
 import cz.vvoleman.phr.feature_medicalrecord.presentation.select_file.model.SelectFileDestination
 import cz.vvoleman.phr.feature_medicalrecord.presentation.select_file.model.SelectFileNotification
@@ -45,7 +47,8 @@ class SelectFileViewModel @Inject constructor(
     fun onRunImageAnalyze(inputImage: InputImage, uri: Uri) {
         setLoading(true)
         val bitmap = inputImage.bitmapInternal
-        updateViewState(currentViewState.copy(previewUri = bitmap, uri = uri))
+        val asset = AssetPresentationModel(uri = uri.toString())
+        updateViewState(currentViewState.copy(previewUri = bitmap, asset = asset))
         runRecognizer(inputImage)
     }
 
@@ -71,10 +74,11 @@ class SelectFileViewModel @Inject constructor(
     private fun finish() {
         val parentViewState = savedStateHandle.get<AddEditViewState>("parentViewState")
             ?: throw IllegalStateException("Parent view state not found")
+
         if (currentViewState.selectedOptions != null) {
-            navigateTo(SelectFileDestination.SuccessWithOptions(parentViewState, currentViewState.selectedOptions!!, currentViewState.uri!!))
+            navigateTo(SelectFileDestination.SuccessWithOptions(parentViewState, currentViewState.selectedOptions!!, currentViewState.asset!!))
         } else {
-            navigateTo(SelectFileDestination.Success(parentViewState, currentViewState.uri!!))
+            navigateTo(SelectFileDestination.Success(parentViewState, currentViewState.asset!!))
         }
     }
 

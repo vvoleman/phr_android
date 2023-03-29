@@ -7,13 +7,12 @@ import cz.vvoleman.phr.feature_medicalrecord.data.repository.ProblemCategoryRepo
 import cz.vvoleman.phr.feature_medicalrecord.domain.repository.*
 import cz.vvoleman.phr.feature_medicalrecord.domain.repository.add_edit.SearchDiagnoseRepository
 import cz.vvoleman.phr.feature_medicalrecord.domain.repository.select_file.SaveFileRepository
-import cz.vvoleman.phr.feature_medicalrecord.domain.usecase.GetFilteredRecordsUseCase
-import cz.vvoleman.phr.feature_medicalrecord.domain.usecase.GetSelectedPatientUseCase
-import cz.vvoleman.phr.feature_medicalrecord.domain.usecase.GetUsedMedicalWorkersUseCase
-import cz.vvoleman.phr.feature_medicalrecord.domain.usecase.GetUsedProblemCategoriesUseCase
+import cz.vvoleman.phr.feature_medicalrecord.domain.usecase.*
 import cz.vvoleman.phr.feature_medicalrecord.domain.usecase.add_edit.SearchDiagnoseUseCase
 import cz.vvoleman.phr.feature_medicalrecord.domain.usecase.select_file.GetDataForSelectedOptionsUseCase
 import cz.vvoleman.phr.feature_medicalrecord.domain.usecase.select_file.SaveMedicalRecordFileUseCase
+import cz.vvoleman.phr.feature_medicalrecord.presentation.addedit.mapper.AddEditPresentationModelToDomainMapper
+import cz.vvoleman.phr.feature_medicalrecord.presentation.addedit.mapper.AssetPresentationToDomainModelMapper
 import cz.vvoleman.phr.feature_medicalrecord.presentation.addedit.mapper.DiagnoseDomainModelToPresentationMapper
 import cz.vvoleman.phr.feature_medicalrecord.presentation.addedit.mapper.PatientDomainModelToPresentationMapper
 import cz.vvoleman.phr.feature_medicalrecord.presentation.list.mapper.ListViewStateToDomainMapper
@@ -105,7 +104,8 @@ class PresentationModule {
     )
 
     @Provides
-    fun providesSelectedOptionsPresentationToDomainMapper() = SelectedOptionsPresentationToDomainMapper()
+    fun providesSelectedOptionsPresentationToDomainMapper() =
+        SelectedOptionsPresentationToDomainMapper()
 
     @Provides
     fun providesSearchDiagnoseUseCase(
@@ -115,5 +115,42 @@ class PresentationModule {
         searchDiagnoseRepository,
         coroutineContextProvider
     )
+
+    @Provides
+    fun providesGetUserListsUseCase(
+        getProblemCategoriesForPatientRepository: GetProblemCategoriesForPatientRepository,
+        getMedicalWorkersForPatientRepository: GetMedicalWorkersForPatientRepository,
+        coroutineContextProvider: CoroutineContextProvider
+    ) = GetUserListsUseCase(
+        getProblemCategoriesForPatientRepository,
+        getMedicalWorkersForPatientRepository,
+        coroutineContextProvider
+    )
+
+    @Provides
+    fun providesGetRecordByIdUseCase(
+        getRecordByIdRepository: GetRecordByIdRepository,
+        coroutineContextProvider: CoroutineContextProvider
+    ) = GetRecordByIdUseCase(
+        getRecordByIdRepository,
+        coroutineContextProvider
+    )
+
+    @Provides
+    fun providesAddEditMedicalRecordUseCase(
+        addEditMedicalRecordRepository: AddEditMedicalRecordRepository,
+        coroutineContextProvider: CoroutineContextProvider
+    ) = AddEditMedicalRecordUseCase(
+        addEditMedicalRecordRepository,
+        coroutineContextProvider
+    )
+
+    @Provides
+    fun providesAddEditPresentationModelToDomainMapper(
+        assetPresentationToDomainModelMapper: AssetPresentationToDomainModelMapper
+    ) = AddEditPresentationModelToDomainMapper(assetPresentationToDomainModelMapper)
+
+    @Provides
+    fun providesAssetPresentationToDomainMapper() = AssetPresentationToDomainModelMapper()
 
 }

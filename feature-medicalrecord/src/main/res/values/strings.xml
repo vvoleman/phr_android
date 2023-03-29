@@ -25,4 +25,7 @@
     <string name="add_eddit_medical_record_file_limit_reached">Maximální počet přiložených souborů dosažen</string>
     <string name="no_results">Žádné výsledky</string>
     <string name="results_could_not_be_loaded">Nepodařilo se načíst výsledky</string>
+    <string name="add_edit_error">Při přidávání se vyskytla chyba</string>
+    <string name="add_edit_success">Lékařská zpráva byla úspěšně přidána</string>
+    <string name="add_edit_patient_not_selected">Pacient není vybrán</string>
 </resources>

@@ -6,6 +6,6 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class SaveFileRequestDomainModel(
-    val uri: Uri,
+    val uri: String,
     val medicalRecordId: String
 ) : Parcelable
