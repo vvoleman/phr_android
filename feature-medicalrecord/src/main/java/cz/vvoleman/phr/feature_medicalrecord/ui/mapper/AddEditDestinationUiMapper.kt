@@ -12,7 +12,8 @@ class AddEditDestinationUiMapper(navManager: NavManager) : DestinationUiMapper(n
     override fun navigate(destination: PresentationDestination) {
         when (destination) {
             is AddEditDestination.RecordSaved -> {
-                Log.d("AddEditDestinationUiMapper", "RecordSaved")
+                val action = AddEditMedicalRecordsFragmentDirections.actionAddEditMedicalRecordsFragmentToListMedicalRecordsFragment()
+                navManager.navigate(action)
             }
             is AddEditDestination.AddRecordFile -> {
                 val action =

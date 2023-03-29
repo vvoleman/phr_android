@@ -12,5 +12,6 @@ data class MedicalRecordDataSourceModel(
     val diagnose_id: String? = null,
     val medical_worker_id: Int? = null,
     val created_at: LocalDate = LocalDate.now(),
+    val visit_date: LocalDate,
     val comment: String = ""
 )

@@ -28,16 +28,28 @@ import dagger.hilt.components.SingletonComponent
 class DataModule {
 
     @Provides
-    fun providesMedicalRecordFilterRepository(
+    fun providesMedicalRecordRepository(
         medicalRecordDao: MedicalRecordDao,
         filterRequestDomainModelToDataMapper: FilterRequestDomainModelToDataMapper,
         medicalRecordDataSourceToDomainMapper: MedicalRecordDataSourceToDomainMapper,
-    ): MedicalRecordFilterRepository =
-        MedicalRecordRepository(
+        addEditDomainModelToToDataSourceMapper: AddEditDomainModelToToDataSourceMapper
+    ) = MedicalRecordRepository(
             medicalRecordDao,
             filterRequestDomainModelToDataMapper,
-            medicalRecordDataSourceToDomainMapper
+            medicalRecordDataSourceToDomainMapper,
+            addEditDomainModelToToDataSourceMapper
         )
+
+    @Provides
+    fun providesMedicalRecordFilterRepository(
+        medicalRecordRepository: MedicalRecordRepository
+    ): MedicalRecordFilterRepository =
+        medicalRecordRepository
+
+    @Provides
+    fun providesGetRecordByIdRepository(
+        medicalRecordRepository: MedicalRecordRepository
+    ): GetRecordByIdRepository = medicalRecordRepository
 
     @Provides
     fun providesPatientRepository(
@@ -94,22 +106,32 @@ class DataModule {
         ProblemCategoryDataSourceToDomainMapper()
 
     @Provides
-    fun providesGetUsedProblemCategoriesRepository(
+    fun providesProblemCategoryRepository(
         problemCategoryDao: ProblemCategoryDao,
         problemCategoryDataSourceToDomainMapper: ProblemCategoryDataSourceToDomainMapper,
-    ): GetUsedProblemCategoriesRepository = ProblemCategoryRepository(
+    ) = ProblemCategoryRepository(
         problemCategoryDao,
         problemCategoryDataSourceToDomainMapper
     )
 
     @Provides
-    fun providesGetUsedMedicalWorkersRepository(
+    fun providesGetUsedProblemCategoriesRepository(
+        problemCategoryRepository: ProblemCategoryRepository
+    ): GetUsedProblemCategoriesRepository = problemCategoryRepository
+
+    @Provides
+    fun providesMedicalWorkersRepository(
         medicalWorkerDao: MedicalWorkerDao,
         medicalWorkerDataSourceToDomainMapper: MedicalWorkerDataSourceToDomainMapper,
-    ): GetUsedMedicalWorkersRepository = MedicalWorkerRepository(
+    ) = MedicalWorkerRepository(
         medicalWorkerDao,
         medicalWorkerDataSourceToDomainMapper
     )
+
+    @Provides
+    fun providesGetUsedMedicalWorkersRepository(
+        medicalWorkerRepository: MedicalWorkerRepository
+    ): GetUsedMedicalWorkersRepository = medicalWorkerRepository
 
     @Provides
     fun providesGetPatientByBirthDateRepository(
@@ -130,7 +152,7 @@ class DataModule {
         diagnoseDataSourceToDomainMapper: DiagnoseDataSourceToDomainMapper,
         diagnoseDao: DiagnoseDao,
         backendApi: BackendApi
-    )= DiagnoseRepository(
+    ) = DiagnoseRepository(
         diagnoseApiModelToDbMapper,
         diagnoseDataSourceToDomainMapper,
         backendApi,
@@ -171,4 +193,23 @@ class DataModule {
     fun providesSearchDiagnoseRepository(
         diagnoseRepository: DiagnoseRepository
     ): SearchDiagnoseRepository = diagnoseRepository
+
+    @Provides
+    fun providesGetProblemCategoriesForPatientRepository(
+        problemCategoryRepository: ProblemCategoryRepository,
+    ): GetProblemCategoriesForPatientRepository = problemCategoryRepository
+
+    @Provides
+    fun providesGetMedicalWorkersForPatientRepository(
+        medicalWorkerRepository: MedicalWorkerRepository,
+    ): GetMedicalWorkersForPatientRepository = medicalWorkerRepository
+
+    @Provides
+    fun providesAddEditMedicalRecordRepository(
+        medicalRecordRepository: MedicalRecordRepository
+    ): AddEditMedicalRecordRepository = medicalRecordRepository
+
+    @Provides
+    fun providesAddEditDomainModelToDataSourceMapper() =
+        AddEditDomainModelToToDataSourceMapper()
 }

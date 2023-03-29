@@ -11,6 +11,7 @@ data class MedicalRecordDomainModel(
     val createdAt: LocalDate,
     val problemCategory: ProblemCategoryDomainModel? = null,
     val diagnose: DiagnoseDomainModel? = null,
+    val visitDate: LocalDate,
     val medicalWorker: MedicalWorkerDomainModel? = null,
     val assets: List<MedicalRecordAssetDomainModel> = emptyList()
 ) : Parcelable

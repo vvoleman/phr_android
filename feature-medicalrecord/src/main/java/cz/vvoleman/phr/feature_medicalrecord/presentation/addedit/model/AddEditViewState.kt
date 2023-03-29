@@ -2,6 +2,9 @@ package cz.vvoleman.phr.feature_medicalrecord.presentation.addedit.model
 
 import android.net.Uri
 import android.os.Parcelable
+import cz.vvoleman.phr.feature_medicalrecord.domain.model.MedicalRecordAssetDomainModel
+import cz.vvoleman.phr.feature_medicalrecord.domain.model.MedicalWorkerDomainModel
+import cz.vvoleman.phr.feature_medicalrecord.domain.model.ProblemCategoryDomainModel
 import kotlinx.parcelize.Parcelize
 import java.time.LocalDate
 
@@ -16,11 +19,14 @@ data class AddEditViewState(
     val visitDate: LocalDate? = null,
     val diagnosePage: Int = 1,
     val diagnoseSpinnerList: List<DiagnosePresentationModel> = listOf(),
-    val files: List<Uri> = listOf()
+    val allProblemCategories: List<ProblemCategoryDomainModel> = listOf(),
+    val allMedicalWorkers: List<MedicalWorkerDomainModel> = listOf(),
+    val assets: List<AssetPresentationModel> = listOf(),
+    val saving: Boolean = false,
 ): Parcelable {
 
 
-    fun canAddMoreFiles() = files.size < MAX_FILES
+    fun canAddMoreFiles() = assets.size < MAX_FILES
 
     companion object {
         val MAX_FILES = 3

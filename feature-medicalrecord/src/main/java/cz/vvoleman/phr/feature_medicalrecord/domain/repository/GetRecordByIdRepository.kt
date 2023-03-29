@@ -4,6 +4,6 @@ import cz.vvoleman.phr.feature_medicalrecord.domain.model.MedicalRecordDomainMod
 
 interface GetRecordByIdRepository {
 
-    fun getRecordById(id: String): MedicalRecordDomainModel?
+    suspend fun getRecordById(id: String): MedicalRecordDomainModel?
 
 }

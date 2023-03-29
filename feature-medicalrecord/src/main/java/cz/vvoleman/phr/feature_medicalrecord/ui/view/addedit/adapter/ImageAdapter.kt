@@ -1,5 +1,6 @@
 package cz.vvoleman.phr.feature_medicalrecord.ui.view.addedit.adapter
 
+import android.net.Uri
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -43,7 +44,7 @@ class ImageAdapter(
         fun bind(item: ImageItemUiModel) {
             Log.d("ImageAdapter", "bind: $item")
             binding.apply {
-                imageViewThumbnail.setImageURI(item.uri)
+                imageViewThumbnail.setImageURI(Uri.parse(item.asset.uri))
             }
         }
 
@@ -51,12 +52,12 @@ class ImageAdapter(
 
     class DiffCallback : DiffUtil.ItemCallback<ImageItemUiModel>() {
         override fun areItemsTheSame(oldItem: ImageItemUiModel, newItem: ImageItemUiModel): Boolean {
-            Log.d("ImageAdapter", "areItemsTheSame: ${oldItem.uri.path} == ${newItem.uri.path}")
-            return oldItem.uri.path == newItem.uri.path && false
+            Log.d("ImageAdapter", "areItemsTheSame: ${oldItem.asset.uri} == ${newItem.asset.uri}")
+            return oldItem.asset.uri == newItem.asset.uri
         }
 
         override fun areContentsTheSame(oldItem: ImageItemUiModel, newItem: ImageItemUiModel): Boolean {
-            return oldItem == newItem && false
+            return oldItem == newItem
         }
     }
 

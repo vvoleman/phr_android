@@ -3,7 +3,9 @@ package cz.vvoleman.phr.feature_medicalrecord.ui.view.addedit.binder
 import android.content.Context
 import android.util.Log
 import android.view.View
+import android.widget.ArrayAdapter
 import cz.vvoleman.phr.base.ui.mapper.BaseViewStateBinder
+import cz.vvoleman.phr.common.ui.view.datepicker.DatePicker
 import cz.vvoleman.phr.feature_medicalrecord.databinding.FragmentAddEditMedicalRecordBinding
 import cz.vvoleman.phr.feature_medicalrecord.presentation.addedit.model.AddEditViewState
 import cz.vvoleman.phr.feature_medicalrecord.ui.model.DiagnoseItemUiModel
@@ -26,13 +28,20 @@ class AddEditBinder:
         viewState: AddEditViewState
     ) {
         viewBinding.datePicker.setDate(viewState.visitDate ?: LocalDate.now())
-        viewBinding.textViewCurrentSizeFiles.text = viewState.files.size.toString()
+        viewBinding.textViewCurrentSizeFiles.text = viewState.assets.size.toString()
         viewBinding.buttonAddFile.isEnabled = viewState.canAddMoreFiles()
-        val items = viewState.files.map { ImageItemUiModel(it) }
-        adapter.submitList(viewState.files.map { ImageItemUiModel(it) })
+
+        adapter.submitList(viewState.assets.map { ImageItemUiModel(it) })
 
         lifecycleScope.launch {
             viewBinding.spinnerDiagnose.setData(viewState.diagnoseSpinnerList.map { DiagnoseItemUiModel(it.id, it.name) })
+        }
+
+        viewBinding.spinnerProblemCategory.apply {
+            adapter = ArrayAdapter(fragmentContext, android.R.layout.simple_spinner_item, viewState.allProblemCategories.map { it.name })
+        }
+        viewBinding.spinnerMedicalWorker.apply {
+            adapter = ArrayAdapter(fragmentContext, android.R.layout.simple_spinner_item, viewState.allMedicalWorkers.map { it.name })
         }
     }
 
