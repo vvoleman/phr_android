@@ -20,5 +20,8 @@
     <string name="results_could_not_be_loaded">Nelze načíst výsledky</string>
     <string name="no_results">Žádné výsledky</string>
     <string name="record_filter">Filtrování zpráv</string>
+    <string name="categorization">Kategorizace</string>
+    <string name="problem_categories">Kategorie problémů</string>
+    <string name="medical_workers">Seznam lék. zařízení</string>
 
 </resources>
