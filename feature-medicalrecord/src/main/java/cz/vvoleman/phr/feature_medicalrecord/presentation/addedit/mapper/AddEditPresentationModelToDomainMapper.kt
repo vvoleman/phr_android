@@ -9,6 +9,7 @@ class AddEditPresentationModelToDomainMapper(
 
     fun toDomain(model: AddEditPresentationModel): AddEditDomainModel {
         return AddEditDomainModel(
+            id = model.recordId,
             createdAt = model.createdAt,
             diagnoseId = model.diagnoseId,
             problemCategoryId = model.problemCategoryId,
