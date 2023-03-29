@@ -82,9 +82,9 @@ class ListMedicalRecordsViewModel @Inject constructor(
     }
 
     fun onRecordSelect(id: String) = viewModelScope.launch {
-        val patient = getSelectedPatientUseCase.execute(null).first()
-        val newPatient = (patient.id.toInt() % 2) + 1
-        patientDataStore.updatePatient(newPatient)
+//        val patient = getSelectedPatientUseCase.execute(null).first()
+//        val newPatient = (patient.id.toInt() % 2) + 1
+//        patientDataStore.updatePatient(newPatient)
     }
 
     fun onSelect() {

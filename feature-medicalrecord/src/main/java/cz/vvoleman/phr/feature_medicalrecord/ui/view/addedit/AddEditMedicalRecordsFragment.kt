@@ -45,6 +45,7 @@ class AddEditMedicalRecordsFragment : BaseFragment<
         return FragmentAddEditMedicalRecordBinding.inflate(inflater, container, false)
     }
 
+
     override fun setupListeners() {
         super.setupListeners()
 
