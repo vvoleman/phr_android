@@ -11,7 +11,7 @@ interface MedicalRecordDao {
     fun getAll(sortBy: String): Flow<List<MedicalRecordWithDetails>>
 
     @Query("SELECT * FROM medical_record WHERE id = :id")
-    fun getById(id: Int): Flow<MedicalRecordWithDetails>
+    fun getById(id: String): Flow<MedicalRecordWithDetails>
 
     @Query("SELECT * FROM medical_record WHERE patient_id = :patientId ORDER BY :sortBy DESC")
     fun getByPatientId(patientId: String, sortBy: String): Flow<List<MedicalRecordWithDetails>>
@@ -39,7 +39,7 @@ interface MedicalRecordDao {
     ): Flow<List<MedicalRecordWithDetails>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(medicalRecord: MedicalRecordDataSourceModel)
+    suspend fun insert(medicalRecord: MedicalRecordDataSourceModel): Long
 
     @Update
     suspend fun update(medicalRecord: MedicalRecordDataSourceModel)

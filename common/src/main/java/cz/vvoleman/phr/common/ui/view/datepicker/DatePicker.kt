@@ -5,7 +5,6 @@ import android.content.Context
 import android.util.AttributeSet
 import android.util.Log
 import android.view.LayoutInflater
-import android.widget.EditText
 import android.widget.LinearLayout
 import com.google.android.material.textfield.TextInputEditText
 import cz.vvoleman.phr.common_datasource.databinding.DatePickerLayoutBinding

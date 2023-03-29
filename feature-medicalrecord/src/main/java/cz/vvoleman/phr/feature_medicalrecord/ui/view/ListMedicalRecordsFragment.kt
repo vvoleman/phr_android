@@ -124,6 +124,7 @@ class ListMedicalRecordsFragment : BaseFragment<
                     true
                 }
                 R.id.action_delete -> {
+                    Log.d(TAG, "onItemOptionsMenuClicked: $item")
                     viewModel.onRecordDelete(item.id)
                     true
                 }

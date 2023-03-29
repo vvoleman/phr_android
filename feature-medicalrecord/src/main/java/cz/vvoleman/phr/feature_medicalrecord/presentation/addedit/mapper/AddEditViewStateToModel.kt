@@ -1,5 +1,6 @@
 package cz.vvoleman.phr.feature_medicalrecord.presentation.addedit.mapper
 
+import cz.vvoleman.phr.feature_medicalrecord.domain.model.MedicalRecordAssetDomainModel
 import cz.vvoleman.phr.feature_medicalrecord.presentation.addedit.exception.MissingFieldsException
 import cz.vvoleman.phr.feature_medicalrecord.presentation.addedit.model.AddEditPresentationModel
 import cz.vvoleman.phr.feature_medicalrecord.presentation.addedit.model.AddEditViewState
@@ -14,7 +15,7 @@ class AddEditViewStateToModel {
                 problemCategoryId = viewState.problemCategoryId!!,
                 patientId = viewState.patientId!!,
                 medicalWorkerId = viewState.medicalWorkerId!!,
-                files = viewState.files,
+                visitDate = viewState.visitDate!!,
             )
         } catch (e: NullPointerException) {
             throw MissingFieldsException()

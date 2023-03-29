@@ -224,6 +224,7 @@ abstract class PatientDatabase : RoomDatabase() {
                         problem_category_id = problemA.id,
                         medical_worker_id = medicalWorkerA.id,
                         created_at = dateA,
+                        visit_date = dateA,
                     )
                 )
                 medicalRecordDao.insert(
@@ -234,6 +235,7 @@ abstract class PatientDatabase : RoomDatabase() {
                         problem_category_id = problemA.id,
                         medical_worker_id = medicalWorkerB.id,
                         created_at = dateB,
+                        visit_date = dateB
                     )
                 )
                 medicalRecordDao.insert(
@@ -244,6 +246,7 @@ abstract class PatientDatabase : RoomDatabase() {
                         problem_category_id = problemB.id,
                         medical_worker_id = medicalWorkerC.id,
                         created_at = dateC,
+                        visit_date = dateC
                     )
                 )
 
@@ -253,6 +256,7 @@ abstract class PatientDatabase : RoomDatabase() {
                         patient_id = patientB.id!!,
                         diagnose_id = diagnoseB.id,
                         created_at = dateD,
+                        visit_date = dateD
                     )
                 )
             }

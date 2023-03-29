@@ -14,7 +14,7 @@ class SelectFileDestinationUiMapper(navManager: NavManager) : DestinationUiMappe
                 val action =
                     SelectFileFragmentDirections.actionSelectFileFragmentToAddEditMedicalRecordsFragment(
                         previousViewState = destination.parentViewState,
-                        fileUri = destination.fileUri,
+                        fileAsset = destination.fileAsset,
                         selectedOptions = destination.selectedOptions
                     )
                 navManager.navigate(action)
@@ -23,7 +23,7 @@ class SelectFileDestinationUiMapper(navManager: NavManager) : DestinationUiMappe
                 val action =
                     SelectFileFragmentDirections.actionSelectFileFragmentToAddEditMedicalRecordsFragment(
                         previousViewState = destination.parentViewState,
-                        fileUri = destination.fileUri
+                        fileAsset = destination.fileAsset
                     )
                 navManager.navigate(action)
             }
