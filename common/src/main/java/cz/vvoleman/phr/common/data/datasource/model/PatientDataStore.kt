@@ -30,18 +30,18 @@ class PatientDataStore @Inject constructor(@ApplicationContext context: Context)
         }
         .map { preferences ->
             Preferences(
-                patientId = preferences[PreferencesKeys.PATIENT_ID] ?: 1
+                patientId = preferences[PreferencesKeys.PATIENT_ID] ?: "1"
             )
         }
 
-    suspend fun updatePatient(patientId: Int) {
+    suspend fun updatePatient(patientId: String) {
         dataStore.edit { preferences ->
             preferences[PreferencesKeys.PATIENT_ID] = patientId
         }
     }
 
     private object PreferencesKeys {
-        val PATIENT_ID = preferencesKey<Int>("patient_id")
+        val PATIENT_ID = preferencesKey<String>("patient_id")
     }
 
     companion object {
@@ -50,7 +50,7 @@ class PatientDataStore @Inject constructor(@ApplicationContext context: Context)
     }
 
     data class Preferences(
-        val patientId: Int
+        val patientId: String
     )
 
 }

@@ -63,11 +63,6 @@ class DataModule {
     )
 
     @Provides
-    fun providesGetSelectedPatientRepository(
-        patientRepository: PatientRepository,
-    ): GetSelectedPatientRepository = patientRepository
-
-    @Provides
     fun providesAddressDataSourceToDomainMapper() = AddressDataSourceToDomainMapper()
 
     @Provides
@@ -178,11 +173,6 @@ class DataModule {
     @Provides
     fun providesMedicalRecordAssetDomainToDataSourceMapper() =
         MedicalRecordAssetDomainToDataSourceMapper()
-
-    @Provides
-    fun providesGetPatientByIdRepository(
-        patientRepository: PatientRepository
-    ): GetPatientByIdRepository = patientRepository
 
     @Provides
     fun providesGetDiagnoseByIdRepository(

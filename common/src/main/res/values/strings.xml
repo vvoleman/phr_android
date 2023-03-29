@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">common_datasource</string>
+    <string name="navigation_list_patients">Seznam pacientů</string>
+    <string name="list_patients_add_new_patient">Přidat nového pacienta</string>
 </resources>

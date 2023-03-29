@@ -1,8 +1,8 @@
 package cz.vvoleman.phr.feature_medicalrecord.domain.model.select_file
 
 import android.os.Parcelable
+import cz.vvoleman.phr.common.domain.model.PatientDomainModel
 import cz.vvoleman.phr.feature_medicalrecord.domain.model.DiagnoseDomainModel
-import cz.vvoleman.phr.feature_medicalrecord.domain.model.PatientDomainModel
 import kotlinx.parcelize.Parcelize
 import java.time.LocalDate
 
