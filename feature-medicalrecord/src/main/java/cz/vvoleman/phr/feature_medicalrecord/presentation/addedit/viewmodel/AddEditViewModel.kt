@@ -205,6 +205,7 @@ class AddEditViewModel @Inject constructor(
 
     fun onDeleteFile(asset: AssetPresentationModel) {
         updateViewState(currentViewState.copy(assets = currentViewState.assets - asset))
+        Log.d(TAG, "onDeleteFile: ${currentViewState.assets}")
     }
 
     private fun addFileThumbnail(asset: AssetPresentationModel) {

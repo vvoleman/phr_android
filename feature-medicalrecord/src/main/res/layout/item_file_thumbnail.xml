@@ -6,6 +6,7 @@
     android:layout_height="64dp">
 
     <Button
+        android:id="@+id/button_delete"
         android:layout_width="32dp"
         android:layout_height="32dp"
         android:layout_margin="4dp"

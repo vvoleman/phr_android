@@ -49,13 +49,7 @@ class AddEditBinder:
         super.init(viewBinding, context, lifecycleScope)
 
         viewBinding.textViewTotalSizeFiles.text = AddEditViewState.MAX_FILES.toString()
-        adapter = ImageAdapter(this)
-        viewBinding.recyclerViewFiles.apply {
-            adapter = adapter
-            layoutManager = androidx.recyclerview.widget.LinearLayoutManager(fragmentContext)
-            setHasFixedSize(true)
-            visibility = View.VISIBLE
-        }
+        adapter = viewBinding.recyclerViewFiles.adapter as ImageAdapter
         viewBinding.spinnerDiagnose.setListener(this)
     }
 
