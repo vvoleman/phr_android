@@ -41,8 +41,8 @@ abstract class BaseFragment<VIEW_STATE : Any, NOTIFICATION : Any, VIEW_BINDING :
         viewModel.onInit()
         _binding = setupBinding(inflater, container)
         viewStateBinder.init(binding, requireContext(), lifecycleScope)
-        observeViewModel()
         setupListeners()
+        observeViewModel()
         return binding.root
     }
 

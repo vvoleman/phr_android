@@ -7,6 +7,8 @@ import cz.vvoleman.phr.base.presentation.viewmodel.BaseViewModel
 import cz.vvoleman.phr.base.presentation.viewmodel.usecase.UseCaseExecutorProvider
 import cz.vvoleman.phr.common.domain.model.PatientDomainModel
 import cz.vvoleman.phr.common.domain.usecase.GetAllPatientsUseCase
+import cz.vvoleman.phr.common.domain.usecase.GetSelectedPatientUseCase
+import cz.vvoleman.phr.common.domain.usecase.SwitchSelectedPatientUseCase
 import cz.vvoleman.phr.common.presentation.mapper.PatientPresentationModelToDomainMapper
 import cz.vvoleman.phr.common.presentation.model.listpatients.ListPatientsNotification
 import cz.vvoleman.phr.common.presentation.model.listpatients.ListPatientsViewState
@@ -17,6 +19,8 @@ import javax.inject.Inject
 @HiltViewModel
 class ListPatientsViewModel @Inject constructor(
     private val getAllPatientsUseCase: GetAllPatientsUseCase,
+    private val getSelectedPatientUseCase: GetSelectedPatientUseCase,
+    private val switchSelectedPatientUseCase: SwitchSelectedPatientUseCase,
     private val patientPresentationModelToDomainMapper: PatientPresentationModelToDomainMapper,
     savedStateHandle: SavedStateHandle,
     useCaseExecutorProvider: UseCaseExecutorProvider
@@ -39,6 +43,21 @@ class ListPatientsViewModel @Inject constructor(
 
         viewModelScope.launch {
             getAllPatientsUseCase.execute(Unit, ::handlePatientsLoaded)
+        }
+
+        listenForPatientChange()
+    }
+
+    fun onPatientSwitch(id: String) = viewModelScope.launch {
+        switchSelectedPatientUseCase.execute(id) {}
+    }
+
+    private fun listenForPatientChange() = viewModelScope.launch {
+        val flow = getSelectedPatientUseCase.execute(Unit)
+
+        flow.collect { patient ->
+            val mappedPatient = patientPresentationModelToDomainMapper.toPresentation(patient)
+            updateViewState(currentViewState.copy(selectedPatientId = mappedPatient.id))
         }
     }
 
