@@ -57,7 +57,7 @@ class AddEditViewModel @Inject constructor(
             return previousViewState
         }
 
-        return AddEditViewState()
+        return AddEditViewState(visitDate = LocalDate.now())
     }
 
     override fun onInit() {

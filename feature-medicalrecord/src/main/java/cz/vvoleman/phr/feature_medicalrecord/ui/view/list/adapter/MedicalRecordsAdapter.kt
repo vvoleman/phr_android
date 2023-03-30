@@ -61,8 +61,8 @@ class MedicalRecordsAdapter (
         fun bind(item: MedicalRecordUiModel) {
             val monthName = item.createdAt.month
             binding.apply {
-                textViewDateDay.text = item.createdAt.dayOfMonth.toString()
-                textViewDateMonth.text = item.createdAt.getNameOfMonth(true)
+                textViewDateDay.text = item.visitDate.dayOfMonth.toString()
+                textViewDateMonth.text = item.visitDate.getNameOfMonth(true)
                 chipMedicalWorker.text = item.medicalWorker
                 chipDiagnose.text = item.diagnoseId
                 textViewTitle.text = item.problemCategoryName ?: "-"
