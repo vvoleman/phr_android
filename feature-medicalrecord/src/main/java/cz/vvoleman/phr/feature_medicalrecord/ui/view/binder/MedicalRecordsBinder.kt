@@ -3,6 +3,7 @@ package cz.vvoleman.phr.feature_medicalrecord.ui.view.binder
 import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.sidesheet.SideSheetDialog
 import cz.vvoleman.phr.base.ui.mapper.BaseViewStateBinder
@@ -69,14 +70,27 @@ class MedicalRecordsBinder(
             }
         }
 
-        //problemCategoryAdapter = FilterAdapter(this)
+        problemCategoryAdapter = FilterAdapter(this)
+        medicalWorkerAdapter = FilterAdapter(this)
+
+        sheetBinding.recyclerViewProblemCategories.apply {
+            adapter = problemCategoryAdapter
+            layoutManager = LinearLayoutManager(context)
+            setHasFixedSize(false)
+        }
+
+        sheetBinding.recyclerViewMedicalWorkers.apply {
+            adapter = medicalWorkerAdapter
+            layoutManager = LinearLayoutManager(context)
+            setHasFixedSize(false)
+        }
     }
 
     override fun bind(
         viewBinding: FragmentListMedicalRecordsBinding,
         viewState: ListMedicalRecordsViewState
     ) {
-        if (previousState == null || previousState!!.groupedRecords != viewState.groupedRecords)  {
+        if (previousState == null || previousState!!.groupedRecords != viewState.groupedRecords) {
             val groups = viewState.groupedRecords.map { groupedItemsDomainModelToUiMapper.toUi(it) }
             adapter.submitList(groups)
         }
@@ -86,6 +100,27 @@ class MedicalRecordsBinder(
             sheetBinding.radioGroupSort.check(selectedGroup)
         }
 
+        if (previousState == null || previousState!!.allProblemCategories != viewState.allProblemCategories) {
+            problemCategoryAdapter.submitList(viewState.allProblemCategories.map {
+                FilterPair(
+                    it.id,
+                    it.name,
+                    it,
+                    viewState.selectedProblemCategories.contains(it.id)
+                )
+            })
+        }
+
+        if (previousState == null || previousState!!.allMedicalWorkers != viewState.allMedicalWorkers) {
+            medicalWorkerAdapter.submitList(viewState.allMedicalWorkers.map {
+                FilterPair(
+                    it.id,
+                    it.name,
+                    it,
+                    viewState.selectedMedicalWorkers.contains(it.id)
+                )
+            })
+        }
 
         previousState = viewState.copy()
     }

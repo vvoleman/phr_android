@@ -13,6 +13,8 @@ import cz.vvoleman.phr.feature_medicalrecord.domain.model.ProblemCategoryDomainM
 import cz.vvoleman.phr.feature_medicalrecord.domain.model.list.GroupByDomainModel
 import cz.vvoleman.phr.feature_medicalrecord.domain.usecase.GetFilteredRecordsUseCase
 import cz.vvoleman.phr.common.domain.usecase.GetSelectedPatientUseCase
+import cz.vvoleman.phr.feature_medicalrecord.domain.model.MedicalWorkerDomainModel
+import cz.vvoleman.phr.feature_medicalrecord.domain.usecase.GetUsedMedicalWorkersUseCase
 import cz.vvoleman.phr.feature_medicalrecord.domain.usecase.GetUsedProblemCategoriesUseCase
 import cz.vvoleman.phr.feature_medicalrecord.presentation.list.mapper.ListViewStateToDomainMapper
 import cz.vvoleman.phr.feature_medicalrecord.presentation.list.model.ListMedicalRecordsDestination
@@ -27,6 +29,7 @@ class ListMedicalRecordsViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle,
     private val getFilteredRecordsUseCase: GetFilteredRecordsUseCase,
     private val getUsedProblemCategoriesUseCase: GetUsedProblemCategoriesUseCase,
+    private val getUsedMedicalWorkersUseCase: GetUsedMedicalWorkersUseCase,
     private val listViewStateToDomainMapper: ListViewStateToDomainMapper,
     private val getSelectedPatientUseCase: GetSelectedPatientUseCase,
     private val patientDataStore: PatientDataStore,
@@ -95,6 +98,7 @@ class ListMedicalRecordsViewModel @Inject constructor(
             flow.collect {
                 Log.d(TAG, "Patient changed: ${it.id}")
                 getUsedProblemCategories(it)
+                getUsedMedicalWorkers(it)
                 filterRecords()
             }
         }
@@ -111,10 +115,17 @@ class ListMedicalRecordsViewModel @Inject constructor(
         execute(getUsedProblemCategoriesUseCase, patient.id, ::handleProblemCategoriesResult)
     }
 
+    private fun getUsedMedicalWorkers(patient: PatientDomainModel) {
+        Log.d(TAG, "Getting used medical workers for patient ${patient.id}")
+        execute(getUsedMedicalWorkersUseCase, patient.id, ::handleMedicalWorkersResult)
+    }
+
     private fun handleProblemCategoriesResult(problemCategories: List<ProblemCategoryDomainModel>) {
-        Log.d(TAG, "Got problem categories: $problemCategories")
-        updateViewState(currentViewState.copy(selectedProblemCategories = problemCategories.map { it.id }))
-        Log.d(TAG, "Updated view state: ${problemCategories}")
+        updateViewState(currentViewState.copy(allProblemCategories = problemCategories))
+    }
+
+    private fun handleMedicalWorkersResult(medicalWorkers: List<MedicalWorkerDomainModel>) {
+        updateViewState(currentViewState.copy(allMedicalWorkers = medicalWorkers))
     }
 
     private fun handleRecordsResult(groupedRecords: List<GroupedItemsDomainModel<MedicalRecordDomainModel>>) {
