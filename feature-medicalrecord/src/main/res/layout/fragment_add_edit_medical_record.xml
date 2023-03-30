@@ -56,7 +56,6 @@
             <Button
                 android:id="@+id/button_add_file"
                 style="@style/CustomButton"
-
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/medical_records_add_file"
@@ -67,21 +66,17 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <GridLayout
-            android:id="@+id/grid_layout_files"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view_files"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
+            tools:itemCount="1"
+            tools:listitem="@layout/item_file_thumbnail"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:layout_margin="4dp"
+            android:orientation="horizontal"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/top_line">
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycler_view_files"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                tools:itemCount="1"
-                tools:listitem="@layout/item_file_thumbnail" />
-        </GridLayout>
+            app:layout_constraintTop_toBottomOf="@id/top_line"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <LinearLayout
@@ -115,8 +110,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
         <Button
-            android:id="@+id/button_save"
             style="@style/CustomButton"
+            android:id="@+id/button_save"
             android:layout_width="match_parent"
             android:text="@string/add_edit_medical_records_save"
             android:layout_height="wrap_content"/>

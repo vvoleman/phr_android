@@ -2,6 +2,7 @@ package cz.vvoleman.phr.feature_medicalrecord.ui.view.addedit
 
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -27,7 +28,8 @@ import javax.inject.Inject
 class AddEditMedicalRecordsFragment : BaseFragment<
         AddEditViewState,
         AddEditNotification,
-        FragmentAddEditMedicalRecordBinding>(), ImageAdapter.OnAdapterItemListener, DatePicker.DatePickerListener {
+        FragmentAddEditMedicalRecordBinding>(), ImageAdapter.OnAdapterItemListener,
+    DatePicker.DatePickerListener {
 
     override val viewModel: AddEditViewModel by viewModels()
 
@@ -42,7 +44,16 @@ class AddEditMedicalRecordsFragment : BaseFragment<
         inflater: LayoutInflater,
         container: ViewGroup?
     ): FragmentAddEditMedicalRecordBinding {
-        return FragmentAddEditMedicalRecordBinding.inflate(inflater, container, false)
+        val binding = FragmentAddEditMedicalRecordBinding.inflate(inflater, container, false)
+
+        val filesAdapter = ImageAdapter(this)
+        binding.recyclerViewFiles.apply {
+            adapter = filesAdapter
+            setHasFixedSize(false)
+            visibility = View.VISIBLE
+        }
+
+        return binding
     }
 
 
@@ -62,9 +73,11 @@ class AddEditMedicalRecordsFragment : BaseFragment<
         collectLifecycleFlow(addEditBinder.notification) {
             when (it) {
                 is AddEditBinder.Notification.AddFile -> TODO()
-                is AddEditBinder.Notification.FileClick -> TODO()
+                is AddEditBinder.Notification.FileClick -> {
+                    onItemClicked(it.item)
+                }
                 is AddEditBinder.Notification.FileDelete -> {
-                    viewModel.onDeleteFile(it.item.asset)
+                    onItemDeleted(it.item)
                 }
                 is AddEditBinder.Notification.DiagnoseClick -> {
                     viewModel.onDiagnoseSelected(it.item.id)
@@ -80,7 +93,6 @@ class AddEditMedicalRecordsFragment : BaseFragment<
     }
 
 
-
     override fun handleNotification(notification: AddEditNotification) {
         when (notification) {
             is AddEditNotification.LimitFilesReached -> {
@@ -94,12 +106,21 @@ class AddEditMedicalRecordsFragment : BaseFragment<
                 Snackbar.make(binding.root, "Missing data", Snackbar.LENGTH_SHORT).show()
             }
             AddEditNotification.Error ->
-                Snackbar.make(binding.root, getText(R.string.add_edit_error), Snackbar.LENGTH_SHORT).show()
+                Snackbar.make(binding.root, getText(R.string.add_edit_error), Snackbar.LENGTH_SHORT)
+                    .show()
             AddEditNotification.PatientNotSelected -> {
-                Snackbar.make(binding.root, getText(R.string.add_edit_patient_not_selected), Snackbar.LENGTH_SHORT).show()
+                Snackbar.make(
+                    binding.root,
+                    getText(R.string.add_edit_patient_not_selected),
+                    Snackbar.LENGTH_SHORT
+                ).show()
             }
             AddEditNotification.Success ->
-                Snackbar.make(binding.root, getText(R.string.add_edit_success), Snackbar.LENGTH_SHORT).show()
+                Snackbar.make(
+                    binding.root,
+                    getText(R.string.add_edit_success),
+                    Snackbar.LENGTH_SHORT
+                ).show()
 
         }
     }
@@ -109,10 +130,11 @@ class AddEditMedicalRecordsFragment : BaseFragment<
     }
 
     override fun onItemDeleted(item: ImageItemUiModel) {
+        Log.d(TAG, "onItemDeleted: $item")
         viewModel.onDeleteFile(item.asset)
     }
 
     override fun onItemClicked(item: ImageItemUiModel) {
-        TODO("Not yet implemented")
+        Log.d(TAG, "onItemClicked: $item")
     }
 }
