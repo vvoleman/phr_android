@@ -38,6 +38,13 @@ class ImageAdapter(
                         listener.onItemClicked(item)
                     }
                 }
+                buttonDelete.setOnClickListener {
+                    val position = bindingAdapterPosition
+                    if (position != RecyclerView.NO_POSITION) {
+                        val item = getItem(position)
+                        listener.onItemDeleted(item)
+                    }
+                }
             }
         }
 
