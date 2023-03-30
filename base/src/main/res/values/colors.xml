@@ -2,10 +2,13 @@
 <resources>
     <color name="background_light">#F4EFF4</color>
     <color name="box_background_light">#FFFFFF</color>
+    <color name="item_title">#49454F</color>
     <color name="text">#1C1B1F</color>
     <color name="secondary_purple">#6750A4</color>
     <color name="secondary_purple_darker">#382987</color>
     <color name="drawer_icon">#49454F</color>
+
+    <color name="colorGreen">#6F963D</color>
 
     <color name="purple_200">#FFBB86FC</color>
     <color name="purple_500">#FF6200EE</color>
