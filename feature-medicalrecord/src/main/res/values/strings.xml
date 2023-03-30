@@ -34,4 +34,6 @@
     <string name="navigation_add_medical_record">Nová lékařská zpráva</string>
     <string name="navigation_edit_medical_record">Upravit lékařskou zprávu</string>
     <string name="navigation_select_file">Nový soubor pro lékařskou zprávu</string>
+    <string name="filter_problem_categories">Kategorie problémů</string>
+    <string name="filter_medical_workers">Lékaři</string>
 </resources>

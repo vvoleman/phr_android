@@ -10,6 +10,7 @@ class MedicalRecorDomainModelToUiMapper {
             id = model.id,
             patient = model.patient.name,
             createdAt = model.createdAt,
+            visitDate = model.visitDate,
             problemCategoryName = model.problemCategory?.name,
             problemCategoryColor = model.problemCategory?.color,
             diagnoseId = model.diagnose?.id,

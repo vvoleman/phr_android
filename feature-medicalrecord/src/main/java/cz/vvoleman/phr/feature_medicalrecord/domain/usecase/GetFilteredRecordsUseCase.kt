@@ -31,6 +31,7 @@ class GetFilteredRecordsUseCase(
         Log.d("GetFilteredRecordsUseCase", "Request: $updatedRequest")
 
         val records = medicalRecordFilterRepository.filterRecords(updatedRequest)
+        Log.d("GetFilteredRecordsUseCase", "Records: $records")
         return when (request.groupBy) {
             GroupByDomainModel.DATE -> byDate(records)
             GroupByDomainModel.PROBLEM_CATEGORY -> byProblemCategory(records)
