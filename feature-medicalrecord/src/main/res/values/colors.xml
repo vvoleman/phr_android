@@ -2,7 +2,6 @@
 <resources>
     <color name="background_light">#F4EFF4</color>
     <color name="box_background_light">#FFFFFF</color>
-    <color name="item_title">#49454F</color>
     <color name="medical_worker_badge">#1D192B</color>
     <color name="medical_worker_badge_opaque">#991D192B</color>
     <color name="diagnose_badge">#3943AC</color>

@@ -7,8 +7,10 @@ import cz.vvoleman.phr.base.ui.mapper.BaseViewStateBinder
 import cz.vvoleman.phr.common.presentation.model.listpatients.ListPatientsViewState
 import cz.vvoleman.phr.common.ui.adapter.listpatients.PatientAdapter
 import cz.vvoleman.phr.common.ui.mapper.PatientUiModelToPresentationMapper
+import cz.vvoleman.phr.common.ui.model.PatientUiModel
 import cz.vvoleman.phr.common_datasource.databinding.FragmentListPatientsBinding
 import kotlinx.coroutines.CoroutineScope
+import java.time.LocalDate
 
 class ListPatientsBinder(
     private val patientUiModelToPresentationMapper: PatientUiModelToPresentationMapper
@@ -22,19 +24,18 @@ class ListPatientsBinder(
         lifecycleScope: CoroutineScope
     ) {
         super.init(viewBinding, context, lifecycleScope)
-        adapter = PatientAdapter()
-        viewBinding.recyclerViewListPatients.apply {
-            adapter = adapter
-            layoutManager = LinearLayoutManager(context)
-            setHasFixedSize(true)
-        }
+
+
+        adapter = viewBinding.recyclerViewListPatients.adapter as PatientAdapter
     }
 
     override fun bind(viewBinding: FragmentListPatientsBinding, viewState: ListPatientsViewState) {
-        val list = viewState.patients.map { patientUiModelToPresentationMapper.toUi(it) }
-        Log.d("ListPatientsBinder", "bind: ${list}")
+        val list = viewState.patients.map { patientUiModelToPresentationMapper.toUi(it).copy(isSelected = it.id == viewState.selectedPatientId) }
+        Log.d("ListPatientsBinder", "list: ${list}")
 
-        adapter.submitList(list)
+        if (list.isNotEmpty()) {
+            adapter.submitList(list)
+        }
     }
 
     sealed class Notification {
