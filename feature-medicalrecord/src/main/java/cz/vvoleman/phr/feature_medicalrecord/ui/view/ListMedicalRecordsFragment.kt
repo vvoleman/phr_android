@@ -1,5 +1,6 @@
 package cz.vvoleman.phr.feature_medicalrecord.ui.view
 
+import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -13,6 +14,7 @@ import cz.vvoleman.phr.base.ui.ext.collectLifecycleFlow
 import cz.vvoleman.phr.base.ui.mapper.DestinationUiMapper
 import cz.vvoleman.phr.base.ui.mapper.ViewStateBinder
 import cz.vvoleman.phr.base.ui.view.BaseFragment
+import cz.vvoleman.phr.common.domain.event.PatientDeletedEvent
 import cz.vvoleman.phr.common.ui.adapter.grouped.GroupedItemsAdapter
 import cz.vvoleman.phr.common.ui.adapter.grouped.OnAdapterItemListener
 import cz.vvoleman.phr.common.ui.model.GroupedItemsUiModel
@@ -28,6 +30,8 @@ import cz.vvoleman.phr.feature_medicalrecord.ui.model.MedicalRecordUiModel
 import cz.vvoleman.phr.feature_medicalrecord.ui.view.binder.MedicalRecordsBinder
 import cz.vvoleman.phr.feature_medicalrecord.ui.view.list.adapter.MedicalRecordsAdapter
 import dagger.hilt.android.AndroidEntryPoint
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import javax.inject.Inject
@@ -172,5 +176,20 @@ class ListMedicalRecordsFragment : BaseFragment<
         medicalRecordsAdapter.submitList(item.items)
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
 
+        EventBus.getDefault().register(this)
+    }
+
+    @Subscribe
+    fun onPatientDeleted(event: PatientDeletedEvent) {
+        viewModel.onEventPatientDeleted(event)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+
+        EventBus.getDefault().unregister(this)
+    }
 }

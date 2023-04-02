@@ -3,6 +3,7 @@ package cz.vvoleman.phr.common.ui.adapter.listpatients
 import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -47,6 +48,13 @@ class PatientAdapter(
                             listener.onPatientSwitch(item)
                         }
                     }
+                    buttonOptions.setOnClickListener {
+                        val position = bindingAdapterPosition
+                        if (position != RecyclerView.NO_POSITION) {
+                            val item = getItem(position)
+                            listener.onItemOptionsMenuClicked(item, binding.buttonOptions)
+                        }
+                    }
                 }
             }
 
@@ -86,6 +94,7 @@ class PatientAdapter(
     interface OnPatientListener {
         fun onPatientClick(patient: PatientUiModel)
         fun onPatientSwitch(patient: PatientUiModel)
+        fun onItemOptionsMenuClicked(item: PatientUiModel, anchorView: View)
     }
 
 }

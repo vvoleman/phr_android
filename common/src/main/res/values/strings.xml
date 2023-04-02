@@ -4,4 +4,8 @@
     <string name="list_patients_add_new_patient">Přidat nového pacienta</string>
     <string name="list_patients_switch">Přepnout</string>
     <string name="list_patients_no_birthdate">Bez narození</string>
+    <string name="action_edit">Upravit</string>
+    <string name="action_delete">Smazat</string>
+    <string name="action_undo">Obnovit</string>
+    <string name="patient_deleted">Pacient %s byl smazán</string>
 </resources>

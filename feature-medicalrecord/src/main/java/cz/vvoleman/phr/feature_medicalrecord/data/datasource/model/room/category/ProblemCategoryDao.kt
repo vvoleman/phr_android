@@ -29,4 +29,7 @@ interface ProblemCategoryDao {
     @Delete
     suspend fun delete(problemCategory: ProblemCategoryDataSourceModel)
 
+    @Query("DELETE FROM problem_category WHERE patient_id = :patientId")
+    suspend fun deleteByPatient(patientId: String)
+
 }

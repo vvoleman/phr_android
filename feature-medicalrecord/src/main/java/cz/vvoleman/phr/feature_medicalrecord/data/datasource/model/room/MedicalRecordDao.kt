@@ -47,4 +47,7 @@ interface MedicalRecordDao {
     @Delete
     suspend fun delete(medicalRecord: MedicalRecordDataSourceModel)
 
+    @Query("DELETE FROM medical_record WHERE patient_id = :patientId")
+    suspend fun deleteByPatient(patientId: String)
+
 }

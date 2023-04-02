@@ -14,6 +14,10 @@ import cz.vvoleman.phr.feature_medicalrecord.data.repository.*
 import cz.vvoleman.phr.feature_medicalrecord.domain.repository.*
 import cz.vvoleman.phr.feature_medicalrecord.domain.repository.add_edit.SearchDiagnoseRepository
 import cz.vvoleman.phr.feature_medicalrecord.domain.repository.dummy.GetDummyUsedProblemCategoriesRepository
+import cz.vvoleman.phr.feature_medicalrecord.domain.repository.patient_delete.DeleteMedicalRecordAssetsRepository
+import cz.vvoleman.phr.feature_medicalrecord.domain.repository.patient_delete.DeleteMedicalRecordsRepository
+import cz.vvoleman.phr.feature_medicalrecord.domain.repository.patient_delete.DeleteMedicalWorkersRepository
+import cz.vvoleman.phr.feature_medicalrecord.domain.repository.patient_delete.DeleteProblemCategoriesRepository
 import cz.vvoleman.phr.feature_medicalrecord.domain.repository.select_file.GetDiagnosesByIdsRepository
 import cz.vvoleman.phr.feature_medicalrecord.domain.repository.select_file.GetPatientByBirthDateRepository
 import cz.vvoleman.phr.feature_medicalrecord.domain.repository.select_file.SaveFileRepository
@@ -202,4 +206,37 @@ class DataModule {
     @Provides
     fun providesAddEditDomainModelToDataSourceMapper() =
         AddEditDomainModelToToDataSourceMapper()
+
+    @Provides
+    fun providesDeletePatientRepository(
+        medicalRecordDao: MedicalRecordDao,
+        medicalRecordAssetDao: MedicalRecordAssetDao,
+        medicalWorkerDao: MedicalWorkerDao,
+        problemCategoryDao: ProblemCategoryDao
+    ) = DeletePatientRepository(
+        medicalRecordDao,
+        medicalWorkerDao,
+        medicalRecordAssetDao,
+        problemCategoryDao
+    )
+
+    @Provides
+    fun providesDeleteMedicalRecordAssetRepository(
+        deletePatientRepository: DeletePatientRepository
+    ): DeleteMedicalRecordAssetsRepository = deletePatientRepository
+
+    @Provides
+    fun providesDeleteMedicalRecordsRepository(
+        deletePatientRepository: DeletePatientRepository
+    ): DeleteMedicalRecordsRepository = deletePatientRepository
+
+    @Provides
+    fun providesDeleteMedicalWorkersRepository(
+        deletePatientRepository: DeletePatientRepository
+    ): DeleteMedicalWorkersRepository = deletePatientRepository
+
+    @Provides
+    fun providesDeleteProblemCategoriesRepository(
+        deletePatientRepository: DeletePatientRepository
+    ): DeleteProblemCategoriesRepository = deletePatientRepository
 }
