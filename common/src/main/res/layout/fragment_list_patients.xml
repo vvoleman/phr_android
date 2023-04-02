@@ -21,7 +21,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="8dp"
-        android:background="@color/secondary_purple"
         android:clickable="true"
         android:contentDescription="@string/list_patients_add_new_patient"
         android:focusable="true"

@@ -8,7 +8,38 @@
     <color name="secondary_purple_darker">#382987</color>
     <color name="drawer_icon">#49454F</color>
 
+    <color name="color_primary">@color/green_500</color>
+    <color name="color_primary_variant">@color/green_700</color>
+    <color name="text_on_primary">@color/white</color>
+    <color name="color_secondary">@color/blue_500</color>
+    <color name="color_secondary_variant">@color/blue_700</color>
+    <color name="text_secondary">@color/white</color>
+    <color name="text_on_front">@color/beige_500</color>
+    <color name="text_on_back">@color/beige_200</color>
+
     <color name="colorGreen">#6F963D</color>
+
+    <color name="green_200">#5FA582</color>
+    <color name="green_500">#3A8367</color>
+    <color name="green_700">#2D6D52</color>
+
+    <color name="blue_200">#6FB3D2</color>
+    <color name="blue_500">#115577</color>
+    <color name="blue_700">#0C4457</color>
+
+    <color name="beige_200">#79747E</color>
+    <color name="beige_500">#49454F</color>
+    <color name="beige_700">#3E3B43</color>
+
+    <color name="category_a">#3A6B83</color>
+    <color name="category_b">#835E3A</color>
+    <color name="category_c">#6D3A83</color>
+    <color name="category_d">#83893A</color>
+    <color name="category_e">#3A8388</color>
+    <color name="category_f">#833A6B</color>
+    <color name="category_g">#53676A</color>
+    <color name="category_h">#992624</color>
+    <color name="category_i">#38752F</color>
 
     <color name="purple_200">#FFBB86FC</color>
     <color name="purple_500">#FF6200EE</color>

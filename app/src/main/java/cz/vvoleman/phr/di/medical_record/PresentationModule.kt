@@ -6,6 +6,10 @@ import cz.vvoleman.phr.common.domain.repository.GetSelectedPatientRepository
 import cz.vvoleman.phr.common.domain.usecase.GetSelectedPatientUseCase
 import cz.vvoleman.phr.feature_medicalrecord.domain.repository.*
 import cz.vvoleman.phr.feature_medicalrecord.domain.repository.add_edit.SearchDiagnoseRepository
+import cz.vvoleman.phr.feature_medicalrecord.domain.repository.patient_delete.DeleteMedicalRecordAssetsRepository
+import cz.vvoleman.phr.feature_medicalrecord.domain.repository.patient_delete.DeleteMedicalRecordsRepository
+import cz.vvoleman.phr.feature_medicalrecord.domain.repository.patient_delete.DeleteMedicalWorkersRepository
+import cz.vvoleman.phr.feature_medicalrecord.domain.repository.patient_delete.DeleteProblemCategoriesRepository
 import cz.vvoleman.phr.feature_medicalrecord.domain.repository.select_file.SaveFileRepository
 import cz.vvoleman.phr.feature_medicalrecord.domain.usecase.*
 import cz.vvoleman.phr.feature_medicalrecord.domain.usecase.add_edit.SearchDiagnoseUseCase
@@ -145,5 +149,20 @@ class PresentationModule {
 
     @Provides
     fun providesAssetPresentationToDomainMapper() = AssetPresentationToDomainModelMapper()
+
+    @Provides
+    fun providesDeletePatientUseCase(
+        deleteMedicalRecordAssetsRepository: DeleteMedicalRecordAssetsRepository,
+        deleteMedicalRecordsRepository: DeleteMedicalRecordsRepository,
+        deleteMedicalWorkersRepository: DeleteMedicalWorkersRepository,
+        deleteProblemCategoriesRepository: DeleteProblemCategoriesRepository,
+        coroutineContextProvider: CoroutineContextProvider
+    ) = DeletePatientUseCase(
+        deleteMedicalRecordAssetsRepository,
+        deleteMedicalRecordsRepository,
+        deleteMedicalWorkersRepository,
+        deleteProblemCategoriesRepository,
+        coroutineContextProvider
+    )
 
 }

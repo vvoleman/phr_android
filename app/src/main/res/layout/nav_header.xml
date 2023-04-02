@@ -27,16 +27,16 @@
             android:id="@+id/button_change_patient"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/secondary_purple"
-            android:text="Přepnout"
-            android:textSize="12dp"
-            app:iconSize="16dp" />
+            style="@style/PrimaryButton"
+            android:textAlignment="center"
+            android:text="Přepnout"/>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/button_edit_patient"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
+            style="@style/SecondaryButton"
             android:text="Upravit"
             android:textSize="12dp"
             app:icon="@drawable/ic_edit"
