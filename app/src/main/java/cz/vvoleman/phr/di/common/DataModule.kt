@@ -54,4 +54,9 @@ class DataModule {
 
     @Provides
     fun providesPatientDomainModelToDataSourceMapper() = PatientDataSourceModelToDomainMapper()
+
+    @Provides
+    fun providesDeletePatientRepository(
+        patientRepository: PatientRepository
+    ): DeletePatientRepository = patientRepository
 }

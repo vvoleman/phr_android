@@ -1,5 +1,6 @@
 package cz.vvoleman.phr.common.data.repository
 
+import android.util.Log
 import cz.vvoleman.phr.common.data.datasource.model.PatientDao
 import cz.vvoleman.phr.common.data.datasource.model.PatientDataStore
 import cz.vvoleman.phr.common.data.mapper.PatientDataSourceModelToDomainMapper
@@ -17,7 +18,8 @@ class PatientRepository(
     SavePatientRepository,
     GetAllPatientsRepository,
     GetSelectedPatientRepository,
-    SwitchSelectedPatientRepository {
+    SwitchSelectedPatientRepository,
+    DeletePatientRepository {
 
     override suspend fun getAll(): List<PatientDomainModel> {
         return patientDao.getAll().first().map { patientDomainModelToDataSourceMapper.toDomain(it) }
@@ -43,5 +45,16 @@ class PatientRepository(
 
     override suspend fun switchSelectedPatient(patientId: String) {
         patientDataStore.updatePatient(patientId)
+    }
+
+    override suspend fun deletePatient(id: String): Boolean {
+        val patient = patientDao.getById(id).firstOrNull() ?: return false
+        return try {
+            patientDao.delete(patient)
+            true
+        } catch (e: Exception) {
+            Log.e("PatientRepository", "Error deleting patient", e)
+            false
+        }
     }
 }

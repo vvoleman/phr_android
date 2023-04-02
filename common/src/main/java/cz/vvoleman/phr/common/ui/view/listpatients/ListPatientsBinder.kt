@@ -31,7 +31,6 @@ class ListPatientsBinder(
 
     override fun bind(viewBinding: FragmentListPatientsBinding, viewState: ListPatientsViewState) {
         val list = viewState.patients.map { patientUiModelToPresentationMapper.toUi(it).copy(isSelected = it.id == viewState.selectedPatientId) }
-        Log.d("ListPatientsBinder", "list: ${list}")
 
         if (list.isNotEmpty()) {
             adapter.submitList(list)

@@ -99,6 +99,8 @@ dependencies {
     // Material
     implementation "com.google.android.material:material:$material_components_version"
 
+    // Event Bus
+    implementation "org.greenrobot:eventbus:$event_bus_version"
 
     implementation project(':base')
     implementation project(':feature-medicalrecord')
