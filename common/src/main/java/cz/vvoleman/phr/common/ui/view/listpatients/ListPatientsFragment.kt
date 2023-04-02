@@ -4,12 +4,14 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.PopupMenu
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import cz.vvoleman.phr.base.ui.mapper.ViewStateBinder
 import cz.vvoleman.phr.base.ui.view.BaseFragment
+import cz.vvoleman.phr.common.presentation.model.PatientPresentationModel
 import cz.vvoleman.phr.common.presentation.model.listpatients.ListPatientsNotification
 import cz.vvoleman.phr.common.presentation.model.listpatients.ListPatientsViewState
 import cz.vvoleman.phr.common.presentation.viewmodel.ListPatientsViewModel
@@ -96,8 +98,7 @@ class ListPatientsFragment :
                     true
                 }
                 R.id.action_delete -> {
-                    Log.d(TAG, "onItemOptionsMenuClicked: $item")
-                    viewModel.onPatientDelete(presentationModel)
+                    handleDeleteDialog(presentationModel)
                     true
                 }
                 else -> false
@@ -105,5 +106,24 @@ class ListPatientsFragment :
         }
 
         popup.show()
+    }
+
+    private fun handleDeleteDialog(patient: PatientPresentationModel) {
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setTitle(R.string.delete_patient)
+            .setPositiveButton(R.string.action_delete) { _, _ ->
+                viewModel.onPatientDelete(patient)
+            }
+            .setMessage(
+                String.format(
+                    getText(R.string.delete_patient_message).toString(),
+                    patient.name
+                )
+            )
+            .setNegativeButton(R.string.action_cancel) { _, _ ->
+                // Do nothing
+            }
+
+        builder.create().show()
     }
 }

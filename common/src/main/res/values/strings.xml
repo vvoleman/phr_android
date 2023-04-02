@@ -8,4 +8,7 @@
     <string name="action_delete">Smazat</string>
     <string name="action_undo">Obnovit</string>
     <string name="patient_deleted">Pacient %s byl smazán</string>
+    <string name="delete_patient">Smazání pacienta</string>
+    <string name="action_cancel">Zrušit</string>
+    <string name="delete_patient_message">Potvrzením dojde k smazáním všech dat pacienta \"%s\". Tento krok je nezvratný!</string>
 </resources>
