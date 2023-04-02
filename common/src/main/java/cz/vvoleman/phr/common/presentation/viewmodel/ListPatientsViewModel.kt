@@ -46,9 +46,7 @@ class ListPatientsViewModel @Inject constructor(
 
         Log.d(TAG, "launching onInit")
 
-        viewModelScope.launch {
-            getAllPatientsUseCase.execute(Unit, ::handlePatientsLoaded)
-        }
+        loadAllPatients()
 
         listenForPatientChange()
     }
@@ -61,13 +59,14 @@ class ListPatientsViewModel @Inject constructor(
         val domainModel = patientPresentationModelToDomainMapper.toDomain(patient)
         val event = PatientDeletedEvent(domainModel)
         EventBus.getDefault().post(event)
-//        deletePatientUseCase.execute(patient.id) { success ->
-//            if (success) {
-//                notify(ListPatientsNotification.PatientDeleted(patient))
-//            } else {
-//                notify(ListPatientsNotification.PatientDeleteFailed(patient))
-//            }
-//        }
+        deletePatientUseCase.execute(patient.id) { success ->
+            if (success) {
+                notify(ListPatientsNotification.PatientDeleted(patient))
+                loadAllPatients()
+            } else {
+                notify(ListPatientsNotification.PatientDeleteFailed(patient))
+            }
+        }
     }
 
     fun onPatientEdit(id: String) = viewModelScope.launch {
@@ -81,6 +80,10 @@ class ListPatientsViewModel @Inject constructor(
             val mappedPatient = patientPresentationModelToDomainMapper.toPresentation(patient)
             updateViewState(currentViewState.copy(selectedPatientId = mappedPatient.id))
         }
+    }
+
+    private fun loadAllPatients() = viewModelScope.launch {
+        getAllPatientsUseCase.execute(Unit, ::handlePatientsLoaded)
     }
 
     private fun handlePatientsLoaded(patients: List<PatientDomainModel>) {
