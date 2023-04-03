@@ -1,5 +1,8 @@
 package cz.vvoleman.phr.di.common
 
+import android.content.Context
+import cz.vvoleman.phr.common.data.alarm.AlarmScheduler
+import cz.vvoleman.phr.common.data.alarm.AndroidAlarmScheduler
 import cz.vvoleman.phr.common.data.datasource.model.PatientDao
 import cz.vvoleman.phr.common.data.datasource.model.PatientDataStore
 import cz.vvoleman.phr.common.data.mapper.PatientDataSourceModelToAddEditMapper
@@ -9,6 +12,7 @@ import cz.vvoleman.phr.common.domain.repository.*
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
@@ -38,7 +42,7 @@ class DataModule {
     @Provides
     fun providesGetPatientByIdRepository(
         patientRepository: PatientRepository
-    ):GetPatientByIdRepository = patientRepository
+    ): GetPatientByIdRepository = patientRepository
 
     @Provides
     fun providesGetAllPatientsRepository(
@@ -65,4 +69,8 @@ class DataModule {
     fun providesDeletePatientRepository(
         patientRepository: PatientRepository
     ): DeletePatientRepository = patientRepository
+
+    @Provides
+    fun providesAlarmScheduler(@ApplicationContext context: Context): AlarmScheduler =
+        AndroidAlarmScheduler(context)
 }
