@@ -13,6 +13,7 @@ import cz.vvoleman.phr.common.domain.usecase.GetSelectedPatientUseCase
 import cz.vvoleman.phr.common.domain.usecase.SwitchSelectedPatientUseCase
 import cz.vvoleman.phr.common.presentation.mapper.PatientPresentationModelToDomainMapper
 import cz.vvoleman.phr.common.presentation.model.PatientPresentationModel
+import cz.vvoleman.phr.common.presentation.model.listpatients.ListPatientsDestination
 import cz.vvoleman.phr.common.presentation.model.listpatients.ListPatientsNotification
 import cz.vvoleman.phr.common.presentation.model.listpatients.ListPatientsViewState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -69,8 +70,12 @@ class ListPatientsViewModel @Inject constructor(
         }
     }
 
-    fun onPatientEdit(id: String) = viewModelScope.launch {
-        Log.d(TAG, "onEditPatient: $id")
+    fun onPatientEdit(id: String) {
+        navigateTo(ListPatientsDestination.EditPatient(id))
+    }
+
+    fun onPatientAdd() {
+        navigateTo(ListPatientsDestination.AddPatient)
     }
 
     private fun listenForPatientChange() = viewModelScope.launch {

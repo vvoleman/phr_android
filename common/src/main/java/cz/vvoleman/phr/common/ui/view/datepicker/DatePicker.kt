@@ -11,7 +11,6 @@ import cz.vvoleman.phr.common_datasource.databinding.DatePickerLayoutBinding
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
-import java.util.*
 
 class DatePicker @JvmOverloads constructor(
     context: Context,
@@ -22,6 +21,7 @@ class DatePicker @JvmOverloads constructor(
     private val dialog: DatePickerDialog
     private var editText: TextInputEditText
     private var listener: DatePickerListener? = null
+    private var date: LocalDate? = null
 
     init {
         val layoutBinding =
@@ -66,14 +66,22 @@ class DatePicker @JvmOverloads constructor(
         return editText.text.toString()
     }
 
+    fun getDate(): LocalDate? {
+        if (editText.text == null || editText.text.toString().isEmpty()) {
+            return null
+        }
+
+        val datePicker = dialog.datePicker
+        return LocalDate.of(datePicker.year, datePicker.month + 1, datePicker.dayOfMonth)
+    }
+
     fun setListener(listener: DatePickerListener) {
         this.listener = listener
     }
 
     fun setDate(date: LocalDate) {
-        Log.d(TAG, "Setting date setDate: $date")
         setEditTextValue(date)
-        dialog.updateDate(date.year, date.monthValue, date.dayOfMonth)
+        dialog.updateDate(date.year, date.monthValue-1, date.dayOfMonth)
     }
 
     private fun setEditTextValue(date: LocalDate) {

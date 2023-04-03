@@ -59,7 +59,9 @@ class ListPatientsFragment :
     override fun setupListeners() {
         super.setupListeners()
 
-
+        binding.fabAddNewPatient.setOnClickListener {
+            viewModel.onPatientAdd()
+        }
     }
 
     override fun handleNotification(notification: ListPatientsNotification) {

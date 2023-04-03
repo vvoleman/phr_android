@@ -2,8 +2,11 @@ package cz.vvoleman.phr.common.data.repository
 
 import android.util.Log
 import cz.vvoleman.phr.common.data.datasource.model.PatientDao
+import cz.vvoleman.phr.common.data.datasource.model.PatientDataSourceModel
 import cz.vvoleman.phr.common.data.datasource.model.PatientDataStore
+import cz.vvoleman.phr.common.data.mapper.PatientDataSourceModelToAddEditMapper
 import cz.vvoleman.phr.common.data.mapper.PatientDataSourceModelToDomainMapper
+import cz.vvoleman.phr.common.domain.model.AddEditPatientDomainModel
 import cz.vvoleman.phr.common.domain.model.PatientDomainModel
 import cz.vvoleman.phr.common.domain.repository.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -13,7 +16,8 @@ import kotlinx.coroutines.flow.*
 class PatientRepository(
     private val patientDao: PatientDao,
     private val patientDataStore: PatientDataStore,
-    private val patientDomainModelToDataSourceMapper: PatientDataSourceModelToDomainMapper
+    private val patientDomainModelToDataSourceMapper: PatientDataSourceModelToDomainMapper,
+    private val patientDataSourceModelToAddEditMapper: PatientDataSourceModelToAddEditMapper
 ) : GetPatientByIdRepository,
     SavePatientRepository,
     GetAllPatientsRepository,
@@ -30,8 +34,9 @@ class PatientRepository(
             ?.let { patientDomainModelToDataSourceMapper.toDomain(it) }
     }
 
-    override suspend fun savePatient(patient: PatientDomainModel): String {
-        return patientDao.insert(patientDomainModelToDataSourceMapper.toDataSource(patient))
+    override suspend fun savePatient(patient: AddEditPatientDomainModel): String {
+        val model = patientDataSourceModelToAddEditMapper.toDataSource(patient)
+        return patientDao.insert(model)
             .toString()
     }
 
