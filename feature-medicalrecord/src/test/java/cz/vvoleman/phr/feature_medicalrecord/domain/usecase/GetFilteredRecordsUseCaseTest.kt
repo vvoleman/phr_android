@@ -2,6 +2,7 @@ package cz.vvoleman.phr.feature_medicalrecord.domain.usecase
 
 import cz.vvoleman.phr.base.domain.coroutine.CoroutineContextProvider
 import cz.vvoleman.phr.common.domain.GroupedItemsDomainModel
+import cz.vvoleman.phr.common.domain.repository.GetSelectedPatientRepository
 import cz.vvoleman.phr.feature_medicalrecord.domain.model.MedicalRecordDomainModel
 import cz.vvoleman.phr.feature_medicalrecord.domain.model.MedicalWorkerDomainModel
 import cz.vvoleman.phr.feature_medicalrecord.domain.model.PatientDomainModel
@@ -216,7 +217,8 @@ class GetFilteredRecordsUseCaseTest {
                 name = medicalWorker,
                 patientId = "1"
             ),
-            createdAt = date
+            createdAt = date,
+            visitDate = date
         )
     }
 }

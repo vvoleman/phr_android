@@ -70,7 +70,7 @@ class PatientAdapter(
                     buttonSwitch.isEnabled = !item.isSelected
 
                     if (item.isSelected) {
-                        layoutDate.setBackgroundColor(appContext.getColor(cz.vvoleman.phr.base.R.color.colorGreen))
+                        layoutDate.setBackgroundColor(appContext.getColor(cz.vvoleman.phr.base.R.color.green_700))
                     }
                 }
             }

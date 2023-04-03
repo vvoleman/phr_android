@@ -71,6 +71,9 @@ dependencies {
     implementation("androidx.navigation:navigation-ui-ktx:$nav_version")
     implementation "androidx.navigation:navigation-dynamic-features-fragment:$nav_version"
 
+    // Material Design
+    implementation "com.google.android.material:material:$material_version"
+
     // Event Bus
     implementation "org.greenrobot:eventbus:$event_bus_version"
 

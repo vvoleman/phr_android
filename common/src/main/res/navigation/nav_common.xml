@@ -8,5 +8,34 @@
         android:id="@+id/listPatientsFragment"
         android:name="cz.vvoleman.phr.common.ui.view.listpatients.ListPatientsFragment"
         android:label="@string/navigation_list_patients"
-        tools:layout="@layout/fragment_list_patients" />
+        tools:layout="@layout/fragment_list_patients" >
+        <action
+            android:id="@+id/action_listPatientsFragment_to_addEditPatientFragment"
+            app:destination="@id/addEditPatientFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_left" />
+        <argument
+            android:name="patientId"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="@null" />
+    </fragment>
+    <fragment
+        android:id="@+id/addEditPatientFragment"
+        android:name="cz.vvoleman.phr.common.ui.view.addedit.AddEditPatientFragment"
+        android:label="@string/navigation_add_edit_patient"
+        tools:layout="@layout/fragment_add_edit_patient">
+        <action
+            android:id="@+id/action_addEditPatientFragment_to_listPatientsFragment"
+            app:destination="@id/listPatientsFragment"
+            app:popUpTo="@id/listPatientsFragment"
+            app:popUpToInclusive="true"
+            app:enterAnim="@anim/slide_out_left"
+            app:exitAnim="@anim/slide_out_left" />
+        <argument
+            android:name="patientId"
+            android:defaultValue="@null"
+            app:argType="string"
+            app:nullable="true" />
+    </fragment>
 </navigation>

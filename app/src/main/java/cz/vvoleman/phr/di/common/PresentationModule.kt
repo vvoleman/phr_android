@@ -1,14 +1,13 @@
 package cz.vvoleman.phr.di.common
 
 import cz.vvoleman.phr.base.domain.coroutine.CoroutineContextProvider
-import cz.vvoleman.phr.common.domain.repository.DeletePatientRepository
-import cz.vvoleman.phr.common.domain.repository.GetAllPatientsRepository
-import cz.vvoleman.phr.common.domain.repository.GetSelectedPatientRepository
-import cz.vvoleman.phr.common.domain.repository.SwitchSelectedPatientRepository
+import cz.vvoleman.phr.common.domain.repository.*
 import cz.vvoleman.phr.common.domain.usecase.DeletePatientUseCase
 import cz.vvoleman.phr.common.domain.usecase.GetAllPatientsUseCase
 import cz.vvoleman.phr.common.domain.usecase.GetSelectedPatientUseCase
 import cz.vvoleman.phr.common.domain.usecase.SwitchSelectedPatientUseCase
+import cz.vvoleman.phr.common.domain.usecase.addedit.GetPatientByIdUseCase
+import cz.vvoleman.phr.common.domain.usecase.addedit.SavePatientUseCase
 import cz.vvoleman.phr.common.presentation.mapper.PatientPresentationModelToDomainMapper
 import dagger.Module
 import dagger.Provides
@@ -56,6 +55,26 @@ class PresentationModule {
         getSelectedPatientRepository,
         getAllPatientsRepository,
         switchSelectedPatientRepository,
+        coroutineContextProvider
+    )
+
+    @Provides
+    fun providesGetPatientByIdUseCase(
+        getPatientByIdRepository: GetPatientByIdRepository,
+        coroutineContextProvider: CoroutineContextProvider
+    ) = GetPatientByIdUseCase(
+        getPatientByIdRepository,
+        coroutineContextProvider
+    )
+
+    @Provides
+    fun providesSavePatientUseCase(
+        savePatientRepository: SavePatientRepository,
+        getPatientByIdRepository: GetPatientByIdRepository,
+        coroutineContextProvider: CoroutineContextProvider
+    ) = SavePatientUseCase(
+        savePatientRepository,
+        getPatientByIdRepository,
         coroutineContextProvider
     )
 
