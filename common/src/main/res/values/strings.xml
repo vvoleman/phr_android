@@ -11,4 +11,11 @@
     <string name="delete_patient">Smazání pacienta</string>
     <string name="action_cancel">Zrušit</string>
     <string name="delete_patient_message">Potvrzením dojde k smazáním všech dat pacienta \"%s\". Tento krok je nezvratný!</string>
+    <string name="addedit_error">Při správě pacienta došlo k chybě</string>
+    <string name="addedit_saved">Pacient \"%s\" byl úspěšně uložen!</string>
+    <string name="navigation_add_edit_patient">Přidání pacienta</string>
+    <string name="label_addedit_patient_name">Jméno</string>
+    <string name="action_save">Uložit</string>
+    <string name="field_error_empty">Toto pole musí být vyplněno</string>
+    <string name="helper_required">Povinné pole</string>
 </resources>

@@ -2,6 +2,7 @@ package cz.vvoleman.phr.di.common
 
 import cz.vvoleman.phr.common.data.datasource.model.PatientDao
 import cz.vvoleman.phr.common.data.datasource.model.PatientDataStore
+import cz.vvoleman.phr.common.data.mapper.PatientDataSourceModelToAddEditMapper
 import cz.vvoleman.phr.common.data.mapper.PatientDataSourceModelToDomainMapper
 import cz.vvoleman.phr.common.data.repository.PatientRepository
 import cz.vvoleman.phr.common.domain.repository.*
@@ -21,10 +22,12 @@ class DataModule {
         patientDataStore: PatientDataStore,
         patientDomainModelToDataSourceMapper: PatientDataSourceModelToDomainMapper,
         patientDao: PatientDao,
+        patientDataSourceModelToAddEditMapper: PatientDataSourceModelToAddEditMapper
     ) = PatientRepository(
         patientDao,
         patientDataStore,
-        patientDomainModelToDataSourceMapper
+        patientDomainModelToDataSourceMapper,
+        patientDataSourceModelToAddEditMapper,
     )
 
     @Provides
@@ -54,6 +57,9 @@ class DataModule {
 
     @Provides
     fun providesPatientDomainModelToDataSourceMapper() = PatientDataSourceModelToDomainMapper()
+
+    @Provides
+    fun providesPatientDataSourceModelToAddEditMapper() = PatientDataSourceModelToAddEditMapper()
 
     @Provides
     fun providesDeletePatientRepository(

@@ -28,6 +28,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/white"
+            style="@style/BaseTextView"
             android:textSize="24sp"
             tools:text="13." />
 
@@ -35,6 +36,7 @@
             android:id="@+id/text_view_date_month"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            style="@style/BaseTextView"
             android:textColor="@color/white"
             tools:text="prosinec" />
 
@@ -53,8 +55,10 @@
             android:id="@+id/text_view_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/item_title"
             android:layout_alignParentTop="true"
+            style="@style/BaseTextView"
+            android:fontFamily="@font/roboto_bold"
+            android:textSize="14sp"
             android:layout_marginTop="8dp"
             tools:text="Chřipka" />
 
@@ -69,7 +73,7 @@
             app:chipStartPadding="8dp"
             android:textSize="12sp"
             app:chipIconSize="16dp"
-            app:chipBackgroundColor="@color/medical_worker_badge"
+            app:chipBackgroundColor="#242424"
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="0dp"
             app:ensureMinTouchTargetSize="true"/>
@@ -83,8 +87,9 @@
             app:chipIconTint="@color/white"
             app:chipStartPadding="8dp"
             android:textSize="12sp"
+            android:fontFamily="@font/roboto_medium"
             app:chipIconSize="16dp"
-            app:chipBackgroundColor="@color/diagnose_badge"
+            app:chipBackgroundColor="#242424"
             android:layout_alignParentBottom="true"
             android:layout_toEndOf="@id/chip_medical_worker"
             android:layout_marginBottom="0dp"
@@ -99,6 +104,7 @@
             app:icon="@drawable/ic_options"
             app:iconTint="@color/item_title"
             android:layout_alignParentEnd="true"
+            android:fontFamily="@font/roboto_medium"
             app:iconGravity="textStart"
             app:cornerRadius="32dp" />
 

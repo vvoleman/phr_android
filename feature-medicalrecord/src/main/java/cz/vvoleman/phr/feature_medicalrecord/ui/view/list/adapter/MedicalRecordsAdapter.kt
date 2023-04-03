@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.graphics.ColorUtils
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -67,12 +68,20 @@ class MedicalRecordsAdapter (
                 chipDiagnose.text = item.diagnoseId
                 textViewTitle.text = item.problemCategoryName ?: "-"
 
+                if (item.problemCategoryColor != null) {
+                    val color = Color.parseColor(item.problemCategoryColor)
+                    layoutDate.setBackgroundColor(color)
+                    chipMedicalWorker.chipBackgroundColor = ColorStateList.valueOf(color)
+                    chipDiagnose.chipBackgroundColor = ColorStateList.valueOf(color)
+                }
+
+                val opaqueColor = ColorUtils.setAlphaComponent(chipMedicalWorker.chipBackgroundColor!!.defaultColor, 128)
                 if (item.medicalWorker == null) {
                     chipMedicalWorker.apply {
                         text = appContext.getString(R.string.medical_record_no_medical_worker)
                         //set opacity to 0.5
                         // Use @color/medical_record_badge
-                        setChipBackgroundColorResource(R.color.medical_worker_badge_opaque)
+                        chipBackgroundColor = ColorStateList.valueOf(opaqueColor)
                     }
                 }
 
@@ -81,12 +90,10 @@ class MedicalRecordsAdapter (
                         text = appContext.getString(R.string.medical_record_no_diagnose)
                         //set opacity to 0.5
                         // Use @color/medical_record_badge
-                        setChipBackgroundColorResource(R.color.medical_worker_badge_opaque)
+                        chipBackgroundColor = ColorStateList.valueOf(opaqueColor)
+                        // set text color to white
+                        setTextColor(Color.BLACK)
                     }
-                }
-
-                if (item.problemCategoryColor != null) {
-                    layoutDate.setBackgroundColor(Color.parseColor(item.problemCategoryColor))
                 }
             }
         }
