@@ -5,6 +5,10 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import cz.vvoleman.phr.base.presentation.viewmodel.BaseViewModel
 import cz.vvoleman.phr.base.presentation.viewmodel.usecase.UseCaseExecutorProvider
+import cz.vvoleman.phr.common.data.alarm.AlarmItem
+import cz.vvoleman.phr.common.data.alarm.AlarmReceiver
+import cz.vvoleman.phr.common.data.alarm.AlarmScheduler
+import cz.vvoleman.phr.common.data.alarm.TestContent
 import cz.vvoleman.phr.common.domain.event.PatientDeletedEvent
 import cz.vvoleman.phr.common.domain.model.PatientDomainModel
 import cz.vvoleman.phr.common.domain.usecase.DeletePatientUseCase
@@ -19,10 +23,14 @@ import cz.vvoleman.phr.common.presentation.model.listpatients.ListPatientsViewSt
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import org.greenrobot.eventbus.EventBus
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.temporal.TemporalAmount
 import javax.inject.Inject
 
 @HiltViewModel
 class ListPatientsViewModel @Inject constructor(
+    private val alarmScheduler: AlarmScheduler,
     private val getAllPatientsUseCase: GetAllPatientsUseCase,
     private val getSelectedPatientUseCase: GetSelectedPatientUseCase,
     private val switchSelectedPatientUseCase: SwitchSelectedPatientUseCase,
@@ -53,6 +61,16 @@ class ListPatientsViewModel @Inject constructor(
     }
 
     fun onPatientSwitch(id: String) = viewModelScope.launch {
+        val item = AlarmItem(
+            "switch-${id}",
+            LocalDateTime.now().plusSeconds(20),
+            TestContent(id),
+            AlarmReceiver::class.java
+        )
+
+        val result = alarmScheduler.schedule(item)
+        Log.d(TAG, "Scheduled patient: $result")
+
         switchSelectedPatientUseCase.execute(id) {}
     }
 
@@ -93,7 +111,8 @@ class ListPatientsViewModel @Inject constructor(
 
     private fun handlePatientsLoaded(patients: List<PatientDomainModel>) {
         Log.d(TAG, "handlePatientsLoaded: $patients")
-        val mappedPatients = patients.map { patientPresentationModelToDomainMapper.toPresentation(it) }
+        val mappedPatients =
+            patients.map { patientPresentationModelToDomainMapper.toPresentation(it) }
         updateViewState(currentViewState.copy(patients = mappedPatients))
     }
 }

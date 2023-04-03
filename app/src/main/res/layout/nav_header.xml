@@ -38,7 +38,7 @@
             android:layout_marginStart="4dp"
             style="@style/SecondaryButton"
             android:text="Upravit"
-            android:textSize="12dp"
+            android:textSize="12sp"
             app:icon="@drawable/ic_edit"
             app:iconSize="16dp" />
     </LinearLayout>
