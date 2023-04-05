@@ -31,12 +31,6 @@ object AppModule {
             .build()
 
     @Provides
-    fun provideMedicineDao(db: PatientDatabase) = db.medicineDao()
-
-    @Provides
-    fun provideSubstanceDao(db: PatientDatabase) = db.substanceDao()
-
-    @Provides
     fun provideConnectivityManager(@ApplicationContext context: Context) = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
     @Provides
@@ -46,12 +40,6 @@ object AppModule {
             .baseUrl(BackendApi.BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-
-    @Provides
-    @Singleton
-    fun provideBackendApi(retrofit: Retrofit): BackendApi =
-        retrofit
-            .create(BackendApi::class.java)
 
     @ApplicationScope
     @Provides

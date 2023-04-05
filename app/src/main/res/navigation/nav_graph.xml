@@ -3,9 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/medical_record_nav_graph">
+    app:startDestination="@id/nav_medicine">
 
     <include app:graph="@navigation/nav_medical_record" />
     <include app:graph="@navigation/nav_common" />
+    <include app:graph="@navigation/nav_medicine" />
 
 </navigation>

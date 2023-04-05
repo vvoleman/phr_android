@@ -15,7 +15,7 @@
             android:title="@string/medical_records" />
 
         <item
-            android:id="@+id/medicineFragment"
+            android:id="@+id/listMedicineFragment"
             android:icon="@drawable/ic_medicine"
             android:title="@string/medicine" />
         <item

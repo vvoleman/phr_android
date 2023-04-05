@@ -104,6 +104,7 @@ dependencies {
 
     implementation project(':base')
     implementation project(':feature-medicalrecord')
+    implementation project(':feature-medicine')
     implementation project(':common')
 }
 
