@@ -11,11 +11,6 @@ import cz.vvoleman.phr.common.data.datasource.model.PatientDataSourceModel
 import cz.vvoleman.phr.data.core.Color
 import cz.vvoleman.phr.data.core.Gender
 import cz.vvoleman.phr.data.core.diagnose.Diagnose
-import cz.vvoleman.phr.data.room.medicine.MedicineDao
-import cz.vvoleman.phr.data.room.medicine.MedicineEntity
-import cz.vvoleman.phr.data.room.medicine.MedicineSubstanceCrossRef
-import cz.vvoleman.phr.data.room.medicine.substance.SubstanceDao
-import cz.vvoleman.phr.data.room.medicine.substance.SubstanceEntity
 import cz.vvoleman.phr.di.ApplicationScope
 import cz.vvoleman.phr.feature_medicalrecord.data.datasource.model.room.MedicalRecordDao
 import cz.vvoleman.phr.feature_medicalrecord.data.datasource.model.room.MedicalRecordDataSourceModel
@@ -29,6 +24,8 @@ import cz.vvoleman.phr.feature_medicalrecord.data.datasource.model.room.diagnose
 import cz.vvoleman.phr.feature_medicalrecord.data.datasource.model.room.diagnose.DiagnoseGroupDataSourceModel
 import cz.vvoleman.phr.feature_medicalrecord.data.datasource.model.room.worker.MedicalWorkerDao
 import cz.vvoleman.phr.feature_medicalrecord.data.datasource.model.room.worker.MedicalWorkerDataSourceModel
+import cz.vvoleman.phr.feature_medicine.data.datasource.room.medicine.*
+import cz.vvoleman.phr.feature_medicine.data.datasource.room.medicine.dao.*
 import cz.vvoleman.phr.util.Converters
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -47,9 +44,11 @@ import javax.inject.Provider
         ProblemCategoryDataSourceModel::class,
         MedicalWorkerDataSourceModel::class,
         MedicalRecordAssetDataSourceModel::class,
-        MedicineEntity::class,
-        SubstanceEntity::class,
-        MedicineSubstanceCrossRef::class,
+        MedicineDataSourceModel::class,
+        PackagingDataSourceModel::class,
+        ProductFormDataSourceModel::class,
+        SubstanceAmountDataSourceModel::class,
+        SubstanceDataSourceModel::class,
     ],
     version = 1
 )
@@ -69,6 +68,12 @@ abstract class PatientDatabase : RoomDatabase() {
     abstract fun medicalRecordAssetDao(): MedicalRecordAssetDao
 
     abstract fun medicineDao(): MedicineDao
+
+    abstract fun packagingDao(): PackagingDao
+
+    abstract fun productFormDao(): ProductFormDao
+
+    abstract fun substanceAmountDao(): SubstanceAmountDao
 
     abstract fun substanceDao(): SubstanceDao
 

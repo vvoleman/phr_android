@@ -37,8 +37,8 @@ class MainActivity : AppCompatActivity() {
         appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.listMedicalRecordsFragment,
+                R.id.listMedicineFragment,
                 R.id.overviewFragment,
-                R.id.medicineFragment,
                 R.id.measurementsFragment,
             ),
             binding.drawerLayout
@@ -48,6 +48,9 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
 
         binding.navView.setupWithNavController(navController)
+
+        setupNavigation()
+
         val patientsButton = binding.navView.getHeaderView(0).findViewById<Button>(R.id.button_edit_patient)
         patientsButton.setOnClickListener {
             navController.navigate(cz.vvoleman.phr.common_datasource.R.id.nav_common)
@@ -69,6 +72,24 @@ class MainActivity : AppCompatActivity() {
                 } catch (e: java.lang.IllegalArgumentException) {
                     Log.e("MainActivity", "Error navigating to ${directions.actionId}", e)
                 }
+            }
+        }
+    }
+
+    private fun setupNavigation() {
+        binding.navView.setNavigationItemSelectedListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.listMedicalRecordsFragment -> {
+                    navController.navigate(cz.vvoleman.phr.feature_medicalrecord.R.id.nav_medical_record)
+                    binding.drawerLayout.close()
+                    true
+                }
+                R.id.listMedicineFragment -> {
+                    navController.navigate(cz.vvoleman.phr.feature_medicine.R.id.nav_medicine)
+                    binding.drawerLayout.close()
+                    true
+                }
+                else -> false
             }
         }
     }
