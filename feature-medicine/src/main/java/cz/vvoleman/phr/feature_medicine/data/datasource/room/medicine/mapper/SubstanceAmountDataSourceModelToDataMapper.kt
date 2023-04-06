@@ -2,7 +2,7 @@ package cz.vvoleman.phr.feature_medicine.data.datasource.room.medicine.mapper
 
 import cz.vvoleman.phr.feature_medicine.data.datasource.room.medicine.SubstanceAmountDataSourceModel
 import cz.vvoleman.phr.feature_medicine.data.datasource.room.medicine.dao.SubstanceDao
-import cz.vvoleman.phr.feature_medicine.data.model.SubstanceAmountDataModel
+import cz.vvoleman.phr.feature_medicine.data.model.medicine.SubstanceAmountDataModel
 import kotlinx.coroutines.flow.first
 
 class SubstanceAmountDataSourceModelToDataMapper(

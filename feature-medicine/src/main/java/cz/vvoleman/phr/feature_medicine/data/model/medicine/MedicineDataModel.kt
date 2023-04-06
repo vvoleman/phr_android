@@ -1,4 +1,4 @@
-package cz.vvoleman.phr.feature_medicine.data.model
+package cz.vvoleman.phr.feature_medicine.data.model.medicine
 
 data class MedicineDataModel(
     val id: String,

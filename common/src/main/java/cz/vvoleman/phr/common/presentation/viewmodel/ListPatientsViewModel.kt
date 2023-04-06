@@ -63,7 +63,7 @@ class ListPatientsViewModel @Inject constructor(
     fun onPatientSwitch(id: String) = viewModelScope.launch {
         val item = AlarmItem(
             "switch-${id}",
-            LocalDateTime.now().plusSeconds(20),
+            LocalDateTime.now().plusSeconds(5),
             TestContent(id),
             AlarmReceiver::class.java
         )

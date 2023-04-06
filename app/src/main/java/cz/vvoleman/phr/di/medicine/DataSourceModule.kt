@@ -1,5 +1,6 @@
 package cz.vvoleman.phr.di.medicine
 
+import cz.vvoleman.phr.common.data.mapper.PatientDataSourceModelToDomainMapper
 import cz.vvoleman.phr.data.PatientDatabase
 import cz.vvoleman.phr.feature_medicine.data.datasource.retrofit.BackendApi
 import cz.vvoleman.phr.feature_medicine.data.datasource.retrofit.medicine.mapper.MedicineApiDataSourceModelToDataMapper
@@ -10,6 +11,8 @@ import cz.vvoleman.phr.feature_medicine.data.datasource.room.medicine.SubstanceA
 import cz.vvoleman.phr.feature_medicine.data.datasource.room.medicine.dao.ProductFormDao
 import cz.vvoleman.phr.feature_medicine.data.datasource.room.medicine.dao.SubstanceDao
 import cz.vvoleman.phr.feature_medicine.data.datasource.room.medicine.mapper.*
+import cz.vvoleman.phr.feature_medicine.data.datasource.room.schedule.mapper.MedicineScheduleDataSourceModelToDataMapper
+import cz.vvoleman.phr.feature_medicine.data.datasource.room.schedule.mapper.ScheduleItemDataSourceModelToDataMapper
 import cz.vvoleman.phr.feature_medicine.data.mapper.*
 import dagger.Module
 import dagger.Provides
@@ -94,4 +97,17 @@ class DataSourceModule {
         substanceApiDataSourceModelToDataMapper
     )
 
+    @Provides
+    fun providesScheduleItemDataSourceModelToDataMapper() = ScheduleItemDataSourceModelToDataMapper()
+
+    @Provides
+    fun providesMedicineDataToDataSourceModelMapper(
+        patientDataSourceModelToDomainMapper: PatientDataSourceModelToDomainMapper,
+        medicineDataSourceModelToDataMapper: MedicineDataSourceModelToDataMapper,
+        scheduleItemDataSourceModelToDataMapper: ScheduleItemDataSourceModelToDataMapper,
+    ) = MedicineScheduleDataSourceModelToDataMapper(
+        patientDataSourceModelToDomainMapper,
+        medicineDataSourceModelToDataMapper,
+        scheduleItemDataSourceModelToDataMapper
+    )
 }
