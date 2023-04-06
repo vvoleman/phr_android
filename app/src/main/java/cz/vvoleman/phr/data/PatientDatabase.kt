@@ -45,9 +45,7 @@ import javax.inject.Provider
         MedicalWorkerDataSourceModel::class,
         MedicalRecordAssetDataSourceModel::class,
         MedicineDataSourceModel::class,
-        PackagingDataSourceModel::class,
         ProductFormDataSourceModel::class,
-        SubstanceAmountDataSourceModel::class,
         SubstanceDataSourceModel::class,
     ],
     version = 1
@@ -69,11 +67,7 @@ abstract class PatientDatabase : RoomDatabase() {
 
     abstract fun medicineDao(): MedicineDao
 
-    abstract fun packagingDao(): PackagingDao
-
     abstract fun productFormDao(): ProductFormDao
-
-    abstract fun substanceAmountDao(): SubstanceAmountDao
 
     abstract fun substanceDao(): SubstanceDao
 

@@ -23,6 +23,9 @@ interface SubstanceDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(substance: SubstanceDataSourceModel)
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insert(substances: List<SubstanceDataSourceModel>)
+
     @Delete
     suspend fun delete(substance: SubstanceDataSourceModel)
 
