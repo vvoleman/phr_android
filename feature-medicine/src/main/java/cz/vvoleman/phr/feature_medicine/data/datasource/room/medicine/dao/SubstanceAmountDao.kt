@@ -20,6 +20,9 @@ interface SubstanceAmountDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(substanceAmount: SubstanceAmountDataSourceModel)
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insert(substanceAmounts: List<SubstanceAmountDataSourceModel>)
+
     @Delete
     suspend fun delete(substanceAmount: SubstanceAmountDataSourceModel)
 }
