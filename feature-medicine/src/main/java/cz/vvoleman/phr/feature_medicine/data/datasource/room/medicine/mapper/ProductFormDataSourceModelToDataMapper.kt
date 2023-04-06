@@ -1,7 +1,7 @@
 package cz.vvoleman.phr.feature_medicine.data.datasource.room.medicine.mapper
 
 import cz.vvoleman.phr.feature_medicine.data.datasource.room.medicine.ProductFormDataSourceModel
-import cz.vvoleman.phr.feature_medicine.data.model.ProductFormDataModel
+import cz.vvoleman.phr.feature_medicine.data.model.medicine.ProductFormDataModel
 
 class ProductFormDataSourceModelToDataMapper {
 

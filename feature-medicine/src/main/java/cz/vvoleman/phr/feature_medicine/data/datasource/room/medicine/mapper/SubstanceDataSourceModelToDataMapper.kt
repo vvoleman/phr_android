@@ -1,7 +1,7 @@
 package cz.vvoleman.phr.feature_medicine.data.datasource.room.medicine.mapper
 
 import cz.vvoleman.phr.feature_medicine.data.datasource.room.medicine.SubstanceDataSourceModel
-import cz.vvoleman.phr.feature_medicine.data.model.SubstanceDataModel
+import cz.vvoleman.phr.feature_medicine.data.model.medicine.SubstanceDataModel
 
 class SubstanceDataSourceModelToDataMapper {
 

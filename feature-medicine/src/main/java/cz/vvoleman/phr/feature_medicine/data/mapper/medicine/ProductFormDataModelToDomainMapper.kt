@@ -1,6 +1,6 @@
-package cz.vvoleman.phr.feature_medicine.data.mapper
+package cz.vvoleman.phr.feature_medicine.data.mapper.medicine
 
-import cz.vvoleman.phr.feature_medicine.data.model.ProductFormDataModel
+import cz.vvoleman.phr.feature_medicine.data.model.medicine.ProductFormDataModel
 import cz.vvoleman.phr.feature_medicine.domain.model.medicine.ProductFormDomainModel
 
 class ProductFormDataModelToDomainMapper {

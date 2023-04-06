@@ -2,7 +2,7 @@ package cz.vvoleman.phr.feature_medicine.data.datasource.room.medicine.mapper
 
 import cz.vvoleman.phr.feature_medicine.data.datasource.room.medicine.PackagingDataSourceModel
 import cz.vvoleman.phr.feature_medicine.data.datasource.room.medicine.dao.ProductFormDao
-import cz.vvoleman.phr.feature_medicine.data.model.PackagingDataModel
+import cz.vvoleman.phr.feature_medicine.data.model.medicine.PackagingDataModel
 import kotlinx.coroutines.flow.first
 
 class PackagingDataSourceModelToDataMapper (

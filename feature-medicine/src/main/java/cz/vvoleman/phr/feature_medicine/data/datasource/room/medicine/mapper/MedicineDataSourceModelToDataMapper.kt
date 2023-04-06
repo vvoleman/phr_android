@@ -1,7 +1,7 @@
 package cz.vvoleman.phr.feature_medicine.data.datasource.room.medicine.mapper
 
 import cz.vvoleman.phr.feature_medicine.data.datasource.room.medicine.MedicineDataSourceModel
-import cz.vvoleman.phr.feature_medicine.data.model.MedicineDataModel
+import cz.vvoleman.phr.feature_medicine.data.model.medicine.MedicineDataModel
 
 class MedicineDataSourceModelToDataMapper(
     private val packagingMapper: PackagingDataSourceModelToDataMapper,

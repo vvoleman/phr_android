@@ -4,7 +4,7 @@ import java.time.DayOfWeek
 import java.time.LocalDateTime
 import java.time.LocalTime
 
-data class ScheduleItemDomainModel(
+data class ScheduleItemWithDetailsDomainModel(
     val id: String,
     val dayOfWeek: DayOfWeek,
     val time: LocalTime,
@@ -12,4 +12,5 @@ data class ScheduleItemDomainModel(
     val endingAt: LocalDateTime? = null,
     val quantity: String,
     val description: String? = null,
+    val schedule: MedicineScheduleDomainModel
 )

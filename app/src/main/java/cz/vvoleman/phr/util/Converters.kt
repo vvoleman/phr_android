@@ -6,6 +6,8 @@ import com.google.gson.Gson
 import cz.vvoleman.phr.data.core.Color
 import cz.vvoleman.phr.feature_medicine.data.datasource.room.medicine.SubstanceAmountDataSourceModel
 import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.LocalTime
 import java.util.*
 
 class Converters {
@@ -19,6 +21,26 @@ class Converters {
     fun localDateToTimestamp(date: LocalDate?): Long? {
         Log.d("Converters", "localDateToTimestamp: $date")
         return date?.toEpochDay()
+    }
+
+    @TypeConverter
+    fun fromLocalTime(value: LocalTime?): Long? {
+        return value?.toNanoOfDay()
+    }
+
+    @TypeConverter
+    fun toLocalTime(value: Long?): LocalTime? {
+        return value?.let { LocalTime.ofNanoOfDay(it) }
+    }
+
+    @TypeConverter
+    fun fromLocalDateTime(value: LocalDateTime?): Long? {
+        return value?.toEpochSecond(java.time.ZoneOffset.UTC)
+    }
+
+    @TypeConverter
+    fun toLocalDateTime(value: Long?): LocalDateTime? {
+        return value?.let { LocalDateTime.ofEpochSecond(it, 0, java.time.ZoneOffset.UTC) }
     }
 
     @TypeConverter

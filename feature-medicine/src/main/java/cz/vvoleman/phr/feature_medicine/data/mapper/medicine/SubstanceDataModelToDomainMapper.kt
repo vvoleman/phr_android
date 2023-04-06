@@ -1,6 +1,6 @@
-package cz.vvoleman.phr.feature_medicine.data.mapper
+package cz.vvoleman.phr.feature_medicine.data.mapper.medicine
 
-import cz.vvoleman.phr.feature_medicine.data.model.SubstanceDataModel
+import cz.vvoleman.phr.feature_medicine.data.model.medicine.SubstanceDataModel
 import cz.vvoleman.phr.feature_medicine.domain.model.medicine.SubstanceDomainModel
 
 class SubstanceDataModelToDomainMapper {

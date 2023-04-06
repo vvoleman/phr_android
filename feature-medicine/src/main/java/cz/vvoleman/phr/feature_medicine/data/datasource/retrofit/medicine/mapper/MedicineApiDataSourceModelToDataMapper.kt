@@ -1,7 +1,7 @@
 package cz.vvoleman.phr.feature_medicine.data.datasource.retrofit.medicine.mapper
 
 import cz.vvoleman.phr.feature_medicine.data.datasource.retrofit.medicine.MedicineApiDataSourceModel
-import cz.vvoleman.phr.feature_medicine.data.model.MedicineDataModel
+import cz.vvoleman.phr.feature_medicine.data.model.medicine.MedicineDataModel
 
 class MedicineApiDataSourceModelToDataMapper(
     private val packagingMapper: PackagingApiDataSourceModelToDataMapper,
