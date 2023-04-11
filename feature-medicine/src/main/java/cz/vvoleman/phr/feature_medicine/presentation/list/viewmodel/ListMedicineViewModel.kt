@@ -8,6 +8,7 @@ import cz.vvoleman.phr.feature_medicine.domain.model.SearchMedicineRequestDomain
 import cz.vvoleman.phr.feature_medicine.domain.usecase.SearchMedicineUseCase
 import cz.vvoleman.phr.feature_medicine.presentation.list.model.ListMedicineNotification
 import cz.vvoleman.phr.feature_medicine.presentation.list.model.ListMedicineViewState
+import cz.vvoleman.phr.feature_medicine.presentation.mapper.list.MedicinePresentationModelToDomainMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -15,6 +16,7 @@ import javax.inject.Inject
 @HiltViewModel
 class ListMedicineViewModel @Inject constructor(
     private val searchMedicineUseCase: SearchMedicineUseCase,
+    private val medicineMapper: MedicinePresentationModelToDomainMapper,
     savedStateHandle: SavedStateHandle,
     useCaseExecutorProvider: UseCaseExecutorProvider
 ) : BaseViewModel<ListMedicineViewState, ListMedicineNotification>(savedStateHandle, useCaseExecutorProvider) {
@@ -28,7 +30,7 @@ class ListMedicineViewModel @Inject constructor(
     fun onSearch(query: String) = viewModelScope.launch {
         val request = SearchMedicineRequestDomainModel(query)
         searchMedicineUseCase.execute(request) {
-            updateViewState(currentViewState.copy(medicines = it))
+            updateViewState(currentViewState.copy(medicines = it.map { medicineMapper.toPresentation(it) }))
         }
     }
 

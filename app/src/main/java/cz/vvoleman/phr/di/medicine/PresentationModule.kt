@@ -5,6 +5,7 @@ import cz.vvoleman.phr.feature_medicine.domain.repository.SearchMedicineReposito
 import cz.vvoleman.phr.feature_medicine.domain.repository.timeline.GetSchedulesByPatientRepository
 import cz.vvoleman.phr.feature_medicine.domain.usecase.GetScheduledInTimeRangeUseCase
 import cz.vvoleman.phr.feature_medicine.domain.usecase.SearchMedicineUseCase
+import cz.vvoleman.phr.feature_medicine.presentation.mapper.list.*
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -31,5 +32,42 @@ class PresentationModule {
         getSchedulesByPatientRepository,
         coroutineContextProvider
     )
+
+    @Provides
+    fun provideProductFormPresentationModelToDomainMapper(): ProductFormPresentationModelToDomainMapper {
+        return ProductFormPresentationModelToDomainMapper()
+    }
+
+    @Provides
+    fun providesPackagingPresentationModelToDomainMapper(
+        productFormMapper: ProductFormPresentationModelToDomainMapper
+    ): PackagingPresentationModelToDomainMapper {
+        return PackagingPresentationModelToDomainMapper(
+            productFormMapper
+        )
+    }
+
+    @Provides
+    fun providesSubstancePresentationModelToDomainMapper(): SubstancePresentationModelToDomainMapper {
+        return SubstancePresentationModelToDomainMapper()
+    }
+
+    @Provides
+    fun providesSubstanceAmountPresentationModelToDomainMapper(
+        substanceMapper: SubstancePresentationModelToDomainMapper
+    ): SubstanceAmountPresentationModelToDomainMapper {
+        return SubstanceAmountPresentationModelToDomainMapper(substanceMapper)
+    }
+
+    @Provides
+    fun providesMedicinePresentationModelToDomainMapper(
+        packagingMapper: PackagingPresentationModelToDomainMapper,
+        substanceAmountMapper: SubstanceAmountPresentationModelToDomainMapper
+    ): MedicinePresentationModelToDomainMapper {
+        return MedicinePresentationModelToDomainMapper(
+            packagingMapper,
+            substanceAmountMapper
+        )
+    }
 
 }

@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Feature Medicine</string>
+    <string name="medicine_selector_no_medicine">Žádný lék nevybrán</string>
 </resources>

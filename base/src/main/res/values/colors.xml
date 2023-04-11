@@ -11,12 +11,13 @@
     <color name="color_primary">@color/green_500</color>
     <color name="color_primary_variant">@color/green_700</color>
     <color name="text_on_primary">@color/white</color>
-    <color name="color_secondary">@color/blue_500</color>
-    <color name="color_secondary_variant">@color/blue_700</color>
+    <color name="color_secondary">@color/beige_500</color>
+    <color name="color_secondary_variant">@color/beige_700</color>
     <color name="text_secondary">@color/white</color>
     <color name="text_on_front">@color/beige_500</color>
     <color name="text_on_back">@color/beige_200</color>
     <color name="color_error">#A12626</color>
+    <color name="focus_text_on_secondary">#70CEA0</color>
 
     <color name="colorGreen">#6F963D</color>
 
@@ -28,9 +29,13 @@
     <color name="blue_500">#115577</color>
     <color name="blue_700">#0C4457</color>
 
-    <color name="beige_200">#79747E</color>
+    <color name="beige_200">#AFA8B0</color>
     <color name="beige_500">#49454F</color>
-    <color name="beige_700">#3E3B43</color>
+    <color name="beige_700">#2F2A33</color>
+
+    <color name="gray_200">#fefefe</color>
+    <color name="gray_500">#efefef</color>
+    <color name="gray_700">#aeaeae</color>
 
     <color name="category_a">#3A6B83</color>
     <color name="category_b">#835E3A</color>
