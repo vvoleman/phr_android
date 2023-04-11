@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
+    android:orientation="horizontal">
+
+    <LinearLayout
+        android:id="@+id/layout_no_medicine"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:background="@drawable/layout_rounded"
+        android:backgroundTint="@color/gray_500"
+        android:gravity="center">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFeatureSettings="smcp"
+            android:gravity="center"
+            android:text="@string/medicine_selector_no_medicine" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_medicine"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/layout_rounded"
+        android:backgroundTint="@color/beige_500"
+        android:orientation="vertical"
+        android:padding="8dp"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/text_view_medicine"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFeatureSettings="smcp"
+            android:textColor="@color/white"
+            android:textSize="27sp"
+            tools:text="Calcium Chloratum Biotika" />
+
+        <RelativeLayout
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/text_view_medicine_form"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/roboto_bold"
+                android:fontFeatureSettings="smcp"
+                android:gravity="center_vertical"
+                android:textColor="@color/focus_text_on_secondary"
+                android:textSize="19sp"
+                tools:text="Tablety" />
+
+            <TextView
+                android:id="@+id/text_view_medicine_dosage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="10dp"
+                android:layout_toEndOf="@id/text_view_medicine_form"
+                android:fontFamily="@font/roboto_bold"
+                android:fontFeatureSettings="smcp"
+                android:textColor="@color/beige_200"
+                android:textSize="19sp"
+                tools:text="20 kusů" />
+
+            <TextView
+                android:id="@+id/text_view_medicine_size"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/roboto_bold"
+                android:fontFeatureSettings="smcp"
+                android:textColor="@color/beige_200"
+                android:textSize="19sp"
+                tools:text="20 kusů" />
+        </RelativeLayout>
+    </LinearLayout>
+
+</LinearLayout>
