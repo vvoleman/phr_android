@@ -13,11 +13,6 @@ class ListMedicineBinder(
 ) : BaseViewStateBinder<ListMedicineViewState, FragmentListMedicineBinding, ListMedicineBinder.Notification>() {
 
     override fun bind(viewBinding: FragmentListMedicineBinding, viewState: ListMedicineViewState) {
-        lifecycleScope.launch {
-            viewBinding.apply {
-                medicineSelector.setData(viewState.medicines.map { medicineMapper.toUi(it) })
-            }
-        }
     }
 
     sealed class Notification {}

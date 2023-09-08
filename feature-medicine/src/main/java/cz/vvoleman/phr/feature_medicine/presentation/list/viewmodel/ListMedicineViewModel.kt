@@ -6,6 +6,7 @@ import cz.vvoleman.phr.base.presentation.viewmodel.BaseViewModel
 import cz.vvoleman.phr.base.presentation.viewmodel.usecase.UseCaseExecutorProvider
 import cz.vvoleman.phr.feature_medicine.domain.model.SearchMedicineRequestDomainModel
 import cz.vvoleman.phr.feature_medicine.domain.usecase.SearchMedicineUseCase
+import cz.vvoleman.phr.feature_medicine.presentation.list.model.ListMedicineDestination
 import cz.vvoleman.phr.feature_medicine.presentation.list.model.ListMedicineNotification
 import cz.vvoleman.phr.feature_medicine.presentation.list.model.ListMedicineViewState
 import cz.vvoleman.phr.feature_medicine.presentation.mapper.list.MedicinePresentationModelToDomainMapper
@@ -27,11 +28,12 @@ class ListMedicineViewModel @Inject constructor(
         return ListMedicineViewState()
     }
 
-    fun onSearch(query: String) = viewModelScope.launch {
-        val request = SearchMedicineRequestDomainModel(query)
-        searchMedicineUseCase.execute(request) {
-            updateViewState(currentViewState.copy(medicines = it.map { medicineMapper.toPresentation(it) }))
-        }
+    fun onCreate() {
+        navigateTo(ListMedicineDestination.CreateSchedule)
+    }
+
+    fun onEdit(id: String) {
+        navigateTo(ListMedicineDestination.EditSchedule(id))
     }
 
 }

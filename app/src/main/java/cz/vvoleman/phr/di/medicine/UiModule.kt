@@ -2,10 +2,15 @@ package cz.vvoleman.phr.di.medicine
 
 import cz.vvoleman.phr.base.presentation.navigation.NavManager
 import cz.vvoleman.phr.base.ui.mapper.ViewStateBinder
+import cz.vvoleman.phr.feature_medicine.databinding.FragmentAddEditMedicineBinding
 import cz.vvoleman.phr.feature_medicine.databinding.FragmentListMedicineBinding
+import cz.vvoleman.phr.feature_medicine.presentation.addedit.model.AddEditMedicineViewState
 import cz.vvoleman.phr.feature_medicine.presentation.list.model.ListMedicineViewState
+import cz.vvoleman.phr.feature_medicine.ui.addedit.mapper.AddEditMedicineDestinationUiMapper
+import cz.vvoleman.phr.feature_medicine.ui.addedit.view.AddEditMedicineBinder
 import cz.vvoleman.phr.feature_medicine.ui.list.mapper.ListMedicineDestinationUiMapper
 import cz.vvoleman.phr.feature_medicine.ui.list.view.ListMedicineBinder
+import cz.vvoleman.phr.feature_medicine.ui.mapper.add_edit.TimeUiModelToPresentationMapper
 import cz.vvoleman.phr.feature_medicine.ui.mapper.list.*
 import dagger.Module
 import dagger.Provides
@@ -25,6 +30,17 @@ class UiModule {
     @Provides
     fun providesListMedicineDestinationUiMapper(navManager: NavManager) =
         ListMedicineDestinationUiMapper(navManager)
+
+    @Provides
+    fun providesAddEditMedicineDestinationUiMapper(navManager: NavManager) =
+        AddEditMedicineDestinationUiMapper(navManager)
+
+    @Provides
+    fun providesAddEditMedicineBinder(
+        medicineMapper: MedicineUiModelToPresentationMapper,
+        timeMapper: TimeUiModelToPresentationMapper
+    ): ViewStateBinder<AddEditMedicineViewState, FragmentAddEditMedicineBinding> =
+        AddEditMedicineBinder(medicineMapper, timeMapper)
 
     @Provides
     fun provideProductFormUiModelToPresentationMapper(): ProductFormUiModelToPresentationMapper {
@@ -61,6 +77,11 @@ class UiModule {
             packagingMapper,
             substanceAmountMapper
         )
+    }
+
+    @Provides
+    fun providesTimeUiModelToPresentationMapper(): TimeUiModelToPresentationMapper {
+        return TimeUiModelToPresentationMapper()
     }
 
 

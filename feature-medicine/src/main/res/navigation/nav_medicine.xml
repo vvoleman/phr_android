@@ -8,6 +8,24 @@
     <fragment
         android:id="@+id/listMedicineFragment"
         android:name="cz.vvoleman.phr.feature_medicine.ui.list.view.ListMedicineFragment"
-        android:label="fragment_list_medicine"
-        tools:layout="@layout/fragment_list_medicine" />
+        android:label="@string/navigation_list_medicine"
+        tools:layout="@layout/fragment_list_medicine">
+        <action
+            android:id="@+id/action_listMedicineFragment_to_addEditMedicineFragment"
+            app:destination="@id/addEditMedicineFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addEditMedicineFragment"
+        android:name="cz.vvoleman.phr.feature_medicine.ui.addedit.view.AddEditMedicineFragment"
+        android:label="@string/navigation_add_edit_medicine"
+        tools:layout="@layout/fragment_add_edit_medicine">
+        <action
+            android:id="@+id/action_addEditMedicineFragment_to_listMedicineFragment"
+            app:destination="@id/listMedicineFragment" />
+        <argument
+            android:name="scheduleId"
+            android:defaultValue="@null"
+            app:argType="string"
+            app:nullable="true" />
+    </fragment>
 </navigation>

@@ -1,15 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     tools:context=".ui.list.view.ListMedicineFragment"
+    android:layout_margin="@dimen/layout_margin"
     android:layout_height="match_parent">
 
-    <cz.vvoleman.phr.feature_medicine.ui.medicine_selector.MedicineSelector
-        android:id="@+id/medicine_selector"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_add_medical_record"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:focusable="true"
+        android:padding="8dp"
+        android:layout_gravity="bottom|end"
+        android:src="@drawable/ic_add"
+        android:layout_margin="8dp"
 
-</LinearLayout>
+        android:contentDescription="@string/schedule_medicine" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.widget.LinearLayout
 import android.widget.SearchView
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.core.view.isVisible
 import androidx.paging.LoadState
 import androidx.paging.PagingData
@@ -26,8 +27,9 @@ class MedicineSelector @JvmOverloads constructor(
     defStyleAttr: Int = 0
 ) : LinearLayout(context, attrs, defStyleAttr), MedicineSelectorAdapter.OnItemClickListener {
 
+    private val binding: ViewMedicineSelectorBinding
     private var recyclerViewAdapter: MedicineSelectorAdapter
-    private val dialog: MaterialAlertDialogBuilder
+    private val dialog: AlertDialog
     private var layoutNoMedicine: LinearLayout
     private var layoutMedicine: LinearLayout
     private var listener: MedicineSelectorListener? = null
@@ -36,25 +38,30 @@ class MedicineSelector @JvmOverloads constructor(
     private val dialogBinding: DialogMedicineSelectorBinding
 
     init {
-        val layoutBinding =
+        binding =
             ViewMedicineSelectorBinding.inflate(LayoutInflater.from(context), this, true)
 
-        layoutNoMedicine = layoutBinding.layoutNoMedicine
-        layoutMedicine = layoutBinding.layoutMedicine
+        layoutNoMedicine = binding.layoutNoMedicine
+        layoutMedicine = binding.layoutMedicine
 
-        dialog = MaterialAlertDialogBuilder(context)
-        dialogBinding = DialogMedicineSelectorBinding.inflate(LayoutInflater.from(context), this, false)
-        dialog.setView(dialogBinding.root)
-        dialog.setPositiveButton("OK") { _, _ ->
+        dialogBinding = DialogMedicineSelectorBinding.inflate(LayoutInflater.from(context))
+
+        val builder = MaterialAlertDialogBuilder(context)
+        builder.setView(dialogBinding.root)
+        builder.setPositiveButton("OK") { _, _ ->
             listener?.onMedicineSelected(medicine)
+            setupMedicine()
         }
-        dialog.setNegativeButton("Cancel") { _, _ ->
+        builder.setNegativeButton("Cancel") { _, _ ->
             Log.d("MedicineSelector", "Cancel")
         }
 
-        layoutNoMedicine.setOnClickListener {
+        dialog = builder.create()
+
+        binding.root.setOnClickListener {
             dialog.show()
         }
+
 
         recyclerViewAdapter = MedicineSelectorAdapter(this)
         recyclerViewAdapter.addLoadStateListener { loadState ->
@@ -83,6 +90,17 @@ class MedicineSelector @JvmOverloads constructor(
 
             })
         }
+    }
+
+    private fun setupMedicine() {
+        binding.layoutNoMedicine.isVisible = false
+
+        binding.textViewMedicine.text = medicine!!.name
+        binding.textViewMedicineDosage.text = medicine!!.packaging.packaging
+        binding.textViewMedicineForm.text = medicine!!.packaging.form.name
+        binding.textViewMedicineSize.text = medicine!!.packaging.packaging
+
+        binding.layoutMedicine.isVisible = true
     }
 
     suspend fun setData(data: List<MedicineUiModel>) {
