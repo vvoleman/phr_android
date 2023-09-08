@@ -10,8 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"
-        android:background="@drawable/layout_rounded"
-        android:backgroundTint="@color/gray_500"
+        style="@style/BaseFrontBox"
         android:gravity="center">
 
         <TextView
@@ -30,6 +29,7 @@
         android:backgroundTint="@color/beige_500"
         android:orientation="vertical"
         android:padding="8dp"
+        android:elevation="4dp"
         android:visibility="gone">
 
         <TextView
@@ -38,7 +38,8 @@
             android:layout_height="wrap_content"
             android:fontFeatureSettings="smcp"
             android:textColor="@color/white"
-            android:textSize="27sp"
+            android:fontFamily="@font/roboto_bold"
+            android:textSize="24sp"
             tools:text="Calcium Chloratum Biotika" />
 
         <RelativeLayout

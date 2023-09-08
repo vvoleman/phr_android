@@ -100,9 +100,13 @@ class MedicalRecordsAdapter (
 
     }
 
-    interface OnItemClickListener {
-        fun onItemClicked(item: MedicalRecordUiModel)
-        fun onOptionsMenuClick(record: MedicalRecordUiModel, anchorView: View)
+    fun deleteItem(position: Int) {
+        // Remove the item from your data source
+        val deletedItem = getItem(position)
+        // Perform any additional actions, like deleting the item from a database
+        // ...
+        listener.onItemDelete(deletedItem)
+        notifyItemRemoved(position)
     }
 
     class DiffCallback : DiffUtil.ItemCallback<MedicalRecordUiModel>() {

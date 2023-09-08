@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.PopupMenu
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import cz.vvoleman.phr.base.ui.ext.collectLatestLifecycleFlow
@@ -29,6 +30,7 @@ import cz.vvoleman.phr.feature_medicalrecord.ui.mapper.GroupedItemsDomainModelTo
 import cz.vvoleman.phr.feature_medicalrecord.ui.model.MedicalRecordUiModel
 import cz.vvoleman.phr.feature_medicalrecord.ui.view.binder.MedicalRecordsBinder
 import cz.vvoleman.phr.feature_medicalrecord.ui.view.list.adapter.MedicalRecordsAdapter
+import cz.vvoleman.phr.feature_medicalrecord.ui.view.list.adapter.SwipeToDeleteCallback
 import dagger.hilt.android.AndroidEntryPoint
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
@@ -148,12 +150,18 @@ class ListMedicalRecordsFragment : BaseFragment<
         viewModel.onRecordSelect(item.id)
     }
 
+    override fun onItemDelete(item: MedicalRecordUiModel) {
+        viewModel.onRecordDelete(item.id)
+    }
+
     override fun bind(
         binding: ItemGroupedItemsBinding,
         item: GroupedItemsUiModel<MedicalRecordUiModel>
     ) {
         val medicalRecordsAdapter = MedicalRecordsAdapter(this)
-        Log.d(TAG, "bind: $item")
+        val swipeToDeleteCallback = SwipeToDeleteCallback(medicalRecordsAdapter)
+        val itemTouchHelper = ItemTouchHelper(swipeToDeleteCallback)
+        itemTouchHelper.attachToRecyclerView(binding.recyclerView)
         // if item.value is LocalDate, then get date format (january 2023) and set it to textViewTitle
         // if item.value is String, then set it to textViewTitle
         // if item.value is something else, then set it to "-"

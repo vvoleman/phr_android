@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "7af28f0f25610e9a586e77a686cef7af",
+    "identityHash": "b697977d739b476e337c8f46beee2e5b",
     "entities": [
       {
         "tableName": "patient",
@@ -126,7 +126,7 @@
       },
       {
         "tableName": "medical_record",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `patient_id` INTEGER NOT NULL, `problem_category_id` INTEGER, `diagnose_id` TEXT, `medical_worker_id` INTEGER, `created_at` INTEGER NOT NULL, `comment` TEXT NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `patient_id` INTEGER NOT NULL, `problem_category_id` INTEGER, `diagnose_id` TEXT, `medical_worker_id` INTEGER, `created_at` INTEGER NOT NULL, `visit_date` INTEGER NOT NULL, `comment` TEXT NOT NULL)",
         "fields": [
           {
             "fieldPath": "id",
@@ -161,6 +161,12 @@
           {
             "fieldPath": "created_at",
             "columnName": "created_at",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "visit_date",
+            "columnName": "visit_date",
             "affinity": "INTEGER",
             "notNull": true
           },
@@ -332,11 +338,11 @@
       },
       {
         "tableName": "medicine",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`medicineId` TEXT NOT NULL, `name` TEXT NOT NULL, `dosage` TEXT NOT NULL, `info` TEXT NOT NULL, `expires_at` INTEGER, `created_at` INTEGER, PRIMARY KEY(`medicineId`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `name` TEXT NOT NULL, `country` TEXT NOT NULL, `substances` TEXT NOT NULL, `product_form_id` TEXT NOT NULL, `packaging` TEXT NOT NULL, PRIMARY KEY(`id`))",
         "fields": [
           {
-            "fieldPath": "medicineId",
-            "columnName": "medicineId",
+            "fieldPath": "id",
+            "columnName": "id",
             "affinity": "TEXT",
             "notNull": true
           },
@@ -347,33 +353,59 @@
             "notNull": true
           },
           {
-            "fieldPath": "dosage",
-            "columnName": "dosage",
+            "fieldPath": "country",
+            "columnName": "country",
             "affinity": "TEXT",
             "notNull": true
           },
           {
-            "fieldPath": "info",
-            "columnName": "info",
+            "fieldPath": "substances.substances",
+            "columnName": "substances",
             "affinity": "TEXT",
             "notNull": true
           },
           {
-            "fieldPath": "expires_at",
-            "columnName": "expires_at",
-            "affinity": "INTEGER",
-            "notNull": false
+            "fieldPath": "packaging.product_form_id",
+            "columnName": "product_form_id",
+            "affinity": "TEXT",
+            "notNull": true
           },
           {
-            "fieldPath": "created_at",
-            "columnName": "created_at",
-            "affinity": "INTEGER",
-            "notNull": false
+            "fieldPath": "packaging.packaging",
+            "columnName": "packaging",
+            "affinity": "TEXT",
+            "notNull": true
           }
         ],
         "primaryKey": {
           "columnNames": [
-            "medicineId"
+            "id"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "product_form",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `name` TEXT NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
           ],
           "autoGenerate": false
         },
@@ -382,11 +414,11 @@
       },
       {
         "tableName": "substance",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`substanceId` TEXT NOT NULL, `name` TEXT NOT NULL, `is_addictive` INTEGER NOT NULL, `is_doping` INTEGER NOT NULL, PRIMARY KEY(`substanceId`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `name` TEXT NOT NULL, PRIMARY KEY(`id`))",
         "fields": [
           {
-            "fieldPath": "substanceId",
-            "columnName": "substanceId",
+            "fieldPath": "id",
+            "columnName": "id",
             "affinity": "TEXT",
             "notNull": true
           },
@@ -395,50 +427,11 @@
             "columnName": "name",
             "affinity": "TEXT",
             "notNull": true
-          },
-          {
-            "fieldPath": "is_addictive",
-            "columnName": "is_addictive",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "is_doping",
-            "columnName": "is_doping",
-            "affinity": "INTEGER",
-            "notNull": true
           }
         ],
         "primaryKey": {
           "columnNames": [
-            "substanceId"
-          ],
-          "autoGenerate": false
-        },
-        "indices": [],
-        "foreignKeys": []
-      },
-      {
-        "tableName": "MedicineSubstanceCrossRef",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`medicineId` TEXT NOT NULL, `substanceId` TEXT NOT NULL, PRIMARY KEY(`medicineId`, `substanceId`))",
-        "fields": [
-          {
-            "fieldPath": "medicineId",
-            "columnName": "medicineId",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "substanceId",
-            "columnName": "substanceId",
-            "affinity": "TEXT",
-            "notNull": true
-          }
-        ],
-        "primaryKey": {
-          "columnNames": [
-            "medicineId",
-            "substanceId"
+            "id"
           ],
           "autoGenerate": false
         },
@@ -449,7 +442,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '7af28f0f25610e9a586e77a686cef7af')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'b697977d739b476e337c8f46beee2e5b')"
     ]
   }
 }

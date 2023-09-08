@@ -8,6 +8,8 @@ interface OnAdapterItemListener<T: Any> {
 
     fun onItemClicked(item: T)
 
+    fun onItemDelete(item: T)
+
     fun onItemOptionsMenuClicked(item: T, anchorView: View)
 
     fun bind(binding: ItemGroupedItemsBinding, item: GroupedItemsUiModel<T>)

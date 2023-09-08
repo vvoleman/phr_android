@@ -21,8 +21,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class ListMedicineFragment : BaseFragment<ListMedicineViewState, ListMedicineNotification, FragmentListMedicineBinding>(),
-    MedicineSelector.MedicineSelectorListener {
+class ListMedicineFragment : BaseFragment<ListMedicineViewState, ListMedicineNotification, FragmentListMedicineBinding>() {
 
     override val viewModel: ListMedicineViewModel by viewModels()
 
@@ -42,7 +41,9 @@ class ListMedicineFragment : BaseFragment<ListMedicineViewState, ListMedicineNot
     override fun setupListeners() {
         super.setupListeners()
 
-        binding.medicineSelector.setListener(this)
+        binding.fabAddMedicalRecord.setOnClickListener {
+            viewModel.onCreate()
+        }
     }
 
     override fun handleNotification(notification: ListMedicineNotification) {
@@ -51,13 +52,5 @@ class ListMedicineFragment : BaseFragment<ListMedicineViewState, ListMedicineNot
                 Snackbar.make(binding.root, "Data loaded", Snackbar.LENGTH_SHORT).show()
             }
         }
-    }
-
-    override fun onMedicineSelected(medicine: MedicineUiModel?) {
-        Snackbar.make(binding.root, "Medicine selected", Snackbar.LENGTH_SHORT).show()
-    }
-
-    override fun onMedicineSelectorSearch(query: String) {
-        viewModel.onSearch(query)
     }
 }
