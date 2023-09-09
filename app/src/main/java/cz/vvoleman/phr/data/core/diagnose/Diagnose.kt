@@ -8,7 +8,7 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class Diagnose(
     val id: String,
-    val name: String,
+    val name: String
 ) : Parcelable, BaseData() {
     override fun getAdapterPair(): AdapterPair {
         return AdapterPair(id, name, this)

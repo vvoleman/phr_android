@@ -1,7 +1,6 @@
 package cz.vvoleman.phr.feature_medicalrecord.ui.view.select_file
 
 import android.net.Uri
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
@@ -16,8 +15,8 @@ import cz.vvoleman.phr.base.ui.mapper.ViewStateBinder
 import cz.vvoleman.phr.base.ui.view.BaseFragment
 import cz.vvoleman.phr.feature_medicalrecord.R
 import cz.vvoleman.phr.feature_medicalrecord.databinding.FragmentSelectFileBinding
-import cz.vvoleman.phr.feature_medicalrecord.presentation.select_file.model.SelectFileViewState
 import cz.vvoleman.phr.feature_medicalrecord.presentation.select_file.model.SelectFileNotification
+import cz.vvoleman.phr.feature_medicalrecord.presentation.select_file.model.SelectFileViewState
 import cz.vvoleman.phr.feature_medicalrecord.presentation.select_file.viewmodel.SelectFileViewModel
 import cz.vvoleman.phr.feature_medicalrecord.ui.mapper.SelectFileDestinationUiMapper
 import cz.vvoleman.phr.feature_medicalrecord.ui.view.select_file.binder.SelectFileBinder
@@ -26,7 +25,7 @@ import java.io.File
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class SelectFileFragment : BaseFragment<SelectFileViewState, SelectFileNotification,FragmentSelectFileBinding>() {
+class SelectFileFragment : BaseFragment<SelectFileViewState, SelectFileNotification, FragmentSelectFileBinding>() {
 
     override val viewModel: SelectFileViewModel by viewModels()
 
@@ -44,11 +43,10 @@ class SelectFileFragment : BaseFragment<SelectFileViewState, SelectFileNotificat
                     viewModel.onRunImageAnalyze(image, uri)
                 }
             }
-
         }
 
     private val getContentContract =
-        registerForActivityResult(ActivityResultContracts.GetContent()) {uri ->
+        registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
             uri?.let {
                 val image = InputImage.fromFilePath(requireContext(), uri)
                 viewModel.onRunImageAnalyze(image, uri)
@@ -105,11 +103,10 @@ class SelectFileFragment : BaseFragment<SelectFileViewState, SelectFileNotificat
                 latestTmpUri = uri
                 takePictureContract.launch(uri)
             }
-
         }
     }
 
-    private fun choosePicture(){
+    private fun choosePicture() {
         lifecycleScope.launchWhenStarted {
             getContentContract.launch("image/*")
         }

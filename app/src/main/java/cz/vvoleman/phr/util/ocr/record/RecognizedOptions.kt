@@ -10,5 +10,5 @@ import kotlinx.parcelize.Parcelize
 data class RecognizedOptions(
     var visitDate: List<DateFieldResult> = emptyList(),
     var diagnose: List<TextFieldResult> = emptyList(),
-    var patient: List<PatientFieldResult> = emptyList(),
-) : Parcelable {}
+    var patient: List<PatientFieldResult> = emptyList()
+) : Parcelable

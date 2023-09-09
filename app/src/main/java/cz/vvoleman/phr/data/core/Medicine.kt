@@ -13,7 +13,7 @@ data class Medicine(
     val info: String,
     val expiresAt: LocalDate?,
     val createdAt: LocalDate? = LocalDate.now(),
-    val substances: List<Substance> = listOf(),
+    val substances: List<Substance> = listOf()
 ) : Parcelable, BaseData() {
     override fun getAdapterPair(): AdapterPair {
         return AdapterPair(id, name, this)

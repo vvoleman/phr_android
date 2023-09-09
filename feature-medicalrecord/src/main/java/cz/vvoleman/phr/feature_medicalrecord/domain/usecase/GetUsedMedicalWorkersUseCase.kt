@@ -7,8 +7,8 @@ import cz.vvoleman.phr.feature_medicalrecord.domain.repository.GetUsedMedicalWor
 
 class GetUsedMedicalWorkersUseCase(
     private val getUsedMedicalWorkersRepository: GetUsedMedicalWorkersRepository,
-    coroutineContextProvider: CoroutineContextProvider,
-) : BackgroundExecutingUseCase<String, List<MedicalWorkerDomainModel>>(coroutineContextProvider){
+    coroutineContextProvider: CoroutineContextProvider
+) : BackgroundExecutingUseCase<String, List<MedicalWorkerDomainModel>>(coroutineContextProvider) {
 
     override suspend fun executeInBackground(request: String): List<MedicalWorkerDomainModel> {
         return getUsedMedicalWorkersRepository.getUsedMedicalWorkers(request)

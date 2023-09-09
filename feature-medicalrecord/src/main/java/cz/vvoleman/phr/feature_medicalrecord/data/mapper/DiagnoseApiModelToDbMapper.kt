@@ -12,5 +12,4 @@ class DiagnoseApiModelToDbMapper {
             parent = diagnoseApiModel.parent.id
         )
     }
-
 }

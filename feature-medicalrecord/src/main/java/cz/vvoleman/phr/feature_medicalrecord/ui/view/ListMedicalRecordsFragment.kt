@@ -35,14 +35,16 @@ import dagger.hilt.android.AndroidEntryPoint
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import java.time.LocalDate
-import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class ListMedicalRecordsFragment : BaseFragment<
+class ListMedicalRecordsFragment :
+    BaseFragment<
         ListMedicalRecordsViewState,
         ListMedicalRecordsNotification,
-        FragmentListMedicalRecordsBinding>(), OnAdapterItemListener<MedicalRecordUiModel> {
+        FragmentListMedicalRecordsBinding
+        >(),
+    OnAdapterItemListener<MedicalRecordUiModel> {
 
     override val viewModel: ListMedicalRecordsViewModel by viewModels()
 
@@ -51,7 +53,7 @@ class ListMedicalRecordsFragment : BaseFragment<
 
     @Inject
     override lateinit var viewStateBinder:
-            ViewStateBinder<ListMedicalRecordsViewState, FragmentListMedicalRecordsBinding>
+        ViewStateBinder<ListMedicalRecordsViewState, FragmentListMedicalRecordsBinding>
 
     @Inject
     lateinit var groupedItemsDomainModelToUiMapper: GroupedItemsDomainModelToUiMapper
@@ -87,7 +89,7 @@ class ListMedicalRecordsFragment : BaseFragment<
         collectLifecycleFlow(medicalBinder.notification) {
             when (it) {
                 is MedicalRecordsBinder.Notification.OptionCheckChanged -> {
-                    Log.d(TAG, "OptionCheckChanged: ${it}")
+                    Log.d(TAG, "OptionCheckChanged: $it")
                 }
                 is MedicalRecordsBinder.Notification.GroupByChanged -> {
                     viewModel.onFilterGroupByChange(it.item)

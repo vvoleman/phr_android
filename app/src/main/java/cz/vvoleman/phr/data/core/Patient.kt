@@ -22,5 +22,4 @@ data class Patient(
     override fun toString(): String {
         return name
     }
-
 }

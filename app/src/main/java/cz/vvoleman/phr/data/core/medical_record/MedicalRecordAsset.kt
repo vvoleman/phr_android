@@ -17,4 +17,3 @@ data class MedicalRecordAsset(
         return AdapterPair(id.toString(), type.name, this)
     }
 }
-

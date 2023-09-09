@@ -13,9 +13,8 @@ class RecognizedOptionsDomainModelToPresentationMapper(
     fun toPresentation(domainModel: RecognizedOptionsDomainModel): RecognizedOptionsPresentationModel {
         return RecognizedOptionsPresentationModel(
             visitDate = domainModel.visitDate.map { it.value },
-            diagnose = domainModel.diagnose.map {  diagnoseMapper.toPresentation(it.value) },
+            diagnose = domainModel.diagnose.map { diagnoseMapper.toPresentation(it.value) },
             patient = domainModel.patient.map { patientMapper.toPresentation(it.value) }
         )
     }
-
 }

@@ -9,7 +9,7 @@ import cz.vvoleman.phr.data.core.diagnose.DiagnoseGroup
 data class DiagnoseEntity(
     @PrimaryKey val id: String,
     val name: String,
-    val parent: String,
+    val parent: String
 ) {
 
     companion object {
@@ -21,5 +21,4 @@ data class DiagnoseEntity(
     fun toDiagnose(): Diagnose {
         return Diagnose(id, name)
     }
-
 }

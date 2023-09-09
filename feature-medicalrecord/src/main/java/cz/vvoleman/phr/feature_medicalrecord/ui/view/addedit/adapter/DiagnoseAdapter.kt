@@ -9,7 +9,8 @@ import androidx.recyclerview.widget.RecyclerView
 import cz.vvoleman.phr.feature_medicalrecord.databinding.ItemDiagnoseSpinnerBinding
 import cz.vvoleman.phr.feature_medicalrecord.ui.model.DiagnoseItemUiModel
 
-class DiagnoseAdapter (private val listener: OnItemClickListener,
+class DiagnoseAdapter(
+    private val listener: OnItemClickListener
 ) : ListAdapter<DiagnoseItemUiModel, DiagnoseAdapter.DialogOptionsViewHolder>(DiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DialogOptionsViewHolder {
@@ -25,7 +26,9 @@ class DiagnoseAdapter (private val listener: OnItemClickListener,
         }
     }
 
-    inner class DialogOptionsViewHolder(private val binding: ItemDiagnoseSpinnerBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class DialogOptionsViewHolder(private val binding: ItemDiagnoseSpinnerBinding) : RecyclerView.ViewHolder(
+        binding.root
+    ) {
 
         init {
             binding.apply {
@@ -58,7 +61,7 @@ class DiagnoseAdapter (private val listener: OnItemClickListener,
         fun onItemClicked(item: DiagnoseItemUiModel, position: Int): Boolean
     }
 
-    class DiffCallback: DiffUtil.ItemCallback<DiagnoseItemUiModel>() {
+    class DiffCallback : DiffUtil.ItemCallback<DiagnoseItemUiModel>() {
         override fun areItemsTheSame(oldItem: DiagnoseItemUiModel, newItem: DiagnoseItemUiModel): Boolean {
             return oldItem == newItem
         }
@@ -71,5 +74,4 @@ class DiagnoseAdapter (private val listener: OnItemClickListener,
     companion object {
         private const val TAG = "DiagnoseAdapter"
     }
-
 }

@@ -28,5 +28,4 @@ class ScheduleItemDataModelToDomainMapper {
             description = model.description
         )
     }
-
 }

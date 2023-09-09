@@ -52,14 +52,12 @@ class FilterAdapter(
             return oldItem.id == newItem.id
         }
 
-        override fun areContentsTheSame(oldItem: FilterPair, newItem: FilterPair): Boolean{
+        override fun areContentsTheSame(oldItem: FilterPair, newItem: FilterPair): Boolean {
             return oldItem == newItem
         }
-
     }
 
     interface FilterAdapterListener {
         fun onOptionCheckChanged(item: FilterPair)
     }
-
 }

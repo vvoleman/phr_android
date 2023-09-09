@@ -32,49 +32,48 @@ class PatientAdapter(
     inner class PatientViewHolder(private val binding: ItemPatientBinding, private val appContext: Context) :
         RecyclerView.ViewHolder(binding.root) {
 
-            init {
-                binding.apply {
-                    root.setOnClickListener {
-                        val position = bindingAdapterPosition
-                        if (position != RecyclerView.NO_POSITION) {
-                            val item = getItem(position)
-                            listener.onPatientClick(item)
-                        }
+        init {
+            binding.apply {
+                root.setOnClickListener {
+                    val position = bindingAdapterPosition
+                    if (position != RecyclerView.NO_POSITION) {
+                        val item = getItem(position)
+                        listener.onPatientClick(item)
                     }
-                    buttonSwitch.setOnClickListener {
-                        val position = bindingAdapterPosition
-                        if (position != RecyclerView.NO_POSITION) {
-                            val item = getItem(position)
-                            listener.onPatientSwitch(item)
-                        }
+                }
+                buttonSwitch.setOnClickListener {
+                    val position = bindingAdapterPosition
+                    if (position != RecyclerView.NO_POSITION) {
+                        val item = getItem(position)
+                        listener.onPatientSwitch(item)
                     }
-                    buttonOptions.setOnClickListener {
-                        val position = bindingAdapterPosition
-                        if (position != RecyclerView.NO_POSITION) {
-                            val item = getItem(position)
-                            listener.onItemOptionsMenuClicked(item, binding.buttonOptions)
-                        }
+                }
+                buttonOptions.setOnClickListener {
+                    val position = bindingAdapterPosition
+                    if (position != RecyclerView.NO_POSITION) {
+                        val item = getItem(position)
+                        listener.onItemOptionsMenuClicked(item, binding.buttonOptions)
                     }
                 }
             }
+        }
 
-            fun bind(item: PatientUiModel) {
-                binding.apply {
-                    textViewTitle.text = item.name
+        fun bind(item: PatientUiModel) {
+            binding.apply {
+                textViewTitle.text = item.name
 
-                    item.birthDate?.let {
-                        textViewDateYear.text = it.year.toString()
-                        textViewDateDayMonth.text = "${it.dayOfMonth}. ${it.getNameOfMonth()}"
-                    }
+                item.birthDate?.let {
+                    textViewDateYear.text = it.year.toString()
+                    textViewDateDayMonth.text = "${it.dayOfMonth}. ${it.getNameOfMonth()}"
+                }
 
-                    buttonSwitch.isEnabled = !item.isSelected
+                buttonSwitch.isEnabled = !item.isSelected
 
-                    if (item.isSelected) {
-                        layoutDate.setBackgroundColor(appContext.getColor(cz.vvoleman.phr.base.R.color.green_700))
-                    }
+                if (item.isSelected) {
+                    layoutDate.setBackgroundColor(appContext.getColor(cz.vvoleman.phr.base.R.color.green_700))
                 }
             }
-
+        }
     }
 
     class DiffCallback : DiffUtil.ItemCallback<PatientUiModel>() {
@@ -88,7 +87,6 @@ class PatientAdapter(
             Log.d("PatientAdapter", "areContentsTheSame: ${oldItem.name} == ${newItem.name}")
             return oldItem == newItem
         }
-
     }
 
     interface OnPatientListener {
@@ -96,5 +94,4 @@ class PatientAdapter(
         fun onPatientSwitch(patient: PatientUiModel)
         fun onItemOptionsMenuClicked(item: PatientUiModel, anchorView: View)
     }
-
 }

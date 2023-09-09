@@ -5,5 +5,4 @@ import cz.vvoleman.phr.feature_medicalrecord.domain.model.MedicalRecordDomainMod
 interface GetRecordByIdRepository {
 
     suspend fun getRecordById(id: String): MedicalRecordDomainModel?
-
 }

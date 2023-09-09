@@ -8,8 +8,6 @@ import androidx.room.Query
 import cz.vvoleman.phr.feature_medicine.data.datasource.room.schedule.MedicineScheduleDataSourceModel
 import cz.vvoleman.phr.feature_medicine.data.datasource.room.schedule.ScheduleWithDetailsDataSourceModel
 import kotlinx.coroutines.flow.Flow
-import java.time.LocalDateTime
-import java.time.LocalTime
 
 @Dao
 interface MedicineScheduleDao {
@@ -31,5 +29,4 @@ interface MedicineScheduleDao {
 
     @Delete
     suspend fun delete(medicineSchedule: MedicineScheduleDataSourceModel)
-
 }

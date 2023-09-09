@@ -1,24 +1,19 @@
 package cz.vvoleman.phr.feature_medicine.ui.medicine_selector
 
-import android.app.Dialog
 import android.content.Context
 import android.util.AttributeSet
 import android.util.Log
 import android.view.LayoutInflater
 import android.widget.LinearLayout
 import android.widget.SearchView
-import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.isVisible
 import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import cz.vvoleman.phr.feature_medicine.R
 import cz.vvoleman.phr.feature_medicine.databinding.DialogMedicineSelectorBinding
-import cz.vvoleman.phr.feature_medicine.databinding.ItemMedicineSelectorBinding
 import cz.vvoleman.phr.feature_medicine.databinding.ViewMedicineSelectorBinding
-import cz.vvoleman.phr.feature_medicine.domain.model.medicine.MedicineDomainModel
 import cz.vvoleman.phr.feature_medicine.ui.model.list.MedicineUiModel
 
 class MedicineSelector @JvmOverloads constructor(
@@ -62,7 +57,6 @@ class MedicineSelector @JvmOverloads constructor(
             dialog.show()
         }
 
-
         recyclerViewAdapter = MedicineSelectorAdapter(this)
         recyclerViewAdapter.addLoadStateListener { loadState ->
             dialogBinding.apply {
@@ -77,18 +71,18 @@ class MedicineSelector @JvmOverloads constructor(
                 layoutManager = LinearLayoutManager(this.context)
                 setHasFixedSize(false)
             }
-            searchView.setOnQueryTextListener(object: SearchView.OnQueryTextListener,
-                androidx.appcompat.widget.SearchView.OnQueryTextListener {
-                override fun onQueryTextSubmit(query: String?): Boolean {
-                    return false
-                }
+            searchView.setOnQueryTextListener(object :
+                    SearchView.OnQueryTextListener,
+                    androidx.appcompat.widget.SearchView.OnQueryTextListener {
+                    override fun onQueryTextSubmit(query: String?): Boolean {
+                        return false
+                    }
 
-                override fun onQueryTextChange(newText: String?): Boolean {
-                    listener?.onMedicineSelectorSearch(newText!!)
-                    return false
-                }
-
-            })
+                    override fun onQueryTextChange(newText: String?): Boolean {
+                        listener?.onMedicineSelectorSearch(newText!!)
+                        return false
+                    }
+                })
         }
     }
 
@@ -119,5 +113,4 @@ class MedicineSelector @JvmOverloads constructor(
     override fun onItemClick(item: MedicineUiModel) {
         medicine = item
     }
-
 }

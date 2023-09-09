@@ -18,6 +18,4 @@ class MedicalRecorDomainModelToUiMapper {
             medicalWorker = model.medicalWorker?.name
         )
     }
-
-
 }

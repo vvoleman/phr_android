@@ -18,5 +18,4 @@ class TimeUiModelToPresentationMapper {
             number = presentationModel.number
         )
     }
-
 }

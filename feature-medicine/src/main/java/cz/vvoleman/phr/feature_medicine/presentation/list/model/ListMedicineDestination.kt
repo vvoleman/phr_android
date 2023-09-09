@@ -4,7 +4,6 @@ import cz.vvoleman.phr.base.presentation.model.PresentationDestination
 
 sealed class ListMedicineDestination : PresentationDestination {
 
-    data class EditSchedule(val id: String): PresentationDestination
-    object CreateSchedule: PresentationDestination
-
+    data class EditSchedule(val id: String) : PresentationDestination
+    object CreateSchedule : PresentationDestination
 }

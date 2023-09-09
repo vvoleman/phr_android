@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.sidesheet.SideSheetDialog
 import cz.vvoleman.phr.base.ui.mapper.BaseViewStateBinder
-import cz.vvoleman.phr.base.ui.mapper.ViewStateBinder
 import cz.vvoleman.phr.common.ui.adapter.filter.FilterAdapter
 import cz.vvoleman.phr.common.ui.adapter.grouped.GroupedItemsAdapter
 import cz.vvoleman.phr.common.ui.model.FilterPair
@@ -20,9 +19,6 @@ import cz.vvoleman.phr.feature_medicalrecord.ui.mapper.GroupByDomainModelViewIdM
 import cz.vvoleman.phr.feature_medicalrecord.ui.mapper.GroupedItemsDomainModelToUiMapper
 import cz.vvoleman.phr.feature_medicalrecord.ui.model.MedicalRecordUiModel
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.asSharedFlow
-import kotlinx.coroutines.launch
 
 class MedicalRecordsBinder(
     private val groupedItemsDomainModelToUiMapper: GroupedItemsDomainModelToUiMapper,
@@ -101,25 +97,29 @@ class MedicalRecordsBinder(
         }
 
         if (previousState == null || previousState!!.allProblemCategories != viewState.allProblemCategories) {
-            problemCategoryAdapter.submitList(viewState.allProblemCategories.map {
-                FilterPair(
-                    it.id,
-                    it.name,
-                    it,
-                    viewState.selectedProblemCategories.contains(it.id)
-                )
-            })
+            problemCategoryAdapter.submitList(
+                viewState.allProblemCategories.map {
+                    FilterPair(
+                        it.id,
+                        it.name,
+                        it,
+                        viewState.selectedProblemCategories.contains(it.id)
+                    )
+                }
+            )
         }
 
         if (previousState == null || previousState!!.allMedicalWorkers != viewState.allMedicalWorkers) {
-            medicalWorkerAdapter.submitList(viewState.allMedicalWorkers.map {
-                FilterPair(
-                    it.id,
-                    it.name,
-                    it,
-                    viewState.selectedMedicalWorkers.contains(it.id)
-                )
-            })
+            medicalWorkerAdapter.submitList(
+                viewState.allMedicalWorkers.map {
+                    FilterPair(
+                        it.id,
+                        it.name,
+                        it,
+                        viewState.selectedMedicalWorkers.contains(it.id)
+                    )
+                }
+            )
         }
 
         previousState = viewState.copy()
@@ -145,5 +145,4 @@ class MedicalRecordsBinder(
     override fun onOptionCheckChanged(item: FilterPair) {
         notify(Notification.OptionCheckChanged(item))
     }
-
 }

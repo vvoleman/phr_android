@@ -18,5 +18,4 @@ class SaveMedicineScheduleDomainModelToDataMapper(
             schedules = model.schedules.map { saveScheduleItemDomainModelToDataMapper.toData(it) }
         )
     }
-
 }

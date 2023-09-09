@@ -21,5 +21,4 @@ interface BackendApi {
     suspend fun getDiagnosesByIds(
         @Query("ids[]") ids: Set<String>
     ): DiagnoseResponse
-
 }

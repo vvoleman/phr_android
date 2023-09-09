@@ -15,5 +15,4 @@ class GroupedItemsDomainModelToUiMapper(
             model.items.map { medicalRecordDomainModelToUiMapper.toUi(it) }
         )
     }
-
 }

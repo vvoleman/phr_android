@@ -10,5 +10,4 @@ class PatientDomainModelToAddEditMapper {
         name = patient.name,
         birthDate = patient.birthDate
     )
-
 }

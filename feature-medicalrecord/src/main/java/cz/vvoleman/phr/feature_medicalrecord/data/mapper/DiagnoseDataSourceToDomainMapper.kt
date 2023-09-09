@@ -12,5 +12,4 @@ class DiagnoseDataSourceToDomainMapper {
             parent = diagnose.parent
         )
     }
-
 }

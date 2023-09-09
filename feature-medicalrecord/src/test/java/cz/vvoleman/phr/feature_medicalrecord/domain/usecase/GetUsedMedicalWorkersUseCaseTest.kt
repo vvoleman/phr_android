@@ -32,9 +32,8 @@ class GetUsedMedicalWorkersUseCaseTest {
         useCase = GetUsedMedicalWorkersUseCase(getUsedMedicalWorkersRepository, coroutineContextProvider)
     }
 
-
     @Test
-    fun `Get Used Medical Workers, valid`() =  runTest {
+    fun `Get Used Medical Workers, valid`() = runTest {
         val id = "1"
         val willReturn = listOf(
             MedicalWorkerDomainModel(
@@ -66,14 +65,14 @@ class GetUsedMedicalWorkersUseCaseTest {
     }
 
     @Test
-    fun `Get Used Medical Workers, invalid`() =  runTest {
+    fun `Get Used Medical Workers, invalid`() = runTest {
         val id = "1"
         val willReturn = listOf(
             MedicalWorkerDomainModel(
                 id = "1",
                 name = "Worker 1",
                 patientId = "2"
-            ),
+            )
         )
 
         given(getUsedMedicalWorkersRepository.getUsedMedicalWorkers(id)).willReturn(willReturn)

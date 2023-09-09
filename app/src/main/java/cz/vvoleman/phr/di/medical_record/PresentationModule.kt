@@ -3,7 +3,6 @@ package cz.vvoleman.phr.di.medical_record
 import cz.vvoleman.phr.base.domain.coroutine.CoroutineContextProvider
 import cz.vvoleman.phr.common.domain.repository.GetPatientByIdRepository
 import cz.vvoleman.phr.common.domain.repository.GetSelectedPatientRepository
-import cz.vvoleman.phr.common.domain.usecase.GetSelectedPatientUseCase
 import cz.vvoleman.phr.feature_medicalrecord.domain.repository.*
 import cz.vvoleman.phr.feature_medicalrecord.domain.repository.add_edit.SearchDiagnoseRepository
 import cz.vvoleman.phr.feature_medicalrecord.domain.repository.patient_delete.DeleteMedicalRecordAssetsRepository
@@ -164,5 +163,4 @@ class PresentationModule {
         deleteProblemCategoriesRepository,
         coroutineContextProvider
     )
-
 }

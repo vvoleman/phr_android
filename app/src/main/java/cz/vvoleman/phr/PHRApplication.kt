@@ -1,7 +1,6 @@
 package cz.vvoleman.phr
 
 import android.app.Application
-import dagger.Component
 import dagger.hilt.android.HiltAndroidApp
 import org.greenrobot.eventbus.EventBus
 
@@ -13,5 +12,4 @@ class PHRApplication : Application() {
 
         EventBus.builder().build()
     }
-
 }

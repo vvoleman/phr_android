@@ -63,23 +63,24 @@ class GetFilteredRecordsUseCaseTest {
         val actualValue = useCase.executeInBackground(request)
         val expected = listOf(
             GroupedItemsDomainModel(
-                value = LocalDate.of(2020,1,1),
+                value = LocalDate.of(2020, 1, 1),
                 items = listOf(
-                    willReturn[0],willReturn[1]
+                    willReturn[0],
+                    willReturn[1]
                 )
             ),
             GroupedItemsDomainModel(
-                value = LocalDate.of(2020,2,1),
+                value = LocalDate.of(2020, 2, 1),
                 items = listOf(
                     willReturn[2]
                 )
             ),
             GroupedItemsDomainModel(
-                value = LocalDate.of(2021,1,1),
+                value = LocalDate.of(2021, 1, 1),
                 items = listOf(
                     willReturn[3]
                 )
-            ),
+            )
         )
 
         // Then
@@ -87,7 +88,7 @@ class GetFilteredRecordsUseCaseTest {
     }
 
     @Test
-    fun `Filter records and group by problem category`() = runTest{
+    fun `Filter records and group by problem category`() = runTest {
         // Given
         val request = FilterRequestDomainModel(
             groupBy = GroupByDomainModel.PROBLEM_CATEGORY,
@@ -106,7 +107,8 @@ class GetFilteredRecordsUseCaseTest {
             GroupedItemsDomainModel(
                 value = "Category 1",
                 items = listOf(
-                    willReturn[0],willReturn[2]
+                    willReturn[0],
+                    willReturn[2]
                 )
             ),
             GroupedItemsDomainModel(
@@ -120,7 +122,7 @@ class GetFilteredRecordsUseCaseTest {
                 items = listOf(
                     willReturn[3]
                 )
-            ),
+            )
         )
 
         // Then
@@ -128,7 +130,7 @@ class GetFilteredRecordsUseCaseTest {
     }
 
     @Test
-    fun `Filter records and group by medical worker`() =runTest {
+    fun `Filter records and group by medical worker`() = runTest {
         // Given
         val request = FilterRequestDomainModel(
             groupBy = GroupByDomainModel.MEDICAL_WORKER,
@@ -153,7 +155,8 @@ class GetFilteredRecordsUseCaseTest {
             GroupedItemsDomainModel(
                 value = "Medical Worker 2",
                 items = listOf(
-                    willReturn[1], willReturn[3]
+                    willReturn[1],
+                    willReturn[3]
                 )
             ),
             GroupedItemsDomainModel(
@@ -161,7 +164,7 @@ class GetFilteredRecordsUseCaseTest {
                 items = listOf(
                     willReturn[2]
                 )
-            ),
+            )
         )
 
         // Then
@@ -189,7 +192,7 @@ class GetFilteredRecordsUseCaseTest {
                 date = LocalDate.of(2021, 1, 1),
                 category = "Category 3",
                 medicalWorker = "Medical Worker 2"
-            ),
+            )
         )
     }
 

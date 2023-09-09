@@ -11,7 +11,7 @@ enum class Color(val color: Int) {
     YELLOW(R.color.category_yellow),
     PINK(R.color.category_pink),
     BROWN(R.color.category_brown),
-    GRAY(R.color.category_gray),
+    GRAY(R.color.category_gray)
     ;
 
     companion object {

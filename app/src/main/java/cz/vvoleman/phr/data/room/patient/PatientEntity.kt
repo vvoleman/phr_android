@@ -40,5 +40,4 @@ data class PatientEntity(
             gender = gender
         )
     }
-
 }

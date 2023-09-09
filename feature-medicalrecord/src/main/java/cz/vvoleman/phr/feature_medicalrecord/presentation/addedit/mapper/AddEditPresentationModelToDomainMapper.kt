@@ -19,5 +19,4 @@ class AddEditPresentationModelToDomainMapper(
             files = model.assets.map { assetPresentationToDomainModel.toDomain(it) }
         )
     }
-
 }

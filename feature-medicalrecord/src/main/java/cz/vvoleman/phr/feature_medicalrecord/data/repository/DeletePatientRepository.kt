@@ -17,8 +17,10 @@ class DeletePatientRepository(
     private val medicalWorkerDao: MedicalWorkerDao,
     private val medicalAssetDao: MedicalRecordAssetDao,
     private val problemCategoryDao: ProblemCategoryDao
-) : DeleteMedicalRecordAssetsRepository, DeleteMedicalWorkersRepository,
-    DeleteMedicalRecordsRepository, DeleteProblemCategoriesRepository {
+) : DeleteMedicalRecordAssetsRepository,
+    DeleteMedicalWorkersRepository,
+    DeleteMedicalRecordsRepository,
+    DeleteProblemCategoriesRepository {
 
     override suspend fun deleteMedicalRecordAssets(patientId: String) {
         val assets = medicalAssetDao.getByPatient(patientId).firstOrNull() ?: return

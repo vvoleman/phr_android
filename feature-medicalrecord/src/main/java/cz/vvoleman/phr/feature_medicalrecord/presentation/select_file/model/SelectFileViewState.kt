@@ -11,7 +11,7 @@ data class SelectFileViewState(
     val recognizedOptions: RecognizedOptionsPresentationModel? = null,
     val previewUri: Bitmap? = null,
     val selectedOptions: SelectedOptionsPresentationModel? = null,
-    val files: List<Uri> = emptyList(),
+    val files: List<Uri> = emptyList()
 ) {
     fun hasRecognizedOptions() = previewUri != null
     fun isLoading() = startedAt != null

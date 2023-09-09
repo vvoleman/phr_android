@@ -30,5 +30,4 @@ class MedicineRepository @Inject constructor(
 
         medicineDao.insert(crossRefs)
     }
-
 }

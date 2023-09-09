@@ -16,11 +16,11 @@ class NetworkConnectivityObserver @Inject constructor(
 ) : IConnectivityObserver {
 
     private val connectivityManager =
-            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
     override fun observer(): Flow<IConnectivityObserver.ConnectionStatus> {
         return callbackFlow {
-            val callback = object : ConnectivityManager.NetworkCallback(){
+            val callback = object : ConnectivityManager.NetworkCallback() {
                 override fun onAvailable(network: Network) {
                     super.onAvailable(network)
                     launch { send(IConnectivityObserver.ConnectionStatus.AVAILABLE) }
@@ -48,5 +48,4 @@ class NetworkConnectivityObserver @Inject constructor(
             }
         }.distinctUntilChanged()
     }
-
 }

@@ -5,5 +5,5 @@ data class MedicinePresentationModel(
     val name: String,
     val packaging: PackagingPresentationModel,
     val country: String,
-    val substances: List<SubstanceAmountPresentationModel>,
+    val substances: List<SubstanceAmountPresentationModel>
 )

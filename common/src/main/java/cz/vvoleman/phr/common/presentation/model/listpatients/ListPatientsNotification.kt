@@ -9,5 +9,4 @@ sealed class ListPatientsNotification {
     data class PatientDeleted(val patient: PatientPresentationModel) : ListPatientsNotification()
     data class PatientDeleteFailed(val patient: PatientPresentationModel) : ListPatientsNotification()
     data class PatientSelected(val id: String) : ListPatientsNotification()
-
 }

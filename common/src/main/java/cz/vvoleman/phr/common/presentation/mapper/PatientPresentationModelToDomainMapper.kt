@@ -20,5 +20,4 @@ class PatientPresentationModelToDomainMapper {
             birthDate = patient.birthDate
         )
     }
-
 }

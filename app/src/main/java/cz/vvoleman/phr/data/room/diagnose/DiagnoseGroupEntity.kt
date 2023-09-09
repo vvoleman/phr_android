@@ -7,7 +7,7 @@ import cz.vvoleman.phr.data.core.diagnose.DiagnoseGroup
 @Entity(tableName = "diagnose_group")
 data class DiagnoseGroupEntity(
     @PrimaryKey val id: String,
-    val name: String,
+    val name: String
 ) {
     companion object {
         fun from(diagnoseGroup: DiagnoseGroup): DiagnoseGroupEntity {

@@ -38,5 +38,4 @@ data class MedicineEntity(
             createdAt = created_at
         )
     }
-
 }

@@ -7,7 +7,7 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class PatientFieldResult(
-    override val value: Patient,
+    override val value: Patient
 ) : FieldResult<Patient>(), Parcelable {
 
     override fun toString(): String {

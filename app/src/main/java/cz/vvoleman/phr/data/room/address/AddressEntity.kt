@@ -30,6 +30,4 @@ data class AddressEntity(
             zipCode = zip_code
         )
     }
-
 }
-

@@ -19,7 +19,9 @@ interface MedicalWorkerDao {
     @Query("SELECT * FROM medical_worker WHERE patientId = :patientId")
     fun getAll(patientId: String): Flow<List<MedicalWorkerDataSourceModel>>
 
-    @Query("SELECT * FROM medical_worker WHERE id IN (SELECT medical_worker_id FROM medical_record WHERE patient_id = :patientId)")
+    @Query(
+        "SELECT * FROM medical_worker WHERE id IN (SELECT medical_worker_id FROM medical_record WHERE patient_id = :patientId)"
+    )
     fun getUsedByPatientId(patientId: String): Flow<List<MedicalWorkerDataSourceModel>>
 
     @Query("SELECT * FROM medical_worker WHERE name = :name")
@@ -36,5 +38,4 @@ interface MedicalWorkerDao {
 
     @Query("DELETE FROM medical_worker WHERE patientId = :patientId")
     suspend fun deleteByPatient(patientId: String)
-
 }

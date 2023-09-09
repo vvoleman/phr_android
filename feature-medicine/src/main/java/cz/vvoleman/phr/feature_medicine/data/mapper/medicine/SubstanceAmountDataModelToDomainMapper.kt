@@ -4,7 +4,7 @@ import cz.vvoleman.phr.feature_medicine.data.model.medicine.SubstanceAmountDataM
 import cz.vvoleman.phr.feature_medicine.domain.model.medicine.SubstanceAmountDomainModel
 
 class SubstanceAmountDataModelToDomainMapper(
-    private val substanceDataModelToDomainMapper: SubstanceDataModelToDomainMapper,
+    private val substanceDataModelToDomainMapper: SubstanceDataModelToDomainMapper
 ) {
 
     fun toDomain(model: SubstanceAmountDataModel): SubstanceAmountDomainModel {
@@ -22,5 +22,4 @@ class SubstanceAmountDataModelToDomainMapper(
             unit = ""
         )
     }
-
 }

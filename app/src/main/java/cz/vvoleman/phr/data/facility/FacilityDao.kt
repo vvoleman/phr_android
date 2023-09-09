@@ -26,5 +26,4 @@ interface FacilityDao {
 
     @Delete
     fun deleteFacility(facility: Facility)
-
 }

@@ -6,5 +6,4 @@ import java.time.LocalDate
 interface GetPatientByBirthDateRepository {
 
     suspend fun getPatientByBirthDate(birthDate: LocalDate): List<PatientDomainModel>
-
 }

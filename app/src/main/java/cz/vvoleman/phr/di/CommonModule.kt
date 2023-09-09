@@ -12,5 +12,4 @@ class CommonModule {
 
     @Provides
     fun providesPatientDao(db: PatientDatabase) = db.patientDao()
-
 }

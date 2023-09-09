@@ -8,7 +8,7 @@ class MedicalRecordDataSourceToDomainMapper(
     private val diagnoseMapper: DiagnoseDataSourceToDomainMapper,
     private val medicalWorkerMapper: MedicalWorkerDataSourceToDomainMapper,
     private val problemCategoryMapper: ProblemCategoryDataSourceToDomainMapper,
-    private val medicalRecordAssetMapper: MedicalRecordAssetDataSourceToDomainMapper,
+    private val medicalRecordAssetMapper: MedicalRecordAssetDataSourceToDomainMapper
 ) {
 
     fun toDomain(medicalRecord: MedicalRecordWithDetails): MedicalRecordDomainModel {
@@ -23,5 +23,4 @@ class MedicalRecordDataSourceToDomainMapper(
             visitDate = medicalRecord.medicalRecord.visit_date
         )
     }
-
 }

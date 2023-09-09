@@ -13,7 +13,6 @@ import cz.vvoleman.phr.feature_medicalrecord.data.mapper.*
 import cz.vvoleman.phr.feature_medicalrecord.data.repository.*
 import cz.vvoleman.phr.feature_medicalrecord.domain.repository.*
 import cz.vvoleman.phr.feature_medicalrecord.domain.repository.add_edit.SearchDiagnoseRepository
-import cz.vvoleman.phr.feature_medicalrecord.domain.repository.dummy.GetDummyUsedProblemCategoriesRepository
 import cz.vvoleman.phr.feature_medicalrecord.domain.repository.patient_delete.DeleteMedicalRecordAssetsRepository
 import cz.vvoleman.phr.feature_medicalrecord.domain.repository.patient_delete.DeleteMedicalRecordsRepository
 import cz.vvoleman.phr.feature_medicalrecord.domain.repository.patient_delete.DeleteMedicalWorkersRepository
@@ -38,11 +37,11 @@ class DataModule {
         medicalRecordDataSourceToDomainMapper: MedicalRecordDataSourceToDomainMapper,
         addEditDomainModelToToDataSourceMapper: AddEditDomainModelToToDataSourceMapper
     ) = MedicalRecordRepository(
-            medicalRecordDao,
-            filterRequestDomainModelToDataMapper,
-            medicalRecordDataSourceToDomainMapper,
-            addEditDomainModelToToDataSourceMapper
-        )
+        medicalRecordDao,
+        filterRequestDomainModelToDataMapper,
+        medicalRecordDataSourceToDomainMapper,
+        addEditDomainModelToToDataSourceMapper
+    )
 
     @Provides
     fun providesMedicalRecordFilterRepository(
@@ -59,7 +58,7 @@ class DataModule {
     fun providesPatientRepository(
         patientDataStore: PatientDataStore,
         patientDataSourceToDomainMapper: PatientDataSourceToDomainMapper,
-        patientDao: PatientDao,
+        patientDao: PatientDao
     ) = PatientRepository(
         patientDataStore,
         patientDao,
@@ -82,7 +81,7 @@ class DataModule {
         diagnose: DiagnoseDataSourceToDomainMapper,
         medicalWorker: MedicalWorkerDataSourceToDomainMapper,
         problemCategoryDataSourceModel: ProblemCategoryDataSourceToDomainMapper,
-        asset: MedicalRecordAssetDataSourceToDomainMapper,
+        asset: MedicalRecordAssetDataSourceToDomainMapper
     ) =
         MedicalRecordDataSourceToDomainMapper(
             patient,
@@ -107,7 +106,7 @@ class DataModule {
     @Provides
     fun providesProblemCategoryRepository(
         problemCategoryDao: ProblemCategoryDao,
-        problemCategoryDataSourceToDomainMapper: ProblemCategoryDataSourceToDomainMapper,
+        problemCategoryDataSourceToDomainMapper: ProblemCategoryDataSourceToDomainMapper
     ) = ProblemCategoryRepository(
         problemCategoryDao,
         problemCategoryDataSourceToDomainMapper
@@ -121,7 +120,7 @@ class DataModule {
     @Provides
     fun providesMedicalWorkersRepository(
         medicalWorkerDao: MedicalWorkerDao,
-        medicalWorkerDataSourceToDomainMapper: MedicalWorkerDataSourceToDomainMapper,
+        medicalWorkerDataSourceToDomainMapper: MedicalWorkerDataSourceToDomainMapper
     ) = MedicalWorkerRepository(
         medicalWorkerDao,
         medicalWorkerDataSourceToDomainMapper
@@ -155,7 +154,7 @@ class DataModule {
         diagnoseApiModelToDbMapper,
         diagnoseDataSourceToDomainMapper,
         backendApi,
-        diagnoseDao,
+        diagnoseDao
     )
 
     @Provides
@@ -190,12 +189,12 @@ class DataModule {
 
     @Provides
     fun providesGetProblemCategoriesForPatientRepository(
-        problemCategoryRepository: ProblemCategoryRepository,
+        problemCategoryRepository: ProblemCategoryRepository
     ): GetProblemCategoriesForPatientRepository = problemCategoryRepository
 
     @Provides
     fun providesGetMedicalWorkersForPatientRepository(
-        medicalWorkerRepository: MedicalWorkerRepository,
+        medicalWorkerRepository: MedicalWorkerRepository
     ): GetMedicalWorkersForPatientRepository = medicalWorkerRepository
 
     @Provides

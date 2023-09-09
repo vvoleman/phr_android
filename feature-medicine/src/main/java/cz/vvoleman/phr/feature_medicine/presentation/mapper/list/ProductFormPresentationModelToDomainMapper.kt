@@ -7,14 +7,14 @@ class ProductFormPresentationModelToDomainMapper {
     fun toDomain(model: ProductFormPresentationModel): ProductFormDomainModel {
         return ProductFormDomainModel(
             id = model.id,
-            name = model.name,
+            name = model.name
         )
     }
 
     fun toPresentation(model: ProductFormDomainModel): ProductFormPresentationModel {
         return ProductFormPresentationModel(
             id = model.id,
-            name = model.name,
+            name = model.name
         )
     }
 }

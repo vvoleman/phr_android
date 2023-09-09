@@ -12,8 +12,6 @@ import android.widget.LinearLayout
 import android.widget.Spinner
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.SearchView
-import androidx.core.view.isVisible
-import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.LinearLayoutManager
 import cz.vvoleman.phr.feature_medicalrecord.databinding.CustomDiagnoseSpinnerBinding
@@ -25,7 +23,8 @@ class DiagnoseDialogSpinner @JvmOverloads constructor(
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
 ) : LinearLayout(context, attrs, defStyleAttr),
-    View.OnTouchListener, DiagnoseAdapter.OnItemClickListener{
+    View.OnTouchListener,
+    DiagnoseAdapter.OnItemClickListener {
 
     private var spinner: Spinner
     private var dialogListener: OnDialogListener? = null
@@ -43,7 +42,6 @@ class DiagnoseDialogSpinner @JvmOverloads constructor(
             layoutBinding.root,
             false
         )
-
 
         spinner = layoutBinding.spinner
         spinner.setOnTouchListener(this)
@@ -95,12 +93,11 @@ class DiagnoseDialogSpinner @JvmOverloads constructor(
 
                 override fun onQueryTextChange(newText: String?): Boolean {
                     Log.d("SearchView", "onQueryTextChange: $newText")
-                    dialogListener?.onDiagnoseSearch(newText?: "")
+                    dialogListener?.onDiagnoseSearch(newText ?: "")
                     return false
                 }
             })
         }
-
     }
 
     suspend fun setData(data: List<DiagnoseItemUiModel>) {
@@ -152,5 +149,4 @@ class DiagnoseDialogSpinner @JvmOverloads constructor(
     companion object {
         private const val TAG = "DiagnoseDialogSpinner"
     }
-
 }

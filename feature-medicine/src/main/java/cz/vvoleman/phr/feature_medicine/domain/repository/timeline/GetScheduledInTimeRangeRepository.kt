@@ -6,5 +6,4 @@ import cz.vvoleman.phr.feature_medicine.domain.model.timeline.SchedulesInRangeRe
 interface GetScheduledInTimeRangeRepository {
 
     suspend fun getScheduledInTimeRange(request: SchedulesInRangeRequestDomainModel): List<MedicineScheduleDomainModel>
-
 }

@@ -7,14 +7,14 @@ class ProductFormUiModelToPresentationMapper {
     fun toPresentation(model: ProductFormUiModel): ProductFormPresentationModel {
         return ProductFormPresentationModel(
             id = model.id,
-            name = model.name,
+            name = model.name
         )
     }
 
     fun toUi(model: ProductFormPresentationModel): ProductFormUiModel {
         return ProductFormUiModel(
             id = model.id,
-            name = model.name,
+            name = model.name
         )
     }
 }

@@ -20,5 +20,4 @@ class PatientDataSourceModelToDomainMapper {
             birthDate = patient.birth_date
         )
     }
-
 }

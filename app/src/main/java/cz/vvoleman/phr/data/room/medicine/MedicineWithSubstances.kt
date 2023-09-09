@@ -13,7 +13,7 @@ data class MedicineWithSubstances(
         entity = SubstanceEntity::class,
         parentColumn = "medicineId",
         entityColumn = "substanceId",
-        associateBy = Junction(MedicineSubstanceCrossRef::class,)
+        associateBy = Junction(MedicineSubstanceCrossRef::class)
     )
     val substances: List<SubstanceEntity>
 ) {
@@ -22,7 +22,8 @@ data class MedicineWithSubstances(
         fun from(medicine: Medicine): MedicineWithSubstances {
             return MedicineWithSubstances(
                 MedicineEntity.from(medicine),
-                medicine.substances.map { SubstanceEntity.from(it) })
+                medicine.substances.map { SubstanceEntity.from(it) }
+            )
         }
     }
 

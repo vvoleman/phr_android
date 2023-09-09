@@ -10,7 +10,6 @@ class GetDummyUsedRepository : GetUsedProblemCategoriesRepository, GetUsedMedica
     override suspend fun getUsedMedicalWorkers(patientId: String): List<MedicalWorkerDomainModel> {
         val allWorkers = getDummyWorkers()
         return allWorkers.filter { it.patientId == patientId }
-
     }
 
     override suspend fun getUsedProblemCategories(patientId: String): List<ProblemCategoryDomainModel> {
@@ -23,7 +22,7 @@ class GetDummyUsedRepository : GetUsedProblemCategoriesRepository, GetUsedMedica
             city = "Ústí nad Labem",
             street = "Ulice",
             houseNumber = "123",
-            zipCode = "40000",
+            zipCode = "40000"
         )
         return listOf(
             MedicalWorkerDomainModel(
@@ -49,7 +48,7 @@ class GetDummyUsedRepository : GetUsedProblemCategoriesRepository, GetUsedMedica
                 name = "Jméno 4",
                 address = address,
                 patientId = "2"
-            ),
+            )
         )
     }
 
@@ -78,7 +77,7 @@ class GetDummyUsedRepository : GetUsedProblemCategoriesRepository, GetUsedMedica
                 name = "Kategorie 4",
                 color = "",
                 patientId = "2"
-            ),
+            )
         )
     }
 }

@@ -18,5 +18,4 @@ class SubstanceDataSourceModelToDataMapper {
             name = model.name
         )
     }
-
 }

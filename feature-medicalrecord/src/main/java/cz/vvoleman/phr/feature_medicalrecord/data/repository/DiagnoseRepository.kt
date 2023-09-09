@@ -16,17 +16,15 @@ class DiagnoseRepository(
     private val diagnoseApiModelToDbMapper: DiagnoseApiModelToDbMapper,
     private val diagnoseDataSourceToDomainMapper: DiagnoseDataSourceToDomainMapper,
     private val backendApi: BackendApi,
-    private val diagnoseDao: DiagnoseDao,
+    private val diagnoseDao: DiagnoseDao
 ) : GetDiagnosesByIdsRepository, GetDiagnoseByIdRepository, SearchDiagnoseRepository {
 
     override suspend fun getDiagnosesByIds(ids: List<String>): List<DiagnoseDomainModel> {
-
         // Check if all diagnoses are in local databas
         val diagnoses = diagnoseDao.getByIds(ids).first()
         val allDiagnoses = diagnoses
             .map { diagnoseDataSourceToDomainMapper.toDomain(it) }
             .toMutableList()
-
 
         // Check missing diagnoses
         val missingDiagnoses = diagnoses.map { it.id }.toSet().let { ids.toSet() - it }
@@ -42,7 +40,8 @@ class DiagnoseRepository(
                     if (it.isEmpty()) return@let
                     diagnoseDao.insert(it)
                     it.forEach { diagnose ->
-                        allDiagnoses.add(diagnoseDataSourceToDomainMapper.toDomain(diagnose)) }
+                        allDiagnoses.add(diagnoseDataSourceToDomainMapper.toDomain(diagnose))
+                    }
                 }
             }
         } catch (e: Exception) {

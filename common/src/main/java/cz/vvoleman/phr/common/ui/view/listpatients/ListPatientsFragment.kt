@@ -28,7 +28,6 @@ import javax.inject.Inject
 class ListPatientsFragment :
     BaseFragment<ListPatientsViewState, ListPatientsNotification, FragmentListPatientsBinding>(), PatientAdapter.OnPatientListener {
 
-
     override val viewModel: ListPatientsViewModel by viewModels()
 
     @Inject

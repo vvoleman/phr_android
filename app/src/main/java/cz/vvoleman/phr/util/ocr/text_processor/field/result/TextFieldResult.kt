@@ -6,11 +6,10 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class TextFieldResult(
-    override val value: String,
+    override val value: String
 ) : FieldResult<String>(), Parcelable {
 
     override fun toString(): String {
         return value
     }
-
 }

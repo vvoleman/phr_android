@@ -1,7 +1,6 @@
 package cz.vvoleman.phr.feature_medicalrecord.domain.model.select_file
 
 import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.Test
 
 class PositionTest {
@@ -19,7 +18,7 @@ class PositionTest {
         val expectedHull = listOf(
             Position(1, 0),
             Position(3, 1),
-            Position(0,3)
+            Position(0, 3)
         )
 
         // Execution
@@ -88,5 +87,4 @@ class PositionTest {
         // Execution and Verification
         assertEquals(emptyList<Position>(), Position.getConvexHull(points))
     }
-
 }

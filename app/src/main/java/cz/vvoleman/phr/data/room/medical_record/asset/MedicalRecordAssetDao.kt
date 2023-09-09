@@ -32,6 +32,4 @@ interface MedicalRecordAssetDao {
 
     @Query("DELETE FROM medical_record_asset WHERE medical_record_id = :medicalRecordId")
     suspend fun deleteAllForRecord(medicalRecordId: Int)
-
-
 }

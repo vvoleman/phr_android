@@ -1,7 +1,5 @@
 package cz.vvoleman.phr.feature_medicalrecord.presentation.addedit.model
 
-import android.net.Uri
-import cz.vvoleman.phr.feature_medicalrecord.domain.model.MedicalRecordAssetDomainModel
 import java.time.LocalDate
 
 data class AddEditPresentationModel(

@@ -9,5 +9,4 @@ interface IConnectivityObserver {
     enum class ConnectionStatus {
         AVAILABLE, UNAVAILABLE, LOSING, LOST
     }
-
 }

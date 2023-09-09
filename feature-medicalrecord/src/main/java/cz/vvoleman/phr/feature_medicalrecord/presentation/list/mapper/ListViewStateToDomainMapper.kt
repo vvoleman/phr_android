@@ -14,5 +14,4 @@ class ListViewStateToDomainMapper {
             selectedCategoryProblemIds = viewState.selectedProblemCategories
         )
     }
-
 }

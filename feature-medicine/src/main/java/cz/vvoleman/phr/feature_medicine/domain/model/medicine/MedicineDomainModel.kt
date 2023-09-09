@@ -5,5 +5,5 @@ data class MedicineDomainModel(
     val name: String,
     val packaging: PackagingDomainModel,
     val country: String,
-    val substances: List<SubstanceAmountDomainModel>,
+    val substances: List<SubstanceAmountDomainModel>
 )

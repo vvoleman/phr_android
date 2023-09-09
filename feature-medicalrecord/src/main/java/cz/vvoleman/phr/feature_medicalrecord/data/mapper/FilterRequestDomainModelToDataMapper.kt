@@ -23,5 +23,4 @@ class FilterRequestDomainModelToDataMapper {
             GroupByDomainModel.MEDICAL_WORKER -> "medical_worker"
         }
     }
-
 }

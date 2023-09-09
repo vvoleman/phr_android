@@ -18,5 +18,4 @@ interface PackagingDao {
 
     @Delete
     suspend fun delete(packaging: PackagingDataSourceModel)
-
 }

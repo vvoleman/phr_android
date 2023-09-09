@@ -8,5 +8,5 @@ data class ProblemCategoryDomainModel(
     val id: String,
     val name: String,
     val color: String,
-    val patientId: String,
+    val patientId: String
 ) : Parcelable

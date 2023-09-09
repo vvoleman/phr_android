@@ -5,8 +5,8 @@ import kotlinx.parcelize.Parcelize
 import java.time.LocalDate
 
 @Parcelize
-data class PatientPresentationModel (
+data class PatientPresentationModel(
     val id: String,
     val name: String,
     val birthDate: LocalDate? = null
-): Parcelable
+) : Parcelable

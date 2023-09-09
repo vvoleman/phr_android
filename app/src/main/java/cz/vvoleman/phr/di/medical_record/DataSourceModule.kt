@@ -38,5 +38,4 @@ class DataSourceModule {
     fun provideBackendApi(retrofit: Retrofit): BackendApi =
         retrofit
             .create(BackendApi::class.java)
-
 }

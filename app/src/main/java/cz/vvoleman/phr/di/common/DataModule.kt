@@ -31,7 +31,7 @@ class DataModule {
         patientDao,
         patientDataStore,
         patientDomainModelToDataSourceMapper,
-        patientDataSourceModelToAddEditMapper,
+        patientDataSourceModelToAddEditMapper
     )
 
     @Provides

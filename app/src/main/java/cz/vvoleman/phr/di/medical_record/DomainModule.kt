@@ -54,6 +54,4 @@ class DomainModule {
         dateFieldProcessor: DateFieldProcessor,
         diagnoseFieldProcessor: DiagnoseFieldProcessor
     ) = RecordRecognizer(patientFieldProcessor, dateFieldProcessor, diagnoseFieldProcessor)
-
-
 }

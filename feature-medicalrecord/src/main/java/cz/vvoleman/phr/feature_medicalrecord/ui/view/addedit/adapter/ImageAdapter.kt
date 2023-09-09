@@ -54,7 +54,6 @@ class ImageAdapter(
                 imageViewThumbnail.setImageURI(Uri.parse(item.asset.uri))
             }
         }
-
     }
 
     class DiffCallback : DiffUtil.ItemCallback<ImageItemUiModel>() {
@@ -72,6 +71,4 @@ class ImageAdapter(
         fun onItemClicked(item: ImageItemUiModel)
         fun onItemDeleted(item: ImageItemUiModel)
     }
-
-
 }

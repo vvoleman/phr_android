@@ -10,5 +10,4 @@ class PatientDataSourceModelToAddEditMapper {
         name = patient.name,
         birth_date = patient.birthDate
     )
-
 }

@@ -85,5 +85,4 @@ class MedicineSelectorAdapter(
             return oldItem == newItem
         }
     }
-
 }

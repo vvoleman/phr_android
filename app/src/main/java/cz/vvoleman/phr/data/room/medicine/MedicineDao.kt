@@ -29,5 +29,4 @@ interface MedicineDao {
 
     @Delete
     suspend fun delete(medicine: MedicineEntity)
-
 }

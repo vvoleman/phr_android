@@ -12,7 +12,7 @@ data class MedicalWorkerEntity(
     val name: String,
     val email: String?,
     val phone: String?,
-    @Embedded val address: AddressEntity?,
+    @Embedded val address: AddressEntity?
 ) {
 
     companion object {
@@ -38,5 +38,4 @@ data class MedicalWorkerEntity(
             address = address?.toAddress()
         )
     }
-
 }

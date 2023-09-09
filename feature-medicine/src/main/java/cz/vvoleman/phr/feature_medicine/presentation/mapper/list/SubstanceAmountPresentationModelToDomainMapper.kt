@@ -10,7 +10,7 @@ class SubstanceAmountPresentationModelToDomainMapper(
         return SubstanceAmountDomainModel(
             substance = substanceMapper.toDomain(model.substance),
             amount = model.amount,
-            unit = model.unit,
+            unit = model.unit
         )
     }
 
@@ -18,7 +18,7 @@ class SubstanceAmountPresentationModelToDomainMapper(
         return SubstanceAmountPresentationModel(
             substance = substanceMapper.toPresentation(model.substance),
             amount = model.amount,
-            unit = model.unit,
+            unit = model.unit
         )
     }
 }

@@ -10,5 +10,4 @@ class AddEditViewStateToBundleMapper {
             putParcelable(AddEditViewState.TAG, viewState)
         }
     }
-
 }

@@ -10,8 +10,7 @@ class PackagingApiDataSourceModelToDataMapper(
     fun toData(model: PackagingApiDataSourceModel): PackagingDataModel {
         return PackagingDataModel(
             form = productFormApiDataSourceModelToDataMapper.toData(model.form),
-            packaging = model.packaging,
+            packaging = model.packaging
         )
     }
-
 }

@@ -15,5 +15,5 @@ data class ScheduleItemDataSourceModel(
     val ending_at: LocalDateTime? = null,
     val quantity: String,
     val schedule_id: Int,
-    val description: String? = null,
+    val description: String? = null
 )

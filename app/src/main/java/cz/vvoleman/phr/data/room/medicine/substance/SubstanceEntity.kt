@@ -9,7 +9,7 @@ data class SubstanceEntity(
     @PrimaryKey val substanceId: String,
     val name: String,
     val is_addictive: Boolean,
-    val is_doping: Boolean,
+    val is_doping: Boolean
 ) {
 
     companion object {
@@ -31,5 +31,4 @@ data class SubstanceEntity(
             isDoping = is_doping
         )
     }
-
 }

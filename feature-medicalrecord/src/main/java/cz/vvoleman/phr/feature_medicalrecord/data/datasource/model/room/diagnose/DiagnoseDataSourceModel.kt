@@ -7,5 +7,5 @@ import androidx.room.PrimaryKey
 data class DiagnoseDataSourceModel(
     @PrimaryKey val id: String,
     val name: String,
-    val parent: String,
+    val parent: String
 )

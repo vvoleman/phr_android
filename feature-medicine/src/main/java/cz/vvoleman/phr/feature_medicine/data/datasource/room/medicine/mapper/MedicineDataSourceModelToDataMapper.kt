@@ -5,7 +5,7 @@ import cz.vvoleman.phr.feature_medicine.data.model.medicine.MedicineDataModel
 
 class MedicineDataSourceModelToDataMapper(
     private val packagingMapper: PackagingDataSourceModelToDataMapper,
-    private val substanceMapper: SubstanceAmountDataSourceModelToDataMapper,
+    private val substanceMapper: SubstanceAmountDataSourceModelToDataMapper
 ) {
 
     suspend fun toData(model: MedicineDataSourceModel): MedicineDataModel {
@@ -14,7 +14,7 @@ class MedicineDataSourceModelToDataMapper(
             name = model.name,
             country = model.country,
             packaging = packagingMapper.toData(model.packaging),
-            substances = model.substances.map { substanceMapper.toData(it) },
+            substances = model.substances.map { substanceMapper.toData(it) }
         )
     }
 
@@ -24,8 +24,7 @@ class MedicineDataSourceModelToDataMapper(
             name = model.name,
             country = model.country,
             packaging = packagingMapper.toDataSource(model.packaging),
-            substances = model.substances.map { substanceMapper.toDataSource(it) },
+            substances = model.substances.map { substanceMapper.toDataSource(it) }
         )
     }
-
 }

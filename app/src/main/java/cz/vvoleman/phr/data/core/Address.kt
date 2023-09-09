@@ -14,5 +14,4 @@ data class Address(
     override fun toString(): String {
         return "$street $houseNumber, $zipCode $city"
     }
-
 }

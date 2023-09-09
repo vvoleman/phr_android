@@ -8,15 +8,14 @@ class ProductFormDataModelToDomainMapper {
     fun toDomain(model: ProductFormDataModel): ProductFormDomainModel {
         return ProductFormDomainModel(
             id = model.id,
-            name = model.name,
+            name = model.name
         )
     }
 
     fun toData(model: ProductFormDomainModel): ProductFormDataModel {
         return ProductFormDataModel(
             id = model.id,
-            name = model.name,
+            name = model.name
         )
     }
-
 }

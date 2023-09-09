@@ -6,5 +6,4 @@ import cz.vvoleman.phr.feature_medicalrecord.domain.model.list.FilterRequestDoma
 interface MedicalRecordFilterRepository {
 
     suspend fun filterRecords(request: FilterRequestDomainModel): List<MedicalRecordDomainModel>
-
 }

@@ -1,11 +1,9 @@
 package cz.vvoleman.phr.util
 
-import android.util.Log
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-import kotlinx.coroutines.flow.collectLatest
-
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collectLatest
 
 val <T> T.exhaustive: T
     get() = this

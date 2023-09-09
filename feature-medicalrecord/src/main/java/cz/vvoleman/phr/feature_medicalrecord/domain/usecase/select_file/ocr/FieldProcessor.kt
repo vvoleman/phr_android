@@ -5,5 +5,4 @@ import cz.vvoleman.phr.feature_medicalrecord.domain.model.select_file.TextDomain
 interface FieldProcessor<T> {
 
     suspend fun process(text: TextDomainModel): List<T>
-
 }

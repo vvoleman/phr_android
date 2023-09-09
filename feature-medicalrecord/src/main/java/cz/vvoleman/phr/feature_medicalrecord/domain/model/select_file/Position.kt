@@ -2,8 +2,8 @@ package cz.vvoleman.phr.feature_medicalrecord.domain.model.select_file
 
 data class Position(
     val x: Int,
-    val y: Int,
-): Comparable<Position> {
+    val y: Int
+) : Comparable<Position> {
 
     override fun compareTo(other: Position): Int {
         return if (this.x == other.x) {
@@ -45,7 +45,5 @@ data class Position(
         /* ccw returns true if the three points make a counter-clockwise turn */
         fun ccw(a: Position, b: Position, c: Position) =
             ((b.x - a.x) * (c.y - a.y)) > ((b.y - a.y) * (c.x - a.x))
-
     }
-
 }

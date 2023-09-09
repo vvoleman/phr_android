@@ -17,5 +17,4 @@ class SelectedOptionsDomainModelToPresentationMapper(
             patientId = domainModel.patientId
         )
     }
-
 }

@@ -6,7 +6,6 @@ import cz.vvoleman.phr.base.domain.usecase.BackgroundExecutingUseCase
 import cz.vvoleman.phr.feature_medicine.domain.model.schedule.MedicineScheduleDomainModel
 import cz.vvoleman.phr.feature_medicine.domain.model.schedule.ScheduleItemDomainModel
 import cz.vvoleman.phr.feature_medicine.domain.model.timeline.SchedulesInRangeRequestDomainModel
-import cz.vvoleman.phr.feature_medicine.domain.repository.timeline.GetScheduledInTimeRangeRepository
 import cz.vvoleman.phr.feature_medicine.domain.repository.timeline.GetSchedulesByPatientRepository
 import java.time.DayOfWeek
 import java.time.LocalDateTime
@@ -34,8 +33,8 @@ class GetScheduledInTimeRangeUseCase(
         for (schedule in schedules) {
             val filteredByDate = filterByDateRange(request.startAt, request.endAt, schedule)
             val valid = getItemsDayMap(filteredByDate).filter {
-                    dayRange.contains(it.key)
-                }.toList().map { it.second }.flatten()
+                dayRange.contains(it.key)
+            }.toList().map { it.second }.flatten()
 
             if (valid.isEmpty()) {
                 continue

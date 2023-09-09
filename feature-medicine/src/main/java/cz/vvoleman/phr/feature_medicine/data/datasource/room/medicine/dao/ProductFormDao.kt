@@ -22,5 +22,4 @@ interface ProductFormDao {
 
     @Delete
     suspend fun delete(productForm: ProductFormDataSourceModel)
-
 }

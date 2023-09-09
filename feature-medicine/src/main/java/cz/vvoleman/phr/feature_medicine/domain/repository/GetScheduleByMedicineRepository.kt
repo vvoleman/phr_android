@@ -5,5 +5,4 @@ import cz.vvoleman.phr.feature_medicine.domain.model.schedule.MedicineScheduleDo
 interface GetScheduleByMedicineRepository {
 
     suspend fun getScheduleByMedicine(medicineId: String, patientId: String): List<MedicineScheduleDomainModel>
-
 }

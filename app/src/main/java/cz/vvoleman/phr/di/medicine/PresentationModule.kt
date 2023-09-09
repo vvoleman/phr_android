@@ -69,5 +69,4 @@ class PresentationModule {
             substanceAmountMapper
         )
     }
-
 }

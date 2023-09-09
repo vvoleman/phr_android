@@ -4,5 +4,4 @@ interface AlarmScheduler {
 
     fun schedule(item: AlarmItem): Boolean
     fun cancel(item: AlarmItem): Boolean
-
 }

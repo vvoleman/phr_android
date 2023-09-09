@@ -17,7 +17,9 @@ interface MedicalRecordAssetDao {
     @Query("SELECT * FROM medical_record_asset WHERE id = :id")
     fun getById(id: Int): Flow<MedicalRecordAssetDataSourceModel>
 
-    @Query("SELECT * FROM medical_record_asset WHERE medical_record_id IN (SELECT id FROM medical_record WHERE patient_id = :patientId)")
+    @Query(
+        "SELECT * FROM medical_record_asset WHERE medical_record_id IN (SELECT id FROM medical_record WHERE patient_id = :patientId)"
+    )
     fun getByPatient(patientId: String): Flow<List<MedicalRecordAssetDataSourceModel>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -32,8 +34,8 @@ interface MedicalRecordAssetDao {
     @Query("DELETE FROM medical_record_asset WHERE medical_record_id = :medicalRecordId")
     suspend fun deleteAllForRecord(medicalRecordId: Int)
 
-    @Query("DELETE FROM medical_record_asset WHERE medical_record_id IN (SELECT id FROM medical_record WHERE patient_id = :patientId)")
+    @Query(
+        "DELETE FROM medical_record_asset WHERE medical_record_id IN (SELECT id FROM medical_record WHERE patient_id = :patientId)"
+    )
     suspend fun deleteByPatient(patientId: String)
-
-
 }

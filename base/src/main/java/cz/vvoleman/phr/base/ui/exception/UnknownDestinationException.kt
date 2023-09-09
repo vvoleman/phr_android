@@ -6,5 +6,4 @@ class UnknownDestinationException(
     destination: PresentationDestination
 ) : IllegalArgumentException(
     "Cannot navigate to ${destination::class.simpleName}"
-) {
-}
+)

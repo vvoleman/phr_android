@@ -13,5 +13,4 @@ class ProblemCategoryDataSourceToDomainMapper {
             patientId = problemCategory.patient_id.toString()
         )
     }
-
 }

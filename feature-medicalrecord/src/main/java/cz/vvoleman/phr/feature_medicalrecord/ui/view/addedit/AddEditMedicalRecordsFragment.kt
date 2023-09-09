@@ -25,10 +25,13 @@ import java.time.LocalDate
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class AddEditMedicalRecordsFragment : BaseFragment<
+class AddEditMedicalRecordsFragment :
+    BaseFragment<
         AddEditViewState,
         AddEditNotification,
-        FragmentAddEditMedicalRecordBinding>(), ImageAdapter.OnAdapterItemListener,
+        FragmentAddEditMedicalRecordBinding
+        >(),
+    ImageAdapter.OnAdapterItemListener,
     DatePicker.DatePickerListener {
 
     override val viewModel: AddEditViewModel by viewModels()
@@ -38,7 +41,7 @@ class AddEditMedicalRecordsFragment : BaseFragment<
 
     @Inject
     override lateinit var viewStateBinder:
-            ViewStateBinder<AddEditViewState, FragmentAddEditMedicalRecordBinding>
+        ViewStateBinder<AddEditViewState, FragmentAddEditMedicalRecordBinding>
 
     override fun setupBinding(
         inflater: LayoutInflater,
@@ -55,7 +58,6 @@ class AddEditMedicalRecordsFragment : BaseFragment<
 
         return binding
     }
-
 
     override fun setupListeners() {
         super.setupListeners()
@@ -89,9 +91,7 @@ class AddEditMedicalRecordsFragment : BaseFragment<
                 }
             }
         }
-
     }
-
 
     override fun handleNotification(notification: AddEditNotification) {
         when (notification) {
@@ -121,7 +121,6 @@ class AddEditMedicalRecordsFragment : BaseFragment<
                     getText(R.string.add_edit_success),
                     Snackbar.LENGTH_SHORT
                 ).show()
-
         }
     }
 

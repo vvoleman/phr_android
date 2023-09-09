@@ -10,7 +10,6 @@ class GetDummyUsedProblemCategoriesRepository : GetUsedProblemCategoriesReposito
         return allCategories.filter { it.patientId == patientId }
     }
 
-
     private fun getDummyData(): List<ProblemCategoryDomainModel> {
         return listOf(
             ProblemCategoryDomainModel(
@@ -36,8 +35,7 @@ class GetDummyUsedProblemCategoriesRepository : GetUsedProblemCategoriesReposito
                 name = "Kategorie 4",
                 color = "",
                 patientId = "2"
-            ),
+            )
         )
     }
-
 }

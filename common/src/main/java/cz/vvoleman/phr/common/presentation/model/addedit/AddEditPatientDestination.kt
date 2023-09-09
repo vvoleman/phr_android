@@ -6,5 +6,4 @@ sealed class AddEditPatientDestination : PresentationDestination {
 
     data class PatientSaved(val id: String) : AddEditPatientDestination()
     object Back : AddEditPatientDestination()
-
 }

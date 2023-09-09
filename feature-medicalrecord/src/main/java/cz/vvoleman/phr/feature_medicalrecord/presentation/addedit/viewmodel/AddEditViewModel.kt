@@ -5,6 +5,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import cz.vvoleman.phr.base.presentation.viewmodel.BaseViewModel
 import cz.vvoleman.phr.base.presentation.viewmodel.usecase.UseCaseExecutorProvider
+import cz.vvoleman.phr.common.domain.usecase.GetSelectedPatientUseCase
 import cz.vvoleman.phr.feature_medicalrecord.domain.model.DiagnoseDomainModel
 import cz.vvoleman.phr.feature_medicalrecord.domain.model.MedicalRecordDomainModel
 import cz.vvoleman.phr.feature_medicalrecord.domain.model.add_edit.SearchRequestDomainModel
@@ -13,7 +14,6 @@ import cz.vvoleman.phr.feature_medicalrecord.domain.model.select_file.SaveFileRe
 import cz.vvoleman.phr.feature_medicalrecord.domain.model.select_file.SelectedObjectsDomainModel
 import cz.vvoleman.phr.feature_medicalrecord.domain.usecase.AddEditMedicalRecordUseCase
 import cz.vvoleman.phr.feature_medicalrecord.domain.usecase.GetRecordByIdUseCase
-import cz.vvoleman.phr.common.domain.usecase.GetSelectedPatientUseCase
 import cz.vvoleman.phr.feature_medicalrecord.domain.usecase.GetUserListsUseCase
 import cz.vvoleman.phr.feature_medicalrecord.domain.usecase.add_edit.SearchDiagnoseUseCase
 import cz.vvoleman.phr.feature_medicalrecord.domain.usecase.select_file.GetDataForSelectedOptionsUseCase
@@ -118,7 +118,8 @@ class AddEditViewModel @Inject constructor(
             SearchRequestDomainModel(
                 query,
                 currentViewState.diagnosePage
-            ), ::handleDiagnoseSearch
+            ),
+            ::handleDiagnoseSearch
         )
     }
 
@@ -145,7 +146,6 @@ class AddEditViewModel @Inject constructor(
             domainModel,
             ::handleAddEditResult
         )
-
     }
 
     private fun handleAddEditResult(id: String) = viewModelScope.launch {
@@ -160,8 +160,7 @@ class AddEditViewModel @Inject constructor(
                         uri = file.uri,
                         medicalRecordId = id
                     )
-                )
-                {}
+                ) {}
             }
         }
 
@@ -182,7 +181,7 @@ class AddEditViewModel @Inject constructor(
                 problemCategoryId = data.problemCategory?.id,
                 medicalWorkerId = data.medicalWorker?.id,
                 visitDate = data.visitDate,
-                assets = data.assets.map { AssetPresentationModel(id = it.id, uri = it.url, createdAt = it.createdAt) },
+                assets = data.assets.map { AssetPresentationModel(id = it.id, uri = it.url, createdAt = it.createdAt) }
             )
         )
         Log.d(TAG, "handleRecordInit: $data")
@@ -246,5 +245,4 @@ class AddEditViewModel @Inject constructor(
         val patient = getSelectedPatientUseCase.execute(null).first()
         updateViewState(currentViewState.copy(patientId = patient.id))
     }
-
 }

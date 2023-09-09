@@ -6,5 +6,4 @@ import kotlinx.coroutines.flow.Flow
 interface GetSelectedPatientRepository {
 
     fun getSelectedPatient(): Flow<PatientDomainModel>
-
 }

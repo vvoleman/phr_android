@@ -8,5 +8,5 @@ import java.time.LocalDate
 data class AssetPresentationModel(
     val id: String? = null,
     val createdAt: LocalDate = LocalDate.now(),
-    val uri: String,
-): Parcelable
+    val uri: String
+) : Parcelable

@@ -8,6 +8,5 @@ class TakePhotoUiUseCase : TakePhotoPresentationUseCase {
 
     override fun takePhoto(onSuccess: (InputImage) -> Unit) {
         Log.d("TakePhotoUiUseCase", "takePhoto")
-
     }
 }

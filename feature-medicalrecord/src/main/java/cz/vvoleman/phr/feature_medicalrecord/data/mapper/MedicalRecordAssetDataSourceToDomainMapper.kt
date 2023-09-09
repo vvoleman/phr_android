@@ -13,5 +13,4 @@ class MedicalRecordAssetDataSourceToDomainMapper {
             createdAt = medicalRecordAssetDataSourceModel.createdAt
         )
     }
-
 }

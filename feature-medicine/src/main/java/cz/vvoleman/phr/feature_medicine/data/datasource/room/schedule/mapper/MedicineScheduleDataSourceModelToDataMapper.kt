@@ -6,11 +6,11 @@ import cz.vvoleman.phr.feature_medicine.data.datasource.room.schedule.MedicineSc
 import cz.vvoleman.phr.feature_medicine.data.datasource.room.schedule.ScheduleWithDetailsDataSourceModel
 import cz.vvoleman.phr.feature_medicine.data.model.schedule.MedicineScheduleDataModel
 
-class MedicineScheduleDataSourceModelToDataMapper (
+class MedicineScheduleDataSourceModelToDataMapper(
     private val patientDataSourceMapper: PatientDataSourceModelToDomainMapper,
     private val medicineDataSourceMapper: MedicineDataSourceModelToDataMapper,
-    private val scheduleItemDataSourceMapper: ScheduleItemDataSourceModelToDataMapper,
-        ) {
+    private val scheduleItemDataSourceMapper: ScheduleItemDataSourceModelToDataMapper
+) {
 
     suspend fun toData(model: ScheduleWithDetailsDataSourceModel): MedicineScheduleDataModel {
         return MedicineScheduleDataModel(
@@ -30,5 +30,4 @@ class MedicineScheduleDataSourceModelToDataMapper (
             createdAt = model.createdAt
         )
     }
-
 }

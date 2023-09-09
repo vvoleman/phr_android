@@ -7,10 +7,10 @@ import cz.vvoleman.phr.feature_medicalrecord.data.mapper.FilterRequestDomainMode
 import cz.vvoleman.phr.feature_medicalrecord.data.mapper.MedicalRecordDataSourceToDomainMapper
 import cz.vvoleman.phr.feature_medicalrecord.data.model.FilterRequestDataModel
 import cz.vvoleman.phr.feature_medicalrecord.data.model.FilterRequestStateDataModel
-import cz.vvoleman.phr.feature_medicalrecord.domain.repository.AddEditMedicalRecordRepository
 import cz.vvoleman.phr.feature_medicalrecord.domain.model.MedicalRecordDomainModel
 import cz.vvoleman.phr.feature_medicalrecord.domain.model.add_edit.AddEditDomainModel
 import cz.vvoleman.phr.feature_medicalrecord.domain.model.list.FilterRequestDomainModel
+import cz.vvoleman.phr.feature_medicalrecord.domain.repository.AddEditMedicalRecordRepository
 import cz.vvoleman.phr.feature_medicalrecord.domain.repository.GetRecordByIdRepository
 import cz.vvoleman.phr.feature_medicalrecord.domain.repository.MedicalRecordFilterRepository
 import kotlinx.coroutines.flow.first
@@ -20,7 +20,7 @@ class MedicalRecordRepository(
     private val medicalRecordDao: MedicalRecordDao,
     private val filterRequestDomainModelToDataMapper: FilterRequestDomainModelToDataMapper,
     private val medicalRecordDataSourceToDomainMapper: MedicalRecordDataSourceToDomainMapper,
-    private val addEditDomainModelToToDataSourceMapper: AddEditDomainModelToToDataSourceMapper,
+    private val addEditDomainModelToToDataSourceMapper: AddEditDomainModelToToDataSourceMapper
 ) : AddEditMedicalRecordRepository, MedicalRecordFilterRepository, GetRecordByIdRepository {
 
     override suspend fun save(addEditMedicalRecordModel: AddEditDomainModel): String {
@@ -54,7 +54,10 @@ class MedicalRecordRepository(
                 filterRequest.selectedMedicalWorkerIds,
                 filterRequest.selectedCategoryProblemIds
             )
-            FilterRequestStateDataModel.Empty -> medicalRecordDao.getByPatientId(filterRequest.patientId, filterRequest.sortBy)
+            FilterRequestStateDataModel.Empty -> medicalRecordDao.getByPatientId(
+                filterRequest.patientId,
+                filterRequest.sortBy
+            )
             FilterRequestStateDataModel.Worker -> medicalRecordDao.filterInWorker(
                 filterRequest.patientId,
                 filterRequest.sortBy,
