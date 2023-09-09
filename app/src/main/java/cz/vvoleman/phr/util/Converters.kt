@@ -57,8 +57,9 @@ class Converters {
     fun fromStatesHolder(list: List<SubstanceAmountDataSourceModel>): String {
         return Gson().toJson(list)
     }
+
     @TypeConverter
     fun toStatesHolder(list: String): List<SubstanceAmountDataSourceModel> {
-        return Gson().fromJson(list,List::class.java) as List<SubstanceAmountDataSourceModel>
+        return Gson().fromJson(list, List::class.java) as List<SubstanceAmountDataSourceModel>
     }
 }

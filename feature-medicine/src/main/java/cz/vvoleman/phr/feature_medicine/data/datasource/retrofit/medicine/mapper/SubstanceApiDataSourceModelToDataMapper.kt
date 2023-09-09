@@ -10,11 +10,10 @@ class SubstanceApiDataSourceModelToDataMapper {
         return SubstanceAmountDataModel(
             substance = SubstanceDataModel(
                 id = model.id,
-                name = model.name,
+                name = model.name
             ),
             amount = model.strength,
             unit = ""
         )
     }
-
 }

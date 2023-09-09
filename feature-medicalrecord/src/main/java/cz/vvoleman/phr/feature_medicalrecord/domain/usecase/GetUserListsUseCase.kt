@@ -6,7 +6,7 @@ import cz.vvoleman.phr.feature_medicalrecord.domain.model.add_edit.UserListsDoma
 import cz.vvoleman.phr.feature_medicalrecord.domain.repository.GetMedicalWorkersForPatientRepository
 import cz.vvoleman.phr.feature_medicalrecord.domain.repository.GetProblemCategoriesForPatientRepository
 
-class GetUserListsUseCase (
+class GetUserListsUseCase(
     private val getProblemCategoriesForPatientRepository: GetProblemCategoriesForPatientRepository,
     private val getMedicalWorkersForPatientRepository: GetMedicalWorkersForPatientRepository,
     coroutineContextProvider: CoroutineContextProvider

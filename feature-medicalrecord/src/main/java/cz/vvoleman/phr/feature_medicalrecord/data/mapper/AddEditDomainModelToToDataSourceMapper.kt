@@ -13,8 +13,7 @@ class AddEditDomainModelToToDataSourceMapper {
             problem_category_id = addEditDomainModel.problemCategoryId?.toInt(),
             diagnose_id = addEditDomainModel.diagnoseId,
             visit_date = addEditDomainModel.visitDate,
-            created_at = addEditDomainModel.createdAt,
+            created_at = addEditDomainModel.createdAt
         )
     }
-
 }

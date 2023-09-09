@@ -18,5 +18,5 @@ data class ListMedicalRecordsViewState(
     val allProblemCategories: List<ProblemCategoryDomainModel> = emptyList(),
     val allMedicalWorkers: List<MedicalWorkerDomainModel> = emptyList(),
     val selectedProblemCategories: List<String> = emptyList(),
-    val selectedMedicalWorkers: List<String> = emptyList(),
+    val selectedMedicalWorkers: List<String> = emptyList()
 ) : Parcelable

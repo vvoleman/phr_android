@@ -3,7 +3,6 @@ package cz.vvoleman.phr.base.presentation.viewmodel
 import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import cz.vvoleman.phr.base.domain.exception.DomainException
 import cz.vvoleman.phr.base.domain.usecase.UseCase
@@ -38,11 +37,9 @@ abstract class BaseViewModel<VIEW_STATE : Any, NOTIFICATION : Any>(
         useCaseExecutorProvider(viewModelScope)
     }
 
-
     open fun onInit() {
         _viewState.value = setupState()
     }
-
 
     private fun setupState(): VIEW_STATE {
         return initState()
@@ -76,5 +73,4 @@ abstract class BaseViewModel<VIEW_STATE : Any, NOTIFICATION : Any>(
             _destination.emit(destination)
         }
     }
-
 }

@@ -31,5 +31,4 @@ interface PatientDao {
 
     @Delete
     suspend fun deletePatient(patient: PatientEntity)
-
 }

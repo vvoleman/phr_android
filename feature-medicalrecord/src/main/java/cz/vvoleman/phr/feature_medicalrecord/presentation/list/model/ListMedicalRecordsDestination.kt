@@ -6,5 +6,4 @@ sealed class ListMedicalRecordsDestination : PresentationDestination {
 
     object NewMedicalRecord : ListMedicalRecordsDestination()
     data class EditMedicalRecord(val id: String) : ListMedicalRecordsDestination()
-
 }

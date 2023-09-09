@@ -68,7 +68,7 @@ class DataModule {
         scheduleItemDao: ScheduleItemDao,
         scheduleItemDataSourceMapper: ScheduleItemDataSourceModelToDataMapper,
         scheduleItemDataMapper: ScheduleItemDataModelToDomainMapper,
-        saveScheduleItemMapper: SaveScheduleItemDomainModelToDataMapper,
+        saveScheduleItemMapper: SaveScheduleItemDomainModelToDataMapper
     ) = ScheduleRepository(
         medicineScheduleDao,
         medicineScheduleDataSourceMapper,
@@ -82,27 +82,27 @@ class DataModule {
 
     @Provides
     fun providesGetScheduleByMedicineRepository(
-        scheduleRepository: ScheduleRepository,
+        scheduleRepository: ScheduleRepository
     ): GetScheduleByMedicineRepository = scheduleRepository
 
     @Provides
     fun providesSaveMedicineScheduleRepository(
-        scheduleRepository: ScheduleRepository,
+        scheduleRepository: ScheduleRepository
     ): SaveMedicineScheduleRepository = scheduleRepository
 
     @Provides
     fun providesSaveScheduleItemRepository(
-        scheduleRepository: ScheduleRepository,
+        scheduleRepository: ScheduleRepository
     ): SaveScheduleItemRepository = scheduleRepository
 
     @Provides
     fun providesGetSchedulesByPatientRepository(
-        scheduleRepository: ScheduleRepository,
+        scheduleRepository: ScheduleRepository
     ): GetSchedulesByPatientRepository = scheduleRepository
 
     @Provides
     fun providesSearchMedicineRepository(
-        medicineRepository: MedicineRepository,
+        medicineRepository: MedicineRepository
     ): SearchMedicineRepository = medicineRepository
 
     @Provides
@@ -153,5 +153,4 @@ class DataModule {
         medicineDataModelToDomainMapper,
         saveScheduleItemDomainModelToDataMapper
     )
-
 }

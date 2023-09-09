@@ -7,6 +7,7 @@ import cz.vvoleman.phr.feature_medicalrecord.domain.model.select_file.TextDomain
 
 class TextToTextDomainModelMapper {
 
+    @Suppress("CyclomaticComplexMethod")
     fun toDomain(text: Text): TextDomainModel {
         val blocks = mutableListOf<TextDomainModel>()
         for (block in text.textBlocks) {
@@ -26,7 +27,7 @@ class TextToTextDomainModelMapper {
 
                     elements.add(
                         TextDomainModel(
-                            cornerPoints = element.cornerPoints?.let{cornersToPositions(it)} ?: emptyList(),
+                            cornerPoints = element.cornerPoints?.let { cornersToPositions(it) } ?: emptyList(),
                             texts = emptyList(),
                             value = element.text
                         )
@@ -36,14 +37,14 @@ class TextToTextDomainModelMapper {
                 lines.add(
                     TextDomainModel(
                         texts = elements,
-                        cornerPoints = line.cornerPoints?.let{cornersToPositions(it)} ?: emptyList(),
+                        cornerPoints = line.cornerPoints?.let { cornersToPositions(it) } ?: emptyList()
                     )
                 )
             }
             blocks.add(
                 TextDomainModel(
-                    cornerPoints = block.cornerPoints?.let{cornersToPositions(it)} ?: emptyList(),
-                    texts = lines,
+                    cornerPoints = block.cornerPoints?.let { cornersToPositions(it) } ?: emptyList(),
+                    texts = lines
                 )
             )
         }
@@ -59,7 +60,4 @@ class TextToTextDomainModelMapper {
             Position(point.x, point.y)
         }
     }
-
-
-
 }

@@ -4,4 +4,4 @@ import cz.vvoleman.phr.base.domain.usecase.UseCaseExecutor
 import kotlinx.coroutines.CoroutineScope
 
 typealias UseCaseExecutorProvider =
-        @JvmSuppressWildcards (coroutineScope: CoroutineScope) -> UseCaseExecutor
+    @JvmSuppressWildcards (coroutineScope: CoroutineScope) -> UseCaseExecutor

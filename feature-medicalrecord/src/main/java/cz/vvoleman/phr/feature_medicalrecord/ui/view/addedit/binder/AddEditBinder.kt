@@ -1,11 +1,8 @@
 package cz.vvoleman.phr.feature_medicalrecord.ui.view.addedit.binder
 
 import android.content.Context
-import android.util.Log
-import android.view.View
 import android.widget.ArrayAdapter
 import cz.vvoleman.phr.base.ui.mapper.BaseViewStateBinder
-import cz.vvoleman.phr.common.ui.view.datepicker.DatePicker
 import cz.vvoleman.phr.feature_medicalrecord.databinding.FragmentAddEditMedicalRecordBinding
 import cz.vvoleman.phr.feature_medicalrecord.presentation.addedit.model.AddEditViewState
 import cz.vvoleman.phr.feature_medicalrecord.ui.model.DiagnoseItemUiModel
@@ -16,10 +13,10 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 
-
-class AddEditBinder:
+class AddEditBinder :
     BaseViewStateBinder<AddEditViewState, FragmentAddEditMedicalRecordBinding, AddEditBinder.Notification>(),
-    ImageAdapter.OnAdapterItemListener, DiagnoseDialogSpinner.OnDialogListener {
+    ImageAdapter.OnAdapterItemListener,
+    DiagnoseDialogSpinner.OnDialogListener {
 
     private lateinit var adapter: ImageAdapter
 
@@ -34,14 +31,26 @@ class AddEditBinder:
         adapter.submitList(viewState.assets.map { ImageItemUiModel(it) })
 
         lifecycleScope.launch {
-            viewBinding.spinnerDiagnose.setData(viewState.diagnoseSpinnerList.map { DiagnoseItemUiModel(it.id, it.name) })
+            viewBinding.spinnerDiagnose.setData(
+                viewState.diagnoseSpinnerList.map { DiagnoseItemUiModel(it.id, it.name) }
+            )
         }
 
         viewBinding.spinnerProblemCategory.apply {
-            adapter = ArrayAdapter(fragmentContext, android.R.layout.simple_spinner_item, viewState.allProblemCategories.map { it.name })
+            adapter = ArrayAdapter(
+                fragmentContext, android.R.layout.simple_spinner_item,
+                viewState.allProblemCategories.map {
+                    it.name
+                }
+            )
         }
         viewBinding.spinnerMedicalWorker.apply {
-            adapter = ArrayAdapter(fragmentContext, android.R.layout.simple_spinner_item, viewState.allMedicalWorkers.map { it.name })
+            adapter = ArrayAdapter(
+                fragmentContext, android.R.layout.simple_spinner_item,
+                viewState.allMedicalWorkers.map {
+                    it.name
+                }
+            )
         }
     }
 

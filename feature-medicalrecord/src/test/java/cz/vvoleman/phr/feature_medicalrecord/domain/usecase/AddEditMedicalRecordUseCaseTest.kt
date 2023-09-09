@@ -40,7 +40,7 @@ class AddEditMedicalRecordUseCaseTest {
         val request = AddEditDomainModel(
             createdAt = LocalDate.now(),
             patientId = "#1",
-            visitDate = LocalDate.now(),
+            visitDate = LocalDate.now()
         )
         val willReturn = "123"
 

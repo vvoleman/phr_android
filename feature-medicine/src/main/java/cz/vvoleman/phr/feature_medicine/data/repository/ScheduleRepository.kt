@@ -9,14 +9,12 @@ import cz.vvoleman.phr.feature_medicine.data.mapper.schedule.SaveMedicineSchedul
 import cz.vvoleman.phr.feature_medicine.data.mapper.schedule.SaveScheduleItemDomainModelToDataMapper
 import cz.vvoleman.phr.feature_medicine.data.mapper.schedule.ScheduleItemDataModelToDomainMapper
 import cz.vvoleman.phr.feature_medicine.domain.model.schedule.MedicineScheduleDomainModel
-import cz.vvoleman.phr.feature_medicine.domain.model.schedule.save.SaveScheduleItemDomainModel
 import cz.vvoleman.phr.feature_medicine.domain.model.schedule.ScheduleItemDomainModel
 import cz.vvoleman.phr.feature_medicine.domain.model.schedule.save.SaveMedicineScheduleDomainModel
-import cz.vvoleman.phr.feature_medicine.domain.model.timeline.SchedulesInRangeRequestDomainModel
-import cz.vvoleman.phr.feature_medicine.domain.repository.SaveScheduleItemRepository
+import cz.vvoleman.phr.feature_medicine.domain.model.schedule.save.SaveScheduleItemDomainModel
 import cz.vvoleman.phr.feature_medicine.domain.repository.GetScheduleByMedicineRepository
 import cz.vvoleman.phr.feature_medicine.domain.repository.SaveMedicineScheduleRepository
-import cz.vvoleman.phr.feature_medicine.domain.repository.timeline.GetScheduledInTimeRangeRepository
+import cz.vvoleman.phr.feature_medicine.domain.repository.SaveScheduleItemRepository
 import cz.vvoleman.phr.feature_medicine.domain.repository.timeline.GetSchedulesByPatientRepository
 import kotlinx.coroutines.flow.first
 
@@ -28,8 +26,10 @@ class ScheduleRepository(
     private val scheduleItemDao: ScheduleItemDao,
     private val scheduleItemDataSourceMapper: ScheduleItemDataSourceModelToDataMapper,
     private val scheduleItemDataMapper: ScheduleItemDataModelToDomainMapper,
-    private val saveScheduleItemMapper: SaveScheduleItemDomainModelToDataMapper,
-) : GetScheduleByMedicineRepository, SaveMedicineScheduleRepository, SaveScheduleItemRepository,
+    private val saveScheduleItemMapper: SaveScheduleItemDomainModelToDataMapper
+) : GetScheduleByMedicineRepository,
+    SaveMedicineScheduleRepository,
+    SaveScheduleItemRepository,
     GetSchedulesByPatientRepository {
 
     override suspend fun getScheduleByMedicine(
@@ -89,5 +89,4 @@ class ScheduleRepository(
 
         return scheduleItemDao.insert(saveModel).toString()
     }
-
 }

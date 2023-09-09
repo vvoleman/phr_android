@@ -15,7 +15,7 @@ data class MedicalRecordAssetEntity(
     val createdAt: LocalDate
 ) {
 
-    companion object{
+    companion object {
         fun from(asset: MedicalRecordAsset, recordId: Int) {
             MedicalRecordAssetEntity(
                 id = asset.id ?: 0,
@@ -27,7 +27,7 @@ data class MedicalRecordAssetEntity(
         }
     }
 
-    fun toMedicalRecordAsset() : MedicalRecordAsset {
+    fun toMedicalRecordAsset(): MedicalRecordAsset {
         return MedicalRecordAsset(
             id = id,
             type = type,
@@ -35,5 +35,4 @@ data class MedicalRecordAssetEntity(
             createdAt = createdAt
         )
     }
-
 }

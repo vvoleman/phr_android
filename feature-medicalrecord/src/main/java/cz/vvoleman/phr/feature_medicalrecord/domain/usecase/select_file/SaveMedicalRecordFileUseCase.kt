@@ -8,11 +8,11 @@ import cz.vvoleman.phr.feature_medicalrecord.domain.model.select_file.SaveFileRe
 import cz.vvoleman.phr.feature_medicalrecord.domain.repository.CreateMedicalRecordAssetRepository
 import cz.vvoleman.phr.feature_medicalrecord.domain.repository.select_file.SaveFileRepository
 
-class SaveMedicalRecordFileUseCase (
+class SaveMedicalRecordFileUseCase(
     private val createMedicalRecordAssetRepository: CreateMedicalRecordAssetRepository,
     private val saveFileRepository: SaveFileRepository,
     coroutineContextProvider: CoroutineContextProvider
-        ) : BackgroundExecutingUseCase<SaveFileRequestDomainModel, Boolean>(coroutineContextProvider) {
+) : BackgroundExecutingUseCase<SaveFileRequestDomainModel, Boolean>(coroutineContextProvider) {
 
     override suspend fun executeInBackground(request: SaveFileRequestDomainModel): Boolean {
         val filePath = saveFileRepository.saveFile(request.uri)

@@ -5,5 +5,5 @@ data class MedicineUiModel(
     val name: String,
     val packaging: PackagingUiModel,
     val country: String,
-    val substances: List<SubstanceAmountUiModel>,
+    val substances: List<SubstanceAmountUiModel>
 )

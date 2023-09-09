@@ -15,7 +15,9 @@ class ListPatientsDestinationUiMapper(navManager: NavManager) : DestinationUiMap
                 navManager.navigate(action)
             }
             is ListPatientsDestination.EditPatient -> {
-                val action = ListPatientsFragmentDirections.actionListPatientsFragmentToAddEditPatientFragment(patientId = dest.id)
+                val action = ListPatientsFragmentDirections.actionListPatientsFragmentToAddEditPatientFragment(
+                    patientId = dest.id
+                )
                 navManager.navigate(action)
             }
             is ListPatientsDestination.PatientSelected -> TODO()

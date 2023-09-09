@@ -12,5 +12,5 @@ data class MedicalWorkerDataSourceModel(
     val patientId: Int,
     val email: String?,
     val phone: String?,
-    @Embedded val address: AddressDataSourceModel,
+    @Embedded val address: AddressDataSourceModel
 )

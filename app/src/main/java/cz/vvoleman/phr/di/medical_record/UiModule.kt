@@ -25,7 +25,10 @@ import dagger.hilt.components.SingletonComponent
 class UiModule {
 
     @Provides
-    fun providesButtonViewStateBinder(uiMapper: GroupedItemsDomainModelToUiMapper, radio: GroupByDomainModelViewIdMapper): ViewStateBinder<ListMedicalRecordsViewState, FragmentListMedicalRecordsBinding> =
+    fun providesButtonViewStateBinder(
+        uiMapper: GroupedItemsDomainModelToUiMapper,
+        radio: GroupByDomainModelViewIdMapper
+    ): ViewStateBinder<ListMedicalRecordsViewState, FragmentListMedicalRecordsBinding> =
         MedicalRecordsBinder(uiMapper, radio)
 
     @Provides
@@ -37,13 +40,21 @@ class UiModule {
         SelectFileBinder()
 
     @Provides
-    fun providesListMedicalRecordsDestinationUiMapper(navManager: NavManager): DestinationUiMapper = ListMedicalRecordsDestinationUiMapper(navManager)
+    fun providesListMedicalRecordsDestinationUiMapper(
+        navManager: NavManager
+    ): DestinationUiMapper = ListMedicalRecordsDestinationUiMapper(
+        navManager
+    )
 
     @Provides
     fun providesMedicalRecordDomainToUiMapper() = MedicalRecorDomainModelToUiMapper()
 
     @Provides
-    fun providesGroupedItemsDomainToUiMapper(mapper: MedicalRecorDomainModelToUiMapper) = GroupedItemsDomainModelToUiMapper(mapper)
+    fun providesGroupedItemsDomainToUiMapper(
+        mapper: MedicalRecorDomainModelToUiMapper
+    ) = GroupedItemsDomainModelToUiMapper(
+        mapper
+    )
 
     @Provides
     fun providesGroupByDomainModelViewIdMapper() = GroupByDomainModelViewIdMapper()
@@ -56,5 +67,4 @@ class UiModule {
 
     @Provides
     fun providesTakePhotoPresentationUseCase(): TakePhotoPresentationUseCase = TakePhotoUiUseCase()
-
 }

@@ -17,5 +17,4 @@ class MedicalWorkerDataSourceToDomainMapper(
             address = addressMapper.toDomain(medicalWorker.address)
         )
     }
-
 }

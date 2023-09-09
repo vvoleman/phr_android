@@ -14,7 +14,7 @@ class MedicineDataModelToDomainMapper(
             name = model.name,
             packaging = packagingMapper.toDomain(model.packaging),
             country = model.country,
-            substances = model.substances.map { substanceAmountMapper.toDomain(it) },
+            substances = model.substances.map { substanceAmountMapper.toDomain(it) }
         )
     }
 
@@ -24,8 +24,7 @@ class MedicineDataModelToDomainMapper(
             name = model.name,
             packaging = packagingMapper.toData(model.packaging),
             country = model.country,
-            substances = model.substances.map { substanceAmountMapper.toData(it) },
+            substances = model.substances.map { substanceAmountMapper.toData(it) }
         )
     }
-
 }

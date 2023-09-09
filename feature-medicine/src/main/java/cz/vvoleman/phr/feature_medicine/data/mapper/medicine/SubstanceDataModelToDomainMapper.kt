@@ -8,15 +8,14 @@ class SubstanceDataModelToDomainMapper {
     fun toDomain(model: SubstanceDataModel): SubstanceDomainModel {
         return SubstanceDomainModel(
             id = model.id,
-            name = model.name,
+            name = model.name
         )
     }
 
     fun toData(model: SubstanceDomainModel): SubstanceDataModel {
         return SubstanceDataModel(
             id = model.id,
-            name = model.name,
+            name = model.name
         )
     }
-
 }

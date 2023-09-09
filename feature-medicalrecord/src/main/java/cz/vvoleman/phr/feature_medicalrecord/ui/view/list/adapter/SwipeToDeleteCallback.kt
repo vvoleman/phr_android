@@ -19,5 +19,4 @@ class SwipeToDeleteCallback(
         val position = viewHolder.bindingAdapterPosition
         adapter.deleteItem(position)
     }
-
 }

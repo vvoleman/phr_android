@@ -80,5 +80,4 @@ class PresentationModule {
 
     @Provides
     fun providesPatientPresentationModelToDomainMapper() = PatientPresentationModelToDomainMapper()
-
 }

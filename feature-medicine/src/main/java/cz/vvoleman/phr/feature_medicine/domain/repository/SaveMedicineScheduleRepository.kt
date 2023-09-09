@@ -6,5 +6,4 @@ import cz.vvoleman.phr.feature_medicine.domain.model.schedule.save.SaveMedicineS
 interface SaveMedicineScheduleRepository {
 
     suspend fun saveMedicineSchedule(medicineSchedule: SaveMedicineScheduleDomainModel): MedicineScheduleDomainModel
-
 }

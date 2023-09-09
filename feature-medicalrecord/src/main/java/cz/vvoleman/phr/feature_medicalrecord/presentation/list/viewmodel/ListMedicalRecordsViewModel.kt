@@ -3,19 +3,19 @@ package cz.vvoleman.phr.feature_medicalrecord.presentation.list.viewmodel
 import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
-import cz.vvoleman.phr.common.domain.GroupedItemsDomainModel
 import cz.vvoleman.phr.base.presentation.viewmodel.BaseViewModel
 import cz.vvoleman.phr.base.presentation.viewmodel.usecase.UseCaseExecutorProvider
 import cz.vvoleman.phr.common.data.datasource.model.PatientDataStore
+import cz.vvoleman.phr.common.domain.GroupedItemsDomainModel
 import cz.vvoleman.phr.common.domain.event.PatientDeletedEvent
 import cz.vvoleman.phr.common.domain.model.PatientDomainModel
+import cz.vvoleman.phr.common.domain.usecase.GetSelectedPatientUseCase
 import cz.vvoleman.phr.feature_medicalrecord.domain.model.MedicalRecordDomainModel
+import cz.vvoleman.phr.feature_medicalrecord.domain.model.MedicalWorkerDomainModel
 import cz.vvoleman.phr.feature_medicalrecord.domain.model.ProblemCategoryDomainModel
 import cz.vvoleman.phr.feature_medicalrecord.domain.model.list.GroupByDomainModel
-import cz.vvoleman.phr.feature_medicalrecord.domain.usecase.GetFilteredRecordsUseCase
-import cz.vvoleman.phr.common.domain.usecase.GetSelectedPatientUseCase
-import cz.vvoleman.phr.feature_medicalrecord.domain.model.MedicalWorkerDomainModel
 import cz.vvoleman.phr.feature_medicalrecord.domain.usecase.DeletePatientUseCase
+import cz.vvoleman.phr.feature_medicalrecord.domain.usecase.GetFilteredRecordsUseCase
 import cz.vvoleman.phr.feature_medicalrecord.domain.usecase.GetUsedMedicalWorkersUseCase
 import cz.vvoleman.phr.feature_medicalrecord.domain.usecase.GetUsedProblemCategoriesUseCase
 import cz.vvoleman.phr.feature_medicalrecord.presentation.list.mapper.ListViewStateToDomainMapper
@@ -93,7 +93,7 @@ class ListMedicalRecordsViewModel @Inject constructor(
 
     fun onEventPatientDeleted(event: PatientDeletedEvent) = viewModelScope.launch {
         Log.d(TAG, "Patient deleted: ${event.patient.id}")
-        deletePatientUseCase.execute(event.patient){}
+        deletePatientUseCase.execute(event.patient) {}
     }
 
     fun onSelect() {
@@ -143,5 +143,4 @@ class ListMedicalRecordsViewModel @Inject constructor(
     companion object {
         private const val STATE = "ListMedicalRecordsViewState"
     }
-
 }

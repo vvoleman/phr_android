@@ -7,7 +7,7 @@ import cz.vvoleman.phr.feature_medicine.domain.model.schedule.MedicineScheduleDo
 class MedicineScheduleDataModelToDomainMapper(
     private val scheduleItemDataMapper: ScheduleItemDataModelToDomainMapper,
     private val medicineDataMapper: MedicineDataModelToDomainMapper
-    ) {
+) {
 
     fun toDomain(model: MedicineScheduleDataModel): MedicineScheduleDomainModel {
         return MedicineScheduleDomainModel(
@@ -28,5 +28,4 @@ class MedicineScheduleDataModelToDomainMapper(
             createdAt = model.createdAt
         )
     }
-
 }

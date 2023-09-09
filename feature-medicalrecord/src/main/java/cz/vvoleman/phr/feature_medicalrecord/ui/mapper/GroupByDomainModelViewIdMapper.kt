@@ -21,5 +21,4 @@ class GroupByDomainModelViewIdMapper {
             else -> throw IllegalArgumentException("Unknown view id: $viewId")
         }
     }
-
 }

@@ -5,5 +5,4 @@ import com.google.mlkit.vision.text.Text
 interface FieldProcessor<T> {
 
     suspend fun process(text: Text): List<T>
-
 }

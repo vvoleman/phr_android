@@ -1,7 +1,6 @@
 package cz.vvoleman.phr.feature_medicalrecord.domain.usecase.select_file.ocr
 
 import android.util.Log
-import com.google.mlkit.vision.text.Text
 import cz.vvoleman.phr.feature_medicalrecord.domain.model.select_file.RecognizedOptionsDomainModel
 import cz.vvoleman.phr.feature_medicalrecord.domain.model.select_file.TextDomainModel
 import cz.vvoleman.phr.feature_medicalrecord.domain.usecase.select_file.ocr.field.DateFieldProcessor

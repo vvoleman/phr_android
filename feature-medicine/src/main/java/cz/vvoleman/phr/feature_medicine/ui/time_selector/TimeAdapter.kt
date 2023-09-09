@@ -44,5 +44,4 @@ class TimeAdapter : ListAdapter<TimeUiModel, TimeAdapter.TimeViewHolder>(DiffCal
             return oldItem == newItem
         }
     }
-
 }

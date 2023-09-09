@@ -6,5 +6,5 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "product_form")
 data class ProductFormDataSourceModel(
     @PrimaryKey val id: String,
-    val name: String,
+    val name: String
 )

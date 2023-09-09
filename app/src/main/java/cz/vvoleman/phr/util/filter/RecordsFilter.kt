@@ -39,12 +39,10 @@ class RecordsFilter(
     suspend fun toggleFacility(facilityId: Int) {
         val facilities = selectedFacilities.value.toMutableList()
         if (facilities.contains(facilityId)) {
-            facilities.remove(facilityId);
+            facilities.remove(facilityId)
         } else {
             facilities.add(facilityId)
         }
         selectedFacilities.value = facilities
     }
-
-
 }

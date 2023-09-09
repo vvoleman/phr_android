@@ -7,9 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.google.mlkit.vision.common.InputImage
 import cz.vvoleman.phr.base.presentation.viewmodel.BaseViewModel
 import cz.vvoleman.phr.base.presentation.viewmodel.usecase.UseCaseExecutorProvider
-import cz.vvoleman.phr.feature_medicalrecord.domain.model.MedicalRecordAssetDomainModel
 import cz.vvoleman.phr.feature_medicalrecord.domain.model.select_file.GetTextFromInputImageResultDomainModel
-import cz.vvoleman.phr.feature_medicalrecord.domain.model.select_file.SelectedOptionsDomainModel
 import cz.vvoleman.phr.feature_medicalrecord.domain.model.select_file.TextDomainModel
 import cz.vvoleman.phr.feature_medicalrecord.domain.usecase.select_file.GetRecognizedOptionsFromTextUseCase
 import cz.vvoleman.phr.feature_medicalrecord.domain.usecase.select_file.GetTextFromInputImageUseCase
@@ -20,7 +18,6 @@ import cz.vvoleman.phr.feature_medicalrecord.presentation.select_file.model.Sele
 import cz.vvoleman.phr.feature_medicalrecord.presentation.select_file.model.SelectFileNotification
 import cz.vvoleman.phr.feature_medicalrecord.presentation.select_file.model.SelectFileViewState
 import cz.vvoleman.phr.feature_medicalrecord.presentation.select_file.model.SelectedOptionsPresentationModel
-import cz.vvoleman.phr.feature_medicalrecord.presentation.select_file.usecase.TakePhotoPresentationUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.time.LocalDate
@@ -39,7 +36,7 @@ class SelectFileViewModel @Inject constructor(
 ) {
 
     override val TAG = "SelectFileViewModel"
-;
+
     override fun initState(): SelectFileViewState {
         return SelectFileViewState()
     }
@@ -60,7 +57,7 @@ class SelectFileViewModel @Inject constructor(
         val selected = SelectedOptionsPresentationModel(
             diagnoseId = diagnose,
             visitDate = LocalDate.parse(visitDate),
-            patientId = patient,
+            patientId = patient
         )
 
         updateViewState(currentViewState.copy(selectedOptions = selected))
@@ -76,7 +73,13 @@ class SelectFileViewModel @Inject constructor(
             ?: throw IllegalStateException("Parent view state not found")
 
         if (currentViewState.selectedOptions != null) {
-            navigateTo(SelectFileDestination.SuccessWithOptions(parentViewState, currentViewState.selectedOptions!!, currentViewState.asset!!))
+            navigateTo(
+                SelectFileDestination.SuccessWithOptions(
+                    parentViewState,
+                    currentViewState.selectedOptions!!,
+                    currentViewState.asset!!
+                )
+            )
         } else {
             navigateTo(SelectFileDestination.Success(parentViewState, currentViewState.asset!!))
         }
@@ -129,5 +132,4 @@ class SelectFileViewModel @Inject constructor(
             notify(SelectFileNotification.OptionsRecognized)
         }
     }
-
 }

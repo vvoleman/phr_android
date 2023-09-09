@@ -7,7 +7,7 @@ data class AlarmItem(
     val id: String,
     val time: LocalDateTime,
     val content: Parcelable,
-    val receiver: Class<*>,
+    val receiver: Class<*>
 ) {
     companion object {
         const val CONTENT_KEY = "content"

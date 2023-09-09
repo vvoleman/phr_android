@@ -15,7 +15,7 @@ import javax.inject.Singleton
 
 private const val TAG = "PreferencesManager"
 
-enum class OrderRecordsBy { BY_DATE, BY_MEDICAL_WORKER, BY_CATEGORY}
+enum class OrderRecordsBy { BY_DATE, BY_MEDICAL_WORKER, BY_CATEGORY }
 
 data class UserPreferences(val patientId: Int, val orderRecordsBy: OrderRecordsBy)
 
@@ -57,5 +57,4 @@ class PreferencesManager @Inject constructor(@ApplicationContext context: Contex
         val PATIENT_ID = preferencesKey<Int>("patient_id")
         val ORDER_RECORDS_BY = preferencesKey<String>("order_records_by")
     }
-
 }

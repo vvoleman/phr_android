@@ -2,8 +2,8 @@ package cz.vvoleman.phr.feature_medicalrecord.domain.usecase
 
 import android.util.Log
 import cz.vvoleman.phr.base.domain.coroutine.CoroutineContextProvider
-import cz.vvoleman.phr.common.domain.GroupedItemsDomainModel
 import cz.vvoleman.phr.base.domain.usecase.BackgroundExecutingUseCase
+import cz.vvoleman.phr.common.domain.GroupedItemsDomainModel
 import cz.vvoleman.phr.common.domain.repository.GetSelectedPatientRepository
 import cz.vvoleman.phr.feature_medicalrecord.domain.model.MedicalRecordDomainModel
 import cz.vvoleman.phr.feature_medicalrecord.domain.model.list.FilterRequestDomainModel
@@ -86,5 +86,4 @@ class GetFilteredRecordsUseCase(
 
         return map.map { GroupedItemsDomainModel(it.key, it.value.toList()) }
     }
-
 }

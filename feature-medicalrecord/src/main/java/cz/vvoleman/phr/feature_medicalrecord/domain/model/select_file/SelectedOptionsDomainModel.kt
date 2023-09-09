@@ -1,7 +1,5 @@
 package cz.vvoleman.phr.feature_medicalrecord.domain.model.select_file
 
-import cz.vvoleman.phr.feature_medicalrecord.domain.model.DiagnoseDomainModel
-import cz.vvoleman.phr.feature_medicalrecord.domain.model.PatientDomainModel
 import java.time.LocalDate
 
 data class SelectedOptionsDomainModel(

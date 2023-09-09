@@ -83,6 +83,4 @@ class UiModule {
     fun providesTimeUiModelToPresentationMapper(): TimeUiModelToPresentationMapper {
         return TimeUiModelToPresentationMapper()
     }
-
-
 }

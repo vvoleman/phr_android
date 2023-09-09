@@ -3,7 +3,7 @@ package cz.vvoleman.phr.feature_medicine.data.datasource.room.medicine
 import androidx.room.Embedded
 import androidx.room.Relation
 
-data class MedicineWithDetails (
+data class MedicineWithDetails(
     @Embedded val medicine: MedicineDataSourceModel,
 
     @Relation(

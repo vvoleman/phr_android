@@ -9,8 +9,7 @@ class PatientDataSourceToDomainMapper {
         return PatientDomainModel(
             id = patient.id.toString(),
             name = patient.name,
-            birthDate = patient.birth_date,
+            birthDate = patient.birth_date
         )
     }
-
 }

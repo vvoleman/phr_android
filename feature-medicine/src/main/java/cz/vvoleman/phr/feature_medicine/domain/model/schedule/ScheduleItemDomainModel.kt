@@ -11,5 +11,5 @@ data class ScheduleItemDomainModel(
     val scheduledAt: LocalDateTime,
     val endingAt: LocalDateTime? = null,
     val quantity: String,
-    val description: String? = null,
+    val description: String? = null
 )

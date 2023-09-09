@@ -13,5 +13,5 @@ data class Facility(
     val phone: String?,
     val email: String?,
     val fax: String?,
-    val website: String?,
+    val website: String?
 )

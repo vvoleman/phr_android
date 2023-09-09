@@ -15,5 +15,4 @@ interface BackendApi {
         @Query("page") page: Int,
         @Query("per_page") per_page: Int
     ): DiagnoseResponse
-
 }

@@ -26,5 +26,4 @@ interface DiagnoseDao {
 
     @Delete
     suspend fun delete(diagnose: DiagnoseEntity)
-
 }

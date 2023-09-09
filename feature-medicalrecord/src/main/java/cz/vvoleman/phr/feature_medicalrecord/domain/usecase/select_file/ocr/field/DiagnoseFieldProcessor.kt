@@ -8,7 +8,7 @@ import cz.vvoleman.phr.feature_medicalrecord.domain.usecase.select_file.ocr.Fiel
 
 class DiagnoseFieldProcessor(
     private val getDiagnosesByIdsRepository: GetDiagnosesByIdsRepository
-): FieldProcessor<DiagnoseFieldResultDomainModel> {
+) : FieldProcessor<DiagnoseFieldResultDomainModel> {
 
     private val regexp = "[A-TV-Z][0-9][0-9AB]\\.?[0-9A-TV-Z]{0,4}"
 
@@ -25,5 +25,4 @@ class DiagnoseFieldProcessor(
             .getDiagnosesByIds(ids)
             .map { DiagnoseFieldResultDomainModel(it) }
     }
-
 }

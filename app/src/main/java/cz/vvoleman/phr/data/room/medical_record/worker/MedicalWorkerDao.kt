@@ -27,5 +27,4 @@ interface MedicalWorkerDao {
 
     @Delete
     suspend fun delete(medicalWorker: MedicalWorkerEntity)
-
 }

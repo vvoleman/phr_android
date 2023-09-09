@@ -27,5 +27,4 @@ interface PatientDao {
 
     @Delete
     suspend fun delete(patient: PatientDataSourceModel)
-
 }

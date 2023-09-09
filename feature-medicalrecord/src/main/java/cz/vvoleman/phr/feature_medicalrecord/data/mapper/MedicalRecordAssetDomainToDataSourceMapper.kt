@@ -1,7 +1,6 @@
 package cz.vvoleman.phr.feature_medicalrecord.data.mapper
 
 import cz.vvoleman.phr.feature_medicalrecord.data.datasource.model.room.asset.MedicalRecordAssetDataSourceModel
-import cz.vvoleman.phr.feature_medicalrecord.domain.model.MedicalRecordAssetDomainModel
 import cz.vvoleman.phr.feature_medicalrecord.domain.model.select_file.AddMedicalRecordAssetDomainModel
 
 class MedicalRecordAssetDomainToDataSourceMapper {
@@ -13,5 +12,4 @@ class MedicalRecordAssetDomainToDataSourceMapper {
             createdAt = model.createdAt
         )
     }
-
 }

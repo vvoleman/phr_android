@@ -5,5 +5,4 @@ import cz.vvoleman.phr.feature_medicine.domain.model.medicine.MedicineDomainMode
 interface AddMedicineRepository {
 
     suspend fun addMedicine(medicine: MedicineDomainModel)
-
 }

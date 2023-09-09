@@ -12,5 +12,4 @@ class SelectedOptionsPresentationToDomainMapper {
             patientId = model.patientId
         )
     }
-
 }

@@ -32,18 +32,17 @@ data class MedicalRecordWithDetails(
         parentColumn = "id",
         entityColumn = "medical_record_id"
     )
-    val assets: List<MedicalRecordAssetEntity>,
+    val assets: List<MedicalRecordAssetEntity>
 ) {
 
-    fun toMedicalRecord() : MedicalRecord {
+    fun toMedicalRecord(): MedicalRecord {
         return MedicalRecord(
             id = medicalRecord.id,
             patient = patient.toPatient(),
             diagnose = diagnose?.toDiagnose(),
             medicalWorker = medicalWorker?.toMedicalWorker(),
             createdAt = medicalRecord.created_at,
-            assets = assets.map { it.toMedicalRecordAsset() },
+            assets = assets.map { it.toMedicalRecordAsset() }
         )
     }
-
 }

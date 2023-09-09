@@ -41,5 +41,4 @@ interface DiagnoseDao {
     @Transaction
     @Delete
     suspend fun delete(diagnose: DiagnoseDataSourceModel)
-
 }

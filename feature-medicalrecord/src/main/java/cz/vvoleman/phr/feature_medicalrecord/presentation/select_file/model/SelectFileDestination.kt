@@ -10,10 +10,9 @@ class SelectFileDestination : PresentationDestination {
     data class SuccessWithOptions(
         val parentViewState: AddEditViewState,
         val selectedOptions: SelectedOptionsPresentationModel,
-        val fileAsset: AssetPresentationModel,
+        val fileAsset: AssetPresentationModel
     ) : PresentationDestination
 
     data class Success(val parentViewState: AddEditViewState, val fileAsset: AssetPresentationModel) :
         PresentationDestination
-
 }

@@ -7,7 +7,6 @@ import cz.vvoleman.phr.feature_medicine.data.datasource.retrofit.medicine.mapper
 import cz.vvoleman.phr.feature_medicine.data.datasource.retrofit.medicine.mapper.PackagingApiDataSourceModelToDataMapper
 import cz.vvoleman.phr.feature_medicine.data.datasource.retrofit.medicine.mapper.ProductFormApiDataSourceModelToDataMapper
 import cz.vvoleman.phr.feature_medicine.data.datasource.retrofit.medicine.mapper.SubstanceApiDataSourceModelToDataMapper
-import cz.vvoleman.phr.feature_medicine.data.datasource.room.medicine.SubstanceAmountDataSourceModel
 import cz.vvoleman.phr.feature_medicine.data.datasource.room.medicine.dao.ProductFormDao
 import cz.vvoleman.phr.feature_medicine.data.datasource.room.medicine.dao.SubstanceDao
 import cz.vvoleman.phr.feature_medicine.data.datasource.room.medicine.mapper.*
@@ -73,10 +72,8 @@ class DataSourceModule {
         substanceAmountDataSourceModelToDataMapper
     )
 
-
     @Provides
     fun providesSubstanceApiDataSourceModelToDataMapper() = SubstanceApiDataSourceModelToDataMapper()
-
 
     @Provides
     fun providesProductFormApiDataSourceModelToDataMapper() = ProductFormApiDataSourceModelToDataMapper()
@@ -104,7 +101,7 @@ class DataSourceModule {
     fun providesMedicineDataToDataSourceModelMapper(
         patientDataSourceModelToDomainMapper: PatientDataSourceModelToDomainMapper,
         medicineDataSourceModelToDataMapper: MedicineDataSourceModelToDataMapper,
-        scheduleItemDataSourceModelToDataMapper: ScheduleItemDataSourceModelToDataMapper,
+        scheduleItemDataSourceModelToDataMapper: ScheduleItemDataSourceModelToDataMapper
     ) = MedicineScheduleDataSourceModelToDataMapper(
         patientDataSourceModelToDomainMapper,
         medicineDataSourceModelToDataMapper,

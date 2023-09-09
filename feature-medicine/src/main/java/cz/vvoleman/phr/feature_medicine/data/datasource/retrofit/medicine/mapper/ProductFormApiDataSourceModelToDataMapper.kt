@@ -8,8 +8,7 @@ class ProductFormApiDataSourceModelToDataMapper {
     fun toData(model: ProductFormApiDataSourceModel): ProductFormDataModel {
         return ProductFormDataModel(
             id = model.id,
-            name = model.name,
+            name = model.name
         )
     }
-
 }

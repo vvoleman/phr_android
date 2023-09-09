@@ -2,7 +2,6 @@ package cz.vvoleman.phr.common.data.repository
 
 import android.util.Log
 import cz.vvoleman.phr.common.data.datasource.model.PatientDao
-import cz.vvoleman.phr.common.data.datasource.model.PatientDataSourceModel
 import cz.vvoleman.phr.common.data.datasource.model.PatientDataStore
 import cz.vvoleman.phr.common.data.mapper.PatientDataSourceModelToAddEditMapper
 import cz.vvoleman.phr.common.data.mapper.PatientDataSourceModelToDomainMapper

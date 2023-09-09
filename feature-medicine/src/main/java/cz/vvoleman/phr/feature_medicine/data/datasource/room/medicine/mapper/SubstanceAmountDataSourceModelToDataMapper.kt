@@ -26,5 +26,4 @@ class SubstanceAmountDataSourceModelToDataMapper(
             amount = model.amount
         )
     }
-
 }

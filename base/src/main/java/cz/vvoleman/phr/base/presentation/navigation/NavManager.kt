@@ -13,5 +13,4 @@ class NavManager {
     fun setOnNavEvent(navEventListener: (navDirections: NavDirections) -> Unit) {
         this.navEventListener = navEventListener
     }
-
 }

@@ -23,9 +23,7 @@ import cz.vvoleman.phr.common.presentation.model.listpatients.ListPatientsViewSt
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import org.greenrobot.eventbus.EventBus
-import java.time.LocalDate
 import java.time.LocalDateTime
-import java.time.temporal.TemporalAmount
 import javax.inject.Inject
 
 @HiltViewModel
@@ -62,7 +60,7 @@ class ListPatientsViewModel @Inject constructor(
 
     fun onPatientSwitch(id: String) = viewModelScope.launch {
         val item = AlarmItem(
-            "switch-${id}",
+            "switch-$id",
             LocalDateTime.now().plusSeconds(5),
             TestContent(id),
             AlarmReceiver::class.java

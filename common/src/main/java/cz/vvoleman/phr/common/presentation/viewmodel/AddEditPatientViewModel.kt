@@ -10,7 +10,6 @@ import cz.vvoleman.phr.common.domain.model.AddEditPatientDomainModel
 import cz.vvoleman.phr.common.domain.usecase.addedit.GetPatientByIdUseCase
 import cz.vvoleman.phr.common.domain.usecase.addedit.SavePatientUseCase
 import cz.vvoleman.phr.common.presentation.mapper.PatientPresentationModelToDomainMapper
-import cz.vvoleman.phr.common.presentation.model.PatientPresentationModel
 import cz.vvoleman.phr.common.presentation.model.addedit.AddEditPatientDestination
 import cz.vvoleman.phr.common.presentation.model.addedit.AddEditPatientNotification
 import cz.vvoleman.phr.common.presentation.model.addedit.AddEditViewState
@@ -50,7 +49,7 @@ class AddEditPatientViewModel @Inject constructor(
         Log.d(TAG, "onSave: $name, $birthDate")
         if (!validateInput(name, birthDate)) return@launch
 
-        val model = AddEditPatientDomainModel(id = currentViewState.patient?.id, name=name!!, birthDate = birthDate)
+        val model = AddEditPatientDomainModel(id = currentViewState.patient?.id, name = name!!, birthDate = birthDate)
         savePatientUseCase.execute(model) {
             val presentationModel = patientPresentationModelToDomainMapper.toPresentation(it)
             notify(AddEditPatientNotification.PatientSaved(presentationModel))

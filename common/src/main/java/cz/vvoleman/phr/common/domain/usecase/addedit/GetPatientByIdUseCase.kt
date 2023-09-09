@@ -5,10 +5,10 @@ import cz.vvoleman.phr.base.domain.usecase.BackgroundExecutingUseCase
 import cz.vvoleman.phr.common.domain.model.PatientDomainModel
 import cz.vvoleman.phr.common.domain.repository.GetPatientByIdRepository
 
-class GetPatientByIdUseCase (
+class GetPatientByIdUseCase(
     private val getPatientByIdRepository: GetPatientByIdRepository,
     coroutineContextProvider: CoroutineContextProvider
-        ) : BackgroundExecutingUseCase<String, PatientDomainModel?>(coroutineContextProvider) {
+) : BackgroundExecutingUseCase<String, PatientDomainModel?>(coroutineContextProvider) {
 
     override suspend fun executeInBackground(request: String): PatientDomainModel? {
         return getPatientByIdRepository.getById(request)

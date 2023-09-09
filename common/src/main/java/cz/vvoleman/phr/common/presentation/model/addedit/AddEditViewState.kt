@@ -5,7 +5,7 @@ import cz.vvoleman.phr.common.presentation.model.PatientPresentationModel
 
 data class AddEditViewState(
     val patient: PatientPresentationModel? = null,
-    val errorFields: Map<String,List<FieldErrorState>> = emptyMap()
+    val errorFields: Map<String, List<FieldErrorState>> = emptyMap()
 ) {
     fun hasErrors() = errorFields.isNotEmpty()
 }

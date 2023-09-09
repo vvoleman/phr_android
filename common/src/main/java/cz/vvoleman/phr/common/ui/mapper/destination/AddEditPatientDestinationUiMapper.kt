@@ -6,15 +6,19 @@ import cz.vvoleman.phr.base.ui.mapper.DestinationUiMapper
 import cz.vvoleman.phr.common.presentation.model.addedit.AddEditPatientDestination
 import cz.vvoleman.phr.common.ui.view.addedit.AddEditPatientFragmentDirections
 
-class AddEditPatientDestinationUiMapper(navManager: NavManager) : DestinationUiMapper(navManager)  {
+class AddEditPatientDestinationUiMapper(navManager: NavManager) : DestinationUiMapper(navManager) {
 
     override fun navigate(destination: PresentationDestination) {
         when (val dest = destination as AddEditPatientDestination) {
             is AddEditPatientDestination.Back -> {
-                navManager.navigate(AddEditPatientFragmentDirections.actionAddEditPatientFragmentToListPatientsFragment())
+                navManager.navigate(
+                    AddEditPatientFragmentDirections.actionAddEditPatientFragmentToListPatientsFragment()
+                )
             }
             is AddEditPatientDestination.PatientSaved -> {
-                val action = AddEditPatientFragmentDirections.actionAddEditPatientFragmentToListPatientsFragment(dest.id)
+                val action = AddEditPatientFragmentDirections.actionAddEditPatientFragmentToListPatientsFragment(
+                    dest.id
+                )
                 navManager.navigate(action)
             }
         }

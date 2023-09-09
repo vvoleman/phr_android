@@ -6,10 +6,12 @@ import cz.vvoleman.phr.feature_medicine.domain.model.schedule.MedicineScheduleDo
 import cz.vvoleman.phr.feature_medicine.domain.model.schedule.ScheduledByMedicineRequestDomainModel
 import cz.vvoleman.phr.feature_medicine.domain.repository.GetScheduleByMedicineRepository
 
-class GetScheduledByMedicineUseCase (
+class GetScheduledByMedicineUseCase(
     private val getScheduleByMedicineRepository: GetScheduleByMedicineRepository,
     coroutineContextProvider: CoroutineContextProvider
-        ) : BackgroundExecutingUseCase<ScheduledByMedicineRequestDomainModel, MedicineScheduleDomainModel?>(coroutineContextProvider) {
+) : BackgroundExecutingUseCase<ScheduledByMedicineRequestDomainModel, MedicineScheduleDomainModel?>(
+    coroutineContextProvider
+) {
 
     override suspend fun executeInBackground(request: ScheduledByMedicineRequestDomainModel): MedicineScheduleDomainModel? {
         val schedules = getScheduleByMedicineRepository.getScheduleByMedicine(request.medicineId, request.patientId)

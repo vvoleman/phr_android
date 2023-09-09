@@ -10,7 +10,7 @@ class SubstanceAmountUiModelToPresentationMapper(
         return SubstanceAmountPresentationModel(
             substance = substanceMapper.toPresentation(model.substance),
             amount = model.amount,
-            unit = model.unit,
+            unit = model.unit
         )
     }
 
@@ -18,7 +18,7 @@ class SubstanceAmountUiModelToPresentationMapper(
         return SubstanceAmountUiModel(
             substance = substanceMapper.toUi(model.substance),
             amount = model.amount,
-            unit = model.unit,
+            unit = model.unit
         )
     }
 }

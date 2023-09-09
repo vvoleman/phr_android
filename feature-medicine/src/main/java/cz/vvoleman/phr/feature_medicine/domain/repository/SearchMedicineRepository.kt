@@ -5,5 +5,4 @@ import cz.vvoleman.phr.feature_medicine.domain.model.medicine.MedicineDomainMode
 interface SearchMedicineRepository {
 
     suspend fun searchMedicine(query: String, page: Int): List<MedicineDomainModel>
-
 }

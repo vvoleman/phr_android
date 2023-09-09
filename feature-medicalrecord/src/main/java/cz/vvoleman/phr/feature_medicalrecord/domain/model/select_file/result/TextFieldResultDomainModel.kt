@@ -5,11 +5,10 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class TextFieldResultDomainModel(
-    override val value: String,
+    override val value: String
 ) : FieldResultDomainModel<String>(), Parcelable {
 
     override fun toString(): String {
         return value
     }
-
 }

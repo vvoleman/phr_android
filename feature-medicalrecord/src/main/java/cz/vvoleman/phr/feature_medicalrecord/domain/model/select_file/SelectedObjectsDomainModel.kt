@@ -7,8 +7,8 @@ import kotlinx.parcelize.Parcelize
 import java.time.LocalDate
 
 @Parcelize
-data class SelectedObjectsDomainModel (
+data class SelectedObjectsDomainModel(
     val patient: PatientDomainModel? = null,
     val diagnose: DiagnoseDomainModel? = null,
-    val visitDate: LocalDate? = null,
+    val visitDate: LocalDate? = null
 ) : Parcelable

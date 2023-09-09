@@ -1,3 +1,6 @@
+import io.gitlab.arturbosch.detekt.Detekt
+import io.gitlab.arturbosch.detekt.extensions.DetektExtension
+
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
@@ -19,14 +22,15 @@ buildscript {
         event_bus_version = "3.2.0"
         activity_version = "1.5.0"
 
+        detekt_version = "1.23.1"
         ktlint_version = "11.5.1"
     }
     dependencies {
         classpath "com.google.dagger:hilt-android-gradle-plugin:$hilt_version"
         classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$nav_version"
         classpath "de.mannodermaus.gradle.plugins:android-junit5:1.8.2.1"
+        classpath "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:$detekt_version"
         classpath "org.jlleitschuh.gradle:ktlint-gradle:$ktlint_version"
-
     }
 
     repositories {
@@ -36,11 +40,14 @@ buildscript {
     }
 }
 
+
+
 plugins {
     id 'com.android.application' version '7.3.0' apply false
     id 'com.android.library' version '7.3.0' apply false
     id 'org.jetbrains.kotlin.android' version '1.7.10' apply false
     id 'com.google.dagger.hilt.android' version "$hilt_version" apply false
+    id "io.gitlab.arturbosch.detekt" version "$detekt_version"
     id "org.jlleitschuh.gradle.ktlint" version "$ktlint_version" apply true
 }
 
@@ -59,5 +66,39 @@ subprojects {
     // Optionally configure plugin
     ktlint {
         debug = true
+        reporting {
+
+        }
     }
+}
+
+dependencies {
+    detektPlugins "io.gitlab.arturbosch.detekt:detekt-formatting:1.23.1"
+}
+
+def projectSource = file(projectDir)
+def configFile = files("$rootDir/config/detekt/detekt.yml")
+def baselineFile = file("$rootDir/config/detekt/baseline.xml")
+def kotlinFiles = "**/*.kt"
+def resourceFiles = "**/resources/**"
+def buildFiles = "**/build/**"
+
+apply plugin: 'io.gitlab.arturbosch.detekt'
+
+tasks.register("detektAll", Detekt) {
+    def autoFix = project.hasProperty('detektAutoFix')
+
+    description = "Custom DETEKT build for all modules"
+    parallel = true
+    ignoreFailures = false
+    autoCorrect = autoFix
+    buildUponDefaultConfig = true
+    setSource(projectSource)
+    baseline.set(baselineFile)
+    config.setFrom(configFile)
+    include(kotlinFiles)
+    exclude(resourceFiles, buildFiles)
+    reports.xml.setRequired(true)
+    reports.html.setRequired(true)
+    reports.txt.setRequired(true)
 }

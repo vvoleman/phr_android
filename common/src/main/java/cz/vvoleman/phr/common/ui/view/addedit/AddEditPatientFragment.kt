@@ -4,8 +4,6 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import com.google.android.material.snackbar.Snackbar
-import cz.vvoleman.phr.base.presentation.viewmodel.BaseViewModel
-import cz.vvoleman.phr.base.ui.mapper.DestinationUiMapper
 import cz.vvoleman.phr.base.ui.mapper.ViewStateBinder
 import cz.vvoleman.phr.base.ui.view.BaseFragment
 import cz.vvoleman.phr.common.presentation.model.addedit.AddEditPatientNotification

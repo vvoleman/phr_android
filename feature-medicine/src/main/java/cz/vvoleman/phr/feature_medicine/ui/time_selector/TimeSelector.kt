@@ -3,13 +3,8 @@ package cz.vvoleman.phr.feature_medicine.ui.time_selector
 import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
-import android.view.ViewGroup
 import android.widget.LinearLayout
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import cz.vvoleman.phr.feature_medicine.databinding.ViewTimeSelectorBinding
-import cz.vvoleman.phr.feature_medicine.ui.medicine_selector.MedicineSelectorAdapter
-import cz.vvoleman.phr.feature_medicine.ui.model.list.MedicineUiModel
 
 class TimeSelector @JvmOverloads constructor(
     context: Context,
@@ -22,7 +17,6 @@ class TimeSelector @JvmOverloads constructor(
 
     init {
         binding = ViewTimeSelectorBinding.inflate(LayoutInflater.from(context), this, true)
-
     }
 
     fun setTimes(times: List<TimeUiModel>) {
@@ -36,6 +30,4 @@ class TimeSelector @JvmOverloads constructor(
             setHasFixedSize(true)
         }
     }
-
-
 }

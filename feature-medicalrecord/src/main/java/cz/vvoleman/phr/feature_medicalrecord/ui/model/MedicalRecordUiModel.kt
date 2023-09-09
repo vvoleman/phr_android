@@ -11,5 +11,5 @@ data class MedicalRecordUiModel(
     val problemCategoryColor: String? = null,
     val diagnoseId: String? = null,
     val diagnoseName: String? = null,
-    val medicalWorker: String? = null,
+    val medicalWorker: String? = null
 )

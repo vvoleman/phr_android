@@ -2,18 +2,14 @@ package cz.vvoleman.phr.feature_medicalrecord.ui.view.select_file.binder
 
 import android.app.Dialog
 import android.content.Context
-import android.util.Log
 import android.view.View
-import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.Spinner
-import androidx.core.os.bundleOf
 import cz.vvoleman.phr.base.ui.mapper.BaseViewStateBinder
 import cz.vvoleman.phr.feature_medicalrecord.R
 import cz.vvoleman.phr.feature_medicalrecord.databinding.FragmentSelectFileBinding
 import cz.vvoleman.phr.feature_medicalrecord.presentation.select_file.model.SelectFileViewState
-import cz.vvoleman.phr.feature_medicalrecord.presentation.select_file.model.SelectedOptionsPresentationModel
 import cz.vvoleman.phr.feature_medicalrecord.ui.view.select_file.OptionAdapter
 import cz.vvoleman.phr.feature_medicalrecord.ui.view.select_file.OptionItem
 import kotlinx.coroutines.CoroutineScope
@@ -111,7 +107,6 @@ class SelectFileBinder :
 
                 this.dismiss()
                 notify(Notification.ConfirmWithOptions(diagnose, visitDate, patient))
-
             }
 
             findViewById<Button>(R.id.confirm_just_file_button).setOnClickListener {
@@ -138,5 +133,4 @@ class SelectFileBinder :
             Notification()
         object ConfirmWithoutOptions : Notification()
     }
-
 }

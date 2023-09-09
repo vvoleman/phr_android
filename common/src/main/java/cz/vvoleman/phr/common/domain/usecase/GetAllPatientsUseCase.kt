@@ -10,7 +10,6 @@ class GetAllPatientsUseCase(
     coroutineContextProvider: CoroutineContextProvider
 ) : BackgroundExecutingUseCase<Unit, List<PatientDomainModel>>(coroutineContextProvider) {
 
-
     override suspend fun executeInBackground(request: Unit): List<PatientDomainModel> {
         return getAllPatientsRepository.getAll()
     }

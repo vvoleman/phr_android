@@ -27,5 +27,4 @@ class BaseModule {
     @Singleton
     fun providesNavManager(): NavManager =
         NavManager()
-
 }

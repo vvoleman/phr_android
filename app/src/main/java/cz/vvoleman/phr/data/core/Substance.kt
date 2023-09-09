@@ -9,7 +9,7 @@ data class Substance(
     val id: String,
     val name: String,
     val isAddictive: Boolean,
-    val isDoping: Boolean,
+    val isDoping: Boolean
 ) : Parcelable, BaseData() {
     override fun getAdapterPair(): AdapterPair {
         return AdapterPair(id, name, this)

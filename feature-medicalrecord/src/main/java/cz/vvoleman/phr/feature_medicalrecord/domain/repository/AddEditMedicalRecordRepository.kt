@@ -5,5 +5,4 @@ import cz.vvoleman.phr.feature_medicalrecord.domain.model.add_edit.AddEditDomain
 interface AddEditMedicalRecordRepository {
 
     suspend fun save(addEditMedicalRecordModel: AddEditDomainModel): String
-
 }

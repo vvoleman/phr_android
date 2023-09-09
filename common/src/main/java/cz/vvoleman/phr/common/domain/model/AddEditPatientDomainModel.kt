@@ -8,5 +8,5 @@ import java.time.LocalDate
 data class AddEditPatientDomainModel(
     val id: String? = null,
     val name: String,
-    val birthDate: LocalDate? = null,
-): Parcelable
+    val birthDate: LocalDate? = null
+) : Parcelable

@@ -11,9 +11,7 @@ import cz.vvoleman.phr.feature_medicine.data.mapper.medicine.MedicineDataModelTo
 import cz.vvoleman.phr.feature_medicine.data.mapper.medicine.ProductFormDataModelToDomainMapper
 import cz.vvoleman.phr.feature_medicine.data.mapper.medicine.SubstanceDataModelToDomainMapper
 import cz.vvoleman.phr.feature_medicine.domain.model.medicine.MedicineDomainModel
-import cz.vvoleman.phr.feature_medicine.domain.model.schedule.MedicineScheduleDomainModel
 import cz.vvoleman.phr.feature_medicine.domain.repository.AddMedicineRepository
-import cz.vvoleman.phr.feature_medicine.domain.repository.GetScheduleByMedicineRepository
 import cz.vvoleman.phr.feature_medicine.domain.repository.SearchMedicineRepository
 
 class MedicineRepository(
@@ -40,7 +38,6 @@ class MedicineRepository(
                 .map { medicineApiMapper.toData(it) }
                 .map { medicineDataMapper.toDomain(it) }
                 .onEach { medicine -> addMedicine(medicine) }
-
         } catch (e: Exception) {
             Log.e("MedicineRepository", "searchMedicine: ", e)
             emptyList()
@@ -61,7 +58,6 @@ class MedicineRepository(
         productFormDao.insert(productForm)
 
         medicineDao.insert(model)
-        Log.d("MedicineRepository", "addMedicine: ${model}")
+        Log.d("MedicineRepository", "addMedicine: $model")
     }
-
 }

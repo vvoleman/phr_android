@@ -12,5 +12,4 @@ class AssetPresentationToDomainModelMapper {
             uri = model.uri
         )
     }
-
 }

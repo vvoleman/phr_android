@@ -1,7 +1,6 @@
 package cz.vvoleman.phr.feature_medicalrecord.data.datasource.model.room
 
 import androidx.room.*
-import cz.vvoleman.phr.feature_medicalrecord.data.datasource.model.room.worker.MedicalWorkerDataSourceModel
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -16,7 +15,9 @@ interface MedicalRecordDao {
     @Query("SELECT * FROM medical_record WHERE patient_id = :patientId ORDER BY :sortBy DESC")
     fun getByPatientId(patientId: String, sortBy: String): Flow<List<MedicalRecordWithDetails>>
 
-    @Query("SELECT * FROM medical_record WHERE patient_id = :patientId AND medical_worker_id IN (:workerIds) AND problem_category_id IN (:categoryIds) ORDER BY :sortBy DESC")
+    @Query(
+        "SELECT * FROM medical_record WHERE patient_id = :patientId AND medical_worker_id IN (:workerIds) AND problem_category_id IN (:categoryIds) ORDER BY :sortBy DESC"
+    )
     fun filter(
         patientId: String,
         sortBy: String,
@@ -24,14 +25,18 @@ interface MedicalRecordDao {
         categoryIds: List<String>
     ): Flow<List<MedicalRecordWithDetails>>
 
-    @Query("SELECT * FROM medical_record WHERE patient_id = :patientId AND problem_category_id IN (:categoryIds) ORDER BY :sortBy DESC")
+    @Query(
+        "SELECT * FROM medical_record WHERE patient_id = :patientId AND problem_category_id IN (:categoryIds) ORDER BY :sortBy DESC"
+    )
     fun filterInCategory(
         patientId: String,
         sortBy: String,
         categoryIds: List<String>
     ): Flow<List<MedicalRecordWithDetails>>
 
-    @Query("SELECT * FROM medical_record WHERE patient_id = :patientId AND medical_worker_id IN (:workerIds) ORDER BY :sortBy DESC")
+    @Query(
+        "SELECT * FROM medical_record WHERE patient_id = :patientId AND medical_worker_id IN (:workerIds) ORDER BY :sortBy DESC"
+    )
     fun filterInWorker(
         patientId: String,
         sortBy: String,
@@ -49,5 +54,4 @@ interface MedicalRecordDao {
 
     @Query("DELETE FROM medical_record WHERE patient_id = :patientId")
     suspend fun deleteByPatient(patientId: String)
-
 }

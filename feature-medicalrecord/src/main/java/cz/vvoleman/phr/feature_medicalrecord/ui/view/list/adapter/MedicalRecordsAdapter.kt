@@ -3,9 +3,7 @@ package cz.vvoleman.phr.feature_medicalrecord.ui.view.list.adapter
 import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Color
-import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.core.graphics.ColorUtils
 import androidx.recyclerview.widget.DiffUtil
@@ -17,7 +15,7 @@ import cz.vvoleman.phr.feature_medicalrecord.R
 import cz.vvoleman.phr.feature_medicalrecord.databinding.ItemMedicalRecordBinding
 import cz.vvoleman.phr.feature_medicalrecord.ui.model.MedicalRecordUiModel
 
-class MedicalRecordsAdapter (
+class MedicalRecordsAdapter(
     private val listener: OnAdapterItemListener<MedicalRecordUiModel>
 ) : ListAdapter<MedicalRecordUiModel, MedicalRecordsAdapter.MedicalRecordViewHolder>(DiffCallback()) {
 
@@ -54,7 +52,7 @@ class MedicalRecordsAdapter (
                         if (item != null) {
                             listener.onItemOptionsMenuClicked(item, binding.buttonOptions)
                         }
-                    };
+                    }
                 }
             }
         }
@@ -75,11 +73,14 @@ class MedicalRecordsAdapter (
                     chipDiagnose.chipBackgroundColor = ColorStateList.valueOf(color)
                 }
 
-                val opaqueColor = ColorUtils.setAlphaComponent(chipMedicalWorker.chipBackgroundColor!!.defaultColor, 128)
+                val opaqueColor = ColorUtils.setAlphaComponent(
+                    chipMedicalWorker.chipBackgroundColor!!.defaultColor,
+                    128
+                )
                 if (item.medicalWorker == null) {
                     chipMedicalWorker.apply {
                         text = appContext.getString(R.string.medical_record_no_medical_worker)
-                        //set opacity to 0.5
+                        // set opacity to 0.5
                         // Use @color/medical_record_badge
                         chipBackgroundColor = ColorStateList.valueOf(opaqueColor)
                     }
@@ -88,7 +89,7 @@ class MedicalRecordsAdapter (
                 if (item.diagnoseId == null) {
                     chipDiagnose.apply {
                         text = appContext.getString(R.string.medical_record_no_diagnose)
-                        //set opacity to 0.5
+                        // set opacity to 0.5
                         // Use @color/medical_record_badge
                         chipBackgroundColor = ColorStateList.valueOf(opaqueColor)
                         // set text color to white
@@ -97,7 +98,6 @@ class MedicalRecordsAdapter (
                 }
             }
         }
-
     }
 
     fun deleteItem(position: Int) {

@@ -1,19 +1,19 @@
 package cz.vvoleman.phr.ui
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
+import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.*
+import com.gu.toolargetool.TooLargeTool
 import cz.vvoleman.phr.R
 import cz.vvoleman.phr.base.presentation.navigation.NavManager
 import cz.vvoleman.phr.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
-import com.gu.toolargetool.TooLargeTool;
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -27,7 +27,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        TooLargeTool.startLogging(this.application,)
+        TooLargeTool.startLogging(this.application)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -39,7 +39,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.listMedicalRecordsFragment,
                 R.id.listMedicineFragment,
                 R.id.overviewFragment,
-                R.id.measurementsFragment,
+                R.id.measurementsFragment
             ),
             binding.drawerLayout
         )
@@ -93,5 +93,4 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
-
 }

@@ -5,5 +5,4 @@ import cz.vvoleman.phr.feature_medicalrecord.domain.model.MedicalWorkerDomainMod
 interface GetMedicalWorkersForPatientRepository {
 
     suspend fun getMedicalWorkersForPatient(patientId: String): List<MedicalWorkerDomainModel>
-
 }

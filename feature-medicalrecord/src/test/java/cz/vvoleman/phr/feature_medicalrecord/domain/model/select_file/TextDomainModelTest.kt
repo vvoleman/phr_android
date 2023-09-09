@@ -38,7 +38,7 @@ class TextDomainModelTest {
 
         return TestData(
             text = first,
-            expectedText = textA+textB
+            expectedText = textA + textB
         )
     }
 
@@ -46,10 +46,12 @@ class TextDomainModelTest {
         val list = mutableListOf<TextDomainModel>()
 
         for ((i, c) in text.withIndex()) {
-            list.add(TextDomainModel(
-                texts = emptyList(),
-                value = c.toString()
-            ))
+            list.add(
+                TextDomainModel(
+                    texts = emptyList(),
+                    value = c.toString()
+                )
+            )
         }
 
         return list
@@ -59,5 +61,4 @@ class TextDomainModelTest {
         val text: TextDomainModel,
         val expectedText: String
     )
-
 }

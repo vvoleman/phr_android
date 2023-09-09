@@ -1,17 +1,14 @@
 package cz.vvoleman.phr.feature_medicine.presentation.list.viewmodel
 
 import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.viewModelScope
 import cz.vvoleman.phr.base.presentation.viewmodel.BaseViewModel
 import cz.vvoleman.phr.base.presentation.viewmodel.usecase.UseCaseExecutorProvider
-import cz.vvoleman.phr.feature_medicine.domain.model.SearchMedicineRequestDomainModel
 import cz.vvoleman.phr.feature_medicine.domain.usecase.SearchMedicineUseCase
 import cz.vvoleman.phr.feature_medicine.presentation.list.model.ListMedicineDestination
 import cz.vvoleman.phr.feature_medicine.presentation.list.model.ListMedicineNotification
 import cz.vvoleman.phr.feature_medicine.presentation.list.model.ListMedicineViewState
 import cz.vvoleman.phr.feature_medicine.presentation.mapper.list.MedicinePresentationModelToDomainMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -35,5 +32,4 @@ class ListMedicineViewModel @Inject constructor(
     fun onEdit(id: String) {
         navigateTo(ListMedicineDestination.EditSchedule(id))
     }
-
 }

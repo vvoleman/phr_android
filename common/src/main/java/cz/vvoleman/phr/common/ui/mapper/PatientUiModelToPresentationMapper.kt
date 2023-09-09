@@ -20,5 +20,4 @@ class PatientUiModelToPresentationMapper {
             birthDate = patientPresentationModel.birthDate
         )
     }
-
 }

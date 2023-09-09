@@ -3,7 +3,6 @@ package cz.vvoleman.phr.di
 import android.app.Application
 import android.content.Context
 import android.net.ConnectivityManager
-import androidx.navigation.NavController
 import androidx.room.Room
 import cz.vvoleman.phr.data.PatientDatabase
 import cz.vvoleman.phr.feature_medicalrecord.data.datasource.model.retrofit.BackendApi
@@ -31,7 +30,9 @@ object AppModule {
             .build()
 
     @Provides
-    fun provideConnectivityManager(@ApplicationContext context: Context) = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+    fun provideConnectivityManager(@ApplicationContext context: Context) = context.getSystemService(
+        Context.CONNECTIVITY_SERVICE
+    ) as ConnectivityManager
 
     @Provides
     @Singleton

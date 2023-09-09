@@ -9,8 +9,7 @@ class PatientDomainModelToPresentationMapper {
         return PatientPresentationModel(
             id = patient.id,
             name = patient.name,
-            birthDate = patient.birthDate,
+            birthDate = patient.birthDate
         )
     }
-
 }

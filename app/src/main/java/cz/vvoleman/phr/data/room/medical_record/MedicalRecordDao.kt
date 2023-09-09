@@ -23,5 +23,4 @@ interface MedicalRecordDao {
 
     @Delete
     suspend fun delete(medicalRecord: MedicalRecordEntity)
-
 }

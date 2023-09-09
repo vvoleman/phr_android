@@ -35,13 +35,11 @@ class UiModule {
         ListPatientsBinder(mapper)
 
     @Provides
-    fun providesAddEditPatientViewStateBinder(
-    ): ViewStateBinder<AddEditViewState, FragmentAddEditPatientBinding> =
+    fun providesAddEditPatientViewStateBinder(): ViewStateBinder<AddEditViewState, FragmentAddEditPatientBinding> =
         AddEditPatientBinder()
 
     @Provides
     fun providesAddEditPatientDestinationUiMapper(
         navManager: NavManager
     ) = AddEditPatientDestinationUiMapper(navManager)
-
 }

@@ -18,5 +18,4 @@ class MedicalRecordRepository @Inject constructor(
 
         medicalRecordDao.delete(medicalRecord.medicalRecord)
     }
-
 }

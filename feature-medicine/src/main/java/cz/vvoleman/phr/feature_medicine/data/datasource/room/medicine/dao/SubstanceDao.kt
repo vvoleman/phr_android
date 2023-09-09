@@ -28,5 +28,4 @@ interface SubstanceDao {
 
     @Delete
     suspend fun delete(substance: SubstanceDataSourceModel)
-
 }

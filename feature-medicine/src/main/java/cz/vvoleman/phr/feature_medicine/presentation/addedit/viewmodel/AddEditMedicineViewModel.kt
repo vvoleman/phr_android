@@ -8,8 +8,6 @@ import cz.vvoleman.phr.feature_medicine.domain.model.SearchMedicineRequestDomain
 import cz.vvoleman.phr.feature_medicine.domain.usecase.SearchMedicineUseCase
 import cz.vvoleman.phr.feature_medicine.presentation.addedit.model.AddEditMedicineNotification
 import cz.vvoleman.phr.feature_medicine.presentation.addedit.model.AddEditMedicineViewState
-import cz.vvoleman.phr.feature_medicine.presentation.list.model.ListMedicineNotification
-import cz.vvoleman.phr.feature_medicine.presentation.list.model.ListMedicineViewState
 import cz.vvoleman.phr.feature_medicine.presentation.mapper.list.MedicinePresentationModelToDomainMapper
 import cz.vvoleman.phr.feature_medicine.presentation.model.addedit.TimePresentationModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -28,7 +26,7 @@ class AddEditMedicineViewModel @Inject constructor(
     override val TAG = "AddEditMedicineViewModel"
 
     override fun initState(): AddEditMedicineViewState {
-        val temp = listOf(LocalTime.of(8,0), LocalTime.of(14, 0), LocalTime.of(20, 0))
+        val temp = listOf(LocalTime.of(8, 0), LocalTime.of(14, 0), LocalTime.of(20, 0))
         val times = temp.map { TimePresentationModel(it, 0) }
         return AddEditMedicineViewState(
             times = times
@@ -41,5 +39,4 @@ class AddEditMedicineViewModel @Inject constructor(
             updateViewState(currentViewState.copy(medicines = it.map { medicineMapper.toPresentation(it) }))
         }
     }
-
 }

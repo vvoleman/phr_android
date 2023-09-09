@@ -4,7 +4,7 @@ import android.view.View
 import cz.vvoleman.phr.common.ui.model.GroupedItemsUiModel
 import cz.vvoleman.phr.common_datasource.databinding.ItemGroupedItemsBinding
 
-interface OnAdapterItemListener<T: Any> {
+interface OnAdapterItemListener<T : Any> {
 
     fun onItemClicked(item: T)
 
@@ -13,5 +13,4 @@ interface OnAdapterItemListener<T: Any> {
     fun onItemOptionsMenuClicked(item: T, anchorView: View)
 
     fun bind(binding: ItemGroupedItemsBinding, item: GroupedItemsUiModel<T>)
-
 }

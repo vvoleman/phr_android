@@ -27,5 +27,4 @@ class ScheduleItemDataSourceModelToDataMapper {
             schedule_id = scheduleId.toInt()
         )
     }
-
 }

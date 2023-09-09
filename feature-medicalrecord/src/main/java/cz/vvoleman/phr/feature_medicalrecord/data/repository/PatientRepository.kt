@@ -25,5 +25,4 @@ class PatientRepository(
 
         return patients.first().map { patientMapper.toDomain(it) }
     }
-
 }
