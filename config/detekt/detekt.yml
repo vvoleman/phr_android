@@ -1,0 +1,13 @@
+complexity:
+  LongParameterList:
+    active: false
+    excludes: "**/cz/vvoleman/phr/di/**"
+  TooManyFunctions:
+    excludes: "**/cz/vvoleman/phr/di/**"
+empty-blocks:
+  EmptyDefaultConstructor:
+    excludes:
+        - "**/cz/vvoleman/phr/feature_medicalrecord/domain/usecase/DeleteMedicalRecordUseCase.kt"
+exceptions:
+    TooGenericExceptionCaught:
+        active: false

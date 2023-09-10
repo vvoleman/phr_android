@@ -51,6 +51,7 @@ class PatientRepository(
         patientDataStore.updatePatient(patientId)
     }
 
+    @Suppress("TooGenericExceptionCaught")
     override suspend fun deletePatient(id: String): Boolean {
         val patient = patientDao.getById(id).firstOrNull() ?: return false
         return try {

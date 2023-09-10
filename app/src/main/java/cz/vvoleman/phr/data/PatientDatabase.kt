@@ -84,7 +84,6 @@ abstract class PatientDatabase : RoomDatabase() {
         override fun onCreate(db: SupportSQLiteDatabase) {
             super.onCreate(db)
 
-            // Fixtures
             val database = database.get()
             val medicalRecordDao: MedicalRecordDao = database.medicalRecordDao()
 
