@@ -3,8 +3,7 @@ name: Static Analysis (Detekt)
 on:
   push:
     branches:
-      - '*'
-      - vv/medicine
+      - main
 
 jobs:
   detekt:
