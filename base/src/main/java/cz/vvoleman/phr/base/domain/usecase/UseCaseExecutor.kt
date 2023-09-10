@@ -20,6 +20,7 @@ class UseCaseExecutor(
         }
     }
 
+    @Suppress("TooGenericExceptionCaught")
     fun <INPUT, OUTPUT> execute(
         useCase: UseCase<INPUT, OUTPUT>,
         value: INPUT,

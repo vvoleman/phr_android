@@ -1,9 +1,9 @@
 package cz.vvoleman.phr.data.fixture
 
 import cz.vvoleman.phr.common.data.datasource.model.AddressDataSourceModel
+import cz.vvoleman.phr.common.data.datasource.model.Gender
 import cz.vvoleman.phr.common.data.datasource.model.PatientDao
 import cz.vvoleman.phr.common.data.datasource.model.PatientDataSourceModel
-import cz.vvoleman.phr.data.core.Gender
 import java.time.LocalDate
 
 class PatientFixture(private val patientDao: PatientDao) {

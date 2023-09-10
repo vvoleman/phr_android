@@ -30,6 +30,7 @@ import java.time.LocalDate
 import javax.inject.Inject
 
 @HiltViewModel
+@Suppress("TooManyFunctions")
 class AddEditViewModel @Inject constructor(
     private val addEditMedicalRecordUseCase: AddEditMedicalRecordUseCase,
     private val getRecordByIdUseCase: GetRecordByIdUseCase,

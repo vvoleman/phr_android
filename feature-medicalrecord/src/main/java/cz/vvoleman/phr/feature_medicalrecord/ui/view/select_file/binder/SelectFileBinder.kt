@@ -29,7 +29,7 @@ class SelectFileBinder :
         }
 
         if (viewState.recognizedOptions != null) {
-            setDialog(viewBinding, viewState)
+            setDialog(viewState)
         }
 
         viewBinding.confirmButton.visibility = getVisibility(viewState.recognizedOptions != null)
@@ -45,11 +45,12 @@ class SelectFileBinder :
         selectOptionsDialog = Dialog(context).apply { setContentView(R.layout.dialog_select_options) }
     }
 
-    public fun openDialog() {
+    fun openDialog() {
         selectOptionsDialog.show()
     }
 
-    private fun setDialog(viewBinding: FragmentSelectFileBinding, viewState: SelectFileViewState) {
+    @Suppress("LongMethod")
+    private fun setDialog(viewState: SelectFileViewState) {
         if (viewState.recognizedOptions == null) {
             return
         }

@@ -7,7 +7,7 @@ import cz.vvoleman.phr.feature_medicalrecord.domain.model.select_file.TextDomain
 
 class TextToTextDomainModelMapper {
 
-    @Suppress("CyclomaticComplexMethod")
+    @Suppress("CyclomaticComplexMethod", "NestedBlockDepth")
     fun toDomain(text: Text): TextDomainModel {
         val blocks = mutableListOf<TextDomainModel>()
         for (block in text.textBlocks) {

@@ -17,7 +17,7 @@ class AddEditViewStateToModel {
                 visitDate = viewState.visitDate!!
             )
         } catch (e: NullPointerException) {
-            throw MissingFieldsException()
+            throw MissingFieldsException(e)
         }
     }
 }
