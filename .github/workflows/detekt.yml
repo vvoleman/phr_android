@@ -3,7 +3,8 @@ name: Run Detekt
 on:
   push:
     branches:
-      - '*'  # This will trigger the action on every branch
+      - '*'
+      - vv/medicine
 
 jobs:
   detekt:
