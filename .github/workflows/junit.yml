@@ -3,7 +3,8 @@ name: Unit Tests (JUnit)
 on:
   push:
     branches:
-      - main  # Change this to your main branch name
+      - [*]
+      - vv/medicine
 
 jobs:
   build:
