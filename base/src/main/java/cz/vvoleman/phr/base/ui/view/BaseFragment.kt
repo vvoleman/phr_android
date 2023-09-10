@@ -20,6 +20,7 @@ abstract class BaseFragment<VIEW_STATE : Any, NOTIFICATION : Any, VIEW_BINDING :
 
     protected abstract val viewModel: BaseViewModel<VIEW_STATE, NOTIFICATION>
 
+    @Suppress("VariableNaming")
     open val TAG = "BaseFragment"
 
     abstract val destinationMapper: DestinationUiMapper

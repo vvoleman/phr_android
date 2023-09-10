@@ -1,0 +1,44 @@
+name: Run Detekt
+
+on:
+  push:
+    branches:
+      - '*'  # This will trigger the action on every branch
+
+jobs:
+  detekt:
+    name: Run Detekt
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Set up JDK
+        uses: actions/setup-java@v2
+        with:
+          java-version: 11
+
+      - name: Run Detekt
+        run: ./gradlew detektAll
+
+      - name: Get Detekt Report
+        id: detekt-report
+        run: |
+          echo "::set-output name=detekt-report::$(cat build/reports/detekt/detekt.xml | grep -c '<error ')"
+
+      - name: Generate Badge
+        id: generate-badge
+        run: |
+          problems="${{ steps.detekt-report.outputs.detekt-report }}"
+          color="brightgreen"  # Default to green if no problems
+          if [[ $problems -gt 0 ]]; then
+            color="red"
+          fi
+          badge_url="https://img.shields.io/badge/Detekt-$problems-$color"
+          echo "::set-output name=badge-url::$badge_url"
+
+      - name: Display Detekt Report
+        run: |
+          echo "Detekt Problems: ${{ steps.detekt-report.outputs.detekt-report }}"
+          echo "Badge URL: ${{ steps.generate-badge.outputs.badge-url }}"

@@ -80,12 +80,12 @@ class MainActivity : AppCompatActivity() {
         binding.navView.setNavigationItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.listMedicalRecordsFragment -> {
-                    navController.navigate(cz.vvoleman.phr.feature_medicalrecord.R.id.nav_medical_record)
+                    navController.navigate(cz.vvoleman.phr.featureMedicalRecord.R.id.nav_medical_record)
                     binding.drawerLayout.close()
                     true
                 }
                 R.id.listMedicineFragment -> {
-                    navController.navigate(cz.vvoleman.phr.feature_medicine.R.id.nav_medicine)
+                    navController.navigate(cz.vvoleman.phr.featureMedicine.R.id.nav_medicine)
                     binding.drawerLayout.close()
                     true
                 }

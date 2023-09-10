@@ -59,11 +59,18 @@ class AddEditPatientViewModel @Inject constructor(
 
     private fun validateInput(name: String?, birthDate: LocalDate? = null): Boolean {
         val errors = mutableMapOf<String, List<FieldErrorState>>()
-        if (name == null || name.isEmpty()) {
+        if (name.isNullOrEmpty()) {
             errors["name"] = listOf(FieldErrorState.EMPTY)
         }
+
+        // Check if birthDate is in the past
+        if (birthDate != null && birthDate.isAfter(LocalDate.now())) {
+            errors["birthDate"] = listOf(FieldErrorState.INVALID)
+        }
+
         updateViewState(currentViewState.copy(errorFields = errors))
         Log.d(TAG, "validateInput: $errors, ${errors.isEmpty()}")
+
         return errors.isEmpty()
     }
 

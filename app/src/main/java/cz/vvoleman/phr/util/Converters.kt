@@ -3,11 +3,10 @@ package cz.vvoleman.phr.util
 import android.util.Log
 import androidx.room.TypeConverter
 import com.google.gson.Gson
-import cz.vvoleman.phr.feature_medicine.data.datasource.room.medicine.SubstanceAmountDataSourceModel
+import cz.vvoleman.phr.featureMedicine.data.datasource.room.medicine.SubstanceAmountDataSourceModel
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
-import java.util.*
 
 class Converters {
     @TypeConverter

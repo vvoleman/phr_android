@@ -103,8 +103,8 @@ dependencies {
     implementation "org.greenrobot:eventbus:$event_bus_version"
 
     implementation project(':base')
-    implementation project(':feature-medicalrecord')
-    implementation project(':feature-medicine')
+    implementation project(':featureMedicalRecord')
+    implementation project(':featureMedicine')
     implementation project(':common')
 }
 

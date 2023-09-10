@@ -26,7 +26,8 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class ListPatientsFragment :
-    BaseFragment<ListPatientsViewState, ListPatientsNotification, FragmentListPatientsBinding>(), PatientAdapter.OnPatientListener {
+    BaseFragment<ListPatientsViewState, ListPatientsNotification, FragmentListPatientsBinding>(),
+    PatientAdapter.OnPatientListener {
 
     override val viewModel: ListPatientsViewModel by viewModels()
 
@@ -73,6 +74,7 @@ class ListPatientsFragment :
                     Snackbar.LENGTH_LONG
                 ).show()
             }
+
             is ListPatientsNotification.PatientEdited -> TODO()
             is ListPatientsNotification.PatientSelected -> TODO()
             is ListPatientsNotification.PatientDeleteFailed -> TODO()
@@ -98,10 +100,12 @@ class ListPatientsFragment :
                     viewModel.onPatientEdit(item.id)
                     true
                 }
+
                 R.id.action_delete -> {
                     handleDeleteDialog(presentationModel)
                     true
                 }
+
                 else -> false
             }
         }

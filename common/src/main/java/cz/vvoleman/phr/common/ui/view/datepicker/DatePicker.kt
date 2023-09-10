@@ -46,7 +46,7 @@ class DatePicker @JvmOverloads constructor(
 
         // On click show dialog
         editText.setOnFocusChangeListener { _, hasFocus ->
-            Log.d("DatePicker", "has focus?: $hasFocus")
+            Log.d(TAG, "has focus?: $hasFocus")
             if (hasFocus) {
                 dialog.show()
             }
@@ -92,6 +92,6 @@ class DatePicker @JvmOverloads constructor(
     }
 
     companion object {
-        private val TAG = "DatePicker"
+        private const val TAG = "DatePicker"
     }
 }
