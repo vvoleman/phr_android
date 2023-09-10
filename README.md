@@ -1,2 +1,1 @@
-![Severity](https://github.com/vvoleman/stin/actions/workflows/detekt.yml/severity.png)
-![Data](https://github.com/vvoleman/stin/actions/workflows/detekt.yml/data.png)
+![Severity](https://github.com/vvoleman/phr_android/actions/workflows/detekt.yml/badge.svg)
