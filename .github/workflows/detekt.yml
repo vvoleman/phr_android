@@ -14,59 +14,9 @@ jobs:
       - uses: actions/setup-java@v1
         with:
           java-version: 11
+
       - name: Grant permission
         run: chmod +x gradlew
-      - name: Run detekt
-        run: ./gradlew detekt
-      - name: install for canvas
-        run: sudo apt-get install build-essential libcairo2-dev libpango1.0-dev libjpeg-dev libgif-dev librsvg2-dev
-      - uses: MeilCli/android-lint-statistics@v2
-        with:
-          report_text_file_path: 'build/reports/detekt/*.txt' # change your detekt result path
 
-#name: Run Detekt
-#
-#on:
-##  push:
-#    branches:
-#      - '*'
-#      - vv/medicine
-#
-#jobs:
-#  detekt:
-#    name: Run Detekt
-#    runs-on: ubuntu-latest
-#
-#    steps:
-#      - name: Checkout Repository
-#        uses: actions/checkout@v2
-#
-#      - name: Set up JDK
-#        uses: actions/setup-java@v2
-#        with:
-#          java-version: 11
-#          distribution: 'adopt'
-#
-#      - name: Run Detekt
-#        run: ./gradlew detektAll
-#
-#      - name: Get Detekt Report
-#        id: detekt-report
-#        run: |
-#          echo "::set-output name=detekt-report::$(cat build/reports/detekt/detekt.xml | grep -c '<error ')"
-#
-#      - name: Generate Badge
-#        id: generate-badge
-#        run: |
-#          problems="${{ steps.detekt-report.outputs.detekt-report }}"
-#          color="brightgreen"  # Default to green if no problems
-#          if [[ $problems -gt 0 ]]; then
-#            color="red"
-#          fi
-#          badge_url="https://img.shields.io/badge/Detekt-$problems-$color"
-#          echo "::set-output name=badge-url::$badge_url"
-#
-#      - name: Display Detekt Report
-#        run: |
-#          echo "Detekt Problems: ${{ steps.detekt-report.outputs.detekt-report }}"
-#          echo "Badge URL: ${{ steps.generate-badge.outputs.badge-url }}"
+      - name: Run detekt
+        run: ./gradlew detektAll

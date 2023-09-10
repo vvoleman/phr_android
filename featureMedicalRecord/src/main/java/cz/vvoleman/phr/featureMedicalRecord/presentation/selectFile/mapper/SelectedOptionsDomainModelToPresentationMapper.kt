@@ -5,7 +5,7 @@ import cz.vvoleman.phr.featureMedicalRecord.presentation.addEdit.mapper.Diagnose
 import cz.vvoleman.phr.featureMedicalRecord.presentation.addEdit.mapper.PatientDomainModelToPresentationMapper
 import cz.vvoleman.phr.featureMedicalRecord.presentation.selectFile.model.SelectedOptionsPresentationModel
 
-// Leaving this here, not sure what's it for
+@Suppress("UnusedPrivateProperty")
 class SelectedOptionsDomainModelToPresentationMapper(
     private val patientDomainModelToPresentationMapper: PatientDomainModelToPresentationMapper,
     private val diagnoseDomainModelToPresentationMapper: DiagnoseDomainModelToPresentationMapper
