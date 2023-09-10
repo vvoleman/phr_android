@@ -15,10 +15,12 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 abstract class BaseViewModel<VIEW_STATE : Any, NOTIFICATION : Any>(
+    @Suppress("UnusedPrivateProperty")
     private val savedStateHandle: SavedStateHandle,
     private val useCaseExecutorProvider: UseCaseExecutorProvider
 ) : ViewModel() {
 
+    @Suppress("VariableNaming")
     protected abstract val TAG: String
 
     private val _viewState = MutableStateFlow<VIEW_STATE?>(null)

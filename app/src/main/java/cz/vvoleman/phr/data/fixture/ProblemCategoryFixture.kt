@@ -1,8 +1,8 @@
 package cz.vvoleman.phr.data.fixture
 
 import cz.vvoleman.phr.common.data.datasource.model.PatientDataSourceModel
-import cz.vvoleman.phr.feature_medicalrecord.data.datasource.model.room.category.ProblemCategoryDao
-import cz.vvoleman.phr.feature_medicalrecord.data.datasource.model.room.category.ProblemCategoryDataSourceModel
+import cz.vvoleman.phr.featureMedicalRecord.data.datasource.model.room.category.ProblemCategoryDao
+import cz.vvoleman.phr.featureMedicalRecord.data.datasource.model.room.category.ProblemCategoryDataSourceModel
 import java.time.LocalDate
 
 class ProblemCategoryFixture(
@@ -30,7 +30,7 @@ class ProblemCategoryFixture(
                     name = "Nehoda 2022",
                     createdAt = LocalDate.now(),
                     color = "#3A6B83",
-                    patient_id = it.id!!
+                    patientId = it.id!!
                 )
             )
         }
@@ -42,7 +42,7 @@ class ProblemCategoryFixture(
                     name = "Operace 2019",
                     createdAt = LocalDate.now(),
                     color = "#992624",
-                    patient_id = it.id!!
+                    patientId = it.id!!
                 )
             )
         }

@@ -27,8 +27,8 @@ class PatientFixture(private val patientDao: PatientDao) {
                 AddressDataSourceModel(
                     city = "Ústí nad Labem",
                     street = "Kollárova",
-                    house_number = "226/2",
-                    zip_code = "40003"
+                    houseNumber = "226/2",
+                    zipCode = "40003"
                 ),
                 LocalDate.of(2001, 2, 7),
                 Gender.MALE.name
@@ -39,8 +39,8 @@ class PatientFixture(private val patientDao: PatientDao) {
                 AddressDataSourceModel(
                     city = "Praha",
                     street = "Masarykova",
-                    house_number = "22",
-                    zip_code = "10000"
+                    houseNumber = "22",
+                    zipCode = "10000"
                 ),
                 LocalDate.of(2000, 1, 1),
                 Gender.MALE.name

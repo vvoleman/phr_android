@@ -58,6 +58,7 @@ class ListPatientsViewModel @Inject constructor(
         listenForPatientChange()
     }
 
+    @Suppress("MagicNumber")
     fun onPatientSwitch(id: String) = viewModelScope.launch {
         val item = AlarmItem(
             "switch-$id",

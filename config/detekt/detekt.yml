@@ -11,3 +11,16 @@ empty-blocks:
 exceptions:
     TooGenericExceptionCaught:
         active: false
+formatting:
+  MaximumLineLength:
+    active: true
+    maxLineLength: 120
+  NoWildcardImports:
+    active: false
+naming:
+  FunctionParameterNaming:
+    excludes:
+      - "**/model/retrofit/**"
+style:
+  WildcardImport:
+    active: false

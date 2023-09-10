@@ -6,7 +6,8 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
 
-abstract class BaseViewStateBinder<VIEW_STATE : Any, VIEW_BINDING : Any, NOTIFICATION : Any> : ViewStateBinder<VIEW_STATE, VIEW_BINDING> {
+abstract class BaseViewStateBinder<VIEW_STATE : Any, VIEW_BINDING : Any, NOTIFICATION : Any> :
+    ViewStateBinder<VIEW_STATE, VIEW_BINDING> {
 
     private val _notification = MutableSharedFlow<NOTIFICATION>()
     val notification = _notification.asSharedFlow()

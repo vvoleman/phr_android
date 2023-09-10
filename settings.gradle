@@ -15,6 +15,6 @@ dependencyResolutionManagement {
 rootProject.name = "PHR"
 include ':app'
 include ':base'
-include ':feature-medicalrecord'
+include ':featureMedicalRecord'
 include ':common'
-include ':feature-medicine'
+include ':featureMedicine'

@@ -10,6 +10,7 @@ import cz.vvoleman.phr.common.domain.model.PatientDomainModel
 import cz.vvoleman.phr.common.domain.repository.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*
+import java.time.LocalDate
 
 @ExperimentalCoroutinesApi
 class PatientRepository(
@@ -22,7 +23,8 @@ class PatientRepository(
     GetAllPatientsRepository,
     GetSelectedPatientRepository,
     SwitchSelectedPatientRepository,
-    DeletePatientRepository {
+    DeletePatientRepository,
+    GetPatientByBirthDateRepository {
 
     override suspend fun getAll(): List<PatientDomainModel> {
         return patientDao.getAll().first().map { patientDomainModelToDataSourceMapper.toDomain(it) }
@@ -61,5 +63,11 @@ class PatientRepository(
             Log.e("PatientRepository", "Error deleting patient", e)
             false
         }
+    }
+
+    override suspend fun getPatientByBirthDate(birthDate: LocalDate): List<PatientDomainModel> {
+        val patients = patientDao.getByBirthDate(birthDate)
+
+        return patients.first().map { patientDomainModelToDataSourceMapper.toDomain(it) }
     }
 }

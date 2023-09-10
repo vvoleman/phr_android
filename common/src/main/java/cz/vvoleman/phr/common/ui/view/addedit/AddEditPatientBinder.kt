@@ -7,7 +7,9 @@ import cz.vvoleman.phr.common.presentation.model.addedit.AddEditViewState
 import cz.vvoleman.phr.common_datasource.R
 import cz.vvoleman.phr.common_datasource.databinding.FragmentAddEditPatientBinding
 
-class AddEditPatientBinder : BaseViewStateBinder<AddEditViewState, FragmentAddEditPatientBinding, AddEditPatientBinder.Notification>() {
+@Suppress("MaximumLineLength")
+class AddEditPatientBinder :
+    BaseViewStateBinder<AddEditViewState, FragmentAddEditPatientBinding, AddEditPatientBinder.Notification>() {
 
     override fun bind(viewBinding: FragmentAddEditPatientBinding, viewState: AddEditViewState) {
         viewState.patient?.let {

@@ -1,11 +1,11 @@
 package cz.vvoleman.phr.data.fixture
 
 import cz.vvoleman.phr.common.data.datasource.model.PatientDataSourceModel
-import cz.vvoleman.phr.feature_medicalrecord.data.datasource.model.room.MedicalRecordDao
-import cz.vvoleman.phr.feature_medicalrecord.data.datasource.model.room.MedicalRecordDataSourceModel
-import cz.vvoleman.phr.feature_medicalrecord.data.datasource.model.room.category.ProblemCategoryDataSourceModel
-import cz.vvoleman.phr.feature_medicalrecord.data.datasource.model.room.diagnose.DiagnoseDataSourceModel
-import cz.vvoleman.phr.feature_medicalrecord.data.datasource.model.room.worker.MedicalWorkerDataSourceModel
+import cz.vvoleman.phr.featureMedicalRecord.data.datasource.model.room.MedicalRecordDao
+import cz.vvoleman.phr.featureMedicalRecord.data.datasource.model.room.MedicalRecordDataSourceModel
+import cz.vvoleman.phr.featureMedicalRecord.data.datasource.model.room.category.ProblemCategoryDataSourceModel
+import cz.vvoleman.phr.featureMedicalRecord.data.datasource.model.room.diagnose.DiagnoseDataSourceModel
+import cz.vvoleman.phr.featureMedicalRecord.data.datasource.model.room.worker.MedicalWorkerDataSourceModel
 import java.time.LocalDate
 
 class MedicalRecordFixture(
@@ -36,37 +36,37 @@ class MedicalRecordFixture(
         return listOf(
             MedicalRecordDataSourceModel(
                 id = 1,
-                patient_id = patients[0].id!!,
-                diagnose_id = diagnoses[0].id,
-                problem_category_id = problemCategories[0].id,
-                medical_worker_id = medicalWorkers[0].id,
-                created_at = dateA,
-                visit_date = dateA
+                patientId = patients[0].id!!,
+                diagnoseId = diagnoses[0].id,
+                problemCategoryId = problemCategories[0].id,
+                medicalWorkerId = medicalWorkers[0].id,
+                createdAt = dateA,
+                visitDate = dateA
             ),
             MedicalRecordDataSourceModel(
                 id = 2,
-                patient_id = patients[0].id!!,
-                diagnose_id = diagnoses[1].id,
-                problem_category_id = problemCategories[0].id,
-                medical_worker_id = medicalWorkers[1].id,
-                created_at = dateB,
-                visit_date = dateB
+                patientId = patients[0].id!!,
+                diagnoseId = diagnoses[1].id,
+                problemCategoryId = problemCategories[0].id,
+                medicalWorkerId = medicalWorkers[1].id,
+                createdAt = dateB,
+                visitDate = dateB
             ),
             MedicalRecordDataSourceModel(
                 id = 3,
-                patient_id = patients[0].id!!,
-                diagnose_id = diagnoses[1].id,
-                problem_category_id = problemCategories[1].id,
-                medical_worker_id = medicalWorkers[2].id,
-                created_at = dateC,
-                visit_date = dateC
+                patientId = patients[0].id!!,
+                diagnoseId = diagnoses[1].id,
+                problemCategoryId = problemCategories[1].id,
+                medicalWorkerId = medicalWorkers[2].id,
+                createdAt = dateC,
+                visitDate = dateC
             ),
             MedicalRecordDataSourceModel(
                 id = 4,
-                patient_id = patients[0].id!!,
-                diagnose_id = diagnoses[1].id,
-                created_at = dateD,
-                visit_date = dateD
+                patientId = patients[0].id!!,
+                diagnoseId = diagnoses[1].id,
+                createdAt = dateD,
+                visitDate = dateD
             )
         )
     }

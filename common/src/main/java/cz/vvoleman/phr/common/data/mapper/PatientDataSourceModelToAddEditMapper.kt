@@ -8,6 +8,6 @@ class PatientDataSourceModelToAddEditMapper {
     fun toDataSource(patient: AddEditPatientDomainModel) = PatientDataSourceModel(
         id = patient.id?.toInt(),
         name = patient.name,
-        birth_date = patient.birthDate
+        birthDate = patient.birthDate
     )
 }

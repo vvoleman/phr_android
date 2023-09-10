@@ -1,8 +1,8 @@
 package cz.vvoleman.phr.data.fixture
 
 import cz.vvoleman.phr.common.data.datasource.model.AddressDataSourceModel
-import cz.vvoleman.phr.feature_medicalrecord.data.datasource.model.room.worker.MedicalWorkerDao
-import cz.vvoleman.phr.feature_medicalrecord.data.datasource.model.room.worker.MedicalWorkerDataSourceModel
+import cz.vvoleman.phr.featureMedicalRecord.data.datasource.model.room.worker.MedicalWorkerDao
+import cz.vvoleman.phr.featureMedicalRecord.data.datasource.model.room.worker.MedicalWorkerDataSourceModel
 
 class MedicalWorkerFixture(
     private val medicalWorkerDao: MedicalWorkerDao
@@ -28,8 +28,8 @@ class MedicalWorkerFixture(
                 address = AddressDataSourceModel(
                     city = "Ústí nad Labem",
                     street = "Kollárova",
-                    house_number = "226/2",
-                    zip_code = "40003"
+                    houseNumber = "226/2",
+                    zipCode = "40003"
                 ),
                 phone = "777 777 777"
             ),
@@ -41,8 +41,8 @@ class MedicalWorkerFixture(
                 address = AddressDataSourceModel(
                     city = "Děčín",
                     street = "U Zámku",
-                    house_number = "1",
-                    zip_code = "41101"
+                    houseNumber = "1",
+                    zipCode = "41101"
                 ),
                 phone = "680 680 680"
             ),
@@ -54,8 +54,8 @@ class MedicalWorkerFixture(
                 address = AddressDataSourceModel(
                     city = "Ústí nad Labem",
                     street = "Kollárova",
-                    house_number = "226/2",
-                    zip_code = "40003"
+                    houseNumber = "226/2",
+                    zipCode = "40003"
                 ),
                 phone = "777 777 777"
             )

@@ -5,7 +5,8 @@ import java.time.format.TextStyle
 import java.util.*
 
 fun LocalDate.getNameOfDay(short: Boolean = false): String {
-    return this.dayOfWeek.getDisplayName(TextStyle.SHORT_STANDALONE, Locale.getDefault())
+    val version = if (short) TextStyle.SHORT_STANDALONE else TextStyle.FULL_STANDALONE
+    return this.dayOfWeek.getDisplayName(version, Locale.getDefault())
 }
 
 fun LocalDate.getNameOfMonth(short: Boolean = false): String {

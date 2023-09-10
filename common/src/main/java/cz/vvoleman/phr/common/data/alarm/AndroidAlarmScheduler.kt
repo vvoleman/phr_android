@@ -17,6 +17,7 @@ class AndroidAlarmScheduler(
     private val alarmManager = context.getSystemService(AlarmManager::class.java)
 
     @SuppressLint("MissingPermission")
+    @Suppress("MagicNumber")
     override fun schedule(item: AlarmItem): Boolean {
         if (!checkPermissions()) {
             return false
