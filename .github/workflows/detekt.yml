@@ -17,7 +17,7 @@ jobs:
       - name: Grant permission
         run: chmod +x gradlew
       - name: Run detekt
-        run: ./gradlew detektAll
+        run: ./gradlew detekt
       - name: install for canvas
         run: sudo apt-get install build-essential libcairo2-dev libpango1.0-dev libjpeg-dev libgif-dev librsvg2-dev
       - uses: MeilCli/android-lint-statistics@v2
