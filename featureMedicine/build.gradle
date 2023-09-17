@@ -86,6 +86,9 @@ dependencies {
     // Event Bus
     implementation "org.greenrobot:eventbus:$event_bus_version"
 
+    // UI Components
+    implementation 'io.github.ShawnLin013:number-picker:2.4.13'
+
     testImplementation 'org.junit.jupiter:junit-jupiter'
     testImplementation "org.junit.jupiter:junit-jupiter-api:$junit_version"
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junit_version"
