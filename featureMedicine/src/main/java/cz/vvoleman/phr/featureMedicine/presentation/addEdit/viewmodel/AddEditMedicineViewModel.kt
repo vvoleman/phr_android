@@ -40,4 +40,32 @@ class AddEditMedicineViewModel @Inject constructor(
             updateViewState(currentViewState.copy(medicines = it.map { medicineMapper.toPresentation(it) }))
         }
     }
+
+    fun onTimeDelete(index: Int) {
+        val times = currentViewState.times.toMutableList()
+        times.removeAt(index)
+        updateViewState(currentViewState.copy(times = times))
+    }
+
+    fun onGetTime(index: Int): TimePresentationModel {
+        return currentViewState.times[index]
+    }
+
+    fun onTimeAdd(time: TimePresentationModel) {
+        val times = currentViewState.times.toMutableList()
+        times.add(time)
+
+        times.sortBy { it.time }
+
+        updateViewState(currentViewState.copy(times = times))
+    }
+
+    fun onTimeUpdate(index: Int, time: TimePresentationModel) {
+        val times = currentViewState.times.toMutableList()
+        times[index] = time
+
+        times.sortBy { it.time }
+
+        updateViewState(currentViewState.copy(times = times))
+    }
 }

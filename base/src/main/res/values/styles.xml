@@ -31,4 +31,19 @@
         <item name="android:elevation">4dp</item>
         <item name="android:padding">16dp</item>
     </style>
+    <style name="Shadow">
+        <item name="android:layout_margin">8dp</item>
+        <item name="android:background">@drawable/layout_rounded</item>
+        <item name="android:elevation">4dp</item>
+    </style>
+    <style name="TipText">
+        <item name="android:fontFamily">@font/roboto_medium</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:textColor">@color/blue_500</item>
+        <item name="android:layout_marginVertical">4dp</item>
+        <item name="android:drawablePadding">8dp</item>
+        <item name="android:drawableTint">@color/blue_500</item>
+        <item name="android:drawableStart">@drawable/ic_info</item>
+    </style>
 </resources>
