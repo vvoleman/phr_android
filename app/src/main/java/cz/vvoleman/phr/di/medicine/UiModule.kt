@@ -10,6 +10,7 @@ import cz.vvoleman.phr.featureMedicine.ui.addEdit.mapper.AddEditMedicineDestinat
 import cz.vvoleman.phr.featureMedicine.ui.addEdit.view.AddEditMedicineBinder
 import cz.vvoleman.phr.featureMedicine.ui.list.mapper.ListMedicineDestinationUiMapper
 import cz.vvoleman.phr.featureMedicine.ui.list.view.ListMedicineBinder
+import cz.vvoleman.phr.featureMedicine.ui.mapper.addEdit.FrequencyDayUiModelToPresentationMapper
 import cz.vvoleman.phr.featureMedicine.ui.mapper.addEdit.TimeUiModelToPresentationMapper
 import cz.vvoleman.phr.featureMedicine.ui.mapper.list.*
 import dagger.Module
@@ -82,5 +83,10 @@ class UiModule {
     @Provides
     fun providesTimeUiModelToPresentationMapper(): TimeUiModelToPresentationMapper {
         return TimeUiModelToPresentationMapper()
+    }
+
+    @Provides
+    fun providesFrequencyDayUiModelToPresentationMapper(): FrequencyDayUiModelToPresentationMapper {
+        return FrequencyDayUiModelToPresentationMapper()
     }
 }
