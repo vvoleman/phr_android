@@ -55,6 +55,7 @@ class MedicineSelector @JvmOverloads constructor(
         dialog = builder.create()
 
         binding.root.setOnClickListener {
+            listener?.onMedicineSelectorSearch("")
             dialog.show()
         }
 
