@@ -5,6 +5,8 @@ import cz.vvoleman.phr.featureMedicine.domain.repository.SearchMedicineRepositor
 import cz.vvoleman.phr.featureMedicine.domain.repository.timeline.GetSchedulesByPatientRepository
 import cz.vvoleman.phr.featureMedicine.domain.usecase.GetScheduledInTimeRangeUseCase
 import cz.vvoleman.phr.featureMedicine.domain.usecase.SearchMedicineUseCase
+import cz.vvoleman.phr.featureMedicine.presentation.mapper.addEdit.SaveMedicineSchedulePresentationModelToDomainMapper
+import cz.vvoleman.phr.featureMedicine.presentation.mapper.addEdit.SaveScheduleItemPresentationModelToDomainMapper
 import cz.vvoleman.phr.featureMedicine.presentation.mapper.list.*
 import dagger.Module
 import dagger.Provides
@@ -68,5 +70,16 @@ class PresentationModule {
             packagingMapper,
             substanceAmountMapper
         )
+    }
+
+    @Provides
+    fun providesSaveMedicineSchedulePresentationModelToDomainMapper():
+            SaveMedicineSchedulePresentationModelToDomainMapper {
+        return SaveMedicineSchedulePresentationModelToDomainMapper()
+    }
+
+    @Provides
+    fun providesSaveScheduleItemPresentationModelToDomainMapper(): SaveScheduleItemPresentationModelToDomainMapper {
+        return SaveScheduleItemPresentationModelToDomainMapper()
     }
 }
