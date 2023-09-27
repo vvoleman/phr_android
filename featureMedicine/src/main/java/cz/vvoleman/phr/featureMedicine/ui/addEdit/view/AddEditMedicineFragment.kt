@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TimePicker
+import android.widget.Toast
 import androidx.appcompat.widget.PopupMenu
 import androidx.fragment.app.viewModels
 import com.google.android.material.snackbar.Snackbar
@@ -17,7 +18,11 @@ import cz.vvoleman.phr.featureMedicine.presentation.addEdit.model.AddEditMedicin
 import cz.vvoleman.phr.featureMedicine.presentation.addEdit.viewmodel.AddEditMedicineViewModel
 import cz.vvoleman.phr.featureMedicine.presentation.model.addEdit.TimePresentationModel
 import cz.vvoleman.phr.featureMedicine.ui.addEdit.mapper.AddEditMedicineDestinationUiMapper
+import cz.vvoleman.phr.featureMedicine.ui.frequencySelector.FrequencyDayUiModel
+import cz.vvoleman.phr.featureMedicine.ui.frequencySelector.FrequencySelector
+import cz.vvoleman.phr.featureMedicine.ui.mapper.addEdit.FrequencyDayUiModelToPresentationMapper
 import cz.vvoleman.phr.featureMedicine.ui.mapper.addEdit.TimeUiModelToPresentationMapper
+import cz.vvoleman.phr.featureMedicine.ui.mapper.list.MedicineUiModelToPresentationMapper
 import cz.vvoleman.phr.featureMedicine.ui.medicineSelector.MedicineSelector
 import cz.vvoleman.phr.featureMedicine.ui.model.list.MedicineUiModel
 import cz.vvoleman.phr.featureMedicine.ui.timeSelector.TimeSelector
@@ -30,7 +35,7 @@ import javax.inject.Inject
 class AddEditMedicineFragment :
     BaseFragment<AddEditMedicineViewState, AddEditMedicineNotification, FragmentAddEditMedicineBinding>(),
     MedicineSelector.MedicineSelectorListener,
-    TimeSelector.TimeSelectorListener {
+    TimeSelector.TimeSelectorListener, FrequencySelector.FrequencySelectorListener {
 
     override val viewModel: AddEditMedicineViewModel by viewModels()
 
@@ -42,6 +47,12 @@ class AddEditMedicineFragment :
 
     @Inject
     lateinit var timeUiModelToPresentationMapper: TimeUiModelToPresentationMapper
+
+    @Inject
+    lateinit var frequencyDayUiModelToPresentationMapper: FrequencyDayUiModelToPresentationMapper
+
+    @Inject
+    lateinit var medicineUiModelToPresentationMapper: MedicineUiModelToPresentationMapper
 
     override fun setupBinding(
         inflater: LayoutInflater,
@@ -55,11 +66,16 @@ class AddEditMedicineFragment :
 
         binding.medicineSelector.setListener(this)
         binding.timeSelector.setListener(this)
+        binding.frequencySelector.setListener(this)
 
         binding.buttonAddTime.setOnClickListener {
             openTimeDialog { time, _ ->
                 viewModel.onTimeAdd(time)
             }
+        }
+
+        binding.buttonSave.setOnClickListener {
+            viewModel.onSave()
         }
     }
 
@@ -68,11 +84,15 @@ class AddEditMedicineFragment :
             is AddEditMedicineNotification.DataLoaded -> {
                 Snackbar.make(binding.root, "Data loaded", Snackbar.LENGTH_SHORT).show()
             }
+
+            is AddEditMedicineNotification.CannotSave -> {
+                Snackbar.make(binding.root, "Cannot save", Snackbar.LENGTH_SHORT).show()
+            }
         }
     }
 
     override fun onMedicineSelected(medicine: MedicineUiModel?) {
-        Snackbar.make(binding.root, "Medicine selected", Snackbar.LENGTH_SHORT).show()
+        viewModel.onMedicineSelected(medicine?.let { medicineUiModelToPresentationMapper.toPresentation(it) })
     }
 
     override fun onMedicineSelectorSearch(query: String) {
@@ -124,5 +144,9 @@ class AddEditMedicineFragment :
         )
 
         dialog.show()
+    }
+
+    override fun onValueChange(days: List<FrequencyDayUiModel>) {
+        viewModel.onFrequencyUpdate(days.map { frequencyDayUiModelToPresentationMapper.toPresentation(it) })
     }
 }
