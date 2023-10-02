@@ -12,11 +12,13 @@ import cz.vvoleman.phr.featureMedicine.domain.model.schedule.MedicineScheduleDom
 import cz.vvoleman.phr.featureMedicine.domain.model.schedule.ScheduleItemDomainModel
 import cz.vvoleman.phr.featureMedicine.domain.model.schedule.save.SaveMedicineScheduleDomainModel
 import cz.vvoleman.phr.featureMedicine.domain.model.schedule.save.SaveScheduleItemDomainModel
+import cz.vvoleman.phr.featureMedicine.domain.repository.GetMedicineScheduleByIdRepository
 import cz.vvoleman.phr.featureMedicine.domain.repository.GetScheduleByMedicineRepository
 import cz.vvoleman.phr.featureMedicine.domain.repository.SaveMedicineScheduleRepository
 import cz.vvoleman.phr.featureMedicine.domain.repository.SaveScheduleItemRepository
 import cz.vvoleman.phr.featureMedicine.domain.repository.timeline.GetSchedulesByPatientRepository
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.firstOrNull
 
 class ScheduleRepository(
     private val medicineScheduleDao: MedicineScheduleDao,
@@ -30,7 +32,8 @@ class ScheduleRepository(
 ) : GetScheduleByMedicineRepository,
     SaveMedicineScheduleRepository,
     SaveScheduleItemRepository,
-    GetSchedulesByPatientRepository {
+    GetSchedulesByPatientRepository,
+    GetMedicineScheduleByIdRepository {
 
     override suspend fun getScheduleByMedicine(
         medicineId: String,
@@ -90,5 +93,11 @@ class ScheduleRepository(
             .let { scheduleItemDataSourceMapper.toDataSource(it, scheduleId) }
 
         return scheduleItemDao.insert(saveModel).toString()
+    }
+
+    override suspend fun getMedicineScheduleById(id: String): MedicineScheduleDomainModel? {
+        return medicineScheduleDao.getById(id.toInt()).firstOrNull()
+            ?.let { medicineScheduleDataSourceMapper.toData(it) }
+            ?.let { medicineScheduleDataMapper.toDomain(it) }
     }
 }

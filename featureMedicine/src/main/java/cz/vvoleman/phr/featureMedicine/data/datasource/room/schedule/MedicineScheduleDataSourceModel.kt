@@ -9,6 +9,6 @@ import java.time.LocalDateTime
 data class MedicineScheduleDataSourceModel(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
     @ColumnInfo(name = "patient_id") val patientId: Int,
-    @ColumnInfo(name = "medicine_id") val medicineId: Int,
+    @ColumnInfo(name = "medicine_id") val medicineId: String,
     val createdAt: LocalDateTime
 )

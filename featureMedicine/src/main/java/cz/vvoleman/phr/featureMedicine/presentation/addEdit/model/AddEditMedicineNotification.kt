@@ -5,4 +5,6 @@ sealed class AddEditMedicineNotification {
     object DataLoaded : AddEditMedicineNotification()
 
     object CannotSave : AddEditMedicineNotification()
+
+    object MedicineScheduleNotFound : AddEditMedicineNotification()
 }

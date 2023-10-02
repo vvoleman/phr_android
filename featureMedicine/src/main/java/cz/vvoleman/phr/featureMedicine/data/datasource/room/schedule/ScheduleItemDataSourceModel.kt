@@ -14,7 +14,8 @@ data class ScheduleItemDataSourceModel(
     val time: LocalTime,
     @ColumnInfo(name = "scheduled_at") val scheduledAt: LocalDateTime,
     @ColumnInfo(name = "ending_at") val endingAt: LocalDateTime? = null,
-    val quantity: String,
+    val quantity: Number,
+    val unit: String,
     @ColumnInfo(name = "schedule_id") val scheduleId: Int,
     val description: String? = null
 )

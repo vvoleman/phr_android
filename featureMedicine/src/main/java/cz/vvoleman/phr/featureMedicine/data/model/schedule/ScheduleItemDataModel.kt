@@ -10,6 +10,7 @@ data class ScheduleItemDataModel(
     val time: LocalTime,
     val scheduledAt: LocalDateTime,
     val endingAt: LocalDateTime? = null,
-    val quantity: String,
+    val quantity: Number,
+    val unit: String,
     val description: String? = null
 )
