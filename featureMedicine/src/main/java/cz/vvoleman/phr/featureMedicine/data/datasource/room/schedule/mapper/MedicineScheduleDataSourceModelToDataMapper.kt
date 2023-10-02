@@ -26,7 +26,7 @@ class MedicineScheduleDataSourceModelToDataMapper(
         return MedicineScheduleDataSourceModel(
             id = model.id!!.toInt(),
             patientId = model.patient.id.toInt(),
-            medicineId = model.medicine.id.toInt(),
+            medicineId = model.medicine.id,
             createdAt = model.createdAt
         )
     }

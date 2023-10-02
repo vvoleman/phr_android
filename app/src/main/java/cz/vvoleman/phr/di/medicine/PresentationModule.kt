@@ -1,6 +1,7 @@
 package cz.vvoleman.phr.di.medicine
 
 import cz.vvoleman.phr.base.domain.coroutine.CoroutineContextProvider
+import cz.vvoleman.phr.common.presentation.mapper.PatientPresentationModelToDomainMapper
 import cz.vvoleman.phr.featureMedicine.domain.repository.SearchMedicineRepository
 import cz.vvoleman.phr.featureMedicine.domain.repository.timeline.GetSchedulesByPatientRepository
 import cz.vvoleman.phr.featureMedicine.domain.usecase.GetScheduledInTimeRangeUseCase
@@ -73,9 +74,16 @@ class PresentationModule {
     }
 
     @Provides
-    fun providesSaveMedicineSchedulePresentationModelToDomainMapper():
-            SaveMedicineSchedulePresentationModelToDomainMapper {
-        return SaveMedicineSchedulePresentationModelToDomainMapper()
+    fun providesSaveMedicineSchedulePresentationModelToDomainMapper(
+        patientMapper: PatientPresentationModelToDomainMapper,
+        medicineMapper: MedicinePresentationModelToDomainMapper,
+        scheduleMapper: SaveScheduleItemPresentationModelToDomainMapper
+    ): SaveMedicineSchedulePresentationModelToDomainMapper {
+        return SaveMedicineSchedulePresentationModelToDomainMapper(
+            patientMapper,
+            medicineMapper,
+            scheduleMapper
+        )
     }
 
     @Provides

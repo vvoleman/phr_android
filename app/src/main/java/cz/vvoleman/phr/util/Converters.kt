@@ -50,4 +50,14 @@ class Converters {
     fun toStatesHolder(list: String): List<SubstanceAmountDataSourceModel> {
         return Gson().fromJson(list, List::class.java) as List<SubstanceAmountDataSourceModel>
     }
+
+    @TypeConverter
+    fun fromNumber(value: Number?): Double? {
+        return value?.toDouble()
+    }
+
+    @TypeConverter
+    fun toNumber(value: Double?): Number? {
+        return value
+    }
 }

@@ -50,7 +50,7 @@ class TimeSelector @JvmOverloads constructor(
     }
 
     fun timeAdd(time: LocalTime) {
-        times.add(TimeUiModel(time, 1))
+        times.add(TimeUiModel(null, time, 1))
         orderByTime()
     }
 

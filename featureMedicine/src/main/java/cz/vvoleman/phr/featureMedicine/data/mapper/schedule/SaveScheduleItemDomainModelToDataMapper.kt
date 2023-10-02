@@ -12,6 +12,7 @@ class SaveScheduleItemDomainModelToDataMapper {
             scheduledAt = model.scheduledAt,
             endingAt = model.endingAt,
             quantity = model.quantity,
+            unit = model.unit,
             description = model.description
         )
     }

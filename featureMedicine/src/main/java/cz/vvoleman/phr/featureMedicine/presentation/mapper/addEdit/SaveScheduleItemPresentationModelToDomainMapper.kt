@@ -13,6 +13,7 @@ class SaveScheduleItemPresentationModelToDomainMapper {
             scheduledAt = model.scheduledAt,
             endingAt = model.endingAt,
             quantity = model.quantity,
+            unit = model.unit,
             description = model.description
         )
     }
@@ -25,6 +26,7 @@ class SaveScheduleItemPresentationModelToDomainMapper {
             scheduledAt = model.scheduledAt,
             endingAt = model.endingAt,
             quantity = model.quantity,
+            unit = model.unit,
             description = model.description
         )
     }
