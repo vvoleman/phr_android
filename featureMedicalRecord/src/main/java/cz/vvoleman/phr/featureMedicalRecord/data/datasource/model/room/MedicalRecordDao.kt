@@ -6,15 +6,19 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface MedicalRecordDao {
 
+    @Transaction
     @Query("SELECT * FROM medicalRecord ORDER BY :sortBy DESC")
     fun getAll(sortBy: String): Flow<List<MedicalRecordWithDetails>>
 
+    @Transaction
     @Query("SELECT * FROM medicalRecord WHERE id = :id")
     fun getById(id: String): Flow<MedicalRecordWithDetails>
 
+    @Transaction
     @Query("SELECT * FROM medicalRecord WHERE patient_id = :patientId ORDER BY :sortBy DESC")
     fun getByPatientId(patientId: String, sortBy: String): Flow<List<MedicalRecordWithDetails>>
 
+    @Transaction
     @Query(
         "SELECT * FROM medicalRecord " +
             "WHERE patient_id = :patientId AND medical_worker_id IN (:workerIds) " +
@@ -27,6 +31,7 @@ interface MedicalRecordDao {
         categoryIds: List<String>
     ): Flow<List<MedicalRecordWithDetails>>
 
+    @Transaction
     @Query(
         "SELECT * FROM medicalRecord " +
             "WHERE patient_id = :patientId AND problem_category_id IN (:categoryIds) ORDER BY :sortBy DESC"
@@ -37,6 +42,7 @@ interface MedicalRecordDao {
         categoryIds: List<String>
     ): Flow<List<MedicalRecordWithDetails>>
 
+    @Transaction
     @Query(
         "SELECT * FROM medicalRecord " +
             "WHERE patient_id = :patientId AND medical_worker_id IN (:workerIds) ORDER BY :sortBy DESC"

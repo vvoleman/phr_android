@@ -12,6 +12,7 @@ class ScheduleItemDataSourceModelToDataMapper {
             scheduledAt = model.scheduledAt,
             endingAt = model.endingAt,
             quantity = model.quantity,
+            unit = model.unit,
             description = model.description
         )
     }
@@ -24,6 +25,7 @@ class ScheduleItemDataSourceModelToDataMapper {
             endingAt = model.endingAt,
             quantity = model.quantity,
             description = model.description,
+            unit = model.unit,
             scheduleId = scheduleId.toInt()
         )
     }

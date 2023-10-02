@@ -22,6 +22,7 @@ data class ScheduleWithDetailsDataSourceModel(
     @Relation(
         parentColumn = "medicine_id",
         entityColumn = "id"
+
     )
     val medicine: MedicineDataSourceModel
 )

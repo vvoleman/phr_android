@@ -18,6 +18,7 @@ import cz.vvoleman.phr.featureMedicine.data.mapper.schedule.SaveScheduleItemDoma
 import cz.vvoleman.phr.featureMedicine.data.mapper.schedule.ScheduleItemDataModelToDomainMapper
 import cz.vvoleman.phr.featureMedicine.data.repository.MedicineRepository
 import cz.vvoleman.phr.featureMedicine.data.repository.ScheduleRepository
+import cz.vvoleman.phr.featureMedicine.domain.repository.GetMedicineScheduleByIdRepository
 import cz.vvoleman.phr.featureMedicine.domain.repository.GetScheduleByMedicineRepository
 import cz.vvoleman.phr.featureMedicine.domain.repository.SaveMedicineScheduleRepository
 import cz.vvoleman.phr.featureMedicine.domain.repository.SaveScheduleItemRepository
@@ -104,6 +105,11 @@ class DataModule {
     fun providesSearchMedicineRepository(
         medicineRepository: MedicineRepository
     ): SearchMedicineRepository = medicineRepository
+
+    @Provides
+    fun providesGetMedicineScheduleByIdRepository(
+        scheduleRepository: ScheduleRepository
+    ): GetMedicineScheduleByIdRepository = scheduleRepository
 
     @Provides
     fun providesSubstanceDataModelToDomainMapper() = SubstanceDataModelToDomainMapper()

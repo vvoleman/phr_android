@@ -10,6 +10,7 @@ data class SaveScheduleItemDomainModel(
     val time: LocalTime,
     val scheduledAt: LocalDateTime = LocalDateTime.now(),
     val endingAt: LocalDateTime? = null,
-    val quantity: String,
+    val quantity: Number,
+    val unit: String,
     val description: String? = null
 )

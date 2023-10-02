@@ -5,6 +5,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Transaction
 import cz.vvoleman.phr.featureMedicine.data.datasource.room.schedule.MedicineScheduleDataSourceModel
 import cz.vvoleman.phr.featureMedicine.data.datasource.room.schedule.ScheduleWithDetailsDataSourceModel
 import kotlinx.coroutines.flow.Flow
@@ -12,12 +13,15 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface MedicineScheduleDao {
 
+    @Transaction
     @Query("SELECT * FROM medicine_schedule WHERE patient_id = :patientId")
     fun getAll(patientId: Int): Flow<List<ScheduleWithDetailsDataSourceModel>>
 
+    @Transaction
     @Query("SELECT * FROM medicine_schedule WHERE id = :id")
     fun getById(id: Int): Flow<ScheduleWithDetailsDataSourceModel>
 
+    @Transaction
     @Query("SELECT * FROM medicine_schedule WHERE medicine_id = :medicineId AND patient_id = :patientId")
     fun getByMedicine(medicineId: String, patientId: String): Flow<List<ScheduleWithDetailsDataSourceModel>>
 
