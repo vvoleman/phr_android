@@ -34,6 +34,12 @@ class DataSourceModule {
     fun providesSubstanceDao(db: PatientDatabase) = db.substanceDao()
 
     @Provides
+    fun providesMedicineScheduleDao(db: PatientDatabase) = db.medicineScheduleDao()
+
+    @Provides
+    fun providesScheduleItemDao(db: PatientDatabase) = db.scheduleItemDao()
+
+    @Provides
     @Singleton
     fun provideBackendApi(retrofit: Retrofit): BackendApi =
         retrofit

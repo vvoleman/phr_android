@@ -1,7 +1,9 @@
 package cz.vvoleman.phr.di.medicine
 
 import cz.vvoleman.phr.base.domain.coroutine.CoroutineContextProvider
+import cz.vvoleman.phr.featureMedicine.domain.repository.GetMedicineScheduleByIdRepository
 import cz.vvoleman.phr.featureMedicine.domain.repository.SaveMedicineScheduleRepository
+import cz.vvoleman.phr.featureMedicine.domain.usecase.GetMedicineScheduleByIdUseCase
 import cz.vvoleman.phr.featureMedicine.domain.usecase.SaveMedicineScheduleUseCase
 import dagger.Module
 import dagger.Provides
@@ -18,6 +20,15 @@ class DomainModule {
         coroutineContextProvider: CoroutineContextProvider
     ) = SaveMedicineScheduleUseCase(
         medicineScheduleRepository,
+        coroutineContextProvider
+    )
+
+    @Provides
+    fun providesGetMedicineByIdUseCase(
+        medicineRepository: GetMedicineScheduleByIdRepository,
+        coroutineContextProvider: CoroutineContextProvider
+    ) = GetMedicineScheduleByIdUseCase(
+        medicineRepository,
         coroutineContextProvider
     )
 

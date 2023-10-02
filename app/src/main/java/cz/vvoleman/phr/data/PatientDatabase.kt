@@ -32,6 +32,10 @@ import cz.vvoleman.phr.featureMedicine.data.datasource.room.medicine.SubstanceDa
 import cz.vvoleman.phr.featureMedicine.data.datasource.room.medicine.dao.MedicineDao
 import cz.vvoleman.phr.featureMedicine.data.datasource.room.medicine.dao.ProductFormDao
 import cz.vvoleman.phr.featureMedicine.data.datasource.room.medicine.dao.SubstanceDao
+import cz.vvoleman.phr.featureMedicine.data.datasource.room.schedule.MedicineScheduleDataSourceModel
+import cz.vvoleman.phr.featureMedicine.data.datasource.room.schedule.ScheduleItemDataSourceModel
+import cz.vvoleman.phr.featureMedicine.data.datasource.room.schedule.dao.MedicineScheduleDao
+import cz.vvoleman.phr.featureMedicine.data.datasource.room.schedule.dao.ScheduleItemDao
 import cz.vvoleman.phr.util.Converters
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -49,7 +53,9 @@ import javax.inject.Provider
         MedicalRecordAssetDataSourceModel::class,
         MedicineDataSourceModel::class,
         ProductFormDataSourceModel::class,
-        SubstanceDataSourceModel::class
+        SubstanceDataSourceModel::class,
+        MedicineScheduleDataSourceModel::class,
+        ScheduleItemDataSourceModel::class,
     ],
     version = 1
 )
@@ -69,6 +75,10 @@ abstract class PatientDatabase : RoomDatabase() {
     abstract fun medicalRecordAssetDao(): MedicalRecordAssetDao
 
     abstract fun medicineDao(): MedicineDao
+
+    abstract fun medicineScheduleDao(): MedicineScheduleDao
+
+    abstract fun scheduleItemDao(): ScheduleItemDao
 
     abstract fun productFormDao(): ProductFormDao
 
