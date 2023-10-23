@@ -15,7 +15,6 @@ class ListSubstanceAmountDataSourceConverter {
 
     @TypeConverter
     fun toListSubstanceAmountDataSourceModel(json: String): ListSubstanceAmountDataSourceModel {
-        Log.d("ListSubstanceAmountDataSourceConverter", "toListSubstanceAmountDataSourceModel: $json")
         return Gson().fromJson(json, ListSubstanceAmountDataSourceModel::class.java)
     }
 
