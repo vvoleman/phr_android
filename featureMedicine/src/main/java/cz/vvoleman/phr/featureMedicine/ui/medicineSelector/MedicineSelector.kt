@@ -99,6 +99,13 @@ class MedicineSelector @JvmOverloads constructor(
         binding.layoutMedicine.isVisible = true
     }
 
+    public fun setSelectedMedicine(medicine: MedicineUiModel?) {
+        this.medicine = medicine
+        if (medicine != null) {
+            setupMedicine()
+        }
+    }
+
     suspend fun setData(data: List<MedicineUiModel>) {
         recyclerViewAdapter.submitData(PagingData.from(data))
     }

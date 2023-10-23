@@ -1,5 +1,7 @@
 package cz.vvoleman.phr.di.medicine
 
+import cz.vvoleman.phr.common.data.alarm.AlarmScheduler
+import cz.vvoleman.phr.featureMedicine.data.alarm.MedicineAlarmManager
 import cz.vvoleman.phr.featureMedicine.data.datasource.retrofit.BackendApi
 import cz.vvoleman.phr.featureMedicine.data.datasource.retrofit.medicine.mapper.MedicineApiDataSourceModelToDataMapper
 import cz.vvoleman.phr.featureMedicine.data.datasource.room.medicine.dao.*
@@ -9,6 +11,7 @@ import cz.vvoleman.phr.featureMedicine.data.datasource.room.medicine.mapper.Subs
 import cz.vvoleman.phr.featureMedicine.data.datasource.room.schedule.dao.MedicineScheduleDao
 import cz.vvoleman.phr.featureMedicine.data.datasource.room.schedule.dao.ScheduleItemDao
 import cz.vvoleman.phr.featureMedicine.data.datasource.room.schedule.mapper.MedicineScheduleDataSourceModelToDataMapper
+import cz.vvoleman.phr.featureMedicine.data.datasource.room.schedule.mapper.SaveMedicineScheduleDataSourceModelToDataMapper
 import cz.vvoleman.phr.featureMedicine.data.datasource.room.schedule.mapper.ScheduleItemDataSourceModelToDataMapper
 import cz.vvoleman.phr.featureMedicine.data.mapper.*
 import cz.vvoleman.phr.featureMedicine.data.mapper.medicine.*
@@ -16,12 +19,15 @@ import cz.vvoleman.phr.featureMedicine.data.mapper.schedule.MedicineScheduleData
 import cz.vvoleman.phr.featureMedicine.data.mapper.schedule.SaveMedicineScheduleDomainModelToDataMapper
 import cz.vvoleman.phr.featureMedicine.data.mapper.schedule.SaveScheduleItemDomainModelToDataMapper
 import cz.vvoleman.phr.featureMedicine.data.mapper.schedule.ScheduleItemDataModelToDomainMapper
+import cz.vvoleman.phr.featureMedicine.data.repository.AlarmRepository
 import cz.vvoleman.phr.featureMedicine.data.repository.MedicineRepository
 import cz.vvoleman.phr.featureMedicine.data.repository.ScheduleRepository
+import cz.vvoleman.phr.featureMedicine.domain.repository.GetMedicineByIdRepository
 import cz.vvoleman.phr.featureMedicine.domain.repository.GetMedicineScheduleByIdRepository
 import cz.vvoleman.phr.featureMedicine.domain.repository.GetScheduleByMedicineRepository
 import cz.vvoleman.phr.featureMedicine.domain.repository.SaveMedicineScheduleRepository
 import cz.vvoleman.phr.featureMedicine.domain.repository.SaveScheduleItemRepository
+import cz.vvoleman.phr.featureMedicine.domain.repository.ScheduleMedicineRepository
 import cz.vvoleman.phr.featureMedicine.domain.repository.SearchMedicineRepository
 import cz.vvoleman.phr.featureMedicine.domain.repository.timeline.GetSchedulesByPatientRepository
 import dagger.Module
@@ -66,19 +72,19 @@ class DataModule {
         medicineScheduleDataSourceMapper: MedicineScheduleDataSourceModelToDataMapper,
         medicineScheduleDataMapper: MedicineScheduleDataModelToDomainMapper,
         saveMedicineMapper: SaveMedicineScheduleDomainModelToDataMapper,
+        saveMedicineDataSourceMapper: SaveMedicineScheduleDataSourceModelToDataMapper,
         scheduleItemDao: ScheduleItemDao,
         scheduleItemDataSourceMapper: ScheduleItemDataSourceModelToDataMapper,
         scheduleItemDataMapper: ScheduleItemDataModelToDomainMapper,
-        saveScheduleItemMapper: SaveScheduleItemDomainModelToDataMapper
     ) = ScheduleRepository(
         medicineScheduleDao,
         medicineScheduleDataSourceMapper,
         medicineScheduleDataMapper,
         saveMedicineMapper,
+        saveMedicineDataSourceMapper,
         scheduleItemDao,
         scheduleItemDataSourceMapper,
         scheduleItemDataMapper,
-        saveScheduleItemMapper
     )
 
     @Provides
@@ -153,10 +159,39 @@ class DataModule {
 
     @Provides
     fun providesSaveMedicineScheduleDomainModelToDataMapper(
-        saveScheduleItemDomainModelToDataMapper: SaveScheduleItemDomainModelToDataMapper,
+        scheduleItemDomainModelToDataMapper: ScheduleItemDataModelToDomainMapper,
         medicineDataModelToDomainMapper: MedicineDataModelToDomainMapper
     ) = SaveMedicineScheduleDomainModelToDataMapper(
         medicineDataModelToDomainMapper,
-        saveScheduleItemDomainModelToDataMapper
+        scheduleItemDomainModelToDataMapper
     )
+
+    @Provides
+    fun providesGetMedicineByIdRepository(
+        medicineRepository: MedicineRepository
+    ): GetMedicineByIdRepository = medicineRepository
+
+    @Provides
+    fun providesAlarmRepository(
+        medicineScheduleDao: MedicineScheduleDao,
+        medicineScheduleDataMapper: MedicineScheduleDataSourceModelToDataMapper,
+        medicineScheduleMapper: MedicineScheduleDataModelToDomainMapper,
+        alarmScheduler: AlarmScheduler,
+    ) = AlarmRepository(
+        medicineScheduleDao,
+        medicineScheduleDataMapper,
+        medicineScheduleMapper,
+        alarmScheduler
+    )
+
+    @Provides
+    fun providesScheduleMedicineRepository(
+        alarmRepository: AlarmRepository
+    ): ScheduleMedicineRepository = alarmRepository
+
+    @Provides
+    fun providesMedicineAlarmManager(
+        alarmRepository: AlarmRepository
+    ) = MedicineAlarmManager(alarmRepository)
+
 }

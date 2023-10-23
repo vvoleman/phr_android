@@ -18,7 +18,8 @@ class MedicineScheduleDataSourceModelToDataMapper(
             patient = patientDataSourceMapper.toDomain(model.patient),
             medicine = medicineDataSourceMapper.toData(model.medicine),
             schedules = model.items.map { scheduleItemDataSourceMapper.toData(it) },
-            createdAt = model.schedule.createdAt
+            createdAt = model.schedule.createdAt,
+            isAlarmEnabled = model.schedule.isAlarmEnabled
         )
     }
 
@@ -27,7 +28,8 @@ class MedicineScheduleDataSourceModelToDataMapper(
             id = model.id!!.toInt(),
             patientId = model.patient.id.toInt(),
             medicineId = model.medicine.id,
-            createdAt = model.createdAt
+            createdAt = model.createdAt,
+            isAlarmEnabled = model.isAlarmEnabled
         )
     }
 }

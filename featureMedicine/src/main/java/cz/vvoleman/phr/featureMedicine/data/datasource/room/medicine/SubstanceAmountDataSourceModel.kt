@@ -4,3 +4,4 @@ data class SubstanceAmountDataSourceModel(
     val substanceId: String,
     val amount: String
 )
+

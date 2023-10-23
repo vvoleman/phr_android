@@ -8,13 +8,15 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import androidx.core.content.ContextCompat
+import cz.vvoleman.phr.common.utils.toEpochSeconds
+import java.time.LocalDateTime
 import java.time.ZoneId
 
 class AndroidAlarmScheduler(
     private val context: Context
 ) : AlarmScheduler {
 
-    private val alarmManager = context.getSystemService(AlarmManager::class.java)
+    private val alarmManager = context.getSystemService(AlarmManager::class.java) as AlarmManager
 
     @SuppressLint("MissingPermission")
     @Suppress("MagicNumber")
@@ -24,10 +26,22 @@ class AndroidAlarmScheduler(
         }
 
         val intent = getIntent(item)
-        val seconds = item.time.atZone(ZoneId.systemDefault()).toEpochSecond()
-        alarmManager.setExactAndAllowWhileIdle(
-            AlarmManager.RTC_WAKEUP,
-            seconds * 1000,
+//        val triggerAt = item.triggerAt.atZone(ZoneId.systemDefault()).toEpochSecond() * 1000
+//        alarmManager.setExactAndAllowWhileIdle(
+//            AlarmManager.RTC_WAKEUP,
+//            seconds * 1000,
+//            PendingIntent.getBroadcast(
+//                context,
+//                item.id.hashCode(),
+//                intent,
+//                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+//            )
+//        )
+
+        alarmManager.setRepeating(
+            item.type,
+            item.triggerAt.toEpochSeconds() * 1000,
+            item.repeatInterval,
             PendingIntent.getBroadcast(
                 context,
                 item.id.hashCode(),
@@ -63,5 +77,9 @@ class AndroidAlarmScheduler(
             context,
             Manifest.permission.SET_ALARM
         ) != PackageManager.PERMISSION_GRANTED
+    }
+
+    private fun localDateTimeToSeconds(localDateTime: LocalDateTime): Long {
+        return localDateTime.atZone(ZoneId.systemDefault()).toEpochSecond() * 1000
     }
 }

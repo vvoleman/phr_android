@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_listMedicineFragment_to_addEditMedicineFragment"
             app:destination="@id/addEditMedicineFragment" />
+        <deepLink
+            android:id="@+id/deepLink"
+            app:uri="phr://medicine/list" />
     </fragment>
     <fragment
         android:id="@+id/addEditMedicineFragment"
@@ -27,5 +30,8 @@
             android:defaultValue="@null"
             app:argType="string"
             app:nullable="true" />
+        <deepLink
+            android:id="@+id/deepLink"
+            app:uri="phr://medicine/add" />
     </fragment>
 </navigation>

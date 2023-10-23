@@ -1,10 +1,14 @@
 package cz.vvoleman.phr.di.medicine
 
 import cz.vvoleman.phr.base.domain.coroutine.CoroutineContextProvider
+import cz.vvoleman.phr.featureMedicine.domain.repository.GetMedicineByIdRepository
 import cz.vvoleman.phr.featureMedicine.domain.repository.GetMedicineScheduleByIdRepository
 import cz.vvoleman.phr.featureMedicine.domain.repository.SaveMedicineScheduleRepository
+import cz.vvoleman.phr.featureMedicine.domain.repository.ScheduleMedicineRepository
+import cz.vvoleman.phr.featureMedicine.domain.usecase.GetMedicineByIdUseCase
 import cz.vvoleman.phr.featureMedicine.domain.usecase.GetMedicineScheduleByIdUseCase
 import cz.vvoleman.phr.featureMedicine.domain.usecase.SaveMedicineScheduleUseCase
+import cz.vvoleman.phr.featureMedicine.domain.usecase.ScheduleMedicineAlertUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -24,11 +28,31 @@ class DomainModule {
     )
 
     @Provides
-    fun providesGetMedicineByIdUseCase(
+    fun providesGetMedicineScheduleByIdUseCase(
         medicineRepository: GetMedicineScheduleByIdRepository,
         coroutineContextProvider: CoroutineContextProvider
     ) = GetMedicineScheduleByIdUseCase(
         medicineRepository,
+        coroutineContextProvider
+    )
+
+    @Provides
+    fun providesGetMedicineByIdUseCase(
+        getMedicineByIdRepository: GetMedicineByIdRepository,
+        coroutineContextProvider: CoroutineContextProvider
+    ) = GetMedicineByIdUseCase (
+        getMedicineByIdRepository,
+        coroutineContextProvider
+    )
+
+    @Provides
+    fun providesScheduleMedicineAlertUseCase(
+        scheduleMedicineRepository: ScheduleMedicineRepository,
+        getMedicineScheduleByIdRepository: GetMedicineScheduleByIdRepository,
+        coroutineContextProvider: CoroutineContextProvider
+    ) = ScheduleMedicineAlertUseCase(
+        scheduleMedicineRepository,
+        getMedicineScheduleByIdRepository,
         coroutineContextProvider
     )
 

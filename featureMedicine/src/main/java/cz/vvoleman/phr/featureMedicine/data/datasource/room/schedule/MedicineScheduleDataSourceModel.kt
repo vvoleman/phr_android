@@ -10,5 +10,6 @@ data class MedicineScheduleDataSourceModel(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
     @ColumnInfo(name = "patient_id") val patientId: Int,
     @ColumnInfo(name = "medicine_id") val medicineId: String,
-    val createdAt: LocalDateTime
+    val createdAt: LocalDateTime,
+    @ColumnInfo(name = "is_alarm_enabled") val isAlarmEnabled: Boolean = true,
 )
