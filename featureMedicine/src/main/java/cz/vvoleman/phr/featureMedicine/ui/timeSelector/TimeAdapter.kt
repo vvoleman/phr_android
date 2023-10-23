@@ -32,7 +32,7 @@ class TimeAdapter(
         val item = getItem(position)
 
         if (item != null) {
-            holder.bind(item)
+            holder.bind(item, itemCount)
         }
     }
 
@@ -67,12 +67,13 @@ class TimeAdapter(
             }
         }
 
-        fun bind(time: TimeUiModel) {
+        fun bind(time: TimeUiModel, numberOfItems: Int) {
             val formatter = DateTimeFormatterBuilder()
                 .appendPattern("HH:mm")
                 .toFormatter()
             binding.textViewTime.text = time.time.format(formatter)
             binding.editTextQuantity.setText(time.number.toString())
+//            binding.layoutTimeSelector.layoutParams.width = (binding.root.width / numberOfItems) - 16
 
             binding.editTextQuantity.setClearFocusOnDoneAction()
         }

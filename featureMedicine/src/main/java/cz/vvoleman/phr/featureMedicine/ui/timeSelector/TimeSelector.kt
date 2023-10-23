@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.LinearLayout
+import androidx.recyclerview.widget.GridLayoutManager
 import cz.vvoleman.phr.featureMedicine.databinding.ViewTimeSelectorBinding
 import java.time.LocalTime
 
@@ -32,9 +33,14 @@ class TimeSelector @JvmOverloads constructor(
         this.times.addAll(times)
         _adapter?.submitList(times)
 
+        Log.d(TAG, "calling setTimes")
+
         binding.recyclerViewTimes.apply {
+            val layout = layoutManager as GridLayoutManager
+            layout.spanCount = if (times.isNotEmpty()) times.size else 1
+            layout.orientation = GridLayoutManager.VERTICAL
+            layoutManager = layout
             adapter = _adapter
-            setHasFixedSize(true)
         }
     }
 
