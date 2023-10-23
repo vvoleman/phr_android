@@ -25,6 +25,10 @@ interface MedicineScheduleDao {
     @Query("SELECT * FROM medicine_schedule WHERE medicine_id = :medicineId AND patient_id = :patientId")
     fun getByMedicine(medicineId: String, patientId: String): Flow<List<ScheduleWithDetailsDataSourceModel>>
 
+    @Transaction
+    @Query("SELECT * FROM medicine_schedule WHERE is_alarm_enabled = :isAlarmEnabled")
+    fun getActive(isAlarmEnabled: Boolean = true): Flow<List<ScheduleWithDetailsDataSourceModel>>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(medicineSchedule: MedicineScheduleDataSourceModel): Long
 

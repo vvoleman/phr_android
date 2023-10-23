@@ -1,14 +1,22 @@
 package cz.vvoleman.phr.featureMedicine.ui.timeSelector
 
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
+import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
+import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import cz.vvoleman.phr.common.utils.setClearFocusOnDoneAction
 import cz.vvoleman.phr.featureMedicine.databinding.ItemTimeSelectorBinding
 import java.time.format.DateTimeFormatterBuilder
+import java.util.Timer
+import java.util.TimerTask
 
 class TimeAdapter(
     private val listener: TimeAdapterListener
@@ -42,6 +50,20 @@ class TimeAdapter(
                         }
                     }
                 }
+
+                editTextQuantity.setOnFocusChangeListener { _, b ->
+                    // If focus is lost, change quantity
+                    if (!b) {
+                        val position = bindingAdapterPosition
+                        if (position != RecyclerView.NO_POSITION) {
+                            val item = getItem(position)
+                            if (item != null) {
+                                listener.onQuantityChange(bindingAdapterPosition, editTextQuantity.text.toString().toDouble())
+                            }
+                        }
+                    }
+                }
+
             }
         }
 
@@ -50,8 +72,9 @@ class TimeAdapter(
                 .appendPattern("HH:mm")
                 .toFormatter()
             binding.textViewTime.text = time.time.format(formatter)
-            Log.d("TimeAdapter", "number value: ${time.number}")
-            binding.numberPickerAmount.value = time.number.toInt()
+            binding.editTextQuantity.setText(time.number.toString())
+
+            binding.editTextQuantity.setClearFocusOnDoneAction()
         }
     }
 
@@ -61,11 +84,12 @@ class TimeAdapter(
         }
 
         override fun areContentsTheSame(oldItem: TimeUiModel, newItem: TimeUiModel): Boolean {
-            return oldItem == newItem
+            return oldItem.time == newItem.time
         }
     }
 
     interface TimeAdapterListener {
         fun onTimeClick(index: Int, anchorView: View)
+        fun onQuantityChange(index: Int, newValue: Number)
     }
 }

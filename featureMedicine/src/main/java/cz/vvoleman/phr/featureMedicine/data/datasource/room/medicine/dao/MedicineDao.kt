@@ -14,6 +14,9 @@ interface MedicineDao {
     @Query("SELECT * FROM medicine")
     fun getAll(): Flow<List<MedicineDataSourceModel>>
 
+    @Query("SELECT * FROM medicine WHERE id = :medicineId")
+    fun getById(medicineId: String): Flow<MedicineDataSourceModel>
+
     @Query("SELECT * FROM medicine WHERE id IN (:medicineIds)")
     fun getManyById(medicineIds: List<String>): Flow<List<MedicineDataSourceModel>>
 

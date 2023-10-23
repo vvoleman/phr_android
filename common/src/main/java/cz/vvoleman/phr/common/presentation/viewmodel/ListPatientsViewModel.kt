@@ -60,15 +60,15 @@ class ListPatientsViewModel @Inject constructor(
 
     @Suppress("MagicNumber")
     fun onPatientSwitch(id: String) = viewModelScope.launch {
-        val item = AlarmItem(
-            "switch-$id",
-            LocalDateTime.now().plusSeconds(5),
-            TestContent(id),
-            AlarmReceiver::class.java
-        )
-
-        val result = alarmScheduler.schedule(item)
-        Log.d(TAG, "Scheduled patient: $result")
+//        val item = AlarmItem(
+//            "switch-$id",
+//            LocalDateTime.now().plusSeconds(5),
+//            TestContent(id),
+//            AlarmReceiver::class.java
+//        )
+//
+//        val result = alarmScheduler.schedule(item)
+//        Log.d(TAG, "Scheduled patient: $result")
 
         switchSelectedPatientUseCase.execute(id) {}
     }

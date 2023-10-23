@@ -7,4 +7,6 @@ sealed class AddEditMedicineNotification {
     object CannotSave : AddEditMedicineNotification()
 
     object MedicineScheduleNotFound : AddEditMedicineNotification()
+
+    object CannotScheduleMedicine : AddEditMedicineNotification()
 }

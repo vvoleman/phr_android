@@ -11,4 +11,5 @@ data class AddEditMedicineViewState(
     val times: List<TimePresentationModel> = emptyList(),
     val frequencyDays: List<FrequencyDayPresentationModel> = emptyList(),
     val patient: PatientPresentationModel? = null,
+    val frequencyDaysDefault: List<FrequencyDayPresentationModel> = emptyList(),
 )

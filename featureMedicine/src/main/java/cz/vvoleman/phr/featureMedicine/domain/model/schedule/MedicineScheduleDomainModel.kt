@@ -9,5 +9,6 @@ data class MedicineScheduleDomainModel(
     val patient: PatientDomainModel,
     val medicine: MedicineDomainModel,
     val schedules: List<ScheduleItemDomainModel>,
-    val createdAt: LocalDateTime
+    val createdAt: LocalDateTime,
+    val isAlarmEnabled: Boolean,
 )

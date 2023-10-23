@@ -1,6 +1,7 @@
 package cz.vvoleman.phr.featureMedicine.ui.addEdit.view
 
 import android.app.TimePickerDialog
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,6 +9,7 @@ import android.widget.TimePicker
 import android.widget.Toast
 import androidx.appcompat.widget.PopupMenu
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import com.google.android.material.snackbar.Snackbar
 import cz.vvoleman.phr.base.ui.mapper.ViewStateBinder
 import cz.vvoleman.phr.base.ui.view.BaseFragment
@@ -75,7 +77,7 @@ class AddEditMedicineFragment :
         }
 
         binding.buttonSave.setOnClickListener {
-            viewModel.onSave()
+            lifecycleScope.launchWhenCreated{viewModel.onSave()}
         }
     }
 
@@ -87,6 +89,14 @@ class AddEditMedicineFragment :
 
             is AddEditMedicineNotification.CannotSave -> {
                 Snackbar.make(binding.root, "Cannot save", Snackbar.LENGTH_SHORT).show()
+            }
+
+            is AddEditMedicineNotification.MedicineScheduleNotFound -> {
+                Snackbar.make(binding.root, "Medicine schedule not found", Snackbar.LENGTH_SHORT).show()
+            }
+
+            is AddEditMedicineNotification.CannotScheduleMedicine -> {
+                Snackbar.make(binding.root, "Cannot schedule medicine", Snackbar.LENGTH_SHORT).show()
             }
         }
     }
@@ -124,11 +134,15 @@ class AddEditMedicineFragment :
         popup.show()
     }
 
+    override fun onQuantityChange(index: Int, newValue: Number) {
+        viewModel.onQuantityChange(index, newValue)
+    }
+
     private fun openTimeDialog(index: Int? = null, updateUnit: (TimePresentationModel, Int?) -> Unit) {
         val time = if (index != null) {
             timeUiModelToPresentationMapper.toUi(viewModel.onGetTime(index))
         } else {
-            TimeUiModel(LocalTime.now(), 1)
+            TimeUiModel(null, LocalTime.now(), 1)
         }
 
         val dialog = TimePickerDialog(
@@ -147,6 +161,7 @@ class AddEditMedicineFragment :
     }
 
     override fun onValueChange(days: List<FrequencyDayUiModel>) {
+        Log.d(TAG, "onValueChange: $days")
         viewModel.onFrequencyUpdate(days.map { frequencyDayUiModelToPresentationMapper.toPresentation(it) })
     }
 }

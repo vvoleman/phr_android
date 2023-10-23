@@ -77,7 +77,7 @@ class PresentationModule {
     fun providesSaveMedicineSchedulePresentationModelToDomainMapper(
         patientMapper: PatientPresentationModelToDomainMapper,
         medicineMapper: MedicinePresentationModelToDomainMapper,
-        scheduleMapper: SaveScheduleItemPresentationModelToDomainMapper
+        scheduleMapper: ScheduleItemPresentationModelToDomainMapper
     ): SaveMedicineSchedulePresentationModelToDomainMapper {
         return SaveMedicineSchedulePresentationModelToDomainMapper(
             patientMapper,
@@ -89,5 +89,21 @@ class PresentationModule {
     @Provides
     fun providesSaveScheduleItemPresentationModelToDomainMapper(): SaveScheduleItemPresentationModelToDomainMapper {
         return SaveScheduleItemPresentationModelToDomainMapper()
+    }
+
+    @Provides
+    fun providesScheduleItemPresentationModelToDomainMapper() = ScheduleItemPresentationModelToDomainMapper()
+
+    @Provides
+    fun providesMedicineSchedulePresentationModelToDomainMapper(
+        patientMapper: PatientPresentationModelToDomainMapper,
+        scheduleMapper: ScheduleItemPresentationModelToDomainMapper,
+        medicineMapper: MedicinePresentationModelToDomainMapper
+    ): MedicineSchedulePresentationModelToDomainMapper {
+        return MedicineSchedulePresentationModelToDomainMapper(
+            patientMapper,
+            scheduleMapper,
+            medicineMapper
+        )
     }
 }
