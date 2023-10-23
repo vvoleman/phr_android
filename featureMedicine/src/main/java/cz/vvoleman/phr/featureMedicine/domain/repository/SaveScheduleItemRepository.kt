@@ -5,5 +5,5 @@ import cz.vvoleman.phr.featureMedicine.domain.model.schedule.save.SaveScheduleIt
 
 interface SaveScheduleItemRepository {
 
-    suspend fun saveScheduleItem(scheduleItem: SaveScheduleItemDomainModel, scheduleId: String): ScheduleItemDomainModel
+    suspend fun saveScheduleItem(scheduleItem: ScheduleItemDomainModel, scheduleId: String): ScheduleItemDomainModel
 }

@@ -1,5 +1,6 @@
 package cz.vvoleman.phr.ui
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
@@ -58,6 +59,21 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+
+        if (intent != null) {
+            val fragmentIdentifier = intent.getIntExtra(FRAGMENT_IDENTIFIER_KEY, -1)
+
+            if (fragmentIdentifier == -1) {
+                Log.e("MainActivity", "No fragment identifier found in intent")
+                return
+            }
+
+            navController.navigate(fragmentIdentifier)
+        }
+    }
+
     override fun onSupportNavigateUp(): Boolean {
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
@@ -93,4 +109,9 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+
+    companion object {
+        const val FRAGMENT_IDENTIFIER_KEY = "fragmentIdentifier"
+    }
+
 }

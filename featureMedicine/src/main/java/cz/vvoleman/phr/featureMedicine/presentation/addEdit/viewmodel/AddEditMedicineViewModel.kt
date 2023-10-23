@@ -9,17 +9,21 @@ import cz.vvoleman.phr.common.domain.usecase.GetSelectedPatientUseCase
 import cz.vvoleman.phr.common.presentation.mapper.PatientPresentationModelToDomainMapper
 import cz.vvoleman.phr.featureMedicine.domain.model.SearchMedicineRequestDomainModel
 import cz.vvoleman.phr.featureMedicine.domain.model.schedule.MedicineScheduleDomainModel
+import cz.vvoleman.phr.featureMedicine.domain.usecase.GetMedicineByIdUseCase
 import cz.vvoleman.phr.featureMedicine.domain.usecase.GetMedicineScheduleByIdUseCase
 import cz.vvoleman.phr.featureMedicine.domain.usecase.SaveMedicineScheduleUseCase
+import cz.vvoleman.phr.featureMedicine.domain.usecase.ScheduleMedicineAlertUseCase
 import cz.vvoleman.phr.featureMedicine.domain.usecase.SearchMedicineUseCase
+import cz.vvoleman.phr.featureMedicine.presentation.addEdit.factory.FrequencyDaysPresentationFactory
 import cz.vvoleman.phr.featureMedicine.presentation.addEdit.model.AddEditMedicineNotification
 import cz.vvoleman.phr.featureMedicine.presentation.addEdit.model.AddEditMedicineViewState
+import cz.vvoleman.phr.featureMedicine.presentation.mapper.addEdit.SaveMedicineSchedulePresentationModelToDomainMapper
 import cz.vvoleman.phr.featureMedicine.presentation.mapper.list.MedicinePresentationModelToDomainMapper
 import cz.vvoleman.phr.featureMedicine.presentation.model.addEdit.FrequencyDayPresentationModel
 import cz.vvoleman.phr.featureMedicine.presentation.model.addEdit.SaveMedicineSchedulePresentationModel
-import cz.vvoleman.phr.featureMedicine.presentation.model.addEdit.SaveScheduleItemPresentationModel
 import cz.vvoleman.phr.featureMedicine.presentation.model.addEdit.TimePresentationModel
 import cz.vvoleman.phr.featureMedicine.presentation.model.list.MedicinePresentationModel
+import cz.vvoleman.phr.featureMedicine.presentation.model.list.ScheduleItemPresentationModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
@@ -33,7 +37,10 @@ class AddEditMedicineViewModel @Inject constructor(
     private val getSelectedPatientUseCase: GetSelectedPatientUseCase,
     private val saveMedicineScheduleUseCase: SaveMedicineScheduleUseCase,
     private val getMedicineScheduleByIdUseCase: GetMedicineScheduleByIdUseCase,
+    private val getMedicineByIdUseCase: GetMedicineByIdUseCase,
+    private val scheduleMedicineAlertUseCase: ScheduleMedicineAlertUseCase,
     private val medicineMapper: MedicinePresentationModelToDomainMapper,
+    private val saveMedicineMapper: SaveMedicineSchedulePresentationModelToDomainMapper,
     private val patientMapper: PatientPresentationModelToDomainMapper,
     private val savedStateHandle: SavedStateHandle,
     useCaseExecutorProvider: UseCaseExecutorProvider
@@ -45,19 +52,36 @@ class AddEditMedicineViewModel @Inject constructor(
     override fun initState(): AddEditMedicineViewState {
         val temp = listOf(LocalTime.of(8, 0), LocalTime.of(14, 0), LocalTime.of(20, 0))
         val times = temp.map { TimePresentationModel(null, it, 0) }
+        Log.d(TAG, "a")
+
         return AddEditMedicineViewState(
-            times = times
+            times = times,
+            frequencyDaysDefault = FrequencyDaysPresentationFactory.makeDays(),
         )
     }
 
     override fun onInit() {
         super.onInit()
+        Log.d(TAG, "b")
         viewModelScope.launch {
             loadSelectedPatient()
+
+            // Delete later
+            getMedicineByIdUseCase.execute("0000009") { medicine ->
+                if (medicine == null) {
+                    Log.d(TAG, "onInit: medicine is null")
+                    return@execute
+                }
+                updateViewState(currentViewState.copy(selectedMedicine = medicineMapper.toPresentation(medicine)))
+
+                Log.d(TAG, "new medicine is: ${currentViewState.selectedMedicine}")
+            }
 
             val scheduleId = savedStateHandle.get<String>(SCHEDULE_ID)
             if (scheduleId != null) {
                 getMedicineScheduleByIdUseCase.execute(scheduleId, ::handleGetMedicineScheduleById)
+            } else {
+                updateViewState(currentViewState.copy(frequencyDays = FrequencyDaysPresentationFactory.makeDays()))
             }
         }
     }
@@ -105,7 +129,7 @@ class AddEditMedicineViewModel @Inject constructor(
         updateViewState(currentViewState.copy(frequencyDays = days))
     }
 
-    fun onSave() {
+    suspend fun onSave() {
         Log.d(TAG, "selectedMedicine: ${currentViewState.selectedMedicine}")
         Log.d(TAG, "times: ${currentViewState.times}")
         Log.d(TAG, "frequencyDays: ${currentViewState.frequencyDays}")
@@ -117,13 +141,27 @@ class AddEditMedicineViewModel @Inject constructor(
             return
         }
 
-        Log.d(TAG, "onSave: ${currentViewState.selectedMedicine}")
         val saveMedicine = SaveMedicineSchedulePresentationModel(
             patient = currentViewState.patient!!,
             medicine = currentViewState.selectedMedicine!!,
             schedules = makeSaveSchedules(currentViewState.times, currentViewState.frequencyDays),
             createdAt = LocalDateTime.now()
         )
+
+        val times = currentViewState.times
+        val frequencies = currentViewState.frequencyDays
+        Log.d(TAG, "number of times: ${times.size}")
+        Log.d(TAG, "number of frequencies: ${frequencies.size}")
+        Log.d(TAG, "number of items to be saved: ${saveMedicine.schedules.size}")
+
+        val domainModel = saveMedicineMapper.toDomain(saveMedicine)
+        saveMedicineScheduleUseCase.execute(domainModel, ::handleSaveMedicineSchedule)
+    }
+
+    fun onQuantityChange(index: Int, newValue: Number) {
+        val times = currentViewState.times.toMutableList()
+        times[index] = times[index].copy(number = newValue)
+        updateViewState(currentViewState.copy(times = times))
     }
 
     private suspend fun loadSelectedPatient() {
@@ -134,26 +172,32 @@ class AddEditMedicineViewModel @Inject constructor(
     private fun makeSaveSchedules(
         times: List<TimePresentationModel>,
         frequencies: List<FrequencyDayPresentationModel>
-    ): List<SaveScheduleItemPresentationModel> {
-        val schedules = mutableListOf<SaveScheduleItemPresentationModel>()
+    ): List<ScheduleItemPresentationModel> {
+        val schedules = mutableListOf<ScheduleItemPresentationModel>()
 
         frequencies.forEach { frequency ->
             if (!frequency.isSelected) {
                 return@forEach
             }
             times.forEach { time ->
-                schedules.add(SaveScheduleItemPresentationModel(
-                    id = time.id,
-                    dayOfWeek = frequency.day,
-                    time = time.time,
-                    scheduledAt = LocalDateTime.now(),
-                    endingAt = null,
-                    quantity = time.number,
-                    unit = "",
-                ))
+                if (time.number == 0) {
+                    return@forEach
+                }
+                schedules.add(
+                    ScheduleItemPresentationModel(
+                        id = time.id,
+                        dayOfWeek = frequency.day,
+                        time = time.time,
+                        scheduledAt = LocalDateTime.now(),
+                        endingAt = null,
+                        quantity = time.number,
+                        unit = "",
+                    )
+                )
             }
         }
 
+        Log.d(TAG, "numberOfSchedules: ${schedules.size}")
         return schedules
     }
 
@@ -167,6 +211,23 @@ class AddEditMedicineViewModel @Inject constructor(
             selectedMedicine = medicineMapper.toPresentation(result.medicine),
             times = result.schedules.map { TimePresentationModel(it.id, it.time, it.quantity) }
         ))
+    }
+    private fun handleSaveMedicineSchedule(result: String?) {
+        if (result == null) {
+            notify(AddEditMedicineNotification.CannotSave)
+            return
+        }
+
+        viewModelScope.launch {
+            scheduleMedicineAlertUseCase.execute(result) { isScheduled ->
+                if (!isScheduled) {
+                    notify(AddEditMedicineNotification.CannotScheduleMedicine)
+                    return@execute
+                }
+
+                Log.d(TAG, "alert for schedule \"$result\" scheduled")
+            }
+        }
     }
 
     companion object {

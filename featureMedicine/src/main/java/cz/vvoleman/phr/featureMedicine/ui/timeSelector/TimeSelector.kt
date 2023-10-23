@@ -2,6 +2,7 @@ package cz.vvoleman.phr.featureMedicine.ui.timeSelector
 
 import android.content.Context
 import android.util.AttributeSet
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.LinearLayout
@@ -22,12 +23,13 @@ class TimeSelector @JvmOverloads constructor(
 
     init {
         binding = ViewTimeSelectorBinding.inflate(LayoutInflater.from(context), this, true)
+        _adapter = TimeAdapter(this)
+        Log.d(TAG, "init: ")
     }
 
     fun setTimes(times: List<TimeUiModel>) {
         this.times.clear()
         this.times.addAll(times)
-        _adapter = TimeAdapter(this)
         _adapter?.submitList(times)
 
         binding.recyclerViewTimes.apply {
@@ -63,7 +65,17 @@ class TimeSelector @JvmOverloads constructor(
         _listener?.onTimeClick(index, anchorView)
     }
 
+    override fun onQuantityChange(index: Int, newValue: Number) {
+        Log.d(TAG, "onQuantityChange: $newValue")
+        _listener?.onQuantityChange(index, newValue)
+    }
+
     interface TimeSelectorListener {
         fun onTimeClick(index: Int, anchorView: View)
+        fun onQuantityChange(index: Int, newValue: Number)
+    }
+
+    companion object {
+        private const val TAG = "TimeSelector"
     }
 }

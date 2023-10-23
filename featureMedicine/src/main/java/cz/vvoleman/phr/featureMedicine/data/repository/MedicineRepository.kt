@@ -10,9 +10,12 @@ import cz.vvoleman.phr.featureMedicine.data.datasource.room.medicine.mapper.Subs
 import cz.vvoleman.phr.featureMedicine.data.mapper.medicine.MedicineDataModelToDomainMapper
 import cz.vvoleman.phr.featureMedicine.data.mapper.medicine.ProductFormDataModelToDomainMapper
 import cz.vvoleman.phr.featureMedicine.data.mapper.medicine.SubstanceDataModelToDomainMapper
+import cz.vvoleman.phr.featureMedicine.data.model.medicine.MedicineDataModel
 import cz.vvoleman.phr.featureMedicine.domain.model.medicine.MedicineDomainModel
 import cz.vvoleman.phr.featureMedicine.domain.repository.AddMedicineRepository
+import cz.vvoleman.phr.featureMedicine.domain.repository.GetMedicineByIdRepository
 import cz.vvoleman.phr.featureMedicine.domain.repository.SearchMedicineRepository
+import kotlinx.coroutines.flow.firstOrNull
 
 class MedicineRepository(
     private val backendApi: BackendApi,
@@ -26,20 +29,20 @@ class MedicineRepository(
     private val substanceDataSourceMapper: SubstanceDataSourceModelToDataMapper,
     private val productFormDataMapper: ProductFormDataModelToDomainMapper,
     private val productFormDataSourceMapper: ProductFormDataSourceModelToDataMapper
-) : SearchMedicineRepository, AddMedicineRepository {
+) : SearchMedicineRepository, AddMedicineRepository, GetMedicineByIdRepository {
 
     override suspend fun searchMedicine(query: String, page: Int): List<MedicineDomainModel> {
         return try {
             val response = backendApi.searchMedicine(query, page)
 
-            Log.d("MedicineRepository", "searchMedicine: ${response.data.size}")
+            Log.d(TAG, "searchMedicine: ${response.data.size}")
 
             response.data
                 .map { medicineApiMapper.toData(it) }
                 .map { medicineDataMapper.toDomain(it) }
                 .onEach { medicine -> addMedicine(medicine) }
         } catch (e: Exception) {
-            Log.e("MedicineRepository", "searchMedicine: ", e)
+            Log.e(TAG, "searchMedicine: ", e)
             emptyList()
         }
     }
@@ -58,6 +61,47 @@ class MedicineRepository(
         productFormDao.insert(productForm)
 
         medicineDao.insert(model)
-        Log.d("MedicineRepository", "addMedicine: $model")
     }
+
+    override suspend fun getMedicineById(id: String): MedicineDomainModel? {
+        val localMedicine = medicineDao.getById(id).firstOrNull()
+
+        if (localMedicine != null) {
+            return medicineDataMapper.toDomain(medicineDataSourceMapper.toData(localMedicine))
+        }
+
+        Log.d(TAG, "Medicine \"$id\" not found in local database, searching in backend")
+
+        val backendMedicine = retrieveMedicineFromBackend(id) ?: return null
+
+        Log.d(TAG, "Medicine \"$id\" found in backend, adding to local database")
+
+        addMedicine(backendMedicine)
+
+        return backendMedicine
+    }
+
+    companion object {
+        const val TAG = "MedicineRepository"
+    }
+
+    private suspend fun retrieveMedicineFromBackend(id: String): MedicineDomainModel? {
+        try {
+            val response = backendApi.searchMedicine(id, 0)
+
+            // Check if result is of size 1
+            if (response.data.size != 1) {
+                Log.d(TAG, "getMedicineById: duplicate medicine found for id \"$id\"")
+                return null
+            }
+
+            medicineApiMapper.toData(response.data.first()).let { medicine ->
+                return medicineDataMapper.toDomain(medicine) }
+        } catch (e: Exception) {
+            Log.e(TAG, "getMedicineById: ", e)
+        }
+
+        return null
+    }
+
 }

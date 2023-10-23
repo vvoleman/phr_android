@@ -11,6 +11,7 @@ import cz.vvoleman.phr.featureMedicine.data.datasource.room.medicine.dao.Product
 import cz.vvoleman.phr.featureMedicine.data.datasource.room.medicine.dao.SubstanceDao
 import cz.vvoleman.phr.featureMedicine.data.datasource.room.medicine.mapper.*
 import cz.vvoleman.phr.featureMedicine.data.datasource.room.schedule.mapper.MedicineScheduleDataSourceModelToDataMapper
+import cz.vvoleman.phr.featureMedicine.data.datasource.room.schedule.mapper.SaveMedicineScheduleDataSourceModelToDataMapper
 import cz.vvoleman.phr.featureMedicine.data.datasource.room.schedule.mapper.ScheduleItemDataSourceModelToDataMapper
 import cz.vvoleman.phr.featureMedicine.data.mapper.*
 import dagger.Module
@@ -113,4 +114,8 @@ class DataSourceModule {
         medicineDataSourceModelToDataMapper,
         scheduleItemDataSourceModelToDataMapper
     )
+
+    @Provides
+    fun providesSaveMedicineScheduleDataSourcesModelToDataMapper() =
+        SaveMedicineScheduleDataSourceModelToDataMapper()
 }
