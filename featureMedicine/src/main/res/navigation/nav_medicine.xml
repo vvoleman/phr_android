@@ -16,6 +16,10 @@
         <deepLink
             android:id="@+id/deepLink"
             app:uri="phr://medicine/list" />
+        <argument
+            android:name="savedMedicineScheduleId"
+            app:argType="string"
+            app:nullable="true" />
     </fragment>
     <fragment
         android:id="@+id/addEditMedicineFragment"
