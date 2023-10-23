@@ -15,6 +15,7 @@ import cz.vvoleman.phr.featureMedicine.domain.usecase.SaveMedicineScheduleUseCas
 import cz.vvoleman.phr.featureMedicine.domain.usecase.ScheduleMedicineAlertUseCase
 import cz.vvoleman.phr.featureMedicine.domain.usecase.SearchMedicineUseCase
 import cz.vvoleman.phr.featureMedicine.presentation.addEdit.factory.FrequencyDaysPresentationFactory
+import cz.vvoleman.phr.featureMedicine.presentation.addEdit.factory.TimeUpdateFactory
 import cz.vvoleman.phr.featureMedicine.presentation.addEdit.model.AddEditMedicineDestination
 import cz.vvoleman.phr.featureMedicine.presentation.addEdit.model.AddEditMedicineNotification
 import cz.vvoleman.phr.featureMedicine.presentation.addEdit.model.AddEditMedicineViewState
@@ -112,18 +113,22 @@ class AddEditMedicineViewModel @Inject constructor(
         val times = currentViewState.times.toMutableList()
         times.add(time)
 
-        times.sortBy { it.time }
+        val groupedTimes = TimeUpdateFactory.groupTimes(times).toMutableList()
 
-        updateViewState(currentViewState.copy(times = times))
+        groupedTimes.sortBy { it.time }
+
+        updateViewState(currentViewState.copy(times = groupedTimes))
     }
 
     fun onTimeUpdate(index: Int, time: TimePresentationModel) {
         val times = currentViewState.times.toMutableList()
         times[index] = time
 
-        times.sortBy { it.time }
+        val groupedTimes = TimeUpdateFactory.groupTimes(times).toMutableList()
 
-        updateViewState(currentViewState.copy(times = times))
+        groupedTimes.sortBy { it.time }
+
+        updateViewState(currentViewState.copy(times = groupedTimes))
     }
 
     fun onFrequencyUpdate(days: List<FrequencyDayPresentationModel>) {
