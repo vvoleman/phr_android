@@ -38,24 +38,24 @@ class ListMedicineViewModel @Inject constructor(
     }
 
     fun onCreate() {
-        val time = LocalTime.now().plusSeconds(5)
-
-        // Create schedule
-        val result = alarmScheduler.schedule(AlarmItem(
-            id = "medicine-schedule-${time.toString()}",
-            triggerAt = time,
-            content = MedicineAlarmContent(
-                medicineScheduleId = "1",
-                triggerAt = time.toSecondOfDay().toLong(),
-                alarmDays = listOf(DayOfWeek.SUNDAY)
-            ),
-//            content = TestContent(id = "1"),
-            repeatInterval = AlarmItem.REPEAT_SECOND.toLong()*10,
-            receiver = MedicineAlarmReceiver::class.java
-        ))
-
-        Log.d(TAG, "Was scheduled?: $result")
-        //navigateTo(ListMedicineDestination.CreateSchedule)
+//        val time = LocalTime.now().plusSeconds(5)
+//
+//        // Create schedule
+//        val result = alarmScheduler.schedule(AlarmItem(
+//            id = "medicine-schedule-${time.toString()}",
+//            triggerAt = time,
+//            content = MedicineAlarmContent(
+//                medicineScheduleId = "1",
+//                triggerAt = time.toSecondOfDay().toLong(),
+//                alarmDays = listOf(DayOfWeek.SUNDAY)
+//            ),
+////            content = TestContent(id = "1"),
+//            repeatInterval = AlarmItem.REPEAT_SECOND.toLong()*10,
+//            receiver = MedicineAlarmReceiver::class.java
+//        ))
+//
+//        Log.d(TAG, "Was scheduled?: $result")
+        navigateTo(ListMedicineDestination.CreateSchedule)
     }
 
     fun onEdit(id: String) {

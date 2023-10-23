@@ -15,11 +15,11 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view_times"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/layout_rounded"
         android:orientation="horizontal"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
         tools:itemCount="3"
 
         tools:listitem="@layout/item_time_selector" />

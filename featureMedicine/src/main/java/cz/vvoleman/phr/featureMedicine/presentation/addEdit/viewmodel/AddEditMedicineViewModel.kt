@@ -15,6 +15,7 @@ import cz.vvoleman.phr.featureMedicine.domain.usecase.SaveMedicineScheduleUseCas
 import cz.vvoleman.phr.featureMedicine.domain.usecase.ScheduleMedicineAlertUseCase
 import cz.vvoleman.phr.featureMedicine.domain.usecase.SearchMedicineUseCase
 import cz.vvoleman.phr.featureMedicine.presentation.addEdit.factory.FrequencyDaysPresentationFactory
+import cz.vvoleman.phr.featureMedicine.presentation.addEdit.model.AddEditMedicineDestination
 import cz.vvoleman.phr.featureMedicine.presentation.addEdit.model.AddEditMedicineNotification
 import cz.vvoleman.phr.featureMedicine.presentation.addEdit.model.AddEditMedicineViewState
 import cz.vvoleman.phr.featureMedicine.presentation.mapper.addEdit.SaveMedicineSchedulePresentationModelToDomainMapper
@@ -228,6 +229,7 @@ class AddEditMedicineViewModel @Inject constructor(
                 Log.d(TAG, "alert for schedule \"$result\" scheduled")
             }
         }
+        navigateTo(AddEditMedicineDestination.MedicineSaved(result))
     }
 
     companion object {
