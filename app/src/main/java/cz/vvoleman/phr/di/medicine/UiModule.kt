@@ -2,6 +2,7 @@ package cz.vvoleman.phr.di.medicine
 
 import cz.vvoleman.phr.base.presentation.navigation.NavManager
 import cz.vvoleman.phr.base.ui.mapper.ViewStateBinder
+import cz.vvoleman.phr.common.ui.mapper.PatientUiModelToPresentationMapper
 import cz.vvoleman.phr.featureMedicine.databinding.FragmentAddEditMedicineBinding
 import cz.vvoleman.phr.featureMedicine.databinding.FragmentListMedicineBinding
 import cz.vvoleman.phr.featureMedicine.presentation.addEdit.model.AddEditMedicineViewState
@@ -39,9 +40,10 @@ class UiModule {
     @Provides
     fun providesAddEditMedicineBinder(
         medicineMapper: MedicineUiModelToPresentationMapper,
-        timeMapper: TimeUiModelToPresentationMapper
+        timeMapper: TimeUiModelToPresentationMapper,
+        frequencyMapper: FrequencyDayUiModelToPresentationMapper,
     ): ViewStateBinder<AddEditMedicineViewState, FragmentAddEditMedicineBinding> =
-        AddEditMedicineBinder(medicineMapper, timeMapper)
+        AddEditMedicineBinder(medicineMapper, timeMapper, frequencyMapper)
 
     @Provides
     fun provideProductFormUiModelToPresentationMapper(): ProductFormUiModelToPresentationMapper {
@@ -88,5 +90,23 @@ class UiModule {
     @Provides
     fun providesFrequencyDayUiModelToPresentationMapper(): FrequencyDayUiModelToPresentationMapper {
         return FrequencyDayUiModelToPresentationMapper()
+    }
+
+    @Provides
+    fun providesScheduleItemUiModelToPresentationMapper(): ScheduleItemUiModelToPresentationMapper {
+        return ScheduleItemUiModelToPresentationMapper()
+    }
+
+    @Provides
+    fun providesMedicineScheduleUiModelToPresentationMapper(
+        patientMapper: PatientUiModelToPresentationMapper,
+        scheduleMapper: ScheduleItemUiModelToPresentationMapper,
+        medicineMapper: MedicineUiModelToPresentationMapper
+    ): MedicineScheduleUiModelToPresentationMapper {
+        return MedicineScheduleUiModelToPresentationMapper(
+            patientMapper,
+            scheduleMapper,
+            medicineMapper
+        )
     }
 }

@@ -8,9 +8,9 @@ import cz.vvoleman.phr.featureMedicine.domain.repository.SaveMedicineScheduleRep
 class SaveMedicineScheduleUseCase (
     private val saveMedicineScheduleRepository: SaveMedicineScheduleRepository,
     coroutineContextProvider: CoroutineContextProvider,
-) : BackgroundExecutingUseCase<SaveMedicineScheduleDomainModel, String>(coroutineContextProvider) {
+) : BackgroundExecutingUseCase<SaveMedicineScheduleDomainModel, String?>(coroutineContextProvider) {
 
-        override suspend fun executeInBackground(request: SaveMedicineScheduleDomainModel): String {
+        override suspend fun executeInBackground(request: SaveMedicineScheduleDomainModel): String? {
             return saveMedicineScheduleRepository.saveMedicineSchedule(request).id
         }
 }

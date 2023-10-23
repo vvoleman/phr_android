@@ -15,7 +15,8 @@ class MedicineScheduleDataModelToDomainMapper(
             patient = model.patient,
             medicine = medicineDataMapper.toDomain(model.medicine),
             schedules = model.schedules.map { scheduleItemDataMapper.toDomain(it) },
-            createdAt = model.createdAt
+            createdAt = model.createdAt,
+            isAlarmEnabled = model.isAlarmEnabled
         )
     }
 
@@ -25,7 +26,8 @@ class MedicineScheduleDataModelToDomainMapper(
             patient = model.patient,
             medicine = medicineDataMapper.toData(model.medicine),
             schedules = model.schedules.map { scheduleItemDataMapper.toData(it) },
-            createdAt = model.createdAt
+            createdAt = model.createdAt,
+            isAlarmEnabled = model.isAlarmEnabled
         )
     }
 }

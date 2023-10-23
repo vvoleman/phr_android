@@ -7,6 +7,7 @@ class ScheduleItemDataSourceModelToDataMapper {
 
     fun toData(model: ScheduleItemDataSourceModel): ScheduleItemDataModel {
         return ScheduleItemDataModel(
+            id = model.id.toString(),
             dayOfWeek = model.dayOfWeek,
             time = model.time,
             scheduledAt = model.scheduledAt,
@@ -19,6 +20,7 @@ class ScheduleItemDataSourceModelToDataMapper {
 
     fun toDataSource(model: ScheduleItemDataModel, scheduleId: String): ScheduleItemDataSourceModel {
         return ScheduleItemDataSourceModel(
+            id = model.id?.toInt() ?: 0,
             dayOfWeek = model.dayOfWeek,
             time = model.time,
             scheduledAt = model.scheduledAt,

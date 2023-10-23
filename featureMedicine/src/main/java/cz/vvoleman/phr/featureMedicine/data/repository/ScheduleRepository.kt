@@ -3,15 +3,14 @@ package cz.vvoleman.phr.featureMedicine.data.repository
 import cz.vvoleman.phr.featureMedicine.data.datasource.room.schedule.dao.MedicineScheduleDao
 import cz.vvoleman.phr.featureMedicine.data.datasource.room.schedule.dao.ScheduleItemDao
 import cz.vvoleman.phr.featureMedicine.data.datasource.room.schedule.mapper.MedicineScheduleDataSourceModelToDataMapper
+import cz.vvoleman.phr.featureMedicine.data.datasource.room.schedule.mapper.SaveMedicineScheduleDataSourceModelToDataMapper
 import cz.vvoleman.phr.featureMedicine.data.datasource.room.schedule.mapper.ScheduleItemDataSourceModelToDataMapper
 import cz.vvoleman.phr.featureMedicine.data.mapper.schedule.MedicineScheduleDataModelToDomainMapper
 import cz.vvoleman.phr.featureMedicine.data.mapper.schedule.SaveMedicineScheduleDomainModelToDataMapper
-import cz.vvoleman.phr.featureMedicine.data.mapper.schedule.SaveScheduleItemDomainModelToDataMapper
 import cz.vvoleman.phr.featureMedicine.data.mapper.schedule.ScheduleItemDataModelToDomainMapper
 import cz.vvoleman.phr.featureMedicine.domain.model.schedule.MedicineScheduleDomainModel
 import cz.vvoleman.phr.featureMedicine.domain.model.schedule.ScheduleItemDomainModel
 import cz.vvoleman.phr.featureMedicine.domain.model.schedule.save.SaveMedicineScheduleDomainModel
-import cz.vvoleman.phr.featureMedicine.domain.model.schedule.save.SaveScheduleItemDomainModel
 import cz.vvoleman.phr.featureMedicine.domain.repository.GetMedicineScheduleByIdRepository
 import cz.vvoleman.phr.featureMedicine.domain.repository.GetScheduleByMedicineRepository
 import cz.vvoleman.phr.featureMedicine.domain.repository.SaveMedicineScheduleRepository
@@ -24,11 +23,11 @@ class ScheduleRepository(
     private val medicineScheduleDao: MedicineScheduleDao,
     private val medicineScheduleDataSourceMapper: MedicineScheduleDataSourceModelToDataMapper,
     private val medicineScheduleDataMapper: MedicineScheduleDataModelToDomainMapper,
-    private val saveMedicineMapper: SaveMedicineScheduleDomainModelToDataMapper,
+    private val saveMedicineDataMapper: SaveMedicineScheduleDomainModelToDataMapper,
+    private val saveMedicineDataSourceMapper: SaveMedicineScheduleDataSourceModelToDataMapper,
     private val scheduleItemDao: ScheduleItemDao,
     private val scheduleItemDataSourceMapper: ScheduleItemDataSourceModelToDataMapper,
     private val scheduleItemDataMapper: ScheduleItemDataModelToDomainMapper,
-    private val saveScheduleItemMapper: SaveScheduleItemDomainModelToDataMapper
 ) : GetScheduleByMedicineRepository,
     SaveMedicineScheduleRepository,
     SaveScheduleItemRepository,
@@ -47,9 +46,9 @@ class ScheduleRepository(
     override suspend fun saveMedicineSchedule(
         medicineSchedule: SaveMedicineScheduleDomainModel
     ): MedicineScheduleDomainModel {
-        val saveModel = saveMedicineMapper
+        val saveModel = saveMedicineDataMapper
             .toData(medicineSchedule)
-            .let { medicineScheduleDataSourceMapper.toDataSource(it) }
+            .let { saveMedicineDataSourceMapper.toDataSource(it) }
 
         val id = medicineScheduleDao.insert(saveModel)
 
@@ -66,7 +65,7 @@ class ScheduleRepository(
     }
 
     override suspend fun saveScheduleItem(
-        scheduleItem: SaveScheduleItemDomainModel,
+        scheduleItem: ScheduleItemDomainModel,
         scheduleId: String
     ): ScheduleItemDomainModel {
         val id = saveScheduleItemOnly(scheduleItem, scheduleId)
@@ -85,10 +84,10 @@ class ScheduleRepository(
     }
 
     private suspend fun saveScheduleItemOnly(
-        scheduleItem: SaveScheduleItemDomainModel,
+        scheduleItem: ScheduleItemDomainModel,
         scheduleId: String
     ): String {
-        val saveModel = saveScheduleItemMapper
+        val saveModel = scheduleItemDataMapper
             .toData(scheduleItem)
             .let { scheduleItemDataSourceMapper.toDataSource(it, scheduleId) }
 

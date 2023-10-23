@@ -16,7 +16,7 @@ class FrequencySelector @JvmOverloads constructor(
 
     private val binding: ViewFrequencySelectorBinding
     private var _days: MutableMap<DayOfWeek, FrequencyDayUiModel> = mutableMapOf()
-    private val _daysEveryday: List<FrequencyDayUiModel>
+    private var _daysEveryday: List<FrequencyDayUiModel> = listOf()
     private var _currentState: SelectorState = SelectorState.EVERY_DAY
     private var _adapter: FrequencyDayAdapter? = null
 
@@ -33,10 +33,15 @@ class FrequencySelector @JvmOverloads constructor(
         }
 
         setupListeners()
-        _daysEveryday = FrequencyDayUiModel.makeWeek()
-        _days = convertListToMap(_daysEveryday)
-        setDays()
         updateState(_currentState)
+    }
+
+    fun setDaysEveryday(days: List<FrequencyDayUiModel>) {
+        _daysEveryday = days
+    }
+
+    fun hasEverydaySet(): Boolean {
+        return _daysEveryday.isNotEmpty()
     }
 
     private fun setupListeners() {

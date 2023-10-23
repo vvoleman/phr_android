@@ -20,8 +20,8 @@ class AlarmReceiver : BroadcastReceiver() {
     lateinit var patientDao: PatientDao
 
     override fun onReceive(context: Context?, intent: Intent?) {
-        val scope = CoroutineScope(Job() + Dispatchers.Main.immediate)
         Log.d("AlarmReceiver", "onReceive: $intent")
+        val scope = CoroutineScope(Job() + Dispatchers.Main.immediate)
         val content = intent?.getParcelableExtra<Parcelable>(AlarmItem.CONTENT_KEY) ?: return
         val testContent = content as TestContent
 
