@@ -1,5 +1,6 @@
 package cz.vvoleman.phr.featureMedicine.data.repository
 
+import android.util.Log
 import cz.vvoleman.phr.featureMedicine.data.datasource.room.schedule.dao.MedicineScheduleDao
 import cz.vvoleman.phr.featureMedicine.data.datasource.room.schedule.dao.ScheduleItemDao
 import cz.vvoleman.phr.featureMedicine.data.datasource.room.schedule.mapper.MedicineScheduleDataSourceModelToDataMapper
@@ -52,10 +53,15 @@ class ScheduleRepository(
 
         val id = medicineScheduleDao.insert(saveModel)
 
+        Log.d("ScheduleRepository", "saveMedicineSchedule: $id")
+
         // Save Schedule Items
         medicineSchedule.schedules.forEach {
+            Log.d("ScheduleRepository", "save schedule Item: $it")
             saveScheduleItemOnly(it, id.toString())
         }
+
+        Log.d("ScheduleRepository", "medicineSchedules: ${medicineSchedule.schedules}")
 
         val model = medicineScheduleDao.getById(id.toInt()).first()
 
