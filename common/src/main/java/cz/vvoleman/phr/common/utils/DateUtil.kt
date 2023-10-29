@@ -1,5 +1,6 @@
 package cz.vvoleman.phr.common.utils
 
+import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.LocalTime
 import java.time.ZoneId
@@ -18,4 +19,20 @@ fun LocalDate.getNameOfMonth(short: Boolean = false): String {
 
 fun LocalTime.toEpochSeconds(): Long {
     return this.atDate(LocalDate.now()).atZone(ZoneId.systemDefault()).toEpochSecond()
+}
+
+fun LocalDate.plusDayOfWeek(next: DayOfWeek): LocalDate {
+    val current = this.dayOfWeek
+
+    if (current == next) {
+        return this
+    }
+
+    val daysToAdd = if (current.value > next.value) {
+        7 - current.value + next.value
+    } else {
+        next.value - current.value
+    }
+
+    return this.plusDays(daysToAdd.toLong())
 }

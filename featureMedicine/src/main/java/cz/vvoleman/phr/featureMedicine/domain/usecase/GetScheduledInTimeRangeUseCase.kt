@@ -1,15 +1,13 @@
 package cz.vvoleman.phr.featureMedicine.domain.usecase
 
-import android.util.Range
 import cz.vvoleman.phr.base.domain.coroutine.CoroutineContextProvider
 import cz.vvoleman.phr.base.domain.usecase.BackgroundExecutingUseCase
+import cz.vvoleman.phr.featureMedicine.domain.factory.TranslateDateTimeFactory
 import cz.vvoleman.phr.featureMedicine.domain.model.schedule.MedicineScheduleDomainModel
-import cz.vvoleman.phr.featureMedicine.domain.model.schedule.ScheduleItemDomainModel
 import cz.vvoleman.phr.featureMedicine.domain.model.timeline.SchedulesInRangeRequestDomainModel
 import cz.vvoleman.phr.featureMedicine.domain.repository.timeline.GetSchedulesByPatientRepository
-import java.time.DayOfWeek
-import java.time.LocalDateTime
-import java.time.LocalTime
+import java.time.temporal.ChronoUnit
+import kotlin.math.ceil
 
 class GetScheduledInTimeRangeUseCase(
     private val getSchedulesByPatientRepository: GetSchedulesByPatientRepository,
@@ -21,65 +19,31 @@ class GetScheduledInTimeRangeUseCase(
     override suspend fun executeInBackground(
         request: SchedulesInRangeRequestDomainModel
     ): List<MedicineScheduleDomainModel> {
+        if (request.startAt.isAfter(request.endAt)) {
+            throw IllegalArgumentException("StartAt limit must be before endAt limit")
+        }
+
         val schedules = getSchedulesByPatientRepository.getSchedulesByPatient(request.patientId)
+        val daysBetween = ChronoUnit.DAYS.between(request.startAt.toLocalDate(), request.endAt.toLocalDate())
+        var numberOfWeeks = (daysBetween / 7f)
+        numberOfWeeks = if (numberOfWeeks < 1) {
+            1f
+        } else {
+            ceil(numberOfWeeks) + 1
+        }
 
-        val startWeekDay = request.startAt?.dayOfWeek ?: DayOfWeek.MONDAY
-        val endWeekDay = request.endAt?.dayOfWeek ?: DayOfWeek.SUNDAY
-        val startTime = request.startAt?.toLocalTime() ?: LocalTime.MIN
-        val endTime = request.endAt?.toLocalTime() ?: LocalTime.MAX
+        val translatedSchedules = TranslateDateTimeFactory.translate(schedules, request.startAt, numberOfWeeks.toInt())
 
-        val dayRange = Range.create(startWeekDay, endWeekDay)
+        val results = mutableListOf<MedicineScheduleDomainModel>()
 
-        @Suppress("UnusedPrivateProperty")
-        val timeRange = Range.create(startTime, endTime)
-
-        val window = mutableListOf<MedicineScheduleDomainModel>()
-        for (schedule in schedules) {
-            val filteredByDate = filterByDateRange(request.startAt, request.endAt, schedule)
-            val valid = getItemsDayMap(filteredByDate).filter {
-                dayRange.contains(it.key)
-            }.toList().map { it.second }.flatten()
-
-            if (valid.isEmpty()) {
+        for ((key, value) in translatedSchedules) {
+            if (key.isBefore(request.startAt) || key.isAfter(request.endAt)) {
                 continue
             }
 
-            window.add(schedule)
+            results.addAll(value)
         }
 
-        return window
-    }
-
-    private fun filterByDateRange(
-        startAt: LocalDateTime?,
-        endAt: LocalDateTime?,
-        schedule: MedicineScheduleDomainModel
-    ): List<ScheduleItemDomainModel> {
-        val valid = mutableListOf<ScheduleItemDomainModel>()
-
-        for (item in schedule.schedules) {
-            val schedulingRange = Range.create(item.scheduledAt, item.endingAt)
-            val filterRange = Range.create(startAt, endAt)
-
-            schedulingRange.intersect(filterRange) ?: continue
-
-            valid.add(item)
-        }
-
-        return valid
-    }
-
-    private fun getItemsDayMap(items: List<ScheduleItemDomainModel>): Map<DayOfWeek, List<ScheduleItemDomainModel>> {
-        val map = mutableMapOf<DayOfWeek, MutableList<ScheduleItemDomainModel>>()
-
-        for (item in items) {
-            if (!map.containsKey(item.dayOfWeek)) {
-                map[item.dayOfWeek] = mutableListOf()
-            }
-
-            map[item.dayOfWeek]!!.add(item)
-        }
-
-        return map.mapValues { it.value.toList() }
+        return results
     }
 }
