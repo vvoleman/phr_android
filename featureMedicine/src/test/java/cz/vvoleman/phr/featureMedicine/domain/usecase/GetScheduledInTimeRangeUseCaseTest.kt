@@ -5,7 +5,7 @@ import cz.vvoleman.phr.common.domain.model.PatientDomainModel
 import cz.vvoleman.phr.featureMedicine.domain.model.medicine.MedicineDomainModel
 import cz.vvoleman.phr.featureMedicine.domain.model.schedule.MedicineScheduleDomainModel
 import cz.vvoleman.phr.featureMedicine.domain.model.schedule.ScheduleItemDomainModel
-import cz.vvoleman.phr.featureMedicine.domain.model.timeline.NextScheduledRequestDomainModel
+import cz.vvoleman.phr.featureMedicine.domain.model.timeline.SchedulesInRangeRequestDomainModel
 import cz.vvoleman.phr.featureMedicine.domain.repository.timeline.GetSchedulesByPatientRepository
 import cz.vvoleman.phr.featureMedicine.test.coroutine.FakeCoroutineContextProvider
 import io.mockk.every
@@ -13,7 +13,6 @@ import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -27,9 +26,9 @@ import java.time.LocalTime
 
 @ExtendWith(MockitoExtension::class)
 @OptIn(ExperimentalCoroutinesApi::class)
-class GetNextScheduledUseCaseTest {
+class GetScheduledInTimeRangeUseCaseTest {
 
-    private lateinit var useCase: GetNextScheduledUseCase
+    private lateinit var useCase: GetScheduledInTimeRangeUseCase
 
     @Mock
     private lateinit var getSchedulesByPatientRepository: GetSchedulesByPatientRepository
@@ -40,19 +39,19 @@ class GetNextScheduledUseCaseTest {
     fun setUp() {
         coroutineContextProvider = FakeCoroutineContextProvider
 
-        useCase = GetNextScheduledUseCase(
+        useCase = GetScheduledInTimeRangeUseCase(
             getSchedulesByPatientRepository,
             coroutineContextProvider
         )
     }
 
     @Test
-    fun `Get next scheduled medicine`() = runTest {
+    fun `Get scheduled in time range in one day`() = runTest {
         // Given
-        val request = NextScheduledRequestDomainModel(
+        val request = SchedulesInRangeRequestDomainModel(
             patientId = PATIENT_ID,
-            currentLocalDateTime = LocalTime.of(7, 0).atDate(LocalDate.of(2023, 10, 25)),
-            limit = 5,
+            startAt = LocalTime.of(8, 0).atDate(LocalDate.of(2023, 10, 25)),
+            endAt = LocalTime.of(15, 59).atDate(LocalDate.of(2023, 10, 25)),
         )
 
         given(getSchedulesByPatientRepository.getSchedulesByPatient(PATIENT_ID)).willReturn(getFakeSchedules())
@@ -61,33 +60,18 @@ class GetNextScheduledUseCaseTest {
         val actualValue = useCase.executeInBackground(request)
 
         // Then
-        assertTrue(actualValue.isNotEmpty(), "List of next scheduled medicine should not be empty")
-        assertTrue(
-            actualValue.size == 5,
-            "List of next scheduled medicine should have 5 items, have ${actualValue.size}"
-        )
-
-        val next = actualValue[0]
-        assertEquals("3", next.medicine.id, "Next scheduled medicine should be medicine with id 3")
-
-        // Get times at day
-        val dayOfWeek = request.currentLocalDateTime.dayOfWeek
-
-        val times = next.schedules
-            .filter { it.dayOfWeek == dayOfWeek }
-            .map { it.time }
-            .sorted()
-
-        assertTrue(times.contains(LocalTime.of(8, 0)), "Next scheduled medicine should be at 8:00")
+        assertEquals(2, actualValue.size)
+        assertEquals("3", actualValue[0].medicine.id)
+        assertEquals("1", actualValue[1].medicine.id)
     }
 
     @Test
-    fun `Get next schedule across week end`() = runTest {
+    fun `Get scheduled in range of two days`() = runTest {
         // Given
-        val request = NextScheduledRequestDomainModel(
+        val request = SchedulesInRangeRequestDomainModel(
             patientId = PATIENT_ID,
-            currentLocalDateTime = LocalTime.of(7, 0).atDate(LocalDate.of(2023, 10, 28)),
-            limit = 5,
+            startAt = LocalTime.MIN.atDate(LocalDate.of(2023, 10, 23)),
+            endAt = LocalTime.MAX.atDate(LocalDate.of(2023, 10, 24)),
         )
 
         given(getSchedulesByPatientRepository.getSchedulesByPatient(PATIENT_ID)).willReturn(getFakeSchedules())
@@ -96,29 +80,20 @@ class GetNextScheduledUseCaseTest {
         val actualValue = useCase.executeInBackground(request)
 
         // Then
-        assertTrue(actualValue.isNotEmpty(), "List of next scheduled medicine should not be empty")
-        assertTrue(
-            actualValue.size == 5,
-            "List of next scheduled medicine should have 5 items, have ${actualValue.size}"
-        )
+        assertEquals(3, actualValue.size, "List of scheduled medicine should have 3 items, have ${actualValue.size}")
 
-        val next = actualValue[0]
-        assertEquals("1", next.medicine.id, "Next scheduled medicine should be medicine with id 1")
-
-        val times = next.schedules
-            .map { it.time }
-            .sorted()
-
-        assertTrue(times.contains(LocalTime.of(13, 0)), "Next scheduled medicine should be at 13:00, but was $times")
+        assertEquals("1", actualValue[0].medicine.id, "First scheduled medicine should be medicine with id 1")
+        assertEquals("2", actualValue[1].medicine.id, "Second scheduled medicine should be medicine with id 2")
+        assertEquals("2", actualValue[2].medicine.id, "Third scheduled medicine should be medicine with id 2")
     }
 
     @Test
-    fun `Get next schedule in a middle of a day`() = runTest {
+    fun `Get scheduled across week edge`() = runTest {
         // Given
-        val request = NextScheduledRequestDomainModel(
+        val request = SchedulesInRangeRequestDomainModel(
             patientId = PATIENT_ID,
-            currentLocalDateTime = LocalTime.of(10, 0).atDate(LocalDate.of(2023, 10, 25)),
-            limit = 5,
+            startAt = LocalTime.MIN.atDate(LocalDate.of(2023, 10, 23)),
+            endAt = LocalTime.MAX.atDate(LocalDate.of(2023, 10, 30)),
         )
 
         given(getSchedulesByPatientRepository.getSchedulesByPatient(PATIENT_ID)).willReturn(getFakeSchedules())
@@ -127,29 +102,16 @@ class GetNextScheduledUseCaseTest {
         val actualValue = useCase.executeInBackground(request)
 
         // Then
-        assertTrue(actualValue.isNotEmpty(), "List of next scheduled medicine should not be empty")
-        assertTrue(
-            actualValue.size == 5,
-            "List of next scheduled medicine should have 5 items, have ${actualValue.size}"
-        )
-
-        val next = actualValue[0]
-        assertEquals("1", next.medicine.id, "Next scheduled medicine should be medicine with id 1")
-
-        val times = next.schedules
-            .map { it.time }
-            .sorted()
-
-        assertTrue(times.contains(LocalTime.of(13, 0)), "Next scheduled medicine should be at 13:00, but was $times")
+        assertEquals(8, actualValue.size, "List of scheduled medicine should have 8 items, have ${actualValue.size}")
     }
 
     @Test
-    fun `Get next schedule when multiple schedules at the same time`() = runTest {
+    fun `Get scheduled across multiple weeks`() = runTest {
         // Given
-        val request = NextScheduledRequestDomainModel(
+        val request = SchedulesInRangeRequestDomainModel(
             patientId = PATIENT_ID,
-            currentLocalDateTime = LocalTime.of(15, 0).atDate(LocalDate.of(2023, 10, 25)),
-            limit = 2,
+            startAt = LocalTime.MIN.atDate(LocalDate.of(2023, 10, 23)),
+            endAt = LocalTime.MAX.atDate(LocalDate.of(2023, 11, 10)),
         )
 
         given(getSchedulesByPatientRepository.getSchedulesByPatient(PATIENT_ID)).willReturn(getFakeSchedules())
@@ -158,17 +120,7 @@ class GetNextScheduledUseCaseTest {
         val actualValue = useCase.executeInBackground(request)
 
         // Then
-        assertTrue(actualValue.isNotEmpty(), "List of next scheduled medicine should not be empty")
-        assertTrue(
-            actualValue.size == 2,
-            "List of next scheduled medicine should have 2 items, have ${actualValue.size}"
-        )
-
-        val timesA = actualValue[0].schedules.map { it.time }
-        val timesB = actualValue[1].schedules.map { it.time }
-
-        assertTrue(timesA.contains(LocalTime.of(16, 0)), "Next scheduled medicine should be at 16:00, but was $timesA")
-        assertTrue(timesB.contains(LocalTime.of(16, 0)), "Next scheduled medicine should be at 16:00, but was $timesB")
+        assertEquals(18, actualValue.size, "List of scheduled medicine should have 18 items, have ${actualValue.size}")
     }
 
     private fun getFakeSchedules(): List<MedicineScheduleDomainModel> {
@@ -180,7 +132,7 @@ class GetNextScheduledUseCaseTest {
             ),
             makeSchedule(
                 medicineId = "2",
-                weekDays = listOf(DayOfWeek.MONDAY, DayOfWeek.WEDNESDAY),
+                weekDays = listOf(DayOfWeek.MONDAY, DayOfWeek.TUESDAY),
                 times = listOf(LocalTime.of(16, 0))
             ),
             makeSchedule(
