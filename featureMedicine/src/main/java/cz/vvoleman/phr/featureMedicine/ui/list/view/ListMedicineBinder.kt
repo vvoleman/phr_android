@@ -2,10 +2,11 @@ package cz.vvoleman.phr.featureMedicine.ui.list.view
 
 import com.google.android.material.tabs.TabLayoutMediator
 import cz.vvoleman.phr.base.ui.mapper.BaseViewStateBinder
+import cz.vvoleman.phr.common.ui.model.GroupedItemsUiModel
 import cz.vvoleman.phr.featureMedicine.R
 import cz.vvoleman.phr.featureMedicine.databinding.FragmentListMedicineBinding
 import cz.vvoleman.phr.featureMedicine.presentation.list.model.ListMedicineViewState
-import cz.vvoleman.phr.featureMedicine.ui.list.MedicineFragmentAdapter
+import cz.vvoleman.phr.featureMedicine.ui.list.adapter.MedicineFragmentAdapter
 import cz.vvoleman.phr.featureMedicine.ui.mapper.list.MedicineUiModelToPresentationMapper
 import cz.vvoleman.phr.featureMedicine.ui.mapper.list.NextScheduleItemUiModelToPresentationMapper
 import cz.vvoleman.phr.featureMedicine.ui.mapper.list.ScheduleItemWithDetailsUiModelToPresentationMapper
@@ -32,7 +33,10 @@ class ListMedicineBinder(
         }
 
         fragmentAdapter?.let { adapter ->
-            adapter.setNextSchedules(viewState.nextSchedules.map { scheduleItemMapper.toUi(it) })
+            adapter.setNextSchedules(viewState.timelineSchedules.map { group->
+                val scheduleItems = group.items.map { scheduleItemMapper.toUi(it) }
+                GroupedItemsUiModel(group.value, scheduleItems)
+            })
         }
 
     }
