@@ -108,15 +108,6 @@ class PresentationModule {
     }
 
     @Provides
-    fun providesGroupedMedicineSchedulePresentationModelToDomainMapper(
-        medicineScheduleMapper: MedicineSchedulePresentationModelToDomainMapper,
-    ): GroupedMedicineSchedulePresentationModelToDomainMapper {
-        return GroupedMedicineSchedulePresentationModelToDomainMapper(
-            medicineScheduleMapper
-        )
-    }
-
-    @Provides
     fun providesScheduleItemWithDetailsPresentationModelToDomainMapper(
         scheduleItemMapper: ScheduleItemPresentationModelToDomainMapper,
         patientMapper: PatientPresentationModelToDomainMapper,

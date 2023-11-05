@@ -24,9 +24,9 @@ import java.time.LocalTime
 
 @ExtendWith(MockitoExtension::class)
 @OptIn(ExperimentalCoroutinesApi::class)
-class GetMedicineScheduleGroupedUseCaseTest {
+class GroupMedicineScheduleUseCaseTest {
 
-    private lateinit var useCase: GetMedicineSchedulesGroupedUseCase
+    private lateinit var useCase: GroupMedicineScheduleUseCase
 
     @Mock
     private lateinit var getSchedulesByPatientRepository: GetSchedulesByPatientRepository
@@ -37,7 +37,7 @@ class GetMedicineScheduleGroupedUseCaseTest {
     fun setUp() {
         coroutineContextProvider = FakeCoroutineContextProvider
 
-        useCase = GetMedicineSchedulesGroupedUseCase(
+        useCase = GroupMedicineScheduleUseCase(
             getSchedulesByPatientRepository,
             coroutineContextProvider
         )
@@ -52,20 +52,27 @@ class GetMedicineScheduleGroupedUseCaseTest {
         val actualValue = useCase.executeInBackground(PATIENT_ID)
 
         // Then
-        assertEquals(2, actualValue.size, "There should be 2 groups, ${actualValue.size} found")
+        assertEquals(3, actualValue.size, "There should be 3 groups, ${actualValue.size} found")
 
         val firstGroup = actualValue.first()
-        assertEquals("A", firstGroup.groupLabel, "First group should have name A, ${firstGroup.groupLabel} found")
+        assertEquals("A", firstGroup.value, "First group should have name A, ${firstGroup.value} found")
         assertEquals(
             2,
-            firstGroup.schedules.size,
-            "First group should have 2 items, ${firstGroup.schedules.size} found"
+            firstGroup.items.size,
+            "First group should have 2 items, ${firstGroup.items.size} found"
         )
         assertEquals(
             "2",
-            firstGroup.schedules[0].medicine.id,
-            "Id of first item in first group should be 2, ${firstGroup.schedules[0].medicine.id} found"
+            firstGroup.items[0].medicine.id,
+            "Id of first item in first group should be 2, ${firstGroup.items[0].medicine.id} found"
         )
+
+        val secondGroup = actualValue[1]
+        assertEquals("Ž", secondGroup.value, "Second group should have name Ž, ${secondGroup.value} found")
+
+        val thirdGroup = actualValue[2]
+        assertEquals("-", thirdGroup.value, "Third group should have name -, ${thirdGroup.value} found")
+        assertEquals(2, thirdGroup.items.size, "Third group should have 2 items, ${thirdGroup.items.size} found")
     }
 
     private fun getFakeSchedules(): List<MedicineScheduleDomainModel> {
@@ -84,7 +91,19 @@ class GetMedicineScheduleGroupedUseCaseTest {
             ),
             makeSchedule(
                 medicineId = "3",
-                medicineName = "Pyridoxin",
+                medicineName = "Žyridoxin",
+                weekDays = listOf(DayOfWeek.WEDNESDAY),
+                times = listOf(LocalTime.of(8, 0), LocalTime.of(16, 0))
+            ),
+            makeSchedule(
+                medicineId = "4",
+                medicineName = "00Žyridoxin",
+                weekDays = listOf(DayOfWeek.WEDNESDAY),
+                times = listOf(LocalTime.of(8, 0), LocalTime.of(16, 0))
+            ),
+            makeSchedule(
+                medicineId = "5",
+                medicineName = "*Žyridoxin",
                 weekDays = listOf(DayOfWeek.WEDNESDAY),
                 times = listOf(LocalTime.of(8, 0), LocalTime.of(16, 0))
             ),
