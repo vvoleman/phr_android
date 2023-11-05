@@ -1,11 +1,6 @@
 package cz.vvoleman.phr.di.medicine
 
-import cz.vvoleman.phr.base.domain.coroutine.CoroutineContextProvider
 import cz.vvoleman.phr.common.presentation.mapper.PatientPresentationModelToDomainMapper
-import cz.vvoleman.phr.featureMedicine.domain.repository.SearchMedicineRepository
-import cz.vvoleman.phr.featureMedicine.domain.repository.timeline.GetSchedulesByPatientRepository
-import cz.vvoleman.phr.featureMedicine.domain.usecase.GetScheduledInTimeRangeUseCase
-import cz.vvoleman.phr.featureMedicine.domain.usecase.SearchMedicineUseCase
 import cz.vvoleman.phr.featureMedicine.presentation.mapper.addEdit.SaveMedicineSchedulePresentationModelToDomainMapper
 import cz.vvoleman.phr.featureMedicine.presentation.mapper.addEdit.SaveScheduleItemPresentationModelToDomainMapper
 import cz.vvoleman.phr.featureMedicine.presentation.mapper.list.*
@@ -17,24 +12,6 @@ import dagger.hilt.components.SingletonComponent
 @Module
 @InstallIn(SingletonComponent::class)
 class PresentationModule {
-
-    @Provides
-    fun providesSearchMedicineUseCase(
-        searchMedicineRepository: SearchMedicineRepository,
-        coroutineContextProvider: CoroutineContextProvider
-    ) = SearchMedicineUseCase(
-        searchMedicineRepository,
-        coroutineContextProvider
-    )
-
-    @Provides
-    fun providesGetScheduledInTimeRangeUseCase(
-        getSchedulesByPatientRepository: GetSchedulesByPatientRepository,
-        coroutineContextProvider: CoroutineContextProvider
-    ) = GetScheduledInTimeRangeUseCase(
-        getSchedulesByPatientRepository,
-        coroutineContextProvider
-    )
 
     @Provides
     fun provideProductFormPresentationModelToDomainMapper(): ProductFormPresentationModelToDomainMapper {
