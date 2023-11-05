@@ -4,7 +4,7 @@ import cz.vvoleman.phr.base.domain.coroutine.CoroutineContextProvider
 import cz.vvoleman.phr.base.domain.usecase.BackgroundExecutingUseCase
 import cz.vvoleman.phr.featureMedicine.domain.facade.TranslateDateTimeFacade
 import cz.vvoleman.phr.featureMedicine.domain.model.schedule.ScheduleItemWithDetailsDomainModel
-import cz.vvoleman.phr.featureMedicine.domain.model.timeline.SchedulesInRangeRequestDomainModel
+import cz.vvoleman.phr.featureMedicine.domain.model.timeline.SchedulesInRangeRequest
 import cz.vvoleman.phr.featureMedicine.domain.repository.timeline.GetSchedulesByPatientRepository
 import java.time.temporal.ChronoUnit
 import kotlin.math.ceil
@@ -12,12 +12,12 @@ import kotlin.math.ceil
 class GetScheduledInTimeRangeUseCase(
     private val getSchedulesByPatientRepository: GetSchedulesByPatientRepository,
     coroutineContextProvider: CoroutineContextProvider
-) : BackgroundExecutingUseCase<SchedulesInRangeRequestDomainModel, List<ScheduleItemWithDetailsDomainModel>>(
+) : BackgroundExecutingUseCase<SchedulesInRangeRequest, List<ScheduleItemWithDetailsDomainModel>>(
     coroutineContextProvider
 ) {
 
     override suspend fun executeInBackground(
-        request: SchedulesInRangeRequestDomainModel
+        request: SchedulesInRangeRequest
     ): List<ScheduleItemWithDetailsDomainModel> {
         if (request.startAt.isAfter(request.endAt)) {
             throw IllegalArgumentException("StartAt limit must be before endAt limit")
