@@ -5,14 +5,17 @@ import cz.vvoleman.phr.featureMedicine.domain.repository.GetMedicineByIdReposito
 import cz.vvoleman.phr.featureMedicine.domain.repository.GetMedicineScheduleByIdRepository
 import cz.vvoleman.phr.featureMedicine.domain.repository.SaveMedicineScheduleRepository
 import cz.vvoleman.phr.featureMedicine.domain.repository.ScheduleMedicineRepository
+import cz.vvoleman.phr.featureMedicine.domain.repository.SearchMedicineRepository
 import cz.vvoleman.phr.featureMedicine.domain.repository.timeline.GetSchedulesByPatientRepository
 import cz.vvoleman.phr.featureMedicine.domain.usecase.GetMedicineByIdUseCase
 import cz.vvoleman.phr.featureMedicine.domain.usecase.GetMedicineScheduleByIdUseCase
 import cz.vvoleman.phr.featureMedicine.domain.usecase.GroupMedicineScheduleUseCase
 import cz.vvoleman.phr.featureMedicine.domain.usecase.GetNextScheduledUseCase
 import cz.vvoleman.phr.featureMedicine.domain.usecase.GetScheduledInTimeRangeUseCase
+import cz.vvoleman.phr.featureMedicine.domain.usecase.GroupScheduleItemsUseCase
 import cz.vvoleman.phr.featureMedicine.domain.usecase.SaveMedicineScheduleUseCase
 import cz.vvoleman.phr.featureMedicine.domain.usecase.ScheduleMedicineAlertUseCase
+import cz.vvoleman.phr.featureMedicine.domain.usecase.SearchMedicineUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -79,11 +82,27 @@ class DomainModule {
     )
 
     @Provides
-    fun providesGetMedicineSchedulesGroupedUseCase(
+    fun providesGroupMedicineSchedules(
         getSchedulesByPatientRepository: GetSchedulesByPatientRepository,
         coroutineContextProvider: CoroutineContextProvider,
     ) = GroupMedicineScheduleUseCase(
         getSchedulesByPatientRepository,
+        coroutineContextProvider
+    )
+
+    @Provides
+    fun providesGroupScheduleItemsUseCase(
+        coroutineContextProvider: CoroutineContextProvider,
+    ) = GroupScheduleItemsUseCase(
+        coroutineContextProvider
+    )
+
+    @Provides
+    fun providesSearchMedicineUseCase(
+        searchMedicineRepository: SearchMedicineRepository,
+        coroutineContextProvider: CoroutineContextProvider
+    ) = SearchMedicineUseCase(
+        searchMedicineRepository,
         coroutineContextProvider
     )
 
