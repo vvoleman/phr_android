@@ -11,4 +11,6 @@
     <string name="time_left_minutes">Zbývá %1$dm a %2$ds</string>
     <string name="schedule_item_dosage">%1$s %2$s</string>
     <string name="multiple_medicines">Více léků</string>
+    <string name="fragment_timeline">Itinerář</string>
+    <string name="fragment_catalogue">Léky</string>
 </resources>

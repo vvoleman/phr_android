@@ -20,6 +20,7 @@ import cz.vvoleman.phr.featureMedicine.presentation.list.model.NextScheduleItemP
 import cz.vvoleman.phr.featureMedicine.presentation.mapper.list.MedicinePresentationModelToDomainMapper
 import cz.vvoleman.phr.featureMedicine.presentation.mapper.list.ScheduleItemPresentationModelToDomainMapper
 import cz.vvoleman.phr.featureMedicine.presentation.mapper.list.ScheduleItemWithDetailsPresentationModelToDomainMapper
+import cz.vvoleman.phr.featureMedicine.presentation.model.list.ScheduleItemWithDetailsPresentationModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
@@ -61,16 +62,11 @@ class ListMedicineViewModel @Inject constructor(
                 return@launch
             }
 
-            val nextRequest = NextScheduledRequestDomainModel(
-                patientId = currentViewState.patient!!.id,
-            )
-            getNextScheduledUseCase.execute(nextRequest, ::handleGetNextSchedule)
-
+            loadSchedules()
         }
     }
 
     fun onCreate() {
-        super.onInit()
 //        val time = LocalTime.now().plusSeconds(5)
 //
 //        // Create schedule
@@ -95,20 +91,35 @@ class ListMedicineViewModel @Inject constructor(
         navigateTo(ListMedicineDestination.EditSchedule(id))
     }
 
+    fun onNextScheduleTimeOut() {
+        Log.d(TAG, "onNextScheduleTimeOut: ${currentViewState.nextSchedules.size} items")
+        if (currentViewState.nextSchedules.size > 1) {
+            val list = currentViewState.nextSchedules.toMutableList()
+            list.removeFirst()
+            val selectedSchedule = getNextSelectedSchedule(list)
+
+            updateViewState(
+                currentViewState.copy(
+                    nextSchedules = list,
+                    selectedNextSchedule = selectedSchedule
+                )
+            )
+            return
+        }
+
+        loadSchedules()
+    }
+
+    private fun loadSchedules() = viewModelScope.launch {
+        val nextRequest = NextScheduledRequestDomainModel(
+            patientId = currentViewState.patient!!.id,
+        )
+        getNextScheduledUseCase.execute(nextRequest, ::handleGetNextSchedule)
+    }
+
     private fun handleGetNextSchedule(result: List<ScheduleItemWithDetailsDomainModel>) {
         val schedules = result.map { scheduleItemDetailsMapper.toPresentation(it) }
-
-        Log.d(TAG, "nextSchedule size: ${result.size}")
-
-        var selectedSchedule: NextScheduleItemPresentationModel? = null;
-        if (result.isNotEmpty()) {
-            val next = MedicineScheduleFacade.getNextScheduleItem(result, LocalDateTime.now())
-
-            selectedSchedule = NextScheduleItemPresentationModel(
-                scheduleItems = next.map { scheduleItemDetailsMapper.toPresentation(it) },
-                dateTime = next.first().scheduleItem.getTranslatedDateTime(LocalDateTime.now())
-            )
-        }
+        val selectedSchedule = getNextSelectedSchedule(schedules)
 
         updateViewState(
             currentViewState.copy(
@@ -116,6 +127,21 @@ class ListMedicineViewModel @Inject constructor(
                 selectedNextSchedule = selectedSchedule
             )
         )
+    }
+
+    private fun getNextSelectedSchedule(list: List<ScheduleItemWithDetailsPresentationModel>): NextScheduleItemPresentationModel? {
+        var selectedSchedule: NextScheduleItemPresentationModel? = null;
+        if (list.isNotEmpty()) {
+            val listDomain = list.map { scheduleItemDetailsMapper.toDomain(it) }
+            val next = MedicineScheduleFacade.getNextScheduleItem(listDomain, LocalDateTime.now())
+
+            selectedSchedule = NextScheduleItemPresentationModel(
+                scheduleItems = next.map { scheduleItemDetailsMapper.toPresentation(it) },
+                dateTime = next.first().scheduleItem.getTranslatedDateTime(LocalDateTime.now())
+            )
+        }
+
+        return selectedSchedule
     }
 
     private suspend fun loadSelectedPatient() {
