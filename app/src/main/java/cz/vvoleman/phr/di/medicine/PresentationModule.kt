@@ -106,4 +106,26 @@ class PresentationModule {
             medicineMapper
         )
     }
+
+    @Provides
+    fun providesGroupedMedicineSchedulePresentationModelToDomainMapper(
+        medicineScheduleMapper: MedicineSchedulePresentationModelToDomainMapper,
+    ): GroupedMedicineSchedulePresentationModelToDomainMapper {
+        return GroupedMedicineSchedulePresentationModelToDomainMapper(
+            medicineScheduleMapper
+        )
+    }
+
+    @Provides
+    fun providesScheduleItemWithDetailsPresentationModelToDomainMapper(
+        scheduleItemMapper: ScheduleItemPresentationModelToDomainMapper,
+        patientMapper: PatientPresentationModelToDomainMapper,
+        medicineMapper: MedicinePresentationModelToDomainMapper
+    ): ScheduleItemWithDetailsPresentationModelToDomainMapper {
+        return ScheduleItemWithDetailsPresentationModelToDomainMapper(
+            scheduleItemMapper,
+            patientMapper,
+            medicineMapper
+        )
+    }
 }

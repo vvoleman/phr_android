@@ -10,4 +10,6 @@ data class MedicineSchedulePresentationModel(
     val schedules: List<ScheduleItemPresentationModel>,
     val createdAt: LocalDateTime,
     val isAlarmEnabled: Boolean,
-)
+) {
+
+}

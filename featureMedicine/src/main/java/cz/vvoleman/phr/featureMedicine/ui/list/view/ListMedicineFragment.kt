@@ -6,19 +6,19 @@ import androidx.fragment.app.viewModels
 import com.google.android.material.snackbar.Snackbar
 import cz.vvoleman.phr.base.ui.mapper.ViewStateBinder
 import cz.vvoleman.phr.base.ui.view.BaseFragment
-import cz.vvoleman.phr.featureMedicine.data.alarm.Counter
-import cz.vvoleman.phr.featureMedicine.data.alarm.CounterNotificationService
 import cz.vvoleman.phr.featureMedicine.databinding.FragmentListMedicineBinding
 import cz.vvoleman.phr.featureMedicine.presentation.list.model.ListMedicineNotification
 import cz.vvoleman.phr.featureMedicine.presentation.list.model.ListMedicineViewState
 import cz.vvoleman.phr.featureMedicine.presentation.list.viewmodel.ListMedicineViewModel
 import cz.vvoleman.phr.featureMedicine.ui.list.mapper.ListMedicineDestinationUiMapper
+import cz.vvoleman.phr.featureMedicine.ui.nextSchedule.NextSchedule
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
 class ListMedicineFragment :
-    BaseFragment<ListMedicineViewState, ListMedicineNotification, FragmentListMedicineBinding>() {
+    BaseFragment<ListMedicineViewState, ListMedicineNotification, FragmentListMedicineBinding>(),
+    NextSchedule.NextScheduleListener {
 
     override val viewModel: ListMedicineViewModel by viewModels()
 
@@ -41,6 +41,7 @@ class ListMedicineFragment :
         binding.fabAddMedicalRecord.setOnClickListener {
             viewModel.onCreate()
         }
+        binding.nextSchedule.setListener(this)
     }
 
     override fun handleNotification(notification: ListMedicineNotification) {
@@ -48,6 +49,14 @@ class ListMedicineFragment :
             is ListMedicineNotification.DataLoaded -> {
                 Snackbar.make(binding.root, "Data loaded", Snackbar.LENGTH_SHORT).show()
             }
+
+            is ListMedicineNotification.UnableToLoad -> {
+                Snackbar.make(binding.root, "Unable to load data", Snackbar.LENGTH_SHORT).show()
+            }
         }
+    }
+
+    override fun onTimeOut() {
+        Snackbar.make(binding.root, "Time out", Snackbar.LENGTH_SHORT).show()
     }
 }

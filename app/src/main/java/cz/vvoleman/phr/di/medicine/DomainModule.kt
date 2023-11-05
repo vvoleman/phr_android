@@ -8,7 +8,9 @@ import cz.vvoleman.phr.featureMedicine.domain.repository.ScheduleMedicineReposit
 import cz.vvoleman.phr.featureMedicine.domain.repository.timeline.GetSchedulesByPatientRepository
 import cz.vvoleman.phr.featureMedicine.domain.usecase.GetMedicineByIdUseCase
 import cz.vvoleman.phr.featureMedicine.domain.usecase.GetMedicineScheduleByIdUseCase
+import cz.vvoleman.phr.featureMedicine.domain.usecase.GetMedicineSchedulesGroupedUseCase
 import cz.vvoleman.phr.featureMedicine.domain.usecase.GetNextScheduledUseCase
+import cz.vvoleman.phr.featureMedicine.domain.usecase.GetScheduledInTimeRangeUseCase
 import cz.vvoleman.phr.featureMedicine.domain.usecase.SaveMedicineScheduleUseCase
 import cz.vvoleman.phr.featureMedicine.domain.usecase.ScheduleMedicineAlertUseCase
 import dagger.Module
@@ -63,6 +65,24 @@ class DomainModule {
         getSchedulesByPatientRepository: GetSchedulesByPatientRepository,
         coroutineContextProvider: CoroutineContextProvider,
     ) = GetNextScheduledUseCase(
+        getSchedulesByPatientRepository,
+        coroutineContextProvider
+    )
+
+    @Provides
+    fun providesGetScheduledInTimeRangeUseCase(
+        getSchedulesByPatientRepository: GetSchedulesByPatientRepository,
+        coroutineContextProvider: CoroutineContextProvider,
+    ) = GetScheduledInTimeRangeUseCase(
+        getSchedulesByPatientRepository,
+        coroutineContextProvider
+    )
+
+    @Provides
+    fun providesGetMedicineSchedulesGroupedUseCase(
+        getSchedulesByPatientRepository: GetSchedulesByPatientRepository,
+        coroutineContextProvider: CoroutineContextProvider,
+    ) = GetMedicineSchedulesGroupedUseCase(
         getSchedulesByPatientRepository,
         coroutineContextProvider
     )
