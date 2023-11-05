@@ -1,4 +1,4 @@
-package cz.vvoleman.phr.featureMedicine.domain.factory
+package cz.vvoleman.phr.featureMedicine.domain.facade
 
 import cz.vvoleman.phr.common.utils.plusDayOfWeek
 import org.junit.jupiter.api.Assertions.assertEquals

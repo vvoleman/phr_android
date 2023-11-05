@@ -6,4 +6,9 @@
     <string name="navigation_add_edit_medicine">Úprava plánu léku</string>
     <string name="add_edit_medicine_select_medicine">Vyberte lék</string>
     <string name="add_edit_medicine_select_frequency">Vyberty frekvenci</string>
+    <string name="time_left_days">Zbývá %1$dd a %2$dh</string>
+    <string name="time_left_hours">Zbývá %1$dh a %2$dm</string>
+    <string name="time_left_minutes">Zbývá %1$dm a %2$ds</string>
+    <string name="schedule_item_dosage">%1$s %2$s</string>
+    <string name="multiple_medicines">Více léků</string>
 </resources>

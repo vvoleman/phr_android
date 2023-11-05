@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tv_time_left"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        tools:textColor="@color/black"
+        tools:text="Zbývá 1h a 35m"
+        android:drawablePadding="4dp"
+        android:gravity="center"
+        app:drawableRightCompat="@drawable/ic_time"
+        tools:drawableTint="@color/black"
+        app:drawableTint="@color/white">
+    </TextView>
+
+</LinearLayout>

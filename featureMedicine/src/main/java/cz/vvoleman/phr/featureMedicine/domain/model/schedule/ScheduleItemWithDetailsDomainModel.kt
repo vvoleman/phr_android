@@ -1,16 +1,12 @@
 package cz.vvoleman.phr.featureMedicine.domain.model.schedule
 
-import java.time.DayOfWeek
-import java.time.LocalDateTime
-import java.time.LocalTime
+import cz.vvoleman.phr.common.domain.model.PatientDomainModel
+import cz.vvoleman.phr.featureMedicine.domain.model.medicine.MedicineDomainModel
 
 data class ScheduleItemWithDetailsDomainModel(
-    val id: String,
-    val dayOfWeek: DayOfWeek,
-    val time: LocalTime,
-    val scheduledAt: LocalDateTime,
-    val endingAt: LocalDateTime? = null,
-    val quantity: String,
-    val description: String? = null,
-    val schedule: MedicineScheduleDomainModel
+    val scheduleItem: ScheduleItemDomainModel,
+    val medicine: MedicineDomainModel,
+    val patient: PatientDomainModel,
+    val medicineScheduleId: String,
+    val isAlarmEnabled: Boolean
 )
