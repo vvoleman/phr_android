@@ -1,7 +1,8 @@
-package cz.vvoleman.phr.featureMedicine.ui.list
+package cz.vvoleman.phr.featureMedicine.ui.list.adapter
 
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import cz.vvoleman.phr.common.ui.model.GroupedItemsUiModel
 import cz.vvoleman.phr.featureMedicine.ui.list.fragment.CatalogueFragment
 import cz.vvoleman.phr.featureMedicine.ui.list.fragment.TimelineFragment
 import cz.vvoleman.phr.featureMedicine.ui.model.list.schedule.MedicineScheduleUiModel
@@ -13,21 +14,21 @@ class MedicineFragmentAdapter(
     parent: Fragment
 ) : FragmentStateAdapter(parent) {
 
-    private var nextSchedules: List<ScheduleItemWithDetailsUiModel> = emptyList()
-    private var allSchedules: List<MedicineScheduleUiModel> = emptyList()
+    private var nextSchedules: List<GroupedItemsUiModel<ScheduleItemWithDetailsUiModel>> = emptyList()
+    private var allSchedules: List<GroupedItemsUiModel<MedicineScheduleUiModel>> = emptyList()
 
-    fun setNextSchedules(nextSchedules: List<ScheduleItemWithDetailsUiModel>) {
+    fun setNextSchedules(nextSchedules: List<GroupedItemsUiModel<ScheduleItemWithDetailsUiModel>>) {
         this.nextSchedules = nextSchedules
         notifyItemChanged(0)
     }
 
-    fun setAllSchedules(allSchedules: List<MedicineScheduleUiModel>) {
+    fun setAllSchedules(allSchedules: List<GroupedItemsUiModel<MedicineScheduleUiModel>>) {
         this.allSchedules = allSchedules
         notifyItemChanged(1)
     }
 
     override fun getItemCount(): Int {
-        return 2;
+        return 2
     }
 
     override fun createFragment(position: Int): Fragment {

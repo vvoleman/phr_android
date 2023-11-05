@@ -11,7 +11,7 @@ import cz.vvoleman.phr.featureMedicine.databinding.FragmentListMedicineBinding
 import cz.vvoleman.phr.featureMedicine.presentation.list.model.ListMedicineNotification
 import cz.vvoleman.phr.featureMedicine.presentation.list.model.ListMedicineViewState
 import cz.vvoleman.phr.featureMedicine.presentation.list.viewmodel.ListMedicineViewModel
-import cz.vvoleman.phr.featureMedicine.ui.list.MedicineFragmentAdapter
+import cz.vvoleman.phr.featureMedicine.ui.list.adapter.MedicineFragmentAdapter
 import cz.vvoleman.phr.featureMedicine.ui.list.fragment.CatalogueFragment
 import cz.vvoleman.phr.featureMedicine.ui.list.fragment.TimelineFragment
 import cz.vvoleman.phr.featureMedicine.ui.list.mapper.ListMedicineDestinationUiMapper

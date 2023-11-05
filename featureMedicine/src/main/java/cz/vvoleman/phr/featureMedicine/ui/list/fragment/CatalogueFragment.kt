@@ -5,13 +5,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import cz.vvoleman.phr.common.ui.model.GroupedItemsUiModel
 import cz.vvoleman.phr.featureMedicine.R
 import cz.vvoleman.phr.featureMedicine.ui.model.list.schedule.MedicineScheduleUiModel
 import cz.vvoleman.phr.featureMedicine.ui.model.list.schedule.ScheduleItemWithDetailsUiModel
 
 class CatalogueFragment(
     private val listener: CatalogueInterface,
-    private val allSchedules: List<MedicineScheduleUiModel>
+    private val allSchedules: List<GroupedItemsUiModel<MedicineScheduleUiModel>>
 ) : Fragment() {
 
     private var _binding: View? = null
