@@ -6,7 +6,6 @@ import java.time.LocalDateTime
 class MedicineScheduleFacade {
 
     companion object {
-
         fun getNextScheduleItem(
             scheduleItems: List<ScheduleItemWithDetailsDomainModel>,
             currentDateTime: LocalDateTime
@@ -19,6 +18,5 @@ class MedicineScheduleFacade {
             // Return first item
             return translated.values.firstOrNull() ?: emptyList()
         }
-
     }
 }
