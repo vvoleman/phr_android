@@ -7,6 +7,7 @@ import cz.vvoleman.phr.featureMedicine.databinding.FragmentAddEditMedicineBindin
 import cz.vvoleman.phr.featureMedicine.databinding.FragmentListMedicineBinding
 import cz.vvoleman.phr.featureMedicine.presentation.addEdit.model.AddEditMedicineViewState
 import cz.vvoleman.phr.featureMedicine.presentation.list.model.ListMedicineViewState
+import cz.vvoleman.phr.featureMedicine.presentation.mapper.list.ScheduleItemPresentationModelToDomainMapper
 import cz.vvoleman.phr.featureMedicine.ui.addEdit.mapper.AddEditMedicineDestinationUiMapper
 import cz.vvoleman.phr.featureMedicine.ui.addEdit.view.AddEditMedicineBinder
 import cz.vvoleman.phr.featureMedicine.ui.list.mapper.ListMedicineDestinationUiMapper
@@ -25,9 +26,12 @@ class UiModule {
 
     @Provides
     fun providesListMedicineBinder(
-        medicineMapper: MedicineUiModelToPresentationMapper
+        nextScheduleItemMapper: NextScheduleItemUiModelToPresentationMapper,
+        medicineMapper: MedicineUiModelToPresentationMapper,
+        scheduleItemMapper: ScheduleItemPresentationModelToDomainMapper,
+        scheduleItemUiMapper: ScheduleItemUiModelToPresentationMapper,
     ): ViewStateBinder<ListMedicineViewState, FragmentListMedicineBinding> =
-        ListMedicineBinder(medicineMapper)
+        ListMedicineBinder(nextScheduleItemMapper, medicineMapper, scheduleItemMapper, scheduleItemUiMapper)
 
     @Provides
     fun providesListMedicineDestinationUiMapper(navManager: NavManager) =
@@ -109,4 +113,23 @@ class UiModule {
             medicineMapper
         )
     }
+
+    @Provides
+    fun providesScheduleItemWithDetailsUiModelToPresentationMapper(
+        scheduleItemMapper: ScheduleItemUiModelToPresentationMapper,
+        patientMapper: PatientUiModelToPresentationMapper,
+        medicineMapper: MedicineUiModelToPresentationMapper
+    ): ScheduleItemWithDetailsUiModelToPresentationMapper {
+        return ScheduleItemWithDetailsUiModelToPresentationMapper(
+            scheduleItemMapper,
+            patientMapper,
+            medicineMapper
+        )
+    }
+
+    @Provides
+    fun providesNextScheduleItemUiModelToPresentationMapper(
+        mapper: ScheduleItemWithDetailsUiModelToPresentationMapper
+    ) = NextScheduleItemUiModelToPresentationMapper(mapper)
+
 }

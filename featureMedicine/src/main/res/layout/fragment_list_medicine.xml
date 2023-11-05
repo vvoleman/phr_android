@@ -8,6 +8,11 @@
     android:layout_height="match_parent">
 
 
+    <cz.vvoleman.phr.featureMedicine.ui.nextSchedule.NextSchedule
+        android:id="@+id/next_schedule"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_add_medical_record"
         android:layout_width="wrap_content"
