@@ -5,7 +5,7 @@ import cz.vvoleman.phr.common.domain.model.PatientDomainModel
 import cz.vvoleman.phr.featureMedicine.domain.model.medicine.MedicineDomainModel
 import cz.vvoleman.phr.featureMedicine.domain.model.schedule.MedicineScheduleDomainModel
 import cz.vvoleman.phr.featureMedicine.domain.model.schedule.ScheduleItemDomainModel
-import cz.vvoleman.phr.featureMedicine.domain.model.timeline.SchedulesInRangeRequestDomainModel
+import cz.vvoleman.phr.featureMedicine.domain.model.timeline.SchedulesInRangeRequest
 import cz.vvoleman.phr.featureMedicine.domain.repository.timeline.GetSchedulesByPatientRepository
 import cz.vvoleman.phr.featureMedicine.test.coroutine.FakeCoroutineContextProvider
 import io.mockk.every
@@ -48,7 +48,7 @@ class GetScheduledInTimeRangeUseCaseTest {
     @Test
     fun `Get scheduled in time range in one day`() = runTest {
         // Given
-        val request = SchedulesInRangeRequestDomainModel(
+        val request = SchedulesInRangeRequest(
             patientId = PATIENT_ID,
             startAt = LocalTime.of(8, 0).atDate(LocalDate.of(2023, 10, 25)),
             endAt = LocalTime.of(15, 59).atDate(LocalDate.of(2023, 10, 25)),
@@ -68,7 +68,7 @@ class GetScheduledInTimeRangeUseCaseTest {
     @Test
     fun `Get scheduled in range of two days`() = runTest {
         // Given
-        val request = SchedulesInRangeRequestDomainModel(
+        val request = SchedulesInRangeRequest(
             patientId = PATIENT_ID,
             startAt = LocalTime.MIN.atDate(LocalDate.of(2023, 10, 23)),
             endAt = LocalTime.MAX.atDate(LocalDate.of(2023, 10, 24)),
@@ -90,7 +90,7 @@ class GetScheduledInTimeRangeUseCaseTest {
     @Test
     fun `Get scheduled across week edge`() = runTest {
         // Given
-        val request = SchedulesInRangeRequestDomainModel(
+        val request = SchedulesInRangeRequest(
             patientId = PATIENT_ID,
             startAt = LocalTime.MIN.atDate(LocalDate.of(2023, 10, 23)),
             endAt = LocalTime.MAX.atDate(LocalDate.of(2023, 10, 30)),
@@ -108,7 +108,7 @@ class GetScheduledInTimeRangeUseCaseTest {
     @Test
     fun `Get scheduled across multiple weeks`() = runTest {
         // Given
-        val request = SchedulesInRangeRequestDomainModel(
+        val request = SchedulesInRangeRequest(
             patientId = PATIENT_ID,
             startAt = LocalTime.MIN.atDate(LocalDate.of(2023, 10, 23)),
             endAt = LocalTime.MAX.atDate(LocalDate.of(2023, 11, 10)),

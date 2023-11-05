@@ -12,6 +12,8 @@ import java.time.LocalTime
 class TranslateDateTimeFacade {
 
     companion object {
+        private val alreadyTranslated = mutableMapOf<String, LocalDateTime>()
+
         fun translate(
             schedules: List<MedicineScheduleDomainModel>,
             currentDateTime: LocalDateTime,
@@ -63,12 +65,22 @@ class TranslateDateTimeFacade {
             currentDate: LocalDate,
             weekMultiplier: Int = 0
         ): LocalDateTime {
-            return if (currentWeekDay === scheduleItem.dayOfWeek && scheduleItem.time.isBefore(currentTime)) {
-                currentDate.plusDays(7L * (weekMultiplier + 1)).atTime(scheduleItem.time)
-            } else {
-                currentDate.plusDayOfWeek(scheduleItem.dayOfWeek).atTime(scheduleItem.time)
-                    .plusDays(7L * weekMultiplier)
+            val key = getStorageKey(currentDate, scheduleItem.dayOfWeek, scheduleItem.time, weekMultiplier)
+
+            if (!alreadyTranslated.containsKey(key)) {
+                alreadyTranslated[key] = if (currentWeekDay === scheduleItem.dayOfWeek && scheduleItem.time.isBefore(currentTime)) {
+                    currentDate.plusDays(7L * (weekMultiplier + 1)).atTime(scheduleItem.time)
+                } else {
+                    currentDate.plusDayOfWeek(scheduleItem.dayOfWeek).atTime(scheduleItem.time)
+                        .plusDays(7L * weekMultiplier)
+                }
             }
+
+            return alreadyTranslated[key]!!
+        }
+
+        private fun getStorageKey(currentDate: LocalDate, week: DayOfWeek, time: LocalTime, weekMultiplier: Int = 0): String {
+            return "${currentDate.toEpochDay()}${week.value}${time.toSecondOfDay()}$weekMultiplier"
         }
     }
 
