@@ -1,28 +1,106 @@
 package cz.vvoleman.phr.featureMedicine.ui.list.fragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import cz.vvoleman.phr.featureMedicine.R
+import androidx.recyclerview.widget.LinearLayoutManager
+import cz.vvoleman.phr.common.ui.adapter.grouped.GroupedItemsAdapter
+import cz.vvoleman.phr.common.ui.model.GroupedItemsUiModel
+import cz.vvoleman.phr.common_datasource.databinding.ItemGroupedItemsBinding
+import cz.vvoleman.phr.featureMedicine.databinding.FragmentTimelineBinding
+import cz.vvoleman.phr.featureMedicine.ui.list.adapter.TimelineAdapter
 import cz.vvoleman.phr.featureMedicine.ui.model.list.schedule.ScheduleItemWithDetailsUiModel
+import java.time.LocalDateTime
 
 class TimelineFragment(
     private val listener: TimelineInterface,
-    private val nextSchedules: List<ScheduleItemWithDetailsUiModel>
-) : Fragment() {
+    private val schedules: List<GroupedItemsUiModel<ScheduleItemWithDetailsUiModel>>
+) : Fragment(), GroupedItemsAdapter.GroupedItemsAdapterInterface<ScheduleItemWithDetailsUiModel>,
+    TimelineAdapter.TimelineAdapterInterface {
 
-    private var _binding: View? = null
+    private var _binding: FragmentTimelineBinding? = null
+    private val binding get() = _binding!!
+
+    private var isMultipleDays = true
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_timeline, container, false)
+        _binding = FragmentTimelineBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        isMultipleDays = isMultipleDays()
 
+        val groupAdapter = GroupedItemsAdapter(this)
+        binding.recyclerView.apply {
+            adapter = groupAdapter
+            layoutManager = LinearLayoutManager(context)
+            setHasFixedSize(true)
+        }
+
+        groupAdapter.submitList(schedules)
+
+        Log.d("TimelineFragment", "onViewCreated: ${schedules.size}")
+    }
+
+    override fun bind(binding: ItemGroupedItemsBinding, item: GroupedItemsUiModel<ScheduleItemWithDetailsUiModel>) {
+        val timelineAdapter = TimelineAdapter(this)
+        Log.d("TimelineFragment", "bind: ${item.items.size}")
+
+        val dateTime = getDateFromValue(item.value.toString())
+        var text = if (isMultipleDays) {
+            "${dateTime.dayOfMonth}. ${dateTime.monthValue} "
+        } else {
+            ""
+        }
+        text += "${dateTime.hour}:${dateTime.minute}"
+        binding.apply {
+            textViewTitle.text = text
+            recyclerView.apply {
+                adapter = timelineAdapter
+                layoutManager = LinearLayoutManager(context)
+                setHasFixedSize(true)
+            }
+        }
+
+        timelineAdapter.submitList(item.items)
+    }
+
+    override fun onTimelineItemClick(item: ScheduleItemWithDetailsUiModel) {
+        listener.onTimelineItemClick(item)
+    }
+
+    override fun onTimelineItemAlarmToggle(item: ScheduleItemWithDetailsUiModel, oldState: Boolean) {
+        listener.onTimelineItemAlarmToggle(item, oldState)
+    }
+
+    private fun isMultipleDays(): Boolean {
+        if (schedules.size < 2) {
+            return false
+        }
+
+        val keys = schedules.map {
+            it.value.toString().split("-").take(2).joinToString("-")
+        }.toMutableList()
+
+        val firstDate = keys.removeFirst()
+
+        return !keys.all { it == firstDate }
+    }
+
+    private fun getDateFromValue(value: String): LocalDateTime {
+        val date = value.split("-")
+
+        if (date.size != 5) {
+            return LocalDateTime.now()
+        }
+
+        return LocalDateTime.of(date[0].toInt(), date[1].toInt(), date[2].toInt(), date[3].toInt(), date[4].toInt())
     }
 
     interface TimelineInterface {
