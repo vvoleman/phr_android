@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import cz.vvoleman.phr.common.ui.model.GroupedItemsUiModel
 import cz.vvoleman.phr.common_datasource.databinding.ItemGroupedItemsBinding
 
-class GroupedItemsAdapter<TYPE : Any> (private val listener: OnAdapterItemListener<TYPE>) :
+class GroupedItemsAdapter<TYPE : Any> (private val listener: GroupedItemsAdapterInterface<TYPE>) :
     ListAdapter<GroupedItemsUiModel<TYPE>, GroupedItemsAdapter<TYPE>.SectionViewHolder>(DiffCallback<TYPE>()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SectionViewHolder {
@@ -36,5 +36,9 @@ class GroupedItemsAdapter<TYPE : Any> (private val listener: OnAdapterItemListen
 
         override fun areContentsTheSame(oldItem: GroupedItemsUiModel<TYPE>, newItem: GroupedItemsUiModel<TYPE>) =
             oldItem == newItem
+    }
+
+    interface GroupedItemsAdapterInterface<TYPE : Any> {
+        fun bind(binding: ItemGroupedItemsBinding, item: GroupedItemsUiModel<TYPE>)
     }
 }

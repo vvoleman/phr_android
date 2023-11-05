@@ -47,11 +47,11 @@ class GroupScheduleItemsUseCaseTest {
         val actualValue = useCase.executeInBackground(request)
 
         // Then
-        assertEquals(2, actualValue.size)
+        assertEquals(3, actualValue.size)
 
-        assertEquals(3, actualValue[0].items.size)
+        assertEquals(1, actualValue[0].items.size)
         assertEquals("1", actualValue[0].items[0].scheduleItem.id)
-        assertEquals("Cc", actualValue[0].items[1].medicine.name)
+        assertEquals("Bb", actualValue[1].items[0].medicine.name)
     }
 
     @Test
@@ -91,7 +91,7 @@ class GroupScheduleItemsUseCaseTest {
                 scheduleItemId = "3",
                 medicineName = "Bb",
                 weekDay = DayOfWeek.WEDNESDAY,
-                localTime = LocalTime.of(8, 30)
+                localTime = LocalTime.of(8, 15)
             ),
             makeSchedule(
                 scheduleItemId = "4",
