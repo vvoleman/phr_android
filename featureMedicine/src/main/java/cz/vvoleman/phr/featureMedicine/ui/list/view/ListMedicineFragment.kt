@@ -1,5 +1,6 @@
 package cz.vvoleman.phr.featureMedicine.ui.list.view
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
@@ -10,7 +11,11 @@ import cz.vvoleman.phr.featureMedicine.databinding.FragmentListMedicineBinding
 import cz.vvoleman.phr.featureMedicine.presentation.list.model.ListMedicineNotification
 import cz.vvoleman.phr.featureMedicine.presentation.list.model.ListMedicineViewState
 import cz.vvoleman.phr.featureMedicine.presentation.list.viewmodel.ListMedicineViewModel
+import cz.vvoleman.phr.featureMedicine.ui.list.MedicineFragmentAdapter
+import cz.vvoleman.phr.featureMedicine.ui.list.fragment.CatalogueFragment
+import cz.vvoleman.phr.featureMedicine.ui.list.fragment.TimelineFragment
 import cz.vvoleman.phr.featureMedicine.ui.list.mapper.ListMedicineDestinationUiMapper
+import cz.vvoleman.phr.featureMedicine.ui.model.list.schedule.ScheduleItemWithDetailsUiModel
 import cz.vvoleman.phr.featureMedicine.ui.nextSchedule.NextSchedule
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -18,7 +23,7 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class ListMedicineFragment :
     BaseFragment<ListMedicineViewState, ListMedicineNotification, FragmentListMedicineBinding>(),
-    NextSchedule.NextScheduleListener {
+    NextSchedule.NextScheduleListener, TimelineFragment.TimelineInterface, CatalogueFragment.CatalogueInterface {
 
     override val viewModel: ListMedicineViewModel by viewModels()
 
@@ -27,6 +32,8 @@ class ListMedicineFragment :
 
     @Inject
     override lateinit var viewStateBinder: ViewStateBinder<ListMedicineViewState, FragmentListMedicineBinding>
+
+    private lateinit var fragmentAdapter: MedicineFragmentAdapter
 
     override fun setupBinding(
         inflater: LayoutInflater,
@@ -37,6 +44,9 @@ class ListMedicineFragment :
 
     override fun setupListeners() {
         super.setupListeners()
+
+        fragmentAdapter = MedicineFragmentAdapter(this, this, this)
+        (viewStateBinder as ListMedicineBinder).setFragmentAdapter(fragmentAdapter)
 
         binding.fabAddMedicalRecord.setOnClickListener {
             viewModel.onCreate()
@@ -57,6 +67,23 @@ class ListMedicineFragment :
     }
 
     override fun onTimeOut() {
+        viewModel.onNextScheduleTimeOut()
         Snackbar.make(binding.root, "Time out", Snackbar.LENGTH_SHORT).show()
+    }
+
+    override fun onTimelineItemClick(item: ScheduleItemWithDetailsUiModel) {
+        Log.d("Timeline", "onTimelineItemClick: $item")
+    }
+
+    override fun onTimelineItemAlarmToggle(item: ScheduleItemWithDetailsUiModel, oldState: Boolean) {
+        Log.d("Timeline", "onTimelineItemAlarmToggle: $item, $oldState")
+    }
+
+    override fun onCatalogueItemClick(item: ScheduleItemWithDetailsUiModel) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onCatalogueItemEdit(item: ScheduleItemWithDetailsUiModel) {
+        TODO("Not yet implemented")
     }
 }

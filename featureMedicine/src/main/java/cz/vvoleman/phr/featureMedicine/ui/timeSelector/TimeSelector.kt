@@ -35,6 +35,7 @@ class TimeSelector @JvmOverloads constructor(
 
         Log.d(TAG, "calling setTimes")
 
+        Log.d(TAG, "spanCount ${if (times.isNotEmpty()) times.size else 1}")
         binding.recyclerViewTimes.apply {
             val layout = layoutManager as GridLayoutManager
             layout.spanCount = if (times.isNotEmpty()) times.size else 1
