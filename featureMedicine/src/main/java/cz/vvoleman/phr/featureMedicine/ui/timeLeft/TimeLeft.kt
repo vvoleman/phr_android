@@ -84,6 +84,7 @@ class TimeLeft @JvmOverloads constructor(
 
                     handler.postDelayed(this, 1000)
                 } else {
+                    _listener?.onTimeOut(time!!)
                     Log.d(TAG, "Runnable has been stopped")
                 }
             }

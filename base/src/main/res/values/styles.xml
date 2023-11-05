@@ -46,4 +46,6 @@
         <item name="android:drawableTint">@color/blue_500</item>
         <item name="android:drawableStart">@drawable/ic_info</item>
     </style>
+    <style name="PrimaryTabs">
+    </style>
 </resources>

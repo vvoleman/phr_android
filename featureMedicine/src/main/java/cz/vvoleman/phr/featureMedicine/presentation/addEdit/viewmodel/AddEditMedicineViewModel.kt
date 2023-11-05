@@ -110,6 +110,7 @@ class AddEditMedicineViewModel @Inject constructor(
     }
 
     fun onTimeAdd(time: TimePresentationModel) {
+        Log.d(TAG, "onTimeAdd size ${currentViewState.times.size}")
         val times = currentViewState.times.toMutableList()
         times.add(time)
 

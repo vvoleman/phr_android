@@ -7,7 +7,6 @@ import cz.vvoleman.phr.featureMedicine.databinding.FragmentAddEditMedicineBindin
 import cz.vvoleman.phr.featureMedicine.databinding.FragmentListMedicineBinding
 import cz.vvoleman.phr.featureMedicine.presentation.addEdit.model.AddEditMedicineViewState
 import cz.vvoleman.phr.featureMedicine.presentation.list.model.ListMedicineViewState
-import cz.vvoleman.phr.featureMedicine.presentation.mapper.list.ScheduleItemPresentationModelToDomainMapper
 import cz.vvoleman.phr.featureMedicine.ui.addEdit.mapper.AddEditMedicineDestinationUiMapper
 import cz.vvoleman.phr.featureMedicine.ui.addEdit.view.AddEditMedicineBinder
 import cz.vvoleman.phr.featureMedicine.ui.list.mapper.ListMedicineDestinationUiMapper
@@ -28,10 +27,9 @@ class UiModule {
     fun providesListMedicineBinder(
         nextScheduleItemMapper: NextScheduleItemUiModelToPresentationMapper,
         medicineMapper: MedicineUiModelToPresentationMapper,
-        scheduleItemMapper: ScheduleItemPresentationModelToDomainMapper,
-        scheduleItemUiMapper: ScheduleItemUiModelToPresentationMapper,
+        scheduleItemMapper: ScheduleItemWithDetailsUiModelToPresentationMapper,
     ): ViewStateBinder<ListMedicineViewState, FragmentListMedicineBinding> =
-        ListMedicineBinder(nextScheduleItemMapper, medicineMapper, scheduleItemMapper, scheduleItemUiMapper)
+        ListMedicineBinder(nextScheduleItemMapper, medicineMapper, scheduleItemMapper)
 
     @Provides
     fun providesListMedicineDestinationUiMapper(navManager: NavManager) =

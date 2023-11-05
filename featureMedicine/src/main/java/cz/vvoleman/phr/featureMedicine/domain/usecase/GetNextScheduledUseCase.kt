@@ -23,12 +23,17 @@ class GetNextScheduledUseCase(
 
         // Get list of next schedules
         val nextSchedules = mutableListOf<ScheduleItemWithDetailsDomainModel>()
-        val totalSize = request.limit ?: sorted.size
         val values = sorted.values.map { item ->
             item.sortedBy {
                 it.medicine.name
             }
         }.flatten()
+
+        var totalSize = request.limit ?: sorted.size
+
+        if (totalSize > values.size) {
+            totalSize = values.size
+        }
 
         for (i in 0 until totalSize) {
             val next = values.elementAt(i)
