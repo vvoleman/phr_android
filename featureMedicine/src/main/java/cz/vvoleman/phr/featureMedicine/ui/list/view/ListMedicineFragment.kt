@@ -15,6 +15,7 @@ import cz.vvoleman.phr.featureMedicine.ui.list.adapter.MedicineFragmentAdapter
 import cz.vvoleman.phr.featureMedicine.ui.list.fragment.MedicineCatalogueFragment
 import cz.vvoleman.phr.featureMedicine.ui.list.fragment.TimelineFragment
 import cz.vvoleman.phr.featureMedicine.ui.list.mapper.ListMedicineDestinationUiMapper
+import cz.vvoleman.phr.featureMedicine.ui.medicineDetailSheet.MedicineDetailSheet
 import cz.vvoleman.phr.featureMedicine.ui.model.list.schedule.MedicineScheduleUiModel
 import cz.vvoleman.phr.featureMedicine.ui.model.list.schedule.ScheduleItemWithDetailsUiModel
 import cz.vvoleman.phr.featureMedicine.ui.nextSchedule.NextSchedule
@@ -82,6 +83,8 @@ class ListMedicineFragment :
     }
 
     override fun onCatalogueItemClick(item: MedicineScheduleUiModel) {
+        val modal = MedicineDetailSheet(item.medicine)
+        modal.show(childFragmentManager, "MedicineDetailSheet")
         Log.d("Catalogue", "onCatalogueItemClick: $item")
     }
 
