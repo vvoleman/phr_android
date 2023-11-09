@@ -101,7 +101,7 @@ dependencies {
     implementation("androidx.datastore:datastore-preferences:$datastore_version")
 
     // Material
-    implementation "com.google.android.material:material:$material_components_version"
+    implementation "com.google.android.material:material:$material_version"
 
     // Event Bus
     implementation "org.greenrobot:eventbus:$event_bus_version"

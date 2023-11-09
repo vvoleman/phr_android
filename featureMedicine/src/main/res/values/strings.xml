@@ -15,4 +15,11 @@
     <string name="fragment_catalogue">Léky</string>
     <string name="frequency_everyday">Každý den</string>
     <string name="no_scheduled_medicine">Žádné naplánované léky</string>
+    <string name="show_medicine_leaflet">Zobrazit příbalový leták</string>
+    <string name="medicine_detail_package_form">Forma podání</string>
+    <string name="medicine_detail_package_size">Velikost balení</string>
+    <string name="medicine_detail_country">Země původu</string>
+    <string name="medicine_detail_expiration">Expirace balení</string>
+    <string name="medicine_info_label_substances">Složení</string>
+    <string name="medicine_info_label_base">Základ</string>
 </resources>
