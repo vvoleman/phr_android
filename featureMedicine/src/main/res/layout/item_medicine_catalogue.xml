@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="4dp"
+    android:background="@drawable/layout_rounded"
+    android:backgroundTint="@color/beige_500"
+    android:clickable="true"
+    android:contextClickable="true"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/text_view_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFeatureSettings="smcp"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Calcium chloratum biotika" />
+
+
+    <LinearLayout
+        android:id="@+id/layout_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="18dp"
+        android:gravity="end"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/text_view_name">
+
+        <TextView
+            android:id="@+id/text_view_times"
+
+            style="@style/BeigeInfoBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="9:00 | 16:00"
+            app:layout_constraintEnd_toStartOf="@id/text_view_frequency"
+            app:layout_constraintTop_toBottomOf="@id/text_view_name" />
+
+        <TextView
+            android:id="@+id/text_view_frequency"
+            style="@style/BeigeInfoBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Každý den"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/text_view_name" />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/button_edit"
+        style="@style/Widget.Material3.Button.ElevatedButton.Icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:backgroundTint="@color/green_200"
+        android:gravity="center"
+        android:text="@string/action_edit"
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        app:icon="@drawable/ic_edit"
+        app:iconTint="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/layout_info" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

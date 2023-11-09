@@ -19,9 +19,8 @@ class GroupScheduleItemsUseCase(
 
             val date = time.toLocalDate().toString()
             val hour = time.toLocalTime().hour
-            val minute = time.toLocalTime().minute
 
-            "$date-$hour-$minute"
+            "$date-$hour"
         }.toSortedMap()
 
         return groups.map { (key, value) ->

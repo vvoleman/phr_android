@@ -13,4 +13,6 @@
     <string name="multiple_medicines">Více léků</string>
     <string name="fragment_timeline">Itinerář</string>
     <string name="fragment_catalogue">Léky</string>
+    <string name="frequency_everyday">Každý den</string>
+    <string name="no_scheduled_medicine">Žádné naplánované léky</string>
 </resources>
