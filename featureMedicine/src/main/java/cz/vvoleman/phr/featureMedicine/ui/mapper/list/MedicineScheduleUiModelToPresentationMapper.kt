@@ -21,4 +21,15 @@ class MedicineScheduleUiModelToPresentationMapper(
         )
     }
 
+    fun toUi(model: MedicineSchedulePresentationModel): MedicineScheduleUiModel {
+        return MedicineScheduleUiModel(
+            id = model.id,
+            patient = patientMapper.toUi(model.patient),
+            medicine = medicineMapper.toUi(model.medicine),
+            schedules = model.schedules.map { scheduleMapper.toUi(it) },
+            createdAt = model.createdAt,
+            isAlarmEnabled = model.isAlarmEnabled
+        )
+    }
+
 }

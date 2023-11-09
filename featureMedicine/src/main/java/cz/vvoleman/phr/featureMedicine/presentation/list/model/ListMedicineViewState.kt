@@ -11,6 +11,6 @@ data class ListMedicineViewState(
     val nextSchedules: List<ScheduleItemWithDetailsPresentationModel> = emptyList(),
     val selectedNextSchedule: NextScheduleItemPresentationModel? = null,
     val timelineSchedules: List<GroupedItemsPresentationModel<ScheduleItemWithDetailsPresentationModel>> = emptyList(),
-    val catalogueSchedules: List<GroupedItemsPresentationModel<MedicineSchedulePresentationModel>> = emptyList(),
+    val medicineCatalogue: List<GroupedItemsPresentationModel<MedicineSchedulePresentationModel>> = emptyList(),
     val medicines: List<MedicinePresentationModel> = emptyList()
 )

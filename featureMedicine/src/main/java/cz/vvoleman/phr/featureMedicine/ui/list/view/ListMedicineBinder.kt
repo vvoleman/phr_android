@@ -7,6 +7,7 @@ import cz.vvoleman.phr.featureMedicine.R
 import cz.vvoleman.phr.featureMedicine.databinding.FragmentListMedicineBinding
 import cz.vvoleman.phr.featureMedicine.presentation.list.model.ListMedicineViewState
 import cz.vvoleman.phr.featureMedicine.ui.list.adapter.MedicineFragmentAdapter
+import cz.vvoleman.phr.featureMedicine.ui.mapper.list.MedicineScheduleUiModelToPresentationMapper
 import cz.vvoleman.phr.featureMedicine.ui.mapper.list.MedicineUiModelToPresentationMapper
 import cz.vvoleman.phr.featureMedicine.ui.mapper.list.NextScheduleItemUiModelToPresentationMapper
 import cz.vvoleman.phr.featureMedicine.ui.mapper.list.ScheduleItemWithDetailsUiModelToPresentationMapper
@@ -15,6 +16,7 @@ import cz.vvoleman.phr.featureMedicine.ui.mapper.list.ScheduleItemWithDetailsUiM
 class ListMedicineBinder(
     private val nextScheduleItemMapper: NextScheduleItemUiModelToPresentationMapper,
     private val medicineMapper: MedicineUiModelToPresentationMapper,
+    private val medicineScheduleMapper: MedicineScheduleUiModelToPresentationMapper,
     private val scheduleItemMapper: ScheduleItemWithDetailsUiModelToPresentationMapper,
 ) : BaseViewStateBinder<ListMedicineViewState, FragmentListMedicineBinding, ListMedicineBinder.Notification>() {
 
@@ -36,6 +38,9 @@ class ListMedicineBinder(
             adapter.setNextSchedules(viewState.timelineSchedules.map { group->
                 val scheduleItems = group.items.map { scheduleItemMapper.toUi(it) }
                 GroupedItemsUiModel(group.value, scheduleItems)
+            })
+            adapter.setAllSchedules(viewState.medicineCatalogue.map { group->
+                GroupedItemsUiModel(group.value, group.items.map { medicineScheduleMapper.toUi(it) })
             })
         }
 
