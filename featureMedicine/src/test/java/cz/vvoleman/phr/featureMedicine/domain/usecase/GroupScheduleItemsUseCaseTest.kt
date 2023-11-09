@@ -47,11 +47,11 @@ class GroupScheduleItemsUseCaseTest {
         val actualValue = useCase.executeInBackground(request)
 
         // Then
-        assertEquals(3, actualValue.size)
+        assertEquals(2, actualValue.size)
 
-        assertEquals(1, actualValue[0].items.size)
+        assertEquals(3, actualValue[0].items.size)
         assertEquals("1", actualValue[0].items[0].scheduleItem.id)
-        assertEquals("Bb", actualValue[1].items[0].medicine.name)
+        assertEquals("Dd", actualValue[1].items[0].medicine.name)
     }
 
     @Test

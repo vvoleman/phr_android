@@ -11,6 +11,7 @@ import cz.vvoleman.phr.common.domain.usecase.GetSelectedPatientUseCase
 import cz.vvoleman.phr.common.presentation.mapper.PatientPresentationModelToDomainMapper
 import cz.vvoleman.phr.common.presentation.model.GroupedItemsPresentationModel
 import cz.vvoleman.phr.featureMedicine.domain.facade.MedicineScheduleFacade
+import cz.vvoleman.phr.featureMedicine.domain.model.schedule.MedicineScheduleDomainModel
 import cz.vvoleman.phr.featureMedicine.domain.model.schedule.ScheduleItemWithDetailsDomainModel
 import cz.vvoleman.phr.featureMedicine.domain.model.timeline.GroupScheduleItemsRequest
 import cz.vvoleman.phr.featureMedicine.domain.model.timeline.NextScheduledRequestDomainModel
@@ -25,6 +26,7 @@ import cz.vvoleman.phr.featureMedicine.presentation.list.model.ListMedicineNotif
 import cz.vvoleman.phr.featureMedicine.presentation.list.model.ListMedicineViewState
 import cz.vvoleman.phr.featureMedicine.presentation.list.model.NextScheduleItemPresentationModel
 import cz.vvoleman.phr.featureMedicine.presentation.mapper.list.MedicinePresentationModelToDomainMapper
+import cz.vvoleman.phr.featureMedicine.presentation.mapper.list.MedicineSchedulePresentationModelToDomainMapper
 import cz.vvoleman.phr.featureMedicine.presentation.mapper.list.ScheduleItemPresentationModelToDomainMapper
 import cz.vvoleman.phr.featureMedicine.presentation.mapper.list.ScheduleItemWithDetailsPresentationModelToDomainMapper
 import cz.vvoleman.phr.featureMedicine.presentation.model.list.ScheduleItemWithDetailsPresentationModel
@@ -43,12 +45,13 @@ class ListMedicineViewModel @Inject constructor(
     private val getSelectedPatientUseCase: GetSelectedPatientUseCase,
     private val getScheduledInTimeRangeUseCase: GetScheduledInTimeRangeUseCase,
     private val groupScheduleItemsUseCase: GroupScheduleItemsUseCase,
-    private val groupMedicineScheduleUseCase: GroupMedicineScheduleUseCase,
+    private val groupMedicineSchedulesUseCase: GroupMedicineScheduleUseCase,
     private val searchMedicineUseCase: SearchMedicineUseCase,
     private val patientMapper: PatientPresentationModelToDomainMapper,
     private val scheduleItemDetailsMapper: ScheduleItemWithDetailsPresentationModelToDomainMapper,
     private val scheduleItemMapper: ScheduleItemPresentationModelToDomainMapper,
     private val medicineMapper: MedicinePresentationModelToDomainMapper,
+    private val medicineScheduleMapper: MedicineSchedulePresentationModelToDomainMapper,
     private val alarmScheduler: AlarmScheduler,
     savedStateHandle: SavedStateHandle,
     useCaseExecutorProvider: UseCaseExecutorProvider
@@ -75,10 +78,11 @@ class ListMedicineViewModel @Inject constructor(
             val today = LocalDate.now()
             val rangeRequest = SchedulesInRangeRequest(
                 patientId = currentViewState.patient!!.id,
-                startAt = today.atTime(LocalTime.MIN),
+                startAt = today.atTime(LocalTime.now()),
                 endAt = today.atTime(LocalTime.MAX)
             )
             getScheduledInTimeRangeUseCase.execute(rangeRequest, ::handleGroupScheduleItems)
+            groupMedicineSchedulesUseCase.execute(currentViewState.patient!!.id, ::handleGroupMedicineSchedules)
 
             loadNextSchedules()
         }
@@ -164,6 +168,18 @@ class ListMedicineViewModel @Inject constructor(
 
             updateViewState(currentViewState.copy(timelineSchedules = list))
         }
+    }
+
+    private fun handleGroupMedicineSchedules(result: List<GroupedItemsDomainModel<MedicineScheduleDomainModel>>) {
+        val list = result.map { group ->
+            val items = group.items.map { medicineScheduleMapper.toPresentation(it) }
+            GroupedItemsPresentationModel(
+                group.value,
+                items
+            )
+        }
+
+        updateViewState(currentViewState.copy(medicineCatalogue = list))
     }
 
     private fun getNextSelectedSchedule(list: List<ScheduleItemWithDetailsPresentationModel>): NextScheduleItemPresentationModel? {
