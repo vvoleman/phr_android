@@ -12,9 +12,10 @@ import cz.vvoleman.phr.featureMedicine.presentation.list.model.ListMedicineNotif
 import cz.vvoleman.phr.featureMedicine.presentation.list.model.ListMedicineViewState
 import cz.vvoleman.phr.featureMedicine.presentation.list.viewmodel.ListMedicineViewModel
 import cz.vvoleman.phr.featureMedicine.ui.list.adapter.MedicineFragmentAdapter
-import cz.vvoleman.phr.featureMedicine.ui.list.fragment.CatalogueFragment
+import cz.vvoleman.phr.featureMedicine.ui.list.fragment.MedicineCatalogueFragment
 import cz.vvoleman.phr.featureMedicine.ui.list.fragment.TimelineFragment
 import cz.vvoleman.phr.featureMedicine.ui.list.mapper.ListMedicineDestinationUiMapper
+import cz.vvoleman.phr.featureMedicine.ui.model.list.schedule.MedicineScheduleUiModel
 import cz.vvoleman.phr.featureMedicine.ui.model.list.schedule.ScheduleItemWithDetailsUiModel
 import cz.vvoleman.phr.featureMedicine.ui.nextSchedule.NextSchedule
 import dagger.hilt.android.AndroidEntryPoint
@@ -23,7 +24,8 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class ListMedicineFragment :
     BaseFragment<ListMedicineViewState, ListMedicineNotification, FragmentListMedicineBinding>(),
-    NextSchedule.NextScheduleListener, TimelineFragment.TimelineInterface, CatalogueFragment.CatalogueInterface {
+    NextSchedule.NextScheduleListener, TimelineFragment.TimelineInterface,
+    MedicineCatalogueFragment.MedicineScheduleInterface {
 
     override val viewModel: ListMedicineViewModel by viewModels()
 
@@ -79,11 +81,16 @@ class ListMedicineFragment :
         Log.d("Timeline", "onTimelineItemAlarmToggle: $item, $oldState")
     }
 
-    override fun onCatalogueItemClick(item: ScheduleItemWithDetailsUiModel) {
-        TODO("Not yet implemented")
+    override fun onCatalogueItemClick(item: MedicineScheduleUiModel) {
+        Log.d("Catalogue", "onCatalogueItemClick: $item")
     }
 
-    override fun onCatalogueItemEdit(item: ScheduleItemWithDetailsUiModel) {
-        TODO("Not yet implemented")
+    override fun onCatalogueItemEdit(item: MedicineScheduleUiModel) {
+        Log.d("Catalogue", "onCatalogueItemEdit: $item")
     }
+
+    companion object {
+        private const val TAG = "ListMedicineFragment"
+    }
+
 }

@@ -27,9 +27,10 @@ class UiModule {
     fun providesListMedicineBinder(
         nextScheduleItemMapper: NextScheduleItemUiModelToPresentationMapper,
         medicineMapper: MedicineUiModelToPresentationMapper,
+        medicineScheduleMapper: MedicineScheduleUiModelToPresentationMapper,
         scheduleItemMapper: ScheduleItemWithDetailsUiModelToPresentationMapper,
     ): ViewStateBinder<ListMedicineViewState, FragmentListMedicineBinding> =
-        ListMedicineBinder(nextScheduleItemMapper, medicineMapper, scheduleItemMapper)
+        ListMedicineBinder(nextScheduleItemMapper, medicineMapper, medicineScheduleMapper, scheduleItemMapper)
 
     @Provides
     fun providesListMedicineDestinationUiMapper(navManager: NavManager) =

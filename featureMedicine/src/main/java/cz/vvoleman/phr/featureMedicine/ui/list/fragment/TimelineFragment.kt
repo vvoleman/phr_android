@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import cz.vvoleman.phr.common.ui.adapter.grouped.GroupedItemsAdapter
 import cz.vvoleman.phr.common.ui.model.GroupedItemsUiModel
+import cz.vvoleman.phr.common.utils.withLeadingZero
 import cz.vvoleman.phr.common_datasource.databinding.ItemGroupedItemsBinding
 import cz.vvoleman.phr.featureMedicine.databinding.FragmentTimelineBinding
 import cz.vvoleman.phr.featureMedicine.ui.list.adapter.TimelineAdapter
@@ -35,6 +36,7 @@ class TimelineFragment(
         super.onViewCreated(view, savedInstanceState)
 
         isMultipleDays = isMultipleDays()
+        Log.d("TimelineFragment", "isMultipleDays: $isMultipleDays")
 
         val groupAdapter = GroupedItemsAdapter(this)
         binding.recyclerView.apply {
@@ -54,11 +56,11 @@ class TimelineFragment(
 
         val dateTime = getDateFromValue(item.value.toString())
         var text = if (isMultipleDays) {
-            "${dateTime.dayOfMonth}. ${dateTime.monthValue} "
+            "${dateTime.dayOfMonth.withLeadingZero()}. ${dateTime.monthValue.withLeadingZero()} "
         } else {
             ""
         }
-        text += "${dateTime.hour}:${dateTime.minute}"
+        text += "${dateTime.hour.withLeadingZero()}:${dateTime.minute.withLeadingZero()}"
         binding.apply {
             textViewTitle.text = text
             recyclerView.apply {
@@ -85,7 +87,7 @@ class TimelineFragment(
         }
 
         val keys = schedules.map {
-            it.value.toString().split("-").take(2).joinToString("-")
+            it.value.toString().split("-").take(3).joinToString("-")
         }.toMutableList()
 
         val firstDate = keys.removeFirst()
@@ -94,13 +96,14 @@ class TimelineFragment(
     }
 
     private fun getDateFromValue(value: String): LocalDateTime {
+        Log.d("TimelineFragment", "getDateFromValue: $value")
         val date = value.split("-")
 
-        if (date.size != 5) {
+        if (date.size != 4) {
             return LocalDateTime.now()
         }
 
-        return LocalDateTime.of(date[0].toInt(), date[1].toInt(), date[2].toInt(), date[3].toInt(), date[4].toInt())
+        return LocalDateTime.of(date[0].toInt(), date[1].toInt(), date[2].toInt(), date[3].toInt(), 0)
     }
 
     interface TimelineInterface {

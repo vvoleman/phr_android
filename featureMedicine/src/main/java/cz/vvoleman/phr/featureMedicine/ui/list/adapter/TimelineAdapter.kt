@@ -34,7 +34,8 @@ class TimelineAdapter (
         fun bind(item: ScheduleItemWithDetailsUiModel) {
             binding.apply {
                 textViewName.text = item.medicine.name
-                textViewDosage.text = binding.root.context.getString(
+                layoutInfo.textViewTime.text = item.scheduleItem.time.toString()
+                layoutInfo.textViewDosage.text = binding.root.context.getString(
                     R.string.schedule_item_dosage,
                     item.scheduleItem.quantity,
                     item.scheduleItem.unit
