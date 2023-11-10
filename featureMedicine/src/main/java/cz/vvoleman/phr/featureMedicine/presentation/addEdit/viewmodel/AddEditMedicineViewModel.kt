@@ -54,7 +54,6 @@ class AddEditMedicineViewModel @Inject constructor(
     override fun initState(): AddEditMedicineViewState {
         val temp = listOf(LocalTime.of(8, 0), LocalTime.of(14, 0), LocalTime.of(20, 0))
         val times = temp.map { TimePresentationModel(null, it, 0) }
-        Log.d(TAG, "a")
 
         return AddEditMedicineViewState(
             times = times,
@@ -80,6 +79,7 @@ class AddEditMedicineViewModel @Inject constructor(
             }
 
             val scheduleId = savedStateHandle.get<String>(SCHEDULE_ID)
+            updateViewState(currentViewState.copy(scheduleId = scheduleId))
             if (scheduleId != null) {
                 getMedicineScheduleByIdUseCase.execute(scheduleId, ::handleGetMedicineScheduleById)
             } else {
@@ -149,6 +149,7 @@ class AddEditMedicineViewModel @Inject constructor(
         }
 
         val saveMedicine = SaveMedicineSchedulePresentationModel(
+            id = currentViewState.scheduleId,
             patient = currentViewState.patient!!,
             medicine = currentViewState.selectedMedicine!!,
             schedules = makeSaveSchedules(currentViewState.times, currentViewState.frequencyDays),
@@ -214,9 +215,26 @@ class AddEditMedicineViewModel @Inject constructor(
             return
         }
 
+        val itemsByDay = result.schedules.groupBy { it.dayOfWeek }
+        val times = itemsByDay.values.first().map {
+            TimePresentationModel(
+                id = it.id,
+                time = it.time,
+                number = it.quantity,
+            )
+        }
+
+        val frequencies = currentViewState.frequencyDaysDefault.map { day ->
+            FrequencyDayPresentationModel(
+                day = day.day,
+                isSelected = itemsByDay.containsKey(day.day),
+            )
+        }
+
         updateViewState(currentViewState.copy(
             selectedMedicine = medicineMapper.toPresentation(result.medicine),
-            times = result.schedules.map { TimePresentationModel(it.id, it.time, it.quantity) }
+            times = times,
+            frequencyDays = frequencies,
         ))
     }
     private fun handleSaveMedicineSchedule(result: String?) {

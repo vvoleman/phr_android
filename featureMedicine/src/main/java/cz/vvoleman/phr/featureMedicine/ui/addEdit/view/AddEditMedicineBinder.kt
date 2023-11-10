@@ -1,6 +1,5 @@
 package cz.vvoleman.phr.featureMedicine.ui.addEdit.view
 
-import android.content.Context
 import android.util.Log
 import cz.vvoleman.phr.base.ui.mapper.BaseViewStateBinder
 import cz.vvoleman.phr.featureMedicine.databinding.FragmentAddEditMedicineBinding
@@ -8,7 +7,6 @@ import cz.vvoleman.phr.featureMedicine.presentation.addEdit.model.AddEditMedicin
 import cz.vvoleman.phr.featureMedicine.ui.mapper.addEdit.FrequencyDayUiModelToPresentationMapper
 import cz.vvoleman.phr.featureMedicine.ui.mapper.addEdit.TimeUiModelToPresentationMapper
 import cz.vvoleman.phr.featureMedicine.ui.mapper.list.MedicineUiModelToPresentationMapper
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 @Suppress("MaximumLineLength", "MaxLineLength")
@@ -25,17 +23,19 @@ class AddEditMedicineBinder(
             }
         }
 
+        Log.d("AddEditMedicineBinder", "bind: ${viewState.times}")
+        viewBinding.timeSelector.setTimes(viewState.times.map { timeMapper.toUi(it) })
+        viewBinding.frequencySelector.setDays(viewState.frequencyDays.map { frequencyMapper.toUi(it) })
+
+        viewBinding.medicineSelector.setSelectedMedicine(viewState.selectedMedicine?.let { medicineMapper.toUi(it) })
+
         if (!viewBinding.frequencySelector.hasEverydaySet()) {
             viewBinding.frequencySelector.setDaysEveryday(viewState.frequencyDaysDefault.map {
                 frequencyMapper.toUi(it)
             })
         }
 
-        Log.d("AddEditMedicineBinder", "bind: ${viewState.times}")
-        viewBinding.timeSelector.setTimes(viewState.times.map { timeMapper.toUi(it) })
-        viewBinding.frequencySelector.setDays(viewState.frequencyDays.map { frequencyMapper.toUi(it) })
 
-        viewBinding.medicineSelector.setSelectedMedicine(viewState.selectedMedicine?.let { medicineMapper.toUi(it) })
     }
 
     sealed class Notification

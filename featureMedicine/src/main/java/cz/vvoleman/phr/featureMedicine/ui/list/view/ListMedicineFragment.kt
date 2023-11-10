@@ -89,7 +89,7 @@ class ListMedicineFragment :
     }
 
     override fun onCatalogueItemEdit(item: MedicineScheduleUiModel) {
-        Log.d("Catalogue", "onCatalogueItemEdit: $item")
+        viewModel.onEdit(item.id)
     }
 
     companion object {

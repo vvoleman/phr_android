@@ -22,4 +22,7 @@
     <string name="medicine_detail_expiration">Expirace balení</string>
     <string name="medicine_info_label_substances">Složení</string>
     <string name="medicine_info_label_base">Základ</string>
+    <string name="no_schedules_today">Dnes již žádné naplánované léky</string>
+    <string name="frequency_every_day">Každý den</string>
+    <string name="frequency_custom">Vlastní</string>
 </resources>
