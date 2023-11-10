@@ -26,6 +26,9 @@ interface ScheduleItemDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(scheduleItems: List<ScheduleItemDataSourceModel>): List<Long>
 
+    @Query("DELETE FROM schedule_item WHERE schedule_id = :scheduleId")
+    suspend fun deleteAll(scheduleId: String)
+
     @Delete
     suspend fun delete(scheduleItem: ScheduleItemDataSourceModel)
 }

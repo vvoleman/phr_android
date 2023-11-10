@@ -6,6 +6,7 @@ import cz.vvoleman.phr.featureMedicine.presentation.model.addEdit.TimePresentati
 import cz.vvoleman.phr.featureMedicine.presentation.model.list.MedicinePresentationModel
 
 data class AddEditMedicineViewState(
+    val scheduleId: String? = null,
     val medicines: List<MedicinePresentationModel> = emptyList(),
     val selectedMedicine: MedicinePresentationModel? = null,
     val times: List<TimePresentationModel> = emptyList(),
