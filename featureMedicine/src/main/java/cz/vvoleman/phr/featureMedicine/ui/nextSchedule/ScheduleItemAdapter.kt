@@ -34,6 +34,7 @@ class ScheduleItemAdapter :
         fun bind(item: NextScheduleUiModel) {
             binding.apply {
                 textViewTime.text = item.time.toLocalTime().toString()
+                textViewName.text = item.medicineName
                 textViewDosage.text =
                     binding.root.context.getString(R.string.schedule_item_dosage, item.quantity, item.unit)
             }

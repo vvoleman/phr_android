@@ -27,13 +27,19 @@ class TimelineFragment(
 
     private var isMultipleDays = true
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentTimelineBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        if (schedules.isEmpty()) {
+            binding.textViewEmpty.visibility = View.VISIBLE
+            binding.recyclerView.visibility = View.GONE
+            return
+        }
 
         isMultipleDays = isMultipleDays()
         Log.d("TimelineFragment", "isMultipleDays: $isMultipleDays")

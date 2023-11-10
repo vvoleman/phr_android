@@ -55,6 +55,11 @@ class ScheduleRepository(
 
         Log.d("ScheduleRepository", "saveMedicineSchedule: $id")
 
+        // Remove all schedule items
+        if (medicineSchedule.id != null) {
+            scheduleItemDao.deleteAll(medicineSchedule.id)
+        }
+
         // Save Schedule Items
         medicineSchedule.schedules.forEach {
             Log.d("ScheduleRepository", "save schedule Item: $it")

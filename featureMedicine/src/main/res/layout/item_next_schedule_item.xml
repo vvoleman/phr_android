@@ -16,6 +16,18 @@
         tools:textColor="@color/black" />
 
     <TextView
+        android:id="@+id/text_view_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@id/text_view_time"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="ZYRTEC"
+        tools:textColor="@color/black" />
+
+    <TextView
         android:id="@+id/text_view_dosage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -23,7 +35,7 @@
         android:fontFeatureSettings="smcp"
         android:textColor="@color/green_500"
         android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@id/text_view_time"
+        app:layout_constraintStart_toEndOf="@id/text_view_name"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="1 tableta" />
 

@@ -65,15 +65,11 @@ class FrequencySelector @JvmOverloads constructor(
         _currentState = state
         when (state) {
             SelectorState.EVERY_DAY -> {
-                binding.buttonFrequencyEveryDay.isSelected = true
-                binding.buttonFrequencyCustom.isSelected = false
                 binding.recyclerViewDays.isEnabled = false
                 binding.recyclerViewDays.visibility = GONE
             }
             SelectorState.CUSTOM -> {
-                binding.buttonFrequencyEveryDay.isSelected = false
-                binding.buttonFrequencyCustom.isSelected = true
-                binding.recyclerViewDays.isEnabled = true
+                Log.d("FrequencySelector", "updateState: ${_days.values.toList()}")
                 binding.recyclerViewDays.visibility = VISIBLE
             }
         }
@@ -85,14 +81,18 @@ class FrequencySelector @JvmOverloads constructor(
         }
 
         val values = _days.values.toList()
-        _adapter?.submitList(values)
-
-        val resultValues = if (_currentState == SelectorState.EVERY_DAY) {
-            _daysEveryday
+        val state = if (values.filter { it.isSelected }.size == 7 || values.isEmpty()) {
+            SelectorState.EVERY_DAY
         } else {
-            values
+            SelectorState.CUSTOM
         }
-        _listener?.onValueChange(resultValues)
+        _adapter!!.submitList(values)
+        if (state != _currentState) {
+            updateState(state)
+        }
+
+        _listener?.onValueChange(values)
+
     }
 
     fun setListener(listener: FrequencySelectorListener) {
@@ -109,14 +109,6 @@ class FrequencySelector @JvmOverloads constructor(
 
     override fun onValueChange(item: FrequencyDayUiModel) {
         setDays(listOf(item.copy(isSelected = !item.isSelected)))
-    }
-
-    private fun convertListToMap(days: List<FrequencyDayUiModel>): MutableMap<DayOfWeek, FrequencyDayUiModel> {
-        val map = mutableMapOf<DayOfWeek, FrequencyDayUiModel>()
-        days.forEach {
-            map[it.day] = it
-        }
-        return map
     }
 
 }
