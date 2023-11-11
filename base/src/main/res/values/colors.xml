@@ -37,6 +37,11 @@
     <color name="gray_500">#efefef</color>
     <color name="gray_700">#aeaeae</color>
 
+    <color name="red_200">#e79da0</color>
+    <color name="red_500">#c34d40</color>
+    <color name="red_700">#b4342e</color>
+
+
     <color name="category_a">#3A6B83</color>
     <color name="category_b">#835E3A</color>
     <color name="category_c">#6D3A83</color>

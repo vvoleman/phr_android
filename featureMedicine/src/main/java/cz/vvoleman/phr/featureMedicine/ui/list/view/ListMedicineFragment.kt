@@ -7,6 +7,7 @@ import androidx.fragment.app.viewModels
 import com.google.android.material.snackbar.Snackbar
 import cz.vvoleman.phr.base.ui.mapper.ViewStateBinder
 import cz.vvoleman.phr.base.ui.view.BaseFragment
+import cz.vvoleman.phr.featureMedicine.R
 import cz.vvoleman.phr.featureMedicine.databinding.FragmentListMedicineBinding
 import cz.vvoleman.phr.featureMedicine.presentation.list.model.ListMedicineNotification
 import cz.vvoleman.phr.featureMedicine.presentation.list.model.ListMedicineViewState
@@ -59,13 +60,11 @@ class ListMedicineFragment :
 
     override fun handleNotification(notification: ListMedicineNotification) {
         when (notification) {
-            is ListMedicineNotification.DataLoaded -> {
-                Snackbar.make(binding.root, "Data loaded", Snackbar.LENGTH_SHORT).show()
-            }
-
-            is ListMedicineNotification.UnableToLoad -> {
-                Snackbar.make(binding.root, "Unable to load data", Snackbar.LENGTH_SHORT).show()
-            }
+            is ListMedicineNotification.DataLoaded -> showSnackbar(R.string.notification_data_loaded)
+            is ListMedicineNotification.UnableToLoad -> showSnackbar(R.string.notification_unable_to_load)
+            is ListMedicineNotification.AlarmNotDeleted -> showSnackbar(R.string.notification_alarm_not_deleted)
+            is ListMedicineNotification.ScheduleNotDeleted -> showSnackbar(R.string.notification_schedule_not_deleted)
+            is ListMedicineNotification.Deleted -> showSnackbar(R.string.notification_deleted)
         }
     }
 
@@ -90,6 +89,18 @@ class ListMedicineFragment :
 
     override fun onCatalogueItemEdit(item: MedicineScheduleUiModel) {
         viewModel.onEdit(item.id)
+    }
+
+    override fun onCatalogueItemDelete(item: MedicineScheduleUiModel) {
+        showConfirmDialog(
+            getString(R.string.confirm_delete_title),
+            getString(R.string.confirm_delete_message),
+            Pair(getString(R.string.confirm_delete_positive)) {
+                viewModel.onDelete(item.id)
+            },
+            Pair(getString(R.string.confirm_delete_negative)) {
+                it.cancel()
+            })
     }
 
     companion object {
