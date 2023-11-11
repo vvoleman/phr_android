@@ -11,9 +11,9 @@ import cz.vvoleman.phr.featureMedicine.data.mapper.schedule.MedicineScheduleData
 import cz.vvoleman.phr.featureMedicine.data.model.schedule.MedicineScheduleDataModel
 import cz.vvoleman.phr.featureMedicine.data.model.schedule.ScheduleItemDataModel
 import cz.vvoleman.phr.featureMedicine.domain.model.schedule.MedicineScheduleDomainModel
+import cz.vvoleman.phr.featureMedicine.domain.repository.DeleteScheduleAlarmRepository
 import cz.vvoleman.phr.featureMedicine.domain.repository.ScheduleMedicineRepository
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.map
 import java.time.DayOfWeek
 import java.time.LocalTime
 
@@ -22,7 +22,7 @@ class AlarmRepository(
     private val medicineScheduleDataMapper: MedicineScheduleDataSourceModelToDataMapper,
     private val medicineScheduleMapper: MedicineScheduleDataModelToDomainMapper,
     private val alarmScheduler: AlarmScheduler,
-) : ScheduleMedicineRepository {
+) : ScheduleMedicineRepository, DeleteScheduleAlarmRepository {
 
     suspend fun getActiveMedicineSchedules(): List<MedicineScheduleDomainModel> {
         return medicineScheduleDao.getActive(true).first()
@@ -37,6 +37,12 @@ class AlarmRepository(
         val alarmItems = getAlarmItems(medicineScheduleMapper.toData(medicineSchedule))
 
         return alarmItems.all { alarmScheduler.schedule(it) }
+    }
+
+    override suspend fun deleteScheduleAlarm(medicineSchedule: MedicineScheduleDomainModel): Boolean {
+        val alarmItems = getAlarmItems(medicineScheduleMapper.toData(medicineSchedule))
+
+        return alarmItems.all { alarmScheduler.cancel(it) }
     }
 
     private fun getAlarmItems(medicineSchedule: MedicineScheduleDataModel): List<AlarmItem> {

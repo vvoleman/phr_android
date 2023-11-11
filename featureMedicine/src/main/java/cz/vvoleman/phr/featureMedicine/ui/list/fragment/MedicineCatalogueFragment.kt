@@ -23,7 +23,7 @@ class MedicineCatalogueFragment(
     private var _binding: FragmentMedicineCatalogueBinding? = null
     private val binding get() = _binding!!
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentMedicineCatalogueBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -74,10 +74,14 @@ class MedicineCatalogueFragment(
         listener.onCatalogueItemEdit(item)
     }
 
+    override fun onCatalogueItemDelete(item: MedicineScheduleUiModel) {
+        listener.onCatalogueItemDelete(item)
+    }
+
     interface MedicineScheduleInterface {
         fun onCatalogueItemClick(item: MedicineScheduleUiModel)
-
         fun onCatalogueItemEdit(item: MedicineScheduleUiModel)
+        fun onCatalogueItemDelete(item: MedicineScheduleUiModel)
     }
 
 }
