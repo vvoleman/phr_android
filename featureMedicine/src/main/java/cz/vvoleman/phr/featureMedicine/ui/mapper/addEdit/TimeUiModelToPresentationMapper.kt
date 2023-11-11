@@ -7,7 +7,6 @@ class TimeUiModelToPresentationMapper {
 
     fun toPresentation(uiModel: TimeUiModel): TimePresentationModel {
         return TimePresentationModel(
-            id = uiModel.id,
             time = uiModel.time,
             number = uiModel.number
         )
@@ -15,7 +14,6 @@ class TimeUiModelToPresentationMapper {
 
     fun toUi(presentationModel: TimePresentationModel): TimeUiModel {
         return TimeUiModel(
-            id = presentationModel.id,
             time = presentationModel.time,
             number = presentationModel.number
         )
