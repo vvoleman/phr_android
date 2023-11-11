@@ -33,6 +33,12 @@ class NextSchedule @JvmOverloads constructor(
             layoutManager = LinearLayoutManager(context)
         }
 
+        binding.root.setOnClickListener {
+            _schedule?.let {
+                _listener?.onNextScheduleClick(it)
+            }
+        }
+
         binding.timeLeft.setListener(this)
 
         render()
@@ -95,6 +101,7 @@ class NextSchedule @JvmOverloads constructor(
 
     interface NextScheduleListener {
         fun onTimeOut()
+        fun onNextScheduleClick(item: NextScheduleItemUiModel)
     }
 
 }
