@@ -1,5 +1,7 @@
 package cz.vvoleman.phr.base.ui.view
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,6 +10,7 @@ import androidx.annotation.CallSuper
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.viewbinding.ViewBinding
+import com.google.android.material.snackbar.Snackbar
 import cz.vvoleman.phr.base.presentation.model.PresentationDestination
 import cz.vvoleman.phr.base.presentation.viewmodel.BaseViewModel
 import cz.vvoleman.phr.base.ui.ext.collectLatestLifecycleFlow
@@ -48,6 +51,45 @@ abstract class BaseFragment<VIEW_STATE : Any, NOTIFICATION : Any, VIEW_BINDING :
     ): VIEW_BINDING
 
     protected open fun setupListeners() {}
+
+    protected fun showConfirmDialog(
+        title: String,
+        message: String,
+        positiveAction: Pair<String, (DialogInterface) -> Unit>,
+        negativeAction: Pair<String, (DialogInterface) -> Unit>
+    ) {
+        val alertDialogBuilder = AlertDialog.Builder(context)
+
+        alertDialogBuilder.setTitle(title)
+        alertDialogBuilder.setMessage(message)
+
+        alertDialogBuilder.setPositiveButton(positiveAction.first) { dialog, _ ->
+            positiveAction.second.invoke(dialog)
+        }
+
+        alertDialogBuilder.setNegativeButton(negativeAction.first) { dialog, _ ->
+            negativeAction.second.invoke(dialog)
+        }
+
+        val alertDialog: AlertDialog = alertDialogBuilder.create()
+        alertDialog.show()
+    }
+
+    protected fun showSnackbar(message: String, length: Int = Snackbar.LENGTH_SHORT, actions: List<Pair<String, () -> Unit>> = emptyList()) {
+        val snackbar = Snackbar.make(binding.root, message, length)
+
+        actions.forEach { action ->
+            snackbar.setAction(action.first) {
+                action.second.invoke()
+            }
+        }
+
+        snackbar.show()
+    }
+
+    protected fun showSnackbar(message: Int, length: Int = Snackbar.LENGTH_SHORT, actions: List<Pair<String, () -> Unit>> = emptyList()) {
+        showSnackbar(binding.root.resources.getString(message), length, actions)
+    }
 
     private fun observeViewModel() {
         collectLatestLifecycleFlow(viewModel.viewState) {

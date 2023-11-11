@@ -35,6 +35,9 @@ interface MedicineScheduleDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(medicineSchedules: List<MedicineScheduleDataSourceModel>): List<Long>
 
+    @Query("DELETE FROM medicine_schedule WHERE id = :id")
+    suspend fun delete(id: String)
+
     @Delete
     suspend fun delete(medicineSchedule: MedicineScheduleDataSourceModel)
 }

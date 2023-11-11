@@ -1,12 +1,15 @@
 package cz.vvoleman.phr.di.medicine
 
 import cz.vvoleman.phr.base.domain.coroutine.CoroutineContextProvider
+import cz.vvoleman.phr.featureMedicine.domain.repository.DeleteMedicineScheduleRepository
+import cz.vvoleman.phr.featureMedicine.domain.repository.DeleteScheduleAlarmRepository
 import cz.vvoleman.phr.featureMedicine.domain.repository.GetMedicineByIdRepository
 import cz.vvoleman.phr.featureMedicine.domain.repository.GetMedicineScheduleByIdRepository
 import cz.vvoleman.phr.featureMedicine.domain.repository.SaveMedicineScheduleRepository
 import cz.vvoleman.phr.featureMedicine.domain.repository.ScheduleMedicineRepository
 import cz.vvoleman.phr.featureMedicine.domain.repository.SearchMedicineRepository
 import cz.vvoleman.phr.featureMedicine.domain.repository.timeline.GetSchedulesByPatientRepository
+import cz.vvoleman.phr.featureMedicine.domain.usecase.DeleteMedicineScheduleUseCase
 import cz.vvoleman.phr.featureMedicine.domain.usecase.GetMedicineByIdUseCase
 import cz.vvoleman.phr.featureMedicine.domain.usecase.GetMedicineScheduleByIdUseCase
 import cz.vvoleman.phr.featureMedicine.domain.usecase.GroupMedicineScheduleUseCase
@@ -103,6 +106,19 @@ class DomainModule {
         coroutineContextProvider: CoroutineContextProvider
     ) = SearchMedicineUseCase(
         searchMedicineRepository,
+        coroutineContextProvider
+    )
+
+    @Provides
+    fun providesDeleteMedicineScheduleUseCase(
+        getMedicineScheduleByIdRepository: GetMedicineScheduleByIdRepository,
+        deleteMedicineScheduleRepository: DeleteMedicineScheduleRepository,
+        deleteScheduleAlarmRepository: DeleteScheduleAlarmRepository,
+        coroutineContextProvider: CoroutineContextProvider
+    ) = DeleteMedicineScheduleUseCase(
+        getMedicineScheduleByIdRepository,
+        deleteMedicineScheduleRepository,
+        deleteScheduleAlarmRepository,
         coroutineContextProvider
     )
 
