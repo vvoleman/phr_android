@@ -1,12 +1,10 @@
 package cz.vvoleman.phr.featureMedicine.ui.addEdit.view
 
 import android.app.TimePickerDialog
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TimePicker
-import android.widget.Toast
 import androidx.appcompat.widget.PopupMenu
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -40,6 +38,8 @@ class AddEditMedicineFragment :
     TimeSelector.TimeSelectorListener, FrequencySelector.FrequencySelectorListener {
 
     override val viewModel: AddEditMedicineViewModel by viewModels()
+
+    override val TAG = "AddEditMedicineFragment"
 
     @Inject
     override lateinit var destinationMapper: AddEditMedicineDestinationUiMapper
@@ -161,7 +161,7 @@ class AddEditMedicineFragment :
     }
 
     override fun onValueChange(days: List<FrequencyDayUiModel>) {
-        Log.d(TAG, "onValueChange: $days")
         viewModel.onFrequencyUpdate(days.map { frequencyDayUiModelToPresentationMapper.toPresentation(it) })
     }
+
 }

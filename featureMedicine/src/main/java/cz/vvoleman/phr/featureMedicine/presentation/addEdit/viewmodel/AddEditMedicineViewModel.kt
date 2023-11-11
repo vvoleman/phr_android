@@ -53,7 +53,7 @@ class AddEditMedicineViewModel @Inject constructor(
     @Suppress("MagicNumber")
     override fun initState(): AddEditMedicineViewState {
         val temp = listOf(LocalTime.of(8, 0), LocalTime.of(14, 0), LocalTime.of(20, 0))
-        val times = temp.map { TimePresentationModel(null, it, 0) }
+        val times = temp.map { TimePresentationModel(it, 0) }
 
         return AddEditMedicineViewState(
             times = times,
@@ -140,8 +140,11 @@ class AddEditMedicineViewModel @Inject constructor(
         Log.d(TAG, "selectedMedicine: ${currentViewState.selectedMedicine}")
         Log.d(TAG, "times: ${currentViewState.times}")
         Log.d(TAG, "frequencyDays: ${currentViewState.frequencyDays}")
+
         val canSave = currentViewState.selectedMedicine != null &&
-                currentViewState.times.isNotEmpty() && currentViewState.frequencyDays.isNotEmpty()
+                currentViewState.times.isNotEmpty() &&
+                currentViewState.frequencyDays.isNotEmpty() &&
+                currentViewState.frequencyDays.any { it.isSelected }
 
         if (!canSave) {
             notify(AddEditMedicineNotification.CannotSave)
@@ -155,6 +158,11 @@ class AddEditMedicineViewModel @Inject constructor(
             schedules = makeSaveSchedules(currentViewState.times, currentViewState.frequencyDays),
             createdAt = LocalDateTime.now()
         )
+
+        if (saveMedicine.schedules.isEmpty()) {
+            notify(AddEditMedicineNotification.CannotSave)
+            return
+        }
 
         val times = currentViewState.times
         val frequencies = currentViewState.frequencyDays
@@ -188,20 +196,18 @@ class AddEditMedicineViewModel @Inject constructor(
                 return@forEach
             }
             times.forEach { time ->
-                if (time.number == 0) {
-                    return@forEach
-                }
-                schedules.add(
-                    ScheduleItemPresentationModel(
-                        id = time.id,
-                        dayOfWeek = frequency.day,
-                        time = time.time,
-                        scheduledAt = LocalDateTime.now(),
-                        endingAt = null,
-                        quantity = time.number,
-                        unit = "",
+                if (time.number != 0) {
+                    schedules.add(
+                        ScheduleItemPresentationModel(
+                            dayOfWeek = frequency.day,
+                            time = time.time,
+                            scheduledAt = LocalDateTime.now(),
+                            endingAt = null,
+                            quantity = time.number,
+                            unit = "",
+                        )
                     )
-                )
+                }
             }
         }
 
@@ -218,7 +224,6 @@ class AddEditMedicineViewModel @Inject constructor(
         val itemsByDay = result.schedules.groupBy { it.dayOfWeek }
         val times = itemsByDay.values.first().map {
             TimePresentationModel(
-                id = it.id,
                 time = it.time,
                 number = it.quantity,
             )

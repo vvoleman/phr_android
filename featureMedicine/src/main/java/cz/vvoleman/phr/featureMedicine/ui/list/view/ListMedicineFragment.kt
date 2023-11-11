@@ -18,8 +18,11 @@ import cz.vvoleman.phr.featureMedicine.ui.list.fragment.TimelineFragment
 import cz.vvoleman.phr.featureMedicine.ui.list.mapper.ListMedicineDestinationUiMapper
 import cz.vvoleman.phr.featureMedicine.ui.medicineDetailSheet.MedicineDetailSheet
 import cz.vvoleman.phr.featureMedicine.ui.model.list.schedule.MedicineScheduleUiModel
+import cz.vvoleman.phr.featureMedicine.ui.model.list.schedule.NextScheduleItemUiModel
 import cz.vvoleman.phr.featureMedicine.ui.model.list.schedule.ScheduleItemWithDetailsUiModel
 import cz.vvoleman.phr.featureMedicine.ui.nextSchedule.NextSchedule
+import cz.vvoleman.phr.featureMedicine.ui.scheduleDetailDialog.ScheduleDetailAdapter
+import cz.vvoleman.phr.featureMedicine.ui.scheduleDetailDialog.ScheduleDetailDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -27,7 +30,7 @@ import javax.inject.Inject
 class ListMedicineFragment :
     BaseFragment<ListMedicineViewState, ListMedicineNotification, FragmentListMedicineBinding>(),
     NextSchedule.NextScheduleListener, TimelineFragment.TimelineInterface,
-    MedicineCatalogueFragment.MedicineScheduleInterface {
+    MedicineCatalogueFragment.MedicineScheduleInterface, ScheduleDetailAdapter.ScheduleDetailListener {
 
     override val viewModel: ListMedicineViewModel by viewModels()
 
@@ -49,8 +52,8 @@ class ListMedicineFragment :
     override fun setupListeners() {
         super.setupListeners()
 
-        fragmentAdapter = MedicineFragmentAdapter(this, this, this)
-        (viewStateBinder as ListMedicineBinder).setFragmentAdapter(fragmentAdapter)
+//        fragmentAdapter = MedicineFragmentAdapter(this, this, this)
+//        (viewStateBinder as ListMedicineBinder).setFragmentAdapter(fragmentAdapter)
 
         binding.fabAddMedicalRecord.setOnClickListener {
             viewModel.onCreate()
@@ -71,6 +74,12 @@ class ListMedicineFragment :
     override fun onTimeOut() {
         viewModel.onNextScheduleTimeOut()
         Snackbar.make(binding.root, "Time out", Snackbar.LENGTH_SHORT).show()
+    }
+
+    override fun onNextScheduleClick(item: NextScheduleItemUiModel) {
+        val dialog = ScheduleDetailDialogFragment.newInstance(item.dateTime, item.scheduleItems)
+        dialog.setTargetFragment(this, SCHEDULE_DIALOG)
+        dialog.show(requireFragmentManager(), ScheduleDetailDialogFragment.TAG)
     }
 
     override fun onTimelineItemClick(item: ScheduleItemWithDetailsUiModel) {
@@ -105,6 +114,11 @@ class ListMedicineFragment :
 
     companion object {
         private const val TAG = "ListMedicineFragment"
+        const val SCHEDULE_DIALOG = 1
+    }
+
+    override fun onLeafletOpen(scheduleItem: ScheduleItemWithDetailsUiModel) {
+        Log.d(TAG, "onLeafletOpen: $scheduleItem")
     }
 
 }
