@@ -16,6 +16,7 @@ import cz.vvoleman.phr.featureMedicine.domain.model.schedule.ScheduleItemWithDet
 import cz.vvoleman.phr.featureMedicine.domain.model.timeline.GroupScheduleItemsRequest
 import cz.vvoleman.phr.featureMedicine.domain.model.timeline.NextScheduledRequestDomainModel
 import cz.vvoleman.phr.featureMedicine.domain.model.timeline.SchedulesInRangeRequest
+import cz.vvoleman.phr.featureMedicine.domain.usecase.DeleteMedicineScheduleUseCase
 import cz.vvoleman.phr.featureMedicine.domain.usecase.GetNextScheduledUseCase
 import cz.vvoleman.phr.featureMedicine.domain.usecase.GetScheduledInTimeRangeUseCase
 import cz.vvoleman.phr.featureMedicine.domain.usecase.GroupMedicineScheduleUseCase
@@ -47,6 +48,7 @@ class ListMedicineViewModel @Inject constructor(
     private val groupScheduleItemsUseCase: GroupScheduleItemsUseCase,
     private val groupMedicineSchedulesUseCase: GroupMedicineScheduleUseCase,
     private val searchMedicineUseCase: SearchMedicineUseCase,
+    private val deleteMedicineScheduleUseCase: DeleteMedicineScheduleUseCase,
     private val patientMapper: PatientPresentationModelToDomainMapper,
     private val scheduleItemDetailsMapper: ScheduleItemWithDetailsPresentationModelToDomainMapper,
     private val scheduleItemMapper: ScheduleItemPresentationModelToDomainMapper,
@@ -75,16 +77,7 @@ class ListMedicineViewModel @Inject constructor(
                 return@launch
             }
 
-            val today = LocalDate.now()
-            val rangeRequest = SchedulesInRangeRequest(
-                patientId = currentViewState.patient!!.id,
-                startAt = today.atTime(LocalTime.now()),
-                endAt = today.atTime(LocalTime.MAX)
-            )
-            getScheduledInTimeRangeUseCase.execute(rangeRequest, ::handleGroupScheduleItems)
-            groupMedicineSchedulesUseCase.execute(currentViewState.patient!!.id, ::handleGroupMedicineSchedules)
-
-            loadNextSchedules()
+            retrieveSchedules()
         }
     }
 
@@ -109,6 +102,23 @@ class ListMedicineViewModel @Inject constructor(
         navigateTo(ListMedicineDestination.CreateSchedule)
     }
 
+    fun onDelete(id: String) = viewModelScope.launch {
+        deleteMedicineScheduleUseCase.execute(id) {
+            val isDeleted = it.isScheduleDeleted && it.isAlarmDeleted
+
+            if (isDeleted) {
+                notify(ListMedicineNotification.Deleted)
+                retrieveSchedules()
+            } else if (it.isScheduleDeleted) {
+                notify(ListMedicineNotification.AlarmNotDeleted)
+                retrieveSchedules()
+            } else {
+                notify(ListMedicineNotification.ScheduleNotDeleted)
+            }
+
+        }
+    }
+
     fun onEdit(id: String) {
         navigateTo(ListMedicineDestination.EditSchedule(id))
     }
@@ -128,6 +138,19 @@ class ListMedicineViewModel @Inject constructor(
             )
             return
         }
+
+        loadNextSchedules()
+    }
+
+    private fun retrieveSchedules() = viewModelScope.launch {
+        val today = LocalDate.now()
+        val rangeRequest = SchedulesInRangeRequest(
+            patientId = currentViewState.patient!!.id,
+            startAt = today.atTime(LocalTime.now()),
+            endAt = today.atTime(LocalTime.MAX)
+        )
+        getScheduledInTimeRangeUseCase.execute(rangeRequest, ::handleGroupScheduleItems)
+        groupMedicineSchedulesUseCase.execute(currentViewState.patient!!.id, ::handleGroupMedicineSchedules)
 
         loadNextSchedules()
     }
@@ -183,7 +206,7 @@ class ListMedicineViewModel @Inject constructor(
     }
 
     private fun getNextSelectedSchedule(list: List<ScheduleItemWithDetailsPresentationModel>): NextScheduleItemPresentationModel? {
-        var selectedSchedule: NextScheduleItemPresentationModel? = null;
+        var selectedSchedule: NextScheduleItemPresentationModel? = null
         if (list.isNotEmpty()) {
             val listDomain = list.map { scheduleItemDetailsMapper.toDomain(it) }
             val next = MedicineScheduleFacade.getNextScheduleItem(listDomain, LocalDateTime.now())

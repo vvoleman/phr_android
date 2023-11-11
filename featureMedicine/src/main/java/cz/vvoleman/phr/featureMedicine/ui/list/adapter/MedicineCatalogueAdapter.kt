@@ -45,6 +45,14 @@ class MedicineCatalogueAdapter(
                         listener.onCatalogueItemEdit(item)
                     }
                 }
+
+                buttonDelete.setOnClickListener {
+                    val position = bindingAdapterPosition
+                    if (position != RecyclerView.NO_POSITION) {
+                        val item = getItem(position)
+                        listener.onCatalogueItemDelete(item)
+                    }
+                }
             }
         }
 
@@ -79,8 +87,8 @@ class MedicineCatalogueAdapter(
 
     interface MedicineCatalogueAdapterInterface {
         fun onCatalogueItemClick(item: MedicineScheduleUiModel)
-
         fun onCatalogueItemEdit(item: MedicineScheduleUiModel)
+        fun onCatalogueItemDelete(item: MedicineScheduleUiModel)
     }
 
     companion object {

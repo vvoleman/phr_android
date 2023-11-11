@@ -22,6 +22,8 @@ import cz.vvoleman.phr.featureMedicine.data.mapper.schedule.ScheduleItemDataMode
 import cz.vvoleman.phr.featureMedicine.data.repository.AlarmRepository
 import cz.vvoleman.phr.featureMedicine.data.repository.MedicineRepository
 import cz.vvoleman.phr.featureMedicine.data.repository.ScheduleRepository
+import cz.vvoleman.phr.featureMedicine.domain.repository.DeleteMedicineScheduleRepository
+import cz.vvoleman.phr.featureMedicine.domain.repository.DeleteScheduleAlarmRepository
 import cz.vvoleman.phr.featureMedicine.domain.repository.GetMedicineByIdRepository
 import cz.vvoleman.phr.featureMedicine.domain.repository.GetMedicineScheduleByIdRepository
 import cz.vvoleman.phr.featureMedicine.domain.repository.GetScheduleByMedicineRepository
@@ -118,6 +120,11 @@ class DataModule {
     ): GetMedicineScheduleByIdRepository = scheduleRepository
 
     @Provides
+    fun providesDeleteMedicineScheduleRepository(
+        scheduleRepository: ScheduleRepository
+    ): DeleteMedicineScheduleRepository = scheduleRepository
+
+    @Provides
     fun providesSubstanceDataModelToDomainMapper() = SubstanceDataModelToDomainMapper()
 
     @Provides
@@ -190,8 +197,15 @@ class DataModule {
     ): ScheduleMedicineRepository = alarmRepository
 
     @Provides
+    fun providesDeleteScheduleAlarmRepository(
+        alarmRepository: AlarmRepository
+    ): DeleteScheduleAlarmRepository = alarmRepository
+
+    @Provides
     fun providesMedicineAlarmManager(
         alarmRepository: AlarmRepository
     ) = MedicineAlarmManager(alarmRepository)
+
+
 
 }

@@ -12,6 +12,7 @@ import cz.vvoleman.phr.featureMedicine.data.mapper.schedule.ScheduleItemDataMode
 import cz.vvoleman.phr.featureMedicine.domain.model.schedule.MedicineScheduleDomainModel
 import cz.vvoleman.phr.featureMedicine.domain.model.schedule.ScheduleItemDomainModel
 import cz.vvoleman.phr.featureMedicine.domain.model.schedule.save.SaveMedicineScheduleDomainModel
+import cz.vvoleman.phr.featureMedicine.domain.repository.DeleteMedicineScheduleRepository
 import cz.vvoleman.phr.featureMedicine.domain.repository.GetMedicineScheduleByIdRepository
 import cz.vvoleman.phr.featureMedicine.domain.repository.GetScheduleByMedicineRepository
 import cz.vvoleman.phr.featureMedicine.domain.repository.SaveMedicineScheduleRepository
@@ -33,7 +34,8 @@ class ScheduleRepository(
     SaveMedicineScheduleRepository,
     SaveScheduleItemRepository,
     GetSchedulesByPatientRepository,
-    GetMedicineScheduleByIdRepository {
+    GetMedicineScheduleByIdRepository,
+    DeleteMedicineScheduleRepository {
 
     override suspend fun getScheduleByMedicine(
         medicineId: String,
@@ -92,6 +94,15 @@ class ScheduleRepository(
         return medicineScheduleDao.getAll(patientId.toInt()).first()
             .map { medicineScheduleDataSourceMapper.toData(it) }
             .map { medicineScheduleDataMapper.toDomain(it) }
+    }
+
+    override suspend fun deleteMedicineSchedule(medicineSchedule: MedicineScheduleDomainModel): Boolean {
+        // Delete all schedule items and schedules
+        scheduleItemDao.deleteAll(medicineSchedule.id)
+        medicineScheduleDao.delete(medicineSchedule.id)
+
+        // Check if schedule was deleted
+        return medicineScheduleDao.getById(medicineSchedule.id.toInt()).firstOrNull() == null
     }
 
     private suspend fun saveScheduleItemOnly(

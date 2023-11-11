@@ -58,6 +58,21 @@
     </LinearLayout>
 
     <Button
+        android:id="@+id/button_delete"
+        style="@style/Widget.Material3.Button.ElevatedButton.Icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/action_delete"
+        android:backgroundTint="@color/red_500"
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        app:icon="@drawable/ic_edit"
+        app:iconTint="@color/white"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintBottom_toBottomOf="@id/button_edit"
+        app:layout_constraintEnd_toStartOf="@id/button_edit" />
+    <Button
         android:id="@+id/button_edit"
         style="@style/Widget.Material3.Button.ElevatedButton.Icon"
         android:layout_width="wrap_content"

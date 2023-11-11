@@ -25,4 +25,13 @@
     <string name="no_schedules_today">Dnes již žádné naplánované léky</string>
     <string name="frequency_every_day">Každý den</string>
     <string name="frequency_custom">Vlastní</string>
+    <string name="notification_data_loaded">Data načtena</string>
+    <string name="notification_unable_to_load">Nepodařilo se načíst data</string>
+    <string name="notification_alarm_not_deleted">Lék byl smazán, ale nepodařilo se smazat upozornění</string>
+    <string name="notification_schedule_not_deleted">Nepodařilo se smazat lék</string>
+    <string name="notification_deleted">Lék byl smazán</string>
+    <string name="confirm_delete_title">Smazání léku</string>
+    <string name="confirm_delete_message">Opravdu chcete smazat tento lék?</string>
+    <string name="confirm_delete_positive">Ano</string>
+    <string name="confirm_delete_negative">Ne</string>
 </resources>
