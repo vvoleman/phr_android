@@ -22,7 +22,7 @@
     <string name="medicine_detail_expiration">Expirace balení</string>
     <string name="medicine_info_label_substances">Složení</string>
     <string name="medicine_info_label_base">Základ</string>
-    <string name="no_schedules_today">Dnes již žádné naplánované léky</string>
+    <string name="no_schedules_today">Dnes žádné plánované léky</string>
     <string name="frequency_every_day">Každý den</string>
     <string name="frequency_custom">Vlastní</string>
     <string name="notification_data_loaded">Data načtena</string>
@@ -34,4 +34,10 @@
     <string name="confirm_delete_message">Opravdu chcete smazat tento lék?</string>
     <string name="confirm_delete_positive">Ano</string>
     <string name="confirm_delete_negative">Ne</string>
+    <string name="information_leaflet">Příbalový leták</string>
+    <string name="dialog_schedule_detail_time">%1$s %2$s</string>
+    <string name="action_ok">Potvrdit</string>
+    <string name="link_here">Odkaz zde</string>
+    <string name="dosage">Dávka:</string>
+    <string name="pil">Příbalový leták:</string>
 </resources>
