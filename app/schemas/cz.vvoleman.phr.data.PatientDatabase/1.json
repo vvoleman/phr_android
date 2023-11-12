@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "4b4c5600a216d54a1410443128c530a7",
+    "identityHash": "da5bdc0d1091b73a2d601e7f58f2ec22",
     "entities": [
       {
         "tableName": "patient",
@@ -125,7 +125,7 @@
         "foreignKeys": []
       },
       {
-        "tableName": "medicalRecord",
+        "tableName": "medical_record",
         "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `patient_id` INTEGER NOT NULL, `problem_category_id` INTEGER, `diagnose_id` TEXT, `medical_worker_id` INTEGER, `created_at` INTEGER NOT NULL, `visit_date` INTEGER NOT NULL, `comment` TEXT NOT NULL)",
         "fields": [
           {
@@ -554,7 +554,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '4b4c5600a216d54a1410443128c530a7')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'da5bdc0d1091b73a2d601e7f58f2ec22')"
     ]
   }
 }

@@ -19,7 +19,7 @@ interface MedicalRecordAssetDao {
 
     @Query(
         "SELECT * FROM medical_record_asset " +
-            "WHERE medical_record_id IN (SELECT id FROM medicalRecord WHERE patient_id = :patientId)"
+            "WHERE medical_record_id IN (SELECT id FROM medical_record WHERE patient_id = :patientId)"
     )
     fun getByPatient(patientId: String): Flow<List<MedicalRecordAssetDataSourceModel>>
 
@@ -37,7 +37,7 @@ interface MedicalRecordAssetDao {
 
     @Query(
         "DELETE FROM medical_record_asset " +
-            "WHERE medical_record_id IN (SELECT id FROM medicalRecord WHERE patient_id = :patientId)"
+            "WHERE medical_record_id IN (SELECT id FROM medical_record WHERE patient_id = :patientId)"
     )
     suspend fun deleteByPatient(patientId: String)
 }
