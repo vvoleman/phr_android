@@ -12,9 +12,11 @@ import cz.vvoleman.phr.featureMedicine.databinding.FragmentListMedicineBinding
 import cz.vvoleman.phr.featureMedicine.presentation.list.model.ListMedicineNotification
 import cz.vvoleman.phr.featureMedicine.presentation.list.model.ListMedicineViewState
 import cz.vvoleman.phr.featureMedicine.presentation.list.viewmodel.ListMedicineViewModel
+import cz.vvoleman.phr.featureMedicine.ui.list.adapter.MedicineCatalogueAdapter
 import cz.vvoleman.phr.featureMedicine.ui.list.adapter.MedicineFragmentAdapter
-import cz.vvoleman.phr.featureMedicine.ui.list.fragment.MedicineCatalogueFragment
 import cz.vvoleman.phr.featureMedicine.ui.list.fragment.TimelineFragment
+import cz.vvoleman.phr.featureMedicine.ui.list.fragment.viewModel.MedicineCatalogueViewModel
+import cz.vvoleman.phr.featureMedicine.ui.list.fragment.viewModel.TimelineViewModel
 import cz.vvoleman.phr.featureMedicine.ui.list.mapper.ListMedicineDestinationUiMapper
 import cz.vvoleman.phr.featureMedicine.ui.medicineDetailSheet.MedicineDetailSheet
 import cz.vvoleman.phr.featureMedicine.ui.model.list.schedule.MedicineScheduleUiModel
@@ -30,9 +32,11 @@ import javax.inject.Inject
 class ListMedicineFragment :
     BaseFragment<ListMedicineViewState, ListMedicineNotification, FragmentListMedicineBinding>(),
     NextSchedule.NextScheduleListener, TimelineFragment.TimelineInterface,
-    MedicineCatalogueFragment.MedicineScheduleInterface, ScheduleDetailAdapter.ScheduleDetailListener {
+    MedicineCatalogueAdapter.MedicineCatalogueAdapterInterface, ScheduleDetailAdapter.ScheduleDetailListener {
 
     override val viewModel: ListMedicineViewModel by viewModels()
+    private val timelineViewModel: TimelineViewModel by viewModels()
+    private val medicineCatalogueViewModel: MedicineCatalogueViewModel by viewModels()
 
     @Inject
     override lateinit var destinationMapper: ListMedicineDestinationUiMapper
@@ -52,8 +56,10 @@ class ListMedicineFragment :
     override fun setupListeners() {
         super.setupListeners()
 
-//        fragmentAdapter = MedicineFragmentAdapter(this, this, this)
-//        (viewStateBinder as ListMedicineBinder).setFragmentAdapter(fragmentAdapter)
+        timelineViewModel.setListener(this)
+        medicineCatalogueViewModel.setListener(this)
+        fragmentAdapter = MedicineFragmentAdapter(timelineViewModel, medicineCatalogueViewModel, this)
+        (viewStateBinder as ListMedicineBinder).setFragmentAdapter(fragmentAdapter)
 
         binding.fabAddMedicalRecord.setOnClickListener {
             viewModel.onCreate()
@@ -115,6 +121,7 @@ class ListMedicineFragment :
     companion object {
         private const val TAG = "ListMedicineFragment"
         const val SCHEDULE_DIALOG = 1
+        private val CODES = listOf(123, 456)
     }
 
     override fun onLeafletOpen(scheduleItem: ScheduleItemWithDetailsUiModel) {
