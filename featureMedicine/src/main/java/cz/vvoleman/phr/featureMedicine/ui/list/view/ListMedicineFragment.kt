@@ -97,8 +97,9 @@ class ListMedicineFragment :
     }
 
     override fun onCatalogueItemClick(item: MedicineScheduleUiModel) {
-        val modal = MedicineDetailSheet(item.medicine)
-        modal.show(childFragmentManager, "MedicineDetailSheet")
+        val modal = MedicineDetailSheet.newInstance(item.medicine)
+        modal.setTargetFragment(this, MEDICINE_DETAIL_SHEET)
+        modal.show(requireFragmentManager(), "MedicineDetailSheet")
         Log.d("Catalogue", "onCatalogueItemClick: $item")
     }
 
@@ -121,7 +122,7 @@ class ListMedicineFragment :
     companion object {
         private const val TAG = "ListMedicineFragment"
         const val SCHEDULE_DIALOG = 1
-        private val CODES = listOf(123, 456)
+        const val MEDICINE_DETAIL_SHEET = 2
     }
 
     override fun onLeafletOpen(scheduleItem: ScheduleItemWithDetailsUiModel) {

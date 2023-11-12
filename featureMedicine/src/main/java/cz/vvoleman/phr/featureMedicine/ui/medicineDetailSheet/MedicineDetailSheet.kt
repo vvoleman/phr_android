@@ -3,6 +3,7 @@ package cz.vvoleman.phr.featureMedicine.ui.medicineDetailSheet
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,9 +14,7 @@ import cz.vvoleman.phr.featureMedicine.R
 import cz.vvoleman.phr.featureMedicine.databinding.ModalMedicineDetailSheetBinding
 import cz.vvoleman.phr.featureMedicine.ui.model.list.MedicineUiModel
 
-class MedicineDetailSheet(
-    private val medicine: MedicineUiModel
-) : BottomSheetDialogFragment() {
+class MedicineDetailSheet : BottomSheetDialogFragment() {
 
     private var _binding: ModalMedicineDetailSheetBinding? = null
     private val binding get() = _binding!!
@@ -31,6 +30,14 @@ class MedicineDetailSheet(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        if (!arguments?.containsKey(ARG_MEDICINE)!!) {
+            Log.e(TAG, "MedicineDetailSheet: No medicine provided in bundle")
+            dismiss()
+            return
+        }
+
+        val medicine = arguments?.getParcelable<MedicineUiModel>(ARG_MEDICINE)!!
 
         val baseAdapter = MedicineDetailAdapter()
         baseAdapter.submitList(listOf(
@@ -75,6 +82,15 @@ class MedicineDetailSheet(
 
     companion object {
         const val TAG = "MedicineDetailSheet"
+        private const val ARG_MEDICINE = "medicine"
+
+        fun newInstance(medicine: MedicineUiModel): MedicineDetailSheet {
+            val sheet = MedicineDetailSheet()
+            sheet.arguments = Bundle().apply {
+                putParcelable(ARG_MEDICINE, medicine)
+            }
+            return sheet
+        }
     }
 
 }
