@@ -40,4 +40,6 @@
     <string name="link_here">Odkaz zde</string>
     <string name="dosage">Dávka:</string>
     <string name="pil">Příbalový leták:</string>
+    <string name="action_export_pdf">Exportovat do PDF</string>
+    <string name="action_export_csv">Exportovat do CSV</string>
 </resources>

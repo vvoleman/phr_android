@@ -9,6 +9,7 @@ class TimelineViewModel : ViewModel() {
 
     private val itemList: MutableList<GroupedItemsUiModel<ScheduleItemWithDetailsUiModel>> = mutableListOf()
     private var _listener: TimelineFragment.TimelineInterface? = null
+    public var test = "Marco"
     val isReady: Boolean
         get() = itemList.isNotEmpty() && _listener != null
 

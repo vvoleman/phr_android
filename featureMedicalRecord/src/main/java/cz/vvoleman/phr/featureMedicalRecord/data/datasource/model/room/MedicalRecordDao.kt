@@ -7,20 +7,20 @@ import kotlinx.coroutines.flow.Flow
 interface MedicalRecordDao {
 
     @Transaction
-    @Query("SELECT * FROM medicalRecord ORDER BY :sortBy DESC")
+    @Query("SELECT * FROM medical_record ORDER BY :sortBy DESC")
     fun getAll(sortBy: String): Flow<List<MedicalRecordWithDetails>>
 
     @Transaction
-    @Query("SELECT * FROM medicalRecord WHERE id = :id")
+    @Query("SELECT * FROM medical_record WHERE id = :id")
     fun getById(id: String): Flow<MedicalRecordWithDetails>
 
     @Transaction
-    @Query("SELECT * FROM medicalRecord WHERE patient_id = :patientId ORDER BY :sortBy DESC")
+    @Query("SELECT * FROM medical_record WHERE patient_id = :patientId ORDER BY :sortBy DESC")
     fun getByPatientId(patientId: String, sortBy: String): Flow<List<MedicalRecordWithDetails>>
 
     @Transaction
     @Query(
-        "SELECT * FROM medicalRecord " +
+        "SELECT * FROM medical_record " +
             "WHERE patient_id = :patientId AND medical_worker_id IN (:workerIds) " +
             "AND problem_category_id IN (:categoryIds) ORDER BY :sortBy DESC"
     )
@@ -33,7 +33,7 @@ interface MedicalRecordDao {
 
     @Transaction
     @Query(
-        "SELECT * FROM medicalRecord " +
+        "SELECT * FROM medical_record " +
             "WHERE patient_id = :patientId AND problem_category_id IN (:categoryIds) ORDER BY :sortBy DESC"
     )
     fun filterInCategory(
@@ -44,7 +44,7 @@ interface MedicalRecordDao {
 
     @Transaction
     @Query(
-        "SELECT * FROM medicalRecord " +
+        "SELECT * FROM medical_record " +
             "WHERE patient_id = :patientId AND medical_worker_id IN (:workerIds) ORDER BY :sortBy DESC"
     )
     fun filterInWorker(
@@ -62,6 +62,6 @@ interface MedicalRecordDao {
     @Delete
     suspend fun delete(medicalRecord: MedicalRecordDataSourceModel)
 
-    @Query("DELETE FROM medicalRecord WHERE patient_id = :patientId")
+    @Query("DELETE FROM medical_record WHERE patient_id = :patientId")
     suspend fun deleteByPatient(patientId: String)
 }

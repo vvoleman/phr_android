@@ -180,8 +180,8 @@ class ListMedicineViewModel @Inject constructor(
             currentDateTime = LocalDateTime.now()
         )
 
-        groupScheduleItemsUseCase.execute(request) {
-            val list = it.map { group ->
+        groupScheduleItemsUseCase.execute(request) { listGrouped ->
+            val list = listGrouped.map { group ->
                 val items = group.items.map { scheduleItemDetailsMapper.toPresentation(it) }
                 GroupedItemsPresentationModel(
                     group.value,

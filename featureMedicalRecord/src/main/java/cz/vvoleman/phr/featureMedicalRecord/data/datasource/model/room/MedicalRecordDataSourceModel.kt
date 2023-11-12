@@ -5,7 +5,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import java.time.LocalDate
 
-@Entity(tableName = "medicalRecord")
+@Entity(tableName = "medical_record")
 data class MedicalRecordDataSourceModel(
     @PrimaryKey(autoGenerate = true) val id: Int? = null,
     @ColumnInfo(name = "patient_id") val patientId: Int,

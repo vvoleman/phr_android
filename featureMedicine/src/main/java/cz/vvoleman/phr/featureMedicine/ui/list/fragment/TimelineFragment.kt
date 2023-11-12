@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import cz.vvoleman.phr.common.ui.adapter.grouped.GroupedItemsAdapter
 import cz.vvoleman.phr.common.ui.model.GroupedItemsUiModel
@@ -28,6 +29,12 @@ class TimelineFragment(
 
     private var isMultipleDays = true
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        viewModel = ViewModelProvider(requireParentFragment())[TimelineViewModel::class.java]
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentTimelineBinding.inflate(inflater, container, false)
         return binding.root
@@ -36,9 +43,12 @@ class TimelineFragment(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        Log.i(TAG, "onViewCreated, is model ready?: ${viewModel?.isReady}")
         if (viewModel?.isReady != true) {
             return
         }
+
+        Log.i(TAG, "is it same viewmodel? ${viewModel?.test}")
 
         val schedules = viewModel!!.getItems()
 
@@ -49,7 +59,6 @@ class TimelineFragment(
         }
 
         isMultipleDays = isMultipleDays(schedules)
-        Log.d("TimelineFragment", "isMultipleDays: $isMultipleDays")
 
         val groupAdapter = GroupedItemsAdapter(this)
         binding.recyclerView.apply {
@@ -59,13 +68,10 @@ class TimelineFragment(
         }
 
         groupAdapter.submitList(schedules)
-
-        Log.d("TimelineFragment", "onViewCreated: ${schedules.size}")
     }
 
     override fun bind(binding: ItemGroupedItemsBinding, item: GroupedItemsUiModel<ScheduleItemWithDetailsUiModel>) {
         val timelineAdapter = TimelineAdapter(this)
-        Log.d("TimelineFragment", "bind: ${item.items.size}")
 
         val dateTime = getDateFromValue(item.value.toString())
         var text = if (isMultipleDays) {
@@ -113,7 +119,6 @@ class TimelineFragment(
     }
 
     private fun getDateFromValue(value: String): LocalDateTime {
-        Log.d("TimelineFragment", "getDateFromValue: $value")
         val date = value.split("-")
 
         if (date.size != 4) {
