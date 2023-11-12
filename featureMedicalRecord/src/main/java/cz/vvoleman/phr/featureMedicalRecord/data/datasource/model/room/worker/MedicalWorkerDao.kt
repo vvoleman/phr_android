@@ -21,7 +21,7 @@ interface MedicalWorkerDao {
 
     @Query(
         "SELECT * FROM medical_worker " +
-            "WHERE id IN (SELECT medical_worker_id FROM medicalRecord WHERE patient_id = :patientId)"
+            "WHERE id IN (SELECT medical_worker_id FROM medical_record WHERE patient_id = :patientId)"
     )
     fun getUsedByPatientId(patientId: String): Flow<List<MedicalWorkerDataSourceModel>>
 

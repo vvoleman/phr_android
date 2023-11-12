@@ -10,11 +10,11 @@ plugins {
 
 android {
     namespace 'cz.vvoleman.phr.featureMedicine'
-    compileSdk 33
+    compileSdk 34
 
     defaultConfig {
         minSdk 26
-        targetSdk 33
+        targetSdk 34
         versionCode 1
         versionName "1.0"
 
@@ -28,14 +28,15 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_18
+        targetCompatibility JavaVersion.VERSION_18
     }
     kotlinOptions {
-        jvmTarget = '1.8'
+        jvmTarget = '18'
     }
     buildFeatures {
         viewBinding = true
+        buildConfig = true
     }
 }
 
@@ -76,7 +77,8 @@ dependencies {
 
     // OCR
     implementation 'com.google.android.gms:play-services-mlkit-text-recognition:18.0.2'
-    implementation 'androidx.core:core-ktx:1.7.0'
+    implementation "androidx.core:core-ktx:$androidx_core_version"
+    implementation "androidx.activity:activity-ktx:$activity_version"
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation "com.google.android.material:material:$material_version"
     testImplementation 'junit:junit:4.13.2'

@@ -16,7 +16,7 @@ interface ProblemCategoryDao {
 
     @Query(
         "SELECT * FROM problem_category " +
-            "WHERE id IN (SELECT problem_category_id FROM medicalRecord WHERE patient_id = :patientId)"
+            "WHERE id IN (SELECT problem_category_id FROM medical_record WHERE patient_id = :patientId)"
     )
     fun getUsedByPatientId(patientId: String): Flow<List<ProblemCategoryDataSourceModel>>
 
