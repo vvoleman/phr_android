@@ -4,9 +4,11 @@ import android.app.AlertDialog
 import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.CallSuper
+import androidx.core.view.MenuHost
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.viewbinding.ViewBinding
@@ -31,18 +33,34 @@ abstract class BaseFragment<VIEW_STATE : Any, NOTIFICATION : Any, VIEW_BINDING :
     private var _binding: VIEW_BINDING? = null
     protected val binding get() = _binding!!
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        if (viewModel.viewState.value == null) {
+            viewModel.onInit()
+        }
+    }
+
     @CallSuper
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        viewModel.onInit()
         _binding = setupBinding(inflater, container)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val menuId = setOptionsMenu()
+        if (menuId != null) {
+            setupOptionsMenu(menuId)
+        }
+
         viewStateBinder.init(binding, requireContext(), lifecycleScope)
         setupListeners()
         observeViewModel()
-        return binding.root
     }
 
     protected abstract fun setupBinding(
@@ -51,6 +69,11 @@ abstract class BaseFragment<VIEW_STATE : Any, NOTIFICATION : Any, VIEW_BINDING :
     ): VIEW_BINDING
 
     protected open fun setupListeners() {}
+
+
+    protected open fun setOptionsMenu(): Int? = null
+
+    protected open fun onOptionsMenuItemSelected(menuItem: MenuItem): Boolean = true
 
     protected fun showConfirmDialog(
         title: String,
@@ -111,6 +134,23 @@ abstract class BaseFragment<VIEW_STATE : Any, NOTIFICATION : Any, VIEW_BINDING :
 
     private fun navigateToDestination(destination: PresentationDestination) {
         destinationMapper.navigate(destination)
+    }
+
+    private fun setupOptionsMenu(menuId: Int) {
+        val menuHost = requireActivity() as MenuHost
+//        menuHost.addMenuProvider(object : MenuProvider {
+//            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+//                // Add menu items here
+//                menuInflater.inflate(menuId, menu)
+//            }
+//
+//            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+//                // Handle the menu selection
+//                return true
+//            }
+//        })
+
+
     }
 
     override fun onDestroy() {

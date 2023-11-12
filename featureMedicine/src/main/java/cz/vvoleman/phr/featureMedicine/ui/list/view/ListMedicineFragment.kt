@@ -57,6 +57,7 @@ class ListMedicineFragment :
         super.setupListeners()
 
         timelineViewModel.setListener(this)
+        timelineViewModel.test = "Polo"
         medicineCatalogueViewModel.setListener(this)
         fragmentAdapter = MedicineFragmentAdapter(timelineViewModel, medicineCatalogueViewModel, this)
         (viewStateBinder as ListMedicineBinder).setFragmentAdapter(fragmentAdapter)

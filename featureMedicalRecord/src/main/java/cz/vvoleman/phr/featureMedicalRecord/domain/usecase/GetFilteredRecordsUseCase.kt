@@ -1,6 +1,5 @@
 package cz.vvoleman.phr.featureMedicalRecord.domain.usecase
 
-import android.util.Log
 import cz.vvoleman.phr.base.domain.coroutine.CoroutineContextProvider
 import cz.vvoleman.phr.base.domain.usecase.BackgroundExecutingUseCase
 import cz.vvoleman.phr.common.domain.GroupedItemsDomainModel
@@ -29,10 +28,8 @@ class GetFilteredRecordsUseCase(
         }
         val updatedRequest = request.copy(patientId = patientId)
 
-        Log.d("GetFilteredRecordsUseCase", "Request: $updatedRequest")
-
         val records = medicalRecordFilterRepository.filterRecords(updatedRequest)
-        Log.d("GetFilteredRecordsUseCase", "Records: $records")
+
         return when (request.groupBy) {
             GroupByDomainModel.DATE -> byDate(records)
             GroupByDomainModel.PROBLEM_CATEGORY -> byProblemCategory(records)
