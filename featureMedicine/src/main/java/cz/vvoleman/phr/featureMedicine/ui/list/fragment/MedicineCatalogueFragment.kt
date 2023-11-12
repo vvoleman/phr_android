@@ -12,13 +12,13 @@ import cz.vvoleman.phr.common.ui.model.GroupedItemsUiModel
 import cz.vvoleman.phr.common_datasource.databinding.ItemGroupedItemsBinding
 import cz.vvoleman.phr.featureMedicine.databinding.FragmentMedicineCatalogueBinding
 import cz.vvoleman.phr.featureMedicine.ui.list.adapter.MedicineCatalogueAdapter
+import cz.vvoleman.phr.featureMedicine.ui.list.fragment.viewModel.MedicineCatalogueViewModel
 import cz.vvoleman.phr.featureMedicine.ui.model.list.schedule.MedicineScheduleUiModel
 
 class MedicineCatalogueFragment(
-    private val listener: MedicineScheduleInterface,
-    private val allSchedules: List<GroupedItemsUiModel<MedicineScheduleUiModel>>
-) : Fragment(), GroupedItemsAdapter.GroupedItemsAdapterInterface<MedicineScheduleUiModel>,
-    MedicineCatalogueAdapter.MedicineCatalogueAdapterInterface {
+) : Fragment(), GroupedItemsAdapter.GroupedItemsAdapterInterface<MedicineScheduleUiModel> {
+
+    private var viewModel: MedicineCatalogueViewModel? = null
 
     private var _binding: FragmentMedicineCatalogueBinding? = null
     private val binding get() = _binding!!
@@ -31,7 +31,11 @@ class MedicineCatalogueFragment(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        if (allSchedules.isEmpty()) {
+        if (viewModel?.getListener() == null) {
+            return
+        }
+
+        if (viewModel!!.getItems().isEmpty()) {
             binding.textViewEmpty.visibility = View.VISIBLE
             binding.recyclerView.visibility = View.GONE
             return
@@ -44,13 +48,13 @@ class MedicineCatalogueFragment(
             setHasFixedSize(true)
         }
 
-        groupAdapter.submitList(allSchedules)
+        groupAdapter.submitList(viewModel!!.getItems())
 
-        Log.d("MedicineCatalogueFragment", "onViewCreated: ${allSchedules.size}")
+        Log.d("MedicineCatalogueFragment", "onViewCreated: ${viewModel!!.getItems().size}")
     }
 
     override fun bind(binding: ItemGroupedItemsBinding, item: GroupedItemsUiModel<MedicineScheduleUiModel>) {
-        val medicineCatalogueAdapter = MedicineCatalogueAdapter(this)
+        val medicineCatalogueAdapter = MedicineCatalogueAdapter(viewModel!!.getListener()!!)
 
         binding.apply {
             recyclerView.apply {
@@ -66,22 +70,18 @@ class MedicineCatalogueFragment(
         medicineCatalogueAdapter.submitList(item.items)
     }
 
-    override fun onCatalogueItemClick(item: MedicineScheduleUiModel) {
-        listener.onCatalogueItemClick(item)
+    fun setViewModel(viewModel: MedicineCatalogueViewModel) {
+        this.viewModel = viewModel
     }
 
-    override fun onCatalogueItemEdit(item: MedicineScheduleUiModel) {
-        listener.onCatalogueItemEdit(item)
-    }
+    companion object {
 
-    override fun onCatalogueItemDelete(item: MedicineScheduleUiModel) {
-        listener.onCatalogueItemDelete(item)
-    }
+        fun newInstance(viewModel: MedicineCatalogueViewModel): MedicineCatalogueFragment {
+            val fragment = MedicineCatalogueFragment()
+            fragment.setViewModel(viewModel)
+            return fragment
+        }
 
-    interface MedicineScheduleInterface {
-        fun onCatalogueItemClick(item: MedicineScheduleUiModel)
-        fun onCatalogueItemEdit(item: MedicineScheduleUiModel)
-        fun onCatalogueItemDelete(item: MedicineScheduleUiModel)
     }
 
 }

@@ -1,5 +1,6 @@
 package cz.vvoleman.phr.common.ui.adapter.grouped
 
+import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -8,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import cz.vvoleman.phr.common.ui.model.GroupedItemsUiModel
 import cz.vvoleman.phr.common_datasource.databinding.ItemGroupedItemsBinding
 
-class GroupedItemsAdapter<TYPE : Any> (private val listener: GroupedItemsAdapterInterface<TYPE>) :
+class GroupedItemsAdapter<TYPE : Parcelable> (private val listener: GroupedItemsAdapterInterface<TYPE>) :
     ListAdapter<GroupedItemsUiModel<TYPE>, GroupedItemsAdapter<TYPE>.SectionViewHolder>(DiffCallback<TYPE>()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SectionViewHolder {
@@ -30,7 +31,7 @@ class GroupedItemsAdapter<TYPE : Any> (private val listener: GroupedItemsAdapter
         }
     }
 
-    class DiffCallback<TYPE : Any> : DiffUtil.ItemCallback<GroupedItemsUiModel<TYPE>>() {
+    class DiffCallback<TYPE : Parcelable> : DiffUtil.ItemCallback<GroupedItemsUiModel<TYPE>>() {
         override fun areItemsTheSame(oldItem: GroupedItemsUiModel<TYPE>, newItem: GroupedItemsUiModel<TYPE>) =
             oldItem.value == newItem.value
 
@@ -38,7 +39,7 @@ class GroupedItemsAdapter<TYPE : Any> (private val listener: GroupedItemsAdapter
             oldItem == newItem
     }
 
-    interface GroupedItemsAdapterInterface<TYPE : Any> {
+    interface GroupedItemsAdapterInterface<TYPE : Parcelable> {
         fun bind(binding: ItemGroupedItemsBinding, item: GroupedItemsUiModel<TYPE>)
     }
 }

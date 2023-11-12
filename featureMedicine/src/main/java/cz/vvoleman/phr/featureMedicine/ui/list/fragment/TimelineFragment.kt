@@ -13,14 +13,15 @@ import cz.vvoleman.phr.common.utils.withLeadingZero
 import cz.vvoleman.phr.common_datasource.databinding.ItemGroupedItemsBinding
 import cz.vvoleman.phr.featureMedicine.databinding.FragmentTimelineBinding
 import cz.vvoleman.phr.featureMedicine.ui.list.adapter.TimelineAdapter
+import cz.vvoleman.phr.featureMedicine.ui.list.fragment.viewModel.TimelineViewModel
 import cz.vvoleman.phr.featureMedicine.ui.model.list.schedule.ScheduleItemWithDetailsUiModel
 import java.time.LocalDateTime
 
 class TimelineFragment(
-    private val listener: TimelineInterface,
-    private val schedules: List<GroupedItemsUiModel<ScheduleItemWithDetailsUiModel>>
 ) : Fragment(), GroupedItemsAdapter.GroupedItemsAdapterInterface<ScheduleItemWithDetailsUiModel>,
     TimelineAdapter.TimelineAdapterInterface {
+
+    private var viewModel: TimelineViewModel? = null
 
     private var _binding: FragmentTimelineBinding? = null
     private val binding get() = _binding!!
@@ -35,13 +36,19 @@ class TimelineFragment(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        if (viewModel?.isReady != true) {
+            return
+        }
+
+        val schedules = viewModel!!.getItems()
+
         if (schedules.isEmpty()) {
             binding.textViewEmpty.visibility = View.VISIBLE
             binding.recyclerView.visibility = View.GONE
             return
         }
 
-        isMultipleDays = isMultipleDays()
+        isMultipleDays = isMultipleDays(schedules)
         Log.d("TimelineFragment", "isMultipleDays: $isMultipleDays")
 
         val groupAdapter = GroupedItemsAdapter(this)
@@ -80,14 +87,18 @@ class TimelineFragment(
     }
 
     override fun onTimelineItemClick(item: ScheduleItemWithDetailsUiModel) {
-        listener.onTimelineItemClick(item)
+        viewModel?.getListener()?.onTimelineItemClick(item)
     }
 
     override fun onTimelineItemAlarmToggle(item: ScheduleItemWithDetailsUiModel, oldState: Boolean) {
-        listener.onTimelineItemAlarmToggle(item, oldState)
+        viewModel?.getListener()?.onTimelineItemAlarmToggle(item, oldState)
     }
 
-    private fun isMultipleDays(): Boolean {
+    fun setViewModel(viewModel: TimelineViewModel) {
+        this.viewModel = viewModel
+    }
+
+    private fun isMultipleDays(schedules: List<GroupedItemsUiModel<ScheduleItemWithDetailsUiModel>>): Boolean {
         if (schedules.size < 2) {
             return false
         }
@@ -116,6 +127,18 @@ class TimelineFragment(
         fun onTimelineItemClick(item: ScheduleItemWithDetailsUiModel)
 
         fun onTimelineItemAlarmToggle(item: ScheduleItemWithDetailsUiModel, oldState: Boolean)
+    }
+
+    companion object {
+        const val TAG = "TimelineFragment"
+        const val ARG_SCHEDULES = "schedules"
+
+        fun newInstance(viewModel: TimelineViewModel): TimelineFragment {
+            val fragment = TimelineFragment()
+            fragment.setViewModel(viewModel)
+
+            return fragment
+        }
     }
 
 }
