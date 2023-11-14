@@ -1,9 +1,16 @@
 package cz.vvoleman.phr.di.medicine
 
 import cz.vvoleman.phr.common.presentation.mapper.PatientPresentationModelToDomainMapper
-import cz.vvoleman.phr.featureMedicine.presentation.mapper.addEdit.SaveMedicineSchedulePresentationModelToDomainMapper
-import cz.vvoleman.phr.featureMedicine.presentation.mapper.addEdit.SaveScheduleItemPresentationModelToDomainMapper
-import cz.vvoleman.phr.featureMedicine.presentation.mapper.list.*
+import cz.vvoleman.phr.featureMedicine.presentation.addEdit.mapper.SaveMedicineSchedulePresentationModelToDomainMapper
+import cz.vvoleman.phr.featureMedicine.presentation.addEdit.mapper.SaveScheduleItemPresentationModelToDomainMapper
+import cz.vvoleman.phr.featureMedicine.presentation.list.mapper.MedicinePresentationModelToDomainMapper
+import cz.vvoleman.phr.featureMedicine.presentation.list.mapper.MedicineSchedulePresentationModelToDomainMapper
+import cz.vvoleman.phr.featureMedicine.presentation.list.mapper.PackagingPresentationModelToDomainMapper
+import cz.vvoleman.phr.featureMedicine.presentation.list.mapper.ProductFormPresentationModelToDomainMapper
+import cz.vvoleman.phr.featureMedicine.presentation.list.mapper.ScheduleItemPresentationModelToDomainMapper
+import cz.vvoleman.phr.featureMedicine.presentation.list.mapper.ScheduleItemWithDetailsPresentationModelToDomainMapper
+import cz.vvoleman.phr.featureMedicine.presentation.list.mapper.SubstanceAmountPresentationModelToDomainMapper
+import cz.vvoleman.phr.featureMedicine.presentation.list.mapper.SubstancePresentationModelToDomainMapper
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

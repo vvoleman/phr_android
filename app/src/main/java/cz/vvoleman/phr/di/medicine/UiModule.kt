@@ -4,16 +4,28 @@ import cz.vvoleman.phr.base.presentation.navigation.NavManager
 import cz.vvoleman.phr.base.ui.mapper.ViewStateBinder
 import cz.vvoleman.phr.common.ui.mapper.PatientUiModelToPresentationMapper
 import cz.vvoleman.phr.featureMedicine.databinding.FragmentAddEditMedicineBinding
+import cz.vvoleman.phr.featureMedicine.databinding.FragmentExportBinding
 import cz.vvoleman.phr.featureMedicine.databinding.FragmentListMedicineBinding
 import cz.vvoleman.phr.featureMedicine.presentation.addEdit.model.AddEditMedicineViewState
+import cz.vvoleman.phr.featureMedicine.presentation.export.model.ExportViewState
 import cz.vvoleman.phr.featureMedicine.presentation.list.model.ListMedicineViewState
 import cz.vvoleman.phr.featureMedicine.ui.addEdit.mapper.AddEditMedicineDestinationUiMapper
 import cz.vvoleman.phr.featureMedicine.ui.addEdit.view.AddEditMedicineBinder
 import cz.vvoleman.phr.featureMedicine.ui.list.mapper.ListMedicineDestinationUiMapper
 import cz.vvoleman.phr.featureMedicine.ui.list.view.ListMedicineBinder
-import cz.vvoleman.phr.featureMedicine.ui.mapper.addEdit.FrequencyDayUiModelToPresentationMapper
-import cz.vvoleman.phr.featureMedicine.ui.mapper.addEdit.TimeUiModelToPresentationMapper
-import cz.vvoleman.phr.featureMedicine.ui.mapper.list.*
+import cz.vvoleman.phr.featureMedicine.ui.addEdit.mapper.FrequencyDayUiModelToPresentationMapper
+import cz.vvoleman.phr.featureMedicine.ui.addEdit.mapper.TimeUiModelToPresentationMapper
+import cz.vvoleman.phr.featureMedicine.ui.export.mapper.ExportDestinationMapper
+import cz.vvoleman.phr.featureMedicine.ui.export.view.ExportBinder
+import cz.vvoleman.phr.featureMedicine.ui.list.mapper.MedicineScheduleUiModelToPresentationMapper
+import cz.vvoleman.phr.featureMedicine.ui.list.mapper.MedicineUiModelToPresentationMapper
+import cz.vvoleman.phr.featureMedicine.ui.list.mapper.NextScheduleItemUiModelToPresentationMapper
+import cz.vvoleman.phr.featureMedicine.ui.list.mapper.PackagingUiModelToPresentationMapper
+import cz.vvoleman.phr.featureMedicine.ui.list.mapper.ProductFormUiModelToPresentationMapper
+import cz.vvoleman.phr.featureMedicine.ui.list.mapper.ScheduleItemUiModelToPresentationMapper
+import cz.vvoleman.phr.featureMedicine.ui.list.mapper.ScheduleItemWithDetailsUiModelToPresentationMapper
+import cz.vvoleman.phr.featureMedicine.ui.list.mapper.SubstanceAmountUiModelToPresentationMapper
+import cz.vvoleman.phr.featureMedicine.ui.list.mapper.SubstanceUiModelToPresentationMapper
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -130,5 +142,13 @@ class UiModule {
     fun providesNextScheduleItemUiModelToPresentationMapper(
         mapper: ScheduleItemWithDetailsUiModelToPresentationMapper
     ) = NextScheduleItemUiModelToPresentationMapper(mapper)
+
+    @Provides
+    fun providesExportDestinationMapper(navManager: NavManager) =
+        ExportDestinationMapper(navManager)
+
+    @Provides
+    fun providesExportViewStateBinder(): ViewStateBinder<ExportViewState, FragmentExportBinding> =
+        ExportBinder()
 
 }

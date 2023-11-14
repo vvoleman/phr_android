@@ -21,12 +21,12 @@ import cz.vvoleman.phr.featureMedicine.data.mapper.schedule.SaveScheduleItemDoma
 import cz.vvoleman.phr.featureMedicine.data.mapper.schedule.ScheduleItemDataModelToDomainMapper
 import cz.vvoleman.phr.featureMedicine.data.repository.AlarmRepository
 import cz.vvoleman.phr.featureMedicine.data.repository.MedicineRepository
-import cz.vvoleman.phr.featureMedicine.data.repository.ScheduleRepository
+import cz.vvoleman.phr.featureMedicine.data.repository.SchedulesRepository
 import cz.vvoleman.phr.featureMedicine.domain.repository.DeleteMedicineScheduleRepository
 import cz.vvoleman.phr.featureMedicine.domain.repository.DeleteScheduleAlarmRepository
 import cz.vvoleman.phr.featureMedicine.domain.repository.GetMedicineByIdRepository
 import cz.vvoleman.phr.featureMedicine.domain.repository.GetMedicineScheduleByIdRepository
-import cz.vvoleman.phr.featureMedicine.domain.repository.GetScheduleByMedicineRepository
+import cz.vvoleman.phr.featureMedicine.domain.repository.GetSchedulesByMedicineRepository
 import cz.vvoleman.phr.featureMedicine.domain.repository.SaveMedicineScheduleRepository
 import cz.vvoleman.phr.featureMedicine.domain.repository.SaveScheduleItemRepository
 import cz.vvoleman.phr.featureMedicine.domain.repository.ScheduleMedicineRepository
@@ -78,7 +78,7 @@ class DataModule {
         scheduleItemDao: ScheduleItemDao,
         scheduleItemDataSourceMapper: ScheduleItemDataSourceModelToDataMapper,
         scheduleItemDataMapper: ScheduleItemDataModelToDomainMapper,
-    ) = ScheduleRepository(
+    ) = SchedulesRepository(
         medicineScheduleDao,
         medicineScheduleDataSourceMapper,
         medicineScheduleDataMapper,
@@ -91,22 +91,22 @@ class DataModule {
 
     @Provides
     fun providesGetScheduleByMedicineRepository(
-        scheduleRepository: ScheduleRepository
-    ): GetScheduleByMedicineRepository = scheduleRepository
+        scheduleRepository: SchedulesRepository
+    ): GetSchedulesByMedicineRepository = scheduleRepository
 
     @Provides
     fun providesSaveMedicineScheduleRepository(
-        scheduleRepository: ScheduleRepository
+        scheduleRepository: SchedulesRepository
     ): SaveMedicineScheduleRepository = scheduleRepository
 
     @Provides
     fun providesSaveScheduleItemRepository(
-        scheduleRepository: ScheduleRepository
+        scheduleRepository: SchedulesRepository
     ): SaveScheduleItemRepository = scheduleRepository
 
     @Provides
     fun providesGetSchedulesByPatientRepository(
-        scheduleRepository: ScheduleRepository
+        scheduleRepository: SchedulesRepository
     ): GetSchedulesByPatientRepository = scheduleRepository
 
     @Provides
@@ -116,12 +116,12 @@ class DataModule {
 
     @Provides
     fun providesGetMedicineScheduleByIdRepository(
-        scheduleRepository: ScheduleRepository
+        scheduleRepository: SchedulesRepository
     ): GetMedicineScheduleByIdRepository = scheduleRepository
 
     @Provides
     fun providesDeleteMedicineScheduleRepository(
-        scheduleRepository: ScheduleRepository
+        scheduleRepository: SchedulesRepository
     ): DeleteMedicineScheduleRepository = scheduleRepository
 
     @Provides

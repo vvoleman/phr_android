@@ -13,7 +13,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <cz.vvoleman.phr.featureMedicine.ui.nextSchedule.NextSchedule
+        <cz.vvoleman.phr.featureMedicine.ui.component.nextSchedule.NextSchedule
             android:id="@+id/next_schedule"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
