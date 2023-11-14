@@ -4,12 +4,16 @@ import android.app.AlertDialog
 import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.CallSuper
 import androidx.core.view.MenuHost
+import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.viewbinding.ViewBinding
 import com.google.android.material.snackbar.Snackbar
@@ -73,7 +77,7 @@ abstract class BaseFragment<VIEW_STATE : Any, NOTIFICATION : Any, VIEW_BINDING :
 
     protected open fun setOptionsMenu(): Int? = null
 
-    protected open fun onOptionsMenuItemSelected(menuItem: MenuItem): Boolean = true
+    protected open fun onOptionsMenuItemSelected(menuItem: MenuItem): Boolean = false
 
     protected fun showConfirmDialog(
         title: String,
@@ -138,17 +142,15 @@ abstract class BaseFragment<VIEW_STATE : Any, NOTIFICATION : Any, VIEW_BINDING :
 
     private fun setupOptionsMenu(menuId: Int) {
         val menuHost = requireActivity() as MenuHost
-//        menuHost.addMenuProvider(object : MenuProvider {
-//            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-//                // Add menu items here
-//                menuInflater.inflate(menuId, menu)
-//            }
-//
-//            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
-//                // Handle the menu selection
-//                return true
-//            }
-//        })
+        menuHost.addMenuProvider(object : MenuProvider {
+            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                menuInflater.inflate(menuId, menu)
+            }
+
+            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+                return onOptionsMenuItemSelected(menuItem)
+            }
+        }, viewLifecycleOwner, Lifecycle.State.RESUMED)
 
 
     }
@@ -156,5 +158,6 @@ abstract class BaseFragment<VIEW_STATE : Any, NOTIFICATION : Any, VIEW_BINDING :
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
+
     }
 }

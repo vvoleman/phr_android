@@ -40,7 +40,6 @@ abstract class BaseViewModel<VIEW_STATE : Any, NOTIFICATION : Any>(
     }
 
     open fun onInit() {
-        Log.d(TAG, "onInit... Man I wish it would be over soon... :/")
         _viewState.value = setupState()
     }
 

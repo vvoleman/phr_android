@@ -1,9 +1,7 @@
 package cz.vvoleman.phr.featureMedicine.presentation.addEdit.model
 
 import cz.vvoleman.phr.common.presentation.model.PatientPresentationModel
-import cz.vvoleman.phr.featureMedicine.presentation.model.addEdit.FrequencyDayPresentationModel
-import cz.vvoleman.phr.featureMedicine.presentation.model.addEdit.TimePresentationModel
-import cz.vvoleman.phr.featureMedicine.presentation.model.list.MedicinePresentationModel
+import cz.vvoleman.phr.featureMedicine.presentation.list.model.MedicinePresentationModel
 
 data class AddEditMedicineViewState(
     val scheduleId: String? = null,

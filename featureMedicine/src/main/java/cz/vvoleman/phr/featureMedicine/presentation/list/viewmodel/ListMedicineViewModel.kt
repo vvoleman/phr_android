@@ -26,11 +26,11 @@ import cz.vvoleman.phr.featureMedicine.presentation.list.model.ListMedicineDesti
 import cz.vvoleman.phr.featureMedicine.presentation.list.model.ListMedicineNotification
 import cz.vvoleman.phr.featureMedicine.presentation.list.model.ListMedicineViewState
 import cz.vvoleman.phr.featureMedicine.presentation.list.model.NextScheduleItemPresentationModel
-import cz.vvoleman.phr.featureMedicine.presentation.mapper.list.MedicinePresentationModelToDomainMapper
-import cz.vvoleman.phr.featureMedicine.presentation.mapper.list.MedicineSchedulePresentationModelToDomainMapper
-import cz.vvoleman.phr.featureMedicine.presentation.mapper.list.ScheduleItemPresentationModelToDomainMapper
-import cz.vvoleman.phr.featureMedicine.presentation.mapper.list.ScheduleItemWithDetailsPresentationModelToDomainMapper
-import cz.vvoleman.phr.featureMedicine.presentation.model.list.ScheduleItemWithDetailsPresentationModel
+import cz.vvoleman.phr.featureMedicine.presentation.list.mapper.MedicinePresentationModelToDomainMapper
+import cz.vvoleman.phr.featureMedicine.presentation.list.mapper.MedicineSchedulePresentationModelToDomainMapper
+import cz.vvoleman.phr.featureMedicine.presentation.list.mapper.ScheduleItemPresentationModelToDomainMapper
+import cz.vvoleman.phr.featureMedicine.presentation.list.mapper.ScheduleItemWithDetailsPresentationModelToDomainMapper
+import cz.vvoleman.phr.featureMedicine.presentation.list.model.ScheduleItemWithDetailsPresentationModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
@@ -117,6 +117,10 @@ class ListMedicineViewModel @Inject constructor(
             }
 
         }
+    }
+
+    fun onExportSelected() {
+        navigateTo(ListMedicineDestination.Export)
     }
 
     fun onEdit(id: String) {

@@ -7,10 +7,10 @@ import cz.vvoleman.phr.featureMedicine.R
 import cz.vvoleman.phr.featureMedicine.databinding.FragmentListMedicineBinding
 import cz.vvoleman.phr.featureMedicine.presentation.list.model.ListMedicineViewState
 import cz.vvoleman.phr.featureMedicine.ui.list.adapter.MedicineFragmentAdapter
-import cz.vvoleman.phr.featureMedicine.ui.mapper.list.MedicineScheduleUiModelToPresentationMapper
-import cz.vvoleman.phr.featureMedicine.ui.mapper.list.MedicineUiModelToPresentationMapper
-import cz.vvoleman.phr.featureMedicine.ui.mapper.list.NextScheduleItemUiModelToPresentationMapper
-import cz.vvoleman.phr.featureMedicine.ui.mapper.list.ScheduleItemWithDetailsUiModelToPresentationMapper
+import cz.vvoleman.phr.featureMedicine.ui.list.mapper.MedicineScheduleUiModelToPresentationMapper
+import cz.vvoleman.phr.featureMedicine.ui.list.mapper.MedicineUiModelToPresentationMapper
+import cz.vvoleman.phr.featureMedicine.ui.list.mapper.NextScheduleItemUiModelToPresentationMapper
+import cz.vvoleman.phr.featureMedicine.ui.list.mapper.ScheduleItemWithDetailsUiModelToPresentationMapper
 
 @Suppress("UnusedPrivateProperty")
 class ListMedicineBinder(
