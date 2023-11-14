@@ -1,7 +1,6 @@
 package cz.vvoleman.phr.featureMedicine.ui.list.fragment
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,7 +14,7 @@ import cz.vvoleman.phr.common_datasource.databinding.ItemGroupedItemsBinding
 import cz.vvoleman.phr.featureMedicine.databinding.FragmentTimelineBinding
 import cz.vvoleman.phr.featureMedicine.ui.list.adapter.TimelineAdapter
 import cz.vvoleman.phr.featureMedicine.ui.list.fragment.viewModel.TimelineViewModel
-import cz.vvoleman.phr.featureMedicine.ui.model.list.schedule.ScheduleItemWithDetailsUiModel
+import cz.vvoleman.phr.featureMedicine.ui.list.model.schedule.ScheduleItemWithDetailsUiModel
 import java.time.LocalDateTime
 
 class TimelineFragment(
@@ -43,12 +42,9 @@ class TimelineFragment(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        Log.i(TAG, "onViewCreated, is model ready?: ${viewModel?.isReady}")
-        if (viewModel?.isReady != true) {
+        if (viewModel?.getListener() == null) {
             return
         }
-
-        Log.i(TAG, "is it same viewmodel? ${viewModel?.test}")
 
         val schedules = viewModel!!.getItems()
 

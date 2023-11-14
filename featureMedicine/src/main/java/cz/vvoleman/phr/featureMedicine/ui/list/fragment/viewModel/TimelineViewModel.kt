@@ -3,13 +3,13 @@ package cz.vvoleman.phr.featureMedicine.ui.list.fragment.viewModel
 import androidx.lifecycle.ViewModel
 import cz.vvoleman.phr.common.ui.model.GroupedItemsUiModel
 import cz.vvoleman.phr.featureMedicine.ui.list.fragment.TimelineFragment
-import cz.vvoleman.phr.featureMedicine.ui.model.list.schedule.ScheduleItemWithDetailsUiModel
+import cz.vvoleman.phr.featureMedicine.ui.list.model.schedule.ScheduleItemWithDetailsUiModel
 
 class TimelineViewModel : ViewModel() {
 
     private val itemList: MutableList<GroupedItemsUiModel<ScheduleItemWithDetailsUiModel>> = mutableListOf()
     private var _listener: TimelineFragment.TimelineInterface? = null
-    public var test = "Marco"
+
     val isReady: Boolean
         get() = itemList.isNotEmpty() && _listener != null
 

@@ -2,6 +2,7 @@ package cz.vvoleman.phr.featureMedicine.ui.list.view
 
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import com.google.android.material.snackbar.Snackbar
@@ -18,13 +19,13 @@ import cz.vvoleman.phr.featureMedicine.ui.list.fragment.TimelineFragment
 import cz.vvoleman.phr.featureMedicine.ui.list.fragment.viewModel.MedicineCatalogueViewModel
 import cz.vvoleman.phr.featureMedicine.ui.list.fragment.viewModel.TimelineViewModel
 import cz.vvoleman.phr.featureMedicine.ui.list.mapper.ListMedicineDestinationUiMapper
-import cz.vvoleman.phr.featureMedicine.ui.medicineDetailSheet.MedicineDetailSheet
-import cz.vvoleman.phr.featureMedicine.ui.model.list.schedule.MedicineScheduleUiModel
-import cz.vvoleman.phr.featureMedicine.ui.model.list.schedule.NextScheduleItemUiModel
-import cz.vvoleman.phr.featureMedicine.ui.model.list.schedule.ScheduleItemWithDetailsUiModel
-import cz.vvoleman.phr.featureMedicine.ui.nextSchedule.NextSchedule
-import cz.vvoleman.phr.featureMedicine.ui.scheduleDetailDialog.ScheduleDetailAdapter
-import cz.vvoleman.phr.featureMedicine.ui.scheduleDetailDialog.ScheduleDetailDialogFragment
+import cz.vvoleman.phr.featureMedicine.ui.component.medicineDetailSheet.MedicineDetailSheet
+import cz.vvoleman.phr.featureMedicine.ui.list.model.schedule.MedicineScheduleUiModel
+import cz.vvoleman.phr.featureMedicine.ui.list.model.schedule.NextScheduleItemUiModel
+import cz.vvoleman.phr.featureMedicine.ui.list.model.schedule.ScheduleItemWithDetailsUiModel
+import cz.vvoleman.phr.featureMedicine.ui.component.nextSchedule.NextSchedule
+import cz.vvoleman.phr.featureMedicine.ui.component.scheduleDetailDialog.ScheduleDetailAdapter
+import cz.vvoleman.phr.featureMedicine.ui.component.scheduleDetailDialog.ScheduleDetailDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -57,7 +58,6 @@ class ListMedicineFragment :
         super.setupListeners()
 
         timelineViewModel.setListener(this)
-        timelineViewModel.test = "Polo"
         medicineCatalogueViewModel.setListener(this)
         fragmentAdapter = MedicineFragmentAdapter(timelineViewModel, medicineCatalogueViewModel, this)
         (viewStateBinder as ListMedicineBinder).setFragmentAdapter(fragmentAdapter)
@@ -75,6 +75,20 @@ class ListMedicineFragment :
             is ListMedicineNotification.AlarmNotDeleted -> showSnackbar(R.string.notification_alarm_not_deleted)
             is ListMedicineNotification.ScheduleNotDeleted -> showSnackbar(R.string.notification_schedule_not_deleted)
             is ListMedicineNotification.Deleted -> showSnackbar(R.string.notification_deleted)
+        }
+    }
+
+    override fun setOptionsMenu(): Int {
+        return R.menu.options_list_menu
+    }
+
+    override fun onOptionsMenuItemSelected(menuItem: MenuItem): Boolean {
+        return when (menuItem.itemId) {
+            R.id.action_export -> {
+                viewModel.onExportSelected()
+                true
+            }
+            else -> super.onOptionsMenuItemSelected(menuItem)
         }
     }
 

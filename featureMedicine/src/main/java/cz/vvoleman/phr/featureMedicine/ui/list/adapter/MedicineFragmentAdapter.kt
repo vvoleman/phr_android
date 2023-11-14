@@ -7,8 +7,8 @@ import cz.vvoleman.phr.featureMedicine.ui.list.fragment.MedicineCatalogueFragmen
 import cz.vvoleman.phr.featureMedicine.ui.list.fragment.TimelineFragment
 import cz.vvoleman.phr.featureMedicine.ui.list.fragment.viewModel.MedicineCatalogueViewModel
 import cz.vvoleman.phr.featureMedicine.ui.list.fragment.viewModel.TimelineViewModel
-import cz.vvoleman.phr.featureMedicine.ui.model.list.schedule.MedicineScheduleUiModel
-import cz.vvoleman.phr.featureMedicine.ui.model.list.schedule.ScheduleItemWithDetailsUiModel
+import cz.vvoleman.phr.featureMedicine.ui.list.model.schedule.MedicineScheduleUiModel
+import cz.vvoleman.phr.featureMedicine.ui.list.model.schedule.ScheduleItemWithDetailsUiModel
 
 class MedicineFragmentAdapter(
     private val timelineViewModel: TimelineViewModel,
