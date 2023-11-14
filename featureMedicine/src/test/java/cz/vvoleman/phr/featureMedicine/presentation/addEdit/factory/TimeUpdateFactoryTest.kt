@@ -1,6 +1,6 @@
 package cz.vvoleman.phr.featureMedicine.presentation.addEdit.factory
 
-import cz.vvoleman.phr.featureMedicine.presentation.model.addEdit.TimePresentationModel
+import cz.vvoleman.phr.featureMedicine.presentation.addEdit.model.TimePresentationModel
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import java.time.LocalTime

@@ -16,18 +16,19 @@ import cz.vvoleman.phr.featureMedicine.databinding.FragmentAddEditMedicineBindin
 import cz.vvoleman.phr.featureMedicine.presentation.addEdit.model.AddEditMedicineNotification
 import cz.vvoleman.phr.featureMedicine.presentation.addEdit.model.AddEditMedicineViewState
 import cz.vvoleman.phr.featureMedicine.presentation.addEdit.viewmodel.AddEditMedicineViewModel
-import cz.vvoleman.phr.featureMedicine.presentation.model.addEdit.TimePresentationModel
+import cz.vvoleman.phr.featureMedicine.presentation.addEdit.model.TimePresentationModel
 import cz.vvoleman.phr.featureMedicine.ui.addEdit.mapper.AddEditMedicineDestinationUiMapper
-import cz.vvoleman.phr.featureMedicine.ui.frequencySelector.FrequencyDayUiModel
-import cz.vvoleman.phr.featureMedicine.ui.frequencySelector.FrequencySelector
-import cz.vvoleman.phr.featureMedicine.ui.mapper.addEdit.FrequencyDayUiModelToPresentationMapper
-import cz.vvoleman.phr.featureMedicine.ui.mapper.addEdit.TimeUiModelToPresentationMapper
-import cz.vvoleman.phr.featureMedicine.ui.mapper.list.MedicineUiModelToPresentationMapper
-import cz.vvoleman.phr.featureMedicine.ui.medicineSelector.MedicineSelector
-import cz.vvoleman.phr.featureMedicine.ui.model.list.MedicineUiModel
-import cz.vvoleman.phr.featureMedicine.ui.timeSelector.TimeSelector
-import cz.vvoleman.phr.featureMedicine.ui.timeSelector.TimeUiModel
+import cz.vvoleman.phr.featureMedicine.ui.component.frequencySelector.FrequencyDayUiModel
+import cz.vvoleman.phr.featureMedicine.ui.component.frequencySelector.FrequencySelector
+import cz.vvoleman.phr.featureMedicine.ui.addEdit.mapper.FrequencyDayUiModelToPresentationMapper
+import cz.vvoleman.phr.featureMedicine.ui.addEdit.mapper.TimeUiModelToPresentationMapper
+import cz.vvoleman.phr.featureMedicine.ui.list.mapper.MedicineUiModelToPresentationMapper
+import cz.vvoleman.phr.featureMedicine.ui.component.medicineSelector.MedicineSelector
+import cz.vvoleman.phr.featureMedicine.ui.list.model.MedicineUiModel
+import cz.vvoleman.phr.featureMedicine.ui.component.timeSelector.TimeSelector
+import cz.vvoleman.phr.featureMedicine.ui.component.timeSelector.TimeUiModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import java.time.LocalTime
 import javax.inject.Inject
 
@@ -77,7 +78,7 @@ class AddEditMedicineFragment :
         }
 
         binding.buttonSave.setOnClickListener {
-            lifecycleScope.launchWhenCreated{viewModel.onSave()}
+            lifecycleScope.launch { viewModel.onSave() }
         }
     }
 

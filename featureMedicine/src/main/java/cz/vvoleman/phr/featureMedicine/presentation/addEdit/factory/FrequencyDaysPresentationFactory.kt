@@ -1,6 +1,6 @@
 package cz.vvoleman.phr.featureMedicine.presentation.addEdit.factory
 
-import cz.vvoleman.phr.featureMedicine.presentation.model.addEdit.FrequencyDayPresentationModel
+import cz.vvoleman.phr.featureMedicine.presentation.addEdit.model.FrequencyDayPresentationModel
 import java.time.DayOfWeek
 
 class FrequencyDaysPresentationFactory {

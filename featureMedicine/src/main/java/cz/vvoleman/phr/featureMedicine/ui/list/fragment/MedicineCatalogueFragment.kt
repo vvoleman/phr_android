@@ -13,7 +13,7 @@ import cz.vvoleman.phr.common_datasource.databinding.ItemGroupedItemsBinding
 import cz.vvoleman.phr.featureMedicine.databinding.FragmentMedicineCatalogueBinding
 import cz.vvoleman.phr.featureMedicine.ui.list.adapter.MedicineCatalogueAdapter
 import cz.vvoleman.phr.featureMedicine.ui.list.fragment.viewModel.MedicineCatalogueViewModel
-import cz.vvoleman.phr.featureMedicine.ui.model.list.schedule.MedicineScheduleUiModel
+import cz.vvoleman.phr.featureMedicine.ui.list.model.schedule.MedicineScheduleUiModel
 
 class MedicineCatalogueFragment(
 ) : Fragment(), GroupedItemsAdapter.GroupedItemsAdapterInterface<MedicineScheduleUiModel> {

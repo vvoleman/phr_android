@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import cz.vvoleman.phr.featureMedicine.R
 import cz.vvoleman.phr.featureMedicine.databinding.ItemMedicineCatalogueBinding
-import cz.vvoleman.phr.featureMedicine.ui.model.list.schedule.MedicineScheduleUiModel
+import cz.vvoleman.phr.featureMedicine.ui.list.model.schedule.MedicineScheduleUiModel
 import java.time.format.TextStyle
 import java.util.Locale
 

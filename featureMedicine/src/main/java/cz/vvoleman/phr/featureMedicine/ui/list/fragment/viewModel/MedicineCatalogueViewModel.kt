@@ -3,7 +3,7 @@ package cz.vvoleman.phr.featureMedicine.ui.list.fragment.viewModel
 import androidx.lifecycle.ViewModel
 import cz.vvoleman.phr.common.ui.model.GroupedItemsUiModel
 import cz.vvoleman.phr.featureMedicine.ui.list.adapter.MedicineCatalogueAdapter
-import cz.vvoleman.phr.featureMedicine.ui.model.list.schedule.MedicineScheduleUiModel
+import cz.vvoleman.phr.featureMedicine.ui.list.model.schedule.MedicineScheduleUiModel
 
 class MedicineCatalogueViewModel : ViewModel() {
 

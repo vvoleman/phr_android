@@ -8,6 +8,7 @@ import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
+import java.time.ZoneOffset
 
 class TranslateDateTimeFacade {
 
@@ -20,14 +21,16 @@ class TranslateDateTimeFacade {
             numberOfWeeks: Int = 1
         ): Map<LocalDateTime, List<ScheduleItemWithDetailsDomainModel>> {
             val currentWeekDay = currentDateTime.dayOfWeek
-            val currentTime = currentDateTime.toLocalTime()
-            val currentDate = currentDateTime.toLocalDate()
 
             val translatedTimes = mutableMapOf<LocalDateTime, MutableList<ScheduleItemWithDetailsDomainModel>>()
             schedules.forEach { schedule ->
                 schedule.schedules.forEach {
                     for (i in 0 until numberOfWeeks) {
-                        val translated = translateScheduleItem(it, currentWeekDay, currentTime, currentDate, i)
+                        val translated = translateScheduleItem(it, currentWeekDay, currentDateTime, i)
+
+                        if (translated.isBefore(schedule.createdAt)) {
+                            continue
+                        }
 
                         val model = ScheduleItemWithDetailsDomainModel(
                             scheduleItem = it,
@@ -53,21 +56,25 @@ class TranslateDateTimeFacade {
             return translateScheduleItem(
                 scheduleItem,
                 dateTime.dayOfWeek,
-                dateTime.toLocalTime(),
-                dateTime.toLocalDate()
+                dateTime
             )
         }
 
         private fun translateScheduleItem(
             scheduleItem: ScheduleItemDomainModel,
             currentWeekDay: DayOfWeek,
-            currentTime: LocalTime,
-            currentDate: LocalDate,
+            currentDateTime: LocalDateTime,
             weekMultiplier: Int = 0
         ): LocalDateTime {
-            val key = getStorageKey(currentDate, scheduleItem.dayOfWeek, scheduleItem.time, weekMultiplier)
+            val key = getStorageKey(currentDateTime, scheduleItem.dayOfWeek, scheduleItem.time, weekMultiplier)
+            val currentDate = currentDateTime.toLocalDate()
+            val currentTime = currentDateTime.toLocalTime()
 
             if (!alreadyTranslated.containsKey(key)) {
+                if (alreadyTranslated.size > 100) {
+                    alreadyTranslated.clear()
+                }
+
                 alreadyTranslated[key] = if (currentWeekDay === scheduleItem.dayOfWeek && scheduleItem.time.isBefore(currentTime)) {
                     currentDate.plusDays(7L * (weekMultiplier + 1)).atTime(scheduleItem.time)
                 } else {
@@ -79,8 +86,8 @@ class TranslateDateTimeFacade {
             return alreadyTranslated[key]!!
         }
 
-        private fun getStorageKey(currentDate: LocalDate, week: DayOfWeek, time: LocalTime, weekMultiplier: Int = 0): String {
-            return "${currentDate.toEpochDay()}${week.value}${time.toSecondOfDay()}$weekMultiplier"
+        private fun getStorageKey(currentDateTime: LocalDateTime, week: DayOfWeek, time: LocalTime, weekMultiplier: Int = 0): String {
+            return "${currentDateTime.toEpochSecond(ZoneOffset.UTC)}${week.value}${time.toSecondOfDay()}$weekMultiplier"
         }
     }
 

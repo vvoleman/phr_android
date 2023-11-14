@@ -25,7 +25,7 @@
                 android:fontFeatureSettings="smcp"
                 android:text="@string/add_edit_medicine_select_medicine" />
 
-            <cz.vvoleman.phr.featureMedicine.ui.medicineSelector.MedicineSelector
+            <cz.vvoleman.phr.featureMedicine.ui.component.medicineSelector.MedicineSelector
                 android:id="@+id/medicine_selector"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
@@ -58,7 +58,7 @@
                 android:textAlignment="center" />
         </LinearLayout>
 
-        <cz.vvoleman.phr.featureMedicine.ui.timeSelector.TimeSelector
+        <cz.vvoleman.phr.featureMedicine.ui.component.timeSelector.TimeSelector
             android:id="@+id/time_selector"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
@@ -70,7 +70,7 @@
             android:fontFeatureSettings="smcp"
             android:text="@string/add_edit_medicine_select_frequency" />
 
-        <cz.vvoleman.phr.featureMedicine.ui.frequencySelector.FrequencySelector
+        <cz.vvoleman.phr.featureMedicine.ui.component.frequencySelector.FrequencySelector
             android:id="@+id/frequency_selector"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
