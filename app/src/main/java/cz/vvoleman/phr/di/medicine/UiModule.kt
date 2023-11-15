@@ -16,6 +16,9 @@ import cz.vvoleman.phr.featureMedicine.ui.list.view.ListMedicineBinder
 import cz.vvoleman.phr.featureMedicine.ui.addEdit.mapper.FrequencyDayUiModelToPresentationMapper
 import cz.vvoleman.phr.featureMedicine.ui.addEdit.mapper.TimeUiModelToPresentationMapper
 import cz.vvoleman.phr.featureMedicine.ui.export.mapper.ExportDestinationMapper
+import cz.vvoleman.phr.featureMedicine.ui.export.mapper.ExportMedicineScheduleUiModelToPresentationMapper
+import cz.vvoleman.phr.featureMedicine.ui.export.mapper.ExportScheduleItemUiModelToPresentationMapper
+import cz.vvoleman.phr.featureMedicine.ui.export.mapper.ExportUiModelToPresentationMapper
 import cz.vvoleman.phr.featureMedicine.ui.export.view.ExportBinder
 import cz.vvoleman.phr.featureMedicine.ui.list.mapper.MedicineScheduleUiModelToPresentationMapper
 import cz.vvoleman.phr.featureMedicine.ui.list.mapper.MedicineUiModelToPresentationMapper
@@ -148,7 +151,27 @@ class UiModule {
         ExportDestinationMapper(navManager)
 
     @Provides
-    fun providesExportViewStateBinder(): ViewStateBinder<ExportViewState, FragmentExportBinding> =
-        ExportBinder()
+    fun providesExportViewStateBinder(
+        exportUiMapper: ExportUiModelToPresentationMapper
+    ): ViewStateBinder<ExportViewState, FragmentExportBinding> =
+        ExportBinder(exportUiMapper)
+
+    @Provides
+    fun providesExportScheduleItemUiModelToPresentationMapper() =
+        ExportScheduleItemUiModelToPresentationMapper()
+
+    @Provides
+    fun providesExportMedicineScheduleUiModelToPresentationMapper(
+        medicineMapper: MedicineUiModelToPresentationMapper,
+        patientMapper: PatientUiModelToPresentationMapper,
+        scheduleItemMapper: ExportScheduleItemUiModelToPresentationMapper
+    ) = ExportMedicineScheduleUiModelToPresentationMapper(
+        medicineMapper,
+        patientMapper,
+        scheduleItemMapper
+    )
+
+    @Provides
+    fun providesExportUiModelToPresentationMapper() = ExportUiModelToPresentationMapper()
 
 }
