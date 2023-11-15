@@ -1,20 +1,59 @@
 package cz.vvoleman.phr.featureMedicine.ui.export.view
 
+import android.Manifest
+import android.app.Activity.RESULT_OK
+import android.content.Context
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.graphics.pdf.PdfDocument
+import android.os.Build
+import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.result.contract.ActivityResultContracts.CreateDocument
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import cz.vvoleman.phr.base.ui.exception.PermissionDeniedException
 import cz.vvoleman.phr.base.ui.mapper.ViewStateBinder
 import cz.vvoleman.phr.base.ui.view.BaseFragment
+import cz.vvoleman.phr.common.presentation.model.PatientPresentationModel
+import cz.vvoleman.phr.common.ui.model.PatientUiModel
+import cz.vvoleman.phr.common.utils.toLocalDateTime
+import cz.vvoleman.phr.common.utils.toLocalString
+import cz.vvoleman.phr.featureMedicine.R
+import cz.vvoleman.phr.featureMedicine.databinding.DocumentTestPdfBinding
 import cz.vvoleman.phr.featureMedicine.databinding.FragmentExportBinding
+import cz.vvoleman.phr.featureMedicine.domain.model.export.ExportType
+import cz.vvoleman.phr.featureMedicine.presentation.export.model.ExportMedicineSchedulePresentationModel
 import cz.vvoleman.phr.featureMedicine.presentation.export.model.ExportNotification
+import cz.vvoleman.phr.featureMedicine.presentation.export.model.ExportParamsPresentationModel
 import cz.vvoleman.phr.featureMedicine.presentation.export.model.ExportViewState
 import cz.vvoleman.phr.featureMedicine.presentation.export.viewmodel.ExportViewModel
+import cz.vvoleman.phr.featureMedicine.ui.export.adapter.ExportAdapter
+import cz.vvoleman.phr.featureMedicine.ui.export.exception.ExportFailedException
 import cz.vvoleman.phr.featureMedicine.ui.export.mapper.ExportDestinationMapper
+import cz.vvoleman.phr.featureMedicine.ui.export.usecase.ExportFileHelper
+import cz.vvoleman.phr.featureMedicine.ui.export.usecase.ExportPdfHelper
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import java.io.File
+import java.io.FileOutputStream
+import java.io.IOException
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class ExportFragment : BaseFragment<ExportViewState, ExportNotification, FragmentExportBinding>(){
+class ExportFragment : BaseFragment<ExportViewState, ExportNotification, FragmentExportBinding>(),
+    ExportAdapter.ExportListener, ExportPdfHelper.ExportPdfHelperListener {
 
     override val viewModel: ExportViewModel by viewModels()
 
@@ -24,8 +63,41 @@ class ExportFragment : BaseFragment<ExportViewState, ExportNotification, Fragmen
     @Inject
     override lateinit var viewStateBinder: ViewStateBinder<ExportViewState, FragmentExportBinding>
 
+    private var _exportPdfHelper: ExportPdfHelper? = null
+
     override fun setupBinding(inflater: LayoutInflater, container: ViewGroup?): FragmentExportBinding {
         return FragmentExportBinding.inflate(inflater, container, false)
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        val createFileLauncher = registerForActivityResult(CreateDocument("application/pdf")) { uri ->
+            lifecycleScope.launch {
+                _exportPdfHelper?.handleCreateFileResult(uri)
+            }
+        }
+
+        val permissionsLauncher =
+            registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
+                _exportPdfHelper?.handlePermissionResult(permissions)
+            }
+
+        _exportPdfHelper = ExportPdfHelper(
+            R.layout.document_test_pdf,
+            this,
+            requireContext(),
+            createFileLauncher,
+            permissionsLauncher
+        )
+    }
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        val binding = super.onCreateView(inflater, container, savedInstanceState)
+
+        (viewStateBinder as ExportBinder).setAdapter(ExportAdapter(this))
+
+        return binding
     }
 
     override fun setupListeners() {
@@ -34,13 +106,104 @@ class ExportFragment : BaseFragment<ExportViewState, ExportNotification, Fragmen
         binding.buttonExport.setOnClickListener {
             viewModel.onExport()
         }
+
+        binding.buttonPreview.setOnClickListener {
+            viewModel.onPreview()
+        }
+
+//        binding.spinnerExport.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+//            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+//            }
+//
+//            override fun onNothingSelected(p0: AdapterView<*>?) {
+//            }
+//        }
+
+        binding.editTextStartAt.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                // Do something before text changes
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                val datetime = s.toString().toLocalDateTime()
+                if (datetime != null) {
+                    viewModel.onStartAtChanged(datetime)
+                } else {
+                    showSnackbar("Neplatné datum: $s")
+                }
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                // Do something after text changes
+            }
+        })
+
+        binding.editTextEndAt.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                // Do something before text changes
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                val datetime = s.toString().toLocalDateTime()
+                if (datetime != null) {
+                    viewModel.onEndAtChanged(datetime)
+                } else {
+                    showSnackbar("Neplatné datum: $s")
+                }
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                // Do something after text changes
+            }
+        })
     }
 
     override fun handleNotification(notification: ExportNotification) {
-        when(notification){
+        when (notification) {
             is ExportNotification.CannotExport -> {
                 showSnackbar("Nelze exportovat")
             }
+
+            is ExportNotification.CannotLoadData -> {
+                showSnackbar("Nelze načíst data")
+            }
+
+            is ExportNotification.ExportAs -> {
+                when (notification.type) {
+                    ExportType.PDF -> {
+                        launchExport(_exportPdfHelper!!, notification.params)
+                    }
+
+                    ExportType.CSV -> {
+                        showSnackbar("CSV není podporováno")
+                    }
+                }
+            }
         }
     }
+
+    private fun launchExport(
+        helper: ExportFileHelper,
+        params: ExportParamsPresentationModel
+    ) {
+        try {
+            helper.run(params)
+        } catch (e: PermissionDeniedException) {
+            showSnackbar("Aplikace nemá oprávnění k přístupu k uložišti: ${e.message}")
+            viewModel.onPermissionDenied(helper.hasPermissions())
+        } catch (e: ExportFailedException) {
+            showSnackbar("Nepodařilo se exportovat do ${helper.exportType}")
+        } catch (e: Throwable) {
+            showSnackbar("Vyskytla se neočekávaná chyba: ${e.message}")
+        }
+    }
+
+    override fun bindPdf(view: View, params: ExportParamsPresentationModel, pdfDocument: PdfDocument) {
+        view.findViewById<TextView>(R.id.text_view_header_start_at).text = params.startAt.toLocalDate().toLocalString()
+        view.findViewById<TextView>(R.id.text_view_header_end_at).text = params.endAt.toLocalDate().toLocalString()
+        view.findViewById<TextView>(R.id.text_view_patient_name).text = params.patient.name
+        view.findViewById<TextView>(R.id.text_view_patient_birthdate).text =
+            params.patient.birthDate?.toLocalString() ?: "N/A"
+    }
+
 }
