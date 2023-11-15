@@ -70,12 +70,9 @@ class AddEditMedicineViewModel @Inject constructor(
             // Delete later
             getMedicineByIdUseCase.execute("0000009") { medicine ->
                 if (medicine == null) {
-                    Log.d(TAG, "onInit: medicine is null")
                     return@execute
                 }
                 updateViewState(currentViewState.copy(selectedMedicine = medicineMapper.toPresentation(medicine)))
-
-                Log.d(TAG, "new medicine is: ${currentViewState.selectedMedicine}")
             }
 
             val scheduleId = savedStateHandle.get<String>(SCHEDULE_ID)
@@ -110,7 +107,6 @@ class AddEditMedicineViewModel @Inject constructor(
     }
 
     fun onTimeAdd(time: TimePresentationModel) {
-        Log.d(TAG, "onTimeAdd size ${currentViewState.times.size}")
         val times = currentViewState.times.toMutableList()
         times.add(time)
 
@@ -137,10 +133,6 @@ class AddEditMedicineViewModel @Inject constructor(
     }
 
     suspend fun onSave() {
-        Log.d(TAG, "selectedMedicine: ${currentViewState.selectedMedicine}")
-        Log.d(TAG, "times: ${currentViewState.times}")
-        Log.d(TAG, "frequencyDays: ${currentViewState.frequencyDays}")
-
         val canSave = currentViewState.selectedMedicine != null &&
                 currentViewState.times.isNotEmpty() &&
                 currentViewState.frequencyDays.isNotEmpty() &&
@@ -163,12 +155,6 @@ class AddEditMedicineViewModel @Inject constructor(
             notify(AddEditMedicineNotification.CannotSave)
             return
         }
-
-        val times = currentViewState.times
-        val frequencies = currentViewState.frequencyDays
-        Log.d(TAG, "number of times: ${times.size}")
-        Log.d(TAG, "number of frequencies: ${frequencies.size}")
-        Log.d(TAG, "number of items to be saved: ${saveMedicine.schedules.size}")
 
         val domainModel = saveMedicineMapper.toDomain(saveMedicine)
         saveMedicineScheduleUseCase.execute(domainModel, ::handleSaveMedicineSchedule)
@@ -211,7 +197,6 @@ class AddEditMedicineViewModel @Inject constructor(
             }
         }
 
-        Log.d(TAG, "numberOfSchedules: ${schedules.size}")
         return schedules
     }
 

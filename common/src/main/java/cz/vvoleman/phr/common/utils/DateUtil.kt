@@ -2,10 +2,40 @@ package cz.vvoleman.phr.common.utils
 
 import java.time.DayOfWeek
 import java.time.LocalDate
+import java.time.LocalDateTime
 import java.time.LocalTime
 import java.time.ZoneId
+import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
 import java.time.format.TextStyle
 import java.util.*
+
+fun LocalDateTime.toLocalString(): String {
+    val formatter = DateTimeFormatter
+        .ofLocalizedDateTime(FormatStyle.MEDIUM)
+        .withLocale(Locale.getDefault())
+        .withZone(ZoneId.systemDefault())
+
+    return this.format(formatter)
+}
+
+fun String.toLocalDateTime(): LocalDateTime? {
+    val formatter = DateTimeFormatter
+        .ofLocalizedDateTime(FormatStyle.MEDIUM)
+        .withLocale(Locale.getDefault())
+        .withZone(ZoneId.systemDefault())
+
+    return LocalDateTime.parse(this, formatter)
+}
+
+fun LocalDate.toLocalString(): String {
+    val formatter = DateTimeFormatter
+        .ofLocalizedDate(FormatStyle.MEDIUM)
+        .withLocale(Locale.getDefault())
+        .withZone(ZoneId.systemDefault())
+
+    return this.format(formatter)
+}
 
 fun LocalDate.getNameOfDay(short: Boolean = false): String {
     val version = if (short) TextStyle.SHORT_STANDALONE else TextStyle.FULL_STANDALONE
@@ -35,4 +65,8 @@ fun LocalDate.plusDayOfWeek(next: DayOfWeek): LocalDate {
     }
 
     return this.plusDays(daysToAdd.toLong())
+}
+
+fun DayOfWeek.getLocalString(textStyle: TextStyle = TextStyle.FULL_STANDALONE): String {
+    return this.getDisplayName(textStyle, Locale.getDefault())
 }
