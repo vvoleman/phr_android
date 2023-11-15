@@ -2,6 +2,7 @@ package cz.vvoleman.phr.featureMedicine.domain.usecase.export
 
 import cz.vvoleman.phr.base.domain.coroutine.CoroutineContextProvider
 import cz.vvoleman.phr.base.domain.usecase.BackgroundExecutingUseCase
+import cz.vvoleman.phr.featureMedicine.domain.exception.InvalidDateRangeException
 import cz.vvoleman.phr.featureMedicine.domain.facade.TranslateDateTimeFacade
 import cz.vvoleman.phr.featureMedicine.domain.model.export.ExportMedicineScheduleDomainModel
 import cz.vvoleman.phr.featureMedicine.domain.model.export.ExportScheduleItemDomainModel
@@ -24,7 +25,7 @@ class GetDataForExportUseCase(
     override suspend fun executeInBackground(request: GetDataForExportRequest): List<ExportMedicineScheduleDomainModel> {
         val dateRange = request.dateRange
         if (!validateDateRange(dateRange, request.currentDateTime)) {
-            throw IllegalArgumentException("Start date must be before end date")
+            throw InvalidDateRangeException("Start date must be before end date")
         }
 
         // If medicine is empty, get all medicines
@@ -92,14 +93,7 @@ class GetDataForExportUseCase(
         dateRange: Pair<LocalDateTime?, LocalDateTime?>,
         currentDateTime: LocalDateTime
     ): Boolean {
-        return dateRange.let { pair ->
-            val (start, end) = pair
-
-            val startIsAfterEnd = end?.let { start?.isAfter(it) } ?: true
-
-            (start?.isAfter(currentDateTime) != true) &&
-                    (end?.isAfter(currentDateTime) != true) &&
-                    startIsAfterEnd
-        }
+        val (start, end) = dateRange
+        return start?.isBefore(end) ?: true
     }
 }

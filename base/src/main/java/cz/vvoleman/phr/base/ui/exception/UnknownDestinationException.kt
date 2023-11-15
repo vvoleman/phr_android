@@ -4,6 +4,6 @@ import cz.vvoleman.phr.base.presentation.model.PresentationDestination
 
 class UnknownDestinationException(
     destination: PresentationDestination
-) : IllegalArgumentException(
+) : UiException(
     "Cannot navigate to ${destination::class.simpleName}"
 )
