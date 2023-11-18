@@ -5,7 +5,6 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import cz.vvoleman.phr.base.presentation.viewmodel.BaseViewModel
 import cz.vvoleman.phr.base.presentation.viewmodel.usecase.UseCaseExecutorProvider
-import cz.vvoleman.phr.common.data.alarm.AlarmScheduler
 import cz.vvoleman.phr.common.domain.GroupedItemsDomainModel
 import cz.vvoleman.phr.common.domain.usecase.GetSelectedPatientUseCase
 import cz.vvoleman.phr.common.presentation.mapper.PatientPresentationModelToDomainMapper
@@ -21,15 +20,12 @@ import cz.vvoleman.phr.featureMedicine.domain.usecase.GetNextScheduledUseCase
 import cz.vvoleman.phr.featureMedicine.domain.usecase.GetScheduledInTimeRangeUseCase
 import cz.vvoleman.phr.featureMedicine.domain.usecase.GroupMedicineScheduleUseCase
 import cz.vvoleman.phr.featureMedicine.domain.usecase.GroupScheduleItemsUseCase
-import cz.vvoleman.phr.featureMedicine.domain.usecase.SearchMedicineUseCase
+import cz.vvoleman.phr.featureMedicine.presentation.list.mapper.MedicineSchedulePresentationModelToDomainMapper
+import cz.vvoleman.phr.featureMedicine.presentation.list.mapper.ScheduleItemWithDetailsPresentationModelToDomainMapper
 import cz.vvoleman.phr.featureMedicine.presentation.list.model.ListMedicineDestination
 import cz.vvoleman.phr.featureMedicine.presentation.list.model.ListMedicineNotification
 import cz.vvoleman.phr.featureMedicine.presentation.list.model.ListMedicineViewState
 import cz.vvoleman.phr.featureMedicine.presentation.list.model.NextScheduleItemPresentationModel
-import cz.vvoleman.phr.featureMedicine.presentation.list.mapper.MedicinePresentationModelToDomainMapper
-import cz.vvoleman.phr.featureMedicine.presentation.list.mapper.MedicineSchedulePresentationModelToDomainMapper
-import cz.vvoleman.phr.featureMedicine.presentation.list.mapper.ScheduleItemPresentationModelToDomainMapper
-import cz.vvoleman.phr.featureMedicine.presentation.list.mapper.ScheduleItemWithDetailsPresentationModelToDomainMapper
 import cz.vvoleman.phr.featureMedicine.presentation.list.model.ScheduleItemWithDetailsPresentationModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.first
@@ -47,14 +43,10 @@ class ListMedicineViewModel @Inject constructor(
     private val getScheduledInTimeRangeUseCase: GetScheduledInTimeRangeUseCase,
     private val groupScheduleItemsUseCase: GroupScheduleItemsUseCase,
     private val groupMedicineSchedulesUseCase: GroupMedicineScheduleUseCase,
-    private val searchMedicineUseCase: SearchMedicineUseCase,
     private val deleteMedicineScheduleUseCase: DeleteMedicineScheduleUseCase,
     private val patientMapper: PatientPresentationModelToDomainMapper,
     private val scheduleItemDetailsMapper: ScheduleItemWithDetailsPresentationModelToDomainMapper,
-    private val scheduleItemMapper: ScheduleItemPresentationModelToDomainMapper,
-    private val medicineMapper: MedicinePresentationModelToDomainMapper,
     private val medicineScheduleMapper: MedicineSchedulePresentationModelToDomainMapper,
-    private val alarmScheduler: AlarmScheduler,
     savedStateHandle: SavedStateHandle,
     useCaseExecutorProvider: UseCaseExecutorProvider
 ) : BaseViewModel<ListMedicineViewState, ListMedicineNotification>(savedStateHandle, useCaseExecutorProvider) {
@@ -62,8 +54,7 @@ class ListMedicineViewModel @Inject constructor(
     override val TAG = "ListMedicineViewModel"
 
     override fun initState(): ListMedicineViewState {
-        return ListMedicineViewState(
-        )
+        return ListMedicineViewState()
     }
 
     override fun onInit() {
@@ -93,7 +84,7 @@ class ListMedicineViewModel @Inject constructor(
 //                triggerAt = time.toSecondOfDay().toLong(),
 //                alarmDays = listOf(DayOfWeek.SUNDAY)
 //            ),
-////            content = TestContent(id = "1"),
+// //            content = TestContent(id = "1"),
 //            repeatInterval = AlarmItem.REPEAT_SECOND.toLong()*10,
 //            receiver = MedicineAlarmReceiver::class.java
 //        ))
@@ -115,7 +106,6 @@ class ListMedicineViewModel @Inject constructor(
             } else {
                 notify(ListMedicineNotification.ScheduleNotDeleted)
             }
-
         }
     }
 
@@ -209,7 +199,9 @@ class ListMedicineViewModel @Inject constructor(
         updateViewState(currentViewState.copy(medicineCatalogue = list))
     }
 
-    private fun getNextSelectedSchedule(list: List<ScheduleItemWithDetailsPresentationModel>): NextScheduleItemPresentationModel? {
+    private fun getNextSelectedSchedule(
+        list: List<ScheduleItemWithDetailsPresentationModel>
+    ): NextScheduleItemPresentationModel? {
         var selectedSchedule: NextScheduleItemPresentationModel? = null
         if (list.isNotEmpty()) {
             val listDomain = list.map { scheduleItemDetailsMapper.toDomain(it) }
@@ -232,5 +224,4 @@ class ListMedicineViewModel @Inject constructor(
     companion object {
         const val TAG = "ListMedicineViewModel"
     }
-
 }

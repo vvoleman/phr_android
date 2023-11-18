@@ -9,7 +9,6 @@ import android.net.Uri
 import android.os.Build
 import androidx.core.app.NotificationCompat
 import cz.vvoleman.phr.featureMedicine.R
-import cz.vvoleman.phr.featureMedicine.ui.list.view.ListMedicineFragment
 
 class CounterNotificationService(
     private val context: Context
@@ -25,18 +24,17 @@ class CounterNotificationService(
             context,
             1,
             intent,
-            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) PendingIntent.FLAG_IMMUTABLE else 0
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) PendingIntent.FLAG_IMMUTABLE else 0
         )
 
         val incrementIntent = PendingIntent.getBroadcast(
             context,
             2,
             Intent(context, CounterNotificationReceiver::class.java),
-            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) PendingIntent.FLAG_IMMUTABLE else 0
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) PendingIntent.FLAG_IMMUTABLE else 0
         )
 
         val defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM)
-
 
         val notification = NotificationCompat.Builder(context, MedicineAlarmReceiver.CHANNEL_ID)
             .setSmallIcon(R.drawable.baseline_healing_24)
@@ -51,7 +49,5 @@ class CounterNotificationService(
             .build()
 
         notificationManager.notify(counter, notification)
-
     }
-
 }

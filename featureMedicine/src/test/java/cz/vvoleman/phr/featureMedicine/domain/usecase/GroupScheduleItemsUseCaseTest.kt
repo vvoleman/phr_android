@@ -166,5 +166,4 @@ class GroupScheduleItemsUseCaseTest {
     companion object {
         private val currentDateTime = LocalTime.of(8, 5).atDate(LocalDate.of(2023, 10, 25))
     }
-
 }

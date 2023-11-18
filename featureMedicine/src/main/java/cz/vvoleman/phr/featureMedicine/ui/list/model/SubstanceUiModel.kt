@@ -7,4 +7,4 @@ import kotlinx.parcelize.Parcelize
 data class SubstanceUiModel(
     val id: String,
     val name: String
-): Parcelable
+) : Parcelable

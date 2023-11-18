@@ -17,8 +17,9 @@ import cz.vvoleman.phr.featureMedicine.ui.list.fragment.viewModel.TimelineViewMo
 import cz.vvoleman.phr.featureMedicine.ui.list.model.schedule.ScheduleItemWithDetailsUiModel
 import java.time.LocalDateTime
 
-class TimelineFragment(
-) : Fragment(), GroupedItemsAdapter.GroupedItemsAdapterInterface<ScheduleItemWithDetailsUiModel>,
+class TimelineFragment :
+    Fragment(),
+    GroupedItemsAdapter.GroupedItemsAdapterInterface<ScheduleItemWithDetailsUiModel>,
     TimelineAdapter.TimelineAdapterInterface {
 
     private var viewModel: TimelineViewModel? = null
@@ -67,7 +68,7 @@ class TimelineFragment(
     }
 
     override fun bind(binding: ItemGroupedItemsBinding, item: GroupedItemsUiModel<ScheduleItemWithDetailsUiModel>) {
-        val timelineAdapter = TimelineAdapter(this)
+        val timelineAdapter = TimelineAdapter()
 
         val dateTime = getDateFromValue(item.value.toString())
         var text = if (isMultipleDays) {
@@ -100,13 +101,14 @@ class TimelineFragment(
         this.viewModel = viewModel
     }
 
+    @Suppress("MagicNumber")
     private fun isMultipleDays(schedules: List<GroupedItemsUiModel<ScheduleItemWithDetailsUiModel>>): Boolean {
         if (schedules.size < 2) {
             return false
         }
 
         val keys = schedules.map {
-            it.value.toString().split("-").take(3).joinToString("-")
+            it.value.toString().split("-").take(GROUP_STRING_PARTS).joinToString("-")
         }.toMutableList()
 
         val firstDate = keys.removeFirst()
@@ -114,10 +116,11 @@ class TimelineFragment(
         return !keys.all { it == firstDate }
     }
 
+    @Suppress("MagicNumber")
     private fun getDateFromValue(value: String): LocalDateTime {
         val date = value.split("-")
 
-        if (date.size != 4) {
+        if (date.size != TIMESTAMP_PARTS) {
             return LocalDateTime.now()
         }
 
@@ -132,7 +135,8 @@ class TimelineFragment(
 
     companion object {
         const val TAG = "TimelineFragment"
-        const val ARG_SCHEDULES = "schedules"
+        const val TIMESTAMP_PARTS = 4
+        const val GROUP_STRING_PARTS = 3
 
         fun newInstance(viewModel: TimelineViewModel): TimelineFragment {
             val fragment = TimelineFragment()
@@ -141,5 +145,4 @@ class TimelineFragment(
             return fragment
         }
     }
-
 }

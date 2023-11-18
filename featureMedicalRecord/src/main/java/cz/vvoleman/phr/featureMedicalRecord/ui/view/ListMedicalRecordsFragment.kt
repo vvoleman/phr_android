@@ -44,7 +44,8 @@ class ListMedicalRecordsFragment :
         ListMedicalRecordsNotification,
         FragmentListMedicalRecordsBinding
         >(),
-    OnAdapterItemListener<MedicalRecordUiModel>, GroupedItemsAdapter.GroupedItemsAdapterInterface<MedicalRecordUiModel> {
+    OnAdapterItemListener<MedicalRecordUiModel>,
+    GroupedItemsAdapter.GroupedItemsAdapterInterface<MedicalRecordUiModel> {
 
     override val viewModel: ListMedicalRecordsViewModel by viewModels()
 

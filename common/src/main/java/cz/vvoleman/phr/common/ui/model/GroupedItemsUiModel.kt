@@ -5,4 +5,9 @@ import java.io.Serializable
 data class GroupedItemsUiModel<ITEM : Any>(
     val value: Any,
     val items: List<ITEM>
-) : Serializable
+) : Serializable {
+
+    companion object {
+        private const val serialVersionUID = 1L
+    }
+}

@@ -29,5 +29,4 @@ class TimeUpdateFactoryTest {
         assertEquals(3, resultB[0].number)
         assertEquals(2, resultB[1].number)
     }
-
 }

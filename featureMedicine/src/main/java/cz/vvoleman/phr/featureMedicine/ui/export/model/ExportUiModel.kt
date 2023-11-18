@@ -13,6 +13,6 @@ data class ExportUiModel(
     val patientName: String,
 ) {
     fun getId(): String {
-        return scheduleItemId+dateTime.toString()
+        return scheduleItemId + dateTime.toString()
     }
 }

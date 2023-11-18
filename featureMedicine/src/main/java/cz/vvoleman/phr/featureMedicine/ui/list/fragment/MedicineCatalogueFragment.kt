@@ -15,8 +15,9 @@ import cz.vvoleman.phr.featureMedicine.ui.list.adapter.MedicineCatalogueAdapter
 import cz.vvoleman.phr.featureMedicine.ui.list.fragment.viewModel.MedicineCatalogueViewModel
 import cz.vvoleman.phr.featureMedicine.ui.list.model.schedule.MedicineScheduleUiModel
 
-class MedicineCatalogueFragment(
-) : Fragment(), GroupedItemsAdapter.GroupedItemsAdapterInterface<MedicineScheduleUiModel> {
+class MedicineCatalogueFragment :
+    Fragment(),
+    GroupedItemsAdapter.GroupedItemsAdapterInterface<MedicineScheduleUiModel> {
 
     private var viewModel: MedicineCatalogueViewModel? = null
 
@@ -81,7 +82,5 @@ class MedicineCatalogueFragment(
             fragment.setViewModel(viewModel)
             return fragment
         }
-
     }
-
 }

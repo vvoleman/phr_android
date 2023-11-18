@@ -113,5 +113,4 @@ class MainActivity : AppCompatActivity() {
     companion object {
         const val FRAGMENT_IDENTIFIER_KEY = "fragmentIdentifier"
     }
-
 }

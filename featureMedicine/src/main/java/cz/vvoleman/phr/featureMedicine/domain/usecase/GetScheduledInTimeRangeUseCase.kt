@@ -16,12 +16,11 @@ class GetScheduledInTimeRangeUseCase(
     coroutineContextProvider
 ) {
 
+    @Suppress("MagicNumber")
     override suspend fun executeInBackground(
         request: SchedulesInRangeRequest
     ): List<ScheduleItemWithDetailsDomainModel> {
-        if (request.startAt.isAfter(request.endAt)) {
-            throw IllegalArgumentException("StartAt limit must be before endAt limit")
-        }
+        require(!request.startAt.isAfter(request.endAt))
 
         val schedules = getSchedulesByPatientRepository.getSchedulesByPatient(request.patientId)
         val daysBetween = ChronoUnit.DAYS.between(request.startAt.toLocalDate(), request.endAt.toLocalDate())

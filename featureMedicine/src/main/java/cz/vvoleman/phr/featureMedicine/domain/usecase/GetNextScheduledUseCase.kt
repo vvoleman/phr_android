@@ -14,9 +14,12 @@ class GetNextScheduledUseCase(
     coroutineContextProvider
 ) {
 
-    override suspend fun executeInBackground(request: NextScheduledRequestDomainModel): List<ScheduleItemWithDetailsDomainModel> {
+    override suspend fun executeInBackground(
+        request: NextScheduledRequestDomainModel
+    ): List<ScheduleItemWithDetailsDomainModel> {
         val schedules = getSchedulesByPatientRepository.getSchedulesByPatient(request.patientId)
-        val translatedTimes = TranslateDateTimeFacade.translate(schedules, request.currentLocalDateTime, 1)
+        val translatedTimes = TranslateDateTimeFacade
+            .translate(schedules, request.currentLocalDateTime, 1)
 
         // Sort by date time
         val sorted = translatedTimes.toSortedMap()
@@ -40,7 +43,6 @@ class GetNextScheduledUseCase(
 
             nextSchedules.add(next)
         }
-
 
         return nextSchedules
     }

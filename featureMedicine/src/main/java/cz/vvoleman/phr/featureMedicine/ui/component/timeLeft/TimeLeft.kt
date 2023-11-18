@@ -14,6 +14,7 @@ import cz.vvoleman.phr.featureMedicine.R
 import cz.vvoleman.phr.featureMedicine.databinding.ViewTimeLeftBinding
 import java.time.Duration
 import java.time.LocalDateTime
+import java.util.concurrent.TimeUnit
 
 class TimeLeft @JvmOverloads constructor(
     context: Context,
@@ -82,7 +83,7 @@ class TimeLeft @JvmOverloads constructor(
                     val diff = Duration.between(LocalDateTime.now(), time)
                     render(diff)
 
-                    handler.postDelayed(this, 1000)
+                    handler.postDelayed(this, TimeUnit.SECONDS.toMillis(1))
                 } else {
                     _listener?.onTimeOut(time!!)
                     Log.d(TAG, "Runnable has been stopped")
@@ -107,5 +108,4 @@ class TimeLeft @JvmOverloads constructor(
     interface TimeLeftListener {
         fun onTimeOut(time: LocalDateTime)
     }
-
 }

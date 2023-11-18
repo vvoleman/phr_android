@@ -64,15 +64,15 @@ class AlarmRepository(
 
             alarmItem
         }
-
     }
 
-    private fun groupSchedulesByTime(scheduleItems: List<ScheduleItemDataModel>): Map<LocalTime, List<ScheduleItemDataModel>> {
+    private fun groupSchedulesByTime(
+        scheduleItems: List<ScheduleItemDataModel>
+    ): Map<LocalTime, List<ScheduleItemDataModel>> {
         return scheduleItems.groupBy { it.time }
     }
 
     private fun getAlarmDays(scheduleItems: List<ScheduleItemDataModel>): List<DayOfWeek> {
         return scheduleItems.groupBy { it.dayOfWeek }.keys.toList()
     }
-
 }

@@ -10,4 +10,4 @@ data class MedicineDomainModel(
     val packaging: PackagingDomainModel,
     val country: String,
     val substances: List<SubstanceAmountDomainModel>
-): Parcelable
+) : Parcelable

@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import cz.vvoleman.phr.featureMedicine.R
 import cz.vvoleman.phr.featureMedicine.databinding.ItemScheduleDetailMedicineBinding
 import cz.vvoleman.phr.featureMedicine.ui.list.model.schedule.ScheduleItemWithDetailsUiModel
 
@@ -37,11 +38,10 @@ class ScheduleDetailAdapter(
                 listener.onLeafletOpen(item)
             }
 
-            binding.textViewDosageValue.text = String.format(
-                "%s tablety",
-                item.scheduleItem.quantity,
-                item.scheduleItem.unit
-            )
+            val context = binding.root.context
+
+            binding.textViewDosageValue.text =
+                context.getString(R.string.dosage_format, item.scheduleItem.quantity, item.scheduleItem.unit)
         }
     }
 
@@ -64,5 +64,4 @@ class ScheduleDetailAdapter(
     interface ScheduleDetailListener {
         fun onLeafletOpen(scheduleItem: ScheduleItemWithDetailsUiModel)
     }
-
 }

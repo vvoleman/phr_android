@@ -27,9 +27,6 @@ class ScheduleItemAdapter :
     }
 
     inner class ScheduleItemViewHolder(val binding: ItemNextScheduleItemBinding) : ViewHolder(binding.root) {
-        init {
-
-        }
 
         fun bind(item: NextScheduleUiModel) {
             binding.apply {
@@ -50,5 +47,4 @@ class ScheduleItemAdapter :
             return oldItem == newItem
         }
     }
-
 }

@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import cz.vvoleman.phr.common.ui.adapter.MarginItemDecoration
+import cz.vvoleman.phr.common.utils.SizingConstants
 import cz.vvoleman.phr.featureMedicine.R
 import cz.vvoleman.phr.featureMedicine.databinding.DialogScheduleDetailBinding
 import cz.vvoleman.phr.featureMedicine.ui.list.model.schedule.ScheduleItemWithDetailsUiModel
@@ -28,7 +29,8 @@ class ScheduleDetailDialogFragment : DialogFragment() {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = DialogScheduleDetailBinding.inflate(inflater, container, false)
@@ -53,7 +55,8 @@ class ScheduleDetailDialogFragment : DialogFragment() {
         }
 
         val localDayOfWeek = bundle.localDateTime.dayOfWeek.getDisplayName(
-            TextStyle.FULL, Locale.getDefault()
+            TextStyle.FULL,
+            Locale.getDefault()
         )
         val localTime = bundle.localDateTime.toLocalTime().toString()
         binding.textViewTime.text =
@@ -67,11 +70,10 @@ class ScheduleDetailDialogFragment : DialogFragment() {
         scheduleAdapter.submitList(bundle.scheduleItems)
         binding.recyclerView.apply {
             adapter = scheduleAdapter
-            addItemDecoration(MarginItemDecoration(16, 1))
+            addItemDecoration(MarginItemDecoration(SizingConstants.MARGIN_SIZE))
             layoutManager = LinearLayoutManager(requireContext())
             setHasFixedSize(true)
         }
-
     }
 
     companion object {
@@ -102,11 +104,9 @@ class ScheduleDetailDialogFragment : DialogFragment() {
             return FragmentArguments(localDateTime, scheduleItems)
         }
 
-        data class FragmentArguments (
+        data class FragmentArguments(
             val localDateTime: LocalDateTime,
             val scheduleItems: List<ScheduleItemWithDetailsUiModel>
         )
-
     }
-
 }

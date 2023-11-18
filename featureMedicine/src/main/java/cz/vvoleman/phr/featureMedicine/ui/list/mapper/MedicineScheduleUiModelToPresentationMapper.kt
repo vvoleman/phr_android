@@ -31,5 +31,4 @@ class MedicineScheduleUiModelToPresentationMapper(
             isAlarmEnabled = model.isAlarmEnabled
         )
     }
-
 }

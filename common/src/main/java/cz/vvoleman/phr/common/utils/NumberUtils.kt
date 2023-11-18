@@ -1,5 +1,8 @@
 package cz.vvoleman.phr.common.utils
 
+import java.util.Locale
+
 fun Int.withLeadingZero(n: Int = 2): String {
-    return String.format("%0${n}d", this)
+    val locale = Locale.getDefault()
+    return String.format(locale, "%0${n}d", this)
 }

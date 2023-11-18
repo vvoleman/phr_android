@@ -6,14 +6,20 @@ import cz.vvoleman.phr.common.domain.GroupedItemsDomainModel
 import cz.vvoleman.phr.featureMedicine.domain.model.schedule.ScheduleItemWithDetailsDomainModel
 import cz.vvoleman.phr.featureMedicine.domain.model.timeline.GroupScheduleItemsRequest
 
+@Suppress("MaximumLineLength", "Indentation")
 class GroupScheduleItemsUseCase(
     coroutineContextProvider: CoroutineContextProvider
 ) :
-    BackgroundExecutingUseCase<GroupScheduleItemsRequest, List<GroupedItemsDomainModel<ScheduleItemWithDetailsDomainModel>>>(
+    BackgroundExecutingUseCase<
+            GroupScheduleItemsRequest,
+            List<GroupedItemsDomainModel<ScheduleItemWithDetailsDomainModel>>
+            >(
         coroutineContextProvider
     ) {
 
-    override suspend fun executeInBackground(request: GroupScheduleItemsRequest): List<GroupedItemsDomainModel<ScheduleItemWithDetailsDomainModel>> {
+    override suspend fun executeInBackground(
+        request: GroupScheduleItemsRequest
+    ): List<GroupedItemsDomainModel<ScheduleItemWithDetailsDomainModel>> {
         val groups = request.scheduleItems.groupBy {
             val time = it.scheduleItem.getTranslatedDateTime(request.currentDateTime)
 
@@ -26,10 +32,12 @@ class GroupScheduleItemsUseCase(
         return groups.map { (key, value) ->
             GroupedItemsDomainModel(
                 key,
-                value.sortedWith(compareBy(
-                    { it.scheduleItem.time },
-                    { it.medicine.name }
-                ))
+                value.sortedWith(
+                    compareBy(
+                        { it.scheduleItem.time },
+                        { it.medicine.name }
+                    )
+                )
             )
         }
     }

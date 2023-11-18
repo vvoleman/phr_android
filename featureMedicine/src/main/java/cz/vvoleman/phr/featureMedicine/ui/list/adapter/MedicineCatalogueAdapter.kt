@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import cz.vvoleman.phr.common.utils.TimeConstants
 import cz.vvoleman.phr.featureMedicine.R
 import cz.vvoleman.phr.featureMedicine.databinding.ItemMedicineCatalogueBinding
 import cz.vvoleman.phr.featureMedicine.ui.list.model.schedule.MedicineScheduleUiModel
@@ -61,13 +62,12 @@ class MedicineCatalogueAdapter(
             val frequencies =
                 item.getDays().map { it.getDisplayName(TextStyle.SHORT_STANDALONE, Locale.getDefault()) }
                     .let {
-                        if (it.size == 7) {
+                        if (it.size == TimeConstants.DAYS_IN_WEEK) {
                             binding.root.context.getString(R.string.frequency_everyday)
                         } else {
                             it.joinToString(SEPARATOR)
                         }
                     }
-
 
             binding.apply {
                 textViewName.text = item.medicine.name
@@ -92,8 +92,6 @@ class MedicineCatalogueAdapter(
     }
 
     companion object {
-        private const val TAG = "MedicineCatalogueAdapter"
         private const val SEPARATOR = " | "
     }
-
 }

@@ -22,5 +22,4 @@ class ExportScheduleItemUiModelToPresentationMapper {
             unit = model.unit,
         )
     }
-
 }

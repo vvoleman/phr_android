@@ -5,5 +5,4 @@ import cz.vvoleman.phr.featureMedicine.domain.model.schedule.MedicineScheduleDom
 interface DeleteScheduleAlarmRepository {
 
     suspend fun deleteScheduleAlarm(medicineSchedule: MedicineScheduleDomainModel): Boolean
-
 }

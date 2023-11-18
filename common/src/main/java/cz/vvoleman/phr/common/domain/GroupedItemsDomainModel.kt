@@ -6,4 +6,9 @@ import java.io.Serializable
 data class GroupedItemsDomainModel<ITEM : Any>(
     val value: @RawValue Any,
     val items: List<ITEM>
-) : Serializable
+) : Serializable {
+
+    companion object {
+        private const val serialVersionUID = 1L
+    }
+}

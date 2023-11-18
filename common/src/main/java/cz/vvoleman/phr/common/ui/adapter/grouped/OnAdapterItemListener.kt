@@ -9,5 +9,4 @@ interface OnAdapterItemListener<T : Any> {
     fun onItemDelete(item: T)
 
     fun onItemOptionsMenuClicked(item: T, anchorView: View)
-
 }

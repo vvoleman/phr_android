@@ -1,9 +1,14 @@
 complexity:
   LongParameterList:
     active: false
-    excludes: "**/cz/vvoleman/phr/di/**"
+    excludes:
+      - "**/cz/vvoleman/phr/di/**"
   TooManyFunctions:
-    excludes: "**/cz/vvoleman/phr/di/**"
+    excludes:
+      - "**/cz/vvoleman/phr/di/**"
+      - "**/cz/vvoleman/phr/data/PatientDatabase.kt"
+      - "**/cz/vvoleman/phr/**/presentation/**/viewmodel/**"
+      - "**/cz/vvoleman/phr/**/ui/**/**Fragment**"
 empty-blocks:
   EmptyDefaultConstructor:
     excludes:

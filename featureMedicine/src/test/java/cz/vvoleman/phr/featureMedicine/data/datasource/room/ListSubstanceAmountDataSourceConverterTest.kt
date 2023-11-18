@@ -1,10 +1,9 @@
 package cz.vvoleman.phr.featureMedicine.data.datasource.room
 
-import androidx.room.TypeConverter
 import com.google.gson.Gson
 import cz.vvoleman.phr.featureMedicine.data.datasource.room.medicine.SubstanceAmountDataSourceModel
 import cz.vvoleman.phr.featureMedicine.data.datasource.room.schedule.ListSubstanceAmountDataSourceModel
-import org.junit.Assert.assertEquals
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
 class ListSubstanceAmountDataSourceConverterTest {
