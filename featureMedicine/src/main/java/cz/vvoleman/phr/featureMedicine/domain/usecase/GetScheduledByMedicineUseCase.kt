@@ -16,7 +16,10 @@ class GetScheduledByMedicineUseCase(
     override suspend fun executeInBackground(
         request: ScheduledByMedicineRequestDomainModel
     ): MedicineScheduleDomainModel? {
-        val schedules = getSchedulesByMedicineRepository.getSchedulesByMedicine(listOf(request.medicineId), request.patientId)
+        val schedules = getSchedulesByMedicineRepository.getSchedulesByMedicine(
+            listOf(request.medicineId),
+            request.patientId
+        )
 
         if (schedules.isEmpty()) {
             return null

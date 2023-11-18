@@ -29,5 +29,4 @@ class ScheduleItemWithDetailsPresentationModelToDomainMapper(
             isAlarmEnabled = model.isAlarmEnabled
         )
     }
-
 }

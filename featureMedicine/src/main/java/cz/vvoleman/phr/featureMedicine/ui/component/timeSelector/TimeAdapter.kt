@@ -24,7 +24,7 @@ class TimeAdapter(
         val item = getItem(position)
 
         if (item != null) {
-            holder.bind(item, itemCount)
+            holder.bind(item)
         }
     }
 
@@ -50,22 +50,23 @@ class TimeAdapter(
                         if (position != RecyclerView.NO_POSITION) {
                             val item = getItem(position)
                             if (item != null) {
-                                listener.onQuantityChange(bindingAdapterPosition, editTextQuantity.text.toString().toDouble())
+                                listener.onQuantityChange(
+                                    bindingAdapterPosition,
+                                    editTextQuantity.text.toString().toDouble()
+                                )
                             }
                         }
                     }
                 }
-
             }
         }
 
-        fun bind(time: TimeUiModel, numberOfItems: Int) {
+        fun bind(time: TimeUiModel) {
             val formatter = DateTimeFormatterBuilder()
                 .appendPattern("HH:mm")
                 .toFormatter()
             binding.textViewTime.text = time.time.format(formatter)
             binding.editTextQuantity.setText(time.number.toString())
-//            binding.layoutTimeSelector.layoutParams.width = (binding.root.width / numberOfItems) - 16
 
             binding.editTextQuantity.setClearFocusOnDoneAction()
         }

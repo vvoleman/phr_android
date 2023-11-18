@@ -18,12 +18,11 @@ class MedicineAlarmReceiver : BroadcastReceiver() {
     //    @Inject
 //    lateinit var scheduleRepository: ScheduleRepository
 
-
+    @Suppress("UnusedPrivateProperty")
     override fun onReceive(context: Context?, intent: Intent?) {
         Log.d(TAG, "onReceive: ${intent?.action}")
         val scope = CoroutineScope(Job() + Dispatchers.Main.immediate)
         val content = intent?.getParcelableExtra<Parcelable>(AlarmItem.CONTENT_KEY) ?: return
-        val testContent = content as MedicineAlarmContent
 
         if (context == null) {
             return
@@ -49,5 +48,4 @@ class MedicineAlarmReceiver : BroadcastReceiver() {
         const val TAG = "MedicineAlarmReceiver"
         const val CHANNEL_ID = "medicine-alarm"
     }
-
 }

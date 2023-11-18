@@ -205,7 +205,4 @@ class DataModule {
     fun providesMedicineAlarmManager(
         alarmRepository: AlarmRepository
     ) = MedicineAlarmManager(alarmRepository)
-
-
-
 }

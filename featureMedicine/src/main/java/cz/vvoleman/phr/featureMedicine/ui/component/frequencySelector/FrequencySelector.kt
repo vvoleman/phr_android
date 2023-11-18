@@ -5,6 +5,7 @@ import android.util.AttributeSet
 import android.util.Log
 import android.view.LayoutInflater
 import android.widget.LinearLayout
+import cz.vvoleman.phr.common.utils.TimeConstants
 import cz.vvoleman.phr.featureMedicine.databinding.ViewFrequencySelectorBinding
 import java.time.DayOfWeek
 
@@ -81,7 +82,7 @@ class FrequencySelector @JvmOverloads constructor(
         }
 
         val values = _days.values.toList()
-        val state = if (values.filter { it.isSelected }.size == 7 || values.isEmpty()) {
+        val state = if (values.filter { it.isSelected }.size == TimeConstants.DAYS_IN_WEEK || values.isEmpty()) {
             SelectorState.EVERY_DAY
         } else {
             SelectorState.CUSTOM
@@ -92,7 +93,6 @@ class FrequencySelector @JvmOverloads constructor(
         }
 
         _listener?.onValueChange(values)
-
     }
 
     fun setListener(listener: FrequencySelectorListener) {
@@ -110,5 +110,4 @@ class FrequencySelector @JvmOverloads constructor(
     override fun onValueChange(item: FrequencyDayUiModel) {
         setDays(listOf(item.copy(isSelected = !item.isSelected)))
     }
-
 }

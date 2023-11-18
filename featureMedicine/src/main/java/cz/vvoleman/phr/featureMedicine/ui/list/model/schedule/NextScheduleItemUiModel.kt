@@ -5,7 +5,7 @@ import kotlinx.parcelize.Parcelize
 import java.time.LocalDateTime
 
 @Parcelize
-data class NextScheduleItemUiModel (
+data class NextScheduleItemUiModel(
     val scheduleItems: List<ScheduleItemWithDetailsUiModel>,
     val dateTime: LocalDateTime
 ) : Parcelable

@@ -4,7 +4,7 @@ import android.util.Log
 import cz.vvoleman.phr.common.data.alarm.ModuleAlarmManager
 import cz.vvoleman.phr.featureMedicine.data.repository.AlarmRepository
 
-class MedicineAlarmManager (
+class MedicineAlarmManager(
     private val alarmRepository: AlarmRepository
 ) : ModuleAlarmManager() {
 

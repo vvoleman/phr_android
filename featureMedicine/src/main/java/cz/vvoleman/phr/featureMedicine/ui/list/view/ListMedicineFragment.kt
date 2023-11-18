@@ -13,27 +13,29 @@ import cz.vvoleman.phr.featureMedicine.databinding.FragmentListMedicineBinding
 import cz.vvoleman.phr.featureMedicine.presentation.list.model.ListMedicineNotification
 import cz.vvoleman.phr.featureMedicine.presentation.list.model.ListMedicineViewState
 import cz.vvoleman.phr.featureMedicine.presentation.list.viewmodel.ListMedicineViewModel
+import cz.vvoleman.phr.featureMedicine.ui.component.medicineDetailSheet.MedicineDetailSheet
+import cz.vvoleman.phr.featureMedicine.ui.component.nextSchedule.NextSchedule
+import cz.vvoleman.phr.featureMedicine.ui.component.scheduleDetailDialog.ScheduleDetailAdapter
+import cz.vvoleman.phr.featureMedicine.ui.component.scheduleDetailDialog.ScheduleDetailDialogFragment
 import cz.vvoleman.phr.featureMedicine.ui.list.adapter.MedicineCatalogueAdapter
 import cz.vvoleman.phr.featureMedicine.ui.list.adapter.MedicineFragmentAdapter
 import cz.vvoleman.phr.featureMedicine.ui.list.fragment.TimelineFragment
 import cz.vvoleman.phr.featureMedicine.ui.list.fragment.viewModel.MedicineCatalogueViewModel
 import cz.vvoleman.phr.featureMedicine.ui.list.fragment.viewModel.TimelineViewModel
 import cz.vvoleman.phr.featureMedicine.ui.list.mapper.ListMedicineDestinationUiMapper
-import cz.vvoleman.phr.featureMedicine.ui.component.medicineDetailSheet.MedicineDetailSheet
 import cz.vvoleman.phr.featureMedicine.ui.list.model.schedule.MedicineScheduleUiModel
 import cz.vvoleman.phr.featureMedicine.ui.list.model.schedule.NextScheduleItemUiModel
 import cz.vvoleman.phr.featureMedicine.ui.list.model.schedule.ScheduleItemWithDetailsUiModel
-import cz.vvoleman.phr.featureMedicine.ui.component.nextSchedule.NextSchedule
-import cz.vvoleman.phr.featureMedicine.ui.component.scheduleDetailDialog.ScheduleDetailAdapter
-import cz.vvoleman.phr.featureMedicine.ui.component.scheduleDetailDialog.ScheduleDetailDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
 class ListMedicineFragment :
     BaseFragment<ListMedicineViewState, ListMedicineNotification, FragmentListMedicineBinding>(),
-    NextSchedule.NextScheduleListener, TimelineFragment.TimelineInterface,
-    MedicineCatalogueAdapter.MedicineCatalogueAdapterInterface, ScheduleDetailAdapter.ScheduleDetailListener {
+    NextSchedule.NextScheduleListener,
+    TimelineFragment.TimelineInterface,
+    MedicineCatalogueAdapter.MedicineCatalogueAdapterInterface,
+    ScheduleDetailAdapter.ScheduleDetailListener {
 
     override val viewModel: ListMedicineViewModel by viewModels()
     private val timelineViewModel: TimelineViewModel by viewModels()
@@ -131,7 +133,8 @@ class ListMedicineFragment :
             },
             Pair(getString(R.string.confirm_delete_negative)) {
                 it.cancel()
-            })
+            }
+        )
     }
 
     companion object {
@@ -143,5 +146,4 @@ class ListMedicineFragment :
     override fun onLeafletOpen(scheduleItem: ScheduleItemWithDetailsUiModel) {
         Log.d(TAG, "onLeafletOpen: $scheduleItem")
     }
-
 }

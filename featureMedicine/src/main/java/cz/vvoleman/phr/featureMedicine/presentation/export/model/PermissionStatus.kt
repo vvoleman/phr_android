@@ -8,9 +8,10 @@ sealed class PermissionStatus {
     ) : PermissionStatus()
 
     companion object {
-        fun get(read: Boolean, write: Boolean) = if (read && write)
+        fun get(read: Boolean, write: Boolean) = if (read && write) {
             Granted
-        else
+        } else {
             Denied(read, write)
+        }
     }
 }

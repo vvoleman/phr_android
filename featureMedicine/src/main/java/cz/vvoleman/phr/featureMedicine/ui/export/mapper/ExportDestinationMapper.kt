@@ -6,8 +6,7 @@ import cz.vvoleman.phr.base.ui.mapper.DestinationUiMapper
 
 class ExportDestinationMapper(navManager: NavManager) : DestinationUiMapper(navManager) {
 
+    @Suppress("EmptyFunctionBlock")
     override fun navigate(destination: PresentationDestination) {
-
     }
-
 }

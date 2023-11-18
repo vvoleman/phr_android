@@ -25,5 +25,4 @@ data class MedicineScheduleUiModel(
     fun getDays(): List<DayOfWeek> {
         return schedules.map { it.dayOfWeek }.toSet().sorted()
     }
-
 }

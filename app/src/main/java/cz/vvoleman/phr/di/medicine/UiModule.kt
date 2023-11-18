@@ -10,16 +10,15 @@ import cz.vvoleman.phr.featureMedicine.presentation.addEdit.model.AddEditMedicin
 import cz.vvoleman.phr.featureMedicine.presentation.export.model.ExportViewState
 import cz.vvoleman.phr.featureMedicine.presentation.list.model.ListMedicineViewState
 import cz.vvoleman.phr.featureMedicine.ui.addEdit.mapper.AddEditMedicineDestinationUiMapper
-import cz.vvoleman.phr.featureMedicine.ui.addEdit.view.AddEditMedicineBinder
-import cz.vvoleman.phr.featureMedicine.ui.list.mapper.ListMedicineDestinationUiMapper
-import cz.vvoleman.phr.featureMedicine.ui.list.view.ListMedicineBinder
 import cz.vvoleman.phr.featureMedicine.ui.addEdit.mapper.FrequencyDayUiModelToPresentationMapper
 import cz.vvoleman.phr.featureMedicine.ui.addEdit.mapper.TimeUiModelToPresentationMapper
+import cz.vvoleman.phr.featureMedicine.ui.addEdit.view.AddEditMedicineBinder
 import cz.vvoleman.phr.featureMedicine.ui.export.mapper.ExportDestinationMapper
 import cz.vvoleman.phr.featureMedicine.ui.export.mapper.ExportMedicineScheduleUiModelToPresentationMapper
 import cz.vvoleman.phr.featureMedicine.ui.export.mapper.ExportScheduleItemUiModelToPresentationMapper
 import cz.vvoleman.phr.featureMedicine.ui.export.mapper.ExportUiModelToPresentationMapper
 import cz.vvoleman.phr.featureMedicine.ui.export.view.ExportBinder
+import cz.vvoleman.phr.featureMedicine.ui.list.mapper.ListMedicineDestinationUiMapper
 import cz.vvoleman.phr.featureMedicine.ui.list.mapper.MedicineScheduleUiModelToPresentationMapper
 import cz.vvoleman.phr.featureMedicine.ui.list.mapper.MedicineUiModelToPresentationMapper
 import cz.vvoleman.phr.featureMedicine.ui.list.mapper.NextScheduleItemUiModelToPresentationMapper
@@ -29,6 +28,7 @@ import cz.vvoleman.phr.featureMedicine.ui.list.mapper.ScheduleItemUiModelToPrese
 import cz.vvoleman.phr.featureMedicine.ui.list.mapper.ScheduleItemWithDetailsUiModelToPresentationMapper
 import cz.vvoleman.phr.featureMedicine.ui.list.mapper.SubstanceAmountUiModelToPresentationMapper
 import cz.vvoleman.phr.featureMedicine.ui.list.mapper.SubstanceUiModelToPresentationMapper
+import cz.vvoleman.phr.featureMedicine.ui.list.view.ListMedicineBinder
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -41,11 +41,10 @@ class UiModule {
     @Provides
     fun providesListMedicineBinder(
         nextScheduleItemMapper: NextScheduleItemUiModelToPresentationMapper,
-        medicineMapper: MedicineUiModelToPresentationMapper,
         medicineScheduleMapper: MedicineScheduleUiModelToPresentationMapper,
         scheduleItemMapper: ScheduleItemWithDetailsUiModelToPresentationMapper,
     ): ViewStateBinder<ListMedicineViewState, FragmentListMedicineBinding> =
-        ListMedicineBinder(nextScheduleItemMapper, medicineMapper, medicineScheduleMapper, scheduleItemMapper)
+        ListMedicineBinder(nextScheduleItemMapper, medicineScheduleMapper, scheduleItemMapper)
 
     @Provides
     fun providesListMedicineDestinationUiMapper(navManager: NavManager) =
@@ -173,5 +172,4 @@ class UiModule {
 
     @Provides
     fun providesExportUiModelToPresentationMapper() = ExportUiModelToPresentationMapper()
-
 }

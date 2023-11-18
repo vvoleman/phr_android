@@ -22,5 +22,4 @@ class ExportScheduleItemPresentationModelToDomainMapper {
             unit = model.unit,
         )
     }
-
 }

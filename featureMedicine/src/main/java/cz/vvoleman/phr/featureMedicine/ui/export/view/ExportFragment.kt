@@ -1,38 +1,25 @@
 package cz.vvoleman.phr.featureMedicine.ui.export.view
 
-import android.Manifest
-import android.app.Activity.RESULT_OK
-import android.content.Context
-import android.content.Intent
-import android.content.pm.PackageManager
 import android.graphics.pdf.PdfDocument
-import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.result.contract.ActivityResultContracts.CreateDocument
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import cz.vvoleman.phr.base.ui.exception.PermissionDeniedException
 import cz.vvoleman.phr.base.ui.mapper.ViewStateBinder
 import cz.vvoleman.phr.base.ui.view.BaseFragment
-import cz.vvoleman.phr.common.presentation.model.PatientPresentationModel
-import cz.vvoleman.phr.common.ui.model.PatientUiModel
 import cz.vvoleman.phr.common.utils.toLocalDateTime
 import cz.vvoleman.phr.common.utils.toLocalString
 import cz.vvoleman.phr.featureMedicine.R
-import cz.vvoleman.phr.featureMedicine.databinding.DocumentTestPdfBinding
 import cz.vvoleman.phr.featureMedicine.databinding.FragmentExportBinding
 import cz.vvoleman.phr.featureMedicine.domain.model.export.ExportType
-import cz.vvoleman.phr.featureMedicine.presentation.export.model.ExportMedicineSchedulePresentationModel
 import cz.vvoleman.phr.featureMedicine.presentation.export.model.ExportNotification
 import cz.vvoleman.phr.featureMedicine.presentation.export.model.ExportParamsPresentationModel
 import cz.vvoleman.phr.featureMedicine.presentation.export.model.ExportViewState
@@ -43,17 +30,13 @@ import cz.vvoleman.phr.featureMedicine.ui.export.mapper.ExportDestinationMapper
 import cz.vvoleman.phr.featureMedicine.ui.export.usecase.ExportFileHelper
 import cz.vvoleman.phr.featureMedicine.ui.export.usecase.ExportPdfHelper
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import java.io.File
-import java.io.FileOutputStream
-import java.io.IOException
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class ExportFragment : BaseFragment<ExportViewState, ExportNotification, FragmentExportBinding>(),
-    ExportAdapter.ExportListener, ExportPdfHelper.ExportPdfHelperListener {
+class ExportFragment :
+    BaseFragment<ExportViewState, ExportNotification, FragmentExportBinding>(),
+    ExportPdfHelper.ExportPdfHelperListener {
 
     override val viewModel: ExportViewModel by viewModels()
 
@@ -74,7 +57,9 @@ class ExportFragment : BaseFragment<ExportViewState, ExportNotification, Fragmen
 
         val createFileLauncher = registerForActivityResult(CreateDocument("application/pdf")) { uri ->
             lifecycleScope.launch {
-                _exportPdfHelper?.handleCreateFileResult(uri)
+                kotlin.runCatching { _exportPdfHelper?.handleCreateFileResult(uri) }.getOrElse {
+                    showSnackbar("Nepodařilo se vytvořit soubor: ${it.message}")
+                }
             }
         }
 
@@ -95,7 +80,7 @@ class ExportFragment : BaseFragment<ExportViewState, ExportNotification, Fragmen
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val binding = super.onCreateView(inflater, container, savedInstanceState)
 
-        (viewStateBinder as ExportBinder).setAdapter(ExportAdapter(this))
+        (viewStateBinder as ExportBinder).setAdapter(ExportAdapter())
 
         return binding
     }
@@ -191,7 +176,7 @@ class ExportFragment : BaseFragment<ExportViewState, ExportNotification, Fragmen
         } catch (e: PermissionDeniedException) {
             showSnackbar("Aplikace nemá oprávnění k přístupu k uložišti: ${e.message}")
             viewModel.onPermissionDenied(helper.hasPermissions())
-        } catch (e: ExportFailedException) {
+        } catch (_: ExportFailedException) {
             showSnackbar("Nepodařilo se exportovat do ${helper.exportType}")
         } catch (e: Throwable) {
             showSnackbar("Vyskytla se neočekávaná chyba: ${e.message}")
@@ -205,5 +190,4 @@ class ExportFragment : BaseFragment<ExportViewState, ExportNotification, Fragmen
         view.findViewById<TextView>(R.id.text_view_patient_birthdate).text =
             params.patient.birthDate?.toLocalString() ?: "N/A"
     }
-
 }

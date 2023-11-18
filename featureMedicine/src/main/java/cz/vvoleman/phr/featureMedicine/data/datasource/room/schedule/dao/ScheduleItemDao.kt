@@ -14,7 +14,10 @@ interface ScheduleItemDao {
     @Query("SELECT * FROM schedule_item WHERE schedule_id = :scheduleId")
     fun getAll(scheduleId: String): Flow<List<ScheduleItemDataSourceModel>>
 
-    @Query("SELECT * FROM schedule_item WHERE schedule_id IN (SELECT id FROM medicine_schedule WHERE patient_id = :patientId)")
+    @Query(
+        "SELECT * FROM schedule_item WHERE schedule_id IN (SELECT id FROM medicine_schedule " +
+            "WHERE patient_id = :patientId)"
+    )
     fun getAllByPatient(patientId: String): Flow<List<ScheduleItemDataSourceModel>>
 
     @Query("SELECT * FROM schedule_item WHERE id = :id")

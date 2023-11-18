@@ -51,6 +51,7 @@ fun LocalTime.toEpochSeconds(): Long {
     return this.atDate(LocalDate.now()).atZone(ZoneId.systemDefault()).toEpochSecond()
 }
 
+@Suppress("MagicNumber")
 fun LocalDate.plusDayOfWeek(next: DayOfWeek): LocalDate {
     val current = this.dayOfWeek
 

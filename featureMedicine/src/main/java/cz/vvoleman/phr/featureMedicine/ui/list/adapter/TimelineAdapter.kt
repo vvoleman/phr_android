@@ -9,9 +9,7 @@ import cz.vvoleman.phr.featureMedicine.R
 import cz.vvoleman.phr.featureMedicine.databinding.ItemTimelineBinding
 import cz.vvoleman.phr.featureMedicine.ui.list.model.schedule.ScheduleItemWithDetailsUiModel
 
-class TimelineAdapter (
-    private val listener: TimelineAdapterInterface
-) :
+class TimelineAdapter :
     ListAdapter<ScheduleItemWithDetailsUiModel, TimelineAdapter.TimelineViewHolder>(DiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TimelineViewHolder {
@@ -26,10 +24,6 @@ class TimelineAdapter (
     }
 
     inner class TimelineViewHolder(private val binding: ItemTimelineBinding) : RecyclerView.ViewHolder(binding.root) {
-
-        init {
-
-        }
 
         fun bind(item: ScheduleItemWithDetailsUiModel) {
             binding.apply {
@@ -49,10 +43,8 @@ class TimelineAdapter (
 
                 // Change drawable
                 buttonAlarm.setCompoundDrawablesWithIntrinsicBounds(alarmIcon, 0, 0, 0)
-
             }
         }
-
     }
 
     private class DiffCallback : DiffUtil.ItemCallback<ScheduleItemWithDetailsUiModel>() {
@@ -71,5 +63,4 @@ class TimelineAdapter (
 
         fun onTimelineItemAlarmToggle(item: ScheduleItemWithDetailsUiModel, oldState: Boolean)
     }
-
 }

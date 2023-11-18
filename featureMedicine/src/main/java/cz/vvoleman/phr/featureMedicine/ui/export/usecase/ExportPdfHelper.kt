@@ -6,17 +6,13 @@ import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import androidx.activity.result.ActivityResultLauncher
-import androidx.constraintlayout.widget.ConstraintLayout
-import cz.vvoleman.phr.common.presentation.model.PatientPresentationModel
-import cz.vvoleman.phr.common.ui.model.PatientUiModel
 import cz.vvoleman.phr.featureMedicine.domain.model.export.ExportType
-import cz.vvoleman.phr.featureMedicine.presentation.export.model.ExportMedicineSchedulePresentationModel
 import cz.vvoleman.phr.featureMedicine.presentation.export.model.ExportParamsPresentationModel
+import cz.vvoleman.phr.featureMedicine.ui.export.exception.ExportFailedException
 import java.io.FileOutputStream
 import java.io.IOException
 import java.time.LocalDateTime
 import java.time.ZoneOffset
-import java.util.Locale
 
 class ExportPdfHelper(
     private val layoutResId: Int,
@@ -40,7 +36,7 @@ class ExportPdfHelper(
                     _document!!.close()
                 }
             } catch (e: IOException) {
-                e.printStackTrace()
+                throw ExportFailedException(e)
             }
         }
     }
@@ -63,8 +59,7 @@ class ExportPdfHelper(
             View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
             View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
         )
-        view.layout(0, 0, 992, 1403)
-
+        view.layout(0, 0, PDF_PAGE_WIDTH, PDF_PAGE_HEIGHT)
 
         // Create a PDF page
         val pageInfo = PdfDocument.PageInfo.Builder(view.width, view.height, 1).create()
@@ -87,5 +82,4 @@ class ExportPdfHelper(
     interface ExportPdfHelperListener {
         fun bindPdf(view: View, params: ExportParamsPresentationModel, pdfDocument: PdfDocument)
     }
-
 }

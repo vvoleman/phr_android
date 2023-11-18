@@ -7,8 +7,8 @@ import android.widget.LinearLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import cz.vvoleman.phr.featureMedicine.R
 import cz.vvoleman.phr.featureMedicine.databinding.ViewNextScheduleBinding
-import cz.vvoleman.phr.featureMedicine.ui.list.model.schedule.NextScheduleItemUiModel
 import cz.vvoleman.phr.featureMedicine.ui.component.timeLeft.TimeLeft
+import cz.vvoleman.phr.featureMedicine.ui.list.model.schedule.NextScheduleItemUiModel
 import java.time.LocalDateTime
 
 class NextSchedule @JvmOverloads constructor(
@@ -88,20 +88,17 @@ class NextSchedule @JvmOverloads constructor(
             timeLeft.setTime(schedule.dateTime)
             textViewMedicineName.text = if (schedule.scheduleItems.size == 1) {
                 schedule.scheduleItems.first().medicine.name
-            } else{
+            } else {
                 context.getText(R.string.multiple_medicines)
             }
         }
 
         binding.layoutNoSchedule.visibility = GONE
         binding.layoutSchedule.visibility = VISIBLE
-
-
     }
 
     interface NextScheduleListener {
         fun onTimeOut()
         fun onNextScheduleClick(item: NextScheduleItemUiModel)
     }
-
 }

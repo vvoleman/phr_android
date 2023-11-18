@@ -2,6 +2,7 @@ package cz.vvoleman.phr.featureMedicine.domain.usecase.export
 
 import cz.vvoleman.phr.base.domain.coroutine.CoroutineContextProvider
 import cz.vvoleman.phr.base.domain.usecase.BackgroundExecutingUseCase
+import cz.vvoleman.phr.common.utils.TimeConstants
 import cz.vvoleman.phr.featureMedicine.domain.exception.InvalidDateRangeException
 import cz.vvoleman.phr.featureMedicine.domain.facade.TranslateDateTimeFacade
 import cz.vvoleman.phr.featureMedicine.domain.model.export.ExportMedicineScheduleDomainModel
@@ -22,9 +23,11 @@ class GetDataForExportUseCase(
     coroutineContextProvider
 ) {
 
-    override suspend fun executeInBackground(request: GetDataForExportRequest): List<ExportMedicineScheduleDomainModel> {
+    override suspend fun executeInBackground(
+        request: GetDataForExportRequest
+    ): List<ExportMedicineScheduleDomainModel> {
         val dateRange = request.dateRange
-        if (!validateDateRange(dateRange, request.currentDateTime)) {
+        if (!validateDateRange(dateRange)) {
             throw InvalidDateRangeException("Start date must be before end date")
         }
 
@@ -45,7 +48,7 @@ class GetDataForExportUseCase(
         // If dateRange is null, get all schedules
         val daysBetween = ChronoUnit.DAYS.between(startAt, endAt)
         print(request.patientId)
-        var numberOfWeeks = (daysBetween / 7f)
+        var numberOfWeeks = (daysBetween / TimeConstants.DAYS_IN_WEEK).toFloat()
         numberOfWeeks = if (numberOfWeeks < 1) {
             1f
         } else {
@@ -61,7 +64,9 @@ class GetDataForExportUseCase(
         return mapResult(translatedSchedules.toMap())
     }
 
-    private fun mapResult(schedules: Map<LocalDateTime, List<ScheduleItemWithDetailsDomainModel>>): List<ExportMedicineScheduleDomainModel> {
+    private fun mapResult(
+        schedules: Map<LocalDateTime, List<ScheduleItemWithDetailsDomainModel>>
+    ): List<ExportMedicineScheduleDomainModel> {
         val hashMap = mutableMapOf<String, LocalDateTime>()
 
         val flattened = schedules.flatMap { (key, value) ->
@@ -91,7 +96,6 @@ class GetDataForExportUseCase(
 
     private fun validateDateRange(
         dateRange: Pair<LocalDateTime?, LocalDateTime?>,
-        currentDateTime: LocalDateTime
     ): Boolean {
         val (start, end) = dateRange
         return start?.isBefore(end) ?: true

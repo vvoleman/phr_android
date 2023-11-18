@@ -11,9 +11,6 @@ class MedicineCatalogueViewModel : ViewModel() {
 
     private var items: List<GroupedItemsUiModel<MedicineScheduleUiModel>> = emptyList()
 
-    val isReady: Boolean
-        get() = items.isNotEmpty() && listener != null
-
     fun setItems(allSchedules: List<GroupedItemsUiModel<MedicineScheduleUiModel>>) {
         this.items = allSchedules
     }
@@ -29,6 +26,4 @@ class MedicineCatalogueViewModel : ViewModel() {
     fun getListener(): MedicineCatalogueAdapter.MedicineCatalogueAdapterInterface? {
         return listener
     }
-
-
 }

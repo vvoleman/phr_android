@@ -8,7 +8,6 @@ import cz.vvoleman.phr.featureMedicine.domain.model.schedule.MedicineScheduleDom
 import cz.vvoleman.phr.featureMedicine.domain.model.schedule.ScheduleItemDomainModel
 import cz.vvoleman.phr.featureMedicine.domain.repository.GetSchedulesByMedicineRepository
 import cz.vvoleman.phr.featureMedicine.domain.repository.timeline.GetSchedulesByPatientRepository
-import cz.vvoleman.phr.featureMedicine.domain.usecase.GetNextScheduledUseCase
 import cz.vvoleman.phr.featureMedicine.test.coroutine.FakeCoroutineContextProvider
 import io.mockk.every
 import io.mockk.mockk
@@ -20,7 +19,6 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.Mock
 import org.mockito.junit.jupiter.MockitoExtension
-import org.mockito.kotlin.any
 import org.mockito.kotlin.given
 import java.time.DayOfWeek
 import java.time.LocalDate
@@ -96,7 +94,8 @@ class GetDataForExportUseCaseTest {
         )
 
         given(getSchedulesByMedicineRepository.getSchedulesByMedicine(listOf(medicineId), PATIENT_ID)).willReturn(
-            getFakeSchedules().filter { it.medicine.id == medicineId })
+            getFakeSchedules().filter { it.medicine.id == medicineId }
+        )
 
         // When
         val actualValue = useCase.executeInBackground(request)
@@ -207,5 +206,4 @@ class GetDataForExportUseCaseTest {
     companion object {
         private const val PATIENT_ID = "1"
     }
-
 }

@@ -5,5 +5,4 @@ import java.time.DayOfWeek
 data class FrequencyDayUiModel(
     val day: DayOfWeek,
     val isSelected: Boolean = true,
-) {
-}
+)

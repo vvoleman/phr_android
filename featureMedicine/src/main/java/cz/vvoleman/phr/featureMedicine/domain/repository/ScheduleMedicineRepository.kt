@@ -5,5 +5,4 @@ import cz.vvoleman.phr.featureMedicine.domain.model.schedule.MedicineScheduleDom
 interface ScheduleMedicineRepository {
 
     fun scheduleMedicine(medicineSchedule: MedicineScheduleDomainModel): Boolean
-
 }

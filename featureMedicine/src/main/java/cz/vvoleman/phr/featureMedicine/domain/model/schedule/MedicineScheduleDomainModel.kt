@@ -16,8 +16,7 @@ data class MedicineScheduleDomainModel(
     val schedules: List<ScheduleItemDomainModel>,
     val createdAt: LocalDateTime,
     val isAlarmEnabled: Boolean,
-) : Parcelable
-{
+) : Parcelable {
     fun getTimes(): List<LocalTime> {
         return schedules.map { it.time }.toSet().sorted()
     }

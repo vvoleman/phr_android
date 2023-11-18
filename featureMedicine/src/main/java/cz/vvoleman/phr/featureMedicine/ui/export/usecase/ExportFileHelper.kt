@@ -7,11 +7,10 @@ import android.net.Uri
 import android.os.Build
 import android.util.Log
 import androidx.activity.result.ActivityResultLauncher
+import androidx.annotation.ChecksSdkIntAtLeast
 import androidx.core.content.ContextCompat
 import cz.vvoleman.phr.base.ui.exception.PermissionDeniedException
-import cz.vvoleman.phr.common.presentation.model.PatientPresentationModel
 import cz.vvoleman.phr.featureMedicine.domain.model.export.ExportType
-import cz.vvoleman.phr.featureMedicine.presentation.export.model.ExportMedicineSchedulePresentationModel
 import cz.vvoleman.phr.featureMedicine.presentation.export.model.ExportParamsPresentationModel
 import cz.vvoleman.phr.featureMedicine.presentation.export.model.PermissionStatus
 import cz.vvoleman.phr.featureMedicine.ui.export.exception.ExportFailedException
@@ -40,7 +39,8 @@ abstract class ExportFileHelper(
     )
 
     /**
-     * @throws Throwable
+     * @throws ExportFailedException
+     * @throws PermissionDeniedException
      */
     fun run(params: ExportParamsPresentationModel) {
         val permissionSize = updateOrRequestPermissions()
@@ -109,6 +109,7 @@ abstract class ExportFileHelper(
         return permissionsToRequest.size
     }
 
+    @ChecksSdkIntAtLeast(api = Build.VERSION_CODES.Q, lambda = 0)
     protected fun <T> sdk29AndUp(onSdk29: () -> T): T? {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             onSdk29()

@@ -10,4 +10,4 @@ data class PatientUiModel(
     val name: String,
     val birthDate: LocalDate? = null,
     val isSelected: Boolean = false
-): Parcelable
+) : Parcelable

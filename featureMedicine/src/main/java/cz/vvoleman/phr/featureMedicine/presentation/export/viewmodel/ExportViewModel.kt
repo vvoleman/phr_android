@@ -1,12 +1,12 @@
 package cz.vvoleman.phr.featureMedicine.presentation.export.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import cz.vvoleman.phr.base.presentation.viewmodel.BaseViewModel
 import cz.vvoleman.phr.base.presentation.viewmodel.usecase.UseCaseExecutorProvider
 import cz.vvoleman.phr.common.domain.usecase.GetSelectedPatientUseCase
 import cz.vvoleman.phr.common.presentation.mapper.PatientPresentationModelToDomainMapper
+import cz.vvoleman.phr.common.utils.TimeConstants
 import cz.vvoleman.phr.featureMedicine.domain.model.export.ExportType
 import cz.vvoleman.phr.featureMedicine.domain.model.export.GetDataForExportRequest
 import cz.vvoleman.phr.featureMedicine.domain.usecase.export.GetDataForExportUseCase
@@ -38,7 +38,7 @@ class ExportViewModel @Inject constructor(
 
     override fun initState(): ExportViewState {
         val todayMidnight = LocalDate.now().atTime(LocalTime.MAX)
-        val weekAgo = LocalDate.now().minusDays(7).atTime(LocalTime.MIN)
+        val weekAgo = LocalDate.now().minusDays(TimeConstants.DAYS_IN_WEEK.toLong()).atTime(LocalTime.MIN)
 
         return ExportViewState(
             dateRange = Pair(weekAgo, todayMidnight),
@@ -67,7 +67,6 @@ class ExportViewModel @Inject constructor(
                 )
             )
         }
-
     }
 
     fun onPreview() {
@@ -109,5 +108,4 @@ class ExportViewModel @Inject constructor(
             notify(ExportNotification.CannotLoadData)
         })
     }
-
 }

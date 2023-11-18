@@ -6,7 +6,9 @@ import android.view.inputmethod.EditorInfo
 import androidx.appcompat.widget.AppCompatEditText
 
 class ClearFocusEditText @JvmOverloads constructor(
-    context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyleAttr: Int = 0
 ) : AppCompatEditText(context, attrs, defStyleAttr) {
 
     init {

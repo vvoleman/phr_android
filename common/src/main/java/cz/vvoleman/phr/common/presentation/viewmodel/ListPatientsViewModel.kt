@@ -5,10 +5,6 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import cz.vvoleman.phr.base.presentation.viewmodel.BaseViewModel
 import cz.vvoleman.phr.base.presentation.viewmodel.usecase.UseCaseExecutorProvider
-import cz.vvoleman.phr.common.data.alarm.AlarmItem
-import cz.vvoleman.phr.common.data.alarm.AlarmReceiver
-import cz.vvoleman.phr.common.data.alarm.AlarmScheduler
-import cz.vvoleman.phr.common.data.alarm.TestContent
 import cz.vvoleman.phr.common.domain.event.PatientDeletedEvent
 import cz.vvoleman.phr.common.domain.model.PatientDomainModel
 import cz.vvoleman.phr.common.domain.usecase.DeletePatientUseCase
@@ -23,12 +19,10 @@ import cz.vvoleman.phr.common.presentation.model.listpatients.ListPatientsViewSt
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import org.greenrobot.eventbus.EventBus
-import java.time.LocalDateTime
 import javax.inject.Inject
 
 @HiltViewModel
 class ListPatientsViewModel @Inject constructor(
-    private val alarmScheduler: AlarmScheduler,
     private val getAllPatientsUseCase: GetAllPatientsUseCase,
     private val getSelectedPatientUseCase: GetSelectedPatientUseCase,
     private val switchSelectedPatientUseCase: SwitchSelectedPatientUseCase,

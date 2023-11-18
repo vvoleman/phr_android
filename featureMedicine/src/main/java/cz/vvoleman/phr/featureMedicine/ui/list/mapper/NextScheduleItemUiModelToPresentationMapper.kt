@@ -20,5 +20,4 @@ class NextScheduleItemUiModelToPresentationMapper(
             dateTime = model.dateTime
         )
     }
-
 }

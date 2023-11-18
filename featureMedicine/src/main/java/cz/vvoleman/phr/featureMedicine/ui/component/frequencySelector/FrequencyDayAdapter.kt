@@ -13,7 +13,7 @@ import java.util.Locale
 
 class FrequencyDayAdapter(
     private val listener: FrequencyDayListener
-): ListAdapter<FrequencyDayUiModel, FrequencyDayAdapter.FrequencyDayViewHolder>(DiffCallback()) {
+) : ListAdapter<FrequencyDayUiModel, FrequencyDayAdapter.FrequencyDayViewHolder>(DiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FrequencyDayViewHolder {
         val binding =
@@ -30,7 +30,7 @@ class FrequencyDayAdapter(
         }
     }
 
-    inner class FrequencyDayViewHolder(val binding: ItemFrequencyDayBinding): ViewHolder(binding.root) {
+    inner class FrequencyDayViewHolder(val binding: ItemFrequencyDayBinding) : ViewHolder(binding.root) {
         init {
             binding.apply {
                 textViewDay.setOnClickListener {
@@ -79,5 +79,4 @@ class FrequencyDayAdapter(
     companion object {
         private const val TAG = "FrequencyDayAdapter"
     }
-
 }

@@ -1,6 +1,5 @@
 package cz.vvoleman.phr.featureMedicine.data.datasource.room.medicine.mapper
 
-import android.util.Log
 import cz.vvoleman.phr.featureMedicine.data.datasource.room.medicine.SubstanceAmountDataSourceModel
 import cz.vvoleman.phr.featureMedicine.data.datasource.room.medicine.dao.SubstanceDao
 import cz.vvoleman.phr.featureMedicine.data.model.medicine.SubstanceAmountDataModel
