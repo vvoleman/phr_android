@@ -152,5 +152,4 @@ class GroupMedicineScheduleUseCaseTest {
         private const val PATIENT_ID = "1"
         private val createdAtMock = LocalDateTime.of(2023, 10, 24, 12, 0)
     }
-
 }

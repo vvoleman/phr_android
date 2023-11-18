@@ -1,6 +1,5 @@
 package cz.vvoleman.phr.featureMedicine.data.mapper.schedule
 
-import cz.vvoleman.phr.featureMedicine.data.model.schedule.ScheduleItemDataModel
 import cz.vvoleman.phr.featureMedicine.data.model.schedule.save.SaveScheduleItemDataModel
 import cz.vvoleman.phr.featureMedicine.domain.model.schedule.save.SaveScheduleItemDomainModel
 

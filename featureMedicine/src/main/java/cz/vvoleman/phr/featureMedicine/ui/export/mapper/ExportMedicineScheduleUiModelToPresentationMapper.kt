@@ -5,11 +5,11 @@ import cz.vvoleman.phr.featureMedicine.presentation.export.model.ExportMedicineS
 import cz.vvoleman.phr.featureMedicine.ui.export.model.ExportMedicineScheduleUiModel
 import cz.vvoleman.phr.featureMedicine.ui.list.mapper.MedicineUiModelToPresentationMapper
 
-class ExportMedicineScheduleUiModelToPresentationMapper (
+class ExportMedicineScheduleUiModelToPresentationMapper(
     private val medicineMapper: MedicineUiModelToPresentationMapper,
     private val patientMapper: PatientUiModelToPresentationMapper,
     private val scheduleItemMapper: ExportScheduleItemUiModelToPresentationMapper
-){
+) {
 
     fun toPresentation(model: ExportMedicineScheduleUiModel): ExportMedicineSchedulePresentationModel {
         return ExportMedicineSchedulePresentationModel(
@@ -28,5 +28,4 @@ class ExportMedicineScheduleUiModelToPresentationMapper (
             schedules = model.schedules.map { scheduleItemMapper.toUi(it) },
         )
     }
-
 }

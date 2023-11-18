@@ -13,5 +13,4 @@ class SaveMedicineScheduleDataSourceModelToDataMapper {
             createdAt = model.createdAt
         )
     }
-
 }

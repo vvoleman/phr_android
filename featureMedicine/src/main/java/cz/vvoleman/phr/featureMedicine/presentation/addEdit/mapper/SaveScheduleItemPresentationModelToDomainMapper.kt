@@ -30,5 +30,4 @@ class SaveScheduleItemPresentationModelToDomainMapper {
             description = model.description
         )
     }
-
 }

@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import cz.vvoleman.phr.common.ui.adapter.MarginItemDecoration
+import cz.vvoleman.phr.common.utils.SizingConstants
 import cz.vvoleman.phr.featureMedicine.R
 import cz.vvoleman.phr.featureMedicine.databinding.ModalMedicineDetailSheetBinding
 import cz.vvoleman.phr.featureMedicine.ui.list.model.MedicineUiModel
@@ -40,17 +41,21 @@ class MedicineDetailSheet : BottomSheetDialogFragment() {
         val medicine = arguments?.getParcelable<MedicineUiModel>(ARG_MEDICINE)!!
 
         val baseAdapter = MedicineDetailAdapter()
-        baseAdapter.submitList(listOf(
-            MedicineInfoUiModel(R.string.medicine_detail_package_form.toString(), medicine.packaging.form.name),
-            MedicineInfoUiModel(R.string.medicine_detail_package_size.toString(), medicine.packaging.packaging),
-            MedicineInfoUiModel(R.string.medicine_detail_country.toString(), "SK"),
-            MedicineInfoUiModel(R.string.medicine_detail_expiration.toString(), "-"),
-        ))
+        baseAdapter.submitList(
+            listOf(
+                MedicineInfoUiModel(R.string.medicine_detail_package_form.toString(), medicine.packaging.form.name),
+                MedicineInfoUiModel(R.string.medicine_detail_package_size.toString(), medicine.packaging.packaging),
+                MedicineInfoUiModel(R.string.medicine_detail_country.toString(), "SK"),
+                MedicineInfoUiModel(R.string.medicine_detail_expiration.toString(), "-"),
+            )
+        )
 
         val substanceAdapter = MedicineDetailAdapter()
-        substanceAdapter.submitList(medicine.substances.map {
-            MedicineInfoUiModel(it.substance.name, it.amount)
-        })
+        substanceAdapter.submitList(
+            medicine.substances.map {
+                MedicineInfoUiModel(it.substance.name, it.amount)
+            }
+        )
 
         binding.textViewName.text = medicine.name
         binding.buttonOpenLeaflet.setOnClickListener {
@@ -64,7 +69,7 @@ class MedicineDetailSheet : BottomSheetDialogFragment() {
             val layout = layoutManager as GridLayoutManager
             layout.spanCount = 2
             layoutParams
-            addItemDecoration(MarginItemDecoration(16, 2))
+            addItemDecoration(MarginItemDecoration(SizingConstants.MARGIN_SIZE, 2))
             adapter = baseAdapter
             layoutManager = layout
             setHasFixedSize(true)
@@ -74,7 +79,7 @@ class MedicineDetailSheet : BottomSheetDialogFragment() {
             val layout = layoutManager as GridLayoutManager
             layout.spanCount = 1
             adapter = substanceAdapter
-            addItemDecoration(MarginItemDecoration(16, 1))
+            addItemDecoration(MarginItemDecoration(SizingConstants.MARGIN_SIZE, 1))
             layoutManager = layout
             setHasFixedSize(true)
         }
@@ -92,5 +97,4 @@ class MedicineDetailSheet : BottomSheetDialogFragment() {
             return sheet
         }
     }
-
 }

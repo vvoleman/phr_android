@@ -8,14 +8,12 @@ import cz.vvoleman.phr.featureMedicine.databinding.FragmentListMedicineBinding
 import cz.vvoleman.phr.featureMedicine.presentation.list.model.ListMedicineViewState
 import cz.vvoleman.phr.featureMedicine.ui.list.adapter.MedicineFragmentAdapter
 import cz.vvoleman.phr.featureMedicine.ui.list.mapper.MedicineScheduleUiModelToPresentationMapper
-import cz.vvoleman.phr.featureMedicine.ui.list.mapper.MedicineUiModelToPresentationMapper
 import cz.vvoleman.phr.featureMedicine.ui.list.mapper.NextScheduleItemUiModelToPresentationMapper
 import cz.vvoleman.phr.featureMedicine.ui.list.mapper.ScheduleItemWithDetailsUiModelToPresentationMapper
 
 @Suppress("UnusedPrivateProperty")
 class ListMedicineBinder(
     private val nextScheduleItemMapper: NextScheduleItemUiModelToPresentationMapper,
-    private val medicineMapper: MedicineUiModelToPresentationMapper,
     private val medicineScheduleMapper: MedicineScheduleUiModelToPresentationMapper,
     private val scheduleItemMapper: ScheduleItemWithDetailsUiModelToPresentationMapper,
 ) : BaseViewStateBinder<ListMedicineViewState, FragmentListMedicineBinding, ListMedicineBinder.Notification>() {
@@ -35,15 +33,18 @@ class ListMedicineBinder(
         }
 
         fragmentAdapter?.let { adapter ->
-            adapter.setNextSchedules(viewState.timelineSchedules.map { group->
-                val scheduleItems = group.items.map { scheduleItemMapper.toUi(it) }
-                GroupedItemsUiModel(group.value, scheduleItems)
-            })
-            adapter.setAllSchedules(viewState.medicineCatalogue.map { group->
-                GroupedItemsUiModel(group.value, group.items.map { medicineScheduleMapper.toUi(it) })
-            })
+            adapter.setNextSchedules(
+                viewState.timelineSchedules.map { group ->
+                    val scheduleItems = group.items.map { scheduleItemMapper.toUi(it) }
+                    GroupedItemsUiModel(group.value, scheduleItems)
+                }
+            )
+            adapter.setAllSchedules(
+                viewState.medicineCatalogue.map { group ->
+                    GroupedItemsUiModel(group.value, group.items.map { medicineScheduleMapper.toUi(it) })
+                }
+            )
         }
-
     }
 
     fun setFragmentAdapter(fragmentAdapter: MedicineFragmentAdapter) {

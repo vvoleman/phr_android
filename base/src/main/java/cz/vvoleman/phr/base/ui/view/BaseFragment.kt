@@ -74,7 +74,6 @@ abstract class BaseFragment<VIEW_STATE : Any, NOTIFICATION : Any, VIEW_BINDING :
 
     protected open fun setupListeners() {}
 
-
     protected open fun setOptionsMenu(): Int? = null
 
     protected open fun onOptionsMenuItemSelected(menuItem: MenuItem): Boolean = false
@@ -102,7 +101,11 @@ abstract class BaseFragment<VIEW_STATE : Any, NOTIFICATION : Any, VIEW_BINDING :
         alertDialog.show()
     }
 
-    protected fun showSnackbar(message: String, length: Int = Snackbar.LENGTH_SHORT, actions: List<Pair<String, () -> Unit>> = emptyList()) {
+    protected fun showSnackbar(
+        message: String,
+        length: Int = Snackbar.LENGTH_SHORT,
+        actions: List<Pair<String, () -> Unit>> = emptyList()
+    ) {
         val snackbar = Snackbar.make(binding.root, message, length)
 
         actions.forEach { action ->
@@ -114,7 +117,11 @@ abstract class BaseFragment<VIEW_STATE : Any, NOTIFICATION : Any, VIEW_BINDING :
         snackbar.show()
     }
 
-    protected fun showSnackbar(message: Int, length: Int = Snackbar.LENGTH_SHORT, actions: List<Pair<String, () -> Unit>> = emptyList()) {
+    protected fun showSnackbar(
+        message: Int,
+        length: Int = Snackbar.LENGTH_SHORT,
+        actions: List<Pair<String, () -> Unit>> = emptyList()
+    ) {
         showSnackbar(binding.root.resources.getString(message), length, actions)
     }
 
@@ -142,22 +149,23 @@ abstract class BaseFragment<VIEW_STATE : Any, NOTIFICATION : Any, VIEW_BINDING :
 
     private fun setupOptionsMenu(menuId: Int) {
         val menuHost = requireActivity() as MenuHost
-        menuHost.addMenuProvider(object : MenuProvider {
-            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-                menuInflater.inflate(menuId, menu)
-            }
+        menuHost.addMenuProvider(
+            object : MenuProvider {
+                override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                    menuInflater.inflate(menuId, menu)
+                }
 
-            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
-                return onOptionsMenuItemSelected(menuItem)
-            }
-        }, viewLifecycleOwner, Lifecycle.State.RESUMED)
-
-
+                override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+                    return onOptionsMenuItemSelected(menuItem)
+                }
+            },
+            viewLifecycleOwner,
+            Lifecycle.State.RESUMED
+        )
     }
 
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
-
     }
 }

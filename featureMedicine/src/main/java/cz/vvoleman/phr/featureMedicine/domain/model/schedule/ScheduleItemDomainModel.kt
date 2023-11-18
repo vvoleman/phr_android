@@ -17,13 +17,13 @@ data class ScheduleItemDomainModel(
     val quantity: Number,
     val unit: String,
     val description: String? = null,
-    private var _translated: LocalDateTime? = null
-): Parcelable {
+    private var translated: LocalDateTime? = null
+) : Parcelable {
     fun getTranslatedDateTime(currentDateTime: LocalDateTime): LocalDateTime {
-        if (_translated != null) {
-            return _translated!!
+        if (translated != null) {
+            return translated!!
         }
-        _translated = TranslateDateTimeFacade.translateScheduleItem(this, currentDateTime)
-        return _translated!!
+        translated = TranslateDateTimeFacade.translateScheduleItem(this, currentDateTime)
+        return translated!!
     }
 }

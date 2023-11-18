@@ -5,7 +5,7 @@ import cz.vvoleman.phr.base.domain.usecase.BackgroundExecutingUseCase
 import cz.vvoleman.phr.featureMedicine.domain.model.schedule.MedicineScheduleDomainModel
 import cz.vvoleman.phr.featureMedicine.domain.repository.GetMedicineScheduleByIdRepository
 
-class GetMedicineScheduleByIdUseCase (
+class GetMedicineScheduleByIdUseCase(
     private val getMedicineScheduleByIdRepository: GetMedicineScheduleByIdRepository,
     coroutineContextProvider: CoroutineContextProvider
 ) : BackgroundExecutingUseCase<String, MedicineScheduleDomainModel?>(

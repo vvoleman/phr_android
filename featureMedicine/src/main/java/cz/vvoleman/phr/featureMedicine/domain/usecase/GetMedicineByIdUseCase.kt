@@ -8,7 +8,7 @@ import cz.vvoleman.phr.featureMedicine.domain.repository.GetMedicineByIdReposito
 class GetMedicineByIdUseCase(
     private val getMedicineByIdRepository: GetMedicineByIdRepository,
     coroutineContextProvider: CoroutineContextProvider
-): BackgroundExecutingUseCase<String, MedicineDomainModel?>(coroutineContextProvider) {
+) : BackgroundExecutingUseCase<String, MedicineDomainModel?>(coroutineContextProvider) {
     override suspend fun executeInBackground(request: String): MedicineDomainModel? {
         return getMedicineByIdRepository.getMedicineById(request)
     }

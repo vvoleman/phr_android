@@ -9,8 +9,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import androidx.core.content.ContextCompat
 import cz.vvoleman.phr.common.utils.toEpochSeconds
-import java.time.LocalDateTime
-import java.time.ZoneId
+import java.util.concurrent.TimeUnit
 
 class AndroidAlarmScheduler(
     private val context: Context
@@ -40,7 +39,7 @@ class AndroidAlarmScheduler(
 
         alarmManager.setRepeating(
             item.type,
-            item.triggerAt.toEpochSeconds() * 1000,
+            TimeUnit.SECONDS.toMillis(item.triggerAt.toEpochSeconds()),
             item.repeatInterval,
             PendingIntent.getBroadcast(
                 context,
@@ -77,9 +76,5 @@ class AndroidAlarmScheduler(
             context,
             Manifest.permission.SET_ALARM
         ) != PackageManager.PERMISSION_GRANTED
-    }
-
-    private fun localDateTimeToSeconds(localDateTime: LocalDateTime): Long {
-        return localDateTime.atZone(ZoneId.systemDefault()).toEpochSecond() * 1000
     }
 }

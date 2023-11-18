@@ -15,18 +15,18 @@ import cz.vvoleman.phr.featureMedicine.R
 import cz.vvoleman.phr.featureMedicine.databinding.FragmentAddEditMedicineBinding
 import cz.vvoleman.phr.featureMedicine.presentation.addEdit.model.AddEditMedicineNotification
 import cz.vvoleman.phr.featureMedicine.presentation.addEdit.model.AddEditMedicineViewState
-import cz.vvoleman.phr.featureMedicine.presentation.addEdit.viewmodel.AddEditMedicineViewModel
 import cz.vvoleman.phr.featureMedicine.presentation.addEdit.model.TimePresentationModel
+import cz.vvoleman.phr.featureMedicine.presentation.addEdit.viewmodel.AddEditMedicineViewModel
 import cz.vvoleman.phr.featureMedicine.ui.addEdit.mapper.AddEditMedicineDestinationUiMapper
-import cz.vvoleman.phr.featureMedicine.ui.component.frequencySelector.FrequencyDayUiModel
-import cz.vvoleman.phr.featureMedicine.ui.component.frequencySelector.FrequencySelector
 import cz.vvoleman.phr.featureMedicine.ui.addEdit.mapper.FrequencyDayUiModelToPresentationMapper
 import cz.vvoleman.phr.featureMedicine.ui.addEdit.mapper.TimeUiModelToPresentationMapper
-import cz.vvoleman.phr.featureMedicine.ui.list.mapper.MedicineUiModelToPresentationMapper
+import cz.vvoleman.phr.featureMedicine.ui.component.frequencySelector.FrequencyDayUiModel
+import cz.vvoleman.phr.featureMedicine.ui.component.frequencySelector.FrequencySelector
 import cz.vvoleman.phr.featureMedicine.ui.component.medicineSelector.MedicineSelector
-import cz.vvoleman.phr.featureMedicine.ui.list.model.MedicineUiModel
 import cz.vvoleman.phr.featureMedicine.ui.component.timeSelector.TimeSelector
 import cz.vvoleman.phr.featureMedicine.ui.component.timeSelector.TimeUiModel
+import cz.vvoleman.phr.featureMedicine.ui.list.mapper.MedicineUiModelToPresentationMapper
+import cz.vvoleman.phr.featureMedicine.ui.list.model.MedicineUiModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import java.time.LocalTime
@@ -36,7 +36,8 @@ import javax.inject.Inject
 class AddEditMedicineFragment :
     BaseFragment<AddEditMedicineViewState, AddEditMedicineNotification, FragmentAddEditMedicineBinding>(),
     MedicineSelector.MedicineSelectorListener,
-    TimeSelector.TimeSelectorListener, FrequencySelector.FrequencySelectorListener {
+    TimeSelector.TimeSelectorListener,
+    FrequencySelector.FrequencySelectorListener {
 
     override val viewModel: AddEditMedicineViewModel by viewModels()
 
@@ -164,5 +165,4 @@ class AddEditMedicineFragment :
     override fun onValueChange(days: List<FrequencyDayUiModel>) {
         viewModel.onFrequencyUpdate(days.map { frequencyDayUiModelToPresentationMapper.toPresentation(it) })
     }
-
 }

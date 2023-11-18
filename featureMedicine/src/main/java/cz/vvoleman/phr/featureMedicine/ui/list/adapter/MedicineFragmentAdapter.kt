@@ -13,7 +13,7 @@ import cz.vvoleman.phr.featureMedicine.ui.list.model.schedule.ScheduleItemWithDe
 class MedicineFragmentAdapter(
     private val timelineViewModel: TimelineViewModel,
     private val medicineCatalogueViewModel: MedicineCatalogueViewModel,
-    private val parent: Fragment
+    parent: Fragment
 ) : FragmentStateAdapter(parent) {
 
     fun setNextSchedules(nextSchedules: List<GroupedItemsUiModel<ScheduleItemWithDetailsUiModel>>) {
@@ -31,13 +31,12 @@ class MedicineFragmentAdapter(
     }
 
     override fun createFragment(position: Int): Fragment {
-        return when(position){
+        return when (position) {
             0 -> TimelineFragment.newInstance(timelineViewModel)
             1 -> MedicineCatalogueFragment.newInstance(medicineCatalogueViewModel)
             else -> {
-                throw IllegalStateException("Unknown position $position")
+                error("Invalid fragment adapter position")
             }
         }
     }
-
 }

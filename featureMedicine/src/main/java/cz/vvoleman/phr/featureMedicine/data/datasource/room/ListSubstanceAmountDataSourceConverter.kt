@@ -1,9 +1,7 @@
 package cz.vvoleman.phr.featureMedicine.data.datasource.room
 
-import android.util.Log
 import androidx.room.TypeConverter
 import com.google.gson.Gson
-import cz.vvoleman.phr.featureMedicine.data.datasource.room.medicine.SubstanceAmountDataSourceModel
 import cz.vvoleman.phr.featureMedicine.data.datasource.room.schedule.ListSubstanceAmountDataSourceModel
 
 class ListSubstanceAmountDataSourceConverter {
@@ -17,5 +15,4 @@ class ListSubstanceAmountDataSourceConverter {
     fun toListSubstanceAmountDataSourceModel(json: String): ListSubstanceAmountDataSourceModel {
         return Gson().fromJson(json, ListSubstanceAmountDataSourceModel::class.java)
     }
-
 }

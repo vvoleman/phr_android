@@ -25,10 +25,6 @@ class MedicineDetailAdapter : ListAdapter<MedicineInfoUiModel, MedicineDetailAda
     inner class MedicineDetailViewHolder(private val binding: ItemMedicineInfoBoxBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        init {
-
-        }
-
         fun bind(item: MedicineInfoUiModel) {
             val label = if (item.labelId.toIntOrNull() != null) {
                 binding.root.context.getString(item.labelId.toInt())
@@ -41,15 +37,13 @@ class MedicineDetailAdapter : ListAdapter<MedicineInfoUiModel, MedicineDetailAda
                 textViewValue.text = item.value
             }
         }
-
     }
 
-    private class DiffCallback() : DiffUtil.ItemCallback<MedicineInfoUiModel>() {
+    private class DiffCallback : DiffUtil.ItemCallback<MedicineInfoUiModel>() {
         override fun areItemsTheSame(oldItem: MedicineInfoUiModel, newItem: MedicineInfoUiModel) =
             oldItem.labelId == newItem.labelId
 
         override fun areContentsTheSame(oldItem: MedicineInfoUiModel, newItem: MedicineInfoUiModel) =
             oldItem == newItem
     }
-
 }

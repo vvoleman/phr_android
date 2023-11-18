@@ -18,5 +18,4 @@ class FrequencyDayUiModelToPresentationMapper {
             isSelected = model.isSelected
         )
     }
-
 }

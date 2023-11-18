@@ -28,5 +28,4 @@ class ExportMedicineSchedulePresentationModelToDomainMapper(
             schedules = model.schedules.map { scheduleItemMapper.toPresentation(it) },
         )
     }
-
 }

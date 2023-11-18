@@ -16,14 +16,14 @@ import cz.vvoleman.phr.featureMedicine.domain.usecase.ScheduleMedicineAlertUseCa
 import cz.vvoleman.phr.featureMedicine.domain.usecase.SearchMedicineUseCase
 import cz.vvoleman.phr.featureMedicine.presentation.addEdit.factory.FrequencyDaysPresentationFactory
 import cz.vvoleman.phr.featureMedicine.presentation.addEdit.factory.TimeUpdateFactory
+import cz.vvoleman.phr.featureMedicine.presentation.addEdit.mapper.SaveMedicineSchedulePresentationModelToDomainMapper
 import cz.vvoleman.phr.featureMedicine.presentation.addEdit.model.AddEditMedicineDestination
 import cz.vvoleman.phr.featureMedicine.presentation.addEdit.model.AddEditMedicineNotification
 import cz.vvoleman.phr.featureMedicine.presentation.addEdit.model.AddEditMedicineViewState
-import cz.vvoleman.phr.featureMedicine.presentation.addEdit.mapper.SaveMedicineSchedulePresentationModelToDomainMapper
-import cz.vvoleman.phr.featureMedicine.presentation.list.mapper.MedicinePresentationModelToDomainMapper
 import cz.vvoleman.phr.featureMedicine.presentation.addEdit.model.FrequencyDayPresentationModel
 import cz.vvoleman.phr.featureMedicine.presentation.addEdit.model.SaveMedicineSchedulePresentationModel
 import cz.vvoleman.phr.featureMedicine.presentation.addEdit.model.TimePresentationModel
+import cz.vvoleman.phr.featureMedicine.presentation.list.mapper.MedicinePresentationModelToDomainMapper
 import cz.vvoleman.phr.featureMedicine.presentation.list.model.MedicinePresentationModel
 import cz.vvoleman.phr.featureMedicine.presentation.list.model.ScheduleItemPresentationModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -134,9 +134,9 @@ class AddEditMedicineViewModel @Inject constructor(
 
     suspend fun onSave() {
         val canSave = currentViewState.selectedMedicine != null &&
-                currentViewState.times.isNotEmpty() &&
-                currentViewState.frequencyDays.isNotEmpty() &&
-                currentViewState.frequencyDays.any { it.isSelected }
+            currentViewState.times.isNotEmpty() &&
+            currentViewState.frequencyDays.isNotEmpty() &&
+            currentViewState.frequencyDays.any { it.isSelected }
 
         if (!canSave) {
             notify(AddEditMedicineNotification.CannotSave)
@@ -221,11 +221,13 @@ class AddEditMedicineViewModel @Inject constructor(
             )
         }
 
-        updateViewState(currentViewState.copy(
-            selectedMedicine = medicineMapper.toPresentation(result.medicine),
-            times = times,
-            frequencyDays = frequencies,
-        ))
+        updateViewState(
+            currentViewState.copy(
+                selectedMedicine = medicineMapper.toPresentation(result.medicine),
+                times = times,
+                frequencyDays = frequencies,
+            )
+        )
     }
     private fun handleSaveMedicineSchedule(result: String?) {
         if (result == null) {
@@ -247,7 +249,6 @@ class AddEditMedicineViewModel @Inject constructor(
     }
 
     companion object {
-        private const val TAG = "AddEditMedicineViewModel"
         private const val SCHEDULE_ID = "scheduleId"
     }
 }

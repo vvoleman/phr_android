@@ -10,7 +10,6 @@ import cz.vvoleman.phr.featureMedicine.data.datasource.room.medicine.mapper.Subs
 import cz.vvoleman.phr.featureMedicine.data.mapper.medicine.MedicineDataModelToDomainMapper
 import cz.vvoleman.phr.featureMedicine.data.mapper.medicine.ProductFormDataModelToDomainMapper
 import cz.vvoleman.phr.featureMedicine.data.mapper.medicine.SubstanceDataModelToDomainMapper
-import cz.vvoleman.phr.featureMedicine.data.model.medicine.MedicineDataModel
 import cz.vvoleman.phr.featureMedicine.domain.model.medicine.MedicineDomainModel
 import cz.vvoleman.phr.featureMedicine.domain.repository.AddMedicineRepository
 import cz.vvoleman.phr.featureMedicine.domain.repository.GetMedicineByIdRepository
@@ -72,11 +71,12 @@ class MedicineRepository(
 
         Log.d(TAG, "Medicine \"$id\" not found in local database, searching in backend")
 
-        val backendMedicine = retrieveMedicineFromBackend(id) ?: return null
+        val backendMedicine = retrieveMedicineFromBackend(id)
 
-        Log.d(TAG, "Medicine \"$id\" found in backend, adding to local database")
-
-        addMedicine(backendMedicine)
+        if (backendMedicine != null) {
+            addMedicine(backendMedicine)
+            Log.d(TAG, "Medicine \"$id\" found in backend, adding to local database")
+        }
 
         return backendMedicine
     }
@@ -90,18 +90,17 @@ class MedicineRepository(
             val response = backendApi.searchMedicine(id, 0)
 
             // Check if result is of size 1
-            if (response.data.size != 1) {
-                Log.d(TAG, "getMedicineById: duplicate medicine found for id \"$id\"")
-                return null
+            if (response.data.size == 1) {
+                medicineApiMapper.toData(response.data.first()).let { medicine ->
+                    return medicineDataMapper.toDomain(medicine)
+                }
             }
 
-            medicineApiMapper.toData(response.data.first()).let { medicine ->
-                return medicineDataMapper.toDomain(medicine) }
+            Log.d(TAG, "getMedicineById: duplicate medicine found for id \"$id\"")
         } catch (e: Exception) {
             Log.e(TAG, "getMedicineById: ", e)
         }
 
         return null
     }
-
 }

@@ -13,7 +13,9 @@ class GroupMedicineScheduleUseCase(
     coroutineContextProvider
 ) {
 
-    override suspend fun executeInBackground(request: String): List<GroupedItemsDomainModel<MedicineScheduleDomainModel>> {
+    override suspend fun executeInBackground(
+        request: String
+    ): List<GroupedItemsDomainModel<MedicineScheduleDomainModel>> {
         val schedules = getSchedulesByPatientRepository.getSchedulesByPatient(request)
 
         val groupedSchedules = schedules.groupBy {

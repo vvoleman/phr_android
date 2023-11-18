@@ -30,5 +30,4 @@ class ScheduleItemUiModelToPresentationMapper {
             description = model.description
         )
     }
-
 }

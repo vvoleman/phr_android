@@ -1,18 +1,13 @@
 package cz.vvoleman.phr.featureMedicine.ui.export.view
 
 import android.content.Context
-import android.text.Editable
-import android.text.TextWatcher
 import android.util.Log
-import android.widget.ArrayAdapter
-import androidx.core.widget.addTextChangedListener
-import androidx.core.widget.doOnTextChanged
 import androidx.recyclerview.widget.LinearLayoutManager
 import cz.vvoleman.phr.base.ui.mapper.BaseViewStateBinder
 import cz.vvoleman.phr.common.ui.adapter.MarginItemDecoration
+import cz.vvoleman.phr.common.utils.SizingConstants
 import cz.vvoleman.phr.common.utils.toLocalString
 import cz.vvoleman.phr.featureMedicine.databinding.FragmentExportBinding
-import cz.vvoleman.phr.featureMedicine.domain.model.export.ExportType
 import cz.vvoleman.phr.featureMedicine.presentation.export.model.ExportViewState
 import cz.vvoleman.phr.featureMedicine.ui.export.adapter.ExportAdapter
 import cz.vvoleman.phr.featureMedicine.ui.export.mapper.ExportUiModelToPresentationMapper
@@ -31,7 +26,7 @@ class ExportBinder(
         viewBinding.recyclerViewPreview.apply {
             adapter = _adapter
             layoutManager = LinearLayoutManager(context)
-            addItemDecoration(MarginItemDecoration(16))
+            addItemDecoration(MarginItemDecoration(SizingConstants.MARGIN_SIZE))
         }
     }
 
@@ -63,5 +58,4 @@ class ExportBinder(
     companion object {
         const val TAG = "ExportBinder"
     }
-
 }

@@ -30,12 +30,12 @@ class AddEditMedicineBinder(
         viewBinding.medicineSelector.setSelectedMedicine(viewState.selectedMedicine?.let { medicineMapper.toUi(it) })
 
         if (!viewBinding.frequencySelector.hasEverydaySet()) {
-            viewBinding.frequencySelector.setDaysEveryday(viewState.frequencyDaysDefault.map {
-                frequencyMapper.toUi(it)
-            })
+            viewBinding.frequencySelector.setDaysEveryday(
+                viewState.frequencyDaysDefault.map {
+                    frequencyMapper.toUi(it)
+                }
+            )
         }
-
-
     }
 
     sealed class Notification

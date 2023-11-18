@@ -51,7 +51,8 @@ class GetNextScheduledUseCaseTest {
         // Given
         val request = NextScheduledRequestDomainModel(
             patientId = PATIENT_ID,
-            currentLocalDateTime = LocalTime.of(7, 0).atDate(LocalDate.of(2023, 10, 25)),
+            currentLocalDateTime = LocalTime.of(7, 0)
+                .atDate(LocalDate.of(2023, 10, 25)),
             limit = 5,
         )
 
@@ -70,8 +71,14 @@ class GetNextScheduledUseCaseTest {
         val next = actualValue[0]
         assertEquals("3", next.medicine.id, "Next scheduled medicine should be medicine with id 3")
 
-        assertTrue(next.scheduleItem.time == LocalTime.of(8,0), "Next scheduled medicine should be at 8:00")
-        assertTrue(next.scheduleItem.dayOfWeek == DayOfWeek.WEDNESDAY, "Next scheduled medicine should be at wednesday")
+        assertTrue(
+            next.scheduleItem.time == LocalTime.of(8, 0),
+            "Next scheduled medicine should be at 8:00"
+        )
+        assertTrue(
+            next.scheduleItem.dayOfWeek == DayOfWeek.WEDNESDAY,
+            "Next scheduled medicine should be at wednesday"
+        )
     }
 
     @Test
@@ -79,7 +86,8 @@ class GetNextScheduledUseCaseTest {
         // Given
         val request = NextScheduledRequestDomainModel(
             patientId = PATIENT_ID,
-            currentLocalDateTime = LocalTime.of(7, 0).atDate(LocalDate.of(2023, 10, 28)),
+            currentLocalDateTime = LocalTime.of(7, 0)
+                .atDate(LocalDate.of(2023, 10, 28)),
             limit = 5,
         )
 
@@ -98,7 +106,10 @@ class GetNextScheduledUseCaseTest {
         val next = actualValue[0]
         assertEquals("1", next.medicine.id, "Next scheduled medicine should be medicine with id 1")
 
-        assertTrue(next.scheduleItem.time == LocalTime.of(13,0), "Next scheduled medicine should be at 13:00")
+        assertTrue(
+            next.scheduleItem.time == LocalTime.of(13, 0),
+            "Next scheduled medicine should be at 13:00"
+        )
     }
 
     @Test
@@ -106,7 +117,8 @@ class GetNextScheduledUseCaseTest {
         // Given
         val request = NextScheduledRequestDomainModel(
             patientId = PATIENT_ID,
-            currentLocalDateTime = LocalTime.of(10, 0).atDate(LocalDate.of(2023, 10, 25)),
+            currentLocalDateTime = LocalTime.of(10, 0)
+                .atDate(LocalDate.of(2023, 10, 25)),
             limit = 5,
         )
 
@@ -125,7 +137,10 @@ class GetNextScheduledUseCaseTest {
         val next = actualValue[0]
         assertEquals("1", next.medicine.id, "Next scheduled medicine should be medicine with id 1")
 
-        assertTrue(next.scheduleItem.time == LocalTime.of(13,0), "Next scheduled medicine should be at 13:00")
+        assertTrue(
+            next.scheduleItem.time == LocalTime.of(13, 0),
+            "Next scheduled medicine should be at 13:00"
+        )
     }
 
     @Test
@@ -133,7 +148,8 @@ class GetNextScheduledUseCaseTest {
         // Given
         val request = NextScheduledRequestDomainModel(
             patientId = PATIENT_ID,
-            currentLocalDateTime = LocalTime.of(15, 0).atDate(LocalDate.of(2023, 10, 25)),
+            currentLocalDateTime = LocalTime.of(15, 0)
+                .atDate(LocalDate.of(2023, 10, 25)),
             limit = 2,
         )
 
@@ -148,12 +164,6 @@ class GetNextScheduledUseCaseTest {
             actualValue.size == 2,
             "List of next scheduled medicine should have 2 items, have ${actualValue.size}"
         )
-
-//        val timesA = actualValue[0].schedules.map { it.time }
-//        val timesB = actualValue[1].schedules.map { it.time }
-//
-//        assertTrue(timesA.contains(LocalTime.of(16, 0)), "Next scheduled medicine should be at 16:00, but was $timesA")
-//        assertTrue(timesB.contains(LocalTime.of(16, 0)), "Next scheduled medicine should be at 16:00, but was $timesB")
     }
 
     private fun getFakeSchedules(): List<MedicineScheduleDomainModel> {
@@ -217,5 +227,4 @@ class GetNextScheduledUseCaseTest {
         private const val PATIENT_ID = "1"
         private val createdAtMock = LocalDateTime.of(2023, 10, 24, 12, 0)
     }
-
 }

@@ -2,9 +2,9 @@ package cz.vvoleman.phr.featureMedicine.presentation.addEdit.mapper
 
 import cz.vvoleman.phr.common.presentation.mapper.PatientPresentationModelToDomainMapper
 import cz.vvoleman.phr.featureMedicine.domain.model.schedule.save.SaveMedicineScheduleDomainModel
+import cz.vvoleman.phr.featureMedicine.presentation.addEdit.model.SaveMedicineSchedulePresentationModel
 import cz.vvoleman.phr.featureMedicine.presentation.list.mapper.MedicinePresentationModelToDomainMapper
 import cz.vvoleman.phr.featureMedicine.presentation.list.mapper.ScheduleItemPresentationModelToDomainMapper
-import cz.vvoleman.phr.featureMedicine.presentation.addEdit.model.SaveMedicineSchedulePresentationModel
 
 class SaveMedicineSchedulePresentationModelToDomainMapper(
     private val patientMapper: PatientPresentationModelToDomainMapper,
@@ -31,5 +31,4 @@ class SaveMedicineSchedulePresentationModelToDomainMapper(
             createdAt = model.createdAt
         )
     }
-
 }

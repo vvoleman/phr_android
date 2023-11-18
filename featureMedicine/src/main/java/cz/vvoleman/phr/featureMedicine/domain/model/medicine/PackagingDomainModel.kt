@@ -7,4 +7,4 @@ import kotlinx.parcelize.Parcelize
 data class PackagingDomainModel(
     val form: ProductFormDomainModel,
     val packaging: String
-): Parcelable
+) : Parcelable

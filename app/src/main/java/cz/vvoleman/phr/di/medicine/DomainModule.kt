@@ -13,9 +13,9 @@ import cz.vvoleman.phr.featureMedicine.domain.repository.timeline.GetSchedulesBy
 import cz.vvoleman.phr.featureMedicine.domain.usecase.DeleteMedicineScheduleUseCase
 import cz.vvoleman.phr.featureMedicine.domain.usecase.GetMedicineByIdUseCase
 import cz.vvoleman.phr.featureMedicine.domain.usecase.GetMedicineScheduleByIdUseCase
-import cz.vvoleman.phr.featureMedicine.domain.usecase.GroupMedicineScheduleUseCase
 import cz.vvoleman.phr.featureMedicine.domain.usecase.GetNextScheduledUseCase
 import cz.vvoleman.phr.featureMedicine.domain.usecase.GetScheduledInTimeRangeUseCase
+import cz.vvoleman.phr.featureMedicine.domain.usecase.GroupMedicineScheduleUseCase
 import cz.vvoleman.phr.featureMedicine.domain.usecase.GroupScheduleItemsUseCase
 import cz.vvoleman.phr.featureMedicine.domain.usecase.SaveMedicineScheduleUseCase
 import cz.vvoleman.phr.featureMedicine.domain.usecase.ScheduleMedicineAlertUseCase
@@ -134,5 +134,4 @@ class DomainModule {
         getSchedulesByPatientRepository,
         coroutineContextProvider
     )
-
 }
