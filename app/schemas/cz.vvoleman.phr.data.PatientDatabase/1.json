@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "da5bdc0d1091b73a2d601e7f58f2ec22",
+    "identityHash": "1a5612a8e075882e20beb36ad8048f52",
     "entities": [
       {
         "tableName": "patient",
@@ -126,7 +126,7 @@
       },
       {
         "tableName": "medical_record",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `patient_id` INTEGER NOT NULL, `problem_category_id` INTEGER, `diagnose_id` TEXT, `medical_worker_id` INTEGER, `created_at` INTEGER NOT NULL, `visit_date` INTEGER NOT NULL, `comment` TEXT NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `patient_id` INTEGER NOT NULL, `problem_category_id` INTEGER, `diagnose_id` TEXT, `specific_medical_worker_id` INTEGER, `created_at` INTEGER NOT NULL, `visit_date` INTEGER NOT NULL, `comment` TEXT NOT NULL)",
         "fields": [
           {
             "fieldPath": "id",
@@ -153,8 +153,8 @@
             "notNull": false
           },
           {
-            "fieldPath": "medicalWorkerId",
-            "columnName": "medical_worker_id",
+            "fieldPath": "specificMedicalWorkerId",
+            "columnName": "specific_medical_worker_id",
             "affinity": "INTEGER",
             "notNull": false
           },
@@ -232,7 +232,7 @@
       },
       {
         "tableName": "medical_worker",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT NOT NULL, `patientId` INTEGER NOT NULL, `email` TEXT, `phone` TEXT, `city` TEXT NOT NULL, `street` TEXT NOT NULL, `house_number` TEXT NOT NULL, `zip_code` TEXT NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT NOT NULL, `patient_id` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "id",
@@ -248,7 +248,39 @@
           },
           {
             "fieldPath": "patientId",
-            "columnName": "patientId",
+            "columnName": "patient_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "specific_medical_worker",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `medical_worker_id` INTEGER NOT NULL, `medical_service_id` INTEGER NOT NULL, `email` TEXT, `telephone` TEXT)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "medicalWorkerId",
+            "columnName": "medical_worker_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "medicalServiceId",
+            "columnName": "medical_service_id",
             "affinity": "INTEGER",
             "notNull": true
           },
@@ -259,32 +291,76 @@
             "notNull": false
           },
           {
-            "fieldPath": "phone",
-            "columnName": "phone",
+            "fieldPath": "telephone",
+            "columnName": "telephone",
             "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "medical_service",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `care_field` TEXT NOT NULL, `care_form` TEXT NOT NULL, `care_type` TEXT NOT NULL, `care_extent` TEXT NOT NULL, `bed_count` INTEGER NOT NULL, `service_note` TEXT NOT NULL, `professional_representative` TEXT NOT NULL, `medical_facility_id` TEXT NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
             "notNull": false
           },
           {
-            "fieldPath": "address.city",
-            "columnName": "city",
+            "fieldPath": "careField",
+            "columnName": "care_field",
             "affinity": "TEXT",
             "notNull": true
           },
           {
-            "fieldPath": "address.street",
-            "columnName": "street",
+            "fieldPath": "careForm",
+            "columnName": "care_form",
             "affinity": "TEXT",
             "notNull": true
           },
           {
-            "fieldPath": "address.houseNumber",
-            "columnName": "house_number",
+            "fieldPath": "careType",
+            "columnName": "care_type",
             "affinity": "TEXT",
             "notNull": true
           },
           {
-            "fieldPath": "address.zipCode",
-            "columnName": "zip_code",
+            "fieldPath": "careExtent",
+            "columnName": "care_extent",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "bedCount",
+            "columnName": "bed_count",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "serviceNote",
+            "columnName": "service_note",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "professionalRepresentative",
+            "columnName": "professional_representative",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "medicalFacilityId",
+            "columnName": "medical_facility_id",
             "affinity": "TEXT",
             "notNull": true
           }
@@ -294,6 +370,128 @@
             "id"
           ],
           "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "medical_facility",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `full_name` TEXT NOT NULL, `facility_type` TEXT NOT NULL, `street` TEXT NOT NULL, `house_number` TEXT NOT NULL, `zip_code` TEXT NOT NULL, `city` TEXT NOT NULL, `region` TEXT NOT NULL, `region_code` TEXT NOT NULL, `district` TEXT NOT NULL, `district_code` TEXT NOT NULL, `telephone` TEXT NOT NULL, `email` TEXT NOT NULL, `web` TEXT NOT NULL, `ico` TEXT NOT NULL, `provider_type` TEXT NOT NULL, `provider_name` TEXT NOT NULL, `gps` TEXT NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "fullName",
+            "columnName": "full_name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "facilityType",
+            "columnName": "facility_type",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "street",
+            "columnName": "street",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "houseNumber",
+            "columnName": "house_number",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "zipCode",
+            "columnName": "zip_code",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "city",
+            "columnName": "city",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "region",
+            "columnName": "region",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "regionCode",
+            "columnName": "region_code",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "district",
+            "columnName": "district",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "districtCode",
+            "columnName": "district_code",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "telephone",
+            "columnName": "telephone",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "email",
+            "columnName": "email",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "web",
+            "columnName": "web",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "ico",
+            "columnName": "ico",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "providerType",
+            "columnName": "provider_type",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "providerName",
+            "columnName": "provider_name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "gps",
+            "columnName": "gps",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": false
         },
         "indices": [],
         "foreignKeys": []
@@ -554,7 +752,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'da5bdc0d1091b73a2d601e7f58f2ec22')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '1a5612a8e075882e20beb36ad8048f52')"
     ]
   }
 }
