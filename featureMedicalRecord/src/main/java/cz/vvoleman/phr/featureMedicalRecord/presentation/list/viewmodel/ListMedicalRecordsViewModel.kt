@@ -8,9 +8,9 @@ import cz.vvoleman.phr.base.presentation.viewmodel.usecase.UseCaseExecutorProvid
 import cz.vvoleman.phr.common.domain.GroupedItemsDomainModel
 import cz.vvoleman.phr.common.domain.event.PatientDeletedEvent
 import cz.vvoleman.phr.common.domain.model.PatientDomainModel
+import cz.vvoleman.phr.common.domain.model.healthcare.worker.MedicalWorkerDomainModel
 import cz.vvoleman.phr.common.domain.usecase.GetSelectedPatientUseCase
 import cz.vvoleman.phr.featureMedicalRecord.domain.model.MedicalRecordDomainModel
-import cz.vvoleman.phr.featureMedicalRecord.domain.model.MedicalWorkerDomainModel
 import cz.vvoleman.phr.featureMedicalRecord.domain.model.ProblemCategoryDomainModel
 import cz.vvoleman.phr.featureMedicalRecord.domain.model.list.GroupByDomainModel
 import cz.vvoleman.phr.featureMedicalRecord.domain.usecase.DeletePatientUseCase

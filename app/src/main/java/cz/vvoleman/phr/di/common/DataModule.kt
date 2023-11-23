@@ -5,8 +5,17 @@ import cz.vvoleman.phr.common.data.alarm.AlarmScheduler
 import cz.vvoleman.phr.common.data.alarm.AndroidAlarmScheduler
 import cz.vvoleman.phr.common.data.datasource.model.PatientDao
 import cz.vvoleman.phr.common.data.datasource.model.PatientDataStore
+import cz.vvoleman.phr.common.data.datasource.model.healthcare.worker.SpecificMedicalWorkerDao
 import cz.vvoleman.phr.common.data.mapper.PatientDataSourceModelToAddEditMapper
 import cz.vvoleman.phr.common.data.mapper.PatientDataSourceModelToDomainMapper
+import cz.vvoleman.phr.common.data.mapper.healthcare.MedicalFacilityDataSourceModelToDomainMapper
+import cz.vvoleman.phr.common.data.mapper.healthcare.MedicalServiceDataSourceModelToDomainMapper
+import cz.vvoleman.phr.common.data.mapper.healthcare.MedicalServiceWithInfoDataSourceModelToDomainMapper
+import cz.vvoleman.phr.common.data.mapper.healthcare.MedicalServiceWithWorkersDataSourceModelToDomainMapper
+import cz.vvoleman.phr.common.data.mapper.healthcare.MedicalWorkerDataSourceModelToDomainMapper
+import cz.vvoleman.phr.common.data.mapper.healthcare.MedicalWorkerWithInfoDataSourceModelToDomainMapper
+import cz.vvoleman.phr.common.data.mapper.healthcare.MedicalWorkerWithServicesDataSourceModelToDomainMapper
+import cz.vvoleman.phr.common.data.mapper.healthcare.SpecificMedicalWorkerDataSourceToDomainMapper
 import cz.vvoleman.phr.common.data.repository.PatientRepository
 import cz.vvoleman.phr.common.domain.repository.*
 import dagger.Module
@@ -73,4 +82,64 @@ class DataModule {
     @Provides
     fun providesAlarmScheduler(@ApplicationContext context: Context): AlarmScheduler =
         AndroidAlarmScheduler(context)
+
+    @Provides
+    fun providesMedicalServiceDataSourceModelToDomainMapper() = MedicalServiceDataSourceModelToDomainMapper()
+
+    @Provides
+    fun providesMedicalWorkerDataSourceModelToDomainMapper() = MedicalWorkerDataSourceModelToDomainMapper()
+
+    @Provides
+    fun providesMedicalServiceWithInfoDataSourceModelToDomainMapper(
+        medicalServiceDataSourceModelToDomainMapper: MedicalServiceDataSourceModelToDomainMapper,
+    ) = MedicalServiceWithInfoDataSourceModelToDomainMapper(
+        medicalServiceDataSourceModelToDomainMapper,
+    )
+
+    @Provides
+    fun providesMedicalWorkerWithInfoDataSourceModelToDomainMapper(
+        medicalWorkerDataSourceModelToDomainMapper: MedicalWorkerDataSourceModelToDomainMapper,
+    ) = MedicalWorkerWithInfoDataSourceModelToDomainMapper(
+        medicalWorkerDataSourceModelToDomainMapper,
+    )
+
+    @Provides
+    fun providesMedicalServiceWithWorkersDataSourceModelToDomainMapper(
+        specificWorkerDao: SpecificMedicalWorkerDao,
+        medicalServiceDataSourceModelToDomainMapper: MedicalServiceDataSourceModelToDomainMapper,
+        workerMapper: MedicalWorkerDataSourceModelToDomainMapper,
+        medicalWorkerDataSourceModelToDomainMapper: MedicalWorkerWithInfoDataSourceModelToDomainMapper,
+    ) = MedicalServiceWithWorkersDataSourceModelToDomainMapper(
+        specificWorkerDao,
+        medicalServiceDataSourceModelToDomainMapper,
+        workerMapper,
+        medicalWorkerDataSourceModelToDomainMapper,
+    )
+
+    @Provides
+    fun providesMedicalWorkerWithServicesDataSourceModelToDomainMapper(
+        medicalWorkerDataSourceModelToDomainMapper: MedicalWorkerDataSourceModelToDomainMapper,
+        medicalServiceDataSourceModelToDomainMapper: MedicalServiceWithInfoDataSourceModelToDomainMapper,
+    ) = MedicalWorkerWithServicesDataSourceModelToDomainMapper(
+        medicalWorkerDataSourceModelToDomainMapper,
+        medicalServiceDataSourceModelToDomainMapper,
+    )
+
+    @Provides
+    fun providesSpecificMedicalWorkerDataSourceModelToDomainMapper(
+        medicalWorkerDataSourceModelToDomainMapper: MedicalWorkerDataSourceModelToDomainMapper,
+        medicalServiceDataSourceModelToDomainMapper: MedicalServiceDataSourceModelToDomainMapper,
+    ) = SpecificMedicalWorkerDataSourceToDomainMapper(
+        medicalWorkerDataSourceModelToDomainMapper,
+        medicalServiceDataSourceModelToDomainMapper,
+    )
+
+    @Provides
+    fun providesMedicalFacilityDataSourceModelToDomainMapper(
+        serviceMapper: MedicalServiceDataSourceModelToDomainMapper,
+        serviceWithWorkersMapper: MedicalServiceWithWorkersDataSourceModelToDomainMapper,
+    ) = MedicalFacilityDataSourceModelToDomainMapper(
+        serviceMapper,
+        serviceWithWorkersMapper,
+    )
 }

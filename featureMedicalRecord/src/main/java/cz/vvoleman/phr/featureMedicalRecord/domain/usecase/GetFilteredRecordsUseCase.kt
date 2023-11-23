@@ -77,7 +77,7 @@ class GetFilteredRecordsUseCase(
         List<GroupedItemsDomainModel<MedicalRecordDomainModel>> {
         val map = mutableMapOf<String, MutableList<MedicalRecordDomainModel>>()
         for (record in records) {
-            val worker = record.medicalWorker?.name ?: "-"
+            val worker = record.specificMedicalWorker?.medicalWorker?.name ?: "-"
 
             if (!map.containsKey(worker)) {
                 map[worker] = mutableListOf()

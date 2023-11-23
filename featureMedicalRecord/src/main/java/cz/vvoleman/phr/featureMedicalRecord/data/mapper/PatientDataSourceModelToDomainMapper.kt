@@ -7,7 +7,7 @@ class PatientDataSourceModelToDomainMapper {
 
     fun toDomain(patient: PatientDataSourceModel): PatientDomainModel {
         return PatientDomainModel(
-            id = patient.id.toString(),
+            id = patient.id?.toString() ?: "",
             name = patient.name,
             birthDate = patient.birthDate
         )

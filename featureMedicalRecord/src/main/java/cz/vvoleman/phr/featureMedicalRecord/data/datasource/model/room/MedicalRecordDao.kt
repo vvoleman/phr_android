@@ -1,6 +1,7 @@
 package cz.vvoleman.phr.featureMedicalRecord.data.datasource.model.room
 
 import androidx.room.*
+import cz.vvoleman.phr.common.data.datasource.model.healthcare.worker.SpecificMedicalWorkerWithDetailsDataSourceModel
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -21,7 +22,7 @@ interface MedicalRecordDao {
     @Transaction
     @Query(
         "SELECT * FROM medical_record " +
-            "WHERE patient_id = :patientId AND medical_worker_id IN (:workerIds) " +
+            "WHERE patient_id = :patientId AND specific_medical_worker_id IN (:workerIds) " +
             "AND problem_category_id IN (:categoryIds) ORDER BY :sortBy DESC"
     )
     fun filter(
@@ -45,13 +46,19 @@ interface MedicalRecordDao {
     @Transaction
     @Query(
         "SELECT * FROM medical_record " +
-            "WHERE patient_id = :patientId AND medical_worker_id IN (:workerIds) ORDER BY :sortBy DESC"
+            "WHERE patient_id = :patientId AND specific_medical_worker_id IN (:workerIds) ORDER BY :sortBy DESC"
     )
     fun filterInWorker(
         patientId: String,
         sortBy: String,
         workerIds: List<String>
     ): Flow<List<MedicalRecordWithDetails>>
+
+    @Query(
+        "SELECT * FROM specific_medical_worker " +
+            "WHERE id IN (SELECT specific_medical_worker_id FROM medical_record WHERE patient_id = :patientId)"
+    )
+    fun getUsedWorkersByPatientId(patientId: String): Flow<List<SpecificMedicalWorkerWithDetailsDataSourceModel>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(medicalRecord: MedicalRecordDataSourceModel): Long

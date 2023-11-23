@@ -1,6 +1,7 @@
 package cz.vvoleman.phr.featureMedicalRecord.domain.model
 
 import android.os.Parcelable
+import cz.vvoleman.phr.common.domain.model.healthcare.worker.SpecificMedicalWorkerDomainModel
 import kotlinx.parcelize.Parcelize
 import java.time.LocalDate
 
@@ -12,6 +13,6 @@ data class MedicalRecordDomainModel(
     val problemCategory: ProblemCategoryDomainModel? = null,
     val diagnose: DiagnoseDomainModel? = null,
     val visitDate: LocalDate,
-    val medicalWorker: MedicalWorkerDomainModel? = null,
+    val specificMedicalWorker: SpecificMedicalWorkerDomainModel? = null,
     val assets: List<MedicalRecordAssetDomainModel> = emptyList()
 ) : Parcelable

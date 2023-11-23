@@ -109,4 +109,7 @@
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:background">@android:color/white</item>
     </style>
+    <style name="NavigationView" >
+        <item name="android:textColorSecondary">@color/text_on_front</item>
+    </style>
 </resources>

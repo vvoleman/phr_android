@@ -7,7 +7,7 @@ data class AddEditDomainModel(
     val createdAt: LocalDate,
     val patientId: String,
     val problemCategoryId: String? = null,
-    val medicalWorkerId: String? = null,
+    val specificMedicalWorkerId: String? = null,
     val visitDate: LocalDate,
     val diagnoseId: String? = null,
     val files: List<AssetDomainModel> = listOf()

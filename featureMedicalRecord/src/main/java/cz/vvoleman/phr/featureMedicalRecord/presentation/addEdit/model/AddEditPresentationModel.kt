@@ -9,6 +9,6 @@ data class AddEditPresentationModel(
     val problemCategoryId: String? = null,
     val visitDate: LocalDate,
     val patientId: String,
-    val medicalWorkerId: String? = null,
+    val specificMedicalWorker: String? = null,
     val assets: List<AssetPresentationModel> = listOf()
 )

@@ -2,12 +2,15 @@ package cz.vvoleman.phr.di.medicalRecord
 
 import android.content.Context
 import cz.vvoleman.phr.common.data.datasource.model.PatientDao
+import cz.vvoleman.phr.common.data.datasource.model.healthcare.worker.MedicalWorkerDao
+import cz.vvoleman.phr.common.data.datasource.model.healthcare.worker.SpecificMedicalWorkerDao
+import cz.vvoleman.phr.common.data.mapper.healthcare.MedicalWorkerDataSourceModelToDomainMapper
+import cz.vvoleman.phr.common.data.mapper.healthcare.SpecificMedicalWorkerDataSourceToDomainMapper
 import cz.vvoleman.phr.featureMedicalRecord.data.datasource.model.retrofit.BackendApi
 import cz.vvoleman.phr.featureMedicalRecord.data.datasource.model.room.MedicalRecordDao
 import cz.vvoleman.phr.featureMedicalRecord.data.datasource.model.room.asset.MedicalRecordAssetDao
 import cz.vvoleman.phr.featureMedicalRecord.data.datasource.model.room.category.ProblemCategoryDao
 import cz.vvoleman.phr.featureMedicalRecord.data.datasource.model.room.diagnose.DiagnoseDao
-import cz.vvoleman.phr.featureMedicalRecord.data.datasource.model.room.worker.MedicalWorkerDao
 import cz.vvoleman.phr.featureMedicalRecord.data.mapper.*
 import cz.vvoleman.phr.featureMedicalRecord.data.repository.*
 import cz.vvoleman.phr.featureMedicalRecord.domain.repository.*
@@ -76,19 +79,17 @@ class DataModule {
     fun providesMedicalRecordDataSourceToDomainMapper(
         patient: PatientDataSourceModelToDomainMapper,
         diagnose: DiagnoseDataSourceToDomainMapper,
-        medicalWorker: MedicalWorkerDataSourceToDomainMapper,
-        problemCategoryDataSourceModel: ProblemCategoryDataSourceToDomainMapper
+        specificWorker: SpecificMedicalWorkerDataSourceToDomainMapper,
+        problemCategoryDataSourceModel: ProblemCategoryDataSourceToDomainMapper,
+        specificWorkerDao: SpecificMedicalWorkerDao
     ) =
         MedicalRecordDataSourceToDomainMapper(
             patient,
             diagnose,
-            medicalWorker,
-            problemCategoryDataSourceModel
+            specificWorker,
+            problemCategoryDataSourceModel,
+            specificWorkerDao
         )
-
-    @Provides
-    fun providesMedicalWorkerDataSourceToDomainMapper(address: AddressDataSourceToDomainMapper) =
-        MedicalWorkerDataSourceToDomainMapper(address)
 
     @Provides
     fun providesPatientDataSourceToDomainMapper() =
@@ -114,11 +115,15 @@ class DataModule {
 
     @Provides
     fun providesMedicalWorkersRepository(
+        medicalRecordDao: MedicalRecordDao,
         medicalWorkerDao: MedicalWorkerDao,
-        medicalWorkerDataSourceToDomainMapper: MedicalWorkerDataSourceToDomainMapper
+        workerMapper: MedicalWorkerDataSourceModelToDomainMapper,
+        specificWorkerMapper: SpecificMedicalWorkerDataSourceToDomainMapper
     ) = MedicalWorkerRepository(
+        medicalRecordDao,
         medicalWorkerDao,
-        medicalWorkerDataSourceToDomainMapper
+        workerMapper,
+        specificWorkerMapper
     )
 
     @Provides
