@@ -11,9 +11,9 @@ class GroupScheduleItemsUseCase(
     coroutineContextProvider: CoroutineContextProvider
 ) :
     BackgroundExecutingUseCase<
-            GroupScheduleItemsRequest,
-            List<GroupedItemsDomainModel<ScheduleItemWithDetailsDomainModel>>
-            >(
+        GroupScheduleItemsRequest,
+        List<GroupedItemsDomainModel<ScheduleItemWithDetailsDomainModel>>
+        >(
         coroutineContextProvider
     ) {
 
