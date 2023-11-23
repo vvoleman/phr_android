@@ -1,5 +1,6 @@
-<?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- First group with a label -->
     <group
         android:id="@+id/group_base_actions"
         android:checkableBehavior="single">
@@ -18,35 +19,30 @@
             android:id="@+id/listMedicineFragment"
             android:icon="@drawable/ic_medicine"
             android:title="@string/medicine" />
+
         <item
             android:id="@+id/measurementsFragment"
             android:icon="@drawable/ic_measurements"
             android:title="@string/measurements" />
     </group>
-    <group
-        android:id="@+id/group_categories"
-        android:checkableBehavior="single">
-        <item android:title="@string/categorization">
-            <menu>
-                <item
-                    android:id="@+id/problemCategoriesFragment"
-                    android:icon="@drawable/ic_problem_categories"
-                    android:title="@string/problem_categories"
-                    />
-                <item
-                    android:id="@+id/medicalWorkersFragment"
-                    android:icon="@drawable/ic_medical_workers"
-                    android:title="@string/medical_workers"
-                    />
-            </menu>
-        </item>
-    </group>
-    <group
-        android:id="@+id/group_settings"
-        android:checkableBehavior="single">
-        <item
-            android:id="@+id/settingsFragment"
-            android:icon="@drawable/ic_settings"
-            android:title="@string/settings" />
-    </group>
+
+    <item android:title="@string/categorization">
+        <menu>
+            <item
+                android:id="@+id/problemCategoriesFragment"
+                android:icon="@drawable/ic_problem_categories"
+                android:title="@string/problem_categories" />
+
+            <item
+                android:id="@+id/medicalWorkersFragment"
+                android:icon="@drawable/ic_medical_workers"
+                android:title="@string/medical_workers" />
+        </menu>
+    </item>
+
+    <!-- Individual items without a group -->
+    <item
+        android:id="@+id/settingsFragment"
+        android:icon="@drawable/ic_settings"
+        android:title="@string/settings" />
 </menu>

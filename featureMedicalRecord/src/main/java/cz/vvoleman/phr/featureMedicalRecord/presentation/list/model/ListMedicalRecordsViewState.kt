@@ -2,8 +2,8 @@ package cz.vvoleman.phr.featureMedicalRecord.presentation.list.model
 
 import android.os.Parcelable
 import cz.vvoleman.phr.common.domain.GroupedItemsDomainModel
+import cz.vvoleman.phr.common.domain.model.healthcare.worker.MedicalWorkerDomainModel
 import cz.vvoleman.phr.featureMedicalRecord.domain.model.MedicalRecordDomainModel
-import cz.vvoleman.phr.featureMedicalRecord.domain.model.MedicalWorkerDomainModel
 import cz.vvoleman.phr.featureMedicalRecord.domain.model.ProblemCategoryDomainModel
 import cz.vvoleman.phr.featureMedicalRecord.domain.model.list.GroupByDomainModel
 import cz.vvoleman.phr.featureMedicalRecord.domain.model.list.SortByDomainModel

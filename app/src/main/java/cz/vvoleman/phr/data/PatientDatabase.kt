@@ -7,9 +7,16 @@ import androidx.room.TypeConverters
 import androidx.sqlite.db.SupportSQLiteDatabase
 import cz.vvoleman.phr.common.data.datasource.model.PatientDao
 import cz.vvoleman.phr.common.data.datasource.model.PatientDataSourceModel
+import cz.vvoleman.phr.common.data.datasource.model.healthcare.facility.MedicalFacilityDao
+import cz.vvoleman.phr.common.data.datasource.model.healthcare.facility.MedicalFacilityDataSourceModel
+import cz.vvoleman.phr.common.data.datasource.model.healthcare.service.MedicalServiceDao
+import cz.vvoleman.phr.common.data.datasource.model.healthcare.service.MedicalServiceDataSourceModel
+import cz.vvoleman.phr.common.data.datasource.model.healthcare.worker.MedicalWorkerDao
+import cz.vvoleman.phr.common.data.datasource.model.healthcare.worker.MedicalWorkerDataSourceModel
+import cz.vvoleman.phr.common.data.datasource.model.healthcare.worker.SpecificMedicalWorkerDao
+import cz.vvoleman.phr.common.data.datasource.model.healthcare.worker.SpecificMedicalWorkerDataSourceModel
 import cz.vvoleman.phr.data.fixture.DiagnoseFixture
 import cz.vvoleman.phr.data.fixture.DiagnoseGroupFixture
-import cz.vvoleman.phr.data.fixture.MedicalRecordFixture
 import cz.vvoleman.phr.data.fixture.MedicalWorkerFixture
 import cz.vvoleman.phr.data.fixture.PatientFixture
 import cz.vvoleman.phr.data.fixture.ProblemCategoryFixture
@@ -24,8 +31,6 @@ import cz.vvoleman.phr.featureMedicalRecord.data.datasource.model.room.diagnose.
 import cz.vvoleman.phr.featureMedicalRecord.data.datasource.model.room.diagnose.DiagnoseDataSourceModel
 import cz.vvoleman.phr.featureMedicalRecord.data.datasource.model.room.diagnose.DiagnoseGroupDao
 import cz.vvoleman.phr.featureMedicalRecord.data.datasource.model.room.diagnose.DiagnoseGroupDataSourceModel
-import cz.vvoleman.phr.featureMedicalRecord.data.datasource.model.room.worker.MedicalWorkerDao
-import cz.vvoleman.phr.featureMedicalRecord.data.datasource.model.room.worker.MedicalWorkerDataSourceModel
 import cz.vvoleman.phr.featureMedicine.data.datasource.room.medicine.MedicineDataSourceModel
 import cz.vvoleman.phr.featureMedicine.data.datasource.room.medicine.ProductFormDataSourceModel
 import cz.vvoleman.phr.featureMedicine.data.datasource.room.medicine.SubstanceDataSourceModel
@@ -50,6 +55,9 @@ import javax.inject.Provider
         MedicalRecordDataSourceModel::class,
         ProblemCategoryDataSourceModel::class,
         MedicalWorkerDataSourceModel::class,
+        SpecificMedicalWorkerDataSourceModel::class,
+        MedicalServiceDataSourceModel::class,
+        MedicalFacilityDataSourceModel::class,
         MedicalRecordAssetDataSourceModel::class,
         MedicineDataSourceModel::class,
         ProductFormDataSourceModel::class,
@@ -71,6 +79,12 @@ abstract class PatientDatabase : RoomDatabase() {
     abstract fun problemCategoryDao(): ProblemCategoryDao
 
     abstract fun medicalWorkerDao(): MedicalWorkerDao
+
+    abstract fun specificMedicalWorkerDao(): SpecificMedicalWorkerDao
+
+    abstract fun medicalServiceDao(): MedicalServiceDao
+
+    abstract fun medicalFacilityDao(): MedicalFacilityDao
 
     abstract fun medicalRecordAssetDao(): MedicalRecordAssetDao
 
@@ -117,14 +131,14 @@ abstract class PatientDatabase : RoomDatabase() {
                 val medicalWorkerFixture = MedicalWorkerFixture(database.medicalWorkerDao())
                 val medicalWorkers = medicalWorkerFixture.setup()
 
-                val medicalRecordFixture = MedicalRecordFixture(
-                    medicalRecordDao,
-                    patients,
-                    diagnoses,
-                    problemCategories,
-                    medicalWorkers
-                )
-                medicalRecordFixture.setup()
+//                val medicalRecordFixture = MedicalRecordFixture(
+//                    medicalRecordDao,
+//                    patients,
+//                    diagnoses,
+//                    problemCategories,
+//                    medicalWorkers
+//                )
+//                medicalRecordFixture.setup()
             }
         }
     }

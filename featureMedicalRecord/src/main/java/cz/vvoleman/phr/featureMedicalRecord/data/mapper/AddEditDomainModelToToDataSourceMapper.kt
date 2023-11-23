@@ -9,7 +9,7 @@ class AddEditDomainModelToToDataSourceMapper {
         return MedicalRecordDataSourceModel(
             id = addEditDomainModel.id?.toInt(),
             patientId = addEditDomainModel.patientId.toInt(),
-            medicalWorkerId = addEditDomainModel.medicalWorkerId?.toInt(),
+            specificMedicalWorkerId = addEditDomainModel.specificMedicalWorkerId?.toInt(),
             problemCategoryId = addEditDomainModel.problemCategoryId?.toInt(),
             diagnoseId = addEditDomainModel.diagnoseId,
             visitDate = addEditDomainModel.visitDate,

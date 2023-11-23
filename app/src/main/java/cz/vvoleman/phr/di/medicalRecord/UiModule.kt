@@ -47,11 +47,11 @@ class UiModule {
     )
 
     @Provides
-    fun providesMedicalRecordDomainToUiMapper() = MedicalRecorDomainModelToUiMapper()
+    fun providesMedicalRecordDomainToUiMapper() = MedicalRecordDomainModelToUiMapper()
 
     @Provides
     fun providesGroupedItemsDomainToUiMapper(
-        mapper: MedicalRecorDomainModelToUiMapper
+        mapper: MedicalRecordDomainModelToUiMapper
     ) = GroupedItemsDomainModelToUiMapper(
         mapper
     )

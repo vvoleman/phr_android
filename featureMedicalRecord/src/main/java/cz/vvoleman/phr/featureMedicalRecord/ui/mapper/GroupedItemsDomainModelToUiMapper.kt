@@ -6,7 +6,7 @@ import cz.vvoleman.phr.featureMedicalRecord.domain.model.MedicalRecordDomainMode
 import cz.vvoleman.phr.featureMedicalRecord.ui.model.MedicalRecordUiModel
 
 class GroupedItemsDomainModelToUiMapper(
-    private val medicalRecordDomainModelToUiMapper: MedicalRecorDomainModelToUiMapper
+    private val medicalRecordDomainModelToUiMapper: MedicalRecordDomainModelToUiMapper
 ) {
 
     fun toUi(model: GroupedItemsDomainModel<MedicalRecordDomainModel>): GroupedItemsUiModel<MedicalRecordUiModel> {

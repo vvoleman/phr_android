@@ -3,10 +3,10 @@ package cz.vvoleman.phr.featureMedicalRecord.data.datasource.model.room
 import androidx.room.Embedded
 import androidx.room.Relation
 import cz.vvoleman.phr.common.data.datasource.model.PatientDataSourceModel
+import cz.vvoleman.phr.common.data.datasource.model.healthcare.worker.SpecificMedicalWorkerDataSourceModel
 import cz.vvoleman.phr.featureMedicalRecord.data.datasource.model.room.asset.MedicalRecordAssetDataSourceModel
 import cz.vvoleman.phr.featureMedicalRecord.data.datasource.model.room.category.ProblemCategoryDataSourceModel
 import cz.vvoleman.phr.featureMedicalRecord.data.datasource.model.room.diagnose.DiagnoseDataSourceModel
-import cz.vvoleman.phr.featureMedicalRecord.data.datasource.model.room.worker.MedicalWorkerDataSourceModel
 
 data class MedicalRecordWithDetails(
     @Embedded val medicalRecord: MedicalRecordDataSourceModel,
@@ -23,10 +23,10 @@ data class MedicalRecordWithDetails(
     val diagnose: DiagnoseDataSourceModel?,
 
     @Relation(
-        parentColumn = "medical_worker_id",
+        parentColumn = "specific_medical_worker_id",
         entityColumn = "id"
     )
-    val medicalWorker: MedicalWorkerDataSourceModel?,
+    val specificMedicalWorker: SpecificMedicalWorkerDataSourceModel?,
 
     @Relation(
         parentColumn = "id",
