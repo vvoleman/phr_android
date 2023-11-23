@@ -3,7 +3,7 @@ package cz.vvoleman.phr.featureMedicalRecord.ui.mapper
 import cz.vvoleman.phr.featureMedicalRecord.domain.model.MedicalRecordDomainModel
 import cz.vvoleman.phr.featureMedicalRecord.ui.model.MedicalRecordUiModel
 
-class MedicalRecorDomainModelToUiMapper {
+class MedicalRecordDomainModelToUiMapper {
 
     fun toUi(model: MedicalRecordDomainModel): MedicalRecordUiModel {
         return MedicalRecordUiModel(
@@ -15,7 +15,7 @@ class MedicalRecorDomainModelToUiMapper {
             problemCategoryColor = model.problemCategory?.color,
             diagnoseId = model.diagnose?.id,
             diagnoseName = model.diagnose?.name,
-            medicalWorker = model.medicalWorker?.name
+            medicalWorker = model.specificMedicalWorker?.medicalWorker?.name
         )
     }
 }

@@ -14,7 +14,7 @@ class AddEditPresentationModelToDomainMapper(
             diagnoseId = model.diagnoseId,
             problemCategoryId = model.problemCategoryId,
             patientId = model.patientId,
-            medicalWorkerId = model.medicalWorkerId,
+            specificMedicalWorkerId = model.specificMedicalWorker,
             visitDate = model.visitDate,
             files = model.assets.map { assetPresentationToDomainModel.toDomain(it) }
         )

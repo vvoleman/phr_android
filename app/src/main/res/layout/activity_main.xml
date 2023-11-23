@@ -26,6 +26,7 @@
         android:layout_width="wrap_content"
         android:layout_gravity="start"
         app:headerLayout="@layout/nav_header"
+        android:theme="@style/NavigationView"
         app:menu="@menu/drawer_main_left_nav_menu"
         style="@style/LeftDrawer"
         android:layout_height="match_parent" />

@@ -13,7 +13,7 @@ class AddEditViewStateToModel {
                 diagnoseId = viewState.diagnoseId!!,
                 problemCategoryId = viewState.problemCategoryId!!,
                 patientId = viewState.patientId!!,
-                medicalWorkerId = viewState.medicalWorkerId!!,
+                specificMedicalWorker = viewState.specificMedicalWorkerId!!,
                 visitDate = viewState.visitDate!!
             )
         } catch (e: NullPointerException) {

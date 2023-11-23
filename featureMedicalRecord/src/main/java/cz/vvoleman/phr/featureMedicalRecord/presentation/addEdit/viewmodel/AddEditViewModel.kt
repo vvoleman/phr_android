@@ -94,7 +94,7 @@ class AddEditViewModel @Inject constructor(
             }
 
             viewModelScope.launch {
-                val data = getUserListsUseCase.execute(
+                getUserListsUseCase.execute(
                     currentViewState.patientId!!,
                     ::handleUserLists
                 )
@@ -115,7 +115,7 @@ class AddEditViewModel @Inject constructor(
     }
 
     fun onDiagnoseSearch(query: String) = viewModelScope.launch {
-        val data = searchDiagnoseUseCase.execute(
+        searchDiagnoseUseCase.execute(
             SearchRequestDomainModel(
                 query,
                 currentViewState.diagnosePage
@@ -137,7 +137,7 @@ class AddEditViewModel @Inject constructor(
             diagnoseId = currentViewState.diagnoseId,
             problemCategoryId = currentViewState.problemCategoryId,
             visitDate = currentViewState.visitDate!!,
-            medicalWorkerId = currentViewState.medicalWorkerId,
+            specificMedicalWorker = currentViewState.specificMedicalWorkerId,
             assets = currentViewState.assets
         )
 
@@ -180,7 +180,7 @@ class AddEditViewModel @Inject constructor(
                 recordId = data.id,
                 diagnoseId = data.diagnose?.id,
                 problemCategoryId = data.problemCategory?.id,
-                medicalWorkerId = data.medicalWorker?.id,
+                specificMedicalWorkerId = data.specificMedicalWorker?.id,
                 visitDate = data.visitDate,
                 assets = data.assets.map { AssetPresentationModel(id = it.id, uri = it.url, createdAt = it.createdAt) }
             )

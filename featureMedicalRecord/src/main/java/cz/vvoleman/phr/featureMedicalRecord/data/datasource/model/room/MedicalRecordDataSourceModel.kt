@@ -11,7 +11,7 @@ data class MedicalRecordDataSourceModel(
     @ColumnInfo(name = "patient_id") val patientId: Int,
     @ColumnInfo(name = "problem_category_id") val problemCategoryId: Int? = null,
     @ColumnInfo(name = "diagnose_id") val diagnoseId: String? = null,
-    @ColumnInfo(name = "medical_worker_id") val medicalWorkerId: Int? = null,
+    @ColumnInfo(name = "specific_medical_worker_id") val specificMedicalWorkerId: Int? = null,
     @ColumnInfo(name = "created_at") val createdAt: LocalDate = LocalDate.now(),
     @ColumnInfo(name = "visit_date") val visitDate: LocalDate,
     val comment: String = ""

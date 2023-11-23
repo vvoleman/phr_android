@@ -1,8 +1,8 @@
 package cz.vvoleman.phr.featureMedicalRecord.domain.repository
 
-import cz.vvoleman.phr.featureMedicalRecord.domain.model.MedicalWorkerDomainModel
+import cz.vvoleman.phr.common.domain.model.healthcare.worker.SpecificMedicalWorkerDomainModel
 
 interface GetUsedMedicalWorkersRepository {
 
-    suspend fun getUsedMedicalWorkers(patientId: String): List<MedicalWorkerDomainModel>
+    suspend fun getUsedMedicalWorkers(patientId: String): List<SpecificMedicalWorkerDomainModel>
 }

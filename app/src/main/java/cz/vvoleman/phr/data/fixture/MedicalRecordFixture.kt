@@ -39,7 +39,7 @@ class MedicalRecordFixture(
                 patientId = patients[0].id!!,
                 diagnoseId = diagnoses[0].id,
                 problemCategoryId = problemCategories[0].id,
-                medicalWorkerId = medicalWorkers[0].id,
+                specificMedicalWorkerId = medicalWorkers[0].id,
                 createdAt = dateA,
                 visitDate = dateA
             ),
@@ -48,7 +48,7 @@ class MedicalRecordFixture(
                 patientId = patients[0].id!!,
                 diagnoseId = diagnoses[1].id,
                 problemCategoryId = problemCategories[0].id,
-                medicalWorkerId = medicalWorkers[1].id,
+                specificMedicalWorkerId = medicalWorkers[1].id,
                 createdAt = dateB,
                 visitDate = dateB
             ),
@@ -57,7 +57,7 @@ class MedicalRecordFixture(
                 patientId = patients[0].id!!,
                 diagnoseId = diagnoses[1].id,
                 problemCategoryId = problemCategories[1].id,
-                medicalWorkerId = medicalWorkers[2].id,
+                specificMedicalWorkerId = medicalWorkers[2].id,
                 createdAt = dateC,
                 visitDate = dateC
             ),
