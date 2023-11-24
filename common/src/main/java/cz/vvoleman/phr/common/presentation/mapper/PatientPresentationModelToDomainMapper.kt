@@ -1,7 +1,7 @@
 package cz.vvoleman.phr.common.presentation.mapper
 
 import cz.vvoleman.phr.common.domain.model.PatientDomainModel
-import cz.vvoleman.phr.common.presentation.model.PatientPresentationModel
+import cz.vvoleman.phr.common.presentation.model.patient.PatientPresentationModel
 
 class PatientPresentationModelToDomainMapper {
 

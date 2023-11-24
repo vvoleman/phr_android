@@ -37,7 +37,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
             style="@style/SecondaryButton"
-            android:text="Upravit"
+            android:text="@string/action_edit"
             android:textSize="12sp"
             app:icon="@drawable/ic_edit"
             app:iconSize="16dp" />

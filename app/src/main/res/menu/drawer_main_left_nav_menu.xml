@@ -28,15 +28,16 @@
 
     <item android:title="@string/categorization">
         <menu>
-            <item
-                android:id="@+id/problemCategoriesFragment"
-                android:icon="@drawable/ic_problem_categories"
-                android:title="@string/problem_categories" />
-
-            <item
-                android:id="@+id/medicalWorkersFragment"
-                android:icon="@drawable/ic_medical_workers"
-                android:title="@string/medical_workers" />
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/problemCategoriesFragment"
+                    android:icon="@drawable/ic_problem_categories"
+                    android:title="@string/problem_categories" />
+                <item
+                    android:id="@+id/listHealthcareFragment"
+                    android:icon="@drawable/ic_medical_workers"
+                    android:title="@string/medical_workers" />
+            </group>
         </menu>
     </item>
 

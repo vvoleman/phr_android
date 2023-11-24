@@ -5,9 +5,11 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import com.google.android.material.snackbar.Snackbar
 import cz.vvoleman.phr.base.ui.mapper.ViewStateBinder
 import cz.vvoleman.phr.base.ui.view.BaseFragment
+import cz.vvoleman.phr.common.data.repository.HealthcareRepository
 import cz.vvoleman.phr.featureMedicine.R
 import cz.vvoleman.phr.featureMedicine.databinding.FragmentListMedicineBinding
 import cz.vvoleman.phr.featureMedicine.presentation.list.model.ListMedicineNotification
@@ -27,6 +29,7 @@ import cz.vvoleman.phr.featureMedicine.ui.list.model.schedule.MedicineScheduleUi
 import cz.vvoleman.phr.featureMedicine.ui.list.model.schedule.NextScheduleItemUiModel
 import cz.vvoleman.phr.featureMedicine.ui.list.model.schedule.ScheduleItemWithDetailsUiModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -49,6 +52,11 @@ class ListMedicineFragment :
 
     private lateinit var fragmentAdapter: MedicineFragmentAdapter
 
+    @Inject
+    public lateinit var healthcareRepository: HealthcareRepository
+
+    private var counter = 0
+
     override fun setupBinding(
         inflater: LayoutInflater,
         container: ViewGroup?
@@ -65,7 +73,12 @@ class ListMedicineFragment :
         (viewStateBinder as ListMedicineBinder).setFragmentAdapter(fragmentAdapter)
 
         binding.fabAddMedicalRecord.setOnClickListener {
-            viewModel.onCreate()
+//            viewModel.onCreate()
+            Log.d(TAG, "starting to get medical facilities")
+            lifecycleScope.launch {
+                val data = healthcareRepository.getMedicalFacilities(counter++, "", "Ústí nad Labem")
+                Log.d(TAG, "data: $data")
+            }
         }
         binding.nextSchedule.setListener(this)
     }

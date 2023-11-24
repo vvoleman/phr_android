@@ -40,7 +40,8 @@ class MainActivity : AppCompatActivity() {
                 R.id.listMedicalRecordsFragment,
                 R.id.listMedicineFragment,
                 R.id.overviewFragment,
-                R.id.measurementsFragment
+                R.id.measurementsFragment,
+                R.id.listHealthcareFragment,
             ),
             binding.drawerLayout
         )
@@ -54,7 +55,7 @@ class MainActivity : AppCompatActivity() {
 
         val patientsButton = binding.navView.getHeaderView(0).findViewById<Button>(R.id.button_edit_patient)
         patientsButton.setOnClickListener {
-            navController.navigate(cz.vvoleman.phr.common_datasource.R.id.nav_common)
+            navController.navigate(cz.vvoleman.phr.common_datasource.R.id.nav_patient)
             binding.drawerLayout.close()
         }
     }
@@ -102,6 +103,11 @@ class MainActivity : AppCompatActivity() {
                 }
                 R.id.listMedicineFragment -> {
                     navController.navigate(cz.vvoleman.phr.featureMedicine.R.id.nav_medicine)
+                    binding.drawerLayout.close()
+                    true
+                }
+                R.id.listHealthcareFragment -> {
+                    navController.navigate(cz.vvoleman.phr.common_datasource.R.id.nav_healthcare)
                     binding.drawerLayout.close()
                     true
                 }
