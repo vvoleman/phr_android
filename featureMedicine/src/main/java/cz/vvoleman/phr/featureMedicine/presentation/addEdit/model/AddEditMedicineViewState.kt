@@ -1,6 +1,6 @@
 package cz.vvoleman.phr.featureMedicine.presentation.addEdit.model
 
-import cz.vvoleman.phr.common.presentation.model.PatientPresentationModel
+import cz.vvoleman.phr.common.presentation.model.patient.PatientPresentationModel
 import cz.vvoleman.phr.featureMedicine.presentation.list.model.MedicinePresentationModel
 
 data class AddEditMedicineViewState(

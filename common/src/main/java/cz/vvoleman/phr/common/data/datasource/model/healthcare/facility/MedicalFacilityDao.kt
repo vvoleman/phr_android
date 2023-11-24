@@ -22,6 +22,9 @@ interface MedicalFacilityDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(medicalFacility: MedicalFacilityDataSourceModel)
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertAll(medicalFacilities: List<MedicalFacilityDataSourceModel>)
+
     @Query("DELETE FROM medical_facility WHERE id = :id")
     suspend fun delete(id: Int)
 

@@ -1,6 +1,6 @@
 package cz.vvoleman.phr.featureMedicine.presentation.export.model
 
-import cz.vvoleman.phr.common.presentation.model.PatientPresentationModel
+import cz.vvoleman.phr.common.presentation.model.patient.PatientPresentationModel
 import cz.vvoleman.phr.featureMedicine.domain.model.export.ExportType
 import cz.vvoleman.phr.featureMedicine.presentation.list.model.MedicinePresentationModel
 import java.time.LocalDateTime

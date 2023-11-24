@@ -1,7 +1,7 @@
 package cz.vvoleman.phr.featureMedicine.presentation.list.model
 
-import cz.vvoleman.phr.common.presentation.model.GroupedItemsPresentationModel
-import cz.vvoleman.phr.common.presentation.model.PatientPresentationModel
+import cz.vvoleman.phr.common.presentation.model.grouped.GroupedItemsPresentationModel
+import cz.vvoleman.phr.common.presentation.model.patient.PatientPresentationModel
 
 data class ListMedicineViewState(
     val patient: PatientPresentationModel? = null,

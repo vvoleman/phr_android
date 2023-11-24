@@ -18,4 +18,5 @@
     <string name="action_save">Uložit</string>
     <string name="field_error_empty">Toto pole musí být vyplněno</string>
     <string name="helper_required">Povinné pole</string>
+    <string name="nav_list_healthcare_label">Seznam lék. zařízení</string>
 </resources>

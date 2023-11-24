@@ -53,6 +53,12 @@ dependencies {
     implementation 'androidx.navigation:navigation-ui-ktx:2.5.3'
     kapt("androidx.room:room-compiler:$room_version")
 
+    // Retrofit
+    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
+
+    implementation "androidx.paging:paging-runtime:$paging_version"
+
     // Hilt
     implementation "com.google.dagger:hilt-android:$hilt_version"
     kapt "com.google.dagger:hilt-compiler:$hilt_version"
