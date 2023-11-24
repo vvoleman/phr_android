@@ -1,6 +1,6 @@
 package cz.vvoleman.phr.featureMedicine.ui.list.mapper
 
-import cz.vvoleman.phr.common.ui.mapper.PatientUiModelToPresentationMapper
+import cz.vvoleman.phr.common.ui.mapper.patient.PatientUiModelToPresentationMapper
 import cz.vvoleman.phr.featureMedicine.presentation.list.model.MedicineSchedulePresentationModel
 import cz.vvoleman.phr.featureMedicine.ui.list.model.schedule.MedicineScheduleUiModel
 

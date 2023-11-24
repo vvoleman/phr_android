@@ -5,9 +5,13 @@ import cz.vvoleman.phr.common.data.alarm.AlarmScheduler
 import cz.vvoleman.phr.common.data.alarm.AndroidAlarmScheduler
 import cz.vvoleman.phr.common.data.datasource.model.PatientDao
 import cz.vvoleman.phr.common.data.datasource.model.PatientDataStore
+import cz.vvoleman.phr.common.data.datasource.model.healthcare.facility.MedicalFacilityDao
+import cz.vvoleman.phr.common.data.datasource.model.healthcare.service.MedicalServiceDao
 import cz.vvoleman.phr.common.data.datasource.model.healthcare.worker.SpecificMedicalWorkerDao
+import cz.vvoleman.phr.common.data.datasource.model.retrofit.healthcare.HealthcareApi
 import cz.vvoleman.phr.common.data.mapper.PatientDataSourceModelToAddEditMapper
 import cz.vvoleman.phr.common.data.mapper.PatientDataSourceModelToDomainMapper
+import cz.vvoleman.phr.common.data.mapper.healthcare.MedicalFacilityApiModelToDbMapper
 import cz.vvoleman.phr.common.data.mapper.healthcare.MedicalFacilityDataSourceModelToDomainMapper
 import cz.vvoleman.phr.common.data.mapper.healthcare.MedicalServiceDataSourceModelToDomainMapper
 import cz.vvoleman.phr.common.data.mapper.healthcare.MedicalServiceWithInfoDataSourceModelToDomainMapper
@@ -16,6 +20,7 @@ import cz.vvoleman.phr.common.data.mapper.healthcare.MedicalWorkerDataSourceMode
 import cz.vvoleman.phr.common.data.mapper.healthcare.MedicalWorkerWithInfoDataSourceModelToDomainMapper
 import cz.vvoleman.phr.common.data.mapper.healthcare.MedicalWorkerWithServicesDataSourceModelToDomainMapper
 import cz.vvoleman.phr.common.data.mapper.healthcare.SpecificMedicalWorkerDataSourceToDomainMapper
+import cz.vvoleman.phr.common.data.repository.HealthcareRepository
 import cz.vvoleman.phr.common.data.repository.PatientRepository
 import cz.vvoleman.phr.common.domain.repository.*
 import dagger.Module
@@ -141,5 +146,21 @@ class DataModule {
     ) = MedicalFacilityDataSourceModelToDomainMapper(
         serviceMapper,
         serviceWithWorkersMapper,
+    )
+
+    @Provides
+    fun providesMedicalFacilityApiModelToDbMapper() = MedicalFacilityApiModelToDbMapper()
+
+    @Provides
+    fun providesHealthcareRepository(
+        api: HealthcareApi,
+        apiModelToDbMapper: MedicalFacilityApiModelToDbMapper,
+        medicalFacilityDao: MedicalFacilityDao,
+        medicalServiceDao: MedicalServiceDao,
+    ) = HealthcareRepository(
+        api,
+        apiModelToDbMapper,
+        medicalFacilityDao,
+        medicalServiceDao,
     )
 }
