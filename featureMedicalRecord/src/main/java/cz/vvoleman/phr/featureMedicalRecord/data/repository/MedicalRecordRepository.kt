@@ -1,6 +1,7 @@
 package cz.vvoleman.phr.featureMedicalRecord.data.repository
 
 import android.util.Log
+import cz.vvoleman.phr.common.domain.model.healthcare.worker.MedicalWorkerDomainModel
 import cz.vvoleman.phr.featureMedicalRecord.data.datasource.model.room.MedicalRecordDao
 import cz.vvoleman.phr.featureMedicalRecord.data.mapper.AddEditDomainModelToToDataSourceMapper
 import cz.vvoleman.phr.featureMedicalRecord.data.mapper.FilterRequestDomainModelToDataMapper
@@ -11,6 +12,7 @@ import cz.vvoleman.phr.featureMedicalRecord.domain.model.MedicalRecordDomainMode
 import cz.vvoleman.phr.featureMedicalRecord.domain.model.addEdit.AddEditDomainModel
 import cz.vvoleman.phr.featureMedicalRecord.domain.model.list.FilterRequestDomainModel
 import cz.vvoleman.phr.featureMedicalRecord.domain.repository.AddEditMedicalRecordRepository
+import cz.vvoleman.phr.featureMedicalRecord.domain.repository.GetMedicalRecordByMedicalWorkerRepository
 import cz.vvoleman.phr.featureMedicalRecord.domain.repository.GetRecordByIdRepository
 import cz.vvoleman.phr.featureMedicalRecord.domain.repository.MedicalRecordFilterRepository
 import kotlinx.coroutines.flow.first
@@ -21,7 +23,10 @@ class MedicalRecordRepository(
     private val filterRequestDomainModelToDataMapper: FilterRequestDomainModelToDataMapper,
     private val medicalRecordDataSourceToDomainMapper: MedicalRecordDataSourceToDomainMapper,
     private val addEditDomainModelToToDataSourceMapper: AddEditDomainModelToToDataSourceMapper
-) : AddEditMedicalRecordRepository, MedicalRecordFilterRepository, GetRecordByIdRepository {
+) : AddEditMedicalRecordRepository,
+    MedicalRecordFilterRepository,
+    GetRecordByIdRepository,
+    GetMedicalRecordByMedicalWorkerRepository {
 
     override suspend fun save(addEditMedicalRecordModel: AddEditDomainModel): String {
         val model = addEditDomainModelToToDataSourceMapper.toDataSource(addEditMedicalRecordModel)
@@ -48,16 +53,19 @@ class MedicalRecordRepository(
                 filterRequest.sortBy,
                 filterRequest.selectedCategoryProblemIds
             )
+
             FilterRequestStateDataModel.CategoryAndWorker -> medicalRecordDao.filter(
                 filterRequest.patientId,
                 filterRequest.sortBy,
                 filterRequest.selectedMedicalWorkerIds,
                 filterRequest.selectedCategoryProblemIds
             )
+
             FilterRequestStateDataModel.Empty -> medicalRecordDao.getByPatientId(
                 filterRequest.patientId,
                 filterRequest.sortBy
             )
+
             FilterRequestStateDataModel.Worker -> medicalRecordDao.filterInWorker(
                 filterRequest.patientId,
                 filterRequest.sortBy,
@@ -82,5 +90,10 @@ class MedicalRecordRepository(
             hasWorkers -> FilterRequestStateDataModel.Worker
             else -> FilterRequestStateDataModel.Empty
         }
+    }
+
+    override suspend fun getMedicalRecordsByMedicalWorker(medicalWorker: MedicalWorkerDomainModel): List<MedicalRecordDomainModel> {
+        return medicalRecordDao.getByMedicalWorkerId(medicalWorker.id).first()
+            .map { medicalRecordDataSourceToDomainMapper.toDomain(it) }
     }
 }

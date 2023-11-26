@@ -8,6 +8,13 @@ import cz.vvoleman.phr.common.data.mapper.PatientDataSourceModelToDomainMapper
 import cz.vvoleman.phr.common.domain.model.AddEditPatientDomainModel
 import cz.vvoleman.phr.common.domain.model.PatientDomainModel
 import cz.vvoleman.phr.common.domain.repository.*
+import cz.vvoleman.phr.common.domain.repository.patient.DeletePatientRepository
+import cz.vvoleman.phr.common.domain.repository.patient.GetAllPatientsRepository
+import cz.vvoleman.phr.common.domain.repository.patient.GetPatientByBirthDateRepository
+import cz.vvoleman.phr.common.domain.repository.patient.GetPatientByIdRepository
+import cz.vvoleman.phr.common.domain.repository.patient.GetSelectedPatientRepository
+import cz.vvoleman.phr.common.domain.repository.patient.SavePatientRepository
+import cz.vvoleman.phr.common.domain.repository.patient.SwitchSelectedPatientRepository
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*
 import java.time.LocalDate

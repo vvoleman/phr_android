@@ -26,8 +26,18 @@ class GroupedItemsAdapter<TYPE : Any> (private val listener: GroupedItemsAdapter
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(item: GroupedItemsUiModel<TYPE>) {
-            listener.bind(binding, item)
+            listener.bindGroupedItems(binding, item)
         }
+
+        fun onDestroy() {
+            listener.onDestroyGroupedItems(binding)
+        }
+    }
+
+    override fun onViewRecycled(holder: SectionViewHolder) {
+        super.onViewRecycled(holder)
+
+        holder.onDestroy()
     }
 
     class DiffCallback<TYPE : Any> : DiffUtil.ItemCallback<GroupedItemsUiModel<TYPE>>() {
@@ -39,6 +49,7 @@ class GroupedItemsAdapter<TYPE : Any> (private val listener: GroupedItemsAdapter
     }
 
     interface GroupedItemsAdapterInterface<TYPE : Any> {
-        fun bind(binding: ItemGroupedItemsBinding, item: GroupedItemsUiModel<TYPE>)
+        fun bindGroupedItems(groupBinding: ItemGroupedItemsBinding, item: GroupedItemsUiModel<TYPE>)
+        fun onDestroyGroupedItems(groupBinding: ItemGroupedItemsBinding)
     }
 }

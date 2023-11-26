@@ -25,4 +25,6 @@ abstract class BaseViewStateBinder<VIEW_STATE : Any, VIEW_BINDING : Any, NOTIFIC
             _notification.emit(notification)
         }
     }
+
+    override fun bind(viewBinding: VIEW_BINDING, viewState: VIEW_STATE) {}
 }

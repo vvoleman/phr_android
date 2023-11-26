@@ -7,8 +7,8 @@ import cz.vvoleman.phr.base.presentation.model.FieldErrorState
 import cz.vvoleman.phr.base.presentation.viewmodel.BaseViewModel
 import cz.vvoleman.phr.base.presentation.viewmodel.usecase.UseCaseExecutorProvider
 import cz.vvoleman.phr.common.domain.model.AddEditPatientDomainModel
-import cz.vvoleman.phr.common.domain.usecase.addedit.GetPatientByIdUseCase
-import cz.vvoleman.phr.common.domain.usecase.addedit.SavePatientUseCase
+import cz.vvoleman.phr.common.domain.usecase.patient.addedit.GetPatientByIdUseCase
+import cz.vvoleman.phr.common.domain.usecase.patient.addedit.SavePatientUseCase
 import cz.vvoleman.phr.common.presentation.mapper.PatientPresentationModelToDomainMapper
 import cz.vvoleman.phr.common.presentation.model.patient.addedit.AddEditPatientDestination
 import cz.vvoleman.phr.common.presentation.model.patient.addedit.AddEditPatientNotification

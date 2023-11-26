@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import com.google.android.material.snackbar.Snackbar
 import cz.vvoleman.phr.base.ui.mapper.ViewStateBinder
 import cz.vvoleman.phr.base.ui.view.BaseFragment
@@ -29,7 +28,6 @@ import cz.vvoleman.phr.featureMedicine.ui.list.model.schedule.MedicineScheduleUi
 import cz.vvoleman.phr.featureMedicine.ui.list.model.schedule.NextScheduleItemUiModel
 import cz.vvoleman.phr.featureMedicine.ui.list.model.schedule.ScheduleItemWithDetailsUiModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -73,12 +71,7 @@ class ListMedicineFragment :
         (viewStateBinder as ListMedicineBinder).setFragmentAdapter(fragmentAdapter)
 
         binding.fabAddMedicalRecord.setOnClickListener {
-//            viewModel.onCreate()
-            Log.d(TAG, "starting to get medical facilities")
-            lifecycleScope.launch {
-                val data = healthcareRepository.getMedicalFacilities(counter++, "", "Ústí nad Labem")
-                Log.d(TAG, "data: $data")
-            }
+            viewModel.onCreate()
         }
         binding.nextSchedule.setListener(this)
     }
@@ -158,5 +151,10 @@ class ListMedicineFragment :
 
     override fun onLeafletOpen(scheduleItem: ScheduleItemWithDetailsUiModel) {
         Log.d(TAG, "onLeafletOpen: $scheduleItem")
+    }
+
+    override fun onDestroyView() {
+        binding.viewPager.adapter = null
+        super.onDestroyView()
     }
 }

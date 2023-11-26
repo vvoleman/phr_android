@@ -54,10 +54,10 @@ class MedicineCatalogueFragment :
         Log.d("MedicineCatalogueFragment", "onViewCreated: ${viewModel!!.getItems().size}")
     }
 
-    override fun bind(binding: ItemGroupedItemsBinding, item: GroupedItemsUiModel<MedicineScheduleUiModel>) {
+    override fun bindGroupedItems(groupBinding: ItemGroupedItemsBinding, item: GroupedItemsUiModel<MedicineScheduleUiModel>) {
         val medicineCatalogueAdapter = MedicineCatalogueAdapter(viewModel!!.getListener()!!)
 
-        binding.apply {
+        groupBinding.apply {
             recyclerView.apply {
                 adapter = medicineCatalogueAdapter
                 layoutManager = LinearLayoutManager(context)
@@ -71,8 +71,20 @@ class MedicineCatalogueFragment :
         medicineCatalogueAdapter.submitList(item.items)
     }
 
+    override fun onDestroyGroupedItems(
+        groupBinding: ItemGroupedItemsBinding
+    ) {
+        groupBinding.recyclerView.adapter = null
+    }
+
     fun setViewModel(viewModel: MedicineCatalogueViewModel) {
         this.viewModel = viewModel
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+
+        _binding = null
     }
 
     companion object {

@@ -2,12 +2,18 @@ package cz.vvoleman.phr.di.common
 
 import cz.vvoleman.phr.base.domain.coroutine.CoroutineContextProvider
 import cz.vvoleman.phr.common.domain.repository.*
-import cz.vvoleman.phr.common.domain.usecase.DeletePatientUseCase
-import cz.vvoleman.phr.common.domain.usecase.GetAllPatientsUseCase
-import cz.vvoleman.phr.common.domain.usecase.GetSelectedPatientUseCase
-import cz.vvoleman.phr.common.domain.usecase.SwitchSelectedPatientUseCase
-import cz.vvoleman.phr.common.domain.usecase.addedit.GetPatientByIdUseCase
-import cz.vvoleman.phr.common.domain.usecase.addedit.SavePatientUseCase
+import cz.vvoleman.phr.common.domain.repository.patient.DeletePatientRepository
+import cz.vvoleman.phr.common.domain.repository.patient.GetAllPatientsRepository
+import cz.vvoleman.phr.common.domain.repository.patient.GetPatientByIdRepository
+import cz.vvoleman.phr.common.domain.repository.patient.GetSelectedPatientRepository
+import cz.vvoleman.phr.common.domain.repository.patient.SavePatientRepository
+import cz.vvoleman.phr.common.domain.repository.patient.SwitchSelectedPatientRepository
+import cz.vvoleman.phr.common.domain.usecase.patient.DeletePatientUseCase
+import cz.vvoleman.phr.common.domain.usecase.patient.GetAllPatientsUseCase
+import cz.vvoleman.phr.common.domain.usecase.patient.GetSelectedPatientUseCase
+import cz.vvoleman.phr.common.domain.usecase.patient.SwitchSelectedPatientUseCase
+import cz.vvoleman.phr.common.domain.usecase.patient.addedit.GetPatientByIdUseCase
+import cz.vvoleman.phr.common.domain.usecase.patient.addedit.SavePatientUseCase
 import cz.vvoleman.phr.common.presentation.mapper.PatientPresentationModelToDomainMapper
 import dagger.Module
 import dagger.Provides

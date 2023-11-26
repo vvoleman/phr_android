@@ -1,9 +1,13 @@
 package cz.vvoleman.phr.di.medicalRecord
 
+import android.content.Context
 import cz.vvoleman.phr.base.domain.coroutine.CoroutineContextProvider
+import cz.vvoleman.phr.common.domain.eventBus.CommonEventBus
 import cz.vvoleman.phr.featureMedicalRecord.domain.mapper.TextToTextDomainModelMapper
+import cz.vvoleman.phr.featureMedicalRecord.domain.repository.GetMedicalRecordByMedicalWorkerRepository
 import cz.vvoleman.phr.featureMedicalRecord.domain.repository.selectFile.GetDiagnosesByIdsRepository
 import cz.vvoleman.phr.featureMedicalRecord.domain.repository.selectFile.GetPatientByBirthDateRepository
+import cz.vvoleman.phr.featureMedicalRecord.domain.subscriber.MedicalRecordListener
 import cz.vvoleman.phr.featureMedicalRecord.domain.usecase.selectFile.GetRecognizedOptionsFromTextUseCase
 import cz.vvoleman.phr.featureMedicalRecord.domain.usecase.selectFile.GetTextFromInputImageUseCase
 import cz.vvoleman.phr.featureMedicalRecord.domain.usecase.selectFile.ocr.RecordRecognizer
@@ -13,6 +17,7 @@ import cz.vvoleman.phr.featureMedicalRecord.domain.usecase.selectFile.ocr.field.
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 
 @Module
@@ -54,4 +59,11 @@ class DomainModule {
         dateFieldProcessor: DateFieldProcessor,
         diagnoseFieldProcessor: DiagnoseFieldProcessor
     ) = RecordRecognizer(patientFieldProcessor, dateFieldProcessor, diagnoseFieldProcessor)
+
+    @Provides
+    fun providesMedicalRecordListener(
+        commonBus: CommonEventBus,
+        repository: GetMedicalRecordByMedicalWorkerRepository,
+        @ApplicationContext context: Context
+    ) = MedicalRecordListener(commonBus, repository, context)
 }

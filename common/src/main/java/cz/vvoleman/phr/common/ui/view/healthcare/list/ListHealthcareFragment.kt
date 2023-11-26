@@ -27,6 +27,14 @@ class ListHealthcareFragment :
         return FragmentListHealthcareBinding.inflate(inflater, container, false)
     }
 
+    override fun setupListeners() {
+        super.setupListeners()
+
+        binding.buttonTitle.setOnClickListener {
+            viewModel.onClick()
+        }
+    }
+
     override fun handleNotification(notification: ListHealthcareNotification) {
         TODO("Not yet implemented")
     }

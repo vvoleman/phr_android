@@ -19,4 +19,11 @@
     <string name="field_error_empty">Toto pole musí být vyplněno</string>
     <string name="helper_required">Povinné pole</string>
     <string name="nav_list_healthcare_label">Seznam lék. zařízení</string>
+    <plurals name="document">
+        <item quantity="zero">Dokumentů</item>
+        <item quantity="one">Dokument</item>
+        <item quantity="few">Dokumenty</item>
+        <item quantity="many">Dokumentů</item>
+        <item quantity="other">Dokumentů</item>
+    </plurals>
 </resources>

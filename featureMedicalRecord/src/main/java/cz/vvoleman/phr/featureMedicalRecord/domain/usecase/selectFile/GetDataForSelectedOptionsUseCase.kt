@@ -2,7 +2,7 @@ package cz.vvoleman.phr.featureMedicalRecord.domain.usecase.selectFile
 
 import cz.vvoleman.phr.base.domain.coroutine.CoroutineContextProvider
 import cz.vvoleman.phr.base.domain.usecase.BackgroundExecutingUseCase
-import cz.vvoleman.phr.common.domain.repository.GetPatientByIdRepository
+import cz.vvoleman.phr.common.domain.repository.patient.GetPatientByIdRepository
 import cz.vvoleman.phr.featureMedicalRecord.domain.model.selectFile.SelectedObjectsDomainModel
 import cz.vvoleman.phr.featureMedicalRecord.domain.model.selectFile.SelectedOptionsDomainModel
 import cz.vvoleman.phr.featureMedicalRecord.domain.repository.GetDiagnoseByIdRepository
