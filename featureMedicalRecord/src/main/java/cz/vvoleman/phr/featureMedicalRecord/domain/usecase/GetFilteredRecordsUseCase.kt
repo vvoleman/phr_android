@@ -3,7 +3,7 @@ package cz.vvoleman.phr.featureMedicalRecord.domain.usecase
 import cz.vvoleman.phr.base.domain.coroutine.CoroutineContextProvider
 import cz.vvoleman.phr.base.domain.usecase.BackgroundExecutingUseCase
 import cz.vvoleman.phr.common.domain.GroupedItemsDomainModel
-import cz.vvoleman.phr.common.domain.repository.GetSelectedPatientRepository
+import cz.vvoleman.phr.common.domain.repository.patient.GetSelectedPatientRepository
 import cz.vvoleman.phr.featureMedicalRecord.domain.model.MedicalRecordDomainModel
 import cz.vvoleman.phr.featureMedicalRecord.domain.model.list.FilterRequestDomainModel
 import cz.vvoleman.phr.featureMedicalRecord.domain.model.list.GroupByDomainModel

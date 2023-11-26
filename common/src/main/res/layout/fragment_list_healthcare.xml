@@ -7,14 +7,14 @@
     tools:context="cz.vvoleman.phr.common.ui.view.healthcare.list.ListHealthcareFragment"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <TextView
-        android:id="@+id/text_view_title"
+    <Button
+        android:id="@+id/button_title"
         android:layout_width="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:text="Healthcare"
+        android:text="Launch event"
         android:layout_height="wrap_content" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

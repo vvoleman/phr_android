@@ -5,15 +5,22 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.*
 import com.gu.toolargetool.TooLargeTool
 import cz.vvoleman.phr.R
+import cz.vvoleman.phr.base.domain.ModuleListener
 import cz.vvoleman.phr.base.presentation.navigation.NavManager
+import cz.vvoleman.phr.common.domain.eventBus.CommonListener
 import cz.vvoleman.phr.databinding.ActivityMainBinding
+import cz.vvoleman.phr.featureMedicalRecord.domain.subscriber.MedicalRecordListener
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -25,6 +32,12 @@ class MainActivity : AppCompatActivity() {
 
     @Inject
     lateinit var navManager: NavManager
+
+    @Inject
+    lateinit var commonListener: CommonListener
+
+    @Inject
+    lateinit var medicalRecordListener: MedicalRecordListener
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,6 +71,16 @@ class MainActivity : AppCompatActivity() {
             navController.navigate(cz.vvoleman.phr.common_datasource.R.id.nav_patient)
             binding.drawerLayout.close()
         }
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                getListeners().forEach { it.onInit() }
+            }
+        }
+    }
+
+    private fun getListeners(): List<ModuleListener> {
+        return listOf(commonListener, medicalRecordListener)
     }
 
     override fun onNewIntent(intent: Intent?) {
@@ -101,17 +124,30 @@ class MainActivity : AppCompatActivity() {
                     binding.drawerLayout.close()
                     true
                 }
+
                 R.id.listMedicineFragment -> {
                     navController.navigate(cz.vvoleman.phr.featureMedicine.R.id.nav_medicine)
                     binding.drawerLayout.close()
                     true
                 }
+
                 R.id.listHealthcareFragment -> {
                     navController.navigate(cz.vvoleman.phr.common_datasource.R.id.nav_healthcare)
                     binding.drawerLayout.close()
                     true
                 }
+
                 else -> false
+            }
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.DESTROYED) {
+                getListeners().forEach { it.onDestroy() }
             }
         }
     }

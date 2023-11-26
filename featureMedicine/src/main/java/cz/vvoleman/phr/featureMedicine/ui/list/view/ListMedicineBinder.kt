@@ -65,4 +65,11 @@ class ListMedicineBinder(
     companion object {
         const val TAG = "ListMedicineBinder"
     }
+
+    override fun onDestroy(viewBinding: FragmentListMedicineBinding) {
+        super.onDestroy(viewBinding)
+
+        fragmentAdapter = null
+        isAdapterSet = false
+    }
 }

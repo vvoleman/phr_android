@@ -7,10 +7,10 @@ import cz.vvoleman.phr.base.presentation.viewmodel.BaseViewModel
 import cz.vvoleman.phr.base.presentation.viewmodel.usecase.UseCaseExecutorProvider
 import cz.vvoleman.phr.common.domain.event.PatientDeletedEvent
 import cz.vvoleman.phr.common.domain.model.PatientDomainModel
-import cz.vvoleman.phr.common.domain.usecase.DeletePatientUseCase
-import cz.vvoleman.phr.common.domain.usecase.GetAllPatientsUseCase
-import cz.vvoleman.phr.common.domain.usecase.GetSelectedPatientUseCase
-import cz.vvoleman.phr.common.domain.usecase.SwitchSelectedPatientUseCase
+import cz.vvoleman.phr.common.domain.usecase.patient.DeletePatientUseCase
+import cz.vvoleman.phr.common.domain.usecase.patient.GetAllPatientsUseCase
+import cz.vvoleman.phr.common.domain.usecase.patient.GetSelectedPatientUseCase
+import cz.vvoleman.phr.common.domain.usecase.patient.SwitchSelectedPatientUseCase
 import cz.vvoleman.phr.common.presentation.mapper.PatientPresentationModelToDomainMapper
 import cz.vvoleman.phr.common.presentation.model.patient.PatientPresentationModel
 import cz.vvoleman.phr.common.presentation.model.patient.listpatients.ListPatientsDestination

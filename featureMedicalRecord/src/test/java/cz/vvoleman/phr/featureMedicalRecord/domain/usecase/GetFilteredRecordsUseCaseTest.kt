@@ -2,7 +2,9 @@ package cz.vvoleman.phr.featureMedicalRecord.domain.usecase
 
 import cz.vvoleman.phr.base.domain.coroutine.CoroutineContextProvider
 import cz.vvoleman.phr.common.domain.GroupedItemsDomainModel
-import cz.vvoleman.phr.common.domain.repository.GetSelectedPatientRepository
+import cz.vvoleman.phr.common.domain.model.healthcare.service.MedicalServiceDomainModel
+import cz.vvoleman.phr.common.domain.model.healthcare.worker.SpecificMedicalWorkerDomainModel
+import cz.vvoleman.phr.common.domain.repository.patient.GetSelectedPatientRepository
 import cz.vvoleman.phr.featureMedicalRecord.domain.model.MedicalRecordDomainModel
 import cz.vvoleman.phr.featureMedicalRecord.domain.model.MedicalWorkerDomainModel
 import cz.vvoleman.phr.featureMedicalRecord.domain.model.PatientDomainModel
@@ -218,10 +220,25 @@ class GetFilteredRecordsUseCaseTest {
                 color = "#000000",
                 patientId = "1"
             ),
-            medicalWorker = MedicalWorkerDomainModel(
+            specificMedicalWorker = SpecificMedicalWorkerDomainModel(
                 id = "1",
-                name = medicalWorker,
-                patientId = "1"
+                medicalWorker = cz.vvoleman.phr.common.domain.model.healthcare.worker.MedicalWorkerDomainModel(
+                    id = "",
+                    name = "",
+                    patientId = ""
+                ),
+                medicalService = MedicalServiceDomainModel(
+                    id = "",
+                    careField = "",
+                    careForm = "",
+                    careType = "",
+                    careExtent = "",
+                    bedCount = 0,
+                    serviceNote = "",
+                    professionalRepresentative = "",
+                    medicalFacilityId = ""
+                ),
+                email = null, telephone = null,
             ),
             createdAt = date,
             visitDate = date

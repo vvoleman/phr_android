@@ -67,7 +67,7 @@ class TimelineFragment :
         groupAdapter.submitList(schedules)
     }
 
-    override fun bind(binding: ItemGroupedItemsBinding, item: GroupedItemsUiModel<ScheduleItemWithDetailsUiModel>) {
+    override fun bindGroupedItems(groupBinding: ItemGroupedItemsBinding, item: GroupedItemsUiModel<ScheduleItemWithDetailsUiModel>) {
         val timelineAdapter = TimelineAdapter()
 
         val dateTime = getDateFromValue(item.value.toString())
@@ -77,7 +77,7 @@ class TimelineFragment :
             ""
         }
         text += "${dateTime.hour.withLeadingZero()}:${dateTime.minute.withLeadingZero()}"
-        binding.apply {
+        groupBinding.apply {
             textViewTitle.text = text
             recyclerView.apply {
                 adapter = timelineAdapter
@@ -87,6 +87,10 @@ class TimelineFragment :
         }
 
         timelineAdapter.submitList(item.items)
+    }
+
+    override fun onDestroyGroupedItems(groupBinding: ItemGroupedItemsBinding) {
+        groupBinding.recyclerView.adapter = null
     }
 
     override fun onTimelineItemClick(item: ScheduleItemWithDetailsUiModel) {
@@ -131,6 +135,12 @@ class TimelineFragment :
         fun onTimelineItemClick(item: ScheduleItemWithDetailsUiModel)
 
         fun onTimelineItemAlarmToggle(item: ScheduleItemWithDetailsUiModel, oldState: Boolean)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+
+        _binding = null
     }
 
     companion object {
