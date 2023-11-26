@@ -146,4 +146,10 @@ class MedicalRecordsBinder(
     override fun onOptionCheckChanged(item: FilterPair) {
         notify(Notification.OptionCheckChanged(item))
     }
+
+    override fun onDestroy(viewBinding: FragmentListMedicalRecordsBinding) {
+        super.onDestroy(viewBinding)
+
+        viewBinding.recyclerView.adapter = null
+    }
 }

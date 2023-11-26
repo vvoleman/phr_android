@@ -97,6 +97,14 @@ class NextSchedule @JvmOverloads constructor(
         binding.layoutSchedule.visibility = VISIBLE
     }
 
+    override fun onDetachedFromWindow() {
+        super.onDetachedFromWindow()
+
+        binding.recyclerView.adapter = null
+        _listener = null
+        _adapter?.submitList(null)
+    }
+
     interface NextScheduleListener {
         fun onTimeOut()
         fun onNextScheduleClick(item: NextScheduleItemUiModel)

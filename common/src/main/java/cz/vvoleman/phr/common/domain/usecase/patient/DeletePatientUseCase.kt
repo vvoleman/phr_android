@@ -1,12 +1,12 @@
-package cz.vvoleman.phr.common.domain.usecase
+package cz.vvoleman.phr.common.domain.usecase.patient
 
 import android.util.Log
 import cz.vvoleman.phr.base.domain.coroutine.CoroutineContextProvider
 import cz.vvoleman.phr.base.domain.usecase.BackgroundExecutingUseCase
-import cz.vvoleman.phr.common.domain.repository.DeletePatientRepository
-import cz.vvoleman.phr.common.domain.repository.GetAllPatientsRepository
-import cz.vvoleman.phr.common.domain.repository.GetSelectedPatientRepository
-import cz.vvoleman.phr.common.domain.repository.SwitchSelectedPatientRepository
+import cz.vvoleman.phr.common.domain.repository.patient.DeletePatientRepository
+import cz.vvoleman.phr.common.domain.repository.patient.GetAllPatientsRepository
+import cz.vvoleman.phr.common.domain.repository.patient.GetSelectedPatientRepository
+import cz.vvoleman.phr.common.domain.repository.patient.SwitchSelectedPatientRepository
 import kotlinx.coroutines.flow.first
 
 class DeletePatientUseCase(

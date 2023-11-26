@@ -1,4 +1,4 @@
-package cz.vvoleman.phr.common.domain.repository
+package cz.vvoleman.phr.common.domain.repository.patient
 
 import cz.vvoleman.phr.common.domain.model.AddEditPatientDomainModel
 

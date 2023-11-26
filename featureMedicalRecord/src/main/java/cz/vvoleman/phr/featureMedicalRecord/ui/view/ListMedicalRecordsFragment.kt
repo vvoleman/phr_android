@@ -157,14 +157,14 @@ class ListMedicalRecordsFragment :
         viewModel.onRecordDelete(item.id)
     }
 
-    override fun bind(
-        binding: ItemGroupedItemsBinding,
+    override fun bindGroupedItems(
+        groupBinding: ItemGroupedItemsBinding,
         item: GroupedItemsUiModel<MedicalRecordUiModel>
     ) {
         val medicalRecordsAdapter = MedicalRecordsAdapter(this)
         val swipeToDeleteCallback = SwipeToDeleteCallback(medicalRecordsAdapter)
         val itemTouchHelper = ItemTouchHelper(swipeToDeleteCallback)
-        itemTouchHelper.attachToRecyclerView(binding.recyclerView)
+        itemTouchHelper.attachToRecyclerView(groupBinding.recyclerView)
         // if item.value is LocalDate, then get date format (january 2023) and set it to textViewTitle
         // if item.value is String, then set it to textViewTitle
         // if item.value is something else, then set it to "-"
@@ -176,7 +176,7 @@ class ListMedicalRecordsFragment :
             title = item.value as String
         }
 
-        binding.apply {
+        groupBinding.apply {
             textViewTitle.text = title
             recyclerView.apply {
                 adapter = medicalRecordsAdapter
@@ -185,6 +185,12 @@ class ListMedicalRecordsFragment :
             }
         }
         medicalRecordsAdapter.submitList(item.items)
+    }
+
+    override fun onDestroyGroupedItems(
+        groupBinding: ItemGroupedItemsBinding,
+    ) {
+        groupBinding.recyclerView.adapter = null
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

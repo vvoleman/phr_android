@@ -60,6 +60,13 @@ interface MedicalRecordDao {
     )
     fun getUsedWorkersByPatientId(patientId: String): Flow<List<SpecificMedicalWorkerWithDetailsDataSourceModel>>
 
+    @Transaction
+    @Query(
+        "SELECT * FROM medical_record WHERE specific_medical_worker_id IN " +
+            "(SELECT id FROM specific_medical_worker WHERE medical_worker_id = :medicalWorkerId)"
+    )
+    fun getByMedicalWorkerId(medicalWorkerId: String): Flow<List<MedicalRecordWithDetails>>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(medicalRecord: MedicalRecordDataSourceModel): Long
 

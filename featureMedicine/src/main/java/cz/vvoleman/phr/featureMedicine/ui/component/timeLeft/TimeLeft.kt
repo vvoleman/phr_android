@@ -101,6 +101,13 @@ class TimeLeft @JvmOverloads constructor(
         }
     }
 
+    override fun onDetachedFromWindow() {
+        super.onDetachedFromWindow()
+
+        cancelRunnable()
+        _listener = null
+    }
+
     companion object {
         const val TAG = "TimeLeft"
     }

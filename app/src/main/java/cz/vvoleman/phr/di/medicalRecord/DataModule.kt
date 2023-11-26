@@ -238,4 +238,9 @@ class DataModule {
     fun providesDeleteProblemCategoriesRepository(
         deletePatientRepository: DeletePatientRepository
     ): DeleteProblemCategoriesRepository = deletePatientRepository
+
+    @Provides
+    fun providesGetMedicalRecordByMedicalWorkerRepository(
+        medicalRecordRepository: MedicalRecordRepository
+    ): GetMedicalRecordByMedicalWorkerRepository = medicalRecordRepository
 }

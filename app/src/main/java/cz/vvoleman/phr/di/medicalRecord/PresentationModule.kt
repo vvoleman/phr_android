@@ -1,8 +1,8 @@
 package cz.vvoleman.phr.di.medicalRecord
 
 import cz.vvoleman.phr.base.domain.coroutine.CoroutineContextProvider
-import cz.vvoleman.phr.common.domain.repository.GetPatientByIdRepository
-import cz.vvoleman.phr.common.domain.repository.GetSelectedPatientRepository
+import cz.vvoleman.phr.common.domain.repository.patient.GetPatientByIdRepository
+import cz.vvoleman.phr.common.domain.repository.patient.GetSelectedPatientRepository
 import cz.vvoleman.phr.featureMedicalRecord.domain.repository.*
 import cz.vvoleman.phr.featureMedicalRecord.domain.repository.addEdit.SearchDiagnoseRepository
 import cz.vvoleman.phr.featureMedicalRecord.domain.repository.patientDelete.DeleteMedicalRecordAssetsRepository
