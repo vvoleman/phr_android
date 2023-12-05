@@ -18,7 +18,7 @@
     <string name="action_save">Uložit</string>
     <string name="field_error_empty">Toto pole musí být vyplněno</string>
     <string name="helper_required">Povinné pole</string>
-    <string name="nav_list_healthcare_label">Seznam lék. zařízení</string>
+    <string name="navigation_list_healthcare_label">Seznam lék. zařízení</string>
     <plurals name="document">
         <item quantity="zero">Dokumentů</item>
         <item quantity="one">Dokument</item>
@@ -26,4 +26,22 @@
         <item quantity="many">Dokumentů</item>
         <item quantity="other">Dokumentů</item>
     </plurals>
+    <string name="fragment_worker">Pracovníci</string>
+    <string name="fragment_facility">Zařízení</string>
+    <string name="add_medical_worker">Přidat zdravotního pracovníka</string>
+    <string name="add_worker">Přidat pracovníka</string>
+    <string name="field_medical_worker_name">Jméno pracovníka</string>
+    <string name="action_add">Přidat</string>
+    <string name="navigation_add_edit_medical_worker">{action} lék. pracovníka</string>
+    <string name="field_medical_facilities">Lékařská zařízení</string>
+    <string name="description_delete_facility">Odebrat lékařské zařízení od lékařského pracovníka</string>
+    <string name="facility_info_address">Adresa</string>
+    <string name="facility_info_facility_type">Typ zařízení</string>
+    <string name="facility_info_telephone">Telefon</string>
+    <string name="field_medical_facility">Lékařské zařízení</string>
+    <string name="field_telephone">Telefon</string>
+    <string name="field_email">Email</string>
+    <string name="search_hint_facility">Jméno zařízení, město…</string>
+    <string name="no_results">Žádné výsledky</string>
+    <string name="error_possibly_connection">Chyba. Zkontrolujte Vaše připojení k internetu</string>
 </resources>

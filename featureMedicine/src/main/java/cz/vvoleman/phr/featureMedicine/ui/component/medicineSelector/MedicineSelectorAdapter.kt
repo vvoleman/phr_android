@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import cz.vvoleman.phr.featureMedicine.R
 import cz.vvoleman.phr.featureMedicine.databinding.ItemMedicineSelectorBinding
 import cz.vvoleman.phr.featureMedicine.ui.list.model.MedicineUiModel
 
@@ -61,7 +62,7 @@ class MedicineSelectorAdapter(
                 textViewSize.text = item.packaging.packaging
 
                 if (isSelected) {
-                    root.setBackgroundResource(android.R.color.holo_blue_light)
+                    root.setBackgroundResource(cz.vvoleman.phr.base.R.color.green_200)
                 } else {
                     root.setBackgroundResource(android.R.color.transparent)
                 }

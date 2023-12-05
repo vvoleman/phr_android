@@ -1,7 +1,7 @@
 package cz.vvoleman.phr.common.ui.mapper.patient
 
 import cz.vvoleman.phr.common.presentation.model.patient.PatientPresentationModel
-import cz.vvoleman.phr.common.ui.model.PatientUiModel
+import cz.vvoleman.phr.common.ui.model.patient.PatientUiModel
 
 class PatientUiModelToPresentationMapper {
 
