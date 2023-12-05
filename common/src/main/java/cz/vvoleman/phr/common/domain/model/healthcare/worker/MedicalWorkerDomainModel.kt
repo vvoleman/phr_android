@@ -8,5 +8,4 @@ data class MedicalWorkerDomainModel(
     val id: String,
     val name: String,
     val patientId: String,
-
 ) : Parcelable

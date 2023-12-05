@@ -7,7 +7,7 @@ class MedicalServiceDataSourceModelToDomainMapper {
 
     fun toDomain(model: MedicalServiceDataSourceModel): MedicalServiceDomainModel {
         return MedicalServiceDomainModel(
-            id = model.id!!.toString(),
+            id = model.id?.toString() ?: "",
             careField = model.careField,
             careForm = model.careForm,
             careType = model.careType,

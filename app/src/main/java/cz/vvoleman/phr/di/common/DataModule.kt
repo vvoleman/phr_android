@@ -5,8 +5,6 @@ import cz.vvoleman.phr.common.data.alarm.AlarmScheduler
 import cz.vvoleman.phr.common.data.alarm.AndroidAlarmScheduler
 import cz.vvoleman.phr.common.data.datasource.model.PatientDao
 import cz.vvoleman.phr.common.data.datasource.model.PatientDataStore
-import cz.vvoleman.phr.common.data.datasource.model.healthcare.facility.MedicalFacilityDao
-import cz.vvoleman.phr.common.data.datasource.model.healthcare.service.MedicalServiceDao
 import cz.vvoleman.phr.common.data.datasource.model.healthcare.worker.MedicalWorkerDao
 import cz.vvoleman.phr.common.data.datasource.model.healthcare.worker.SpecificMedicalWorkerDao
 import cz.vvoleman.phr.common.data.datasource.model.retrofit.healthcare.HealthcareApi
@@ -24,6 +22,7 @@ import cz.vvoleman.phr.common.data.mapper.healthcare.SpecificMedicalWorkerDataSo
 import cz.vvoleman.phr.common.data.repository.HealthcareRepository
 import cz.vvoleman.phr.common.data.repository.PatientRepository
 import cz.vvoleman.phr.common.domain.repository.*
+import cz.vvoleman.phr.common.domain.repository.healthcare.GetFacilitiesPagingStreamRepository
 import cz.vvoleman.phr.common.domain.repository.healthcare.GetMedicalWorkersWithServicesRepository
 import cz.vvoleman.phr.common.domain.repository.patient.DeletePatientRepository
 import cz.vvoleman.phr.common.domain.repository.patient.GetAllPatientsRepository
@@ -163,17 +162,15 @@ class DataModule {
 
     @Provides
     fun providesHealthcareRepository(
+        facilityMapper: MedicalFacilityDataSourceModelToDomainMapper,
         api: HealthcareApi,
         apiModelToDbMapper: MedicalFacilityApiModelToDbMapper,
-        medicalFacilityDao: MedicalFacilityDao,
-        medicalServiceDao: MedicalServiceDao,
         medicalWorkerDao: MedicalWorkerDao,
         medicalWorkerWithServicesMapper: MedicalWorkerWithServicesDataSourceModelToDomainMapper,
     ) = HealthcareRepository(
+        facilityMapper,
         api,
         apiModelToDbMapper,
-        medicalFacilityDao,
-        medicalServiceDao,
         medicalWorkerDao,
         medicalWorkerWithServicesMapper
     )
@@ -182,4 +179,9 @@ class DataModule {
     fun providesGetMedicalWorkersWithServicesRepository(
         healthcareRepository: HealthcareRepository
     ): GetMedicalWorkersWithServicesRepository = healthcareRepository
+
+    @Provides
+    fun providesGetFacilitiesPagingStreamRepository(
+        healthcareRepository: HealthcareRepository
+    ): GetFacilitiesPagingStreamRepository = healthcareRepository
 }

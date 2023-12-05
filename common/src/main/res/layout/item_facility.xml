@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginVertical="4dp"
+    android:background="@color/white"
+    android:elevation="4dp"
+    android:padding="8dp">
+
+    <TextView
+        android:id="@+id/text_view_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:textStyle="bold"
+        tools:text="Krajská zdravotní, a.s. - Nemocnice Teplice, o.z., dětský stacionář RHB" />
+
+    <TableLayout
+        android:id="@+id/layout_table_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/text_view_name"
+        android:layout_marginTop="8dp"
+        android:stretchColumns="1">
+
+        <!-- Row 1 -->
+        <TableRow>
+
+            <TextView
+                android:padding="4dp"
+                android:text="@string/facility_info_address" />
+
+            <TextView
+                android:id="@+id/text_view_address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="70dp"
+                android:padding="4dp"
+                tools:text="U Nemocnice 1, 415 29 Teplice" />
+        </TableRow>
+
+        <!-- Row 2 -->
+        <TableRow>
+
+            <TextView
+                android:padding="4dp"
+                android:text="@string/facility_info_facility_type" />
+
+            <TextView
+                android:id="@+id/text_view_facility_type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="50dp"
+                android:padding="4dp"
+                tools:text="Samostatné zařízení fyzioterapeuta" />
+        </TableRow>
+
+        <!-- Row 3 -->
+        <TableRow>
+
+            <TextView
+                android:padding="4dp"
+                android:text="@string/facility_info_telephone" />
+
+            <TextView
+                android:id="@+id/text_view_telephone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="50dp"
+                android:padding="4dp"
+                tools:text="+420 123 456 789" />
+        </TableRow>
+    </TableLayout>
+
+</RelativeLayout>

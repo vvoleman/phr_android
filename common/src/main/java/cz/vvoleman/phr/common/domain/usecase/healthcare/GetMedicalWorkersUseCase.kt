@@ -23,9 +23,7 @@ class GetMedicalWorkersUseCase(
         val workersWithServices = getMedicalWorkersRepository.getMedicalWorkersWithServices(request.patientId)
         val workers = workersWithServices.map { it.medicalWorker }
 
-        val event = GetMedicalWorkersAdditionalInfoEvent(
-            medicalWorker = listOf(),
-        )
+        val event = GetMedicalWorkersAdditionalInfoEvent(workers)
 
         val results = commonEventBus.getWorkerAdditionalInfoBus.pushEvent(event)
         Log.d("GetMedicalWorkersUseCase", "${results.size}")

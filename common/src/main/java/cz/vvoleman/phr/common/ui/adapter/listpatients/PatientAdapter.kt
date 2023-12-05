@@ -8,9 +8,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import cz.vvoleman.phr.common.ui.model.PatientUiModel
+import cz.vvoleman.phr.common.ui.model.patient.PatientUiModel
 import cz.vvoleman.phr.common.utils.getNameOfMonth
-import cz.vvoleman.phr.common_datasource.R
 import cz.vvoleman.phr.common_datasource.databinding.ItemPatientBinding
 
 class PatientAdapter(

@@ -1,4 +1,4 @@
-package cz.vvoleman.phr.common.ui.model
+package cz.vvoleman.phr.common.ui.model.patient
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize

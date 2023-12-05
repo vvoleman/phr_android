@@ -9,6 +9,7 @@ import cz.vvoleman.phr.common.domain.model.healthcare.request.GetMedicalWorkersR
 import cz.vvoleman.phr.common.domain.usecase.healthcare.GetMedicalWorkersUseCase
 import cz.vvoleman.phr.common.domain.usecase.patient.GetSelectedPatientUseCase
 import cz.vvoleman.phr.common.presentation.mapper.PatientPresentationModelToDomainMapper
+import cz.vvoleman.phr.common.presentation.model.healthcare.list.ListHealthcareDestination
 import cz.vvoleman.phr.common.presentation.model.healthcare.list.ListHealthcareNotification
 import cz.vvoleman.phr.common.presentation.model.healthcare.list.ListHealthcareViewState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -38,13 +39,15 @@ class ListHealthcareViewModel @Inject constructor(
 
         viewModelScope.launch {
             loadSelectedPatient()
+
+            getMedicalWorkersUseCase.execute(GetMedicalWorkersRequest(currentViewState.patient!!.id)) {
+                Log.d(TAG, "callback: $it")
+            }
         }
     }
 
-    fun onClick() = viewModelScope.launch {
-        val result = getMedicalWorkersUseCase.execute(GetMedicalWorkersRequest(currentViewState.patient!!.id)) {
-            Log.d(TAG, "callback: $it")
-        }
+    fun onAddWorker() {
+        navigateTo(ListHealthcareDestination.AddMedicalWorker)
     }
 
     private suspend fun loadSelectedPatient() {

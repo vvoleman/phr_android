@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <Button
+        android:id="@+id/button_tag"
+        android:padding="8dp"
+        style="@style/Widget.MaterialComponents.Button.Icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/beige_200"
+        android:clickable="false"
+        android:elevation="8dp"
+        android:textAllCaps="false"
+        android:textColor="@color/beige_700"
+        app:icon="@drawable/ic_add"
+        app:iconTint="@color/beige_700"
+        tools:text="Krajská zdravotní Ústí nad Labem" />
+
+
+</LinearLayout>

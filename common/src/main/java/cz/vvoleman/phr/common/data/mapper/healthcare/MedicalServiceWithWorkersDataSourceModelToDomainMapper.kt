@@ -15,7 +15,7 @@ class MedicalServiceWithWorkersDataSourceModelToDomainMapper(
 ) {
 
     suspend fun toDomain(model: MedicalServiceDataSourceModel): MedicalServiceWithWorkersDomainModel {
-        val specificWorkers = specificWorkerDao.getByMedicalService(model.id!!).first()
+        val specificWorkers = model.id?.let { specificWorkerDao.getByMedicalService(it).first() } ?: emptyList()
         return MedicalServiceWithWorkersDomainModel(
             medicalService = serviceMapper.toDomain(model),
             workers = specificWorkers.map {
