@@ -3,11 +3,33 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_healthcare"
-    app:startDestination="@id/listHealthcareFragment">
+    app:startDestination="@id/addEditMedicalWorkerFragment">
 
     <fragment
         android:id="@+id/listHealthcareFragment"
         android:name="cz.vvoleman.phr.common.ui.view.healthcare.list.ListHealthcareFragment"
-        android:label="@string/nav_list_healthcare_label"
-        tools:layout="@layout/fragment_list_healthcare" />
+        android:label="@string/navigation_list_healthcare_label"
+        tools:layout="@layout/fragment_list_healthcare" >
+        <action
+            android:id="@+id/action_listHealthcareFragment_to_addEditMedicalWorkerFragment"
+            app:destination="@id/addEditMedicalWorkerFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addEditMedicalWorkerFragment"
+        android:name="cz.vvoleman.phr.common.ui.view.healthcare.addEdit.AddEditMedicalWorkerFragment"
+        android:label="@string/navigation_add_edit_medical_worker"
+        tools:layout="@layout/fragment_add_edit_medical_worker">
+        <action
+            android:id="@+id/action_addEditMedicalWorkerFragment_to_listHealthcareFragment"
+            app:destination="@id/listHealthcareFragment" />
+        <argument
+            android:name="medicalWorkerId"
+            android:defaultValue="@null"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="action"
+            android:defaultValue="Upravit"
+            app:argType="string" />
+    </fragment>
 </navigation>

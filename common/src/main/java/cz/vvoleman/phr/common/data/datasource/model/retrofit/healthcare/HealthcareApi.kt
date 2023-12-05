@@ -8,7 +8,11 @@ interface HealthcareApi {
     @GET("healthcare/list")
     suspend fun getFacilities(
         @Query("page") page: Int,
-        @Query("full_name") fullName: String = "",
+        @Query("any") query: String = "",
         @Query("city") city: String = "",
     ): HealthcareResponse
+
+    companion object {
+        const val PAGE_SIZE = 10
+    }
 }

@@ -108,7 +108,7 @@ dependencies {
     // Event Bus
     implementation "org.greenrobot:eventbus:$event_bus_version"
 
-    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.12'
+//    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.12'
 
     implementation project(':base')
     implementation project(':featureMedicalRecord')

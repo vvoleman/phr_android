@@ -96,6 +96,7 @@ class TimeLeft @JvmOverloads constructor(
 
     private fun cancelRunnable() {
         runnable?.let {
+            Log.d(TAG, "Runnable has been canceled")
             handler.removeCallbacks(it)
             runnable = null
         }
@@ -104,6 +105,7 @@ class TimeLeft @JvmOverloads constructor(
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()
 
+        Log.d(TAG, "onDetachedFromWindow")
         cancelRunnable()
         _listener = null
     }

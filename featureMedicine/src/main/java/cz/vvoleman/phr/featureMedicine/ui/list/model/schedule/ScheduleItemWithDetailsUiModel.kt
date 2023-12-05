@@ -1,7 +1,7 @@
 package cz.vvoleman.phr.featureMedicine.ui.list.model.schedule
 
 import android.os.Parcelable
-import cz.vvoleman.phr.common.ui.model.PatientUiModel
+import cz.vvoleman.phr.common.ui.model.patient.PatientUiModel
 import cz.vvoleman.phr.featureMedicine.ui.list.model.MedicineUiModel
 import kotlinx.parcelize.Parcelize
 

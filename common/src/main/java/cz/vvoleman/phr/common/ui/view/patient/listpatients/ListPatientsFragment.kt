@@ -18,7 +18,7 @@ import cz.vvoleman.phr.common.presentation.viewmodel.patient.ListPatientsViewMod
 import cz.vvoleman.phr.common.ui.adapter.listpatients.PatientAdapter
 import cz.vvoleman.phr.common.ui.mapper.patient.PatientUiModelToPresentationMapper
 import cz.vvoleman.phr.common.ui.mapper.patient.destination.ListPatientsDestinationUiMapper
-import cz.vvoleman.phr.common.ui.model.PatientUiModel
+import cz.vvoleman.phr.common.ui.model.patient.PatientUiModel
 import cz.vvoleman.phr.common_datasource.R
 import cz.vvoleman.phr.common_datasource.databinding.FragmentListPatientsBinding
 import dagger.hilt.android.AndroidEntryPoint
