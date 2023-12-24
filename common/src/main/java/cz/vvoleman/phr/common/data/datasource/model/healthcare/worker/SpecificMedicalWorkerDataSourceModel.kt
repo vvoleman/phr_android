@@ -8,7 +8,7 @@ import androidx.room.PrimaryKey
 data class SpecificMedicalWorkerDataSourceModel(
     @PrimaryKey(autoGenerate = true) val id: Int? = null,
     @ColumnInfo(name = "medical_worker_id") val medicalWorkerId: Int,
-    @ColumnInfo(name = "medical_service_id") val medicalServiceId: Int,
+    @ColumnInfo(name = "medical_service_id") val medicalServiceId: String,
     val email: String? = null,
     val telephone: String? = null,
 )

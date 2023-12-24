@@ -4,6 +4,8 @@ import android.util.Log
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
+import cz.vvoleman.phr.common.data.datasource.model.healthcare.facility.MedicalFacilityDao
+import cz.vvoleman.phr.common.data.datasource.model.healthcare.service.MedicalServiceDao
 import cz.vvoleman.phr.common.data.datasource.model.healthcare.worker.MedicalWorkerDao
 import cz.vvoleman.phr.common.data.datasource.model.retrofit.healthcare.HealthcareApi
 import cz.vvoleman.phr.common.data.datasource.model.retrofit.healthcare.HealthcareApi.Companion.PAGE_SIZE
@@ -12,9 +14,12 @@ import cz.vvoleman.phr.common.data.mapper.healthcare.MedicalFacilityApiModelToDb
 import cz.vvoleman.phr.common.data.mapper.healthcare.MedicalFacilityDataSourceModelToDomainMapper
 import cz.vvoleman.phr.common.data.mapper.healthcare.MedicalWorkerWithServicesDataSourceModelToDomainMapper
 import cz.vvoleman.phr.common.domain.model.healthcare.facility.MedicalFacilityDomainModel
+import cz.vvoleman.phr.common.domain.model.healthcare.worker.MedicalWorkerDomainModel
 import cz.vvoleman.phr.common.domain.model.healthcare.worker.MedicalWorkerWithServicesDomainModel
 import cz.vvoleman.phr.common.domain.repository.healthcare.GetFacilitiesPagingStreamRepository
 import cz.vvoleman.phr.common.domain.repository.healthcare.GetMedicalWorkersWithServicesRepository
+import cz.vvoleman.phr.common.domain.repository.healthcare.SaveMedicalFacilityRepository
+import cz.vvoleman.phr.common.domain.repository.healthcare.SaveMedicalWorkerRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 
@@ -23,8 +28,13 @@ class HealthcareRepository(
     private val api: HealthcareApi,
     private val apiModelToDbMapper: MedicalFacilityApiModelToDbMapper,
     private val medicalWorkerDao: MedicalWorkerDao,
+    private val medicalFacilityDao: MedicalFacilityDao,
+    private val medicalServiceDao: MedicalServiceDao,
     private val medicalWorkerWithServicesMapper: MedicalWorkerWithServicesDataSourceModelToDomainMapper
-) : GetMedicalWorkersWithServicesRepository, GetFacilitiesPagingStreamRepository {
+) : GetMedicalWorkersWithServicesRepository,
+    GetFacilitiesPagingStreamRepository,
+    SaveMedicalFacilityRepository,
+    SaveMedicalWorkerRepository {
 
     override fun getFacilitiesPagingStream(query: String): Flow<PagingData<MedicalFacilityDomainModel>> {
         Log.d("HealthcareRepository", "getFacilitiesPagingStream: $query")
@@ -45,5 +55,25 @@ class HealthcareRepository(
         val workers = medicalWorkerDao.getAll(patientId).first()
 
         return medicalWorkerWithServicesMapper.toDomain(workers)
+    }
+
+    override suspend fun saveMedicalFacility(facility: MedicalFacilityDomainModel) {
+        facilityMapper.toDataSource(facility).let {
+            medicalFacilityDao.insert(it.medicalFacility)
+            medicalServiceDao.insertAll(it.services)
+        }
+    }
+
+    override suspend fun saveMedicalFacility(facilities: List<MedicalFacilityDomainModel>) {
+        facilities.map { facilityMapper.toDataSource(it) }.let { list ->
+            val facilitiesList = list.map { it.medicalFacility }
+            val services = list.map { it.services }.flatten()
+            medicalFacilityDao.insertAll(facilitiesList)
+            medicalServiceDao.insertAll(services)
+        }
+    }
+
+    override suspend fun saveMedicalWorker(worker: MedicalWorkerDomainModel): String {
+        TODO("Not yet implemented")
     }
 }

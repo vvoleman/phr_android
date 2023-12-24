@@ -10,6 +10,7 @@ interface HealthcareApi {
         @Query("page") page: Int,
         @Query("any") query: String = "",
         @Query("city") city: String = "",
+
     ): HealthcareResponse
 
     companion object {

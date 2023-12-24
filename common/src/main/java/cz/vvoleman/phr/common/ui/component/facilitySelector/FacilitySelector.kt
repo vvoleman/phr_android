@@ -15,6 +15,8 @@ import cz.vvoleman.phr.common.ui.model.healthcare.core.MedicalFacilityUiModel
 import cz.vvoleman.phr.common.utils.SizingConstants.MARGIN_SIZE
 import cz.vvoleman.phr.common_datasource.databinding.DialogFacilitySelectorBinding
 import cz.vvoleman.phr.common_datasource.databinding.ViewFacilitySelectorBinding
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.callbackFlow
 
 class FacilitySelector @JvmOverloads constructor(
     context: Context,
@@ -40,18 +42,14 @@ class FacilitySelector @JvmOverloads constructor(
         builder.setView(dialogBinding.root)
         builder.setCancelable(false)
         builder.setPositiveButton("OK") { _, _ ->
-            Log.d("FacilitySelector", position.toString())
             setupFacility()
             listener?.onFacilitySelected(facility, position)
         }
-        builder.setNegativeButton("Cancel") { _, _ ->
-            Log.d("MedicineSelector", "Cancel")
-        }
+        builder.setNegativeButton("Cancel") { _, _ -> }
 
         dialog = builder.create()
 
         binding.textInputEditTextName.setOnClickListener {
-            Log.d("FacilitySelector", "onClick")
             dialog.show()
         }
 
@@ -71,11 +69,9 @@ class FacilitySelector @JvmOverloads constructor(
 
         dialogBinding.searchView.setOnQueryTextListener(object : androidx.appcompat.widget.SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-                Log.d("FacilitySelector", "onQueryTextSubmit: $listener")
                 facility = null
                 recyclerViewAdapter.resetSelectedPosition()
                 listener?.onFacilitySelectorSearch(query ?: "") {
-                    Log.d("FacilitySelector", "onQueryTextSubmit: $it")
                     setData(it)
                 }
                 return false
@@ -85,17 +81,13 @@ class FacilitySelector @JvmOverloads constructor(
                 return false
             }
         })
-
-        Log.d("FacilitySelector", "init: idk")
     }
 
     private fun setupFacility() {
-        Log.d("FacilitySelector", "setupFacility: $facility")
         binding.textInputEditTextName.setText(facility?.fullName ?: "")
     }
 
     fun setSelected(facility: MedicalFacilityUiModel?) {
-        Log.d("FacilitySelector", "setSelected: $facility")
         this.facility = facility
         setupFacility()
     }
@@ -103,11 +95,13 @@ class FacilitySelector @JvmOverloads constructor(
     fun setListener(listener: FacilitySelectorListener) {
         this.listener = listener
 
-        Log.d("FacilitySelector", "init: $listener")
         listener.onFacilitySelectorSearch("") { pagingData ->
-            Log.d("FacilitySelector", "callback called: $pagingData")
             setData(pagingData)
         }
+    }
+
+    fun setError(error: String?) {
+        binding.textInputLayoutName.error = error
     }
 
     suspend fun setData(data: PagingData<MedicalFacilityUiModel>) {
@@ -124,7 +118,6 @@ class FacilitySelector @JvmOverloads constructor(
     }
 
     fun setPosition(position: Int) {
-        Log.d("FacilitySelector", "setPosition: $position")
         this.position = position
     }
 }

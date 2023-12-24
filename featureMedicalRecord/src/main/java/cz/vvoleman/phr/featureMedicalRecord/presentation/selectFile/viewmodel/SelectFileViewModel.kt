@@ -28,7 +28,7 @@ class SelectFileViewModel @Inject constructor(
     private val getTextFromInputImageUseCase: GetTextFromInputImageUseCase,
     private val getRecognizedOptionsFromTextUseCase: GetRecognizedOptionsFromTextUseCase,
     private val recognizedOptionsDomainModelToPresentationMapper: RecognizedOptionsDomainModelToPresentationMapper,
-    private val savedStateHandle: SavedStateHandle,
+    savedStateHandle: SavedStateHandle,
     useCaseExecutorProvider: UseCaseExecutorProvider
 ) : BaseViewModel<SelectFileViewState, SelectFileNotification>(
     savedStateHandle,

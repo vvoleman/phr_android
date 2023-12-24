@@ -15,6 +15,12 @@ import cz.vvoleman.phr.common.domain.usecase.patient.SwitchSelectedPatientUseCas
 import cz.vvoleman.phr.common.domain.usecase.patient.addedit.GetPatientByIdUseCase
 import cz.vvoleman.phr.common.domain.usecase.patient.addedit.SavePatientUseCase
 import cz.vvoleman.phr.common.presentation.mapper.PatientPresentationModelToDomainMapper
+import cz.vvoleman.phr.common.presentation.mapper.healthcare.AddEditMedicalServiceItemPresentationModelToDomainMapper
+import cz.vvoleman.phr.common.presentation.mapper.healthcare.MedicalFacilityPresentationModelToDomainMapper
+import cz.vvoleman.phr.common.presentation.mapper.healthcare.MedicalServicePresentationModelToDomainMapper
+import cz.vvoleman.phr.common.presentation.mapper.healthcare.MedicalServiceWithWorkersPresentationModelToDomainMapper
+import cz.vvoleman.phr.common.presentation.mapper.healthcare.MedicalWorkerPresentationModelToDomainMapper
+import cz.vvoleman.phr.common.presentation.mapper.healthcare.MedicalWorkerWithInfoPresentationModelToDomainMapper
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -86,4 +92,32 @@ class PresentationModule {
 
     @Provides
     fun providesPatientPresentationModelToDomainMapper() = PatientPresentationModelToDomainMapper()
+
+    @Provides
+    fun providesMedicalWorkerPresentationModelToDomainMapper() = MedicalWorkerPresentationModelToDomainMapper()
+
+    @Provides
+    fun providesMedicalServicePresentationModelToDomainMapper() = MedicalServicePresentationModelToDomainMapper()
+
+    @Provides
+    fun providesMedicalWorkerWithInfoPresentationModelToDomainMapper(
+        workerMapper: MedicalWorkerPresentationModelToDomainMapper
+    ) = MedicalWorkerWithInfoPresentationModelToDomainMapper(workerMapper)
+
+    @Provides
+    fun providesMedicalServiceWithWorkersPresentationModelToDomainMapper(
+        serviceMapper: MedicalServicePresentationModelToDomainMapper,
+        workerInfoMapper: MedicalWorkerWithInfoPresentationModelToDomainMapper
+    ) = MedicalServiceWithWorkersPresentationModelToDomainMapper(serviceMapper, workerInfoMapper)
+
+    @Provides
+    fun providesMedicalFacilityPresentationModelToDomainMapper(
+        serviceWithWorkersMapper: MedicalServiceWithWorkersPresentationModelToDomainMapper
+    ) = MedicalFacilityPresentationModelToDomainMapper(serviceWithWorkersMapper)
+
+    @Provides
+    fun providesAddEditMedicalServiceItemPresentationModelToDomainMapper(
+        facilityMapper: MedicalFacilityPresentationModelToDomainMapper
+    ) =
+        AddEditMedicalServiceItemPresentationModelToDomainMapper(facilityMapper)
 }

@@ -7,9 +7,10 @@ import cz.vvoleman.phr.common.ui.model.healthcare.addEdit.AddEditMedicalServiceI
 import kotlinx.coroutines.flow.Flow
 
 data class AddEditMedicalWorkerViewState(
+    val workerId: String? = null,
     val patient: PatientPresentationModel? = null,
     val name: String = "",
-    val details: List<AddEditMedicalServiceItemUiModel> = emptyList(),
+    val details: List<AddEditMedicalServiceItemPresentationModel> = emptyList(),
     val query: String = "",
     val facilityStream: Flow<PagingData<MedicalFacilityPresentationModel>>? = null,
 )

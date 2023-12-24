@@ -6,7 +6,7 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class SpecificMedicalWorkerDomainModel(
-    val id: String,
+    val id: String?,
     val medicalWorker: MedicalWorkerDomainModel,
     val medicalService: MedicalServiceDomainModel,
     val email: String?,

@@ -42,7 +42,7 @@ class AddEditViewModel @Inject constructor(
     private val selectedOptionsPresentationToDomainMapper: SelectedOptionsPresentationToDomainMapper,
     private val diagnoseDomainModelToPresentationMapper: DiagnoseDomainModelToPresentationMapper,
     private val addEditPresentationModelToDomainMapper: AddEditPresentationModelToDomainMapper,
-    private val savedStateHandle: SavedStateHandle,
+    savedStateHandle: SavedStateHandle,
     useCaseExecutorProvider: UseCaseExecutorProvider
 ) : BaseViewModel<AddEditViewState, AddEditNotification>(
     savedStateHandle,

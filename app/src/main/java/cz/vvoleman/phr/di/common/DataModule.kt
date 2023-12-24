@@ -5,6 +5,8 @@ import cz.vvoleman.phr.common.data.alarm.AlarmScheduler
 import cz.vvoleman.phr.common.data.alarm.AndroidAlarmScheduler
 import cz.vvoleman.phr.common.data.datasource.model.PatientDao
 import cz.vvoleman.phr.common.data.datasource.model.PatientDataStore
+import cz.vvoleman.phr.common.data.datasource.model.healthcare.facility.MedicalFacilityDao
+import cz.vvoleman.phr.common.data.datasource.model.healthcare.service.MedicalServiceDao
 import cz.vvoleman.phr.common.data.datasource.model.healthcare.worker.MedicalWorkerDao
 import cz.vvoleman.phr.common.data.datasource.model.healthcare.worker.SpecificMedicalWorkerDao
 import cz.vvoleman.phr.common.data.datasource.model.retrofit.healthcare.HealthcareApi
@@ -21,9 +23,15 @@ import cz.vvoleman.phr.common.data.mapper.healthcare.MedicalWorkerWithServicesDa
 import cz.vvoleman.phr.common.data.mapper.healthcare.SpecificMedicalWorkerDataSourceToDomainMapper
 import cz.vvoleman.phr.common.data.repository.HealthcareRepository
 import cz.vvoleman.phr.common.data.repository.PatientRepository
+import cz.vvoleman.phr.common.data.repository.healthcare.SpecificMedicalWorkerRepository
 import cz.vvoleman.phr.common.domain.repository.*
 import cz.vvoleman.phr.common.domain.repository.healthcare.GetFacilitiesPagingStreamRepository
 import cz.vvoleman.phr.common.domain.repository.healthcare.GetMedicalWorkersWithServicesRepository
+import cz.vvoleman.phr.common.domain.repository.healthcare.GetSpecificMedicalWorkersRepository
+import cz.vvoleman.phr.common.domain.repository.healthcare.RemoveSpecificMedicalWorkerRepository
+import cz.vvoleman.phr.common.domain.repository.healthcare.SaveMedicalFacilityRepository
+import cz.vvoleman.phr.common.domain.repository.healthcare.SaveMedicalWorkerRepository
+import cz.vvoleman.phr.common.domain.repository.healthcare.SaveSpecificMedicalWorkerRepository
 import cz.vvoleman.phr.common.domain.repository.patient.DeletePatientRepository
 import cz.vvoleman.phr.common.domain.repository.patient.GetAllPatientsRepository
 import cz.vvoleman.phr.common.domain.repository.patient.GetPatientByIdRepository
@@ -166,13 +174,18 @@ class DataModule {
         api: HealthcareApi,
         apiModelToDbMapper: MedicalFacilityApiModelToDbMapper,
         medicalWorkerDao: MedicalWorkerDao,
+        medicalFacilityDao: MedicalFacilityDao,
+        medicalServiceDao: MedicalServiceDao,
         medicalWorkerWithServicesMapper: MedicalWorkerWithServicesDataSourceModelToDomainMapper,
     ) = HealthcareRepository(
-        facilityMapper,
-        api,
-        apiModelToDbMapper,
-        medicalWorkerDao,
-        medicalWorkerWithServicesMapper
+        facilityMapper = facilityMapper,
+        api = api,
+        apiModelToDbMapper = apiModelToDbMapper,
+        medicalWorkerDao = medicalWorkerDao,
+        medicalFacilityDao = medicalFacilityDao,
+        medicalServiceDao = medicalServiceDao,
+        medicalWorkerWithServicesMapper = medicalWorkerWithServicesMapper
+
     )
 
     @Provides
@@ -184,4 +197,38 @@ class DataModule {
     fun providesGetFacilitiesPagingStreamRepository(
         healthcareRepository: HealthcareRepository
     ): GetFacilitiesPagingStreamRepository = healthcareRepository
+
+    @Provides
+    fun providesSaveMedicalFacilityRepository(
+        healthcareRepository: HealthcareRepository
+    ): SaveMedicalFacilityRepository = healthcareRepository
+
+    @Provides
+    fun providesSaveMedicalWorkerRepository(
+        healthcareRepository: HealthcareRepository
+    ): SaveMedicalWorkerRepository = healthcareRepository
+
+    @Provides
+    fun providesSpecificMedicalWorkerRepository(
+        specificMedicalWorkerDao: SpecificMedicalWorkerDao,
+        specificMapper: SpecificMedicalWorkerDataSourceToDomainMapper,
+    ) = SpecificMedicalWorkerRepository(
+        specificMedicalWorkerDao,
+        specificMapper,
+    )
+
+    @Provides
+    fun providesGetSpecificMedicalWorkerRepository(
+        specificMedicalWorkerRepository: SpecificMedicalWorkerRepository
+    ): GetSpecificMedicalWorkersRepository = specificMedicalWorkerRepository
+
+    @Provides
+    fun providesRemoveSpecificMedicalWorkerRepository(
+        specificMedicalWorkerRepository: SpecificMedicalWorkerRepository
+    ): RemoveSpecificMedicalWorkerRepository = specificMedicalWorkerRepository
+
+    @Provides
+    fun providesSaveSpecificMedicalWorkerRepository(
+        specificMedicalWorkerRepository: SpecificMedicalWorkerRepository
+    ): SaveSpecificMedicalWorkerRepository = specificMedicalWorkerRepository
 }

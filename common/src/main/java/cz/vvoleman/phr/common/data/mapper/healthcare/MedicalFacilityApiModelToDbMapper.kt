@@ -31,6 +31,7 @@ class MedicalFacilityApiModelToDbMapper {
             ),
             services = model.services.map {
                 MedicalServiceDataSourceModel(
+                    id = it.id,
                     careField = it.careField,
                     careForm = it.careForm,
                     careType = it.careType,
