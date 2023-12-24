@@ -12,7 +12,11 @@ interface SpecificMedicalWorkerDao {
 
     @Transaction
     @Query("SELECT * FROM specific_medical_worker WHERE medical_worker_id = :medicalWorkerId")
-    fun getByMedicalWorker(medicalWorkerId: Int): Flow<List<SpecificMedicalWorkerWithDetailsDataSourceModel>>
+    fun getByMedicalWorker(medicalWorkerId: String): Flow<List<SpecificMedicalWorkerWithDetailsDataSourceModel>>
+
+    @Transaction
+    @Query("SELECT * FROM specific_medical_worker WHERE medical_worker_id IN (:medicalWorkerIds)")
+    fun getByMedicalWorker(medicalWorkerIds: List<String>): Flow<List<SpecificMedicalWorkerWithDetailsDataSourceModel>>
 
     @Transaction
     @Query("SELECT * FROM specific_medical_worker WHERE id = :id")
@@ -27,11 +31,11 @@ interface SpecificMedicalWorkerDao {
 
     @Transaction
     @Query("SELECT * FROM specific_medical_worker WHERE medical_service_id = :medicalServiceId")
-    fun getByMedicalService(medicalServiceId: Int): Flow<List<SpecificMedicalWorkerWithDetailsDataSourceModel>>
+    fun getByMedicalService(medicalServiceId: String): Flow<List<SpecificMedicalWorkerWithDetailsDataSourceModel>>
 
     @Transaction
     @Query("SELECT * FROM specific_medical_worker WHERE medical_service_id IN (:medicalServiceIds)")
-    fun getByMedicalService(medicalServiceIds: List<Int>): Flow<List<SpecificMedicalWorkerWithDetailsDataSourceModel>>
+    fun getByMedicalService(medicalServiceIds: List<String>): Flow<List<SpecificMedicalWorkerWithDetailsDataSourceModel>>
 
     @Insert
     suspend fun insert(specificMedicalWorker: SpecificMedicalWorkerDataSourceModel): Long
@@ -40,11 +44,14 @@ interface SpecificMedicalWorkerDao {
     suspend fun delete(specificMedicalWorker: SpecificMedicalWorkerDataSourceModel)
 
     @Query("DELETE FROM specific_medical_worker WHERE medical_worker_id = :medicalWorkerId")
-    suspend fun deleteByMedicalWorker(medicalWorkerId: Int)
+    suspend fun deleteByMedicalWorker(medicalWorkerId: String)
 
     @Query("DELETE FROM specific_medical_worker WHERE medical_service_id = :medicalServiceId")
-    suspend fun deleteByMedicalService(medicalServiceId: Int)
+    suspend fun deleteByMedicalService(medicalServiceId: String)
 
     @Query("DELETE FROM specific_medical_worker WHERE id = :id")
-    suspend fun delete(id: Int)
+    suspend fun delete(id: String)
+
+    @Query("DELETE FROM specific_medical_worker WHERE id IN (:ids)")
+    suspend fun delete(ids: List<String>)
 }

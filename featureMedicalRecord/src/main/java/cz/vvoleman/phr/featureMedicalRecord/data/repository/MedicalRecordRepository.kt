@@ -93,7 +93,7 @@ class MedicalRecordRepository(
     }
 
     override suspend fun getMedicalRecordsByMedicalWorker(medicalWorker: MedicalWorkerDomainModel): List<MedicalRecordDomainModel> {
-        return medicalRecordDao.getByMedicalWorkerId(medicalWorker.id).first()
+        return medicalRecordDao.getByMedicalWorkerId(medicalWorker.id!!).first()
             .map { medicalRecordDataSourceToDomainMapper.toDomain(it) }
     }
 }

@@ -23,7 +23,7 @@ class AddEditPatientViewModel @Inject constructor(
     private val getPatientByIdUseCase: GetPatientByIdUseCase,
     private val savePatientUseCase: SavePatientUseCase,
     private val patientPresentationModelToDomainMapper: PatientPresentationModelToDomainMapper,
-    private val savedStateHandle: SavedStateHandle,
+    savedStateHandle: SavedStateHandle,
     useCaseExecutorProvider: UseCaseExecutorProvider
 ) : BaseViewModel<AddEditViewState, AddEditPatientNotification>(
     savedStateHandle,

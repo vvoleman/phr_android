@@ -5,12 +5,13 @@ import cz.vvoleman.phr.common.domain.eventBus.CommonEventBus
 import cz.vvoleman.phr.common.domain.eventBus.CommonListener
 import cz.vvoleman.phr.common.domain.mapper.PatientDomainModelToAddEditMapper
 import cz.vvoleman.phr.common.domain.repository.healthcare.GetMedicalWorkersWithServicesRepository
+import cz.vvoleman.phr.common.domain.repository.healthcare.GetSpecificMedicalWorkersRepository
+import cz.vvoleman.phr.common.domain.repository.healthcare.RemoveSpecificMedicalWorkerRepository
+import cz.vvoleman.phr.common.domain.repository.healthcare.SaveMedicalFacilityRepository
+import cz.vvoleman.phr.common.domain.repository.healthcare.SaveMedicalWorkerRepository
+import cz.vvoleman.phr.common.domain.repository.healthcare.SaveSpecificMedicalWorkerRepository
 import cz.vvoleman.phr.common.domain.usecase.healthcare.GetMedicalWorkersUseCase
-import cz.vvoleman.phr.common.presentation.mapper.healthcare.MedicalFacilityPresentationModelToDomainMapper
-import cz.vvoleman.phr.common.presentation.mapper.healthcare.MedicalServicePresentationModelToDomainMapper
-import cz.vvoleman.phr.common.presentation.mapper.healthcare.MedicalServiceWithWorkersPresentationModelToDomainMapper
-import cz.vvoleman.phr.common.presentation.mapper.healthcare.MedicalWorkerPresentationModelToDomainMapper
-import cz.vvoleman.phr.common.presentation.mapper.healthcare.MedicalWorkerWithInfoPresentationModelToDomainMapper
+import cz.vvoleman.phr.common.domain.usecase.healthcare.SaveMedicalWorkerUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -45,24 +46,19 @@ class DomainModule {
     fun providesCommonEventBus() = CommonEventBus
 
     @Provides
-    fun providesMedicalWorkerPresentationModelToDomainMapper() = MedicalWorkerPresentationModelToDomainMapper()
-
-    @Provides
-    fun providesMedicalServicePresentationModelToDomainMapper() = MedicalServicePresentationModelToDomainMapper()
-
-    @Provides
-    fun providesMedicalWorkerWithInfoPresentationModelToDomainMapper(
-        workerMapper: MedicalWorkerPresentationModelToDomainMapper
-    ) = MedicalWorkerWithInfoPresentationModelToDomainMapper(workerMapper)
-
-    @Provides
-    fun providesMedicalServiceWithWorkersPresentationModelToDomainMapper(
-        serviceMapper: MedicalServicePresentationModelToDomainMapper,
-        workerInfoMapper: MedicalWorkerWithInfoPresentationModelToDomainMapper
-    ) = MedicalServiceWithWorkersPresentationModelToDomainMapper(serviceMapper, workerInfoMapper)
-
-    @Provides
-    fun providesMedicalFacilityPresentationModelToDomainMapper(
-        serviceWithWorkersMapper: MedicalServiceWithWorkersPresentationModelToDomainMapper
-    ) = MedicalFacilityPresentationModelToDomainMapper(serviceWithWorkersMapper)
+    fun providesSaveMedicalWorkerUseCase(
+        saveMedicalFacilityRepository: SaveMedicalFacilityRepository,
+        saveMedicalWorkerRepository: SaveMedicalWorkerRepository,
+        getSpecificMedicalWorkersRepository: GetSpecificMedicalWorkersRepository,
+        saveSpecificMedicalWorkerRepository: SaveSpecificMedicalWorkerRepository,
+        removeSpecificMedicalWorkerRepository: RemoveSpecificMedicalWorkerRepository,
+        coroutineContextProvider: CoroutineContextProvider
+    ) = SaveMedicalWorkerUseCase(
+        saveMedicalFacilityRepository,
+        saveMedicalWorkerRepository,
+        getSpecificMedicalWorkersRepository,
+        saveSpecificMedicalWorkerRepository,
+        removeSpecificMedicalWorkerRepository,
+        coroutineContextProvider
+    )
 }

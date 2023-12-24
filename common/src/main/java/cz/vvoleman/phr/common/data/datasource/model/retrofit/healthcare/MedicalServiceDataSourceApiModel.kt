@@ -1,6 +1,7 @@
 package cz.vvoleman.phr.common.data.datasource.model.retrofit.healthcare
 
 data class MedicalServiceDataSourceApiModel(
+    val id: String,
     val careField: String,
     val careForm: String,
     val careType: String,

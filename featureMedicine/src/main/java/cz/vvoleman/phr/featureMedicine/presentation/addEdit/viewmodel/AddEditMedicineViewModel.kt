@@ -44,7 +44,7 @@ class AddEditMedicineViewModel @Inject constructor(
     private val medicineMapper: MedicinePresentationModelToDomainMapper,
     private val saveMedicineMapper: SaveMedicineSchedulePresentationModelToDomainMapper,
     private val patientMapper: PatientPresentationModelToDomainMapper,
-    private val savedStateHandle: SavedStateHandle,
+    savedStateHandle: SavedStateHandle,
     useCaseExecutorProvider: UseCaseExecutorProvider
 ) : BaseViewModel<AddEditMedicineViewState, AddEditMedicineNotification>(savedStateHandle, useCaseExecutorProvider) {
 

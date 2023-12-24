@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "1a5612a8e075882e20beb36ad8048f52",
+    "identityHash": "4e81efefbaedde8f45d860e02dfb502e",
     "entities": [
       {
         "tableName": "patient",
@@ -264,7 +264,7 @@
       },
       {
         "tableName": "specific_medical_worker",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `medical_worker_id` INTEGER NOT NULL, `medical_service_id` INTEGER NOT NULL, `email` TEXT, `telephone` TEXT)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `medical_worker_id` INTEGER NOT NULL, `medical_service_id` TEXT NOT NULL, `email` TEXT, `telephone` TEXT)",
         "fields": [
           {
             "fieldPath": "id",
@@ -281,7 +281,7 @@
           {
             "fieldPath": "medicalServiceId",
             "columnName": "medical_service_id",
-            "affinity": "INTEGER",
+            "affinity": "TEXT",
             "notNull": true
           },
           {
@@ -308,13 +308,13 @@
       },
       {
         "tableName": "medical_service",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `care_field` TEXT NOT NULL, `care_form` TEXT NOT NULL, `care_type` TEXT NOT NULL, `care_extent` TEXT NOT NULL, `bed_count` INTEGER NOT NULL, `service_note` TEXT NOT NULL, `professional_representative` TEXT NOT NULL, `medical_facility_id` TEXT NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `care_field` TEXT NOT NULL, `care_form` TEXT NOT NULL, `care_type` TEXT NOT NULL, `care_extent` TEXT NOT NULL, `bed_count` INTEGER NOT NULL, `service_note` TEXT NOT NULL, `professional_representative` TEXT NOT NULL, `medical_facility_id` TEXT NOT NULL, PRIMARY KEY(`id`))",
         "fields": [
           {
             "fieldPath": "id",
             "columnName": "id",
-            "affinity": "INTEGER",
-            "notNull": false
+            "affinity": "TEXT",
+            "notNull": true
           },
           {
             "fieldPath": "careField",
@@ -369,7 +369,7 @@
           "columnNames": [
             "id"
           ],
-          "autoGenerate": true
+          "autoGenerate": false
         },
         "indices": [],
         "foreignKeys": []
@@ -752,7 +752,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '1a5612a8e075882e20beb36ad8048f52')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '4e81efefbaedde8f45d860e02dfb502e')"
     ]
   }
 }
