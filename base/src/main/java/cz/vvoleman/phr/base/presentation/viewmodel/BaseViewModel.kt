@@ -16,8 +16,8 @@ import kotlinx.coroutines.launch
 
 abstract class BaseViewModel<VIEW_STATE : Any, NOTIFICATION : Any>(
     @Suppress("UnusedPrivateProperty")
-    private val savedStateHandle: SavedStateHandle,
-    private val useCaseExecutorProvider: UseCaseExecutorProvider
+    protected val savedStateHandle: SavedStateHandle,
+    protected val useCaseExecutorProvider: UseCaseExecutorProvider
 ) : ViewModel() {
 
     @Suppress("VariableNaming")

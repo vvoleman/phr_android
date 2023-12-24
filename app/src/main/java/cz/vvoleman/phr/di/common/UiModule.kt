@@ -7,6 +7,7 @@ import cz.vvoleman.phr.common.presentation.model.healthcare.addEdit.AddEditMedic
 import cz.vvoleman.phr.common.presentation.model.healthcare.list.ListHealthcareViewState
 import cz.vvoleman.phr.common.presentation.model.patient.addedit.AddEditViewState
 import cz.vvoleman.phr.common.presentation.model.patient.listpatients.ListPatientsViewState
+import cz.vvoleman.phr.common.ui.mapper.healthcare.AddEditMedicalServiceItemUiModelToPresentationMapper
 import cz.vvoleman.phr.common.ui.mapper.healthcare.MedicalFacilityUiModelToPresentationMapper
 import cz.vvoleman.phr.common.ui.mapper.healthcare.MedicalServiceUiModelToPresentationMapper
 import cz.vvoleman.phr.common.ui.mapper.healthcare.MedicalServiceWithWorkersUiModelToPresentationMapper
@@ -74,8 +75,10 @@ class UiModule {
     ) = AddEditMedicalWorkerDestinationUiMapper(navManager)
 
     @Provides
-    fun providesAddEditMedicalWorkerBinder(): ViewStateBinder<AddEditMedicalWorkerViewState, FragmentAddEditMedicalWorkerBinding> =
-        AddEditMedicalWorkerBinder()
+    fun providesAddEditMedicalWorkerBinder(
+        addEditMapper: AddEditMedicalServiceItemUiModelToPresentationMapper
+    ): ViewStateBinder<AddEditMedicalWorkerViewState, FragmentAddEditMedicalWorkerBinding> =
+        AddEditMedicalWorkerBinder(addEditMapper)
 
     @Provides
     fun providesMedicalFacilityUiModelToPresentationMapper(
@@ -98,4 +101,9 @@ class UiModule {
         workerWithInfo: MedicalWorkerWithInfoUiModelToDomainMapper,
         serviceMapper: MedicalServiceUiModelToPresentationMapper
     ) = MedicalServiceWithWorkersUiModelToPresentationMapper(serviceMapper, workerWithInfo)
+
+    @Provides
+    fun providesAddEditMedicalServiceItemUiModelToPresentationMapper(
+        facilityMapper: MedicalFacilityUiModelToPresentationMapper
+    ) = AddEditMedicalServiceItemUiModelToPresentationMapper(facilityMapper)
 }

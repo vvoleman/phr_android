@@ -44,4 +44,16 @@
     <string name="search_hint_facility">Jméno zařízení, město…</string>
     <string name="no_results">Žádné výsledky</string>
     <string name="error_possibly_connection">Chyba. Zkontrolujte Vaše připojení k internetu</string>
+    <string name="field_service">Zdravotní služba</string>
+    <string name="field_details">Kontaktní údaje</string>
+    <string name="error_required">Toto pole je povinné</string>
+    <string name="description_select_facility">Výběr lékařského zařízení</string>
+    <string name="description_select_medical_service">Výběr zdravotní služby v daném zařízení</string>
+    <string name="description_worker_telephone">Telefoní číslo zdravotnického pracovníka pro dané zařízení</string>
+    <string name="description_worker_email">E-mail zdravotnického pracovníka pro dané zařízení</string>
+    <string name="helper_optional">Volitelné pole</string>
+    <string name="dialog_delete_facility_title">Smazat kontakt</string>
+    <string name="dialog_delete_facility_message">Přejete si smazat kontakt pro zařízení \"%s\"?</string>
+    <string name="dialog_delete_facility_done">Kontakt smazán</string>
+    <string name="save_medical_worker">Uložit lékařského pracovníka</string>
 </resources>

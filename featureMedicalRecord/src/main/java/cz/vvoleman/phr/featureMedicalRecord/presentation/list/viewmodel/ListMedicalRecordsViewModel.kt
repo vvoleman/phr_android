@@ -28,13 +28,13 @@ import javax.inject.Inject
 @HiltViewModel
 @Suppress("TooManyFunctions")
 class ListMedicalRecordsViewModel @Inject constructor(
-    private val savedStateHandle: SavedStateHandle,
     private val getFilteredRecordsUseCase: GetFilteredRecordsUseCase,
     private val getUsedProblemCategoriesUseCase: GetUsedProblemCategoriesUseCase,
     private val getUsedMedicalWorkersUseCase: GetUsedMedicalWorkersUseCase,
     private val listViewStateToDomainMapper: ListViewStateToDomainMapper,
     private val getSelectedPatientUseCase: GetSelectedPatientUseCase,
     private val deletePatientUseCase: DeletePatientUseCase,
+    savedStateHandle: SavedStateHandle,
     useCaseExecutorProvider: UseCaseExecutorProvider
 ) : BaseViewModel<ListMedicalRecordsViewState, ListMedicalRecordsNotification>(
     savedStateHandle,

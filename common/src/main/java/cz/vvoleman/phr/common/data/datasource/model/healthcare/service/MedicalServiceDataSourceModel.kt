@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "medical_service")
 data class MedicalServiceDataSourceModel(
-    @PrimaryKey(autoGenerate = true) val id: Int? = null,
+    @PrimaryKey val id: String,
     @ColumnInfo(name = "care_field") val careField: String,
     @ColumnInfo(name = "care_form") val careForm: String,
     @ColumnInfo(name = "care_type") val careType: String,

@@ -238,7 +238,8 @@ class GetFilteredRecordsUseCaseTest {
                     professionalRepresentative = "",
                     medicalFacilityId = ""
                 ),
-                email = null, telephone = null,
+                email = null,
+                telephone = null,
             ),
             createdAt = date,
             visitDate = date

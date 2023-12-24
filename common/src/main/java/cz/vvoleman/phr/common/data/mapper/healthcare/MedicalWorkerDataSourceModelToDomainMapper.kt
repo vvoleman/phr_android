@@ -7,7 +7,7 @@ class MedicalWorkerDataSourceModelToDomainMapper {
 
     fun toDomain(model: MedicalWorkerDataSourceModel): MedicalWorkerDomainModel {
         return MedicalWorkerDomainModel(
-            id = model.id!!.toString(),
+            id = model.id?.toString(),
             name = model.name,
             patientId = model.patientId.toString(),
         )
@@ -15,7 +15,7 @@ class MedicalWorkerDataSourceModelToDomainMapper {
 
     fun toDataSource(model: MedicalWorkerDomainModel): MedicalWorkerDataSourceModel {
         return MedicalWorkerDataSourceModel(
-            id = model.id.toInt(),
+            id = model.id?.toInt(),
             name = model.name,
             patientId = model.patientId.toInt(),
         )

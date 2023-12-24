@@ -10,54 +10,68 @@
         android:id="@+id/facility_selector"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:contentDescription="@string/description_select_facility"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/text_input_layout_services"
-        style="?attr/textInputOutlinedStyle"
-        android:layout_below="@id/facility_selector"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/field_medical_facility">
+        android:layout_below="@id/facility_selector"
+        android:contentDescription="@string/description_select_medical_service"
+        app:errorEnabled="true">
 
         <AutoCompleteTextView
             android:id="@+id/auto_complete_text_view_services"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:hint="@string/field_service"
             android:inputType="none"
-            />
+            android:labelFor="@id/text_input_layout_services" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/text_input_layout_telephone"
         style="?attr/textInputOutlinedStyle"
-        android:layout_below="@id/text_input_layout_services"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/field_telephone">
+        android:layout_below="@id/text_input_layout_services"
+
+        android:contentDescription="@string/description_worker_telephone"
+        app:errorEnabled="true"
+        app:helperText="@string/helper_optional"
+        app:helperTextEnabled="true">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/edit_text_telephone"
-            android:enabled="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:enabled="true"
+            android:hint="@string/field_telephone"
             android:inputType="phone" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/text_input_layout_email"
         style="?attr/textInputOutlinedStyle"
-        android:layout_below="@id/text_input_layout_telephone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/field_email">
+        android:layout_below="@id/text_input_layout_telephone"
+        android:layout_marginTop="8dp"
+        android:contentDescription="@string/description_worker_email"
+        app:errorEnabled="true"
+        app:helperText="@string/helper_optional"
+
+        app:helperTextEnabled="true">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/edit_text_email"
-            android:enabled="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:enabled="true"
+            android:hint="@string/field_email"
             android:inputType="textEmailAddress" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -65,13 +79,13 @@
         android:id="@+id/button_delete"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@id/text_input_layout_email"
+        android:layout_alignParentEnd="true"
         android:backgroundTint="@color/red_700"
         android:contentDescription="@string/description_delete_facility"
         android:text="@string/action_delete"
         app:icon="@drawable/ic_delete"
         app:iconTint="@color/white"
-        android:layout_below="@id/text_input_layout_email"
-        android:layout_alignParentEnd="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 

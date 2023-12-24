@@ -24,9 +24,9 @@ class SpecificMedicalWorkerDataSourceToDomainMapper(
             medicalWorker = workerMapper.toDataSource(model.medicalWorker),
             medicalService = serviceInfoMapper.toDataSource(model.medicalService),
             specificMedicalWorker = SpecificMedicalWorkerDataSourceModel(
-                id = model.id.toIntOrNull(),
-                medicalWorkerId = model.medicalWorker.id.toInt(),
-                medicalServiceId = model.medicalService.id.toInt(),
+                id = model.id?.toIntOrNull(),
+                medicalWorkerId = model.medicalWorker.id!!.toInt(),
+                medicalServiceId = model.medicalService.id,
                 email = model.email,
                 telephone = model.telephone,
             )

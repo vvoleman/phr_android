@@ -21,7 +21,7 @@ class MedicalWorkerWithServicesDataSourceModelToDomainMapper(
     }
 
     suspend fun toDomain(models: List<MedicalWorkerDataSourceModel>): List<MedicalWorkerWithServicesDomainModel> {
-        val specificWorkers = specificWorkerDao.getByMedicalService(models.map { it.id!! }).first()
+        val specificWorkers = specificWorkerDao.getByMedicalWorker(models.map { it.id!!.toString() }).first()
 
         val specificMap = specificWorkers.groupBy { it.medicalWorker }
 

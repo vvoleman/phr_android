@@ -114,7 +114,7 @@ class MedicalRecordsBinder(
             medicalWorkerAdapter.submitList(
                 viewState.allMedicalWorkers.map {
                     FilterPair(
-                        it.id,
+                        it.id!!,
                         it.name,
                         it,
                         viewState.selectedMedicalWorkers.contains(it.id)
