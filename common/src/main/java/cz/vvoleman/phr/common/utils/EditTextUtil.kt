@@ -38,6 +38,7 @@ fun EditText.textChanges(emitOnStart: Boolean = false): Flow<CharSequence?> {
     return callbackFlow<CharSequence?> {
         val listener = object : TextWatcher {
             override fun afterTextChanged(s: Editable?)  {
+                Log.d("EditTextUtil", "afterTextChanged: $s")
                 trySend(s)
             }
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) = Unit
@@ -49,16 +50,7 @@ fun EditText.textChanges(emitOnStart: Boolean = false): Flow<CharSequence?> {
 }
 
 fun EditText.setTextIfNotFocused(text: CharSequence?) {
-    Log.d("EditTextUtil", "setTextIfNotFocused: $text, isFocused: $isFocused, isFocusable: $isFocusable")
-    if (!isFocused) {
-        setText(text)
-    }
-}
-fun TextInputLayout.setTextIfNotFocused(text: CharSequence?) {
-    Log.d("EditTextUtil", "setTextIfNotFocused: $text, isFocused: ${hasFocus()}, isFocusable: ${editText?.isFocusable}")
-    if (!hasFocus()) {
-        editText?.setText(text)
-    }
+    setText(text)
 }
 
 @ExperimentalCoroutinesApi

@@ -83,7 +83,6 @@ class FacilitySelectorAdapter(
 
     private class DiffCallback : DiffUtil.ItemCallback<MedicalFacilityUiModel>() {
         override fun areItemsTheSame(oldItem: MedicalFacilityUiModel, newItem: MedicalFacilityUiModel): Boolean {
-            Log.d("FacilitySelectorAdapter", "areItemsTheSame: ${oldItem.id} == ${newItem.id}")
             return oldItem.id == newItem.id
         }
 

@@ -33,6 +33,8 @@ class FacilitySelector @JvmOverloads constructor(
     private var listener: FacilitySelectorListener? = null
     private var facility: MedicalFacilityUiModel? = null
 
+    private var isFirstOpen = false
+
     init {
         binding = ViewFacilitySelectorBinding.inflate(LayoutInflater.from(context), this, true)
 
@@ -50,6 +52,12 @@ class FacilitySelector @JvmOverloads constructor(
         dialog = builder.create()
 
         binding.textInputEditTextName.setOnClickListener {
+            if (!isFirstOpen) {
+                isFirstOpen = true
+                listener?.onFacilitySelectorSearch("") { pagingData ->
+                    setData(pagingData)
+                }
+            }
             dialog.show()
         }
 
@@ -94,10 +102,6 @@ class FacilitySelector @JvmOverloads constructor(
 
     fun setListener(listener: FacilitySelectorListener) {
         this.listener = listener
-
-        listener.onFacilitySelectorSearch("") { pagingData ->
-            setData(pagingData)
-        }
     }
 
     fun setError(error: String?) {

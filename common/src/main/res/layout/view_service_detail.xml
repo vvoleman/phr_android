@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     style="@style/BaseFrontBox"
     android:layout_width="match_parent"
@@ -47,10 +48,10 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/edit_text_telephone"
             android:layout_width="match_parent"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
             android:layout_height="wrap_content"
             android:enabled="true"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             android:hint="@string/field_telephone"
             android:inputType="phone" />
     </com.google.android.material.textfield.TextInputLayout>
@@ -60,11 +61,11 @@
         style="?attr/textInputOutlinedStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:focusable="true"
-        android:focusableInTouchMode="true"
         android:layout_below="@id/text_input_layout_telephone"
         android:layout_marginTop="8dp"
         android:contentDescription="@string/description_worker_email"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
         app:errorEnabled="true"
         app:helperText="@string/helper_optional"
 
@@ -79,18 +80,19 @@
             android:inputType="textEmailAddress" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/button_delete"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/text_input_layout_email"
-        android:layout_alignParentEnd="true"
-        android:backgroundTint="@color/red_700"
-        android:contentDescription="@string/description_delete_facility"
-        android:text="@string/action_delete"
-        app:icon="@drawable/ic_delete"
-        app:iconTint="@color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+    <!--        <com.google.android.material.button.MaterialButton-->
+    <!--            android:id="@+id/button_delete"-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:enabled="false"-->
+    <!--            android:layout_below="@id/text_input_layout_email"-->
+    <!--            android:layout_alignParentEnd="true"-->
+    <!--            android:backgroundTint="@color/red_700"-->
+    <!--            android:contentDescription="@string/description_delete_facility"-->
+    <!--            android:text="@string/action_delete"-->
+    <!--            app:icon="@drawable/ic_delete"-->
+    <!--            app:iconTint="@color/white"-->
+    <!--            app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--            app:layout_constraintEnd_toEndOf="parent" />-->
 
 </RelativeLayout>

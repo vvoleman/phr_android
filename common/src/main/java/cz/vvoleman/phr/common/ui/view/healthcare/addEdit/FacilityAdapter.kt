@@ -27,6 +27,7 @@ import kotlinx.coroutines.flow.onEach
 import cz.vvoleman.phr.common.ui.model.healthcare.addEdit.AddEditMedicalServiceItemUiModel.ItemState
 import cz.vvoleman.phr.common.ui.model.healthcare.core.MedicalServiceWithWorkersUiModel
 import cz.vvoleman.phr.common.utils.setTextIfNotFocused
+import kotlinx.coroutines.flow.filter
 
 class FacilityAdapter(
     private val listener: FacilityAdapterListener,
@@ -41,7 +42,7 @@ class FacilityAdapter(
     }
 
     override fun onBindViewHolder(holder: FacilityAdapterViewHolder, position: Int) {
-        val item = getItem(holder.absoluteAdapterPosition)
+        val item = getItem(position)
         holder.bind(item)
     }
 
@@ -50,9 +51,10 @@ class FacilityAdapter(
         RecyclerView.ViewHolder(binding.root) {
 
         private val context = binding.root.context
-        private var isFirstBind = true
+        private var isFirstBind = false
 
         init {
+            Log.d(TAG, "init position: $bindingAdapterPosition")
             binding.buttonDelete.setOnClickListener {
                 val position = bindingAdapterPosition
                 if (position != RecyclerView.NO_POSITION) {
@@ -73,37 +75,44 @@ class FacilityAdapter(
                 }
                 .launchIn(lifecycleScope)
 
-            val combinedFlow = combine(
-                binding.editTextTelephone.textChanges(),
-                binding.editTextEmail.textChanges()
-            ) { telephone, email ->
-                Log.d("FacilityAdapter", "combine: $telephone, $email")
-                Pair(telephone.toString(), email.toString())
-            }
+            try {
+                val combinedFlow = combine(
+                    binding.editTextTelephone.textChanges(),
+                    binding.editTextEmail.textChanges()
+                ) { telephone, email ->
+                    Log.d("FacilityAdapter", "combine: $telephone, $email")
+                    Pair(telephone.toString(), email.toString())
+                }
 
-            combinedFlow
-                .debounce(500)
-                .onEach {
-                    Log.d(
-                        "FacilityAdapter",
-                        "combine onEach: $it. telephone: isFocused: ${binding.editTextTelephone.hasFocus()}"
-                    )
-                    if (bindingAdapterPosition == RecyclerView.NO_POSITION) {
-                        return@onEach
-                    }
-                    val item = getItem(bindingAdapterPosition)
-                    val copy = item.copy(
-                        telephone = it.first,
-                        email = it.second
-                    )
-                    listener.onItemUpdate(copy, bindingAdapterPosition)
-                }.launchIn(lifecycleScope)
+                combinedFlow
+                    .debounce(500)
+                    .onEach {
+                        Log.d(
+                            "FacilityAdapter",
+                            "combine onEach: $it. telephone: isFocused: ${binding.editTextTelephone.hasFocus()}"
+                        )
+                        if (bindingAdapterPosition == RecyclerView.NO_POSITION) {
+                            return@onEach
+                        }
+                        val item = getItem(bindingAdapterPosition)
+                        val copy = item.copy(
+                            telephone = it.first,
+                            email = it.second
+                        )
+                        listener.onItemUpdate(copy, bindingAdapterPosition)
+                    }.launchIn(lifecycleScope)
+            } catch (e: Throwable) {
+                Log.e("FacilityAdapter", "combine error: ${e.message}")
+            }
 
             binding.facilitySelector.setListener(this@FacilityAdapter)
         }
 
         fun bind(item: AddEditMedicalServiceItemUiModel) {
-            Log.d(TAG, "binding position $bindingAdapterPosition, item: ${item.telephone}")
+            Log.d(TAG, "binding position $bindingAdapterPosition, firstBind: $isFirstBind item: ${item.telephone}")
+            if (!isFirstBind) {
+                isFirstBind = true
+            }
             binding.facilitySelector.setPosition(bindingAdapterPosition)
 
             val facilityErrorMessage = when (item.facility) {
@@ -123,8 +132,10 @@ class FacilityAdapter(
                 textInputLayoutTelephone.isVisible = adapterState is ItemState.Ready
                 textInputLayoutEmail.isVisible = adapterState is ItemState.Ready
 
-                editTextTelephone.setTextIfNotFocused(item.telephone)
-                editTextEmail.setTextIfNotFocused(item.email)
+//                if (!isFirstBind) {
+//                    editTextTelephone.setTextIfNotFocused(item.telephone)
+//                    editTextEmail.setTextIfNotFocused(item.email)
+//                }
             }
 
             if (adapterState !is ItemState.NoFacility) {
@@ -179,6 +190,7 @@ class FacilityAdapter(
             oldItem: AddEditMedicalServiceItemUiModel,
             newItem: AddEditMedicalServiceItemUiModel
         ): Boolean {
+            Log.d(TAG, "areItemsTheSame: ${oldItem.id} == ${newItem.id} -> ${ oldItem.id == newItem.id}}")
             return oldItem.id == newItem.id
         }
 

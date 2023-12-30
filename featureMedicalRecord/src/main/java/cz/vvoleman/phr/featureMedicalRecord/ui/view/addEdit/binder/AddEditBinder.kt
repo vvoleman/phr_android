@@ -2,6 +2,7 @@ package cz.vvoleman.phr.featureMedicalRecord.ui.view.addEdit.binder
 
 import android.content.Context
 import android.widget.ArrayAdapter
+import androidx.lifecycle.LifecycleCoroutineScope
 import cz.vvoleman.phr.base.ui.mapper.BaseViewStateBinder
 import cz.vvoleman.phr.featureMedicalRecord.databinding.FragmentAddEditMedicalRecordBinding
 import cz.vvoleman.phr.featureMedicalRecord.presentation.addEdit.model.AddEditViewState
@@ -59,7 +60,7 @@ class AddEditBinder :
     override fun init(
         viewBinding: FragmentAddEditMedicalRecordBinding,
         context: Context,
-        lifecycleScope: CoroutineScope
+        lifecycleScope: LifecycleCoroutineScope
     ) {
         super.init(viewBinding, context, lifecycleScope)
 

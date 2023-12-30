@@ -1,6 +1,7 @@
 package cz.vvoleman.phr.common.ui.view.patient.listpatients
 
 import android.content.Context
+import androidx.lifecycle.LifecycleCoroutineScope
 import cz.vvoleman.phr.base.ui.mapper.BaseViewStateBinder
 import cz.vvoleman.phr.common.presentation.model.patient.listpatients.ListPatientsViewState
 import cz.vvoleman.phr.common.ui.adapter.listpatients.PatientAdapter
@@ -17,7 +18,7 @@ class ListPatientsBinder(
     override fun init(
         viewBinding: FragmentListPatientsBinding,
         context: Context,
-        lifecycleScope: CoroutineScope
+        lifecycleScope: LifecycleCoroutineScope
     ) {
         super.init(viewBinding, context, lifecycleScope)
 
