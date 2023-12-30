@@ -16,13 +16,17 @@ import cz.vvoleman.phr.common.presentation.mapper.PatientPresentationModelToDoma
 import cz.vvoleman.phr.common.presentation.mapper.healthcare.AddEditMedicalServiceItemPresentationModelToDomainMapper
 import cz.vvoleman.phr.common.presentation.mapper.healthcare.MedicalFacilityPresentationModelToDomainMapper
 import cz.vvoleman.phr.common.presentation.model.healthcare.addEdit.AddEditMedicalServiceItemPresentationModel
+import cz.vvoleman.phr.common.presentation.model.healthcare.addEdit.AddEditMedicalWorkerDestination
 import cz.vvoleman.phr.common.presentation.model.healthcare.addEdit.AddEditMedicalWorkerNotification
 import cz.vvoleman.phr.common.presentation.model.healthcare.addEdit.AddEditMedicalWorkerViewState
 import cz.vvoleman.phr.common.presentation.model.healthcare.core.MedicalFacilityPresentationModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -49,14 +53,17 @@ class AddEditMedicalWorkerViewModel @Inject constructor(
         viewModelScope.launch {
             loadSelectedPatient()
         }
-
-        updateViewState(currentViewState.copy(workerId = savedStateHandle.get<String>("medicalWorkerId")))
-
-        onAddFacility()
     }
 
     override fun initState(): AddEditMedicalWorkerViewState {
-        return AddEditMedicalWorkerViewState()
+        return AddEditMedicalWorkerViewState(
+            workerId = savedStateHandle.get<String>("medicalWorkerId"),
+            details = listOf(
+                AddEditMedicalServiceItemPresentationModel(
+                    id = "${System.currentTimeMillis()}",
+                )
+            )
+        )
     }
 
     private suspend fun loadSelectedPatient() {
@@ -99,6 +106,7 @@ class AddEditMedicalWorkerViewModel @Inject constructor(
     }
 
     fun onItemUpdate(item: AddEditMedicalServiceItemPresentationModel, position: Int) {
+        Log.d(TAG, "onItemUpdate: $item (Binding..)")
         val updatedList = currentViewState.details.toMutableList()
         updatedList[position] = item
 
@@ -132,12 +140,15 @@ class AddEditMedicalWorkerViewModel @Inject constructor(
     }
 
     fun onSave() {
-        val missingFields = checkRequirements()
+        val missingFields = currentViewState.missingFields
 
         if (missingFields.isNotEmpty()) {
             notify(AddEditMedicalWorkerNotification.MissingFields(missingFields))
             return
         }
+
+        Log.d(TAG, "onSave: ${currentViewState}")
+
 
         val request = SaveMedicalWorkerRequest(
             id = currentViewState.workerId,
@@ -146,24 +157,24 @@ class AddEditMedicalWorkerViewModel @Inject constructor(
             medicalServices = currentViewState.details.map { addEditMapper.toDomain(it) }
         )
 
-        Log.d(TAG, "onSave: $request")
-    }
-
-    private fun checkRequirements(): List<RequiredField> {
-        val missingFields = mutableListOf<RequiredField>()
-        if (currentViewState.name.isBlank()) {
-            missingFields.add(RequiredField.NAME)
-        }
-        if (currentViewState.details.isEmpty()) {
-            missingFields.add(RequiredField.CONTACT)
-        }
-        return missingFields
+        execute(
+            useCase = saveMedicalWorkerUseCase,
+            value = request,
+            onSuccess = {
+                navigateTo(AddEditMedicalWorkerDestination.Saved(it))
+            },
+            onException = {
+                notify(AddEditMedicalWorkerNotification.CannotSave)
+            }
+        )
 
     }
 
-    enum class RequiredField {
-        NAME,
-        CONTACT,
+    fun onNameChanged(name: String) {
+        updateViewState(
+            currentViewState.copy(
+                name = name
+            )
+        )
     }
-
 }
