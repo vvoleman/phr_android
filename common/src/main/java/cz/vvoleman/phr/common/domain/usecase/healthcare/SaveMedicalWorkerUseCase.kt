@@ -20,9 +20,9 @@ class SaveMedicalWorkerUseCase(
     private val saveSpecificMedicalWorkerRepository: SaveSpecificMedicalWorkerRepository,
     private val removeSpecificMedicalWorkerRepository: RemoveSpecificMedicalWorkerRepository,
     coroutineContextProvider: CoroutineContextProvider
-) : BackgroundExecutingUseCase<SaveMedicalWorkerRequest, Unit>(coroutineContextProvider) {
+) : BackgroundExecutingUseCase<SaveMedicalWorkerRequest, String>(coroutineContextProvider) {
 
-    override suspend fun executeInBackground(request: SaveMedicalWorkerRequest) {
+    override suspend fun executeInBackground(request: SaveMedicalWorkerRequest): String {
         val facilities = request.medicalServices.map { it.facility }.distinctBy { it.id }
         val services = mutableMapOf<String, MedicalServiceDomainModel>()
         facilities.map { it.services }.flatten().onEach {
@@ -51,7 +51,7 @@ class SaveMedicalWorkerUseCase(
         val updatedWorkers = mutableListOf<SpecificMedicalWorkerDomainModel>()
 
         servicesInfo.onEach { info ->
-            if (!previousServiceIds.contains(info.medicalService.id)) {
+            if (specificWorkers.isNotEmpty() && !previousServiceIds.contains(info.medicalService.id)) {
                 removeServiceIds.add(info.medicalService.id)
                 return@onEach
             }
@@ -59,7 +59,7 @@ class SaveMedicalWorkerUseCase(
             updatedWorkers.add(
                 SpecificMedicalWorkerDomainModel(
                     id = specificWorkersGrouped[info.medicalService.id]?.first()?.id,
-                    medicalWorker = medicalWorker,
+                    medicalWorker = medicalWorker.copy(id = medicalWorkerId),
                     medicalService = info.medicalService,
                     telephone = info.telephone,
                     email = info.email
@@ -69,5 +69,7 @@ class SaveMedicalWorkerUseCase(
 
         removeSpecificMedicalWorkerRepository.removeSpecificMedicalWorker(removeServiceIds)
         saveSpecificMedicalWorkerRepository.saveSpecificMedicalWorker(updatedWorkers)
+
+        return medicalWorkerId
     }
 }

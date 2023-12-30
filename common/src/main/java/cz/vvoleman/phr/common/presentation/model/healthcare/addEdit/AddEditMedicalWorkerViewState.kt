@@ -3,7 +3,6 @@ package cz.vvoleman.phr.common.presentation.model.healthcare.addEdit
 import androidx.paging.PagingData
 import cz.vvoleman.phr.common.presentation.model.healthcare.core.MedicalFacilityPresentationModel
 import cz.vvoleman.phr.common.presentation.model.patient.PatientPresentationModel
-import cz.vvoleman.phr.common.ui.model.healthcare.addEdit.AddEditMedicalServiceItemUiModel
 import kotlinx.coroutines.flow.Flow
 
 data class AddEditMedicalWorkerViewState(
@@ -13,4 +12,30 @@ data class AddEditMedicalWorkerViewState(
     val details: List<AddEditMedicalServiceItemPresentationModel> = emptyList(),
     val query: String = "",
     val facilityStream: Flow<PagingData<MedicalFacilityPresentationModel>>? = null,
-)
+) {
+    val missingFields: List<RequiredField>
+        get() {
+            val missingFields = mutableListOf<RequiredField>()
+            if (name.isBlank()) {
+                missingFields.add(RequiredField.NAME)
+            }
+            if (details.isEmpty()) {
+                missingFields.add(RequiredField.CONTACT)
+            }
+            if (details.any { it.serviceId.isNullOrBlank() }) {
+                missingFields.add(RequiredField.SERVICE)
+            }
+            if (details.any { it.facility == null }) {
+                missingFields.add(RequiredField.FACILITY)
+            }
+            return missingFields
+        }
+
+    enum class RequiredField {
+        NAME,
+        CONTACT,
+        SERVICE,
+        FACILITY
+    }
+
+}

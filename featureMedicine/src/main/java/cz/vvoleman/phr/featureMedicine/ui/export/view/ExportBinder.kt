@@ -2,6 +2,7 @@ package cz.vvoleman.phr.featureMedicine.ui.export.view
 
 import android.content.Context
 import android.util.Log
+import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import cz.vvoleman.phr.base.ui.mapper.BaseViewStateBinder
 import cz.vvoleman.phr.common.ui.adapter.MarginItemDecoration
@@ -20,7 +21,7 @@ class ExportBinder(
     private lateinit var _adapter: ExportAdapter
     private var lastExportList = emptyList<String>()
 
-    override fun init(viewBinding: FragmentExportBinding, context: Context, lifecycleScope: CoroutineScope) {
+    override fun init(viewBinding: FragmentExportBinding, context: Context, lifecycleScope: LifecycleCoroutineScope) {
         super.init(viewBinding, context, lifecycleScope)
 
         viewBinding.recyclerViewPreview.apply {

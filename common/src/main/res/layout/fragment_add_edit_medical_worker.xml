@@ -1,87 +1,89 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_margin="@dimen/layout_margin"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
     <LinearLayout
-        android:id="@+id/layout_base_info"
-        style="@style/BaseFrontBox"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:backgroundTint="@color/box_background_light"
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/layout_margin"
         android:orientation="vertical">
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/text_input_layout_medical_worker_name"
-            style="?attr/textInputOutlinedStyle"
+        <LinearLayout
+            android:id="@+id/layout_base_info"
+            style="@style/BaseFrontBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:errorEnabled="true"
-            android:hint="@string/field_medical_worker_name">
+            android:backgroundTint="@color/box_background_light"
+            android:orientation="vertical">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/edit_text_medical_worker_name"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/text_input_layout_medical_worker_name"
+                style="?attr/textInputOutlinedStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textPersonName" />
+                android:hint="@string/field_medical_worker_name"
+                app:errorEnabled="true">
 
-        </com.google.android.material.textfield.TextInputLayout>
-    </LinearLayout>
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edit_text_medical_worker_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPersonName" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginHorizontal="@dimen/layout_margin">
+            </com.google.android.material.textfield.TextInputLayout>
+        </LinearLayout>
 
-        <TextView
-            android:id="@+id/text_view_facilities_container"
-            android:layout_width="wrap_content"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/field_details"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_gravity="center"
+            android:layout_marginHorizontal="@dimen/layout_margin">
+
+            <TextView
+                android:id="@+id/text_view_facilities_container"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/field_details"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <!--        <com.google.android.material.button.MaterialButton-->
+            <!--            android:id="@+id/button_add_facility"-->
+            <!--            style="@style/Widget.Material3.Button.IconButton.Filled"-->
+            <!--            android:layout_width="wrap_content"-->
+            <!--            android:layout_height="wrap_content"-->
+            <!--            android:backgroundTint="@color/green_500"-->
+            <!--            app:icon="@drawable/ic_add"-->
+            <!--            android:elevation="4dp"-->
+            <!--            app:layout_constraintEnd_toEndOf="parent"-->
+            <!--            app:layout_constraintTop_toTopOf="parent" />-->
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <cz.vvoleman.phr.common.ui.component.serviceDetail.ServiceDetail
+            android:id="@+id/service_detail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/button_add_facility"
-            style="@style/Widget.Material3.Button.IconButton.Filled"
-            android:layout_width="wrap_content"
+            android:id="@+id/button_save"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/layout_margin"
             android:backgroundTint="@color/green_500"
-            app:icon="@drawable/ic_add"
+            android:clickable="true"
+            android:contentDescription="@string/save_medical_worker"
             android:elevation="4dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            android:focusable="true"
+            android:padding="8dp"
+            android:text="@string/action_save"
+            android:textColor="@color/white"
+            app:icon="@drawable/ic_add"
+            app:iconGravity="textStart"
+            app:iconTint="@color/white" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_view_facilities"
-        tools:itemCount="1"
-        android:layout_width="match_parent"
-        tools:listitem="@layout/item_add_edit_facility"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        android:layout_height="wrap_content"/>
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/button_save"
-        android:layout_width="match_parent"
-        android:backgroundTint="@color/green_500"
-        android:clickable="true"
-        android:contentDescription="@string/save_medical_worker"
-        android:focusable="true"
-        android:padding="8dp"
-        android:elevation="4dp"
-        android:layout_marginHorizontal="@dimen/layout_margin"
-        app:iconTint="@color/white"
-        android:textColor="@color/white"
-        app:icon="@drawable/ic_add"
-        app:iconGravity="textStart"
-        android:text="@string/action_save"
-        android:layout_height="wrap_content" />
-
-</LinearLayout>
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

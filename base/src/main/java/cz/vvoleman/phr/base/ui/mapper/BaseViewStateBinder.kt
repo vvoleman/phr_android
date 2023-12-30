@@ -1,6 +1,7 @@
 package cz.vvoleman.phr.base.ui.mapper
 
 import android.content.Context
+import androidx.lifecycle.LifecycleCoroutineScope
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -14,8 +15,9 @@ abstract class BaseViewStateBinder<VIEW_STATE : Any, VIEW_BINDING : Any, NOTIFIC
 
     protected lateinit var lifecycleScope: CoroutineScope
     protected lateinit var fragmentContext: Context
+    protected var hasBeenBound = false
 
-    override fun init(viewBinding: VIEW_BINDING, context: Context, lifecycleScope: CoroutineScope) {
+    override fun init(viewBinding: VIEW_BINDING, context: Context, lifecycleScope: LifecycleCoroutineScope) {
         this.lifecycleScope = lifecycleScope
         fragmentContext = context
     }
@@ -26,5 +28,12 @@ abstract class BaseViewStateBinder<VIEW_STATE : Any, VIEW_BINDING : Any, NOTIFIC
         }
     }
 
-    override fun bind(viewBinding: VIEW_BINDING, viewState: VIEW_STATE) {}
+    override fun bind(viewBinding: VIEW_BINDING, viewState: VIEW_STATE) {
+        if (!hasBeenBound) {
+            firstBind(viewBinding, viewState)
+            hasBeenBound = true
+        }
+    }
+
+    open fun firstBind(viewBinding: VIEW_BINDING, viewState: VIEW_STATE) {}
 }
