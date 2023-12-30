@@ -49,11 +49,14 @@ class PatientRepository(
     }
 
     override fun getSelectedPatient(): Flow<PatientDomainModel> {
-        return patientDataStore.preferencesFlow.flatMapLatest { preferences ->
-            patientDao.getById(preferences.patientId)
-        }.map {
-            patientDomainModelToDataSourceMapper.toDomain(it)
-        }
+        return patientDataStore.preferencesFlow
+            .flatMapLatest { preferences ->
+                patientDao.getById(preferences.patientId)
+            }
+            .filterNotNull()
+            .map {
+                patientDomainModelToDataSourceMapper.toDomain(it)
+            }
     }
 
     override suspend fun switchSelectedPatient(patientId: String) {
