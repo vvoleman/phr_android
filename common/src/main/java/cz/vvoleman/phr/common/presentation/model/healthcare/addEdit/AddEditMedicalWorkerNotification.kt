@@ -9,6 +9,8 @@ sealed class AddEditMedicalWorkerNotification {
     data class FacilityStreamChanged(val stream: Flow<PagingData<MedicalFacilityPresentationModel>>) :
         AddEditMedicalWorkerNotification()
 
-    data class MissingFields(val fields: List<AddEditMedicalWorkerViewModel.RequiredField>) :
+    data class MissingFields(val fields: List<AddEditMedicalWorkerViewState.RequiredField>) :
         AddEditMedicalWorkerNotification()
+
+    object CannotSave : AddEditMedicalWorkerNotification()
 }

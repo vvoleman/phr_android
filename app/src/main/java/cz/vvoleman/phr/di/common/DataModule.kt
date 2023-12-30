@@ -177,6 +177,7 @@ class DataModule {
         medicalFacilityDao: MedicalFacilityDao,
         medicalServiceDao: MedicalServiceDao,
         medicalWorkerWithServicesMapper: MedicalWorkerWithServicesDataSourceModelToDomainMapper,
+        medicalWorkerMapper: MedicalWorkerDataSourceModelToDomainMapper,
     ) = HealthcareRepository(
         facilityMapper = facilityMapper,
         api = api,
@@ -184,8 +185,8 @@ class DataModule {
         medicalWorkerDao = medicalWorkerDao,
         medicalFacilityDao = medicalFacilityDao,
         medicalServiceDao = medicalServiceDao,
-        medicalWorkerWithServicesMapper = medicalWorkerWithServicesMapper
-
+        medicalWorkerWithServicesMapper = medicalWorkerWithServicesMapper,
+        medicalWorkerMapper = medicalWorkerMapper,
     )
 
     @Provides

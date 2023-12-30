@@ -49,6 +49,7 @@ plugins {
     id 'com.google.dagger.hilt.android' version "$hilt_version" apply false
     id "io.gitlab.arturbosch.detekt" version "$detekt_version"
     id "org.jlleitschuh.gradle.ktlint" version "$ktlint_version" apply true
+    alias(libs.plugins.ksp) apply false
 }
 
 ktlint {

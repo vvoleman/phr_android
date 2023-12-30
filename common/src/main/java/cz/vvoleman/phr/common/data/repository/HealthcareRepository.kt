@@ -12,6 +12,7 @@ import cz.vvoleman.phr.common.data.datasource.model.retrofit.healthcare.Healthca
 import cz.vvoleman.phr.common.data.datasource.model.retrofit.healthcare.HealthcarePagingSource
 import cz.vvoleman.phr.common.data.mapper.healthcare.MedicalFacilityApiModelToDbMapper
 import cz.vvoleman.phr.common.data.mapper.healthcare.MedicalFacilityDataSourceModelToDomainMapper
+import cz.vvoleman.phr.common.data.mapper.healthcare.MedicalWorkerDataSourceModelToDomainMapper
 import cz.vvoleman.phr.common.data.mapper.healthcare.MedicalWorkerWithServicesDataSourceModelToDomainMapper
 import cz.vvoleman.phr.common.domain.model.healthcare.facility.MedicalFacilityDomainModel
 import cz.vvoleman.phr.common.domain.model.healthcare.worker.MedicalWorkerDomainModel
@@ -30,7 +31,8 @@ class HealthcareRepository(
     private val medicalWorkerDao: MedicalWorkerDao,
     private val medicalFacilityDao: MedicalFacilityDao,
     private val medicalServiceDao: MedicalServiceDao,
-    private val medicalWorkerWithServicesMapper: MedicalWorkerWithServicesDataSourceModelToDomainMapper
+    private val medicalWorkerWithServicesMapper: MedicalWorkerWithServicesDataSourceModelToDomainMapper,
+    private val medicalWorkerMapper: MedicalWorkerDataSourceModelToDomainMapper,
 ) : GetMedicalWorkersWithServicesRepository,
     GetFacilitiesPagingStreamRepository,
     SaveMedicalFacilityRepository,
@@ -74,6 +76,7 @@ class HealthcareRepository(
     }
 
     override suspend fun saveMedicalWorker(worker: MedicalWorkerDomainModel): String {
-        TODO("Not yet implemented")
+        val workerDataSource = medicalWorkerMapper.toDataSource(worker)
+        return medicalWorkerDao.insert(workerDataSource).toString()
     }
 }

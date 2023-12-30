@@ -3,6 +3,7 @@ package cz.vvoleman.phr.featureMedicalRecord.ui.view.binder
 import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
+import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.sidesheet.SideSheetDialog
@@ -38,7 +39,7 @@ class MedicalRecordsBinder(
     override fun init(
         viewBinding: FragmentListMedicalRecordsBinding,
         context: Context,
-        lifecycleScope: CoroutineScope
+        lifecycleScope: LifecycleCoroutineScope
     ) {
         super.init(viewBinding, context, lifecycleScope)
 

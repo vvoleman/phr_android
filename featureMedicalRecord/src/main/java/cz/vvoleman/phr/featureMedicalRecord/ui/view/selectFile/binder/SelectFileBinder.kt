@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.Spinner
+import androidx.lifecycle.LifecycleCoroutineScope
 import cz.vvoleman.phr.base.ui.mapper.BaseViewStateBinder
 import cz.vvoleman.phr.featureMedicalRecord.R
 import cz.vvoleman.phr.featureMedicalRecord.databinding.FragmentSelectFileBinding
@@ -38,7 +39,7 @@ class SelectFileBinder :
     override fun init(
         viewBinding: FragmentSelectFileBinding,
         context: Context,
-        lifecycleScope: CoroutineScope
+        lifecycleScope: LifecycleCoroutineScope
     ) {
         super.init(viewBinding, context, lifecycleScope)
 

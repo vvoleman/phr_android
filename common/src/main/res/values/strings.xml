@@ -56,4 +56,6 @@
     <string name="dialog_delete_facility_message">Přejete si smazat kontakt pro zařízení \"%s\"?</string>
     <string name="dialog_delete_facility_done">Kontakt smazán</string>
     <string name="save_medical_worker">Uložit lékařského pracovníka</string>
+    <string name="error_missing_fields">Prosím, opravte chybějící položky</string>
+    <string name="error_cannot_save">Při ukládání se vyskytla chyba. Uloženo do logu.</string>
 </resources>

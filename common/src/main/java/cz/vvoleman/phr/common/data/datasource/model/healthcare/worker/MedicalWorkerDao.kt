@@ -23,7 +23,7 @@ interface MedicalWorkerDao {
     fun getByName(name: String): Flow<MedicalWorkerDataSourceModel>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(medicalWorker: MedicalWorkerDataSourceModel)
+    suspend fun insert(medicalWorker: MedicalWorkerDataSourceModel): Long
 
     @Query("DELETE FROM medical_worker WHERE patient_id = :patientId")
     suspend fun deleteByPatient(patientId: String)
