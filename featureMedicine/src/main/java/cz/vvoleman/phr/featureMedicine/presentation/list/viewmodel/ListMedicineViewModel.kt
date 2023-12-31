@@ -53,11 +53,11 @@ class ListMedicineViewModel @Inject constructor(
 
     override val TAG = "ListMedicineViewModel"
 
-    override fun initState(): ListMedicineViewState {
+    override suspend fun initState(): ListMedicineViewState {
         return ListMedicineViewState()
     }
 
-    override fun onInit() {
+    override suspend fun onInit() {
         super.onInit()
 
         viewModelScope.launch {

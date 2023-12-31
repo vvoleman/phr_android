@@ -37,7 +37,7 @@ class SelectFileViewModel @Inject constructor(
 
     override val TAG = "SelectFileViewModel"
 
-    override fun initState(): SelectFileViewState {
+    override suspend fun initState(): SelectFileViewState {
         return SelectFileViewState()
     }
 

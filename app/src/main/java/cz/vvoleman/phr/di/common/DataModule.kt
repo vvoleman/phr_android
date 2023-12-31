@@ -25,7 +25,9 @@ import cz.vvoleman.phr.common.data.repository.HealthcareRepository
 import cz.vvoleman.phr.common.data.repository.PatientRepository
 import cz.vvoleman.phr.common.data.repository.healthcare.SpecificMedicalWorkerRepository
 import cz.vvoleman.phr.common.domain.repository.*
+import cz.vvoleman.phr.common.domain.repository.healthcare.DeleteMedicalWorkerRepository
 import cz.vvoleman.phr.common.domain.repository.healthcare.GetFacilitiesPagingStreamRepository
+import cz.vvoleman.phr.common.domain.repository.healthcare.GetFacilityByIdRepository
 import cz.vvoleman.phr.common.domain.repository.healthcare.GetMedicalWorkersWithServicesRepository
 import cz.vvoleman.phr.common.domain.repository.healthcare.GetSpecificMedicalWorkersRepository
 import cz.vvoleman.phr.common.domain.repository.healthcare.RemoveSpecificMedicalWorkerRepository
@@ -210,10 +212,17 @@ class DataModule {
     ): SaveMedicalWorkerRepository = healthcareRepository
 
     @Provides
+    fun providesGetFacilityByIdRepository(
+        healthcareRepository: HealthcareRepository
+    ): GetFacilityByIdRepository = healthcareRepository
+
+    @Provides
     fun providesSpecificMedicalWorkerRepository(
+        medicalWorkerDao: MedicalWorkerDao,
         specificMedicalWorkerDao: SpecificMedicalWorkerDao,
         specificMapper: SpecificMedicalWorkerDataSourceToDomainMapper,
     ) = SpecificMedicalWorkerRepository(
+        medicalWorkerDao,
         specificMedicalWorkerDao,
         specificMapper,
     )
@@ -232,4 +241,9 @@ class DataModule {
     fun providesSaveSpecificMedicalWorkerRepository(
         specificMedicalWorkerRepository: SpecificMedicalWorkerRepository
     ): SaveSpecificMedicalWorkerRepository = specificMedicalWorkerRepository
+
+    @Provides
+    fun providesDeleteMedicalWorkerRepository(
+        specificMedicalWorkerRepository: SpecificMedicalWorkerRepository
+    ): DeleteMedicalWorkerRepository = specificMedicalWorkerRepository
 }

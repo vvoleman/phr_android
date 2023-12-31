@@ -51,7 +51,7 @@ class AddEditViewModel @Inject constructor(
 
     override val TAG = "AddEditViewModel"
 
-    override fun initState(): AddEditViewState {
+    override suspend fun initState(): AddEditViewState {
         val previousViewState = savedStateHandle.get<AddEditViewState>("previousViewState")
 
         if (previousViewState != null) {
@@ -61,7 +61,7 @@ class AddEditViewModel @Inject constructor(
         return AddEditViewState(visitDate = LocalDate.now())
     }
 
-    override fun onInit() {
+    override suspend fun onInit() {
         super.onInit()
         viewModelScope.launch {
             loadSelectedPatient()

@@ -6,6 +6,7 @@ import cz.vvoleman.phr.common.ui.fragment.healthcare.MedicalFacilityFragment
 import cz.vvoleman.phr.common.ui.fragment.healthcare.MedicalWorkerFragment
 import cz.vvoleman.phr.common.ui.fragment.healthcare.viewmodel.MedicalFacilityViewModel
 import cz.vvoleman.phr.common.ui.fragment.healthcare.viewmodel.MedicalWorkerViewModel
+import cz.vvoleman.phr.common.ui.model.healthcare.core.MedicalWorkerWithAdditionalInfoUiModel
 
 class HealthcareFragmentAdapter(
     private val medicalWorkerViewModel: MedicalWorkerViewModel,
@@ -16,6 +17,16 @@ class HealthcareFragmentAdapter(
     override fun getItemCount(): Int {
         return 2
     }
+
+    fun setWorkers(workers: List<MedicalWorkerWithAdditionalInfoUiModel>) {
+        medicalWorkerViewModel.setItems(workers)
+        notifyItemChanged(0)
+    }
+
+//    fun setMedicalFacilities(facilities: List<MedicalFacilityViewModel.MedicalFacilityUiModel>) {
+//        medicalFacilityViewModel.setItems(facilities)
+//        notifyItemChanged(1)
+//    }
 
     override fun createFragment(position: Int): Fragment {
         return when (position) {

@@ -5,7 +5,7 @@ import cz.vvoleman.phr.common.ui.model.healthcare.core.MedicalServiceWithWorkers
 
 class MedicalServiceWithWorkersUiModelToPresentationMapper(
     private val serviceMapper: MedicalServiceUiModelToPresentationMapper,
-    private val workerInfoMapper: MedicalWorkerWithInfoUiModelToDomainMapper,
+    private val workerInfoMapper: MedicalWorkerWithInfoUiModelToPresentationMapper,
 ) {
 
     fun toPresentation(model: MedicalServiceWithWorkersUiModel): MedicalServiceWithWorkersPresentationModel {

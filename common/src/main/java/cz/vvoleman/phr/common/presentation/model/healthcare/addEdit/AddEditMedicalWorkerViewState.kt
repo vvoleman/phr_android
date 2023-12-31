@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.Flow
 data class AddEditMedicalWorkerViewState(
     val workerId: String? = null,
     val patient: PatientPresentationModel? = null,
-    val name: String = "",
+    val name: String? = null,
     val details: List<AddEditMedicalServiceItemPresentationModel> = emptyList(),
     val query: String = "",
     val facilityStream: Flow<PagingData<MedicalFacilityPresentationModel>>? = null,
@@ -16,7 +16,7 @@ data class AddEditMedicalWorkerViewState(
     val missingFields: List<RequiredField>
         get() {
             val missingFields = mutableListOf<RequiredField>()
-            if (name.isBlank()) {
+            if (name.isNullOrBlank()) {
                 missingFields.add(RequiredField.NAME)
             }
             if (details.isEmpty()) {

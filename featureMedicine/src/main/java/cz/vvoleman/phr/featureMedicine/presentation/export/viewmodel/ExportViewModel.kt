@@ -36,7 +36,7 @@ class ExportViewModel @Inject constructor(
 
     override val TAG = "ExportViewModel"
 
-    override fun initState(): ExportViewState {
+    override suspend fun initState(): ExportViewState {
         val todayMidnight = LocalDate.now().atTime(LocalTime.MAX)
         val weekAgo = LocalDate.now().minusDays(TimeConstants.DAYS_IN_WEEK.toLong()).atTime(LocalTime.MIN)
 
@@ -45,7 +45,7 @@ class ExportViewModel @Inject constructor(
         )
     }
 
-    override fun onInit() {
+    override suspend fun onInit() {
         super.onInit()
 
         viewModelScope.launch {

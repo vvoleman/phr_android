@@ -39,15 +39,15 @@ abstract class BaseViewModel<VIEW_STATE : Any, NOTIFICATION : Any>(
         useCaseExecutorProvider(viewModelScope)
     }
 
-    open fun onInit() {
+    open suspend fun onInit() {
         _viewState.value = setupState()
     }
 
-    private fun setupState(): VIEW_STATE {
+    private suspend fun setupState(): VIEW_STATE {
         return initState()
     }
 
-    protected abstract fun initState(): VIEW_STATE
+    protected abstract suspend fun initState(): VIEW_STATE
 
     protected fun <INPUT, OUTPUT> execute(
         useCase: UseCase<INPUT, OUTPUT>,
