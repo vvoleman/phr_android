@@ -40,7 +40,6 @@ class AddEditMedicalWorkerFragment :
     ServiceDetail.ServiceDetailListener {
 
     override val viewModel: AddEditMedicalWorkerViewModel by viewModels()
-    private lateinit var facilityAdapter: FacilityAdapter
 
     @Inject
     override lateinit var destinationMapper: AddEditMedicalWorkerDestinationUiMapper
@@ -122,7 +121,6 @@ class AddEditMedicalWorkerFragment :
     }
 
     override fun onDataChanged(item: AddEditMedicalServiceItemUiModel) {
-        showSnackbar("Data changed: $item", Snackbar.LENGTH_SHORT)
         viewModel.onItemUpdate(addEditMapper.toPresentation(item), 0)
     }
 

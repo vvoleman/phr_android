@@ -45,14 +45,14 @@ class SaveMedicalWorkerUseCase(
 
         val specificWorkers = getSpecificMedicalWorkersRepository.getSpecificMedicalWorkers(medicalWorkerId)
         val specificWorkersGrouped = specificWorkers.groupBy { it.medicalService.id }
-        val previousServiceIds = specificWorkers.map { it.medicalService.id }
+        val previousServiceIds = specificWorkers.map { it.medicalService.id }.toMutableList()
 
-        val removeServiceIds = mutableListOf<String>()
+//        val removeServiceIds = mutableListOf<String>()
         val updatedWorkers = mutableListOf<SpecificMedicalWorkerDomainModel>()
 
         servicesInfo.onEach { info ->
-            if (specificWorkers.isNotEmpty() && !previousServiceIds.contains(info.medicalService.id)) {
-                removeServiceIds.add(info.medicalService.id)
+            if (specificWorkers.isNotEmpty() && previousServiceIds.contains(info.medicalService.id)) {
+                previousServiceIds.remove(info.medicalService.id)
                 return@onEach
             }
 
@@ -67,7 +67,7 @@ class SaveMedicalWorkerUseCase(
             )
         }
 
-        removeSpecificMedicalWorkerRepository.removeSpecificMedicalWorker(removeServiceIds)
+        removeSpecificMedicalWorkerRepository.removeSpecificMedicalWorker(medicalWorkerId, previousServiceIds)
         saveSpecificMedicalWorkerRepository.saveSpecificMedicalWorker(updatedWorkers)
 
         return medicalWorkerId

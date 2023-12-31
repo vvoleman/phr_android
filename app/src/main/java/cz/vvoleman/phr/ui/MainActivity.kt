@@ -74,7 +74,10 @@ class MainActivity : AppCompatActivity() {
 
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                getListeners().forEach { it.onInit() }
+                getListeners().forEach {
+                    it.setController(navController)
+                    it.onInit()
+                }
             }
         }
     }

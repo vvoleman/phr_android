@@ -3,7 +3,7 @@ package cz.vvoleman.phr.common.ui.mapper.healthcare
 import cz.vvoleman.phr.common.presentation.model.healthcare.core.MedicalWorkerPresentationModel
 import cz.vvoleman.phr.common.ui.model.healthcare.core.MedicalWorkerUiModel
 
-class MedicalWorkerUiModelToDomainMapper {
+class MedicalWorkerUiModelToPresentationMapper {
 
     fun toPresentation(model: MedicalWorkerUiModel): MedicalWorkerPresentationModel {
         return MedicalWorkerPresentationModel(

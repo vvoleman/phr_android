@@ -52,6 +52,7 @@ dependencies {
     implementation(libs.androidx.camera.core)
     implementation(libs.androidx.datastore.preferences)
     implementation(libs.material)
+    implementation(libs.google.layout.flexbox)
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.androidx.test.espresso.core)
 
