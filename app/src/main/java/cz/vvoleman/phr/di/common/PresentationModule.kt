@@ -19,6 +19,7 @@ import cz.vvoleman.phr.common.presentation.mapper.healthcare.AddEditMedicalServi
 import cz.vvoleman.phr.common.presentation.mapper.healthcare.MedicalFacilityPresentationModelToDomainMapper
 import cz.vvoleman.phr.common.presentation.mapper.healthcare.MedicalServicePresentationModelToDomainMapper
 import cz.vvoleman.phr.common.presentation.mapper.healthcare.MedicalServiceWithWorkersPresentationModelToDomainMapper
+import cz.vvoleman.phr.common.presentation.mapper.healthcare.MedicalWorkerAdditionalInfoPresentationModelToDomainMapper
 import cz.vvoleman.phr.common.presentation.mapper.healthcare.MedicalWorkerPresentationModelToDomainMapper
 import cz.vvoleman.phr.common.presentation.mapper.healthcare.MedicalWorkerWithInfoPresentationModelToDomainMapper
 import dagger.Module
@@ -120,4 +121,9 @@ class PresentationModule {
         facilityMapper: MedicalFacilityPresentationModelToDomainMapper
     ) =
         AddEditMedicalServiceItemPresentationModelToDomainMapper(facilityMapper)
+
+    @Provides
+    fun providesMedicalWorkerAdditionalInfoPresentationModelToDomainMapper(
+        workerMapper: MedicalWorkerPresentationModelToDomainMapper
+    ) = MedicalWorkerAdditionalInfoPresentationModelToDomainMapper(workerMapper)
 }

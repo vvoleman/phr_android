@@ -42,14 +42,14 @@ class ListMedicalRecordsViewModel @Inject constructor(
 ) {
     override val TAG = "ListMedicalRecordsViewModel"
 
-    override fun onInit() {
+    override suspend fun onInit() {
         super.onInit()
 
         listenForPatientChange()
         filterRecords()
     }
 
-    override fun initState(): ListMedicalRecordsViewState {
+    override suspend fun initState(): ListMedicalRecordsViewState {
         return ListMedicalRecordsViewState()
     }
 

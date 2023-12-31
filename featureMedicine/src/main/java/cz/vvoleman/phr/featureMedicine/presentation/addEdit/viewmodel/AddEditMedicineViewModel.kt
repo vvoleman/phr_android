@@ -51,7 +51,7 @@ class AddEditMedicineViewModel @Inject constructor(
     override val TAG = "AddEditMedicineViewModel"
 
     @Suppress("MagicNumber")
-    override fun initState(): AddEditMedicineViewState {
+    override suspend fun initState(): AddEditMedicineViewState {
         val temp = listOf(LocalTime.of(8, 0), LocalTime.of(14, 0), LocalTime.of(20, 0))
         val times = temp.map { TimePresentationModel(it, 0) }
 
@@ -61,7 +61,7 @@ class AddEditMedicineViewModel @Inject constructor(
         )
     }
 
-    override fun onInit() {
+    override suspend fun onInit() {
         super.onInit()
         Log.d(TAG, "b")
         viewModelScope.launch {

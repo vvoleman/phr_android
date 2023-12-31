@@ -11,9 +11,17 @@
         android:name="cz.vvoleman.phr.featureMedicalRecord.ui.view.ListMedicalRecordsFragment"
         android:label="Lékařské zprávy"
         tools:layout="@layout/fragment_list_medical_records">
+        <argument
+            android:name="medicalWorkerId"
+            android:defaultValue="@null"
+            app:argType="string"
+            app:nullable="true"/>
         <action
             android:id="@+id/action_listMedicalRecordsFragment_to_addEditMedicalRecordsFragment"
             app:destination="@id/addEditMedicalRecordsFragment" />
+        <deepLink
+            android:id="@+id/deepLinkListMedicalRecords"
+            app:uri="phr://listMedicalRecord/?medicalWorkerId={medicalWorkerId}" />
     </fragment>
     <fragment
         android:id="@+id/addEditMedicalRecordsFragment"

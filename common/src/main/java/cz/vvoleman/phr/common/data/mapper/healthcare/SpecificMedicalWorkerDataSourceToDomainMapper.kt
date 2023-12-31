@@ -11,7 +11,7 @@ class SpecificMedicalWorkerDataSourceToDomainMapper(
 
     fun toDomain(model: SpecificMedicalWorkerWithDetailsDataSourceModel): SpecificMedicalWorkerDomainModel {
         return SpecificMedicalWorkerDomainModel(
-            id = model.specificMedicalWorker.toString(),
+            id = model.specificMedicalWorker.id.toString(),
             medicalWorker = workerMapper.toDomain(model.medicalWorker),
             medicalService = serviceInfoMapper.toDomain(model.medicalService),
             email = model.specificMedicalWorker.email,

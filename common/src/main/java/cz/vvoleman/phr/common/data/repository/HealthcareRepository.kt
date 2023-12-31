@@ -18,11 +18,13 @@ import cz.vvoleman.phr.common.domain.model.healthcare.facility.MedicalFacilityDo
 import cz.vvoleman.phr.common.domain.model.healthcare.worker.MedicalWorkerDomainModel
 import cz.vvoleman.phr.common.domain.model.healthcare.worker.MedicalWorkerWithServicesDomainModel
 import cz.vvoleman.phr.common.domain.repository.healthcare.GetFacilitiesPagingStreamRepository
+import cz.vvoleman.phr.common.domain.repository.healthcare.GetFacilityByIdRepository
 import cz.vvoleman.phr.common.domain.repository.healthcare.GetMedicalWorkersWithServicesRepository
 import cz.vvoleman.phr.common.domain.repository.healthcare.SaveMedicalFacilityRepository
 import cz.vvoleman.phr.common.domain.repository.healthcare.SaveMedicalWorkerRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.firstOrNull
 
 class HealthcareRepository(
     private val facilityMapper: MedicalFacilityDataSourceModelToDomainMapper,
@@ -36,7 +38,8 @@ class HealthcareRepository(
 ) : GetMedicalWorkersWithServicesRepository,
     GetFacilitiesPagingStreamRepository,
     SaveMedicalFacilityRepository,
-    SaveMedicalWorkerRepository {
+    SaveMedicalWorkerRepository,
+    GetFacilityByIdRepository {
 
     override fun getFacilitiesPagingStream(query: String): Flow<PagingData<MedicalFacilityDomainModel>> {
         Log.d("HealthcareRepository", "getFacilitiesPagingStream: $query")
@@ -59,6 +62,14 @@ class HealthcareRepository(
         return medicalWorkerWithServicesMapper.toDomain(workers)
     }
 
+    override suspend fun getMedicalWorkerWithServices(medicalWorkerId: String): MedicalWorkerWithServicesDomainModel? {
+        val worker = medicalWorkerDao.getById(medicalWorkerId.toInt()).firstOrNull()
+
+        return worker?.let {
+            medicalWorkerWithServicesMapper.toDomain(listOf(it)).firstOrNull()
+        }
+    }
+
     override suspend fun saveMedicalFacility(facility: MedicalFacilityDomainModel) {
         facilityMapper.toDataSource(facility).let {
             medicalFacilityDao.insert(it.medicalFacility)
@@ -78,5 +89,9 @@ class HealthcareRepository(
     override suspend fun saveMedicalWorker(worker: MedicalWorkerDomainModel): String {
         val workerDataSource = medicalWorkerMapper.toDataSource(worker)
         return medicalWorkerDao.insert(workerDataSource).toString()
+    }
+
+    override suspend fun getFacilityById(id: String): MedicalFacilityDomainModel? {
+        return medicalFacilityDao.getById(id.toInt()).firstOrNull()?.let { facilityMapper.toDomain(it) }
     }
 }

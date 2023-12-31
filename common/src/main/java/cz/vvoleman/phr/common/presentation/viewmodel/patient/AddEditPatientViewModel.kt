@@ -32,11 +32,11 @@ class AddEditPatientViewModel @Inject constructor(
 
     override val TAG = "AddEditPatientViewModel"
 
-    override fun initState(): AddEditViewState {
+    override suspend fun initState(): AddEditViewState {
         return AddEditViewState()
     }
 
-    override fun onInit() {
+    override suspend fun onInit() {
         super.onInit()
 
         val patientId = savedStateHandle.get<String>(PATIENT_KEY)

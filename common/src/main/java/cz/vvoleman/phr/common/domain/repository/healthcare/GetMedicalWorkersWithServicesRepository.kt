@@ -5,4 +5,6 @@ import cz.vvoleman.phr.common.domain.model.healthcare.worker.MedicalWorkerWithSe
 interface GetMedicalWorkersWithServicesRepository {
 
     suspend fun getMedicalWorkersWithServices(patientId: String): List<MedicalWorkerWithServicesDomainModel>
+
+    suspend fun getMedicalWorkerWithServices(medicalWorkerId: String): MedicalWorkerWithServicesDomainModel?
 }

@@ -11,8 +11,9 @@ import cz.vvoleman.phr.common.ui.mapper.healthcare.AddEditMedicalServiceItemUiMo
 import cz.vvoleman.phr.common.ui.mapper.healthcare.MedicalFacilityUiModelToPresentationMapper
 import cz.vvoleman.phr.common.ui.mapper.healthcare.MedicalServiceUiModelToPresentationMapper
 import cz.vvoleman.phr.common.ui.mapper.healthcare.MedicalServiceWithWorkersUiModelToPresentationMapper
-import cz.vvoleman.phr.common.ui.mapper.healthcare.MedicalWorkerUiModelToDomainMapper
-import cz.vvoleman.phr.common.ui.mapper.healthcare.MedicalWorkerWithInfoUiModelToDomainMapper
+import cz.vvoleman.phr.common.ui.mapper.healthcare.MedicalWorkerAdditionalInfoUiModelToPresentationMapper
+import cz.vvoleman.phr.common.ui.mapper.healthcare.MedicalWorkerUiModelToPresentationMapper
+import cz.vvoleman.phr.common.ui.mapper.healthcare.MedicalWorkerWithInfoUiModelToPresentationMapper
 import cz.vvoleman.phr.common.ui.mapper.healthcare.destination.AddEditMedicalWorkerDestinationUiMapper
 import cz.vvoleman.phr.common.ui.mapper.healthcare.destination.ListHealthcareDestinationUiMapper
 import cz.vvoleman.phr.common.ui.mapper.patient.PatientUiModelToPresentationMapper
@@ -66,8 +67,10 @@ class UiModule {
     ) = ListHealthcareDestinationUiMapper(context, navManager)
 
     @Provides
-    fun providesListHealthcareBinder(): ViewStateBinder<ListHealthcareViewState, FragmentListHealthcareBinding> =
-        ListHealthcareBinder()
+    fun providesListHealthcareBinder(
+        workerMapper: MedicalWorkerAdditionalInfoUiModelToPresentationMapper
+    ): ViewStateBinder<ListHealthcareViewState, FragmentListHealthcareBinding> =
+        ListHealthcareBinder(workerMapper)
 
     @Provides
     fun providesAddEditMedicalWorkerDestinationUiMapper(
@@ -89,16 +92,16 @@ class UiModule {
     fun providesMedicalServiceUiModelToPresentationMapper() = MedicalServiceUiModelToPresentationMapper()
 
     @Provides
-    fun providesMedicalWorkerUiModelToPresentationMapper() = MedicalWorkerUiModelToDomainMapper()
+    fun providesMedicalWorkerUiModelToPresentationMapper() = MedicalWorkerUiModelToPresentationMapper()
 
     @Provides
     fun providesMedicalWorkerWithInfoUiModelToPresentationMapper(
-        workerMapper: MedicalWorkerUiModelToDomainMapper
-    ) = MedicalWorkerWithInfoUiModelToDomainMapper(workerMapper)
+        workerMapper: MedicalWorkerUiModelToPresentationMapper
+    ) = MedicalWorkerWithInfoUiModelToPresentationMapper(workerMapper)
 
     @Provides
     fun providesMedicalServiceWithWorkersUiModelToPresentationMapper(
-        workerWithInfo: MedicalWorkerWithInfoUiModelToDomainMapper,
+        workerWithInfo: MedicalWorkerWithInfoUiModelToPresentationMapper,
         serviceMapper: MedicalServiceUiModelToPresentationMapper
     ) = MedicalServiceWithWorkersUiModelToPresentationMapper(serviceMapper, workerWithInfo)
 
@@ -106,4 +109,9 @@ class UiModule {
     fun providesAddEditMedicalServiceItemUiModelToPresentationMapper(
         facilityMapper: MedicalFacilityUiModelToPresentationMapper
     ) = AddEditMedicalServiceItemUiModelToPresentationMapper(facilityMapper)
+
+    @Provides
+    fun providesMedicalWorkerAdditionalInfoUiModelToPresentationMapper(
+        workerMapper: MedicalWorkerUiModelToPresentationMapper
+    ) = MedicalWorkerAdditionalInfoUiModelToPresentationMapper(workerMapper)
 }

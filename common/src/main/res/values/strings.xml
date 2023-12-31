@@ -58,4 +58,9 @@
     <string name="save_medical_worker">Uložit lékařského pracovníka</string>
     <string name="error_missing_fields">Prosím, opravte chybějící položky</string>
     <string name="error_cannot_save">Při ukládání se vyskytla chyba. Uloženo do logu.</string>
+    <string name="no_medical_workers">Žádní zdravotní pracovníci</string>
+    <string name="dialog_delete_medical_worker_title">Smazat lék. pracovníka</string>
+    <string name="dialog_delete_medical_worker_message">Přejete si smazat lék. pracovníka \"%s\"? Tato volba nesmaže zprávy, které tento pracovník vydal.</string>
+    <string name="medical_worker_deleted">Lékařský pracovník smazán</string>
+    <string name="medical_facilities_count">%d lék. zařízení</string>
 </resources>
