@@ -26,6 +26,4 @@ class MedicalWorkerViewModel : ViewModel() {
     fun getListener(): MedicalWorkerFragment.MedicalWorkerFragmentInterface? {
         return _listener
     }
-
-
 }

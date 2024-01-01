@@ -10,7 +10,6 @@ import cz.vvoleman.phr.featureMedicalRecord.ui.model.DiagnoseItemUiModel
 import cz.vvoleman.phr.featureMedicalRecord.ui.model.ImageItemUiModel
 import cz.vvoleman.phr.featureMedicalRecord.ui.view.addEdit.adapter.DiagnoseDialogSpinner
 import cz.vvoleman.phr.featureMedicalRecord.ui.view.addEdit.adapter.ImageAdapter
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 

@@ -7,5 +7,4 @@ interface SaveSpecificMedicalWorkerRepository {
     suspend fun saveSpecificMedicalWorker(specificWorker: SpecificMedicalWorkerDomainModel): String
 
     suspend fun saveSpecificMedicalWorker(specificWorkers: List<SpecificMedicalWorkerDomainModel>): List<String>
-
 }

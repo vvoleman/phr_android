@@ -12,8 +12,9 @@ import cz.vvoleman.phr.common.domain.repository.healthcare.GetMedicalWorkersWith
 
 class GetMedicalWorkersUseCase(
     private val eventBusChannel: EventBusChannel<
-            GetMedicalWorkersAdditionalInfoEvent,
-            Map<MedicalWorkerDomainModel, List<AdditionalInfoDomainModel<MedicalWorkerDomainModel>>>>,
+        GetMedicalWorkersAdditionalInfoEvent,
+        Map<MedicalWorkerDomainModel, List<AdditionalInfoDomainModel<MedicalWorkerDomainModel>>>
+        >,
     private val getMedicalWorkersRepository: GetMedicalWorkersWithServicesRepository,
     coroutineContextProvider: CoroutineContextProvider
 ) : BackgroundExecutingUseCase<GetMedicalWorkersRequest, Map<MedicalWorkerDomainModel, List<AdditionalInfoDomainModel<MedicalWorkerDomainModel>>>>(
@@ -21,7 +22,7 @@ class GetMedicalWorkersUseCase(
 ) {
 
     override suspend fun executeInBackground(request: GetMedicalWorkersRequest):
-            Map<MedicalWorkerDomainModel, List<AdditionalInfoDomainModel<MedicalWorkerDomainModel>>> {
+        Map<MedicalWorkerDomainModel, List<AdditionalInfoDomainModel<MedicalWorkerDomainModel>>> {
         Log.d("GetMedicalWorkersUseCase", "executeInBackground")
         val workersWithServices = getMedicalWorkersRepository.getMedicalWorkersWithServices(request.patientId)
         val workers = workersWithServices.map { it.medicalWorker }

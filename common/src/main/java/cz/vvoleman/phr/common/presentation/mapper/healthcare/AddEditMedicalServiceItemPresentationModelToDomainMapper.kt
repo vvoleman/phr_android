@@ -26,5 +26,4 @@ class AddEditMedicalServiceItemPresentationModelToDomainMapper(
             email = model.email
         )
     }
-
 }

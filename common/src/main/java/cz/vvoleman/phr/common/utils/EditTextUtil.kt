@@ -5,22 +5,13 @@ import android.text.TextWatcher
 import android.util.Log
 import android.view.inputmethod.EditorInfo
 import android.widget.AdapterView.OnItemClickListener
-import android.widget.AdapterView.OnItemSelectedListener
 import android.widget.AutoCompleteTextView
 import android.widget.EditText
-import androidx.lifecycle.LifecycleCoroutineScope
-import com.google.android.material.textfield.TextInputEditText
-import com.google.android.material.textfield.TextInputLayout
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
-import kotlinx.coroutines.flow.debounce
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
-import kotlin.math.min
-import kotlin.math.sign
 
 fun EditText.setClearFocusOnDoneAction() {
     setOnEditorActionListener { _, actionId, _ ->
@@ -37,7 +28,7 @@ fun EditText.setClearFocusOnDoneAction() {
 fun EditText.textChanges(emitOnStart: Boolean = false): Flow<CharSequence?> {
     return callbackFlow<CharSequence?> {
         val listener = object : TextWatcher {
-            override fun afterTextChanged(s: Editable?)  {
+            override fun afterTextChanged(s: Editable?) {
                 Log.d("EditTextUtil", "afterTextChanged: $s")
                 trySend(s)
             }
@@ -47,10 +38,6 @@ fun EditText.textChanges(emitOnStart: Boolean = false): Flow<CharSequence?> {
         addTextChangedListener(listener)
         awaitClose { removeTextChangedListener(listener) }
     }.onStart { if (emitOnStart) emit(text) }
-}
-
-fun EditText.setTextIfNotFocused(text: CharSequence?) {
-    setText(text)
 }
 
 @ExperimentalCoroutinesApi

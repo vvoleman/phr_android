@@ -2,7 +2,6 @@ package cz.vvoleman.phr.base.ui.mapper
 
 import android.content.Context
 import androidx.lifecycle.LifecycleCoroutineScope
-import kotlinx.coroutines.CoroutineScope
 
 interface ViewStateBinder<VIEW_STATE : Any, VIEW_BINDING : Any> {
 

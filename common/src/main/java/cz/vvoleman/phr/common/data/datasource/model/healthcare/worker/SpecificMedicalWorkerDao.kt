@@ -19,12 +19,14 @@ interface SpecificMedicalWorkerDao {
     fun getByMedicalWorker(medicalWorkerIds: List<String>): Flow<List<SpecificMedicalWorkerWithDetailsDataSourceModel>>
 
     @Transaction
-    @Query("""
+    @Query(
+        """
         SELECT mw.* FROM specific_medical_worker mw
         JOIN medical_service ms ON mw.medical_service_id = ms.id
         JOIN medical_facility mf ON ms.medical_facility_id = mf.id
         WHERE mf.id = :medicalFacilityId
-    """)
+    """
+    )
     fun getByFacility(medicalFacilityId: String): Flow<List<SpecificMedicalWorkerWithDetailsDataSourceModel>>
 
     @Transaction
@@ -44,7 +46,9 @@ interface SpecificMedicalWorkerDao {
 
     @Transaction
     @Query("SELECT * FROM specific_medical_worker WHERE medical_service_id IN (:medicalServiceIds)")
-    fun getByMedicalService(medicalServiceIds: List<String>): Flow<List<SpecificMedicalWorkerWithDetailsDataSourceModel>>
+    fun getByMedicalService(
+        medicalServiceIds: List<String>
+    ): Flow<List<SpecificMedicalWorkerWithDetailsDataSourceModel>>
 
     @Insert(onConflict = androidx.room.OnConflictStrategy.REPLACE)
     suspend fun insert(specificMedicalWorker: SpecificMedicalWorkerDataSourceModel): Long
@@ -64,7 +68,9 @@ interface SpecificMedicalWorkerDao {
     @Query("DELETE FROM specific_medical_worker WHERE id IN (:ids)")
     suspend fun delete(ids: List<String>)
 
-    @Query("DELETE FROM specific_medical_worker " +
-            "WHERE medical_worker_id = :workerId AND medical_service_id IN (:serviceIds)")
+    @Query(
+        "DELETE FROM specific_medical_worker " +
+            "WHERE medical_worker_id = :workerId AND medical_service_id IN (:serviceIds)"
+    )
     suspend fun delete(workerId: String, serviceIds: List<String>)
 }

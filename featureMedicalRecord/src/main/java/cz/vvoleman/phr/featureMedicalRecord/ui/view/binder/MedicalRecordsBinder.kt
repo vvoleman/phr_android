@@ -19,7 +19,6 @@ import cz.vvoleman.phr.featureMedicalRecord.presentation.list.model.ListMedicalR
 import cz.vvoleman.phr.featureMedicalRecord.ui.mapper.GroupByDomainModelViewIdMapper
 import cz.vvoleman.phr.featureMedicalRecord.ui.mapper.GroupedItemsDomainModelToUiMapper
 import cz.vvoleman.phr.featureMedicalRecord.ui.model.MedicalRecordUiModel
-import kotlinx.coroutines.CoroutineScope
 
 @Suppress("MaximumLineLength", "MaxLineLength")
 class MedicalRecordsBinder(

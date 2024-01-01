@@ -1,6 +1,5 @@
 package cz.vvoleman.phr.common.ui.component.facilitySelector
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
