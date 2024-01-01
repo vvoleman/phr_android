@@ -16,6 +16,7 @@ import cz.vvoleman.phr.common.domain.usecase.patient.addedit.GetPatientByIdUseCa
 import cz.vvoleman.phr.common.domain.usecase.patient.addedit.SavePatientUseCase
 import cz.vvoleman.phr.common.presentation.mapper.PatientPresentationModelToDomainMapper
 import cz.vvoleman.phr.common.presentation.mapper.healthcare.AddEditMedicalServiceItemPresentationModelToDomainMapper
+import cz.vvoleman.phr.common.presentation.mapper.healthcare.MedicalFacilityAdditionInfoPresentationModelToDomainMapper
 import cz.vvoleman.phr.common.presentation.mapper.healthcare.MedicalFacilityPresentationModelToDomainMapper
 import cz.vvoleman.phr.common.presentation.mapper.healthcare.MedicalServicePresentationModelToDomainMapper
 import cz.vvoleman.phr.common.presentation.mapper.healthcare.MedicalServiceWithWorkersPresentationModelToDomainMapper
@@ -126,4 +127,9 @@ class PresentationModule {
     fun providesMedicalWorkerAdditionalInfoPresentationModelToDomainMapper(
         workerMapper: MedicalWorkerPresentationModelToDomainMapper
     ) = MedicalWorkerAdditionalInfoPresentationModelToDomainMapper(workerMapper)
+
+    @Provides
+    fun providesMedicalFacilityAdditionInfoPresentationModelToDomainMapper(
+        facilityMapper: MedicalFacilityPresentationModelToDomainMapper
+    ) = MedicalFacilityAdditionInfoPresentationModelToDomainMapper(facilityMapper)
 }

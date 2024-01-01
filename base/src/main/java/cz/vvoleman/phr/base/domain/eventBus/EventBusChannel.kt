@@ -11,7 +11,7 @@ class EventBusChannel<T : Any, K : Any> {
 
     suspend fun pushEvent(event: T): List<K> {
         _eventFlow.emit(event)
-        return _listeners.map { (id, listener) ->
+        return _listeners.map { (_, listener) ->
             listener(event)
         }
     }

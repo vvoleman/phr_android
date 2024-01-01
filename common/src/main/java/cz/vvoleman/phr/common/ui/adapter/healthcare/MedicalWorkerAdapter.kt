@@ -1,4 +1,4 @@
-package cz.vvoleman.phr.common.ui.view.healthcare.list
+package cz.vvoleman.phr.common.ui.adapter.healthcare
 
 import android.view.LayoutInflater
 import android.view.View
@@ -12,14 +12,14 @@ import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import cz.vvoleman.phr.common.ui.model.healthcare.core.MedicalWorkerUiModel
 import cz.vvoleman.phr.common.ui.model.healthcare.core.MedicalWorkerWithAdditionalInfoUiModel
-import cz.vvoleman.phr.common_datasource.databinding.ItemMedicalWorkerBinding
+import cz.vvoleman.phr.common_datasource.databinding.ItemItemWithAdditionalInfoBinding
 
 class MedicalWorkerAdapter(
     private val listener: MedicalWorkerAdapterListener
 ) : ListAdapter<MedicalWorkerWithAdditionalInfoUiModel, MedicalWorkerAdapter.MedicalWorkerViewHolder>(DiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MedicalWorkerViewHolder {
-        val binding = ItemMedicalWorkerBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding = ItemItemWithAdditionalInfoBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return MedicalWorkerViewHolder(binding)
     }
 
@@ -28,7 +28,7 @@ class MedicalWorkerAdapter(
         holder.bind(currentItem)
     }
 
-    inner class MedicalWorkerViewHolder(private val binding: ItemMedicalWorkerBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class MedicalWorkerViewHolder(private val binding: ItemItemWithAdditionalInfoBinding) : RecyclerView.ViewHolder(binding.root) {
 
         private val _adapter: AdditionalInfoAdapter<MedicalWorkerUiModel>
         init {
