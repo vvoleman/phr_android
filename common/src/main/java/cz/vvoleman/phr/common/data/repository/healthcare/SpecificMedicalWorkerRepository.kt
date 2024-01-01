@@ -27,6 +27,15 @@ class SpecificMedicalWorkerRepository(
             } ?: emptyList()
     }
 
+    override suspend fun getSpecificMedicalWorkersByFacility(facilityId: String): List<SpecificMedicalWorkerDomainModel> {
+        return specificMedicalWorkerDao
+            .getByFacility(facilityId)
+            .firstOrNull()
+            ?.map {
+                specificMapper.toDomain(it)
+            } ?: emptyList()
+    }
+
     override suspend fun removeSpecificMedicalWorker(specificWorkerId: String) {
         specificMedicalWorkerDao.delete(specificWorkerId)
     }

@@ -19,6 +19,15 @@ interface SpecificMedicalWorkerDao {
     fun getByMedicalWorker(medicalWorkerIds: List<String>): Flow<List<SpecificMedicalWorkerWithDetailsDataSourceModel>>
 
     @Transaction
+    @Query("""
+        SELECT mw.* FROM specific_medical_worker mw
+        JOIN medical_service ms ON mw.medical_service_id = ms.id
+        JOIN medical_facility mf ON ms.medical_facility_id = mf.id
+        WHERE mf.id = :medicalFacilityId
+    """)
+    fun getByFacility(medicalFacilityId: String): Flow<List<SpecificMedicalWorkerWithDetailsDataSourceModel>>
+
+    @Transaction
     @Query("SELECT * FROM specific_medical_worker WHERE id = :id")
     fun getById(id: Int): Flow<SpecificMedicalWorkerWithDetailsDataSourceModel>
 

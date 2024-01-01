@@ -1,7 +1,10 @@
 package cz.vvoleman.phr.common.domain.model.healthcare.facility
 
+import android.os.Parcelable
 import cz.vvoleman.phr.common.domain.model.healthcare.service.MedicalServiceWithWorkersDomainModel
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 data class MedicalFacilityDomainModel(
     val id: String,
     val fullName: String,
@@ -22,4 +25,4 @@ data class MedicalFacilityDomainModel(
     val providerName: String,
     val gps: String,
     val services: List<MedicalServiceWithWorkersDomainModel>,
-)
+) : Parcelable

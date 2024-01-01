@@ -3,8 +3,10 @@ package cz.vvoleman.phr.common.domain.eventBus
 import android.content.Context
 import android.util.Log
 import cz.vvoleman.phr.base.domain.ModuleListener
+import cz.vvoleman.phr.common.domain.event.GetMedicalFacilitiesAdditionalInfoEvent
 import cz.vvoleman.phr.common.domain.event.GetMedicalWorkersAdditionalInfoEvent
 import cz.vvoleman.phr.common.domain.model.healthcare.AdditionalInfoDomainModel
+import cz.vvoleman.phr.common.domain.model.healthcare.facility.MedicalFacilityDomainModel
 import cz.vvoleman.phr.common.domain.model.healthcare.worker.MedicalWorkerDomainModel
 import cz.vvoleman.phr.common.domain.repository.healthcare.GetFacilityByIdRepository
 import cz.vvoleman.phr.common.domain.repository.healthcare.GetSpecificMedicalWorkersRepository
@@ -25,6 +27,11 @@ class CommonListener(
         commonEventBus.getWorkerAdditionalInfoBus.addListener(TAG) {
             Log.d(TAG, "onGetMedicalWorkersAdditionalInfoEvent")
             return@addListener onGetMedicalWorkersAdditionalInfoEvent(it)
+        }
+
+        commonEventBus.getFacilityAdditionalInfoBus.addListener(TAG) {
+            Log.d(TAG, "onGetMedicalFacilitiesAdditionalInfoEvent")
+            return@addListener onGetMedicalFacilitiesAdditionalInfoEvent(it)
         }
     }
 
@@ -55,6 +62,33 @@ class CommonListener(
         }
 
         Log.d(TAG, "onGetMedicalWorkersAdditionalInfoEvent: $map")
+        return map.toMap()
+    }
+
+    private suspend fun onGetMedicalFacilitiesAdditionalInfoEvent(
+        event: GetMedicalFacilitiesAdditionalInfoEvent
+    ): Map<MedicalFacilityDomainModel, List<AdditionalInfoDomainModel<MedicalFacilityDomainModel>>> {
+        val map = mutableMapOf<MedicalFacilityDomainModel, List<AdditionalInfoDomainModel<MedicalFacilityDomainModel>>>()
+
+        event.medicalFacilities.forEach { facility ->
+            val workers = getSpecificMedicalWorkersRepository.getSpecificMedicalWorkersByFacility(facility.id)
+
+            val text = if (workers.size == 1) {
+                workers.first().medicalWorker.name
+            } else {
+                val countPlural =
+                    context.resources.getQuantityString(R.plurals.medicalWorkers, workers.size)
+                context.getString(R.string.medical_workers_count, workers.size, countPlural)
+            }
+
+            map[facility] = listOf(
+                AdditionalInfoDomainModel(
+                    icon = R.drawable.ic_person,
+                    text = text
+                )
+            )
+        }
+
         return map.toMap()
     }
 

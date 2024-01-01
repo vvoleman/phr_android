@@ -1,4 +1,4 @@
-package cz.vvoleman.phr.common.ui.view.healthcare.list
+package cz.vvoleman.phr.common.ui.adapter.healthcare
 
 import android.os.Parcelable
 import android.view.LayoutInflater

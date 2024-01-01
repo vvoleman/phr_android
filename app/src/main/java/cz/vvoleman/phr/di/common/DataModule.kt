@@ -23,9 +23,11 @@ import cz.vvoleman.phr.common.data.mapper.healthcare.MedicalWorkerWithServicesDa
 import cz.vvoleman.phr.common.data.mapper.healthcare.SpecificMedicalWorkerDataSourceToDomainMapper
 import cz.vvoleman.phr.common.data.repository.HealthcareRepository
 import cz.vvoleman.phr.common.data.repository.PatientRepository
+import cz.vvoleman.phr.common.data.repository.healthcare.FacilityRepository
 import cz.vvoleman.phr.common.data.repository.healthcare.SpecificMedicalWorkerRepository
 import cz.vvoleman.phr.common.domain.repository.*
 import cz.vvoleman.phr.common.domain.repository.healthcare.DeleteMedicalWorkerRepository
+import cz.vvoleman.phr.common.domain.repository.healthcare.GetFacilitiesByPatientRepository
 import cz.vvoleman.phr.common.domain.repository.healthcare.GetFacilitiesPagingStreamRepository
 import cz.vvoleman.phr.common.domain.repository.healthcare.GetFacilityByIdRepository
 import cz.vvoleman.phr.common.domain.repository.healthcare.GetMedicalWorkersWithServicesRepository
@@ -172,23 +174,28 @@ class DataModule {
 
     @Provides
     fun providesHealthcareRepository(
-        facilityMapper: MedicalFacilityDataSourceModelToDomainMapper,
-        api: HealthcareApi,
-        apiModelToDbMapper: MedicalFacilityApiModelToDbMapper,
         medicalWorkerDao: MedicalWorkerDao,
-        medicalFacilityDao: MedicalFacilityDao,
-        medicalServiceDao: MedicalServiceDao,
         medicalWorkerWithServicesMapper: MedicalWorkerWithServicesDataSourceModelToDomainMapper,
         medicalWorkerMapper: MedicalWorkerDataSourceModelToDomainMapper,
     ) = HealthcareRepository(
+        medicalWorkerDao = medicalWorkerDao,
+        medicalWorkerWithServicesMapper = medicalWorkerWithServicesMapper,
+        medicalWorkerMapper = medicalWorkerMapper,
+    )
+
+    @Provides
+    fun providesFacilityRepository(
+        facilityMapper: MedicalFacilityDataSourceModelToDomainMapper,
+        api: HealthcareApi,
+        apiModelToDbMapper: MedicalFacilityApiModelToDbMapper,
+        medicalFacilityDao: MedicalFacilityDao,
+        medicalServiceDao: MedicalServiceDao,
+    ) = FacilityRepository(
         facilityMapper = facilityMapper,
         api = api,
         apiModelToDbMapper = apiModelToDbMapper,
-        medicalWorkerDao = medicalWorkerDao,
         medicalFacilityDao = medicalFacilityDao,
         medicalServiceDao = medicalServiceDao,
-        medicalWorkerWithServicesMapper = medicalWorkerWithServicesMapper,
-        medicalWorkerMapper = medicalWorkerMapper,
     )
 
     @Provides
@@ -198,13 +205,13 @@ class DataModule {
 
     @Provides
     fun providesGetFacilitiesPagingStreamRepository(
-        healthcareRepository: HealthcareRepository
-    ): GetFacilitiesPagingStreamRepository = healthcareRepository
+        facilityRepository: FacilityRepository
+    ): GetFacilitiesPagingStreamRepository = facilityRepository
 
     @Provides
     fun providesSaveMedicalFacilityRepository(
-        healthcareRepository: HealthcareRepository
-    ): SaveMedicalFacilityRepository = healthcareRepository
+        facilityRepository: FacilityRepository
+    ): SaveMedicalFacilityRepository = facilityRepository
 
     @Provides
     fun providesSaveMedicalWorkerRepository(
@@ -213,8 +220,8 @@ class DataModule {
 
     @Provides
     fun providesGetFacilityByIdRepository(
-        healthcareRepository: HealthcareRepository
-    ): GetFacilityByIdRepository = healthcareRepository
+        facilityRepository: FacilityRepository
+    ): GetFacilityByIdRepository = facilityRepository
 
     @Provides
     fun providesSpecificMedicalWorkerRepository(
@@ -246,4 +253,9 @@ class DataModule {
     fun providesDeleteMedicalWorkerRepository(
         specificMedicalWorkerRepository: SpecificMedicalWorkerRepository
     ): DeleteMedicalWorkerRepository = specificMedicalWorkerRepository
+
+    @Provides
+    fun providesGetFacilitiesByPatientRepository(
+        facilityRepository: FacilityRepository
+    ): GetFacilitiesByPatientRepository = facilityRepository
 }

@@ -4,6 +4,7 @@ import android.content.Context
 import cz.vvoleman.phr.base.domain.coroutine.CoroutineContextProvider
 import cz.vvoleman.phr.common.domain.eventBus.CommonEventBus
 import cz.vvoleman.phr.featureMedicalRecord.domain.mapper.TextToTextDomainModelMapper
+import cz.vvoleman.phr.featureMedicalRecord.domain.repository.GetMedicalRecordByFacilityRepository
 import cz.vvoleman.phr.featureMedicalRecord.domain.repository.GetMedicalRecordByMedicalWorkerRepository
 import cz.vvoleman.phr.featureMedicalRecord.domain.repository.selectFile.GetDiagnosesByIdsRepository
 import cz.vvoleman.phr.featureMedicalRecord.domain.repository.selectFile.GetPatientByBirthDateRepository
@@ -63,7 +64,8 @@ class DomainModule {
     @Provides
     fun providesMedicalRecordListener(
         commonBus: CommonEventBus,
-        repository: GetMedicalRecordByMedicalWorkerRepository,
+        byWorkerRepository: GetMedicalRecordByMedicalWorkerRepository,
+        byFacilityRepository: GetMedicalRecordByFacilityRepository,
         @ApplicationContext context: Context
-    ) = MedicalRecordListener(commonBus, repository, context)
+    ) = MedicalRecordListener(commonBus, byWorkerRepository, byFacilityRepository, context)
 }

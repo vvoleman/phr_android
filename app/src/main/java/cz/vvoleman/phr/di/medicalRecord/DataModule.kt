@@ -243,4 +243,9 @@ class DataModule {
     fun providesGetMedicalRecordByMedicalWorkerRepository(
         medicalRecordRepository: MedicalRecordRepository
     ): GetMedicalRecordByMedicalWorkerRepository = medicalRecordRepository
+
+    @Provides
+    fun providesGetMedicalRecordByFacilityRepository(
+        medicalRecordRepository: MedicalRecordRepository
+    ): GetMedicalRecordByFacilityRepository = medicalRecordRepository
 }
