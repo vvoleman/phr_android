@@ -28,14 +28,15 @@ class MedicalWorkerAdapter(
         holder.bind(currentItem)
     }
 
-    inner class MedicalWorkerViewHolder(private val binding: ItemItemWithAdditionalInfoBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class MedicalWorkerViewHolder(private val binding: ItemItemWithAdditionalInfoBinding) : RecyclerView.ViewHolder(
+        binding.root
+    ) {
 
         private val _adapter: AdditionalInfoAdapter<MedicalWorkerUiModel>
         init {
             _adapter = AdditionalInfoAdapter(object :
                 AdditionalInfoAdapter.AdditionalInfoAdapterListener<MedicalWorkerUiModel> {
                 override fun onAdditionalInfoClick(): MedicalWorkerUiModel {
-
                     return getItemOrNull()!!.medicalWorker
                 }
             })
@@ -78,7 +79,10 @@ class MedicalWorkerAdapter(
     }
 
     private class DiffCallback : DiffUtil.ItemCallback<MedicalWorkerWithAdditionalInfoUiModel>() {
-        override fun areItemsTheSame(oldItem: MedicalWorkerWithAdditionalInfoUiModel, newItem: MedicalWorkerWithAdditionalInfoUiModel): Boolean {
+        override fun areItemsTheSame(
+            oldItem: MedicalWorkerWithAdditionalInfoUiModel,
+            newItem: MedicalWorkerWithAdditionalInfoUiModel
+        ): Boolean {
             return oldItem.medicalWorker.id == newItem.medicalWorker.id
         }
 
@@ -90,5 +94,4 @@ class MedicalWorkerAdapter(
     interface MedicalWorkerAdapterListener {
         fun onItemOptionsMenuClicked(item: MedicalWorkerUiModel, anchorView: View)
     }
-
 }

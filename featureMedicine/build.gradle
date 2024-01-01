@@ -110,5 +110,7 @@ dependencies {
     testImplementation(libs.mockito.inline)
     testImplementation(libs.androidx.arch.core.testing)
     testImplementation(libs.androidx.arch.core.testing)
+    testImplementation(libs.kotlinx.coroutines.test)
+    testImplementation(libs.mockk)
 //    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.12'
 }

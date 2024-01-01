@@ -12,7 +12,6 @@ import cz.vvoleman.phr.featureMedicine.databinding.FragmentExportBinding
 import cz.vvoleman.phr.featureMedicine.presentation.export.model.ExportViewState
 import cz.vvoleman.phr.featureMedicine.ui.export.adapter.ExportAdapter
 import cz.vvoleman.phr.featureMedicine.ui.export.mapper.ExportUiModelToPresentationMapper
-import kotlinx.coroutines.CoroutineScope
 
 class ExportBinder(
     private val exportUiMapper: ExportUiModelToPresentationMapper,

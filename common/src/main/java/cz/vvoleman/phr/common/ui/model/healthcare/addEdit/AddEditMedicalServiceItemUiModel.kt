@@ -33,5 +33,4 @@ data class AddEditMedicalServiceItemUiModel(
             else -> ItemState.Facility(this.facility)
         }
     }
-
 }

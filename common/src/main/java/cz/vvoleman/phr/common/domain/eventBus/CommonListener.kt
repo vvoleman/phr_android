@@ -68,7 +68,8 @@ class CommonListener(
     private suspend fun onGetMedicalFacilitiesAdditionalInfoEvent(
         event: GetMedicalFacilitiesAdditionalInfoEvent
     ): Map<MedicalFacilityDomainModel, List<AdditionalInfoDomainModel<MedicalFacilityDomainModel>>> {
-        val map = mutableMapOf<MedicalFacilityDomainModel, List<AdditionalInfoDomainModel<MedicalFacilityDomainModel>>>()
+        val map =
+            mutableMapOf<MedicalFacilityDomainModel, List<AdditionalInfoDomainModel<MedicalFacilityDomainModel>>>()
 
         event.medicalFacilities.forEach { facility ->
             val workers = getSpecificMedicalWorkersRepository.getSpecificMedicalWorkersByFacility(facility.id)

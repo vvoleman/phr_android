@@ -9,5 +9,4 @@ interface SaveMedicalFacilityRepository {
     )
 
     suspend fun saveMedicalFacility(facilities: List<MedicalFacilityDomainModel>)
-
 }

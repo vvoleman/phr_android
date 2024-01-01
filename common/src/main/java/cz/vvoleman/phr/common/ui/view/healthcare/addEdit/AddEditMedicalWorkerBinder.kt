@@ -6,9 +6,7 @@ import androidx.lifecycle.LifecycleCoroutineScope
 import cz.vvoleman.phr.base.ui.mapper.BaseViewStateBinder
 import cz.vvoleman.phr.common.presentation.model.healthcare.addEdit.AddEditMedicalWorkerViewState
 import cz.vvoleman.phr.common.ui.mapper.healthcare.AddEditMedicalServiceItemUiModelToPresentationMapper
-import cz.vvoleman.phr.common_datasource.R
 import cz.vvoleman.phr.common_datasource.databinding.FragmentAddEditMedicalWorkerBinding
-import kotlinx.coroutines.CoroutineScope
 
 class AddEditMedicalWorkerBinder(
     private val addEditMapper: AddEditMedicalServiceItemUiModelToPresentationMapper

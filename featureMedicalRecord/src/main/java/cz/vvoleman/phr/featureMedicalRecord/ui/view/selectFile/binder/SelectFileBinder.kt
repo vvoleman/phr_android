@@ -13,7 +13,6 @@ import cz.vvoleman.phr.featureMedicalRecord.databinding.FragmentSelectFileBindin
 import cz.vvoleman.phr.featureMedicalRecord.presentation.selectFile.model.SelectFileViewState
 import cz.vvoleman.phr.featureMedicalRecord.ui.view.selectFile.OptionAdapter
 import cz.vvoleman.phr.featureMedicalRecord.ui.view.selectFile.OptionItem
-import kotlinx.coroutines.CoroutineScope
 import java.time.format.DateTimeFormatter
 import java.util.Locale
 

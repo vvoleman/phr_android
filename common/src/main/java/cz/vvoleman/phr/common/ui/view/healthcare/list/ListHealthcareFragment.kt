@@ -27,7 +27,8 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class ListHealthcareFragment :
     BaseFragment<ListHealthcareViewState, ListHealthcareNotification, FragmentListHealthcareBinding>(),
-    MedicalWorkerFragment.MedicalWorkerFragmentInterface, MedicalFacilityFragment.MedicalFacilityFragmentInterface {
+    MedicalWorkerFragment.MedicalWorkerFragmentInterface,
+    MedicalFacilityFragment.MedicalFacilityFragmentInterface {
     override val viewModel: ListHealthcareViewModel by viewModels()
 
     private val medicalWorkerViewModel: MedicalWorkerViewModel by viewModels()
@@ -62,7 +63,6 @@ class ListHealthcareFragment :
     }
 
     override fun handleNotification(notification: ListHealthcareNotification) {
-
     }
 
     override fun onMedicalWorkerDelete(item: MedicalWorkerUiModel) {

@@ -56,11 +56,13 @@ class AddEditMedicalWorkerViewModel @Inject constructor(
 
         val details = if (worker != null) {
             getExistingDetails(worker)
-        } else listOf(
-            AddEditMedicalServiceItemPresentationModel(
-                id = "${System.currentTimeMillis()}",
+        } else {
+            listOf(
+                AddEditMedicalServiceItemPresentationModel(
+                    id = "${System.currentTimeMillis()}",
+                )
             )
-        )
+        }
 
         return AddEditMedicalWorkerViewState(
             workerId = workerId,
@@ -151,7 +153,7 @@ class AddEditMedicalWorkerViewModel @Inject constructor(
             return
         }
 
-        Log.d(TAG, "onSave: ${currentViewState}")
+        Log.d(TAG, "onSave: $currentViewState")
 
         val request = SaveMedicalWorkerRequest(
             id = currentViewState.workerId,
@@ -171,7 +173,6 @@ class AddEditMedicalWorkerViewModel @Inject constructor(
                 notify(AddEditMedicalWorkerNotification.CannotSave)
             }
         )
-
     }
 
     fun onNameChanged(name: String) {

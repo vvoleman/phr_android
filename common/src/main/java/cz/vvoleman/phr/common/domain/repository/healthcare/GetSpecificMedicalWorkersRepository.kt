@@ -7,5 +7,4 @@ interface GetSpecificMedicalWorkersRepository {
     suspend fun getSpecificMedicalWorkers(workerId: String): List<SpecificMedicalWorkerDomainModel>
 
     suspend fun getSpecificMedicalWorkersByFacility(facilityId: String): List<SpecificMedicalWorkerDomainModel>
-
 }

@@ -57,10 +57,12 @@ class ListHealthcareViewModel @Inject constructor(
             val workers = getWorkers(patient.id)
             val facilities = getFacilities(patient.id)
 
-            updateViewState(currentViewState.copy(
-                medicalWorkers = workers,
-                medicalFacilities = facilities
-            ))
+            updateViewState(
+                currentViewState.copy(
+                    medicalWorkers = workers,
+                    medicalFacilities = facilities
+                )
+            )
         }
     }
 
@@ -93,9 +95,11 @@ class ListHealthcareViewModel @Inject constructor(
 
     fun onDeleteWorker(item: MedicalWorkerPresentationModel) = viewModelScope.launch {
         deleteMedicalWorkerUseCase.execute(workerMapper.toDomain(item)) {
-            updateViewState(currentViewState.copy(
-                medicalWorkers = currentViewState.medicalWorkers?.filter { it.key.id != item.id }
-            ))
+            updateViewState(
+                currentViewState.copy(
+                    medicalWorkers = currentViewState.medicalWorkers?.filter { it.key.id != item.id }
+                )
+            )
         }
     }
 

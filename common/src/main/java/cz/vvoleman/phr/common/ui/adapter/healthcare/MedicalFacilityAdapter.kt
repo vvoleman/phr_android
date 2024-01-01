@@ -16,7 +16,9 @@ import cz.vvoleman.phr.common_datasource.databinding.ItemItemWithAdditionalInfoB
 
 class MedicalFacilityAdapter(
     private val listener: MedicalFacilityAdapterListener
-) : ListAdapter<MedicalFacilityWithAdditionalInfoUiModel, MedicalFacilityAdapter.MedicalFacilityViewHolder>(DiffCallback()) {
+) : ListAdapter<MedicalFacilityWithAdditionalInfoUiModel, MedicalFacilityAdapter.MedicalFacilityViewHolder>(
+    DiffCallback()
+) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MedicalFacilityViewHolder {
         val binding = ItemItemWithAdditionalInfoBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -28,7 +30,9 @@ class MedicalFacilityAdapter(
         holder.bind(currentItem)
     }
 
-    inner class MedicalFacilityViewHolder(private val binding: ItemItemWithAdditionalInfoBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class MedicalFacilityViewHolder(private val binding: ItemItemWithAdditionalInfoBinding) : RecyclerView.ViewHolder(
+        binding.root
+    ) {
 
         private val _adapter: AdditionalInfoAdapter<MedicalFacilityUiModel>
         init {
@@ -36,7 +40,6 @@ class MedicalFacilityAdapter(
             _adapter = AdditionalInfoAdapter(object :
                 AdditionalInfoAdapter.AdditionalInfoAdapterListener<MedicalFacilityUiModel> {
                 override fun onAdditionalInfoClick(): MedicalFacilityUiModel {
-
                     return getItemOrNull()!!.medicalFacility
                 }
             })
@@ -79,7 +82,10 @@ class MedicalFacilityAdapter(
     }
 
     private class DiffCallback : DiffUtil.ItemCallback<MedicalFacilityWithAdditionalInfoUiModel>() {
-        override fun areItemsTheSame(oldItem: MedicalFacilityWithAdditionalInfoUiModel, newItem: MedicalFacilityWithAdditionalInfoUiModel): Boolean {
+        override fun areItemsTheSame(
+            oldItem: MedicalFacilityWithAdditionalInfoUiModel,
+            newItem: MedicalFacilityWithAdditionalInfoUiModel
+        ): Boolean {
             return oldItem.medicalFacility.id == newItem.medicalFacility.id
         }
 
@@ -91,5 +97,4 @@ class MedicalFacilityAdapter(
     interface MedicalFacilityAdapterListener {
         fun onItemClick(item: MedicalFacilityUiModel)
     }
-
 }

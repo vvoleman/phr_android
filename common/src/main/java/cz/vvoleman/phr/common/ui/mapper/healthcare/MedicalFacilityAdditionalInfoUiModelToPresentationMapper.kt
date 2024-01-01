@@ -15,7 +15,8 @@ class MedicalFacilityAdditionalInfoUiModelToPresentationMapper(
             icon = model.icon,
             text = model.text,
             onClick = model.onClick?.let {
-                { facility: MedicalFacilityUiModel ->
+                {
+                        facility: MedicalFacilityUiModel ->
                     it(facilityMapper.toPresentation(facility))
                 }
             }
@@ -23,7 +24,8 @@ class MedicalFacilityAdditionalInfoUiModelToPresentationMapper(
     }
 
     fun toUi(
-        map: Map<MedicalFacilityPresentationModel, List<AdditionalInfoPresentationModel<MedicalFacilityPresentationModel>>>
+        map:
+        Map<MedicalFacilityPresentationModel, List<AdditionalInfoPresentationModel<MedicalFacilityPresentationModel>>>
     ): List<MedicalFacilityWithAdditionalInfoUiModel> {
         return map.map { (facility, info) ->
             MedicalFacilityWithAdditionalInfoUiModel(
@@ -32,5 +34,4 @@ class MedicalFacilityAdditionalInfoUiModelToPresentationMapper(
             )
         }
     }
-
 }

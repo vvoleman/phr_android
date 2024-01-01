@@ -7,6 +7,8 @@ import cz.vvoleman.phr.common.presentation.model.patient.PatientPresentationMode
 
 data class ListHealthcareViewState(
     val patient: PatientPresentationModel? = null,
-    val medicalWorkers: Map<MedicalWorkerPresentationModel, List<AdditionalInfoPresentationModel<MedicalWorkerPresentationModel>>>? = null,
-    val medicalFacilities: Map<MedicalFacilityPresentationModel, List<AdditionalInfoPresentationModel<MedicalFacilityPresentationModel>>>? = null,
+    val medicalWorkers:
+    Map<MedicalWorkerPresentationModel, List<AdditionalInfoPresentationModel<MedicalWorkerPresentationModel>>>? = null,
+    val medicalFacilities:
+    Map<MedicalFacilityPresentationModel, List<AdditionalInfoPresentationModel<MedicalFacilityPresentationModel>>>? = null,
 )

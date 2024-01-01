@@ -7,7 +7,6 @@ import cz.vvoleman.phr.common.presentation.model.patient.listpatients.ListPatien
 import cz.vvoleman.phr.common.ui.adapter.listpatients.PatientAdapter
 import cz.vvoleman.phr.common.ui.mapper.patient.PatientUiModelToPresentationMapper
 import cz.vvoleman.phr.common_datasource.databinding.FragmentListPatientsBinding
-import kotlinx.coroutines.CoroutineScope
 
 class ListPatientsBinder(
     private val patientUiModelToPresentationMapper: PatientUiModelToPresentationMapper

@@ -36,6 +36,7 @@ junit = "4.13.2"
 mockito = "4.5.1"
 mockito-kotlin = "4.0.0"
 kotlinx-coroutines-test = "1.6.1"
+mockk = "1.13.8"
 
 compose_kotlin_compiler = "1.5.5"
 nav_version = "2.7.6"
@@ -127,6 +128,9 @@ mockito-core = { group = "org.mockito", name = "mockito-core", version.ref = "mo
 mockito-junit-jupiter = { group = "org.mockito", name = "mockito-junit-jupiter", version.ref = "mockito" }
 mockito-kotlin = { group = "org.mockito.kotlin", name = "mockito-kotlin", version.ref = "mockito-kotlin" }
 mockito-inline = { group = "org.mockito", name = "mockito-inline", version.ref = "mockito" }
+
+# Mockk
+mockk = { group = "io.mockk", name = "mockk", version.ref = "mockk" }
 
 # Kotlinx Coroutines
 kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "kotlinx-coroutines-test" }

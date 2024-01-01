@@ -22,10 +22,9 @@ class ListHealthcareBinder(
     override fun bind(viewBinding: FragmentListHealthcareBinding, viewState: ListHealthcareViewState) {
         if (fragmentAdapter != null && !isAdapterSet) {
             bindFragmentAdapter(viewBinding)
-
         }
 
-        fragmentAdapter?.apply{
+        fragmentAdapter?.apply {
             if (viewState.medicalWorkers != null) {
                 val workers = workerMapper.toUi(viewState.medicalWorkers)
                 setWorkers(workers)

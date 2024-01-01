@@ -11,9 +11,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import cz.vvoleman.phr.base.presentation.model.UiState
 import cz.vvoleman.phr.base.ui.ext.collectLatestLifecycleFlow
 import cz.vvoleman.phr.common.ui.adapter.MarginItemDecoration
+import cz.vvoleman.phr.common.ui.adapter.healthcare.MedicalWorkerAdapter
 import cz.vvoleman.phr.common.ui.fragment.healthcare.viewmodel.MedicalWorkerViewModel
 import cz.vvoleman.phr.common.ui.model.healthcare.core.MedicalWorkerUiModel
-import cz.vvoleman.phr.common.ui.adapter.healthcare.MedicalWorkerAdapter
 import cz.vvoleman.phr.common.utils.SizingConstants
 import cz.vvoleman.phr.common_datasource.R
 import cz.vvoleman.phr.common_datasource.databinding.FragmentMedicalWorkerBinding
@@ -61,7 +61,6 @@ class MedicalWorkerFragment :
                 adapter.submitList(it.data)
             }
         }
-
     }
 
     fun setViewModel(viewModel: MedicalWorkerViewModel) {

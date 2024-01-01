@@ -9,9 +9,7 @@ import android.widget.LinearLayout
 import androidx.core.view.isVisible
 import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.paging.PagingData
-import androidx.recyclerview.widget.RecyclerView
-import cz.vvoleman.phr.common.presentation.model.healthcare.addEdit.AddEditMedicalWorkerViewState
-import cz.vvoleman.phr.common.presentation.viewmodel.healthcare.AddEditMedicalWorkerViewModel
+import cz.vvoleman.phr.common.presentation.model.healthcare.addEdit.AddEditMedicalWorkerViewState.RequiredField
 import cz.vvoleman.phr.common.ui.component.facilitySelector.FacilitySelector
 import cz.vvoleman.phr.common.ui.model.healthcare.addEdit.AddEditMedicalServiceItemUiModel
 import cz.vvoleman.phr.common.ui.model.healthcare.addEdit.AddEditMedicalServiceItemUiModel.ItemState
@@ -23,11 +21,9 @@ import cz.vvoleman.phr.common_datasource.R
 import cz.vvoleman.phr.common_datasource.databinding.ViewServiceDetailBinding
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
-import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import cz.vvoleman.phr.common.presentation.model.healthcare.addEdit.AddEditMedicalWorkerViewState.RequiredField
 
 class ServiceDetail @JvmOverloads constructor(
     context: Context,
@@ -203,5 +199,4 @@ class ServiceDetail @JvmOverloads constructor(
         fun onDataChanged(item: AddEditMedicalServiceItemUiModel)
         fun onFacilitySelectorSearch(query: String, callback: suspend (PagingData<MedicalFacilityUiModel>) -> Unit)
     }
-
 }

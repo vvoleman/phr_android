@@ -5,5 +5,4 @@ import cz.vvoleman.phr.common.domain.model.healthcare.worker.MedicalWorkerDomain
 interface SaveMedicalWorkerRepository {
 
     suspend fun saveMedicalWorker(worker: MedicalWorkerDomainModel): String
-
 }
