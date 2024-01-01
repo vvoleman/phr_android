@@ -16,7 +16,8 @@ class MedicalWorkerAdditionalInfoPresentationModelToDomainMapper(
             icon = model.icon,
             text = model.text,
             onClick = model.onClick?.let {
-                { worker: MedicalWorkerDomainModel ->
+                {
+                        worker: MedicalWorkerDomainModel ->
                     it(workerMapper.toPresentation(worker))
                 }
             }
@@ -30,7 +31,8 @@ class MedicalWorkerAdditionalInfoPresentationModelToDomainMapper(
             icon = model.icon,
             text = model.text,
             onClick = model.onClick?.let {
-                { worker: MedicalWorkerPresentationModel ->
+                {
+                        worker: MedicalWorkerPresentationModel ->
                     it(workerMapper.toDomain(worker))
                 }
             }
@@ -46,5 +48,4 @@ class MedicalWorkerAdditionalInfoPresentationModelToDomainMapper(
             additions.map { toPresentation(it) }
         }
     }
-
 }

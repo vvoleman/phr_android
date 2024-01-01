@@ -11,15 +11,13 @@ class AddEditMedicalWorkerDestinationUiMapper(
 ) : DestinationUiMapper(navManager) {
 
     override fun navigate(destination: PresentationDestination) {
-        when (val dest = destination as AddEditMedicalWorkerDestination){
+        when (val dest = destination as AddEditMedicalWorkerDestination) {
             is AddEditMedicalWorkerDestination.Saved -> {
                 val action = AddEditMedicalWorkerFragmentDirections.actionAddEditMedicalWorkerFragmentToListHealthcareFragment(
                     savedId = dest.id
                 )
                 navManager.navigate(action)
             }
-
-            else -> throw IllegalArgumentException("Unknown destination: $destination")
         }
     }
 }

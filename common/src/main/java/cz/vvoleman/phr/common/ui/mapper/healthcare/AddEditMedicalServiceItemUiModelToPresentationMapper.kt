@@ -26,5 +26,4 @@ class AddEditMedicalServiceItemUiModelToPresentationMapper(
             email = model.email
         )
     }
-
 }

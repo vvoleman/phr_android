@@ -4,8 +4,8 @@ import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class AdditionalInfoPresentationModel<T: Parcelable> (
+data class AdditionalInfoPresentationModel<T : Parcelable> (
     val icon: Int? = null,
     val text: String,
     val onClick: ((T) -> Unit)? = null
-): Parcelable
+) : Parcelable

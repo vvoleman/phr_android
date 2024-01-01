@@ -2,7 +2,6 @@ package cz.vvoleman.phr.common.presentation.model.healthcare.addEdit
 
 import androidx.paging.PagingData
 import cz.vvoleman.phr.common.presentation.model.healthcare.core.MedicalFacilityPresentationModel
-import cz.vvoleman.phr.common.presentation.viewmodel.healthcare.AddEditMedicalWorkerViewModel
 import kotlinx.coroutines.flow.Flow
 
 sealed class AddEditMedicalWorkerNotification {

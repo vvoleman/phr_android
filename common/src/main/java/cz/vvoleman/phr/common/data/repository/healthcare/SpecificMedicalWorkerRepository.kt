@@ -15,8 +15,10 @@ class SpecificMedicalWorkerRepository(
     private val medicalWorkerDao: MedicalWorkerDao,
     private val specificMedicalWorkerDao: SpecificMedicalWorkerDao,
     private val specificMapper: SpecificMedicalWorkerDataSourceToDomainMapper,
-) : GetSpecificMedicalWorkersRepository, SaveSpecificMedicalWorkerRepository,
-    RemoveSpecificMedicalWorkerRepository, DeleteMedicalWorkerRepository {
+) : GetSpecificMedicalWorkersRepository,
+    SaveSpecificMedicalWorkerRepository,
+    RemoveSpecificMedicalWorkerRepository,
+    DeleteMedicalWorkerRepository {
 
     override suspend fun getSpecificMedicalWorkers(workerId: String): List<SpecificMedicalWorkerDomainModel> {
         return specificMedicalWorkerDao

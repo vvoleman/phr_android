@@ -48,5 +48,4 @@ class AdditionalInfoAdapter<T : Parcelable>(
     interface AdditionalInfoAdapterListener<T : Parcelable> {
         fun onAdditionalInfoClick(): T
     }
-
 }

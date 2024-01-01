@@ -2,7 +2,6 @@ package cz.vvoleman.phr.common.ui.component.facilitySelector
 
 import android.content.Context
 import android.util.AttributeSet
-import android.util.Log
 import android.view.LayoutInflater
 import android.widget.LinearLayout
 import androidx.appcompat.app.AlertDialog
@@ -15,8 +14,6 @@ import cz.vvoleman.phr.common.ui.model.healthcare.core.MedicalFacilityUiModel
 import cz.vvoleman.phr.common.utils.SizingConstants.MARGIN_SIZE
 import cz.vvoleman.phr.common_datasource.databinding.DialogFacilitySelectorBinding
 import cz.vvoleman.phr.common_datasource.databinding.ViewFacilitySelectorBinding
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.callbackFlow
 
 class FacilitySelector @JvmOverloads constructor(
     context: Context,

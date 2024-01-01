@@ -7,5 +7,4 @@ interface GetMedicalRecordByFacilityRepository {
     suspend fun getMedicalRecordsByFacility(facilityId: String, patientId: String): List<MedicalRecordDomainModel>
 
     suspend fun getMedicalRecordsByFacility(facilityIds: List<String>, patientId: String): Map<String, List<MedicalRecordDomainModel>>
-
 }

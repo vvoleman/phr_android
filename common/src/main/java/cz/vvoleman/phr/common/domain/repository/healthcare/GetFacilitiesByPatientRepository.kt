@@ -5,5 +5,4 @@ import cz.vvoleman.phr.common.domain.model.healthcare.facility.MedicalFacilityDo
 interface GetFacilitiesByPatientRepository {
 
     suspend fun getFacilitiesByPatient(patientId: String): List<MedicalFacilityDomainModel>
-
 }

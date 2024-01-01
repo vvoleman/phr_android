@@ -37,5 +37,4 @@ data class AddEditMedicalWorkerViewState(
         SERVICE,
         FACILITY
     }
-
 }

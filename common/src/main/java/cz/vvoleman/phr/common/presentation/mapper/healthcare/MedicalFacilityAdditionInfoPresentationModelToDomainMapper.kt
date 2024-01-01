@@ -16,7 +16,8 @@ class MedicalFacilityAdditionInfoPresentationModelToDomainMapper(
             icon = model.icon,
             text = model.text,
             onClick = model.onClick?.let {
-                { facility: MedicalFacilityPresentationModel ->
+                {
+                        facility: MedicalFacilityPresentationModel ->
                     it(facilityMapper.toDomain(facility))
                 }
             }
@@ -32,5 +33,4 @@ class MedicalFacilityAdditionInfoPresentationModelToDomainMapper(
             additions.map { toPresentation(it) }
         }
     }
-
 }

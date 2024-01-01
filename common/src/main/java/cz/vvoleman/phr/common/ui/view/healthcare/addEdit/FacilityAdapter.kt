@@ -12,8 +12,9 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import cz.vvoleman.phr.common.ui.component.facilitySelector.FacilitySelector
 import cz.vvoleman.phr.common.ui.model.healthcare.addEdit.AddEditMedicalServiceItemUiModel
+import cz.vvoleman.phr.common.ui.model.healthcare.addEdit.AddEditMedicalServiceItemUiModel.ItemState
 import cz.vvoleman.phr.common.ui.model.healthcare.core.MedicalFacilityUiModel
-import cz.vvoleman.phr.common.utils.TimeConstants.DEBOUNCE_TIME
+import cz.vvoleman.phr.common.ui.model.healthcare.core.MedicalServiceWithWorkersUiModel
 import cz.vvoleman.phr.common.utils.itemChanges
 import cz.vvoleman.phr.common.utils.textChanges
 import cz.vvoleman.phr.common_datasource.R
@@ -24,10 +25,6 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import cz.vvoleman.phr.common.ui.model.healthcare.addEdit.AddEditMedicalServiceItemUiModel.ItemState
-import cz.vvoleman.phr.common.ui.model.healthcare.core.MedicalServiceWithWorkersUiModel
-import cz.vvoleman.phr.common.utils.setTextIfNotFocused
-import kotlinx.coroutines.flow.filter
 
 class FacilityAdapter(
     private val listener: FacilityAdapterListener,
@@ -62,7 +59,6 @@ class FacilityAdapter(
                     listener.onItemDelete(item, position)
                 }
             }
-
 
             binding.autoCompleteTextViewServices.itemChanges()
                 .onEach {
@@ -153,7 +149,7 @@ class FacilityAdapter(
                     autoCompleteTextViewServices.setAdapter(adapter)
                     autoCompleteTextViewServices.setText(
                         services[item.serviceId] ?: "",
-                    false
+                        false
                     )
                 }
             }
@@ -161,7 +157,6 @@ class FacilityAdapter(
     }
 
     private fun setupListeners() {
-
     }
 
     private fun getServices(item: AddEditMedicalServiceItemUiModel): Map<String, MedicalServiceWithWorkersUiModel> {

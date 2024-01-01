@@ -17,7 +17,8 @@ class MedicalWorkerAdditionalInfoUiModelToPresentationMapper(
             icon = model.icon,
             text = model.text,
             onClick = model.onClick?.let {
-                { worker: MedicalWorkerPresentationModel ->
+                {
+                        worker: MedicalWorkerPresentationModel ->
                     it(workerMapper.toUi(worker))
                 }
             }
@@ -31,7 +32,8 @@ class MedicalWorkerAdditionalInfoUiModelToPresentationMapper(
             icon = model.icon,
             text = model.text,
             onClick = model.onClick?.let {
-                { worker: MedicalWorkerUiModel ->
+                {
+                        worker: MedicalWorkerUiModel ->
                     it(workerMapper.toPresentation(worker))
                 }
             }

@@ -15,7 +15,7 @@ class HealthcareRepository(
     private val medicalWorkerWithServicesMapper: MedicalWorkerWithServicesDataSourceModelToDomainMapper,
     private val medicalWorkerMapper: MedicalWorkerDataSourceModelToDomainMapper,
 ) : GetMedicalWorkersWithServicesRepository,
-    SaveMedicalWorkerRepository{
+    SaveMedicalWorkerRepository {
 
     override suspend fun getMedicalWorkersWithServices(patientId: String): List<MedicalWorkerWithServicesDomainModel> {
         val workers = medicalWorkerDao.getAll(patientId).first()
@@ -35,6 +35,4 @@ class HealthcareRepository(
         val workerDataSource = medicalWorkerMapper.toDataSource(worker)
         return medicalWorkerDao.insert(workerDataSource).toString()
     }
-
-
 }
