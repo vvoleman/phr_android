@@ -29,4 +29,7 @@ class DataSourceModule {
     fun providesHealthcareApi(
         retrofit: Retrofit
     ): HealthcareApi = retrofit.create(HealthcareApi::class.java)
+
+    @Provides
+    fun providesProblemCategoryDao(db: PatientDatabase) = db.problemCategoryDao()
 }

@@ -1,6 +1,6 @@
 package cz.vvoleman.phr.common.domain.repository.patient
 
-import cz.vvoleman.phr.common.domain.model.AddEditPatientDomainModel
+import cz.vvoleman.phr.common.domain.model.patient.AddEditPatientDomainModel
 
 interface SavePatientRepository {
 

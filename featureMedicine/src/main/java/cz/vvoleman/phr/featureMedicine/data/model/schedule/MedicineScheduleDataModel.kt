@@ -1,6 +1,6 @@
 package cz.vvoleman.phr.featureMedicine.data.model.schedule
 
-import cz.vvoleman.phr.common.domain.model.PatientDomainModel
+import cz.vvoleman.phr.common.domain.model.patient.PatientDomainModel
 import cz.vvoleman.phr.featureMedicine.data.model.medicine.MedicineDataModel
 import java.time.LocalDateTime
 

@@ -5,8 +5,8 @@ import cz.vvoleman.phr.common.data.datasource.model.PatientDao
 import cz.vvoleman.phr.common.data.datasource.model.PatientDataStore
 import cz.vvoleman.phr.common.data.mapper.PatientDataSourceModelToAddEditMapper
 import cz.vvoleman.phr.common.data.mapper.PatientDataSourceModelToDomainMapper
-import cz.vvoleman.phr.common.domain.model.AddEditPatientDomainModel
-import cz.vvoleman.phr.common.domain.model.PatientDomainModel
+import cz.vvoleman.phr.common.domain.model.patient.AddEditPatientDomainModel
+import cz.vvoleman.phr.common.domain.model.patient.PatientDomainModel
 import cz.vvoleman.phr.common.domain.repository.*
 import cz.vvoleman.phr.common.domain.repository.patient.DeletePatientRepository
 import cz.vvoleman.phr.common.domain.repository.patient.GetAllPatientsRepository

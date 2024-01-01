@@ -2,8 +2,8 @@ package cz.vvoleman.phr.common.domain.usecase.patient.addedit
 
 import cz.vvoleman.phr.base.domain.coroutine.CoroutineContextProvider
 import cz.vvoleman.phr.base.domain.usecase.BackgroundExecutingUseCase
-import cz.vvoleman.phr.common.domain.model.AddEditPatientDomainModel
-import cz.vvoleman.phr.common.domain.model.PatientDomainModel
+import cz.vvoleman.phr.common.domain.model.patient.AddEditPatientDomainModel
+import cz.vvoleman.phr.common.domain.model.patient.PatientDomainModel
 import cz.vvoleman.phr.common.domain.repository.patient.GetPatientByIdRepository
 import cz.vvoleman.phr.common.domain.repository.patient.SavePatientRepository
 

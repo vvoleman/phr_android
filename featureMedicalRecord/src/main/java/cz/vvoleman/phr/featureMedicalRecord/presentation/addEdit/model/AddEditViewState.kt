@@ -2,7 +2,7 @@ package cz.vvoleman.phr.featureMedicalRecord.presentation.addEdit.model
 
 import android.os.Parcelable
 import cz.vvoleman.phr.common.domain.model.healthcare.worker.MedicalWorkerDomainModel
-import cz.vvoleman.phr.featureMedicalRecord.domain.model.ProblemCategoryDomainModel
+import cz.vvoleman.phr.common.domain.model.problemCategory.ProblemCategoryDomainModel
 import kotlinx.parcelize.Parcelize
 import java.time.LocalDate
 

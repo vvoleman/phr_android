@@ -23,6 +23,7 @@ import cz.vvoleman.phr.common.presentation.mapper.healthcare.MedicalServiceWithW
 import cz.vvoleman.phr.common.presentation.mapper.healthcare.MedicalWorkerAdditionalInfoPresentationModelToDomainMapper
 import cz.vvoleman.phr.common.presentation.mapper.healthcare.MedicalWorkerPresentationModelToDomainMapper
 import cz.vvoleman.phr.common.presentation.mapper.healthcare.MedicalWorkerWithInfoPresentationModelToDomainMapper
+import cz.vvoleman.phr.common.presentation.mapper.problemCategory.ProblemCategoryPresentationModelToDomainMapper
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -132,4 +133,7 @@ class PresentationModule {
     fun providesMedicalFacilityAdditionInfoPresentationModelToDomainMapper(
         facilityMapper: MedicalFacilityPresentationModelToDomainMapper
     ) = MedicalFacilityAdditionInfoPresentationModelToDomainMapper(facilityMapper)
+
+    @Provides
+    fun providesProblemCategoryPresentationModelToDomainMapper() = ProblemCategoryPresentationModelToDomainMapper()
 }

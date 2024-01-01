@@ -24,9 +24,6 @@ class DataSourceModule {
     fun providesDiagnoseGroup(db: PatientDatabase) = db.diagnoseGroupDao()
 
     @Provides
-    fun providesProblemCategoryDao(db: PatientDatabase) = db.problemCategoryDao()
-
-    @Provides
     fun providesMedicalRecordAssetDao(db: PatientDatabase) = db.medicalRecordAssetDao()
 
     @Provides

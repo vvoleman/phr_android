@@ -7,11 +7,11 @@ import cz.vvoleman.phr.base.presentation.viewmodel.BaseViewModel
 import cz.vvoleman.phr.base.presentation.viewmodel.usecase.UseCaseExecutorProvider
 import cz.vvoleman.phr.common.domain.GroupedItemsDomainModel
 import cz.vvoleman.phr.common.domain.event.PatientDeletedEvent
-import cz.vvoleman.phr.common.domain.model.PatientDomainModel
 import cz.vvoleman.phr.common.domain.model.healthcare.worker.MedicalWorkerDomainModel
+import cz.vvoleman.phr.common.domain.model.patient.PatientDomainModel
+import cz.vvoleman.phr.common.domain.model.problemCategory.ProblemCategoryDomainModel
 import cz.vvoleman.phr.common.domain.usecase.patient.GetSelectedPatientUseCase
 import cz.vvoleman.phr.featureMedicalRecord.domain.model.MedicalRecordDomainModel
-import cz.vvoleman.phr.featureMedicalRecord.domain.model.ProblemCategoryDomainModel
 import cz.vvoleman.phr.featureMedicalRecord.domain.model.list.GroupByDomainModel
 import cz.vvoleman.phr.featureMedicalRecord.domain.usecase.DeletePatientUseCase
 import cz.vvoleman.phr.featureMedicalRecord.domain.usecase.GetFilteredRecordsUseCase
@@ -71,7 +71,6 @@ class ListMedicalRecordsViewModel @Inject constructor(
         filterRecords()
     }
 
-    @Suppress("UnusedParameter")
     fun onRecordExport(id: String) {
         notify(ListMedicalRecordsNotification.NotImplemented)
     }
@@ -80,12 +79,10 @@ class ListMedicalRecordsViewModel @Inject constructor(
         navigateTo(ListMedicalRecordsDestination.EditMedicalRecord(id))
     }
 
-    @Suppress("UnusedParameter")
     fun onRecordDeleteUndo(id: String) {
         notify(ListMedicalRecordsNotification.NotImplemented)
     }
 
-    @Suppress("UnusedParameter")
     fun onRecordSelect(id: String) = viewModelScope.launch {
 //        val patient = getSelectedPatientUseCase.execute(null).first()
 //        val newPatient = (patient.id.toInt() % 2) + 1

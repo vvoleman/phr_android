@@ -1,7 +1,9 @@
 package cz.vvoleman.phr.featureMedicalRecord.data.mapper
 
 import cz.vvoleman.phr.common.data.datasource.model.healthcare.worker.SpecificMedicalWorkerDao
+import cz.vvoleman.phr.common.data.mapper.PatientDataSourceModelToDomainMapper
 import cz.vvoleman.phr.common.data.mapper.healthcare.SpecificMedicalWorkerDataSourceToDomainMapper
+import cz.vvoleman.phr.common.data.mapper.problemCategory.ProblemCategoryDataSourceModelToDomainMapper
 import cz.vvoleman.phr.featureMedicalRecord.data.datasource.model.room.MedicalRecordWithDetails
 import cz.vvoleman.phr.featureMedicalRecord.domain.model.MedicalRecordDomainModel
 import kotlinx.coroutines.flow.first
@@ -10,7 +12,7 @@ class MedicalRecordDataSourceToDomainMapper(
     private val patientMapper: PatientDataSourceModelToDomainMapper,
     private val diagnoseMapper: DiagnoseDataSourceToDomainMapper,
     private val specificWorkerMapper: SpecificMedicalWorkerDataSourceToDomainMapper,
-    private val problemCategoryMapper: ProblemCategoryDataSourceToDomainMapper,
+    private val problemCategoryMapper: ProblemCategoryDataSourceModelToDomainMapper,
     private val specificWorkerDao: SpecificMedicalWorkerDao,
 ) {
 

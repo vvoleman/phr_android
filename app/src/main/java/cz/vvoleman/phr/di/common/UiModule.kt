@@ -20,6 +20,7 @@ import cz.vvoleman.phr.common.ui.mapper.healthcare.destination.ListHealthcareDes
 import cz.vvoleman.phr.common.ui.mapper.patient.PatientUiModelToPresentationMapper
 import cz.vvoleman.phr.common.ui.mapper.patient.destination.AddEditPatientDestinationUiMapper
 import cz.vvoleman.phr.common.ui.mapper.patient.destination.ListPatientsDestinationUiMapper
+import cz.vvoleman.phr.common.ui.mapper.problemCategory.ProblemCategoryUiModelToPresentationMapper
 import cz.vvoleman.phr.common.ui.view.healthcare.addEdit.AddEditMedicalWorkerBinder
 import cz.vvoleman.phr.common.ui.view.healthcare.list.ListHealthcareBinder
 import cz.vvoleman.phr.common.ui.view.patient.addedit.AddEditPatientBinder
@@ -121,4 +122,7 @@ class UiModule {
     fun providesMedicalFacilityAdditionalInfoUiModelToPresentationMapper(
         facilityMapper: MedicalFacilityUiModelToPresentationMapper
     ) = MedicalFacilityAdditionalInfoUiModelToPresentationMapper(facilityMapper)
+
+    @Provides
+    fun providesProblemCategoryUiModelToPresentationMapper() = ProblemCategoryUiModelToPresentationMapper()
 }
