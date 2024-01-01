@@ -11,11 +11,13 @@ import cz.vvoleman.phr.common.presentation.model.healthcare.list.ListHealthcareN
 import cz.vvoleman.phr.common.presentation.model.healthcare.list.ListHealthcareViewState
 import cz.vvoleman.phr.common.presentation.viewmodel.healthcare.ListHealthcareViewModel
 import cz.vvoleman.phr.common.ui.adapter.healthcare.HealthcareFragmentAdapter
+import cz.vvoleman.phr.common.ui.fragment.healthcare.MedicalFacilityFragment
 import cz.vvoleman.phr.common.ui.fragment.healthcare.MedicalWorkerFragment
 import cz.vvoleman.phr.common.ui.fragment.healthcare.viewmodel.MedicalFacilityViewModel
 import cz.vvoleman.phr.common.ui.fragment.healthcare.viewmodel.MedicalWorkerViewModel
 import cz.vvoleman.phr.common.ui.mapper.healthcare.MedicalWorkerUiModelToPresentationMapper
 import cz.vvoleman.phr.common.ui.mapper.healthcare.destination.ListHealthcareDestinationUiMapper
+import cz.vvoleman.phr.common.ui.model.healthcare.core.MedicalFacilityUiModel
 import cz.vvoleman.phr.common.ui.model.healthcare.core.MedicalWorkerUiModel
 import cz.vvoleman.phr.common_datasource.R
 import cz.vvoleman.phr.common_datasource.databinding.FragmentListHealthcareBinding
@@ -25,7 +27,7 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class ListHealthcareFragment :
     BaseFragment<ListHealthcareViewState, ListHealthcareNotification, FragmentListHealthcareBinding>(),
-    MedicalWorkerFragment.MedicalWorkerFragmentInterface {
+    MedicalWorkerFragment.MedicalWorkerFragmentInterface, MedicalFacilityFragment.MedicalFacilityFragmentInterface {
     override val viewModel: ListHealthcareViewModel by viewModels()
 
     private val medicalWorkerViewModel: MedicalWorkerViewModel by viewModels()
@@ -49,7 +51,7 @@ class ListHealthcareFragment :
         super.setupListeners()
 
         medicalWorkerViewModel.setListener(this)
-//        medicalFacilityViewModel.setListener(this)
+        medicalFacilityViewModel.setListener(this)
         fragmentAdapter = HealthcareFragmentAdapter(medicalWorkerViewModel, medicalFacilityViewModel, this)
         Log.d("ListHealthcareFragment", "setFragmentAdapter")
         (viewStateBinder as ListHealthcareBinder).setFragmentAdapter(fragmentAdapter)
@@ -79,5 +81,9 @@ class ListHealthcareFragment :
 
     override fun onMedicalWorkerEdit(item: MedicalWorkerUiModel) {
         viewModel.onEditWorker(medicalWorkerMapper.toPresentation(item))
+    }
+
+    override fun onMedicalFacilityClick(item: MedicalFacilityUiModel) {
+        showSnackbar("Clicked ${item.fullName}", Snackbar.LENGTH_SHORT)
     }
 }

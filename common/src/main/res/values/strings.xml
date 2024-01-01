@@ -26,6 +26,13 @@
         <item quantity="many">Dokumentů</item>
         <item quantity="other">Dokumentů</item>
     </plurals>
+    <plurals name="medicalWorkers">
+        <item quantity="zero">pracovníků</item>
+        <item quantity="one">pracovník</item>
+        <item quantity="few">pracovníci</item>
+        <item quantity="many">pracovníků</item>
+        <item quantity="other">pracovníků</item>
+    </plurals>
     <string name="fragment_worker">Pracovníci</string>
     <string name="fragment_facility">Zařízení</string>
     <string name="add_medical_worker">Přidat zdravotního pracovníka</string>
@@ -63,4 +70,6 @@
     <string name="dialog_delete_medical_worker_message">Přejete si smazat lék. pracovníka \"%s\"? Tato volba nesmaže zprávy, které tento pracovník vydal.</string>
     <string name="medical_worker_deleted">Lékařský pracovník smazán</string>
     <string name="medical_facilities_count">%d lék. zařízení</string>
+    <string name="medical_workers_count">%d lék. %s</string>
+    <string name="no_medical_facility">Žádná zdravotnická zařízení</string>
 </resources>

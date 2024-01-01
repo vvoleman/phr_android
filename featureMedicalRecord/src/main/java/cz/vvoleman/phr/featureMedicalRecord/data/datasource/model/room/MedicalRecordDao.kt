@@ -67,6 +67,25 @@ interface MedicalRecordDao {
     )
     fun getByMedicalWorkerId(medicalWorkerId: String): Flow<List<MedicalRecordWithDetails>>
 
+    @Transaction
+    @Query("""
+        SELECT mr.* FROM medical_record mr
+        JOIN specific_medical_worker smw ON mr.specific_medical_worker_id = smw.id
+        JOIN medical_service ms ON smw.medical_service_id = ms.id
+        WHERE ms.medical_facility_id = :medicalFacilityId AND mr.patient_id = :patientId
+    """)
+    fun getByFacility(medicalFacilityId: String, patientId: String): Flow<List<MedicalRecordWithDetails>>
+
+    @Transaction
+    @Query("""
+        SELECT * FROM medical_record mr
+        JOIN specific_medical_worker smw ON mr.specific_medical_worker_id = smw.id
+        JOIN medical_service ms ON smw.medical_service_id = ms.id
+        WHERE ms.medical_facility_id IN (:ids) AND mr.patient_id = :patientId
+    """)
+    fun getByFacility(ids: List<String>, patientId: String): Flow<List<MedicalRecordWithDetails>>
+
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(medicalRecord: MedicalRecordDataSourceModel): Long
 

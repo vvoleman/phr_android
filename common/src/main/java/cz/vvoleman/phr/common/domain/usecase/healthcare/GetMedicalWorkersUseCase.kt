@@ -2,16 +2,18 @@ package cz.vvoleman.phr.common.domain.usecase.healthcare
 
 import android.util.Log
 import cz.vvoleman.phr.base.domain.coroutine.CoroutineContextProvider
+import cz.vvoleman.phr.base.domain.eventBus.EventBusChannel
 import cz.vvoleman.phr.base.domain.usecase.BackgroundExecutingUseCase
 import cz.vvoleman.phr.common.domain.event.GetMedicalWorkersAdditionalInfoEvent
-import cz.vvoleman.phr.common.domain.eventBus.CommonEventBus
 import cz.vvoleman.phr.common.domain.model.healthcare.AdditionalInfoDomainModel
 import cz.vvoleman.phr.common.domain.model.healthcare.request.GetMedicalWorkersRequest
 import cz.vvoleman.phr.common.domain.model.healthcare.worker.MedicalWorkerDomainModel
 import cz.vvoleman.phr.common.domain.repository.healthcare.GetMedicalWorkersWithServicesRepository
 
 class GetMedicalWorkersUseCase(
-    private val commonEventBus: CommonEventBus,
+    private val eventBusChannel: EventBusChannel<
+            GetMedicalWorkersAdditionalInfoEvent,
+            Map<MedicalWorkerDomainModel, List<AdditionalInfoDomainModel<MedicalWorkerDomainModel>>>>,
     private val getMedicalWorkersRepository: GetMedicalWorkersWithServicesRepository,
     coroutineContextProvider: CoroutineContextProvider
 ) : BackgroundExecutingUseCase<GetMedicalWorkersRequest, Map<MedicalWorkerDomainModel, List<AdditionalInfoDomainModel<MedicalWorkerDomainModel>>>>(
@@ -26,9 +28,11 @@ class GetMedicalWorkersUseCase(
 
         val event = GetMedicalWorkersAdditionalInfoEvent(workers)
 
-        val results = mutableMapOf<MedicalWorkerDomainModel, List<AdditionalInfoDomainModel<MedicalWorkerDomainModel>>>()
+        val results = workers.associateWith {
+            emptyList<AdditionalInfoDomainModel<MedicalWorkerDomainModel>>()
+        }.toMutableMap()
 
-        commonEventBus.getWorkerAdditionalInfoBus.pushEvent(event)
+        eventBusChannel.pushEvent(event)
             .filter { it.isNotEmpty() }
             .flatMap { it.entries }
             .onEach {

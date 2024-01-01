@@ -1,17 +1,18 @@
 package cz.vvoleman.phr.common.ui.view.healthcare.list
 
-import android.util.Log
 import com.google.android.material.tabs.TabLayoutMediator
 import cz.vvoleman.phr.base.ui.mapper.BaseViewStateBinder
 import cz.vvoleman.phr.common.presentation.model.healthcare.list.ListHealthcareNotification
 import cz.vvoleman.phr.common.presentation.model.healthcare.list.ListHealthcareViewState
 import cz.vvoleman.phr.common.ui.adapter.healthcare.HealthcareFragmentAdapter
+import cz.vvoleman.phr.common.ui.mapper.healthcare.MedicalFacilityAdditionalInfoUiModelToPresentationMapper
 import cz.vvoleman.phr.common.ui.mapper.healthcare.MedicalWorkerAdditionalInfoUiModelToPresentationMapper
 import cz.vvoleman.phr.common_datasource.R
 import cz.vvoleman.phr.common_datasource.databinding.FragmentListHealthcareBinding
 
 class ListHealthcareBinder(
     private val workerMapper: MedicalWorkerAdditionalInfoUiModelToPresentationMapper,
+    private val facilityMapper: MedicalFacilityAdditionalInfoUiModelToPresentationMapper,
 ) : BaseViewStateBinder<ListHealthcareViewState, FragmentListHealthcareBinding, ListHealthcareNotification>() {
 
     private var fragmentAdapter: HealthcareFragmentAdapter? = null
@@ -25,13 +26,15 @@ class ListHealthcareBinder(
         }
 
         fragmentAdapter?.apply{
-            if (viewState.medicalWorkers == null) {
-                return
+            if (viewState.medicalWorkers != null) {
+                val workers = workerMapper.toUi(viewState.medicalWorkers)
+                setWorkers(workers)
             }
 
-            val workers = workerMapper.toUi(viewState.medicalWorkers)
-            Log.d("ListHealthcareBinder", "workers: $workers")
-            setWorkers(workers)
+            if (viewState.medicalFacilities != null) {
+                val facilities = facilityMapper.toUi(viewState.medicalFacilities)
+                setMedicalFacilities(facilities)
+            }
         }
     }
 

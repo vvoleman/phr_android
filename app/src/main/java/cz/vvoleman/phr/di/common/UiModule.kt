@@ -8,6 +8,7 @@ import cz.vvoleman.phr.common.presentation.model.healthcare.list.ListHealthcareV
 import cz.vvoleman.phr.common.presentation.model.patient.addedit.AddEditViewState
 import cz.vvoleman.phr.common.presentation.model.patient.listpatients.ListPatientsViewState
 import cz.vvoleman.phr.common.ui.mapper.healthcare.AddEditMedicalServiceItemUiModelToPresentationMapper
+import cz.vvoleman.phr.common.ui.mapper.healthcare.MedicalFacilityAdditionalInfoUiModelToPresentationMapper
 import cz.vvoleman.phr.common.ui.mapper.healthcare.MedicalFacilityUiModelToPresentationMapper
 import cz.vvoleman.phr.common.ui.mapper.healthcare.MedicalServiceUiModelToPresentationMapper
 import cz.vvoleman.phr.common.ui.mapper.healthcare.MedicalServiceWithWorkersUiModelToPresentationMapper
@@ -68,9 +69,10 @@ class UiModule {
 
     @Provides
     fun providesListHealthcareBinder(
-        workerMapper: MedicalWorkerAdditionalInfoUiModelToPresentationMapper
+        workerMapper: MedicalWorkerAdditionalInfoUiModelToPresentationMapper,
+        facilityMapper: MedicalFacilityAdditionalInfoUiModelToPresentationMapper
     ): ViewStateBinder<ListHealthcareViewState, FragmentListHealthcareBinding> =
-        ListHealthcareBinder(workerMapper)
+        ListHealthcareBinder(workerMapper, facilityMapper)
 
     @Provides
     fun providesAddEditMedicalWorkerDestinationUiMapper(
@@ -114,4 +116,9 @@ class UiModule {
     fun providesMedicalWorkerAdditionalInfoUiModelToPresentationMapper(
         workerMapper: MedicalWorkerUiModelToPresentationMapper
     ) = MedicalWorkerAdditionalInfoUiModelToPresentationMapper(workerMapper)
+
+    @Provides
+    fun providesMedicalFacilityAdditionalInfoUiModelToPresentationMapper(
+        facilityMapper: MedicalFacilityUiModelToPresentationMapper
+    ) = MedicalFacilityAdditionalInfoUiModelToPresentationMapper(facilityMapper)
 }

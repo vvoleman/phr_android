@@ -12,6 +12,7 @@ import cz.vvoleman.phr.featureMedicalRecord.domain.model.MedicalRecordDomainMode
 import cz.vvoleman.phr.featureMedicalRecord.domain.model.addEdit.AddEditDomainModel
 import cz.vvoleman.phr.featureMedicalRecord.domain.model.list.FilterRequestDomainModel
 import cz.vvoleman.phr.featureMedicalRecord.domain.repository.AddEditMedicalRecordRepository
+import cz.vvoleman.phr.featureMedicalRecord.domain.repository.GetMedicalRecordByFacilityRepository
 import cz.vvoleman.phr.featureMedicalRecord.domain.repository.GetMedicalRecordByMedicalWorkerRepository
 import cz.vvoleman.phr.featureMedicalRecord.domain.repository.GetRecordByIdRepository
 import cz.vvoleman.phr.featureMedicalRecord.domain.repository.MedicalRecordFilterRepository
@@ -26,7 +27,8 @@ class MedicalRecordRepository(
 ) : AddEditMedicalRecordRepository,
     MedicalRecordFilterRepository,
     GetRecordByIdRepository,
-    GetMedicalRecordByMedicalWorkerRepository {
+    GetMedicalRecordByMedicalWorkerRepository,
+    GetMedicalRecordByFacilityRepository {
 
     override suspend fun save(addEditMedicalRecordModel: AddEditDomainModel): String {
         val model = addEditDomainModelToToDataSourceMapper.toDataSource(addEditMedicalRecordModel)
@@ -95,5 +97,33 @@ class MedicalRecordRepository(
     override suspend fun getMedicalRecordsByMedicalWorker(medicalWorker: MedicalWorkerDomainModel): List<MedicalRecordDomainModel> {
         return medicalRecordDao.getByMedicalWorkerId(medicalWorker.id!!).first()
             .map { medicalRecordDataSourceToDomainMapper.toDomain(it) }
+    }
+
+    override suspend fun getMedicalRecordsByFacility(
+        facilityId: String,
+        patientId: String
+    ): List<MedicalRecordDomainModel> {
+        return medicalRecordDao.getByFacility(facilityId, patientId).first()
+            .map { medicalRecordDataSourceToDomainMapper.toDomain(it) }
+    }
+
+    override suspend fun getMedicalRecordsByFacility(
+        facilityIds: List<String>,
+        patientId: String
+    ): Map<String, List<MedicalRecordDomainModel>> {
+        val result = mutableMapOf<String, List<MedicalRecordDomainModel>>()
+        medicalRecordDao
+            .getByFacility(facilityIds, patientId).first()
+            .map { medicalRecordDataSourceToDomainMapper.toDomain(it) }
+            .forEach { medicalRecord ->
+                if (medicalRecord.specificMedicalWorker == null) return@forEach
+
+                val facilityId = medicalRecord.specificMedicalWorker.medicalService.medicalFacilityId
+                val list = result[facilityId]?.toMutableList() ?: mutableListOf()
+                list.add(medicalRecord)
+                result[facilityId] = list
+            }
+
+        return result.toMap()
     }
 }

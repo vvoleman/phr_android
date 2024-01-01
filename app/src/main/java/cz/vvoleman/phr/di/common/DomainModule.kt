@@ -3,11 +3,17 @@ package cz.vvoleman.phr.di.common
 import android.content.Context
 import cz.vvoleman.phr.base.domain.coroutine.CoroutineContextProvider
 import cz.vvoleman.phr.base.domain.eventBus.EventBusChannel
+import cz.vvoleman.phr.common.domain.event.GetMedicalFacilitiesAdditionalInfoEvent
+import cz.vvoleman.phr.common.domain.event.GetMedicalWorkersAdditionalInfoEvent
 import cz.vvoleman.phr.common.domain.event.MedicalWorkerDeletedEvent
 import cz.vvoleman.phr.common.domain.eventBus.CommonEventBus
 import cz.vvoleman.phr.common.domain.eventBus.CommonListener
 import cz.vvoleman.phr.common.domain.mapper.PatientDomainModelToAddEditMapper
+import cz.vvoleman.phr.common.domain.model.healthcare.AdditionalInfoDomainModel
+import cz.vvoleman.phr.common.domain.model.healthcare.facility.MedicalFacilityDomainModel
+import cz.vvoleman.phr.common.domain.model.healthcare.worker.MedicalWorkerDomainModel
 import cz.vvoleman.phr.common.domain.repository.healthcare.DeleteMedicalWorkerRepository
+import cz.vvoleman.phr.common.domain.repository.healthcare.GetFacilitiesByPatientRepository
 import cz.vvoleman.phr.common.domain.repository.healthcare.GetFacilityByIdRepository
 import cz.vvoleman.phr.common.domain.repository.healthcare.GetMedicalWorkersWithServicesRepository
 import cz.vvoleman.phr.common.domain.repository.healthcare.GetSpecificMedicalWorkersRepository
@@ -16,6 +22,7 @@ import cz.vvoleman.phr.common.domain.repository.healthcare.SaveMedicalFacilityRe
 import cz.vvoleman.phr.common.domain.repository.healthcare.SaveMedicalWorkerRepository
 import cz.vvoleman.phr.common.domain.repository.healthcare.SaveSpecificMedicalWorkerRepository
 import cz.vvoleman.phr.common.domain.usecase.healthcare.DeleteMedicalWorkerUseCase
+import cz.vvoleman.phr.common.domain.usecase.healthcare.GetMedicalFacilitiesUseCase
 import cz.vvoleman.phr.common.domain.usecase.healthcare.GetMedicalWorkersUseCase
 import cz.vvoleman.phr.common.domain.usecase.healthcare.SaveMedicalWorkerUseCase
 import dagger.Module
@@ -50,17 +57,29 @@ class DomainModule {
 
     @Provides
     fun providesGetMedicalWorkersUseCase(
-        commonEventBus: CommonEventBus,
+        eventBusChannel: EventBusChannel<
+                GetMedicalWorkersAdditionalInfoEvent,
+                Map<MedicalWorkerDomainModel, List<AdditionalInfoDomainModel<MedicalWorkerDomainModel>>>>,
         getMedicalWorkersWithServicesRepository: GetMedicalWorkersWithServicesRepository,
         coroutineContextProvider: CoroutineContextProvider
     ) = GetMedicalWorkersUseCase(
-        commonEventBus,
+        eventBusChannel,
         getMedicalWorkersWithServicesRepository,
         coroutineContextProvider
     )
 
     @Provides
     fun providesCommonEventBus() = CommonEventBus
+
+    @Provides
+    fun providesGetWorkerAdditionalInfoBus(
+        eventBus: CommonEventBus
+    ) = eventBus.getWorkerAdditionalInfoBus
+
+    @Provides
+    fun providesGetFacilityAdditionalInfoBus(
+        eventBus: CommonEventBus
+    ) = eventBus.getFacilityAdditionalInfoBus
 
     @Provides
     fun providesSaveMedicalWorkerUseCase(
@@ -92,6 +111,19 @@ class DomainModule {
     ) = DeleteMedicalWorkerUseCase(
         eventBusChannel,
         deleteMedicalWorkerRepository,
+        coroutineContextProvider
+    )
+
+    @Provides
+    fun getMedicalFacilitiesUseCase(
+        eventBusChannel: EventBusChannel<
+                GetMedicalFacilitiesAdditionalInfoEvent,
+                Map<MedicalFacilityDomainModel, List<AdditionalInfoDomainModel<MedicalFacilityDomainModel>>>>,
+        getFacilitiesByPatientRepository: GetFacilitiesByPatientRepository,
+        coroutineContextProvider: CoroutineContextProvider
+    ) = GetMedicalFacilitiesUseCase(
+        eventBusChannel,
+        getFacilitiesByPatientRepository,
         coroutineContextProvider
     )
 }
