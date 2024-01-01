@@ -1,7 +1,7 @@
 package cz.vvoleman.phr.common.data.mapper
 
 import cz.vvoleman.phr.common.data.datasource.model.PatientDataSourceModel
-import cz.vvoleman.phr.common.domain.model.AddEditPatientDomainModel
+import cz.vvoleman.phr.common.domain.model.patient.AddEditPatientDomainModel
 
 class PatientDataSourceModelToAddEditMapper {
 

@@ -3,11 +3,11 @@ package cz.vvoleman.phr.di.medicalRecord
 import android.content.Context
 import cz.vvoleman.phr.base.domain.coroutine.CoroutineContextProvider
 import cz.vvoleman.phr.common.domain.eventBus.CommonEventBus
+import cz.vvoleman.phr.common.domain.repository.patient.GetPatientByBirthDateRepository
 import cz.vvoleman.phr.featureMedicalRecord.domain.mapper.TextToTextDomainModelMapper
 import cz.vvoleman.phr.featureMedicalRecord.domain.repository.GetMedicalRecordByFacilityRepository
 import cz.vvoleman.phr.featureMedicalRecord.domain.repository.GetMedicalRecordByMedicalWorkerRepository
 import cz.vvoleman.phr.featureMedicalRecord.domain.repository.selectFile.GetDiagnosesByIdsRepository
-import cz.vvoleman.phr.featureMedicalRecord.domain.repository.selectFile.GetPatientByBirthDateRepository
 import cz.vvoleman.phr.featureMedicalRecord.domain.subscriber.MedicalRecordListener
 import cz.vvoleman.phr.featureMedicalRecord.domain.usecase.selectFile.GetRecognizedOptionsFromTextUseCase
 import cz.vvoleman.phr.featureMedicalRecord.domain.usecase.selectFile.GetTextFromInputImageUseCase

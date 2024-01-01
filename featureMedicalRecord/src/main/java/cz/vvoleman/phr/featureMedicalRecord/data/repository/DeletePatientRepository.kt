@@ -2,9 +2,9 @@ package cz.vvoleman.phr.featureMedicalRecord.data.repository
 
 import android.util.Log
 import cz.vvoleman.phr.common.data.datasource.model.healthcare.worker.MedicalWorkerDao
+import cz.vvoleman.phr.common.data.datasource.model.problemCategory.ProblemCategoryDao
 import cz.vvoleman.phr.featureMedicalRecord.data.datasource.model.room.MedicalRecordDao
 import cz.vvoleman.phr.featureMedicalRecord.data.datasource.model.room.asset.MedicalRecordAssetDao
-import cz.vvoleman.phr.featureMedicalRecord.data.datasource.model.room.category.ProblemCategoryDao
 import cz.vvoleman.phr.featureMedicalRecord.domain.repository.patientDelete.DeleteMedicalRecordAssetsRepository
 import cz.vvoleman.phr.featureMedicalRecord.domain.repository.patientDelete.DeleteMedicalRecordsRepository
 import cz.vvoleman.phr.featureMedicalRecord.domain.repository.patientDelete.DeleteMedicalWorkersRepository

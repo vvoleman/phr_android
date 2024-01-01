@@ -2,7 +2,7 @@ package cz.vvoleman.phr.featureMedicalRecord.domain.usecase
 
 import cz.vvoleman.phr.base.domain.coroutine.CoroutineContextProvider
 import cz.vvoleman.phr.base.domain.usecase.BackgroundExecutingUseCase
-import cz.vvoleman.phr.featureMedicalRecord.domain.model.ProblemCategoryDomainModel
+import cz.vvoleman.phr.common.domain.model.problemCategory.ProblemCategoryDomainModel
 import cz.vvoleman.phr.featureMedicalRecord.domain.repository.GetUsedProblemCategoriesRepository
 
 class GetUsedProblemCategoriesUseCase(

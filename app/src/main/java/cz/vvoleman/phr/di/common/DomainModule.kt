@@ -8,7 +8,7 @@ import cz.vvoleman.phr.common.domain.event.GetMedicalWorkersAdditionalInfoEvent
 import cz.vvoleman.phr.common.domain.event.MedicalWorkerDeletedEvent
 import cz.vvoleman.phr.common.domain.eventBus.CommonEventBus
 import cz.vvoleman.phr.common.domain.eventBus.CommonListener
-import cz.vvoleman.phr.common.domain.mapper.PatientDomainModelToAddEditMapper
+import cz.vvoleman.phr.common.domain.mapper.patient.PatientDomainModelToAddEditMapper
 import cz.vvoleman.phr.common.domain.model.healthcare.AdditionalInfoDomainModel
 import cz.vvoleman.phr.common.domain.model.healthcare.facility.MedicalFacilityDomainModel
 import cz.vvoleman.phr.common.domain.model.healthcare.worker.MedicalWorkerDomainModel
@@ -58,8 +58,9 @@ class DomainModule {
     @Provides
     fun providesGetMedicalWorkersUseCase(
         eventBusChannel: EventBusChannel<
-                GetMedicalWorkersAdditionalInfoEvent,
-                Map<MedicalWorkerDomainModel, List<AdditionalInfoDomainModel<MedicalWorkerDomainModel>>>>,
+            GetMedicalWorkersAdditionalInfoEvent,
+            Map<MedicalWorkerDomainModel, List<AdditionalInfoDomainModel<MedicalWorkerDomainModel>>>
+            >,
         getMedicalWorkersWithServicesRepository: GetMedicalWorkersWithServicesRepository,
         coroutineContextProvider: CoroutineContextProvider
     ) = GetMedicalWorkersUseCase(
@@ -117,8 +118,9 @@ class DomainModule {
     @Provides
     fun getMedicalFacilitiesUseCase(
         eventBusChannel: EventBusChannel<
-                GetMedicalFacilitiesAdditionalInfoEvent,
-                Map<MedicalFacilityDomainModel, List<AdditionalInfoDomainModel<MedicalFacilityDomainModel>>>>,
+            GetMedicalFacilitiesAdditionalInfoEvent,
+            Map<MedicalFacilityDomainModel, List<AdditionalInfoDomainModel<MedicalFacilityDomainModel>>>
+            >,
         getFacilitiesByPatientRepository: GetFacilitiesByPatientRepository,
         coroutineContextProvider: CoroutineContextProvider
     ) = GetMedicalFacilitiesUseCase(

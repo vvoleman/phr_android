@@ -1,6 +1,6 @@
 package cz.vvoleman.phr.featureMedicine.domain.model.export
 
-import cz.vvoleman.phr.common.domain.model.PatientDomainModel
+import cz.vvoleman.phr.common.domain.model.patient.PatientDomainModel
 import cz.vvoleman.phr.featureMedicine.domain.model.medicine.MedicineDomainModel
 
 data class ExportMedicineScheduleDomainModel(

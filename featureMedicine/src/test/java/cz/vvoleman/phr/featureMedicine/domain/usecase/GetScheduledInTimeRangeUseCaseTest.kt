@@ -1,7 +1,7 @@
 package cz.vvoleman.phr.featureMedicine.domain.usecase
 
 import cz.vvoleman.phr.base.domain.coroutine.CoroutineContextProvider
-import cz.vvoleman.phr.common.domain.model.PatientDomainModel
+import cz.vvoleman.phr.common.domain.model.patient.PatientDomainModel
 import cz.vvoleman.phr.featureMedicine.domain.model.medicine.MedicineDomainModel
 import cz.vvoleman.phr.featureMedicine.domain.model.schedule.MedicineScheduleDomainModel
 import cz.vvoleman.phr.featureMedicine.domain.model.schedule.ScheduleItemDomainModel

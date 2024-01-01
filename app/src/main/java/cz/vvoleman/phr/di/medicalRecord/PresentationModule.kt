@@ -3,14 +3,29 @@ package cz.vvoleman.phr.di.medicalRecord
 import cz.vvoleman.phr.base.domain.coroutine.CoroutineContextProvider
 import cz.vvoleman.phr.common.domain.repository.patient.GetPatientByIdRepository
 import cz.vvoleman.phr.common.domain.repository.patient.GetSelectedPatientRepository
-import cz.vvoleman.phr.featureMedicalRecord.domain.repository.*
+import cz.vvoleman.phr.common.presentation.mapper.PatientPresentationModelToDomainMapper
+import cz.vvoleman.phr.featureMedicalRecord.domain.repository.AddEditMedicalRecordRepository
+import cz.vvoleman.phr.featureMedicalRecord.domain.repository.CreateMedicalRecordAssetRepository
+import cz.vvoleman.phr.featureMedicalRecord.domain.repository.GetDiagnoseByIdRepository
+import cz.vvoleman.phr.featureMedicalRecord.domain.repository.GetMedicalWorkersForPatientRepository
+import cz.vvoleman.phr.featureMedicalRecord.domain.repository.GetProblemCategoriesForPatientRepository
+import cz.vvoleman.phr.featureMedicalRecord.domain.repository.GetRecordByIdRepository
+import cz.vvoleman.phr.featureMedicalRecord.domain.repository.GetUsedMedicalWorkersRepository
+import cz.vvoleman.phr.featureMedicalRecord.domain.repository.GetUsedProblemCategoriesRepository
+import cz.vvoleman.phr.featureMedicalRecord.domain.repository.MedicalRecordFilterRepository
 import cz.vvoleman.phr.featureMedicalRecord.domain.repository.addEdit.SearchDiagnoseRepository
 import cz.vvoleman.phr.featureMedicalRecord.domain.repository.patientDelete.DeleteMedicalRecordAssetsRepository
 import cz.vvoleman.phr.featureMedicalRecord.domain.repository.patientDelete.DeleteMedicalRecordsRepository
 import cz.vvoleman.phr.featureMedicalRecord.domain.repository.patientDelete.DeleteMedicalWorkersRepository
 import cz.vvoleman.phr.featureMedicalRecord.domain.repository.patientDelete.DeleteProblemCategoriesRepository
 import cz.vvoleman.phr.featureMedicalRecord.domain.repository.selectFile.SaveFileRepository
-import cz.vvoleman.phr.featureMedicalRecord.domain.usecase.*
+import cz.vvoleman.phr.featureMedicalRecord.domain.usecase.AddEditMedicalRecordUseCase
+import cz.vvoleman.phr.featureMedicalRecord.domain.usecase.DeletePatientUseCase
+import cz.vvoleman.phr.featureMedicalRecord.domain.usecase.GetFilteredRecordsUseCase
+import cz.vvoleman.phr.featureMedicalRecord.domain.usecase.GetRecordByIdUseCase
+import cz.vvoleman.phr.featureMedicalRecord.domain.usecase.GetUsedMedicalWorkersUseCase
+import cz.vvoleman.phr.featureMedicalRecord.domain.usecase.GetUsedProblemCategoriesUseCase
+import cz.vvoleman.phr.featureMedicalRecord.domain.usecase.GetUserListsUseCase
 import cz.vvoleman.phr.featureMedicalRecord.domain.usecase.addEdit.SearchDiagnoseUseCase
 import cz.vvoleman.phr.featureMedicalRecord.domain.usecase.selectFile.GetDataForSelectedOptionsUseCase
 import cz.vvoleman.phr.featureMedicalRecord.domain.usecase.selectFile.SaveMedicalRecordFileUseCase
@@ -71,7 +86,7 @@ class PresentationModule {
     @Provides
     fun providesRecognizedOptionsDomainModelToPresentationMapper(
         diagnoseMapper: DiagnoseDomainModelToPresentationMapper,
-        patientMapper: PatientDomainModelToPresentationMapper
+        patientMapper: PatientPresentationModelToDomainMapper
     ) = RecognizedOptionsDomainModelToPresentationMapper(
         diagnoseMapper,
         patientMapper
