@@ -1,7 +1,7 @@
 package cz.vvoleman.phr.featureMedicine.domain.model.schedule
 
 import android.os.Parcelable
-import cz.vvoleman.phr.common.domain.model.PatientDomainModel
+import cz.vvoleman.phr.common.domain.model.patient.PatientDomainModel
 import cz.vvoleman.phr.featureMedicine.domain.model.medicine.MedicineDomainModel
 import kotlinx.parcelize.Parcelize
 import java.time.DayOfWeek
@@ -16,12 +16,4 @@ data class MedicineScheduleDomainModel(
     val schedules: List<ScheduleItemDomainModel>,
     val createdAt: LocalDateTime,
     val isAlarmEnabled: Boolean,
-) : Parcelable {
-    fun getTimes(): List<LocalTime> {
-        return schedules.map { it.time }.toSet().sorted()
-    }
-
-    fun getDays(): List<DayOfWeek> {
-        return schedules.map { it.dayOfWeek }.toSet().sorted()
-    }
-}
+) : Parcelable

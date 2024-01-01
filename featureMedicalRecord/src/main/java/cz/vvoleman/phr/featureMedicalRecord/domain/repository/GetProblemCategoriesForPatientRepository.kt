@@ -1,6 +1,6 @@
 package cz.vvoleman.phr.featureMedicalRecord.domain.repository
 
-import cz.vvoleman.phr.featureMedicalRecord.domain.model.ProblemCategoryDomainModel
+import cz.vvoleman.phr.common.domain.model.problemCategory.ProblemCategoryDomainModel
 
 interface GetProblemCategoriesForPatientRepository {
 

@@ -15,6 +15,8 @@ import cz.vvoleman.phr.common.data.datasource.model.healthcare.worker.MedicalWor
 import cz.vvoleman.phr.common.data.datasource.model.healthcare.worker.MedicalWorkerDataSourceModel
 import cz.vvoleman.phr.common.data.datasource.model.healthcare.worker.SpecificMedicalWorkerDao
 import cz.vvoleman.phr.common.data.datasource.model.healthcare.worker.SpecificMedicalWorkerDataSourceModel
+import cz.vvoleman.phr.common.data.datasource.model.problemCategory.ProblemCategoryDao
+import cz.vvoleman.phr.common.data.datasource.model.problemCategory.ProblemCategoryDataSourceModel
 import cz.vvoleman.phr.data.fixture.DiagnoseFixture
 import cz.vvoleman.phr.data.fixture.DiagnoseGroupFixture
 import cz.vvoleman.phr.data.fixture.MedicalWorkerFixture
@@ -25,8 +27,6 @@ import cz.vvoleman.phr.featureMedicalRecord.data.datasource.model.room.MedicalRe
 import cz.vvoleman.phr.featureMedicalRecord.data.datasource.model.room.MedicalRecordDataSourceModel
 import cz.vvoleman.phr.featureMedicalRecord.data.datasource.model.room.asset.MedicalRecordAssetDao
 import cz.vvoleman.phr.featureMedicalRecord.data.datasource.model.room.asset.MedicalRecordAssetDataSourceModel
-import cz.vvoleman.phr.featureMedicalRecord.data.datasource.model.room.category.ProblemCategoryDao
-import cz.vvoleman.phr.featureMedicalRecord.data.datasource.model.room.category.ProblemCategoryDataSourceModel
 import cz.vvoleman.phr.featureMedicalRecord.data.datasource.model.room.diagnose.DiagnoseDao
 import cz.vvoleman.phr.featureMedicalRecord.data.datasource.model.room.diagnose.DiagnoseDataSourceModel
 import cz.vvoleman.phr.featureMedicalRecord.data.datasource.model.room.diagnose.DiagnoseGroupDao

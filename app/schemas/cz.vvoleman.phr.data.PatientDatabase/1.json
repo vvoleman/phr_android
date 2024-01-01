@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "4e81efefbaedde8f45d860e02dfb502e",
+    "identityHash": "418f5b5ddbc492a36d2dc30e837e5608",
     "entities": [
       {
         "tableName": "patient",
@@ -188,7 +188,7 @@
       },
       {
         "tableName": "problem_category",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT NOT NULL, `createdAt` INTEGER NOT NULL, `color` TEXT NOT NULL, `patient_id` INTEGER NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT NOT NULL, `created_at` INTEGER NOT NULL, `color` TEXT NOT NULL, `patient_id` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "id",
@@ -204,7 +204,7 @@
           },
           {
             "fieldPath": "createdAt",
-            "columnName": "createdAt",
+            "columnName": "created_at",
             "affinity": "INTEGER",
             "notNull": true
           },
@@ -752,7 +752,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '4e81efefbaedde8f45d860e02dfb502e')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '418f5b5ddbc492a36d2dc30e837e5608')"
     ]
   }
 }

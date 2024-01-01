@@ -1,9 +1,9 @@
 package cz.vvoleman.phr.featureMedicalRecord.domain.usecase.selectFile.ocr.field
 
+import cz.vvoleman.phr.common.domain.repository.patient.GetPatientByBirthDateRepository
 import cz.vvoleman.phr.featureMedicalRecord.domain.model.selectFile.RecognizedOptionsDomainModel
 import cz.vvoleman.phr.featureMedicalRecord.domain.model.selectFile.TextDomainModel
 import cz.vvoleman.phr.featureMedicalRecord.domain.model.selectFile.result.PatientFieldResultDomainModel
-import cz.vvoleman.phr.featureMedicalRecord.domain.repository.selectFile.GetPatientByBirthDateRepository
 import cz.vvoleman.phr.featureMedicalRecord.domain.usecase.selectFile.ocr.FieldProcessor
 
 class PatientFieldProcessor(

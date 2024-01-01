@@ -38,6 +38,7 @@ import cz.vvoleman.phr.common.domain.repository.healthcare.SaveMedicalWorkerRepo
 import cz.vvoleman.phr.common.domain.repository.healthcare.SaveSpecificMedicalWorkerRepository
 import cz.vvoleman.phr.common.domain.repository.patient.DeletePatientRepository
 import cz.vvoleman.phr.common.domain.repository.patient.GetAllPatientsRepository
+import cz.vvoleman.phr.common.domain.repository.patient.GetPatientByBirthDateRepository
 import cz.vvoleman.phr.common.domain.repository.patient.GetPatientByIdRepository
 import cz.vvoleman.phr.common.domain.repository.patient.GetSelectedPatientRepository
 import cz.vvoleman.phr.common.domain.repository.patient.SavePatientRepository
@@ -102,6 +103,11 @@ class DataModule {
     fun providesDeletePatientRepository(
         patientRepository: PatientRepository
     ): DeletePatientRepository = patientRepository
+
+    @Provides
+    fun providesGetPatientByBirthDateRepository(
+        patientRepository: PatientRepository
+    ): GetPatientByBirthDateRepository = patientRepository
 
     @Provides
     fun providesAlarmScheduler(@ApplicationContext context: Context): AlarmScheduler =

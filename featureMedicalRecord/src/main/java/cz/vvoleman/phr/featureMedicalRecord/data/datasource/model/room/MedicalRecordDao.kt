@@ -2,6 +2,7 @@ package cz.vvoleman.phr.featureMedicalRecord.data.datasource.model.room
 
 import androidx.room.*
 import cz.vvoleman.phr.common.data.datasource.model.healthcare.worker.SpecificMedicalWorkerWithDetailsDataSourceModel
+import cz.vvoleman.phr.common.data.datasource.model.problemCategory.ProblemCategoryDataSourceModel
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -18,6 +19,12 @@ interface MedicalRecordDao {
     @Transaction
     @Query("SELECT * FROM medical_record WHERE patient_id = :patientId ORDER BY :sortBy DESC")
     fun getByPatientId(patientId: String, sortBy: String): Flow<List<MedicalRecordWithDetails>>
+
+    @Query(
+        "SELECT * FROM problem_category " +
+            "WHERE id IN (SELECT problem_category_id FROM medical_record WHERE patient_id = :patientId)"
+    )
+    fun getUsedProblemCategories(patientId: String): Flow<List<ProblemCategoryDataSourceModel>>
 
     @Transaction
     @Query(
@@ -68,23 +75,26 @@ interface MedicalRecordDao {
     fun getByMedicalWorkerId(medicalWorkerId: String): Flow<List<MedicalRecordWithDetails>>
 
     @Transaction
-    @Query("""
+    @Query(
+        """
         SELECT mr.* FROM medical_record mr
         JOIN specific_medical_worker smw ON mr.specific_medical_worker_id = smw.id
         JOIN medical_service ms ON smw.medical_service_id = ms.id
         WHERE ms.medical_facility_id = :medicalFacilityId AND mr.patient_id = :patientId
-    """)
+    """
+    )
     fun getByFacility(medicalFacilityId: String, patientId: String): Flow<List<MedicalRecordWithDetails>>
 
     @Transaction
-    @Query("""
+    @Query(
+        """
         SELECT * FROM medical_record mr
         JOIN specific_medical_worker smw ON mr.specific_medical_worker_id = smw.id
         JOIN medical_service ms ON smw.medical_service_id = ms.id
         WHERE ms.medical_facility_id IN (:ids) AND mr.patient_id = :patientId
-    """)
+    """
+    )
     fun getByFacility(ids: List<String>, patientId: String): Flow<List<MedicalRecordWithDetails>>
-
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(medicalRecord: MedicalRecordDataSourceModel): Long
