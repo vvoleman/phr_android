@@ -55,6 +55,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.overviewFragment,
                 R.id.measurementsFragment,
                 R.id.listHealthcareFragment,
+                R.id.listProblemCategoryFragment,
             ),
             binding.drawerLayout
         )
@@ -139,6 +140,13 @@ class MainActivity : AppCompatActivity() {
                     binding.drawerLayout.close()
                     true
                 }
+
+                R.id.listProblemCategoryFragment -> {
+                    navController.navigate(cz.vvoleman.phr.common_datasource.R.id.nav_problem_category)
+                    binding.drawerLayout.close()
+                    true
+                }
+
 
                 else -> false
             }

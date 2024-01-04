@@ -96,6 +96,14 @@ interface MedicalRecordDao {
     )
     fun getByFacility(ids: List<String>, patientId: String): Flow<List<MedicalRecordWithDetails>>
 
+    @Transaction
+    @Query("SELECT * FROM medical_record WHERE problem_category_id = :problemCategoryId")
+    fun getByProblemCategory(problemCategoryId: String): Flow<List<MedicalRecordWithDetails>>
+
+    @Transaction
+    @Query("SELECT * FROM medical_record WHERE problem_category_id IN (:problemCategoryIds)")
+    fun getByProblemCategory(problemCategoryIds: List<String>): Flow<List<MedicalRecordWithDetails>>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(medicalRecord: MedicalRecordDataSourceModel): Long
 

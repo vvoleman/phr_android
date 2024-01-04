@@ -6,12 +6,15 @@ import cz.vvoleman.phr.base.domain.eventBus.EventBusChannel
 import cz.vvoleman.phr.common.domain.event.GetMedicalFacilitiesAdditionalInfoEvent
 import cz.vvoleman.phr.common.domain.event.GetMedicalWorkersAdditionalInfoEvent
 import cz.vvoleman.phr.common.domain.event.MedicalWorkerDeletedEvent
+import cz.vvoleman.phr.common.domain.event.problemCategory.GetProblemCategoriesAdditionalInfoEvent
 import cz.vvoleman.phr.common.domain.eventBus.CommonEventBus
 import cz.vvoleman.phr.common.domain.eventBus.CommonListener
 import cz.vvoleman.phr.common.domain.mapper.patient.PatientDomainModelToAddEditMapper
 import cz.vvoleman.phr.common.domain.model.healthcare.AdditionalInfoDomainModel
 import cz.vvoleman.phr.common.domain.model.healthcare.facility.MedicalFacilityDomainModel
 import cz.vvoleman.phr.common.domain.model.healthcare.worker.MedicalWorkerDomainModel
+import cz.vvoleman.phr.common.domain.model.problemCategory.ProblemCategoryDomainModel
+import cz.vvoleman.phr.common.domain.model.problemCategory.ProblemCategoryInfoDomainModel
 import cz.vvoleman.phr.common.domain.repository.healthcare.DeleteMedicalWorkerRepository
 import cz.vvoleman.phr.common.domain.repository.healthcare.GetFacilitiesByPatientRepository
 import cz.vvoleman.phr.common.domain.repository.healthcare.GetFacilityByIdRepository
@@ -21,10 +24,12 @@ import cz.vvoleman.phr.common.domain.repository.healthcare.RemoveSpecificMedical
 import cz.vvoleman.phr.common.domain.repository.healthcare.SaveMedicalFacilityRepository
 import cz.vvoleman.phr.common.domain.repository.healthcare.SaveMedicalWorkerRepository
 import cz.vvoleman.phr.common.domain.repository.healthcare.SaveSpecificMedicalWorkerRepository
+import cz.vvoleman.phr.common.domain.repository.problemCategory.GetProblemCategoriesRepository
 import cz.vvoleman.phr.common.domain.usecase.healthcare.DeleteMedicalWorkerUseCase
 import cz.vvoleman.phr.common.domain.usecase.healthcare.GetMedicalFacilitiesUseCase
 import cz.vvoleman.phr.common.domain.usecase.healthcare.GetMedicalWorkersUseCase
 import cz.vvoleman.phr.common.domain.usecase.healthcare.SaveMedicalWorkerUseCase
+import cz.vvoleman.phr.common.domain.usecase.problemCategory.GetProblemCategoriesUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -58,9 +63,9 @@ class DomainModule {
     @Provides
     fun providesGetMedicalWorkersUseCase(
         eventBusChannel: EventBusChannel<
-            GetMedicalWorkersAdditionalInfoEvent,
-            Map<MedicalWorkerDomainModel, List<AdditionalInfoDomainModel<MedicalWorkerDomainModel>>>
-            >,
+                GetMedicalWorkersAdditionalInfoEvent,
+                Map<MedicalWorkerDomainModel, List<AdditionalInfoDomainModel<MedicalWorkerDomainModel>>>
+                >,
         getMedicalWorkersWithServicesRepository: GetMedicalWorkersWithServicesRepository,
         coroutineContextProvider: CoroutineContextProvider
     ) = GetMedicalWorkersUseCase(
@@ -81,6 +86,11 @@ class DomainModule {
     fun providesGetFacilityAdditionalInfoBus(
         eventBus: CommonEventBus
     ) = eventBus.getFacilityAdditionalInfoBus
+
+    @Provides
+    fun providesGetCategoryAdditionalInfoBus(
+        eventBus: CommonEventBus
+    ) = eventBus.getCategoryAdditionalInfoBus
 
     @Provides
     fun providesSaveMedicalWorkerUseCase(
@@ -118,14 +128,28 @@ class DomainModule {
     @Provides
     fun getMedicalFacilitiesUseCase(
         eventBusChannel: EventBusChannel<
-            GetMedicalFacilitiesAdditionalInfoEvent,
-            Map<MedicalFacilityDomainModel, List<AdditionalInfoDomainModel<MedicalFacilityDomainModel>>>
-            >,
+                GetMedicalFacilitiesAdditionalInfoEvent,
+                Map<MedicalFacilityDomainModel, List<AdditionalInfoDomainModel<MedicalFacilityDomainModel>>>
+                >,
         getFacilitiesByPatientRepository: GetFacilitiesByPatientRepository,
         coroutineContextProvider: CoroutineContextProvider
     ) = GetMedicalFacilitiesUseCase(
         eventBusChannel,
         getFacilitiesByPatientRepository,
+        coroutineContextProvider
+    )
+
+    @Provides
+    fun providesGetProblemCategoriesUseCase(
+        eventBusChannel: EventBusChannel<
+                GetProblemCategoriesAdditionalInfoEvent,
+                Map<ProblemCategoryDomainModel, ProblemCategoryInfoDomainModel>
+                >,
+        getProblemCategoriesRepository: GetProblemCategoriesRepository,
+        coroutineContextProvider: CoroutineContextProvider
+    ) = GetProblemCategoriesUseCase(
+        eventBusChannel,
+        getProblemCategoriesRepository,
         coroutineContextProvider
     )
 }

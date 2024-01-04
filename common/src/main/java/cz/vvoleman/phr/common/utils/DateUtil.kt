@@ -1,5 +1,8 @@
 package cz.vvoleman.phr.common.utils
 
+import android.icu.text.RelativeDateTimeFormatter
+import android.icu.text.RelativeDateTimeFormatter.AbsoluteUnit
+import android.icu.text.RelativeDateTimeFormatter.Direction
 import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -8,7 +11,7 @@ import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 import java.time.format.TextStyle
-import java.util.*
+import java.util.Locale
 
 fun LocalDateTime.toLocalString(): String {
     val formatter = DateTimeFormatter
@@ -70,4 +73,15 @@ fun LocalDate.plusDayOfWeek(next: DayOfWeek): LocalDate {
 
 fun DayOfWeek.getLocalString(textStyle: TextStyle = TextStyle.FULL_STANDALONE): String {
     return this.getDisplayName(textStyle, Locale.getDefault())
+}
+
+fun LocalDate.localizedDiff(other: LocalDate): String {
+    val days = this.toEpochDay() - other.toEpochDay()
+    val fmt = RelativeDateTimeFormatter.getInstance(Locale.getDefault())
+
+    return when {
+        days < 31 -> fmt.format(Direction.LAST, AbsoluteUnit.DAY)
+        days < 365 -> fmt.format(Direction.LAST, AbsoluteUnit.MONTH)
+        else -> fmt.format(Direction.LAST, AbsoluteUnit.YEAR)
+    }
 }

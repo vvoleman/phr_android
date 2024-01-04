@@ -7,6 +7,7 @@ import cz.vvoleman.phr.common.domain.repository.patient.GetPatientByBirthDateRep
 import cz.vvoleman.phr.featureMedicalRecord.domain.mapper.TextToTextDomainModelMapper
 import cz.vvoleman.phr.featureMedicalRecord.domain.repository.GetMedicalRecordByFacilityRepository
 import cz.vvoleman.phr.featureMedicalRecord.domain.repository.GetMedicalRecordByMedicalWorkerRepository
+import cz.vvoleman.phr.featureMedicalRecord.domain.repository.GetMedicalRecordByProblemCategoryRepository
 import cz.vvoleman.phr.featureMedicalRecord.domain.repository.selectFile.GetDiagnosesByIdsRepository
 import cz.vvoleman.phr.featureMedicalRecord.domain.subscriber.MedicalRecordListener
 import cz.vvoleman.phr.featureMedicalRecord.domain.usecase.selectFile.GetRecognizedOptionsFromTextUseCase
@@ -66,6 +67,7 @@ class DomainModule {
         commonBus: CommonEventBus,
         byWorkerRepository: GetMedicalRecordByMedicalWorkerRepository,
         byFacilityRepository: GetMedicalRecordByFacilityRepository,
+        byProblemCategoryRepository: GetMedicalRecordByProblemCategoryRepository,
         @ApplicationContext context: Context
-    ) = MedicalRecordListener(commonBus, byWorkerRepository, byFacilityRepository, context)
+    ) = MedicalRecordListener(commonBus, byWorkerRepository, byFacilityRepository, byProblemCategoryRepository, context)
 }
