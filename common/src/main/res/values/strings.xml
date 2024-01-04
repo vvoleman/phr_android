@@ -20,11 +20,11 @@
     <string name="helper_required">Povinné pole</string>
     <string name="navigation_list_healthcare_label">Seznam lék. zařízení</string>
     <plurals name="document">
-        <item quantity="zero">Dokumentů</item>
-        <item quantity="one">Dokument</item>
-        <item quantity="few">Dokumenty</item>
-        <item quantity="many">Dokumentů</item>
-        <item quantity="other">Dokumentů</item>
+        <item quantity="zero">dokumentů</item>
+        <item quantity="one">dokument</item>
+        <item quantity="few">dokumenty</item>
+        <item quantity="many">dokumentů</item>
+        <item quantity="other">dokumentů</item>
     </plurals>
     <plurals name="medicalWorkers">
         <item quantity="zero">pracovníků</item>
@@ -72,4 +72,5 @@
     <string name="medical_facilities_count">%d lék. zařízení</string>
     <string name="medical_workers_count">%d lék. %s</string>
     <string name="no_medical_facility">Žádná zdravotnická zařízení</string>
+    <string name="navigation_list_problem_category">Kategorie problémů</string>
 </resources>

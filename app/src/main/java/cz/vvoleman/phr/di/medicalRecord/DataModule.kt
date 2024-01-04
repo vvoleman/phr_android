@@ -32,6 +32,7 @@ import cz.vvoleman.phr.featureMedicalRecord.domain.repository.CreateMedicalRecor
 import cz.vvoleman.phr.featureMedicalRecord.domain.repository.GetDiagnoseByIdRepository
 import cz.vvoleman.phr.featureMedicalRecord.domain.repository.GetMedicalRecordByFacilityRepository
 import cz.vvoleman.phr.featureMedicalRecord.domain.repository.GetMedicalRecordByMedicalWorkerRepository
+import cz.vvoleman.phr.featureMedicalRecord.domain.repository.GetMedicalRecordByProblemCategoryRepository
 import cz.vvoleman.phr.featureMedicalRecord.domain.repository.GetMedicalWorkersForPatientRepository
 import cz.vvoleman.phr.featureMedicalRecord.domain.repository.GetProblemCategoriesForPatientRepository
 import cz.vvoleman.phr.featureMedicalRecord.domain.repository.GetRecordByIdRepository
@@ -251,6 +252,11 @@ class DataModule {
     fun providesGetMedicalRecordByFacilityRepository(
         medicalRecordRepository: MedicalRecordRepository
     ): GetMedicalRecordByFacilityRepository = medicalRecordRepository
+
+    @Provides
+    fun providesGetMedicalRecordByCategoryRepository(
+        medicalRecordRepository: MedicalRecordRepository
+    ): GetMedicalRecordByProblemCategoryRepository = medicalRecordRepository
 
     @Provides
     fun providesProblemCategoryDataSourceModelToDomainMapper() =

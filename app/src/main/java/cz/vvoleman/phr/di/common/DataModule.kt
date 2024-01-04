@@ -9,6 +9,7 @@ import cz.vvoleman.phr.common.data.datasource.model.healthcare.facility.MedicalF
 import cz.vvoleman.phr.common.data.datasource.model.healthcare.service.MedicalServiceDao
 import cz.vvoleman.phr.common.data.datasource.model.healthcare.worker.MedicalWorkerDao
 import cz.vvoleman.phr.common.data.datasource.model.healthcare.worker.SpecificMedicalWorkerDao
+import cz.vvoleman.phr.common.data.datasource.model.problemCategory.ProblemCategoryDao
 import cz.vvoleman.phr.common.data.datasource.model.retrofit.healthcare.HealthcareApi
 import cz.vvoleman.phr.common.data.mapper.PatientDataSourceModelToAddEditMapper
 import cz.vvoleman.phr.common.data.mapper.PatientDataSourceModelToDomainMapper
@@ -21,10 +22,12 @@ import cz.vvoleman.phr.common.data.mapper.healthcare.MedicalWorkerDataSourceMode
 import cz.vvoleman.phr.common.data.mapper.healthcare.MedicalWorkerWithInfoDataSourceModelToDomainMapper
 import cz.vvoleman.phr.common.data.mapper.healthcare.MedicalWorkerWithServicesDataSourceModelToDomainMapper
 import cz.vvoleman.phr.common.data.mapper.healthcare.SpecificMedicalWorkerDataSourceToDomainMapper
+import cz.vvoleman.phr.common.data.mapper.problemCategory.ProblemCategoryDataSourceModelToDomainMapper
 import cz.vvoleman.phr.common.data.repository.HealthcareRepository
 import cz.vvoleman.phr.common.data.repository.PatientRepository
 import cz.vvoleman.phr.common.data.repository.healthcare.FacilityRepository
 import cz.vvoleman.phr.common.data.repository.healthcare.SpecificMedicalWorkerRepository
+import cz.vvoleman.phr.common.data.repository.problemCategory.ProblemCategoryRepository
 import cz.vvoleman.phr.common.domain.repository.*
 import cz.vvoleman.phr.common.domain.repository.healthcare.DeleteMedicalWorkerRepository
 import cz.vvoleman.phr.common.domain.repository.healthcare.GetFacilitiesByPatientRepository
@@ -43,6 +46,9 @@ import cz.vvoleman.phr.common.domain.repository.patient.GetPatientByIdRepository
 import cz.vvoleman.phr.common.domain.repository.patient.GetSelectedPatientRepository
 import cz.vvoleman.phr.common.domain.repository.patient.SavePatientRepository
 import cz.vvoleman.phr.common.domain.repository.patient.SwitchSelectedPatientRepository
+import cz.vvoleman.phr.common.domain.repository.problemCategory.DeleteProblemCategoryRepository
+import cz.vvoleman.phr.common.domain.repository.problemCategory.GetProblemCategoriesRepository
+import cz.vvoleman.phr.common.domain.repository.problemCategory.GetProblemCategoryByIdRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -264,4 +270,28 @@ class DataModule {
     fun providesGetFacilitiesByPatientRepository(
         facilityRepository: FacilityRepository
     ): GetFacilitiesByPatientRepository = facilityRepository
+
+    @Provides
+    fun providesProblemCategoryRepository(
+        problemCategoryDao: ProblemCategoryDao,
+        problemCategoryMapper: ProblemCategoryDataSourceModelToDomainMapper,
+    ) = ProblemCategoryRepository(
+        problemCategoryDao,
+        problemCategoryMapper
+    )
+
+    @Provides
+    fun providesGetProblemCategoriesRepository(
+        problemCategoryRepository: ProblemCategoryRepository
+    ): GetProblemCategoriesRepository = problemCategoryRepository
+
+    @Provides
+    fun providesDeleteProblemCategoryRepository(
+        problemCategoryRepository: ProblemCategoryRepository
+    ): DeleteProblemCategoryRepository = problemCategoryRepository
+
+    @Provides
+    fun providesGetProblemCategoryByIdRepository(
+        problemCategoryRepository: ProblemCategoryRepository
+    ): GetProblemCategoryByIdRepository = problemCategoryRepository
 }

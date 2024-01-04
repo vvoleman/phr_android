@@ -121,10 +121,6 @@ class SelectFileBinder :
         }
     }
 
-    private fun getVisibility(isVisible: Boolean): Int {
-        return if (isVisible) View.VISIBLE else View.INVISIBLE
-    }
-
     companion object {
         const val TAG = "SelectFileBinder"
     }

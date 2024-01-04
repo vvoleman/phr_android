@@ -14,6 +14,7 @@ import cz.vvoleman.phr.featureMedicalRecord.domain.model.list.FilterRequestDomai
 import cz.vvoleman.phr.featureMedicalRecord.domain.repository.AddEditMedicalRecordRepository
 import cz.vvoleman.phr.featureMedicalRecord.domain.repository.GetMedicalRecordByFacilityRepository
 import cz.vvoleman.phr.featureMedicalRecord.domain.repository.GetMedicalRecordByMedicalWorkerRepository
+import cz.vvoleman.phr.featureMedicalRecord.domain.repository.GetMedicalRecordByProblemCategoryRepository
 import cz.vvoleman.phr.featureMedicalRecord.domain.repository.GetRecordByIdRepository
 import cz.vvoleman.phr.featureMedicalRecord.domain.repository.MedicalRecordFilterRepository
 import kotlinx.coroutines.flow.first
@@ -28,7 +29,8 @@ class MedicalRecordRepository(
     MedicalRecordFilterRepository,
     GetRecordByIdRepository,
     GetMedicalRecordByMedicalWorkerRepository,
-    GetMedicalRecordByFacilityRepository {
+    GetMedicalRecordByFacilityRepository,
+    GetMedicalRecordByProblemCategoryRepository {
 
     override suspend fun save(addEditMedicalRecordModel: AddEditDomainModel): String {
         val model = addEditDomainModelToToDataSourceMapper.toDataSource(addEditMedicalRecordModel)
@@ -122,6 +124,27 @@ class MedicalRecordRepository(
                 val list = result[facilityId]?.toMutableList() ?: mutableListOf()
                 list.add(medicalRecord)
                 result[facilityId] = list
+            }
+
+        return result.toMap()
+    }
+
+    override suspend fun getMedicalRecordByProblemCategory(problemCategoryId: String): List<MedicalRecordDomainModel> {
+        return medicalRecordDao.getByProblemCategory(problemCategoryId).first()
+            .map { medicalRecordDataSourceToDomainMapper.toDomain(it) }
+    }
+
+    override suspend fun getMedicalRecordByProblemCategory(
+        problemCategoryIds: List<String>
+    ): Map<String, List<MedicalRecordDomainModel>> {
+        val result = mutableMapOf<String, List<MedicalRecordDomainModel>>()
+        medicalRecordDao
+            .getByProblemCategory(problemCategoryIds).first()
+            .map { medicalRecordDataSourceToDomainMapper.toDomain(it) }
+            .forEach {
+                if (it.problemCategory == null) return@forEach
+                result[it.problemCategory.id] =
+                    result[it.problemCategory.id]?.toMutableList()?.apply { add(it) } ?: listOf(it)
             }
 
         return result.toMap()
