@@ -23,7 +23,9 @@ import cz.vvoleman.phr.common.presentation.mapper.healthcare.MedicalServiceWithW
 import cz.vvoleman.phr.common.presentation.mapper.healthcare.MedicalWorkerAdditionalInfoPresentationModelToDomainMapper
 import cz.vvoleman.phr.common.presentation.mapper.healthcare.MedicalWorkerPresentationModelToDomainMapper
 import cz.vvoleman.phr.common.presentation.mapper.healthcare.MedicalWorkerWithInfoPresentationModelToDomainMapper
+import cz.vvoleman.phr.common.presentation.mapper.problemCategory.ProblemCategoryInfoPresentationModelToDomainMapper
 import cz.vvoleman.phr.common.presentation.mapper.problemCategory.ProblemCategoryPresentationModelToDomainMapper
+import cz.vvoleman.phr.common.presentation.mapper.problemCategory.ProblemCategoryWithInfoPresentationModelToDomainMapper
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -136,4 +138,18 @@ class PresentationModule {
 
     @Provides
     fun providesProblemCategoryPresentationModelToDomainMapper() = ProblemCategoryPresentationModelToDomainMapper()
+
+    @Provides
+    fun providesProblemCategoryInfoPresentationModelToDomainMapper(
+        problemCategoryPresentationModelToDomainMapper: ProblemCategoryPresentationModelToDomainMapper
+    ) = ProblemCategoryInfoPresentationModelToDomainMapper(problemCategoryPresentationModelToDomainMapper)
+
+    @Provides
+    fun providesProblemCategoryWithInfoPresentationModelToDomainMapper(
+        problemCategoryPresentationModelToDomainMapper: ProblemCategoryPresentationModelToDomainMapper,
+        problemCategoryInfoPresentationModelToDomainMapper: ProblemCategoryInfoPresentationModelToDomainMapper
+    ) = ProblemCategoryWithInfoPresentationModelToDomainMapper(
+        problemCategoryPresentationModelToDomainMapper,
+        problemCategoryInfoPresentationModelToDomainMapper
+    )
 }

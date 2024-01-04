@@ -30,7 +30,7 @@
         <menu>
             <group android:checkableBehavior="single">
                 <item
-                    android:id="@+id/problemCategoriesFragment"
+                    android:id="@+id/listProblemCategoryFragment"
                     android:icon="@drawable/ic_problem_categories"
                     android:title="@string/problem_categories" />
                 <item

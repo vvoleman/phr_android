@@ -36,4 +36,6 @@
     <string name="navigation_select_file">Nový soubor pro lékařskou zprávu</string>
     <string name="filter_problem_categories">Kategorie problémů</string>
     <string name="filter_medical_workers">Lékaři</string>
+    <string name="label_last_edited">Změněno %s</string>
+    <string name="label_last_edited_no_data">Žádná data</string>
 </resources>

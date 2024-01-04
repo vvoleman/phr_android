@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <com.google.android.material.chip.Chip
+        android:id="@+id/chip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:textColor="@color/white"
+        android:textSize="12sp"
+        app:chipBackgroundColor="#242424"
+        app:chipIcon="@drawable/ic_hospital"
+        app:chipIconSize="16dp"
+        app:chipIconTint="@color/white"
+        app:chipStartPadding="8dp"
+        app:ensureMinTouchTargetSize="true"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:text="MUDr. Jan Novák" />
+</androidx.constraintlayout.widget.ConstraintLayout>
