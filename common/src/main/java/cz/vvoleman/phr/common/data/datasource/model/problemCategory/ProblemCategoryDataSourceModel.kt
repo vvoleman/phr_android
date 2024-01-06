@@ -7,9 +7,10 @@ import java.time.LocalDateTime
 
 @Entity(tableName = "problem_category")
 data class ProblemCategoryDataSourceModel(
-    @PrimaryKey(autoGenerate = true) val id: Int = 0,
+    @PrimaryKey(autoGenerate = true) val id: Int? = null,
     val name: String,
     @ColumnInfo(name = "created_at") val createdAt: LocalDateTime,
     val color: String,
-    @ColumnInfo(name = "patient_id") val patientId: Int
+    @ColumnInfo(name = "patient_id") val patientId: Int,
+    @ColumnInfo(name = "is_default") val isDefault: Boolean = false
 )

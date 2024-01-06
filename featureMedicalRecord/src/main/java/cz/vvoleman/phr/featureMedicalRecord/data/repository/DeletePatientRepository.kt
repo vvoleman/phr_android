@@ -5,6 +5,7 @@ import cz.vvoleman.phr.common.data.datasource.model.healthcare.worker.MedicalWor
 import cz.vvoleman.phr.common.data.datasource.model.problemCategory.ProblemCategoryDao
 import cz.vvoleman.phr.featureMedicalRecord.data.datasource.model.room.MedicalRecordDao
 import cz.vvoleman.phr.featureMedicalRecord.data.datasource.model.room.asset.MedicalRecordAssetDao
+import cz.vvoleman.phr.featureMedicalRecord.domain.model.MedicalRecordDomainModel
 import cz.vvoleman.phr.featureMedicalRecord.domain.repository.patientDelete.DeleteMedicalRecordAssetsRepository
 import cz.vvoleman.phr.featureMedicalRecord.domain.repository.patientDelete.DeleteMedicalRecordsRepository
 import cz.vvoleman.phr.featureMedicalRecord.domain.repository.patientDelete.DeleteMedicalWorkersRepository
@@ -47,5 +48,9 @@ class DeletePatientRepository(
 
     override suspend fun deleteProblemCategories(patientId: String) {
         problemCategoryDao.deleteByPatient(patientId)
+    }
+
+    override suspend fun deleteMedicalRecordAssets(medicalRecord: MedicalRecordDomainModel) {
+        medicalAssetDao.deleteAllForRecord(medicalRecordId = medicalRecord.id)
     }
 }

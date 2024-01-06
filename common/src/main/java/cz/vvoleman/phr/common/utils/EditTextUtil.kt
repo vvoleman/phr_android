@@ -2,7 +2,6 @@ package cz.vvoleman.phr.common.utils
 
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.inputmethod.EditorInfo
 import android.widget.AdapterView.OnItemClickListener
 import android.widget.AutoCompleteTextView
@@ -29,7 +28,6 @@ fun EditText.textChanges(emitOnStart: Boolean = false): Flow<CharSequence?> {
     return callbackFlow<CharSequence?> {
         val listener = object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
-                Log.d("EditTextUtil", "afterTextChanged: $s")
                 trySend(s)
             }
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) = Unit

@@ -3,9 +3,11 @@ package cz.vvoleman.phr.di.common
 import android.content.Context
 import cz.vvoleman.phr.base.domain.coroutine.CoroutineContextProvider
 import cz.vvoleman.phr.base.domain.eventBus.EventBusChannel
+import cz.vvoleman.phr.common.data.repository.problemCategory.ProblemCategoryRepository
 import cz.vvoleman.phr.common.domain.event.GetMedicalFacilitiesAdditionalInfoEvent
 import cz.vvoleman.phr.common.domain.event.GetMedicalWorkersAdditionalInfoEvent
 import cz.vvoleman.phr.common.domain.event.MedicalWorkerDeletedEvent
+import cz.vvoleman.phr.common.domain.event.problemCategory.DeleteProblemCategoryEvent
 import cz.vvoleman.phr.common.domain.event.problemCategory.GetProblemCategoriesAdditionalInfoEvent
 import cz.vvoleman.phr.common.domain.eventBus.CommonEventBus
 import cz.vvoleman.phr.common.domain.eventBus.CommonListener
@@ -24,12 +26,17 @@ import cz.vvoleman.phr.common.domain.repository.healthcare.RemoveSpecificMedical
 import cz.vvoleman.phr.common.domain.repository.healthcare.SaveMedicalFacilityRepository
 import cz.vvoleman.phr.common.domain.repository.healthcare.SaveMedicalWorkerRepository
 import cz.vvoleman.phr.common.domain.repository.healthcare.SaveSpecificMedicalWorkerRepository
+import cz.vvoleman.phr.common.domain.repository.problemCategory.DeleteProblemCategoryRepository
+import cz.vvoleman.phr.common.domain.repository.problemCategory.GetDefaultProblemCategoryRepository
 import cz.vvoleman.phr.common.domain.repository.problemCategory.GetProblemCategoriesRepository
+import cz.vvoleman.phr.common.domain.repository.problemCategory.SaveProblemCategoryRepository
 import cz.vvoleman.phr.common.domain.usecase.healthcare.DeleteMedicalWorkerUseCase
 import cz.vvoleman.phr.common.domain.usecase.healthcare.GetMedicalFacilitiesUseCase
 import cz.vvoleman.phr.common.domain.usecase.healthcare.GetMedicalWorkersUseCase
 import cz.vvoleman.phr.common.domain.usecase.healthcare.SaveMedicalWorkerUseCase
+import cz.vvoleman.phr.common.domain.usecase.problemCategory.DeleteProblemCategoryUseCase
 import cz.vvoleman.phr.common.domain.usecase.problemCategory.GetProblemCategoriesUseCase
+import cz.vvoleman.phr.common.domain.usecase.problemCategory.SaveProblemCategoryUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -152,4 +159,36 @@ class DomainModule {
         getProblemCategoriesRepository,
         coroutineContextProvider
     )
+
+    @Provides
+    fun providesSaveProblemCategoryUseCase(
+        saveProblemCategoryRepository: SaveProblemCategoryRepository,
+        coroutineContextProvider: CoroutineContextProvider
+    ) = SaveProblemCategoryUseCase(
+        saveProblemCategoryRepository,
+        coroutineContextProvider
+    )
+
+    @Provides
+    fun providesDeleteProblemCategoryEventBus(
+        eventBus: CommonEventBus
+    ) = eventBus.deleteProblemCategoryBus
+
+    @Provides
+    fun providesDeleteProblemCategoryUseCase(
+        eventBusChannel: EventBusChannel<DeleteProblemCategoryEvent, Unit>,
+        getDefaultProblemCategoryRepository: GetDefaultProblemCategoryRepository,
+        deleteProblemCategoryRepository: DeleteProblemCategoryRepository,
+        coroutineContextProvider: CoroutineContextProvider
+    ) = DeleteProblemCategoryUseCase(
+        eventBusChannel,
+        getDefaultProblemCategoryRepository,
+        deleteProblemCategoryRepository,
+        coroutineContextProvider
+    )
+
+    @Provides
+    fun providesGetDefaultProblemCategoryRepository(
+        problemCategoryRepository: ProblemCategoryRepository
+    ): GetDefaultProblemCategoryRepository = problemCategoryRepository
 }

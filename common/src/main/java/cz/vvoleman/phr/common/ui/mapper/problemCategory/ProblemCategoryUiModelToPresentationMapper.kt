@@ -11,7 +11,8 @@ class ProblemCategoryUiModelToPresentationMapper {
             name = model.name,
             color = model.color,
             createdAt = model.createdAt,
-            patientId = model.patientId
+            patientId = model.patientId,
+            isDefault = model.isDefault
         )
     }
 
@@ -21,7 +22,8 @@ class ProblemCategoryUiModelToPresentationMapper {
             name = model.name,
             color = model.color,
             createdAt = model.createdAt,
-            patientId = model.patientId
+            patientId = model.patientId,
+            isDefault = model.isDefault
         )
     }
 }

@@ -2,6 +2,7 @@ package cz.vvoleman.phr.featureMedicalRecord.data.repository
 
 import android.util.Log
 import cz.vvoleman.phr.common.domain.model.healthcare.worker.MedicalWorkerDomainModel
+import cz.vvoleman.phr.common.domain.model.problemCategory.ProblemCategoryDomainModel
 import cz.vvoleman.phr.featureMedicalRecord.data.datasource.model.room.MedicalRecordDao
 import cz.vvoleman.phr.featureMedicalRecord.data.mapper.AddEditDomainModelToToDataSourceMapper
 import cz.vvoleman.phr.featureMedicalRecord.data.mapper.FilterRequestDomainModelToDataMapper
@@ -12,11 +13,13 @@ import cz.vvoleman.phr.featureMedicalRecord.domain.model.MedicalRecordDomainMode
 import cz.vvoleman.phr.featureMedicalRecord.domain.model.addEdit.AddEditDomainModel
 import cz.vvoleman.phr.featureMedicalRecord.domain.model.list.FilterRequestDomainModel
 import cz.vvoleman.phr.featureMedicalRecord.domain.repository.AddEditMedicalRecordRepository
+import cz.vvoleman.phr.featureMedicalRecord.domain.repository.DeleteMedicalRecordRepository
 import cz.vvoleman.phr.featureMedicalRecord.domain.repository.GetMedicalRecordByFacilityRepository
 import cz.vvoleman.phr.featureMedicalRecord.domain.repository.GetMedicalRecordByMedicalWorkerRepository
 import cz.vvoleman.phr.featureMedicalRecord.domain.repository.GetMedicalRecordByProblemCategoryRepository
 import cz.vvoleman.phr.featureMedicalRecord.domain.repository.GetRecordByIdRepository
 import cz.vvoleman.phr.featureMedicalRecord.domain.repository.MedicalRecordFilterRepository
+import cz.vvoleman.phr.featureMedicalRecord.domain.repository.UpdateMedicalRecordProblemCategoryRepository
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.firstOrNull
 
@@ -30,7 +33,9 @@ class MedicalRecordRepository(
     GetRecordByIdRepository,
     GetMedicalRecordByMedicalWorkerRepository,
     GetMedicalRecordByFacilityRepository,
-    GetMedicalRecordByProblemCategoryRepository {
+    GetMedicalRecordByProblemCategoryRepository,
+    DeleteMedicalRecordRepository,
+    UpdateMedicalRecordProblemCategoryRepository{
 
     override suspend fun save(addEditMedicalRecordModel: AddEditDomainModel): String {
         val model = addEditDomainModelToToDataSourceMapper.toDataSource(addEditMedicalRecordModel)
@@ -148,5 +153,16 @@ class MedicalRecordRepository(
             }
 
         return result.toMap()
+    }
+
+    override suspend fun deleteMedicalRecord(recordId: String) {
+        medicalRecordDao.delete(recordId)
+    }
+
+    override suspend fun updateMedicalRecordProblemCategory(
+        medicalRecord: MedicalRecordDomainModel,
+        problemCategory: ProblemCategoryDomainModel
+    ) {
+        medicalRecordDao.updateProblemCategory(medicalRecord.id, problemCategory.id)
     }
 }

@@ -29,6 +29,7 @@ import cz.vvoleman.phr.featureMedicalRecord.data.repository.MedicalWorkerReposit
 import cz.vvoleman.phr.featureMedicalRecord.data.repository.ProblemCategoryRepository
 import cz.vvoleman.phr.featureMedicalRecord.domain.repository.AddEditMedicalRecordRepository
 import cz.vvoleman.phr.featureMedicalRecord.domain.repository.CreateMedicalRecordAssetRepository
+import cz.vvoleman.phr.featureMedicalRecord.domain.repository.DeleteMedicalRecordRepository
 import cz.vvoleman.phr.featureMedicalRecord.domain.repository.GetDiagnoseByIdRepository
 import cz.vvoleman.phr.featureMedicalRecord.domain.repository.GetMedicalRecordByFacilityRepository
 import cz.vvoleman.phr.featureMedicalRecord.domain.repository.GetMedicalRecordByMedicalWorkerRepository
@@ -39,6 +40,7 @@ import cz.vvoleman.phr.featureMedicalRecord.domain.repository.GetRecordByIdRepos
 import cz.vvoleman.phr.featureMedicalRecord.domain.repository.GetUsedMedicalWorkersRepository
 import cz.vvoleman.phr.featureMedicalRecord.domain.repository.GetUsedProblemCategoriesRepository
 import cz.vvoleman.phr.featureMedicalRecord.domain.repository.MedicalRecordFilterRepository
+import cz.vvoleman.phr.featureMedicalRecord.domain.repository.UpdateMedicalRecordProblemCategoryRepository
 import cz.vvoleman.phr.featureMedicalRecord.domain.repository.addEdit.SearchDiagnoseRepository
 import cz.vvoleman.phr.featureMedicalRecord.domain.repository.patientDelete.DeleteMedicalRecordAssetsRepository
 import cz.vvoleman.phr.featureMedicalRecord.domain.repository.patientDelete.DeleteMedicalRecordsRepository
@@ -261,4 +263,14 @@ class DataModule {
     @Provides
     fun providesProblemCategoryDataSourceModelToDomainMapper() =
         ProblemCategoryDataSourceModelToDomainMapper()
+
+    @Provides
+    fun providesDeleteMedicalRecordRepository(
+        medicalRecordRepository: MedicalRecordRepository
+    ): DeleteMedicalRecordRepository = medicalRecordRepository
+
+    @Provides
+    fun providesUpdateMedicalRecordProblemCategoryRepository(
+        medicalRecordRepository: MedicalRecordRepository
+    ): UpdateMedicalRecordProblemCategoryRepository = medicalRecordRepository
 }

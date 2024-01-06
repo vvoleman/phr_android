@@ -23,6 +23,7 @@ import cz.vvoleman.phr.common.data.mapper.healthcare.MedicalWorkerWithInfoDataSo
 import cz.vvoleman.phr.common.data.mapper.healthcare.MedicalWorkerWithServicesDataSourceModelToDomainMapper
 import cz.vvoleman.phr.common.data.mapper.healthcare.SpecificMedicalWorkerDataSourceToDomainMapper
 import cz.vvoleman.phr.common.data.mapper.problemCategory.ProblemCategoryDataSourceModelToDomainMapper
+import cz.vvoleman.phr.common.data.mapper.problemCategory.ProblemCategoryDataSourceModelToSaveProblemCategoryRequestMapper
 import cz.vvoleman.phr.common.data.repository.HealthcareRepository
 import cz.vvoleman.phr.common.data.repository.PatientRepository
 import cz.vvoleman.phr.common.data.repository.healthcare.FacilityRepository
@@ -49,6 +50,7 @@ import cz.vvoleman.phr.common.domain.repository.patient.SwitchSelectedPatientRep
 import cz.vvoleman.phr.common.domain.repository.problemCategory.DeleteProblemCategoryRepository
 import cz.vvoleman.phr.common.domain.repository.problemCategory.GetProblemCategoriesRepository
 import cz.vvoleman.phr.common.domain.repository.problemCategory.GetProblemCategoryByIdRepository
+import cz.vvoleman.phr.common.domain.repository.problemCategory.SaveProblemCategoryRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -275,9 +277,11 @@ class DataModule {
     fun providesProblemCategoryRepository(
         problemCategoryDao: ProblemCategoryDao,
         problemCategoryMapper: ProblemCategoryDataSourceModelToDomainMapper,
+        problemCategoryRequestMapper: ProblemCategoryDataSourceModelToSaveProblemCategoryRequestMapper,
     ) = ProblemCategoryRepository(
         problemCategoryDao,
-        problemCategoryMapper
+        problemCategoryMapper,
+        problemCategoryRequestMapper
     )
 
     @Provides
@@ -294,4 +298,13 @@ class DataModule {
     fun providesGetProblemCategoryByIdRepository(
         problemCategoryRepository: ProblemCategoryRepository
     ): GetProblemCategoryByIdRepository = problemCategoryRepository
+
+    @Provides
+    fun providesSaveProblemCategoryRepository(
+        problemCategoryRepository: ProblemCategoryRepository
+    ): SaveProblemCategoryRepository = problemCategoryRepository
+
+    @Provides
+    fun providesProblemCategoryDataSourceModelToSaveProblemCategoryRequestMapper() =
+        ProblemCategoryDataSourceModelToSaveProblemCategoryRequestMapper()
 }

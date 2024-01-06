@@ -104,6 +104,20 @@ abstract class BaseFragment<VIEW_STATE : Any, NOTIFICATION : Any, VIEW_BINDING :
         alertDialog.show()
     }
 
+    protected fun showConfirmDialog(
+        title: Int,
+        message: Int,
+        positiveAction: Pair<Int, (DialogInterface) -> Unit>,
+        negativeAction: Pair<Int, (DialogInterface) -> Unit>
+    ) {
+        showConfirmDialog(
+            getString(title),
+            getString(message),
+            Pair(getString(positiveAction.first), positiveAction.second),
+            Pair(getString(negativeAction.first), negativeAction.second),
+        )
+    }
+
     protected fun showSnackbar(
         message: String,
         length: Int = Snackbar.LENGTH_SHORT,

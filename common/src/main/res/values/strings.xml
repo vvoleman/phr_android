@@ -73,4 +73,26 @@
     <string name="medical_workers_count">%d lék. %s</string>
     <string name="no_medical_facility">Žádná zdravotnická zařízení</string>
     <string name="navigation_list_problem_category">Kategorie problémů</string>
+
+    <string name="label_color_category_a">modrá</string>
+    <string name="label_color_category_b">hnědá</string>
+    <string name="label_color_category_c">tmavě fialová</string>
+    <string name="label_color_category_d">žlutá</string>
+    <string name="label_color_category_e">tyrkysová</string>
+    <string name="label_color_category_f">vínová</string>
+    <string name="label_color_category_g">šedivá</string>
+    <string name="label_color_category_h">červená</string>
+    <string name="label_color_category_i">zelená</string>
+    <string name="field_problem_category_name">Název kategorie</string>
+    <string name="save_problem_category">Uložit kategorii problému</string>
+    <string name="description_color">Výběr barvy</string>
+    <string name="field_color">Barva</string>
+    <string name="navigation_add_edit_problem_category">{action} kategorii</string>
+    <string name="delete_problem_category">Smazat kategorii</string>
+    <string name="delete_problem_category_message">K této kategorii mohou být vázána další data.\n\nCo se s těmito daty má po smazání kategorie stát?</string>
+    <string name="action_delete_move_to">Smazat a zachovat</string>
+    <string name="action_delete_delete_data">Smazat i data</string>
+    <string name="action_no_delete_default_category">Nelze smazat výchozí kategorii</string>
+    <string name="problem_category_deleted">Kategorie byla smazána!</string>
+    <string name="problem_category_delete_failed">Nepodařilo se smazat kategorii!</string>
 </resources>
