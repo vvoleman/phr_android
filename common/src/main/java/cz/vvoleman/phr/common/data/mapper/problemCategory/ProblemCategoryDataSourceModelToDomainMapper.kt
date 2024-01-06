@@ -11,7 +11,8 @@ class ProblemCategoryDataSourceModelToDomainMapper {
             name = model.name,
             color = model.color,
             createdAt = model.createdAt,
-            patientId = model.patientId.toString()
+            patientId = model.patientId.toString(),
+            isDefault = model.isDefault
         )
     }
 
@@ -21,7 +22,8 @@ class ProblemCategoryDataSourceModelToDomainMapper {
             name = model.name,
             color = model.color,
             createdAt = model.createdAt,
-            patientId = model.patientId.toInt()
+            patientId = model.patientId.toInt(),
+            isDefault = model.isDefault
         )
     }
 }

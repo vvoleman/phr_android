@@ -16,8 +16,11 @@ interface ProblemCategoryDao {
     @Query("SELECT * FROM problem_category WHERE id = :id")
     fun getById(id: Int): Flow<ProblemCategoryDataSourceModel>
 
+    @Query("SELECT * FROM problem_category WHERE patient_id = :patientId AND is_default = 1")
+    fun getDefault(patientId: String): Flow<ProblemCategoryDataSourceModel>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(problemCategory: ProblemCategoryDataSourceModel)
+    suspend fun insert(problemCategory: ProblemCategoryDataSourceModel): Long
 
     @Delete
     suspend fun delete(problemCategory: ProblemCategoryDataSourceModel)

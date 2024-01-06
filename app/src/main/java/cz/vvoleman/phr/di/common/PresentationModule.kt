@@ -1,5 +1,6 @@
 package cz.vvoleman.phr.di.common
 
+import android.content.Context
 import cz.vvoleman.phr.base.domain.coroutine.CoroutineContextProvider
 import cz.vvoleman.phr.common.domain.repository.*
 import cz.vvoleman.phr.common.domain.repository.patient.DeletePatientRepository
@@ -14,6 +15,7 @@ import cz.vvoleman.phr.common.domain.usecase.patient.GetSelectedPatientUseCase
 import cz.vvoleman.phr.common.domain.usecase.patient.SwitchSelectedPatientUseCase
 import cz.vvoleman.phr.common.domain.usecase.patient.addedit.GetPatientByIdUseCase
 import cz.vvoleman.phr.common.domain.usecase.patient.addedit.SavePatientUseCase
+import cz.vvoleman.phr.common.presentation.factory.ColorFactory
 import cz.vvoleman.phr.common.presentation.mapper.PatientPresentationModelToDomainMapper
 import cz.vvoleman.phr.common.presentation.mapper.healthcare.AddEditMedicalServiceItemPresentationModelToDomainMapper
 import cz.vvoleman.phr.common.presentation.mapper.healthcare.MedicalFacilityAdditionInfoPresentationModelToDomainMapper
@@ -29,6 +31,7 @@ import cz.vvoleman.phr.common.presentation.mapper.problemCategory.ProblemCategor
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 
 @Module
@@ -152,4 +155,9 @@ class PresentationModule {
         problemCategoryPresentationModelToDomainMapper,
         problemCategoryInfoPresentationModelToDomainMapper
     )
+
+    @Provides
+    fun providesColorFactory(
+        @ApplicationContext context: Context
+    ) : ColorFactory = ColorFactory(context)
 }

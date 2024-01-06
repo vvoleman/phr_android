@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="colors">
+        <item>#3F51B5</item>
+        <item>#835E3A</item>
+        <item>#6D3A83</item>
+        <item>#83893A</item>
+        <item>#3A8388</item>
+        <item>#943B76</item>
+        <item>#4F5A5B</item>
+        <item>#992624</item>
+        <item>#38752F</item>
+    </string-array>
+    <string-array name="names">
+        <item>@string/label_color_category_a</item>
+        <item>@string/label_color_category_b</item>
+        <item>@string/label_color_category_c</item>
+        <item>@string/label_color_category_d</item>
+        <item>@string/label_color_category_e</item>
+        <item>@string/label_color_category_f</item>
+        <item>@string/label_color_category_g</item>
+        <item>@string/label_color_category_h</item>
+        <item>@string/label_color_category_i</item>
+    </string-array>
+</resources>

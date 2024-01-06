@@ -1,7 +1,6 @@
 package cz.vvoleman.phr.common.presentation.mapper.problemCategory
 
 import cz.vvoleman.phr.common.domain.model.healthcare.AdditionalInfoDomainModel
-import cz.vvoleman.phr.common.domain.model.problemCategory.ProblemCategoryDomainModel
 import cz.vvoleman.phr.common.domain.model.problemCategory.ProblemCategoryInfoDomainModel
 import cz.vvoleman.phr.common.presentation.model.healthcare.core.AdditionalInfoPresentationModel
 import cz.vvoleman.phr.common.presentation.model.problemCategory.ProblemCategoryInfoPresentationModel

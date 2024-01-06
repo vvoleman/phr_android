@@ -6,6 +6,7 @@ import android.util.Log
 import cz.vvoleman.phr.base.domain.ModuleListener
 import cz.vvoleman.phr.common.domain.event.GetMedicalFacilitiesAdditionalInfoEvent
 import cz.vvoleman.phr.common.domain.event.GetMedicalWorkersAdditionalInfoEvent
+import cz.vvoleman.phr.common.domain.event.problemCategory.DeleteProblemCategoryEvent
 import cz.vvoleman.phr.common.domain.event.problemCategory.GetProblemCategoriesAdditionalInfoEvent
 import cz.vvoleman.phr.common.domain.eventBus.CommonEventBus
 import cz.vvoleman.phr.common.domain.model.healthcare.AdditionalInfoDomainModel
@@ -13,20 +14,24 @@ import cz.vvoleman.phr.common.domain.model.healthcare.facility.MedicalFacilityDo
 import cz.vvoleman.phr.common.domain.model.healthcare.worker.MedicalWorkerDomainModel
 import cz.vvoleman.phr.common.domain.model.problemCategory.ProblemCategoryDomainModel
 import cz.vvoleman.phr.common.domain.model.problemCategory.ProblemCategoryInfoDomainModel
+import cz.vvoleman.phr.common.domain.model.problemCategory.request.DataDeleteType
 import cz.vvoleman.phr.common.utils.localizedDiff
 import cz.vvoleman.phr.featureMedicalRecord.R
 import cz.vvoleman.phr.featureMedicalRecord.domain.repository.GetMedicalRecordByFacilityRepository
 import cz.vvoleman.phr.featureMedicalRecord.domain.repository.GetMedicalRecordByMedicalWorkerRepository
 import cz.vvoleman.phr.featureMedicalRecord.domain.repository.GetMedicalRecordByProblemCategoryRepository
+import cz.vvoleman.phr.featureMedicalRecord.domain.repository.UpdateMedicalRecordProblemCategoryRepository
+import cz.vvoleman.phr.featureMedicalRecord.domain.usecase.DeleteMedicalRecordUseCase
 import java.time.LocalDate
-import java.time.LocalDateTime
 
 class MedicalRecordListener(
     private val commonEventBus: CommonEventBus,
     private val getMedicalRecordByMedicalWorkerRepository: GetMedicalRecordByMedicalWorkerRepository,
     private val getMedicalRecordByFacilityRepository: GetMedicalRecordByFacilityRepository,
     private val getMedicalRecordByCategoryRepository: GetMedicalRecordByProblemCategoryRepository,
-    private val context: Context,
+    private val updateMedicalRecordProblemCategoryRepository: UpdateMedicalRecordProblemCategoryRepository,
+    private val deleteMedicalRecordUseCase: DeleteMedicalRecordUseCase,
+    private val context: Context
 ) : ModuleListener() {
     override val TAG: String = "MedicalRecordListener"
 
@@ -41,6 +46,9 @@ class MedicalRecordListener(
         }
         commonEventBus.getCategoryAdditionalInfoBus.addListener(TAG) {
             return@addListener onGetProblemCategoriesAdditionalInfoEvent(it)
+        }
+        commonEventBus.deleteProblemCategoryBus.addListener(TAG) {
+            return@addListener onDeleteProblemCategoryEvent(it)
         }
     }
 
@@ -127,19 +135,45 @@ class MedicalRecordListener(
                 context.resources.getString(R.string.label_last_edited, LocalDate.now().localizedDiff(it))
             } ?: context.resources.getString(R.string.label_last_edited_no_data)
 
+            val secondaries: List<AdditionalInfoDomainModel<ProblemCategoryDomainModel>> = if (lastEditedAt != null) {
+                listOf(
+                    AdditionalInfoDomainModel(
+                        icon = cz.vvoleman.phr.common_datasource.R.drawable.ic_time,
+                        text = text,
+                        onClick = null
+                    )
+                )
+            } else emptyList()
+
             map[category] =
                 ProblemCategoryInfoDomainModel(
                     mainSlot = Pair(records.size, documentPlural),
-                    secondarySlots = listOf(
-                        AdditionalInfoDomainModel(
-                            icon = cz.vvoleman.phr.common_datasource.R.drawable.ic_time,
-                            text = text,
-                            onClick = null
-                        )
-                    )
+                    secondarySlots = secondaries
                 )
         }
 
         return map.toMap()
+    }
+
+    private suspend fun onDeleteProblemCategoryEvent(event: DeleteProblemCategoryEvent) {
+        Log.d(TAG, "onDeleteProblemCategoryEvent")
+        val records =
+            getMedicalRecordByCategoryRepository.getMedicalRecordByProblemCategory(event.problemCategory.id)
+        when (event.deleteType) {
+            is DataDeleteType.DeleteData -> {
+                records.forEach {
+                    deleteMedicalRecordUseCase.executeInBackground(it)
+                }
+            }
+            is DataDeleteType.MoveToAnother -> {
+                val anotherCategory = (event.deleteType as DataDeleteType.MoveToAnother)
+                records.forEach {
+                    updateMedicalRecordProblemCategoryRepository.updateMedicalRecordProblemCategory(
+                        medicalRecord = it,
+                        problemCategory = anotherCategory.backupProblemCategory!!
+                    )
+                }
+            }
+        }
     }
 }

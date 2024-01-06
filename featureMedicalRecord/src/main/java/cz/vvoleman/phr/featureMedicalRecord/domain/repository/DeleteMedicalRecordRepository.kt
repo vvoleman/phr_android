@@ -1,6 +1,6 @@
 package cz.vvoleman.phr.featureMedicalRecord.domain.repository
 
-interface DeleteMedicalRecord {
+interface DeleteMedicalRecordRepository {
 
     suspend fun deleteMedicalRecord(recordId: String)
 }
