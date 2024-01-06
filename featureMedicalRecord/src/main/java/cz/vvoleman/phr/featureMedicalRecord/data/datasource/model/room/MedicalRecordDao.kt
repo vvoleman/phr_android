@@ -107,11 +107,17 @@ interface MedicalRecordDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(medicalRecord: MedicalRecordDataSourceModel): Long
 
+    @Query("UPDATE medical_record SET problem_category_id = :problemCategoryId WHERE id = :medicalRecordId")
+    suspend fun updateProblemCategory(medicalRecordId: String, problemCategoryId: String)
+
     @Update
     suspend fun update(medicalRecord: MedicalRecordDataSourceModel)
 
     @Delete
     suspend fun delete(medicalRecord: MedicalRecordDataSourceModel)
+
+    @Query("DELETE FROM medical_record WHERE id = :id")
+    suspend fun delete(id: String)
 
     @Query("DELETE FROM medical_record WHERE patient_id = :patientId")
     suspend fun deleteByPatient(patientId: String)

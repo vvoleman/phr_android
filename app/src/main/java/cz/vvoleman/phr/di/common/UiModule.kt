@@ -7,6 +7,7 @@ import cz.vvoleman.phr.common.presentation.model.healthcare.addEdit.AddEditMedic
 import cz.vvoleman.phr.common.presentation.model.healthcare.list.ListHealthcareViewState
 import cz.vvoleman.phr.common.presentation.model.patient.addedit.AddEditViewState
 import cz.vvoleman.phr.common.presentation.model.patient.listpatients.ListPatientsViewState
+import cz.vvoleman.phr.common.presentation.model.problemCategory.addEdit.AddEditProblemCategoryViewState
 import cz.vvoleman.phr.common.presentation.model.problemCategory.list.ListProblemCategoryViewState
 import cz.vvoleman.phr.common.ui.mapper.healthcare.AddEditMedicalServiceItemUiModelToPresentationMapper
 import cz.vvoleman.phr.common.ui.mapper.healthcare.MedicalFacilityAdditionalInfoUiModelToPresentationMapper
@@ -21,17 +22,21 @@ import cz.vvoleman.phr.common.ui.mapper.healthcare.destination.ListHealthcareDes
 import cz.vvoleman.phr.common.ui.mapper.patient.PatientUiModelToPresentationMapper
 import cz.vvoleman.phr.common.ui.mapper.patient.destination.AddEditPatientDestinationUiMapper
 import cz.vvoleman.phr.common.ui.mapper.patient.destination.ListPatientsDestinationUiMapper
+import cz.vvoleman.phr.common.ui.mapper.problemCategory.ColorUiModelToPresentationMapper
 import cz.vvoleman.phr.common.ui.mapper.problemCategory.ProblemCategoryInfoUiModelToPresentationMapper
 import cz.vvoleman.phr.common.ui.mapper.problemCategory.ProblemCategoryUiModelToPresentationMapper
 import cz.vvoleman.phr.common.ui.mapper.problemCategory.ProblemCategoryWithInfoUiModelToPresentationMapper
+import cz.vvoleman.phr.common.ui.mapper.problemCategory.destination.AddEditProblemCategoryDestinationUiMapper
 import cz.vvoleman.phr.common.ui.mapper.problemCategory.destination.ListProblemCategoryDestinationUiMapper
 import cz.vvoleman.phr.common.ui.view.healthcare.addEdit.AddEditMedicalWorkerBinder
 import cz.vvoleman.phr.common.ui.view.healthcare.list.ListHealthcareBinder
 import cz.vvoleman.phr.common.ui.view.patient.addedit.AddEditPatientBinder
 import cz.vvoleman.phr.common.ui.view.patient.listpatients.ListPatientsBinder
+import cz.vvoleman.phr.common.ui.view.problemCategory.addEdit.AddEditProblemCategoryBinder
 import cz.vvoleman.phr.common.ui.view.problemCategory.list.ListProblemCategoryBinder
 import cz.vvoleman.phr.common_datasource.databinding.FragmentAddEditMedicalWorkerBinding
 import cz.vvoleman.phr.common_datasource.databinding.FragmentAddEditPatientBinding
+import cz.vvoleman.phr.common_datasource.databinding.FragmentAddEditProblemCategoryBinding
 import cz.vvoleman.phr.common_datasource.databinding.FragmentListHealthcareBinding
 import cz.vvoleman.phr.common_datasource.databinding.FragmentListPatientsBinding
 import cz.vvoleman.phr.common_datasource.databinding.FragmentListProblemCategoryBinding
@@ -134,8 +139,9 @@ class UiModule {
 
     @Provides
     fun providesListProblemCategoryDestinationUiMapper(
+        @ApplicationContext context: Context,
         navManager: NavManager
-    ) = ListProblemCategoryDestinationUiMapper(navManager)
+    ) = ListProblemCategoryDestinationUiMapper(context, navManager)
 
     @Provides
     fun providesListProblemCategoryBinder(
@@ -154,4 +160,18 @@ class UiModule {
         problemCategoryMapper: ProblemCategoryUiModelToPresentationMapper,
         infoMapper: ProblemCategoryInfoUiModelToPresentationMapper
     ) = ProblemCategoryWithInfoUiModelToPresentationMapper(problemCategoryMapper, infoMapper)
+
+    @Provides
+    fun providesColorUiModelToPresentationMapper() = ColorUiModelToPresentationMapper()
+
+    @Provides
+    fun providesAddEditProblemCategoryDestinationUiMapper(
+        navManager: NavManager
+    ) = AddEditProblemCategoryDestinationUiMapper(navManager)
+
+    @Provides
+    fun providesAddEditProblemCategoryViewStateBinder(
+        colorMapper: ColorUiModelToPresentationMapper
+    ): ViewStateBinder<AddEditProblemCategoryViewState, FragmentAddEditProblemCategoryBinding> =
+        AddEditProblemCategoryBinder(colorMapper)
 }

@@ -27,10 +27,11 @@ class ProblemCategoryFixture(
             problemCategories.add(
                 ProblemCategoryDataSourceModel(
                     id = 1,
-                    name = "Nehoda 2022",
+                    name = "Výchozí",
                     createdAt = LocalDateTime.now(),
                     color = "#3A6B83",
-                    patientId = it.id!!
+                    patientId = it.id!!,
+                    isDefault = true
                 )
             )
         }
@@ -38,7 +39,7 @@ class ProblemCategoryFixture(
         patients.getOrNull(1)?.let {
             problemCategories.add(
                 ProblemCategoryDataSourceModel(
-                    id = 1,
+                    id = 2,
                     name = "Operace 2019",
                     createdAt = LocalDateTime.now(),
                     color = "#992624",

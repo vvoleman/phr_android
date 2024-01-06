@@ -5,11 +5,15 @@ import cz.vvoleman.phr.base.domain.coroutine.CoroutineContextProvider
 import cz.vvoleman.phr.common.domain.eventBus.CommonEventBus
 import cz.vvoleman.phr.common.domain.repository.patient.GetPatientByBirthDateRepository
 import cz.vvoleman.phr.featureMedicalRecord.domain.mapper.TextToTextDomainModelMapper
+import cz.vvoleman.phr.featureMedicalRecord.domain.repository.DeleteMedicalRecordRepository
 import cz.vvoleman.phr.featureMedicalRecord.domain.repository.GetMedicalRecordByFacilityRepository
 import cz.vvoleman.phr.featureMedicalRecord.domain.repository.GetMedicalRecordByMedicalWorkerRepository
 import cz.vvoleman.phr.featureMedicalRecord.domain.repository.GetMedicalRecordByProblemCategoryRepository
+import cz.vvoleman.phr.featureMedicalRecord.domain.repository.UpdateMedicalRecordProblemCategoryRepository
+import cz.vvoleman.phr.featureMedicalRecord.domain.repository.patientDelete.DeleteMedicalRecordAssetsRepository
 import cz.vvoleman.phr.featureMedicalRecord.domain.repository.selectFile.GetDiagnosesByIdsRepository
 import cz.vvoleman.phr.featureMedicalRecord.domain.subscriber.MedicalRecordListener
+import cz.vvoleman.phr.featureMedicalRecord.domain.usecase.DeleteMedicalRecordUseCase
 import cz.vvoleman.phr.featureMedicalRecord.domain.usecase.selectFile.GetRecognizedOptionsFromTextUseCase
 import cz.vvoleman.phr.featureMedicalRecord.domain.usecase.selectFile.GetTextFromInputImageUseCase
 import cz.vvoleman.phr.featureMedicalRecord.domain.usecase.selectFile.ocr.RecordRecognizer
@@ -68,6 +72,27 @@ class DomainModule {
         byWorkerRepository: GetMedicalRecordByMedicalWorkerRepository,
         byFacilityRepository: GetMedicalRecordByFacilityRepository,
         byProblemCategoryRepository: GetMedicalRecordByProblemCategoryRepository,
+        updateMedicalRecordProblemCategoryRepository: UpdateMedicalRecordProblemCategoryRepository,
+        deleteMedicalRecordUseCase: DeleteMedicalRecordUseCase,
         @ApplicationContext context: Context
-    ) = MedicalRecordListener(commonBus, byWorkerRepository, byFacilityRepository, byProblemCategoryRepository, context)
+    ) = MedicalRecordListener(
+        commonBus,
+        byWorkerRepository,
+        byFacilityRepository,
+        byProblemCategoryRepository,
+        updateMedicalRecordProblemCategoryRepository,
+        deleteMedicalRecordUseCase,
+        context
+    )
+
+    @Provides
+    fun providesDeleteMedicalRecordUseCase(
+        deleteMedicalRecordRepository: DeleteMedicalRecordRepository,
+        deleteMedicalRecordAssetsRepository: DeleteMedicalRecordAssetsRepository,
+        coroutineContextProvider: CoroutineContextProvider,
+    ) = DeleteMedicalRecordUseCase(
+        deleteMedicalRecord = deleteMedicalRecordRepository,
+        deleteMedicalRecordAssetsRepository = deleteMedicalRecordAssetsRepository,
+        coroutineContextProvider = coroutineContextProvider
+    )
 }

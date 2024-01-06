@@ -4,6 +4,7 @@ import cz.vvoleman.phr.base.domain.eventBus.EventBusChannel
 import cz.vvoleman.phr.common.domain.event.GetMedicalFacilitiesAdditionalInfoEvent
 import cz.vvoleman.phr.common.domain.event.GetMedicalWorkersAdditionalInfoEvent
 import cz.vvoleman.phr.common.domain.event.MedicalWorkerDeletedEvent
+import cz.vvoleman.phr.common.domain.event.problemCategory.DeleteProblemCategoryEvent
 import cz.vvoleman.phr.common.domain.event.problemCategory.GetProblemCategoriesAdditionalInfoEvent
 import cz.vvoleman.phr.common.domain.model.healthcare.AdditionalInfoDomainModel
 import cz.vvoleman.phr.common.domain.model.healthcare.facility.MedicalFacilityDomainModel
@@ -24,4 +25,6 @@ object CommonEventBus {
     val getCategoryAdditionalInfoBus =
         EventBusChannel<GetProblemCategoriesAdditionalInfoEvent,
                 Map<ProblemCategoryDomainModel, ProblemCategoryInfoDomainModel>>()
+
+    val deleteProblemCategoryBus = EventBusChannel<DeleteProblemCategoryEvent, Unit>()
 }

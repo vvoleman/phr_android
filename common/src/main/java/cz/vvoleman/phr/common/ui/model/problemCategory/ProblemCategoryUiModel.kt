@@ -10,5 +10,6 @@ data class ProblemCategoryUiModel(
     val name: String,
     val color: String,
     val createdAt: LocalDateTime,
-    val patientId: String
+    val patientId: String,
+    val isDefault: Boolean
 ) : Parcelable
