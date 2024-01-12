@@ -7,6 +7,8 @@ import androidx.room.TypeConverters
 import androidx.sqlite.db.SupportSQLiteDatabase
 import cz.vvoleman.featureMeasurement.data.datasource.room.MeasurementGroupDao
 import cz.vvoleman.featureMeasurement.data.datasource.room.MeasurementGroupDataSourceModel
+import cz.vvoleman.featureMeasurement.data.datasource.room.MeasurementGroupEntryDao
+import cz.vvoleman.featureMeasurement.data.datasource.room.MeasurementGroupEntryDataSourceModel
 import cz.vvoleman.featureMeasurement.data.datasource.room.MeasurementGroupScheduleItemDao
 import cz.vvoleman.featureMeasurement.data.datasource.room.MeasurementGroupScheduleItemDataSourceModel
 import cz.vvoleman.featureMeasurement.data.datasource.room.field.NumericFieldDao
@@ -76,6 +78,7 @@ import javax.inject.Provider
         // Measurements
         MeasurementGroupDataSourceModel::class,
         MeasurementGroupScheduleItemDataSourceModel::class,
+        MeasurementGroupEntryDataSourceModel::class,
         UnitGroupDataSourceModel::class,
         NumericFieldDataSourceModel::class,
     ],
@@ -118,6 +121,8 @@ abstract class PatientDatabase : RoomDatabase() {
     abstract fun measurementGroupDao(): MeasurementGroupDao
 
     abstract fun measurementGroupScheduleItemDao(): MeasurementGroupScheduleItemDao
+
+    abstract fun measurementGroupEntryDao(): MeasurementGroupEntryDao
 
     abstract fun unitGroupDao(): UnitGroupDao
 

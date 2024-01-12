@@ -12,11 +12,19 @@ data class MeasurementGroupWithDetailsDataSourceModel(
         entityColumn = "id"
     )
     val patient: PatientDataSourceModel,
+
     @Relation(
         parentColumn = "id",
         entityColumn = "measurement_group_id"
     )
     val scheduleItems: List<MeasurementGroupScheduleItemDataSourceModel>,
+
+    @Relation(
+        parentColumn = "id",
+        entityColumn = "measurement_group_id"
+    )
+    val entries: List<MeasurementGroupEntryDataSourceModel>,
+
     @Relation(
         parentColumn = "id",
         entityColumn = "measurement_group_id"
