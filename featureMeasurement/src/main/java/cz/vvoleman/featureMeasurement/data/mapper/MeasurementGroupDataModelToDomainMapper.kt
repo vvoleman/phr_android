@@ -9,6 +9,7 @@ import cz.vvoleman.featureMeasurement.domain.model.field.NumericFieldDomainModel
 class MeasurementGroupDataModelToDomainMapper(
     private val numericFieldMapper: NumericFieldDataModelToDomainMapper,
     private val scheduleItemMapper: MeasurementGroupScheduleItemDataModelToDomainMapper,
+    private val entryMapper: MeasurementGroupEntryDataModelToDomainMapper,
 ) {
 
     fun toDomain(model: MeasurementGroupDataModel): MeasurementGroupDomainModel {
@@ -18,6 +19,7 @@ class MeasurementGroupDataModelToDomainMapper(
             patient = model.patient,
             scheduleItems = scheduleItemMapper.toDomain(model.scheduleItems),
             fields = mapFields(model.fields),
+            entries = entryMapper.toDomain(model.entries),
         )
     }
 
@@ -32,6 +34,7 @@ class MeasurementGroupDataModelToDomainMapper(
             patient = model.patient,
             scheduleItems = scheduleItemMapper.toData(model.scheduleItems),
             fields = mapFields(model.fields),
+            entries = entryMapper.toData(model.entries),
         )
     }
 

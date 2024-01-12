@@ -8,6 +8,7 @@ import cz.vvoleman.phr.common.data.mapper.PatientDataSourceModelToDomainMapper
 class MeasurementGroupDataSourceModelToDataMapper(
     private val numericFieldMapper: NumericFieldDataSourceModelToDataMapper,
     private val patientMapper: PatientDataSourceModelToDomainMapper,
+    private val entryMapper: MeasurementGroupEntryDataSourceModelToDataMapper,
 ) {
 
     suspend fun toData(model: MeasurementGroupWithDetailsDataSourceModel): MeasurementGroupDataModel {
@@ -19,6 +20,7 @@ class MeasurementGroupDataSourceModelToDataMapper(
             patient = patientMapper.toDomain(model.patient),
             scheduleItems = model.scheduleItems.map { MeasurementGroupScheduleItemDataSourceModelToDataMapper().toData(it) },
             fields = numericFields,
+            entries = entryMapper.toData(model.entries),
         )
     }
 

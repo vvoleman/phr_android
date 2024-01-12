@@ -9,5 +9,4 @@ data class MeasurementGroupScheduleItemDataModel(
     val dayOfWeek: DayOfWeek,
     val time: LocalTime,
     val scheduledAt: LocalDateTime,
-    val values: Map<String, String>
 )
