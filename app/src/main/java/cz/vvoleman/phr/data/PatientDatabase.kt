@@ -5,6 +5,14 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import androidx.sqlite.db.SupportSQLiteDatabase
+import cz.vvoleman.featureMeasurement.data.datasource.room.MeasurementGroupDao
+import cz.vvoleman.featureMeasurement.data.datasource.room.MeasurementGroupDataSourceModel
+import cz.vvoleman.featureMeasurement.data.datasource.room.MeasurementGroupScheduleItemDao
+import cz.vvoleman.featureMeasurement.data.datasource.room.MeasurementGroupScheduleItemDataSourceModel
+import cz.vvoleman.featureMeasurement.data.datasource.room.fieldType.NumericFieldTypeDao
+import cz.vvoleman.featureMeasurement.data.datasource.room.fieldType.NumericFieldTypeDataSourceModel
+import cz.vvoleman.featureMeasurement.data.datasource.room.unit.UnitGroupDao
+import cz.vvoleman.featureMeasurement.data.datasource.room.unit.UnitGroupDataSourceModel
 import cz.vvoleman.phr.common.data.datasource.model.PatientDao
 import cz.vvoleman.phr.common.data.datasource.model.PatientDataSourceModel
 import cz.vvoleman.phr.common.data.datasource.model.healthcare.facility.MedicalFacilityDao
@@ -64,6 +72,12 @@ import javax.inject.Provider
         SubstanceDataSourceModel::class,
         MedicineScheduleDataSourceModel::class,
         ScheduleItemDataSourceModel::class,
+
+        // Measurements
+        MeasurementGroupDataSourceModel::class,
+        MeasurementGroupScheduleItemDataSourceModel::class,
+        UnitGroupDataSourceModel::class,
+        NumericFieldTypeDataSourceModel::class,
     ],
     version = 1
 )
@@ -99,6 +113,15 @@ abstract class PatientDatabase : RoomDatabase() {
     abstract fun substanceDao(): SubstanceDao
 
     abstract fun patientDao(): PatientDao
+
+    // Measurements
+    abstract fun measurementGroupDao(): MeasurementGroupDao
+
+    abstract fun measurementGroupScheduleItemDao(): MeasurementGroupScheduleItemDao
+
+    abstract fun unitGroupDao(): UnitGroupDao
+
+    abstract fun numericFieldTypeDao(): NumericFieldTypeDao
 
     class Callback @Inject constructor(
         private val database: Provider<PatientDatabase>,
