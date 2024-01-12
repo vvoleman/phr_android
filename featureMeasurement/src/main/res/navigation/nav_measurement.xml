@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_measurement"
+    app:startDestination="@id/listMeasurementFragment">
+
+    <fragment
+        android:id="@+id/listMeasurementFragment"
+        android:name="cz.vvoleman.featureMeasurement.ui.view.list.ListMeasurementFragment"
+        android:label="@string/navigation_list_measurement" />
+</navigation>

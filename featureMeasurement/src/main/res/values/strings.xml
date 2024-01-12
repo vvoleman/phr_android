@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">FeatureMeasurement</string>
+    <string name="navigation_list_measurement">Měření</string>
 </resources>
