@@ -11,7 +11,6 @@ class MeasurementGroupScheduleItemDataModelToDomainMapper {
             dayOfWeek = model.dayOfWeek,
             time = model.time,
             scheduledAt = model.scheduledAt,
-            values = model.values,
         )
     }
 
@@ -25,7 +24,6 @@ class MeasurementGroupScheduleItemDataModelToDomainMapper {
             dayOfWeek = model.dayOfWeek,
             time = model.time,
             scheduledAt = model.scheduledAt,
-            values = model.values,
         )
     }
 

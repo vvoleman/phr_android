@@ -1,6 +1,7 @@
 package cz.vvoleman.phr.di.measurement
 
 import cz.vvoleman.featureMeasurement.data.mapper.MeasurementGroupDataModelToDomainMapper
+import cz.vvoleman.featureMeasurement.data.mapper.MeasurementGroupEntryDataModelToDomainMapper
 import cz.vvoleman.featureMeasurement.data.mapper.MeasurementGroupScheduleItemDataModelToDomainMapper
 import cz.vvoleman.featureMeasurement.data.mapper.NumericFieldDataModelToDomainMapper
 import cz.vvoleman.featureMeasurement.data.mapper.UnitDataModelToDomainMapper
@@ -40,12 +41,19 @@ class DataModule {
     @Provides
     fun providesMeasurementGroupDataModelToDomainMapper(
         numericFieldMapper: NumericFieldDataModelToDomainMapper,
-        scheduleItemMapper: MeasurementGroupScheduleItemDataModelToDomainMapper
+        scheduleItemMapper: MeasurementGroupScheduleItemDataModelToDomainMapper,
+        entryMapper: MeasurementGroupEntryDataModelToDomainMapper
     ): MeasurementGroupDataModelToDomainMapper {
         return MeasurementGroupDataModelToDomainMapper(
             numericFieldMapper,
-            scheduleItemMapper
+            scheduleItemMapper,
+            entryMapper
         )
+    }
+
+    @Provides
+    fun providesMeasurementGroupEntryDataModelToDomainMapper(): MeasurementGroupEntryDataModelToDomainMapper {
+        return MeasurementGroupEntryDataModelToDomainMapper()
     }
 
 

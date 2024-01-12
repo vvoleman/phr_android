@@ -1,6 +1,7 @@
 package cz.vvoleman.phr.di.measurement
 
 import cz.vvoleman.featureMeasurement.data.datasource.room.mapper.MeasurementGroupDataSourceModelToDataMapper
+import cz.vvoleman.featureMeasurement.data.datasource.room.mapper.MeasurementGroupEntryDataSourceModelToDataMapper
 import cz.vvoleman.featureMeasurement.data.datasource.room.mapper.MeasurementGroupScheduleItemDataSourceModelToDataMapper
 import cz.vvoleman.featureMeasurement.data.datasource.room.mapper.NumericFieldDataSourceModelToDataMapper
 import cz.vvoleman.featureMeasurement.data.datasource.room.mapper.UnitDataSourceModelToDataMapper
@@ -22,6 +23,9 @@ class DataSourceModule {
 
     @Provides
     fun providesMeasurementGroupScheduleItemDao(db: PatientDatabase) = db.measurementGroupScheduleItemDao()
+
+    @Provides
+    fun providesMeasurementGroupEntryDao(db: PatientDatabase) = db.measurementGroupEntryDao()
 
     @Provides
     fun providesUnitGroupDao(db: PatientDatabase) = db.unitGroupDao()
@@ -49,6 +53,10 @@ class DataSourceModule {
     @Provides
     fun providesMeasurementGroupDataSourceModelToDataMapper(
         numericFieldMapper: NumericFieldDataSourceModelToDataMapper,
-        patientMapper: PatientDataSourceModelToDomainMapper
-    ) = MeasurementGroupDataSourceModelToDataMapper(numericFieldMapper, patientMapper)
+        patientMapper: PatientDataSourceModelToDomainMapper,
+        entryMapper: MeasurementGroupEntryDataSourceModelToDataMapper
+    ) = MeasurementGroupDataSourceModelToDataMapper(numericFieldMapper, patientMapper, entryMapper)
+
+    @Provides
+    fun providesMeasurementGroupEntryDataSourceModelToDataMapper() = MeasurementGroupEntryDataSourceModelToDataMapper()
 }

@@ -11,7 +11,6 @@ class MeasurementGroupScheduleItemDataSourceModelToDataMapper {
             dayOfWeek = model.dayOfWeek,
             time = model.time,
             scheduledAt = model.scheduledAt,
-            values = model.values,
         )
     }
 
@@ -28,7 +27,6 @@ class MeasurementGroupScheduleItemDataSourceModelToDataMapper {
             dayOfWeek = model.dayOfWeek,
             time = model.time,
             scheduledAt = model.scheduledAt,
-            values = model.values,
             measurementGroupId = measurementGroupId.toInt()
         )
     }

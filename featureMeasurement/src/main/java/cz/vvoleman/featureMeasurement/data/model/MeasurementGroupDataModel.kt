@@ -8,5 +8,6 @@ data class MeasurementGroupDataModel(
     val name: String,
     val patient: PatientDomainModel,
     val scheduleItems: List<MeasurementGroupScheduleItemDataModel>,
+    val entries: List<MeasurementGroupEntryDataModel>,
     val fields: List<MeasurementGroupField>,
 )
