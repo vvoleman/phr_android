@@ -9,8 +9,8 @@ import cz.vvoleman.featureMeasurement.data.datasource.room.MeasurementGroupDao
 import cz.vvoleman.featureMeasurement.data.datasource.room.MeasurementGroupDataSourceModel
 import cz.vvoleman.featureMeasurement.data.datasource.room.MeasurementGroupScheduleItemDao
 import cz.vvoleman.featureMeasurement.data.datasource.room.MeasurementGroupScheduleItemDataSourceModel
-import cz.vvoleman.featureMeasurement.data.datasource.room.fieldType.NumericFieldTypeDao
-import cz.vvoleman.featureMeasurement.data.datasource.room.fieldType.NumericFieldTypeDataSourceModel
+import cz.vvoleman.featureMeasurement.data.datasource.room.field.NumericFieldDao
+import cz.vvoleman.featureMeasurement.data.datasource.room.field.NumericFieldDataSourceModel
 import cz.vvoleman.featureMeasurement.data.datasource.room.unit.UnitGroupDao
 import cz.vvoleman.featureMeasurement.data.datasource.room.unit.UnitGroupDataSourceModel
 import cz.vvoleman.phr.common.data.datasource.model.PatientDao
@@ -77,7 +77,7 @@ import javax.inject.Provider
         MeasurementGroupDataSourceModel::class,
         MeasurementGroupScheduleItemDataSourceModel::class,
         UnitGroupDataSourceModel::class,
-        NumericFieldTypeDataSourceModel::class,
+        NumericFieldDataSourceModel::class,
     ],
     version = 1
 )
@@ -121,7 +121,7 @@ abstract class PatientDatabase : RoomDatabase() {
 
     abstract fun unitGroupDao(): UnitGroupDao
 
-    abstract fun numericFieldTypeDao(): NumericFieldTypeDao
+    abstract fun numericFieldTypeDao(): NumericFieldDao
 
     class Callback @Inject constructor(
         private val database: Provider<PatientDatabase>,

@@ -2,7 +2,7 @@ package cz.vvoleman.featureMeasurement.data.datasource.room
 
 import androidx.room.Embedded
 import androidx.room.Relation
-import cz.vvoleman.featureMeasurement.data.datasource.room.fieldType.NumericFieldTypeDataSourceModel
+import cz.vvoleman.featureMeasurement.data.datasource.room.field.NumericFieldDataSourceModel
 import cz.vvoleman.phr.common.data.datasource.model.PatientDataSourceModel
 
 data class MeasurementGroupWithDetailsDataSourceModel(
@@ -21,5 +21,5 @@ data class MeasurementGroupWithDetailsDataSourceModel(
         parentColumn = "id",
         entityColumn = "measurement_group_id"
     )
-    val numericFields: List<NumericFieldTypeDataSourceModel>
+    val numericFields: List<NumericFieldDataSourceModel>
 )

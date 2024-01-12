@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "9331142c8b2276467f5182fb03722a38",
+    "identityHash": "8258e39b2b5ab30096edc5a222e93ad2",
     "entities": [
       {
         "tableName": "patient",
@@ -788,7 +788,7 @@
       },
       {
         "tableName": "measurement_group_schedule_item",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `day_of_week` TEXT NOT NULL, `time` INTEGER NOT NULL, `scheduled_at` INTEGER NOT NULL, `measurement_group_id` INTEGER NOT NULL, `description` TEXT)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `day_of_week` TEXT NOT NULL, `time` INTEGER NOT NULL, `scheduled_at` INTEGER NOT NULL, `measurement_group_id` INTEGER NOT NULL, `values` TEXT NOT NULL)",
         "fields": [
           {
             "fieldPath": "id",
@@ -821,10 +821,10 @@
             "notNull": true
           },
           {
-            "fieldPath": "description",
-            "columnName": "description",
+            "fieldPath": "values",
+            "columnName": "values",
             "affinity": "TEXT",
-            "notNull": false
+            "notNull": true
           }
         ],
         "primaryKey": {
@@ -875,8 +875,8 @@
         "foreignKeys": []
       },
       {
-        "tableName": "numeric_field_type",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT NOT NULL, `measurement_group_id` INTEGER NOT NULL, `unitGroupId` INTEGER, `defaultUnitCode` TEXT)",
+        "tableName": "numeric_field",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT NOT NULL, `measurement_group_id` INTEGER NOT NULL, `unitGroupId` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "id",
@@ -900,13 +900,7 @@
             "fieldPath": "unitGroupId",
             "columnName": "unitGroupId",
             "affinity": "INTEGER",
-            "notNull": false
-          },
-          {
-            "fieldPath": "defaultUnitCode",
-            "columnName": "defaultUnitCode",
-            "affinity": "TEXT",
-            "notNull": false
+            "notNull": true
           }
         ],
         "primaryKey": {
@@ -922,7 +916,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '9331142c8b2276467f5182fb03722a38')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '8258e39b2b5ab30096edc5a222e93ad2')"
     ]
   }
 }

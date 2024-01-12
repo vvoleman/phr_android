@@ -17,7 +17,7 @@ interface UnitGroupDao {
 
     @Transaction
     @Query("SELECT * from unit_group WHERE id = :id")
-    fun getById(id: Int): Flow<UnitGroupDataSourceModel>
+    fun getById(id: String): Flow<UnitGroupDataSourceModel>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(unitGroup: UnitGroupDataSourceModel)
@@ -26,6 +26,6 @@ interface UnitGroupDao {
     suspend fun delete(unitGroup: UnitGroupDataSourceModel)
 
     @Query("DELETE FROM unit_group WHERE id = :id")
-    suspend fun deleteById(id: Int)
+    suspend fun deleteById(id: String)
 
 }
