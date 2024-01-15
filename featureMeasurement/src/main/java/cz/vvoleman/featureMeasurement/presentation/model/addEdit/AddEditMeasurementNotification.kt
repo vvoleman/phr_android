@@ -1,0 +1,3 @@
+package cz.vvoleman.featureMeasurement.presentation.model.addEdit
+
+sealed class AddEditMeasurementNotification
