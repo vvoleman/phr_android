@@ -7,5 +7,20 @@
     <fragment
         android:id="@+id/listMeasurementFragment"
         android:name="cz.vvoleman.featureMeasurement.ui.view.list.ListMeasurementFragment"
-        android:label="@string/navigation_list_measurement" />
+        android:label="@string/navigation_list_measurement" >
+        <action
+            android:id="@+id/action_listMeasurementFragment_to_addEditMeasurementFragment"
+            app:destination="@id/addEditMeasurementFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addEditMeasurementFragment"
+        android:name="cz.vvoleman.featureMeasurement.ui.view.addEdit.AddEditMeasurementFragment"
+        android:label="@string/navigation_add_edit_measurement">
+        <action
+            android:id="@+id/action_addEditMeasurementFragment_to_listMeasurementFragment"
+            app:destination="@id/listMeasurementFragment" />
+        <argument
+            android:name="action"
+            app:argType="string" />
+    </fragment>
 </navigation>
