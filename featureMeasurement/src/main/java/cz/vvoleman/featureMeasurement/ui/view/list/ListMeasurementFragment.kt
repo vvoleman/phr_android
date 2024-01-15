@@ -29,6 +29,14 @@ class ListMeasurementFragment :
         return FragmentListMeasurementBinding.inflate(inflater, container, false)
     }
 
+    override fun setupListeners() {
+        super.setupListeners()
+
+        binding.fabAddMeasurementGroup.setOnClickListener {
+            viewModel.onAddMeasurementGroup()
+        }
+    }
+
     override fun handleNotification(notification: ListMeasurementNotification) {
         when (notification) {
             else -> {
