@@ -51,9 +51,9 @@
             app:nullable="true" />
         <argument
             android:name="previousViewState"
-            android:defaultValue="@null"
-            app:argType="cz.vvoleman.phr.featureMedicalRecord.presentation.addEdit.model.AddEditViewState"
-            app:nullable="true" />
+            app:argType="cz.vvoleman.phr.featureMedicalRecord.presentation.addEdit.model.AddEditPresentationModel"
+            app:nullable="true"
+            android:defaultValue="@null" />
     </fragment>
     <fragment
         android:id="@+id/selectFileFragment"
@@ -67,6 +67,6 @@
             app:popUpToInclusive="true" />
         <argument
             android:name="parentViewState"
-            app:argType="cz.vvoleman.phr.featureMedicalRecord.presentation.addEdit.model.AddEditViewState" />
+            app:argType="cz.vvoleman.phr.featureMedicalRecord.presentation.addEdit.model.AddEditPresentationModel" />
     </fragment>
 </navigation>

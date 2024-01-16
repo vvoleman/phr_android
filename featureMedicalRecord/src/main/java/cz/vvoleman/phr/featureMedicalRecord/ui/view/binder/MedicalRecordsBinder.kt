@@ -87,7 +87,17 @@ class MedicalRecordsBinder(
         viewBinding: FragmentListMedicalRecordsBinding,
         viewState: ListMedicalRecordsViewState
     ) {
-        if (previousState == null || previousState!!.groupedRecords != viewState.groupedRecords) {
+        val isDisplayingList = !viewState.groupedRecords.isNullOrEmpty() && !viewState.isLoading
+
+        viewBinding.apply {
+            textViewNoMedicalRecords.visibility = getVisibility(
+                viewState.groupedRecords != null && viewState.groupedRecords.isEmpty()
+            )
+            progressBar.visibility = getVisibility(viewState.isLoading || viewState.groupedRecords == null)
+            recyclerView.visibility = getVisibility(isDisplayingList)
+        }
+
+        if (isDisplayingList && viewState.groupedRecords != null) {
             val groups = viewState.groupedRecords.map { groupedItemsDomainModelToUiMapper.toUi(it) }
             adapter.submitList(groups)
         }

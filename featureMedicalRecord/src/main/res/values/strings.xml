@@ -3,7 +3,7 @@
     <string name="edit">Upravit</string>
     <string name="export">Exportovat</string>
     <string name="delete">Smazat</string>
-    <string name="add_medical_record">Přidat lékařskou zprávu</string>
+    <string name="add_medical_record">Přidat lék. zprávu</string>
     <string name="filter_medical_records">Filtrovat lékařské zprávy</string>
     <string name="medical_records_filter_by_date">Datumu</string>
     <string name="medical_records_filter_by_problem_category">Kategorie problému</string>
@@ -38,4 +38,8 @@
     <string name="filter_medical_workers">Lékaři</string>
     <string name="label_last_edited">Změněno %s</string>
     <string name="label_last_edited_no_data">Žádná data</string>
+    <string name="no_medical_records">Žádné lék. zprávy</string>
+    <string name="medical_record_filter">Filtrovat</string>
+    <string name="field_problem_category">Kategorie problému</string>
+    <string name="field_diagnose">Diagnóza</string>
 </resources>

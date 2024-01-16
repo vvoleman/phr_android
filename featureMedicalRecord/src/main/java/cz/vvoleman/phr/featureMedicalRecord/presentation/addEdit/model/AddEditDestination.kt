@@ -4,5 +4,5 @@ import cz.vvoleman.phr.base.presentation.model.PresentationDestination
 
 sealed class AddEditDestination : PresentationDestination {
     data class RecordSaved(val id: String) : AddEditDestination()
-    data class AddRecordFile(val previousViewState: AddEditViewState) : AddEditDestination()
+    data class AddRecordFile(val previousViewState: AddEditPresentationModel) : AddEditDestination()
 }

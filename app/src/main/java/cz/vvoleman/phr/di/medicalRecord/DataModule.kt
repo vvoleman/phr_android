@@ -41,6 +41,7 @@ import cz.vvoleman.phr.featureMedicalRecord.domain.repository.GetUsedMedicalWork
 import cz.vvoleman.phr.featureMedicalRecord.domain.repository.GetUsedProblemCategoriesRepository
 import cz.vvoleman.phr.featureMedicalRecord.domain.repository.MedicalRecordFilterRepository
 import cz.vvoleman.phr.featureMedicalRecord.domain.repository.UpdateMedicalRecordProblemCategoryRepository
+import cz.vvoleman.phr.featureMedicalRecord.domain.repository.addEdit.GetDiagnosesPagingStreamRepository
 import cz.vvoleman.phr.featureMedicalRecord.domain.repository.addEdit.SearchDiagnoseRepository
 import cz.vvoleman.phr.featureMedicalRecord.domain.repository.patientDelete.DeleteMedicalRecordAssetsRepository
 import cz.vvoleman.phr.featureMedicalRecord.domain.repository.patientDelete.DeleteMedicalRecordsRepository
@@ -273,4 +274,9 @@ class DataModule {
     fun providesUpdateMedicalRecordProblemCategoryRepository(
         medicalRecordRepository: MedicalRecordRepository
     ): UpdateMedicalRecordProblemCategoryRepository = medicalRecordRepository
+
+    @Provides
+    fun providesGetDiagnosesPagingStreamRepository(
+        diagnoseRepository: DiagnoseRepository
+    ): GetDiagnosesPagingStreamRepository = diagnoseRepository
 }
