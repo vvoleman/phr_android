@@ -11,7 +11,7 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class ListMedicalRecordsViewState(
-    val groupedRecords: List<GroupedItemsDomainModel<MedicalRecordDomainModel>> = emptyList(),
+    val groupedRecords: List<GroupedItemsDomainModel<MedicalRecordDomainModel>>? = null,
     val isLoading: Boolean = false,
     val groupBy: GroupByDomainModel = GroupByDomainModel.DATE,
     val sortBy: SortByDomainModel = SortByDomainModel.DESC,

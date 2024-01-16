@@ -3,15 +3,20 @@ package cz.vvoleman.phr.featureMedicalRecord.presentation.addEdit.viewmodel
 import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
+import androidx.paging.map
 import cz.vvoleman.phr.base.presentation.viewmodel.BaseViewModel
 import cz.vvoleman.phr.base.presentation.viewmodel.usecase.UseCaseExecutorProvider
 import cz.vvoleman.phr.common.domain.usecase.patient.GetSelectedPatientUseCase
-import cz.vvoleman.phr.featureMedicalRecord.domain.model.DiagnoseDomainModel
+import cz.vvoleman.phr.common.presentation.mapper.PatientPresentationModelToDomainMapper
+import cz.vvoleman.phr.common.presentation.mapper.problemCategory.ProblemCategoryPresentationModelToDomainMapper
+import cz.vvoleman.phr.common.presentation.model.patient.PatientPresentationModel
 import cz.vvoleman.phr.featureMedicalRecord.domain.model.MedicalRecordDomainModel
-import cz.vvoleman.phr.featureMedicalRecord.domain.model.addEdit.SearchRequestDomainModel
 import cz.vvoleman.phr.featureMedicalRecord.domain.model.addEdit.UserListsDomainModel
 import cz.vvoleman.phr.featureMedicalRecord.domain.model.selectFile.SaveFileRequestDomainModel
 import cz.vvoleman.phr.featureMedicalRecord.domain.model.selectFile.SelectedObjectsDomainModel
+import cz.vvoleman.phr.featureMedicalRecord.domain.repository.addEdit.GetDiagnosesPagingStreamRepository
 import cz.vvoleman.phr.featureMedicalRecord.domain.usecase.AddEditMedicalRecordUseCase
 import cz.vvoleman.phr.featureMedicalRecord.domain.usecase.GetRecordByIdUseCase
 import cz.vvoleman.phr.featureMedicalRecord.domain.usecase.GetUserListsUseCase
@@ -19,12 +24,15 @@ import cz.vvoleman.phr.featureMedicalRecord.domain.usecase.addEdit.SearchDiagnos
 import cz.vvoleman.phr.featureMedicalRecord.domain.usecase.selectFile.GetDataForSelectedOptionsUseCase
 import cz.vvoleman.phr.featureMedicalRecord.domain.usecase.selectFile.SaveMedicalRecordFileUseCase
 import cz.vvoleman.phr.featureMedicalRecord.presentation.addEdit.mapper.AddEditPresentationModelToDomainMapper
+import cz.vvoleman.phr.featureMedicalRecord.presentation.addEdit.mapper.AddEditViewStateToModelMapper
 import cz.vvoleman.phr.featureMedicalRecord.presentation.addEdit.mapper.DiagnoseDomainModelToPresentationMapper
 import cz.vvoleman.phr.featureMedicalRecord.presentation.addEdit.model.*
 import cz.vvoleman.phr.featureMedicalRecord.presentation.selectFile.mapper.SelectedOptionsPresentationToDomainMapper
 import cz.vvoleman.phr.featureMedicalRecord.presentation.selectFile.model.SelectedOptionsPresentationModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 import javax.inject.Inject
@@ -39,9 +47,13 @@ class AddEditViewModel @Inject constructor(
     private val searchDiagnoseUseCase: SearchDiagnoseUseCase,
     private val getDataForSelectedOptionsUseCase: GetDataForSelectedOptionsUseCase,
     private val getUserListsUseCase: GetUserListsUseCase,
+    private val getDiagnosesPagingStreamRepository: GetDiagnosesPagingStreamRepository,
     private val selectedOptionsPresentationToDomainMapper: SelectedOptionsPresentationToDomainMapper,
     private val diagnoseDomainModelToPresentationMapper: DiagnoseDomainModelToPresentationMapper,
     private val addEditPresentationModelToDomainMapper: AddEditPresentationModelToDomainMapper,
+    private val problemCategoryMapper: ProblemCategoryPresentationModelToDomainMapper,
+    private val patientMapper: PatientPresentationModelToDomainMapper,
+    private val viewStateMapper: AddEditViewStateToModelMapper,
     savedStateHandle: SavedStateHandle,
     useCaseExecutorProvider: UseCaseExecutorProvider
 ) : BaseViewModel<AddEditViewState, AddEditNotification>(
@@ -52,29 +64,44 @@ class AddEditViewModel @Inject constructor(
     override val TAG = "AddEditViewModel"
 
     override suspend fun initState(): AddEditViewState {
-        val previousViewState = savedStateHandle.get<AddEditViewState>("previousViewState")
+        val previousState = savedStateHandle.get<AddEditPresentationModel>("previousViewState")
 
-        if (previousViewState != null) {
-            return previousViewState
+        val patient = getSelectedPatient()
+        val record = getExistingRecord()
+        val userLists = getUserLists(patient.id)
+
+        if (previousState != null) {
+            return AddEditViewState(
+                recordId = previousState.recordId,
+                createdAt = previousState.createdAt,
+                diagnoseId = previousState.diagnoseId,
+                specificMedicalWorkerId = previousState.specificMedicalWorker,
+                problemCategoryId = previousState.problemCategoryId,
+                patientId = previousState.patientId,
+                visitDate = previousState.visitDate,
+                allProblemCategories = userLists.problemCategories.map { problemCategoryMapper.toPresentation(it) },
+                allMedicalWorkers = userLists.medicalWorkers,
+                assets = previousState.assets,
+            )
         }
 
-        return AddEditViewState(visitDate = LocalDate.now())
+        return AddEditViewState(
+            visitDate = record?.visitDate ?: LocalDate.now(),
+            patientId = patient.id,
+            recordId = record?.id,
+            diagnoseId = record?.diagnose?.id,
+            problemCategoryId = record?.problemCategory?.id,
+            specificMedicalWorkerId = record?.specificMedicalWorker?.id,
+            assets = record?.assets?.map { AssetPresentationModel(id = it.id, uri = it.url, createdAt = it.createdAt) }
+                ?: listOf(),
+            allMedicalWorkers = userLists.medicalWorkers,
+            allProblemCategories = userLists.problemCategories.map { problemCategoryMapper.toPresentation(it) }
+        )
     }
 
     override suspend fun onInit() {
         super.onInit()
         viewModelScope.launch {
-            loadSelectedPatient()
-
-            val recordId = savedStateHandle.get<String>("id")
-            if (recordId != null) {
-                Log.d(TAG, "onInit: recordId: $recordId")
-                getRecordByIdUseCase.execute(
-                    recordId,
-                    ::handleRecordInit
-                )
-            }
-
             // Get param
             val selectedOptions =
                 savedStateHandle.get<SelectedOptionsPresentationModel>("selectedOptions")
@@ -92,36 +119,44 @@ class AddEditViewModel @Inject constructor(
             if (fileAsset != null) {
                 addFileThumbnail(fileAsset)
             }
-
-            viewModelScope.launch {
-                getUserListsUseCase.execute(
-                    currentViewState.patientId!!,
-                    ::handleUserLists
-                )
-            }
         }
     }
 
     fun onAddNewFile() {
-        navigateTo(AddEditDestination.AddRecordFile(currentViewState))
+        val model = viewStateMapper.toModel(currentViewState)
+        navigateTo(AddEditDestination.AddRecordFile(model))
     }
 
-    fun onDiagnoseSelected(diagnoseId: String) {
-        updateViewState(currentViewState.copy(diagnoseId = diagnoseId))
+    fun onDiagnoseSelected(diagnose: DiagnosePresentationModel?) {
+        updateViewState(currentViewState.copy(diagnoseId = diagnose?.id))
     }
 
     fun onDateSelected(date: LocalDate) {
         updateViewState(currentViewState.copy(visitDate = date))
     }
 
-    fun onDiagnoseSearch(query: String) = viewModelScope.launch {
-        searchDiagnoseUseCase.execute(
-            SearchRequestDomainModel(
-                query,
-                currentViewState.diagnosePage
-            ),
-            ::handleDiagnoseSearch
-        )
+    fun onDiagnoseSearch(query: String): Flow<PagingData<DiagnosePresentationModel>> {
+        if (query != currentViewState.query || currentViewState.diagnoseStream == null) {
+            updateViewState(currentViewState.copy(query=query))
+            val flow = getDiagnosesPagingStreamRepository
+                .getDiagnosesPagingStream(query)
+                .map { pagingData ->
+                    pagingData.map {
+                        diagnoseDomainModelToPresentationMapper.toPresentation(it)
+                    }
+                }
+                .cachedIn(viewModelScope)
+
+            updateViewState(
+                currentViewState.copy(
+                    diagnoseStream = flow
+                )
+            )
+
+            return flow
+        }
+
+        return currentViewState.diagnoseStream ?: throw IllegalStateException("Diagnose stream is null")
     }
 
     suspend fun onSubmit() {
@@ -131,15 +166,7 @@ class AddEditViewModel @Inject constructor(
             return
         }
 
-        val record = AddEditPresentationModel(
-            recordId = currentViewState.recordId,
-            patientId = currentViewState.patientId!!,
-            diagnoseId = currentViewState.diagnoseId,
-            problemCategoryId = currentViewState.problemCategoryId,
-            visitDate = currentViewState.visitDate!!,
-            specificMedicalWorker = currentViewState.specificMedicalWorkerId,
-            assets = currentViewState.assets
-        )
+        val record = viewStateMapper.toModel(currentViewState)
 
         val domainModel = addEditPresentationModelToDomainMapper.toDomain(record)
         updateViewState(currentViewState.copy(saving = true))
@@ -167,40 +194,6 @@ class AddEditViewModel @Inject constructor(
 
         notify(AddEditNotification.Success)
         navigateTo(AddEditDestination.RecordSaved(id))
-    }
-
-    private fun handleRecordInit(data: MedicalRecordDomainModel?) {
-        if (data == null) {
-            Log.e(TAG, "handleRecordInit: edit ID given but no record found")
-            return
-        }
-
-        updateViewState(
-            currentViewState.copy(
-                recordId = data.id,
-                diagnoseId = data.diagnose?.id,
-                problemCategoryId = data.problemCategory?.id,
-                specificMedicalWorkerId = data.specificMedicalWorker?.id,
-                visitDate = data.visitDate,
-                assets = data.assets.map { AssetPresentationModel(id = it.id, uri = it.url, createdAt = it.createdAt) }
-            )
-        )
-        Log.d(TAG, "handleRecordInit: $data")
-    }
-
-    private fun handleUserLists(data: UserListsDomainModel) {
-        Log.d(TAG, "handleUserLists: $data")
-        updateViewState(
-            currentViewState.copy(
-                allMedicalWorkers = data.medicalWorkers,
-                allProblemCategories = data.problemCategories
-            )
-        )
-    }
-
-    private fun handleDiagnoseSearch(data: List<DiagnoseDomainModel>) {
-        val list = data.map { diagnoseDomainModelToPresentationMapper.toPresentation(it) }
-        updateViewState(currentViewState.copy(diagnoseSpinnerList = list))
     }
 
     fun onDeleteFile(asset: AssetPresentationModel) {
@@ -242,8 +235,23 @@ class AddEditViewModel @Inject constructor(
         updateViewState(state)
     }
 
-    private suspend fun loadSelectedPatient() {
+    private suspend fun getSelectedPatient(): PatientPresentationModel {
         val patient = getSelectedPatientUseCase.execute(null).first()
-        updateViewState(currentViewState.copy(patientId = patient.id))
+        return patientMapper.toPresentation(patient)
+    }
+
+    private suspend fun getExistingRecord(): MedicalRecordDomainModel? {
+        val recordId = savedStateHandle.get<String>("id") ?: return null
+
+        return getRecordByIdUseCase.executeInBackground(recordId)
+    }
+
+    private suspend fun getUserLists(patientId: String): UserListsDomainModel {
+        return getUserListsUseCase.executeInBackground(patientId)
+    }
+
+    fun onProblemCategorySelected(name: String?) {
+        val problemCategory = currentViewState.allProblemCategories.find { it.name == name }
+        updateViewState(currentViewState.copy(problemCategoryId = problemCategory?.id))
     }
 }

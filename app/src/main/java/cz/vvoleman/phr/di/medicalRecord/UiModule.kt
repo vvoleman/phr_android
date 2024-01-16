@@ -32,8 +32,10 @@ class UiModule {
         MedicalRecordsBinder(uiMapper, radio)
 
     @Provides
-    fun providesAddEditBinder(): ViewStateBinder<AddEditViewState, FragmentAddEditMedicalRecordBinding> =
-        AddEditBinder()
+    fun providesAddEditBinder(
+        problemCategoryMapper: ProblemCategoryUiModelToColorMapper
+    ): ViewStateBinder<AddEditViewState, FragmentAddEditMedicalRecordBinding> =
+        AddEditBinder(problemCategoryMapper)
 
     @Provides
     fun providesSelectFileBinder(): ViewStateBinder<SelectFileViewState, FragmentSelectFileBinding> =
@@ -67,4 +69,7 @@ class UiModule {
 
     @Provides
     fun providesTakePhotoPresentationUseCase(): TakePhotoPresentationUseCase = TakePhotoUiUseCase()
+
+    @Provides
+    fun providesProblemCategoryUiModelToColorMapper() = ProblemCategoryUiModelToColorMapper()
 }

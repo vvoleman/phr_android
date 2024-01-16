@@ -11,7 +11,7 @@ import cz.vvoleman.phr.featureMedicalRecord.domain.model.selectFile.GetTextFromI
 import cz.vvoleman.phr.featureMedicalRecord.domain.model.selectFile.TextDomainModel
 import cz.vvoleman.phr.featureMedicalRecord.domain.usecase.selectFile.GetRecognizedOptionsFromTextUseCase
 import cz.vvoleman.phr.featureMedicalRecord.domain.usecase.selectFile.GetTextFromInputImageUseCase
-import cz.vvoleman.phr.featureMedicalRecord.presentation.addEdit.model.AddEditViewState
+import cz.vvoleman.phr.featureMedicalRecord.presentation.addEdit.model.AddEditPresentationModel
 import cz.vvoleman.phr.featureMedicalRecord.presentation.addEdit.model.AssetPresentationModel
 import cz.vvoleman.phr.featureMedicalRecord.presentation.selectFile.mapper.RecognizedOptionsDomainModelToPresentationMapper
 import cz.vvoleman.phr.featureMedicalRecord.presentation.selectFile.model.SelectFileDestination
@@ -56,7 +56,7 @@ class SelectFileViewModel @Inject constructor(
     fun onConfirmWithOptions(diagnose: String?, visitDate: String?, patient: String?) {
         val selected = SelectedOptionsPresentationModel(
             diagnoseId = diagnose,
-            visitDate = LocalDate.parse(visitDate),
+            visitDate = visitDate?.let { LocalDate.parse(visitDate) },
             patientId = patient
         )
 
@@ -69,7 +69,7 @@ class SelectFileViewModel @Inject constructor(
     }
 
     private fun finish() {
-        val parentViewState = checkNotNull(savedStateHandle.get<AddEditViewState>("parentViewState")) {
+        val parentViewState = checkNotNull(savedStateHandle.get<AddEditPresentationModel>("parentViewState")) {
             "Parent view state not found"
         }
 
