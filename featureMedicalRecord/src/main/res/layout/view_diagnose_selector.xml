@@ -2,23 +2,23 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="horizontal"
+    android:orientation="vertical"
     android:layout_height="match_parent">
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/text_input_layout_date_picker"
+        android:id="@+id/text_input_layout_name"
+        app:errorEnabled="true"
         style="?attr/textInputOutlinedStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/field_medical_record_date"
-        app:errorEnabled="true">
+        android:hint="@string/field_diagnose">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/date_picker"
+            android:id="@+id/text_input_edit_text_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="date" />
-
+            android:cursorVisible="false"
+            android:focusable="false"
+            android:inputType="textNoSuggestions" />
     </com.google.android.material.textfield.TextInputLayout>
-
 </LinearLayout>

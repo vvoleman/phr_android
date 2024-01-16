@@ -5,14 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="@dimen/layout_margin"
-    tools:context=".ui.view.addedit.AddEditMedicalRecordsFragment">
+    tools:context=".ui.view.addEdit.AddEditMedicalRecordsFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layout_files_box"
-        style="@style/BoxShadow"
+        style="@style/BaseFrontBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/box_background_light"
+        android:backgroundTint="@color/box_background_light"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -20,7 +20,6 @@
             android:id="@+id/top_line"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="4dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
@@ -70,51 +69,67 @@
             android:id="@+id/recycler_view_files"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:itemCount="1"
-            tools:listitem="@layout/item_file_thumbnail"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            android:layout_margin="4dp"
             android:orientation="horizontal"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/top_line"/>
+            app:layout_constraintTop_toBottomOf="@id/top_line"
+            tools:itemCount="1"
+            tools:listitem="@layout/item_file_thumbnail" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <LinearLayout
         android:id="@+id/layout_form"
-        style="@style/BoxShadow"
+        style="@style/BaseFrontBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:background="@color/box_background_light"
+        android:backgroundTint="@color/box_background_light"
         android:gravity="top"
         android:orientation="vertical"
         android:padding="16dp"
-        app:layout_constraintTop_toBottomOf="@id/layout_files_box"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/layout_files_box">
 
 
         <cz.vvoleman.phr.common.ui.view.datepicker.DatePicker
             android:id="@+id/date_picker"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
-        <cz.vvoleman.phr.featureMedicalRecord.ui.view.addEdit.adapter.DiagnoseDialogSpinner
-            android:id="@+id/spinner_diagnose"
+
+<!--        <cz.vvoleman.phr.featureMedicalRecord.ui.component.diagnoseSelector.DiagnoseSelector-->
+<!--            android:id="@+id/diagnose_selector"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content" />-->
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/text_input_layout_problem_category"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-        <Spinner
-            android:id="@+id/spinner_problem_category"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/description_color"
+            app:errorEnabled="true">
+
+            <AutoCompleteTextView
+                android:id="@+id/spinner_problem_category"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/field_problem_category"
+                android:inputType="none"
+                android:labelFor="@id/text_input_layout_colors" />
+        </com.google.android.material.textfield.TextInputLayout>
+
         <Spinner
             android:id="@+id/spinner_medical_worker"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
+
         <Button
-            style="@style/CustomButton"
             android:id="@+id/button_save"
+            style="@style/CustomButton"
             android:layout_width="match_parent"
-            android:text="@string/add_edit_medical_records_save"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:text="@string/add_edit_medical_records_save" />
 
     </LinearLayout>
 

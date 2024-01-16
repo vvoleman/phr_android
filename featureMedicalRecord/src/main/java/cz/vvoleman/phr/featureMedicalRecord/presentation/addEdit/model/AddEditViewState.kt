@@ -1,12 +1,11 @@
 package cz.vvoleman.phr.featureMedicalRecord.presentation.addEdit.model
 
-import android.os.Parcelable
+import androidx.paging.PagingData
 import cz.vvoleman.phr.common.domain.model.healthcare.worker.MedicalWorkerDomainModel
-import cz.vvoleman.phr.common.domain.model.problemCategory.ProblemCategoryDomainModel
-import kotlinx.parcelize.Parcelize
+import cz.vvoleman.phr.common.presentation.model.problemCategory.ProblemCategoryPresentationModel
+import kotlinx.coroutines.flow.Flow
 import java.time.LocalDate
 
-@Parcelize
 data class AddEditViewState(
     val recordId: String? = null,
     val createdAt: LocalDate? = null,
@@ -15,13 +14,13 @@ data class AddEditViewState(
     val problemCategoryId: String? = null,
     val patientId: String? = null,
     val visitDate: LocalDate? = null,
-    val diagnosePage: Int = 1,
-    val diagnoseSpinnerList: List<DiagnosePresentationModel> = listOf(),
-    val allProblemCategories: List<ProblemCategoryDomainModel> = listOf(),
+    val query: String = "",
+    val diagnoseStream: Flow<PagingData<DiagnosePresentationModel>>? = null,
+    val allProblemCategories: List<ProblemCategoryPresentationModel> = listOf(),
     val allMedicalWorkers: List<MedicalWorkerDomainModel> = listOf(),
     val assets: List<AssetPresentationModel> = listOf(),
     val saving: Boolean = false
-) : Parcelable {
+) {
 
     fun canAddMoreFiles() = assets.size < MAX_FILES
 

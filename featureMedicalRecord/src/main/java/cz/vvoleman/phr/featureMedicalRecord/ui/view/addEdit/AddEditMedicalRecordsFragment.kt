@@ -6,6 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.paging.PagingData
+import androidx.paging.map
 import com.google.android.material.snackbar.Snackbar
 import cz.vvoleman.phr.base.ui.ext.collectLifecycleFlow
 import cz.vvoleman.phr.base.ui.mapper.ViewStateBinder
@@ -15,24 +17,31 @@ import cz.vvoleman.phr.featureMedicalRecord.R
 import cz.vvoleman.phr.featureMedicalRecord.databinding.FragmentAddEditMedicalRecordBinding
 import cz.vvoleman.phr.featureMedicalRecord.presentation.addEdit.model.AddEditNotification
 import cz.vvoleman.phr.featureMedicalRecord.presentation.addEdit.model.AddEditViewState
+import cz.vvoleman.phr.featureMedicalRecord.presentation.addEdit.model.DiagnosePresentationModel
 import cz.vvoleman.phr.featureMedicalRecord.presentation.addEdit.viewmodel.AddEditViewModel
+import cz.vvoleman.phr.featureMedicalRecord.ui.component.diagnoseSelector.DiagnoseSelector
 import cz.vvoleman.phr.featureMedicalRecord.ui.mapper.AddEditDestinationUiMapper
+import cz.vvoleman.phr.featureMedicalRecord.ui.model.DiagnoseItemUiModel
 import cz.vvoleman.phr.featureMedicalRecord.ui.model.ImageItemUiModel
 import cz.vvoleman.phr.featureMedicalRecord.ui.view.addEdit.adapter.ImageAdapter
 import cz.vvoleman.phr.featureMedicalRecord.ui.view.addEdit.binder.AddEditBinder
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
 import java.time.LocalDate
 import javax.inject.Inject
 
 @AndroidEntryPoint
 class AddEditMedicalRecordsFragment :
     BaseFragment<
-        AddEditViewState,
-        AddEditNotification,
-        FragmentAddEditMedicalRecordBinding
-        >(),
+            AddEditViewState,
+            AddEditNotification,
+            FragmentAddEditMedicalRecordBinding
+            >(),
     ImageAdapter.OnAdapterItemListener,
-    DatePicker.DatePickerListener {
+    DatePicker.DatePickerListener,
+    DiagnoseSelector.DiagnoseSelectorListener {
 
     override val viewModel: AddEditViewModel by viewModels()
 
@@ -41,7 +50,7 @@ class AddEditMedicalRecordsFragment :
 
     @Inject
     override lateinit var viewStateBinder:
-        ViewStateBinder<AddEditViewState, FragmentAddEditMedicalRecordBinding>
+            ViewStateBinder<AddEditViewState, FragmentAddEditMedicalRecordBinding>
 
     override fun setupBinding(
         inflater: LayoutInflater,
@@ -67,8 +76,10 @@ class AddEditMedicalRecordsFragment :
         }
 
         binding.buttonSave.setOnClickListener {
-            lifecycleScope.launchWhenCreated { viewModel.onSubmit() }
+            lifecycleScope.launch { viewModel.onSubmit() }
         }
+
+//        binding.diagnoseSelector.setListener(this)
 
         binding.datePicker.setListener(this)
         val addEditBinder = (viewStateBinder as AddEditBinder)
@@ -78,16 +89,13 @@ class AddEditMedicalRecordsFragment :
                 is AddEditBinder.Notification.FileClick -> {
                     onItemClicked(it.item)
                 }
+
                 is AddEditBinder.Notification.FileDelete -> {
                     onItemDeleted(it.item)
                 }
-                is AddEditBinder.Notification.DiagnoseClick -> {
-                    viewModel.onDiagnoseSelected(it.item.id)
-                }
-                is AddEditBinder.Notification.DiagnoseSearch -> {
-                    Log.d(TAG, it.toString())
-                    viewModel.onDiagnoseSearch(it.query)
-//                    viewModel.onDiagnoseSearch(it.query)
+
+                is AddEditBinder.Notification.ProblemCategorySelected -> {
+                    viewModel.onProblemCategorySelected(it.value)
                 }
             }
         }
@@ -102,12 +110,15 @@ class AddEditMedicalRecordsFragment :
                     Snackbar.LENGTH_SHORT
                 ).show()
             }
+
             AddEditNotification.MissingData -> {
                 Snackbar.make(binding.root, "Missing data", Snackbar.LENGTH_SHORT).show()
             }
+
             AddEditNotification.Error ->
                 Snackbar.make(binding.root, getText(R.string.add_edit_error), Snackbar.LENGTH_SHORT)
                     .show()
+
             AddEditNotification.PatientNotSelected -> {
                 Snackbar.make(
                     binding.root,
@@ -115,6 +126,7 @@ class AddEditMedicalRecordsFragment :
                     Snackbar.LENGTH_SHORT
                 ).show()
             }
+
             AddEditNotification.Success ->
                 Snackbar.make(
                     binding.root,
@@ -135,5 +147,37 @@ class AddEditMedicalRecordsFragment :
 
     override fun onItemClicked(item: ImageItemUiModel) {
         Log.d(TAG, "onItemClicked: $item")
+    }
+
+    override fun onDiagnoseSelected(diagnose: DiagnoseItemUiModel?, position: Int?) {
+        val model = diagnose?.let {
+            DiagnosePresentationModel(
+                id = it.id,
+                name = it.name,
+                parent = it.parent
+            )
+        }
+        viewModel.onDiagnoseSelected(model)
+    }
+
+    override fun onDiagnoseSelectorSearch(
+        query: String,
+        callback: suspend (PagingData<DiagnoseItemUiModel>) -> Unit
+    ) {
+        val stream = viewModel.onDiagnoseSearch(query)
+
+        lifecycleScope.launch {
+            stream.map { pagingData ->
+                pagingData.map {
+                    DiagnoseItemUiModel(
+                        id = it.id,
+                        name = it.name,
+                        parent = it.parent
+                    )
+                }
+            }.collectLatest { pagingData ->
+                callback(pagingData)
+            }
+        }
     }
 }

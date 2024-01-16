@@ -30,6 +30,7 @@ import cz.vvoleman.phr.featureMedicalRecord.domain.usecase.addEdit.SearchDiagnos
 import cz.vvoleman.phr.featureMedicalRecord.domain.usecase.selectFile.GetDataForSelectedOptionsUseCase
 import cz.vvoleman.phr.featureMedicalRecord.domain.usecase.selectFile.SaveMedicalRecordFileUseCase
 import cz.vvoleman.phr.featureMedicalRecord.presentation.addEdit.mapper.AddEditPresentationModelToDomainMapper
+import cz.vvoleman.phr.featureMedicalRecord.presentation.addEdit.mapper.AddEditViewStateToModelMapper
 import cz.vvoleman.phr.featureMedicalRecord.presentation.addEdit.mapper.AssetPresentationToDomainModelMapper
 import cz.vvoleman.phr.featureMedicalRecord.presentation.addEdit.mapper.DiagnoseDomainModelToPresentationMapper
 import cz.vvoleman.phr.featureMedicalRecord.presentation.addEdit.mapper.PatientDomainModelToPresentationMapper
@@ -178,4 +179,7 @@ class PresentationModule {
         deleteProblemCategoriesRepository,
         coroutineContextProvider
     )
+
+    @Provides
+    fun providesAddEditViewStateToModelMapper() = AddEditViewStateToModelMapper()
 }

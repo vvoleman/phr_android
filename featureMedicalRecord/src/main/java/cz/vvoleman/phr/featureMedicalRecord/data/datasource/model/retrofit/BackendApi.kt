@@ -8,6 +8,7 @@ interface BackendApi {
 
     companion object {
         const val BASE_URL = "https://phr.vvoleman.eu/api/"
+        const val PAGE_SIZE = 10
     }
 
     @GET("diagnose")

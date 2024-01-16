@@ -1,14 +1,20 @@
 package cz.vvoleman.phr.featureMedicalRecord.data.repository
 
 import android.util.Log
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
 import cz.vvoleman.phr.featureMedicalRecord.data.datasource.model.retrofit.BackendApi
+import cz.vvoleman.phr.featureMedicalRecord.data.datasource.model.retrofit.diagnose.DiagnosePagingSource
 import cz.vvoleman.phr.featureMedicalRecord.data.datasource.model.room.diagnose.DiagnoseDao
 import cz.vvoleman.phr.featureMedicalRecord.data.mapper.DiagnoseApiModelToDbMapper
 import cz.vvoleman.phr.featureMedicalRecord.data.mapper.DiagnoseDataSourceToDomainMapper
 import cz.vvoleman.phr.featureMedicalRecord.domain.model.DiagnoseDomainModel
 import cz.vvoleman.phr.featureMedicalRecord.domain.repository.GetDiagnoseByIdRepository
+import cz.vvoleman.phr.featureMedicalRecord.domain.repository.addEdit.GetDiagnosesPagingStreamRepository
 import cz.vvoleman.phr.featureMedicalRecord.domain.repository.addEdit.SearchDiagnoseRepository
 import cz.vvoleman.phr.featureMedicalRecord.domain.repository.selectFile.GetDiagnosesByIdsRepository
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 
 class DiagnoseRepository(
@@ -16,7 +22,8 @@ class DiagnoseRepository(
     private val diagnoseDataSourceToDomainMapper: DiagnoseDataSourceToDomainMapper,
     private val backendApi: BackendApi,
     private val diagnoseDao: DiagnoseDao
-) : GetDiagnosesByIdsRepository, GetDiagnoseByIdRepository, SearchDiagnoseRepository {
+) : GetDiagnosesByIdsRepository, GetDiagnoseByIdRepository, SearchDiagnoseRepository,
+    GetDiagnosesPagingStreamRepository {
 
     override suspend fun getDiagnosesByIds(ids: List<String>): List<DiagnoseDomainModel> {
         // Check if all diagnoses are in local database
@@ -80,6 +87,21 @@ class DiagnoseRepository(
         // If the remote search fails, fall back to the local storage
         return diagnoseDao.search(query).first()
             .map { diagnoseDataSourceToDomainMapper.toDomain(it.diagnose) }
+    }
+
+    override fun getDiagnosesPagingStream(query: String): Flow<PagingData<DiagnoseDomainModel>> {
+        return Pager(
+            config = PagingConfig(pageSize = PER_PAGE, enablePlaceholders = false),
+            pagingSourceFactory = {
+                DiagnosePagingSource(
+                    backendApi = backendApi,
+                    query = query,
+                    diagnoseApiModelToDbMapper = diagnoseApiModelToDbMapper,
+                    diagnoseDataSourceToDomainMapper = diagnoseDataSourceToDomainMapper
+
+                )
+            }
+        ).flow
     }
 
     companion object {

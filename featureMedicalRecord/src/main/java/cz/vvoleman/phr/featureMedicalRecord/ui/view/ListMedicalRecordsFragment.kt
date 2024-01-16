@@ -10,7 +10,6 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
-import cz.vvoleman.phr.base.ui.ext.collectLatestLifecycleFlow
 import cz.vvoleman.phr.base.ui.ext.collectLifecycleFlow
 import cz.vvoleman.phr.base.ui.mapper.DestinationUiMapper
 import cz.vvoleman.phr.base.ui.mapper.ViewStateBinder
@@ -96,11 +95,6 @@ class ListMedicalRecordsFragment :
                     viewModel.onFilterGroupByChange(it.item)
                 }
             }
-        }
-        collectLatestLifecycleFlow(viewModel.viewState) {
-            if (it == null) return@collectLatestLifecycleFlow
-
-            listAdapter.submitList(it.groupedRecords.map { groupedItemsDomainModelToUiMapper.toUi(it) })
         }
     }
 
