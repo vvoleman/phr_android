@@ -17,11 +17,11 @@ import cz.vvoleman.phr.featureMedicalRecord.R
 import cz.vvoleman.phr.featureMedicalRecord.databinding.FragmentAddEditMedicalRecordBinding
 import cz.vvoleman.phr.featureMedicalRecord.presentation.addEdit.model.AddEditNotification
 import cz.vvoleman.phr.featureMedicalRecord.presentation.addEdit.model.AddEditViewState
-import cz.vvoleman.phr.featureMedicalRecord.presentation.addEdit.model.DiagnosePresentationModel
 import cz.vvoleman.phr.featureMedicalRecord.presentation.addEdit.viewmodel.AddEditViewModel
 import cz.vvoleman.phr.featureMedicalRecord.ui.component.diagnoseSelector.DiagnoseSelector
 import cz.vvoleman.phr.featureMedicalRecord.ui.mapper.AddEditDestinationUiMapper
-import cz.vvoleman.phr.featureMedicalRecord.ui.model.DiagnoseItemUiModel
+import cz.vvoleman.phr.featureMedicalRecord.ui.mapper.DiagnoseUiModelToPresentationMapper
+import cz.vvoleman.phr.featureMedicalRecord.ui.model.DiagnoseUiModel
 import cz.vvoleman.phr.featureMedicalRecord.ui.model.ImageItemUiModel
 import cz.vvoleman.phr.featureMedicalRecord.ui.view.addEdit.adapter.ImageAdapter
 import cz.vvoleman.phr.featureMedicalRecord.ui.view.addEdit.binder.AddEditBinder
@@ -52,6 +52,9 @@ class AddEditMedicalRecordsFragment :
     override lateinit var viewStateBinder:
             ViewStateBinder<AddEditViewState, FragmentAddEditMedicalRecordBinding>
 
+    @Inject
+    lateinit var diagnoseMapper: DiagnoseUiModelToPresentationMapper
+
     override fun setupBinding(
         inflater: LayoutInflater,
         container: ViewGroup?
@@ -79,7 +82,7 @@ class AddEditMedicalRecordsFragment :
             lifecycleScope.launch { viewModel.onSubmit() }
         }
 
-//        binding.diagnoseSelector.setListener(this)
+        binding.diagnoseSelector.setListener(this)
 
         binding.datePicker.setListener(this)
         val addEditBinder = (viewStateBinder as AddEditBinder)
@@ -149,32 +152,20 @@ class AddEditMedicalRecordsFragment :
         Log.d(TAG, "onItemClicked: $item")
     }
 
-    override fun onDiagnoseSelected(diagnose: DiagnoseItemUiModel?, position: Int?) {
-        val model = diagnose?.let {
-            DiagnosePresentationModel(
-                id = it.id,
-                name = it.name,
-                parent = it.parent
-            )
-        }
+    override fun onDiagnoseSelected(diagnose: DiagnoseUiModel?, position: Int?) {
+        val model = diagnose?.let {diagnoseMapper.toPresentation(it)}
         viewModel.onDiagnoseSelected(model)
     }
 
     override fun onDiagnoseSelectorSearch(
         query: String,
-        callback: suspend (PagingData<DiagnoseItemUiModel>) -> Unit
+        callback: suspend (PagingData<DiagnoseUiModel>) -> Unit
     ) {
         val stream = viewModel.onDiagnoseSearch(query)
 
         lifecycleScope.launch {
             stream.map { pagingData ->
-                pagingData.map {
-                    DiagnoseItemUiModel(
-                        id = it.id,
-                        name = it.name,
-                        parent = it.parent
-                    )
-                }
+                pagingData.map {diagnoseMapper.toUi(it)}
             }.collectLatest { pagingData ->
                 callback(pagingData)
             }

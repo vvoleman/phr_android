@@ -12,10 +12,11 @@ import cz.vvoleman.phr.featureMedicalRecord.data.datasource.model.retrofit.Backe
 import cz.vvoleman.phr.featureMedicalRecord.data.datasource.model.room.MedicalRecordDao
 import cz.vvoleman.phr.featureMedicalRecord.data.datasource.model.room.asset.MedicalRecordAssetDao
 import cz.vvoleman.phr.featureMedicalRecord.data.datasource.model.room.diagnose.DiagnoseDao
+import cz.vvoleman.phr.featureMedicalRecord.data.datasource.model.room.diagnose.DiagnoseGroupDao
 import cz.vvoleman.phr.featureMedicalRecord.data.mapper.AddEditDomainModelToToDataSourceMapper
 import cz.vvoleman.phr.featureMedicalRecord.data.mapper.AddressDataSourceToDomainMapper
 import cz.vvoleman.phr.featureMedicalRecord.data.mapper.DiagnoseApiModelToDbMapper
-import cz.vvoleman.phr.featureMedicalRecord.data.mapper.DiagnoseDataSourceToDomainMapper
+import cz.vvoleman.phr.featureMedicalRecord.data.mapper.DiagnoseDataSourceModelToDomainMapper
 import cz.vvoleman.phr.featureMedicalRecord.data.mapper.FilterRequestDomainModelToDataMapper
 import cz.vvoleman.phr.featureMedicalRecord.data.mapper.MedicalRecordAssetDataSourceToDomainMapper
 import cz.vvoleman.phr.featureMedicalRecord.data.mapper.MedicalRecordAssetDomainToDataSourceMapper
@@ -28,6 +29,7 @@ import cz.vvoleman.phr.featureMedicalRecord.data.repository.MedicalRecordReposit
 import cz.vvoleman.phr.featureMedicalRecord.data.repository.MedicalWorkerRepository
 import cz.vvoleman.phr.featureMedicalRecord.data.repository.ProblemCategoryRepository
 import cz.vvoleman.phr.featureMedicalRecord.domain.repository.AddEditMedicalRecordRepository
+import cz.vvoleman.phr.featureMedicalRecord.domain.repository.CreateDiagnoseRepository
 import cz.vvoleman.phr.featureMedicalRecord.domain.repository.CreateMedicalRecordAssetRepository
 import cz.vvoleman.phr.featureMedicalRecord.domain.repository.DeleteMedicalRecordRepository
 import cz.vvoleman.phr.featureMedicalRecord.domain.repository.GetDiagnoseByIdRepository
@@ -41,6 +43,7 @@ import cz.vvoleman.phr.featureMedicalRecord.domain.repository.GetUsedMedicalWork
 import cz.vvoleman.phr.featureMedicalRecord.domain.repository.GetUsedProblemCategoriesRepository
 import cz.vvoleman.phr.featureMedicalRecord.domain.repository.MedicalRecordFilterRepository
 import cz.vvoleman.phr.featureMedicalRecord.domain.repository.UpdateMedicalRecordProblemCategoryRepository
+import cz.vvoleman.phr.featureMedicalRecord.domain.repository.addEdit.DeleteUnusedFilesRepository
 import cz.vvoleman.phr.featureMedicalRecord.domain.repository.addEdit.GetDiagnosesPagingStreamRepository
 import cz.vvoleman.phr.featureMedicalRecord.domain.repository.addEdit.SearchDiagnoseRepository
 import cz.vvoleman.phr.featureMedicalRecord.domain.repository.patientDelete.DeleteMedicalRecordAssetsRepository
@@ -87,7 +90,7 @@ class DataModule {
     fun providesAddressDataSourceToDomainMapper() = AddressDataSourceToDomainMapper()
 
     @Provides
-    fun providesDiagnoseDataSourceToDomainMapper() = DiagnoseDataSourceToDomainMapper()
+    fun providesDiagnoseDataSourceToDomainMapper() = DiagnoseDataSourceModelToDomainMapper()
 
     @Provides
     fun providesFilterRequestDomainModelToDataSourceMapper() =
@@ -96,17 +99,19 @@ class DataModule {
     @Provides
     fun providesMedicalRecordDataSourceToDomainMapper(
         patient: PatientDataSourceModelToDomainMapper,
-        diagnose: DiagnoseDataSourceToDomainMapper,
+        diagnose: DiagnoseDataSourceModelToDomainMapper,
         specificWorker: SpecificMedicalWorkerDataSourceToDomainMapper,
         problemCategoryDataSourceModel: ProblemCategoryDataSourceModelToDomainMapper,
-        specificWorkerDao: SpecificMedicalWorkerDao
+        specificWorkerDao: SpecificMedicalWorkerDao,
+        diagnoseDao: DiagnoseDao,
     ) =
         MedicalRecordDataSourceToDomainMapper(
             patient,
             diagnose,
             specificWorker,
             problemCategoryDataSourceModel,
-            specificWorkerDao
+            specificWorkerDao,
+            diagnoseDao
         )
 
     @Provides
@@ -154,14 +159,16 @@ class DataModule {
     @Provides
     fun providesDiagnoseRepository(
         diagnoseApiModelToDbMapper: DiagnoseApiModelToDbMapper,
-        diagnoseDataSourceToDomainMapper: DiagnoseDataSourceToDomainMapper,
+        diagnoseDataSourceModelToDomainMapper: DiagnoseDataSourceModelToDomainMapper,
         diagnoseDao: DiagnoseDao,
+        diagnoseGroupDao: DiagnoseGroupDao,
         backendApi: BackendApi
     ) = DiagnoseRepository(
         diagnoseApiModelToDbMapper,
-        diagnoseDataSourceToDomainMapper,
+        diagnoseDataSourceModelToDomainMapper,
         backendApi,
-        diagnoseDao
+        diagnoseDao,
+        diagnoseGroupDao
     )
 
     @Provides
@@ -170,11 +177,15 @@ class DataModule {
     ): SaveFileRepository = FileRepository(context)
 
     @Provides
-    fun providesCreateMedicalRecordAssetRepository(
+    fun providesMedicalRecordAssetRepository(
         domainToDataSourceMapper: MedicalRecordAssetDomainToDataSourceMapper,
         assetDao: MedicalRecordAssetDao
-    ): CreateMedicalRecordAssetRepository =
-        MedicalRecordAssetRepository(domainToDataSourceMapper, assetDao)
+    ) = MedicalRecordAssetRepository(domainToDataSourceMapper, assetDao)
+
+    @Provides
+    fun providesCreateMedicalRecordAssetRepository(
+        medicalRecordAssetRepository: MedicalRecordAssetRepository
+    ): CreateMedicalRecordAssetRepository = medicalRecordAssetRepository
 
     @Provides
     fun providesMedicalRecordAssetDataSourceToDomainMapper() =
@@ -279,4 +290,14 @@ class DataModule {
     fun providesGetDiagnosesPagingStreamRepository(
         diagnoseRepository: DiagnoseRepository
     ): GetDiagnosesPagingStreamRepository = diagnoseRepository
+
+    @Provides
+    fun providesDeleteUnusedFilesRepository(
+        medicalRecordAssetRepository: MedicalRecordAssetRepository
+    ): DeleteUnusedFilesRepository = medicalRecordAssetRepository
+
+    @Provides
+    fun providesCreateDiagnoseRepository(
+        diagnoseRepository: DiagnoseRepository
+    ): CreateDiagnoseRepository = diagnoseRepository
 }

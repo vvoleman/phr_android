@@ -33,9 +33,10 @@ class UiModule {
 
     @Provides
     fun providesAddEditBinder(
-        problemCategoryMapper: ProblemCategoryUiModelToColorMapper
+        problemCategoryMapper: ProblemCategoryUiModelToColorMapper,
+        diagnoseMapper: DiagnoseUiModelToPresentationMapper
     ): ViewStateBinder<AddEditViewState, FragmentAddEditMedicalRecordBinding> =
-        AddEditBinder(problemCategoryMapper)
+        AddEditBinder(problemCategoryMapper, diagnoseMapper)
 
     @Provides
     fun providesSelectFileBinder(): ViewStateBinder<SelectFileViewState, FragmentSelectFileBinding> =
@@ -72,4 +73,7 @@ class UiModule {
 
     @Provides
     fun providesProblemCategoryUiModelToColorMapper() = ProblemCategoryUiModelToColorMapper()
+
+    @Provides
+    fun providesDiagnoseUiModelToPresentationMapper() = DiagnoseUiModelToPresentationMapper()
 }

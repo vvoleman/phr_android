@@ -13,7 +13,7 @@ import cz.vvoleman.phr.common.utils.SizingConstants
 import cz.vvoleman.phr.featureMedicalRecord.databinding.DialogDiagnoseSelectorBinding
 import cz.vvoleman.phr.featureMedicalRecord.databinding.ViewDiagnoseSelectorBinding
 import cz.vvoleman.phr.featureMedicalRecord.ui.adapter.DiagnoseSelectorAdapter
-import cz.vvoleman.phr.featureMedicalRecord.ui.model.DiagnoseItemUiModel
+import cz.vvoleman.phr.featureMedicalRecord.ui.model.DiagnoseUiModel
 
 class DiagnoseSelector @JvmOverloads constructor(
     context: Context,
@@ -29,7 +29,7 @@ class DiagnoseSelector @JvmOverloads constructor(
 
     private var isFirstOpen = false
     private var listener: DiagnoseSelectorListener? = null
-    private var diagnose: DiagnoseItemUiModel? = null
+    private var diagnose: DiagnoseUiModel? = null
 
     init {
         binding = ViewDiagnoseSelectorBinding.inflate(LayoutInflater.from(context), this, true)
@@ -87,7 +87,7 @@ class DiagnoseSelector @JvmOverloads constructor(
         })
     }
 
-    suspend fun setData(data: PagingData<DiagnoseItemUiModel>) {
+    suspend fun setData(data: PagingData<DiagnoseUiModel>) {
         recyclerViewAdapter.submitData(data)
     }
 
@@ -95,17 +95,22 @@ class DiagnoseSelector @JvmOverloads constructor(
         this.listener = listener
     }
 
+    fun setSelected(diagnose: DiagnoseUiModel?) {
+        this.diagnose = diagnose
+        setupDiagnose()
+    }
+
     private fun setupDiagnose() {
         binding.textInputEditTextName.setText(diagnose?.name)
     }
 
     interface DiagnoseSelectorListener {
-        fun onDiagnoseSelected(diagnose: DiagnoseItemUiModel?, position: Int?)
-        fun onDiagnoseSelectorSearch(query: String, callback: suspend (PagingData<DiagnoseItemUiModel>) -> Unit)
+        fun onDiagnoseSelected(diagnose: DiagnoseUiModel?, position: Int?)
+        fun onDiagnoseSelectorSearch(query: String, callback: suspend (PagingData<DiagnoseUiModel>) -> Unit)
     }
 
-    override fun onDiagnoseSelected(diagnose: DiagnoseItemUiModel?) {
-        listener?.onDiagnoseSelected(diagnose, position)
+    override fun onDiagnoseSelected(diagnose: DiagnoseUiModel?) {
+        this.diagnose = diagnose
     }
 
 }

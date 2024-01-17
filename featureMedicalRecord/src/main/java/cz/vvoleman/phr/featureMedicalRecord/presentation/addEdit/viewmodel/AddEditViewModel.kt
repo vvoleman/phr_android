@@ -16,6 +16,8 @@ import cz.vvoleman.phr.featureMedicalRecord.domain.model.MedicalRecordDomainMode
 import cz.vvoleman.phr.featureMedicalRecord.domain.model.addEdit.UserListsDomainModel
 import cz.vvoleman.phr.featureMedicalRecord.domain.model.selectFile.SaveFileRequestDomainModel
 import cz.vvoleman.phr.featureMedicalRecord.domain.model.selectFile.SelectedObjectsDomainModel
+import cz.vvoleman.phr.featureMedicalRecord.domain.repository.GetDiagnoseByIdRepository
+import cz.vvoleman.phr.featureMedicalRecord.domain.repository.addEdit.DeleteUnusedFilesRepository
 import cz.vvoleman.phr.featureMedicalRecord.domain.repository.addEdit.GetDiagnosesPagingStreamRepository
 import cz.vvoleman.phr.featureMedicalRecord.domain.usecase.AddEditMedicalRecordUseCase
 import cz.vvoleman.phr.featureMedicalRecord.domain.usecase.GetRecordByIdUseCase
@@ -25,7 +27,7 @@ import cz.vvoleman.phr.featureMedicalRecord.domain.usecase.selectFile.GetDataFor
 import cz.vvoleman.phr.featureMedicalRecord.domain.usecase.selectFile.SaveMedicalRecordFileUseCase
 import cz.vvoleman.phr.featureMedicalRecord.presentation.addEdit.mapper.AddEditPresentationModelToDomainMapper
 import cz.vvoleman.phr.featureMedicalRecord.presentation.addEdit.mapper.AddEditViewStateToModelMapper
-import cz.vvoleman.phr.featureMedicalRecord.presentation.addEdit.mapper.DiagnoseDomainModelToPresentationMapper
+import cz.vvoleman.phr.featureMedicalRecord.presentation.addEdit.mapper.DiagnosePresentationModelToDomainMapper
 import cz.vvoleman.phr.featureMedicalRecord.presentation.addEdit.model.*
 import cz.vvoleman.phr.featureMedicalRecord.presentation.selectFile.mapper.SelectedOptionsPresentationToDomainMapper
 import cz.vvoleman.phr.featureMedicalRecord.presentation.selectFile.model.SelectedOptionsPresentationModel
@@ -44,12 +46,14 @@ class AddEditViewModel @Inject constructor(
     private val getRecordByIdUseCase: GetRecordByIdUseCase,
     private val getSelectedPatientUseCase: GetSelectedPatientUseCase,
     private val saveMedicalRecordFileUseCase: SaveMedicalRecordFileUseCase,
+    private val deleteUnusedFilesRepository: DeleteUnusedFilesRepository,
     private val searchDiagnoseUseCase: SearchDiagnoseUseCase,
     private val getDataForSelectedOptionsUseCase: GetDataForSelectedOptionsUseCase,
     private val getUserListsUseCase: GetUserListsUseCase,
     private val getDiagnosesPagingStreamRepository: GetDiagnosesPagingStreamRepository,
+    private val getDiagnoseByIdRepository: GetDiagnoseByIdRepository,
     private val selectedOptionsPresentationToDomainMapper: SelectedOptionsPresentationToDomainMapper,
-    private val diagnoseDomainModelToPresentationMapper: DiagnoseDomainModelToPresentationMapper,
+    private val diagnoseMapper: DiagnosePresentationModelToDomainMapper,
     private val addEditPresentationModelToDomainMapper: AddEditPresentationModelToDomainMapper,
     private val problemCategoryMapper: ProblemCategoryPresentationModelToDomainMapper,
     private val patientMapper: PatientPresentationModelToDomainMapper,
@@ -74,7 +78,7 @@ class AddEditViewModel @Inject constructor(
             return AddEditViewState(
                 recordId = previousState.recordId,
                 createdAt = previousState.createdAt,
-                diagnoseId = previousState.diagnoseId,
+                diagnose = previousState.diagnose,
                 specificMedicalWorkerId = previousState.specificMedicalWorker,
                 problemCategoryId = previousState.problemCategoryId,
                 patientId = previousState.patientId,
@@ -89,7 +93,7 @@ class AddEditViewModel @Inject constructor(
             visitDate = record?.visitDate ?: LocalDate.now(),
             patientId = patient.id,
             recordId = record?.id,
-            diagnoseId = record?.diagnose?.id,
+            diagnose = record?.diagnose?.let { diagnoseMapper.toPresentation(it) },
             problemCategoryId = record?.problemCategory?.id,
             specificMedicalWorkerId = record?.specificMedicalWorker?.id,
             assets = record?.assets?.map { AssetPresentationModel(id = it.id, uri = it.url, createdAt = it.createdAt) }
@@ -128,7 +132,7 @@ class AddEditViewModel @Inject constructor(
     }
 
     fun onDiagnoseSelected(diagnose: DiagnosePresentationModel?) {
-        updateViewState(currentViewState.copy(diagnoseId = diagnose?.id))
+        updateViewState(currentViewState.copy(diagnose = diagnose))
     }
 
     fun onDateSelected(date: LocalDate) {
@@ -137,12 +141,12 @@ class AddEditViewModel @Inject constructor(
 
     fun onDiagnoseSearch(query: String): Flow<PagingData<DiagnosePresentationModel>> {
         if (query != currentViewState.query || currentViewState.diagnoseStream == null) {
-            updateViewState(currentViewState.copy(query=query))
+            updateViewState(currentViewState.copy(query = query))
             val flow = getDiagnosesPagingStreamRepository
                 .getDiagnosesPagingStream(query)
                 .map { pagingData ->
                     pagingData.map {
-                        diagnoseDomainModelToPresentationMapper.toPresentation(it)
+                        diagnoseMapper.toPresentation(it)
                     }
                 }
                 .cachedIn(viewModelScope)
@@ -179,6 +183,9 @@ class AddEditViewModel @Inject constructor(
     private fun handleAddEditResult(id: String) = viewModelScope.launch {
         updateViewState(currentViewState.copy(saving = false))
 
+        val previousFiles = currentViewState.assets.filter { it.id != null }.map { it.id!! }
+        deleteUnusedFilesRepository.deleteUnusedFiles(id, previousFiles)
+
         // Save files
         val files = currentViewState.assets.filter { it.id == null }
         if (files.isNotEmpty()) {
@@ -210,7 +217,7 @@ class AddEditViewModel @Inject constructor(
         updateViewState(currentViewState.copy(assets = currentViewState.assets + asset))
     }
 
-    private fun setSelectedOptions(options: SelectedObjectsDomainModel) {
+    private fun setSelectedOptions(options: SelectedObjectsDomainModel) = viewModelScope.launch {
         var state = currentViewState.copy()
 
         var diagnose: String? = null
@@ -228,7 +235,7 @@ class AddEditViewModel @Inject constructor(
             visitDate = options.visitDate
         }
 
-        diagnose?.let { state = state.copy(diagnoseId = it) }
+        diagnose?.let { state = state.copy(diagnose = getDiagnose(it)) }
         patient?.let { state = state.copy(patientId = it) }
         visitDate?.let { state = state.copy(visitDate = it) }
 
@@ -248,6 +255,12 @@ class AddEditViewModel @Inject constructor(
 
     private suspend fun getUserLists(patientId: String): UserListsDomainModel {
         return getUserListsUseCase.executeInBackground(patientId)
+    }
+
+    private suspend fun getDiagnose(id: String): DiagnosePresentationModel? {
+        return getDiagnoseByIdRepository.getDiagnoseById(id)?.let {
+            diagnoseMapper.toPresentation(it)
+        }
     }
 
     fun onProblemCategorySelected(name: String?) {

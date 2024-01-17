@@ -6,11 +6,11 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import cz.vvoleman.phr.featureMedicalRecord.databinding.ItemDiagnoseBinding
-import cz.vvoleman.phr.featureMedicalRecord.ui.model.DiagnoseItemUiModel
+import cz.vvoleman.phr.featureMedicalRecord.ui.model.DiagnoseUiModel
 
 class DiagnoseSelectorAdapter(
     private val listener: DiagnoseSelectorAdapterListener
-) : PagingDataAdapter<DiagnoseItemUiModel, DiagnoseSelectorAdapter.DiagnoseSelectorViewHolder>(DiffCallback()) {
+) : PagingDataAdapter<DiagnoseUiModel, DiagnoseSelectorAdapter.DiagnoseSelectorViewHolder>(DiffCallback()) {
 
     private var selectedItemPosition: Int = RecyclerView.NO_POSITION
 
@@ -33,23 +33,49 @@ class DiagnoseSelectorAdapter(
     }
 
     inner class DiagnoseSelectorViewHolder(val binding: ItemDiagnoseBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: DiagnoseItemUiModel, isSelected: Boolean) {
+        init {
+            binding.root.setOnClickListener {
+                if (selectedItemPosition == bindingAdapterPosition) {
+                    selectedItemPosition = RecyclerView.NO_POSITION
+                    listener.onDiagnoseSelected(null)
+                    notifyItemChanged(bindingAdapterPosition)
+                    return@setOnClickListener
+                }
+
+                val previousSelectedItemPosition = selectedItemPosition
+                selectedItemPosition = bindingAdapterPosition
+                notifyItemChanged(selectedItemPosition)
+                if (previousSelectedItemPosition != RecyclerView.NO_POSITION) {
+                    notifyItemChanged(previousSelectedItemPosition)
+                }
+                listener.onDiagnoseSelected(getItem(selectedItemPosition))
+            }
+        }
+
+        fun bind(item: DiagnoseUiModel, isSelected: Boolean) {
+            binding.textViewId.text = item.id
             binding.textViewName.text = item.name
+
+            if (isSelected) {
+                binding.root.setBackgroundResource(cz.vvoleman.phr.base.R.color.beige_200)
+            } else {
+                binding.root.setBackgroundResource(cz.vvoleman.phr.base.R.color.white)
+            }
         }
     }
 
-    private class DiffCallback : DiffUtil.ItemCallback<DiagnoseItemUiModel>() {
-        override fun areItemsTheSame(oldItem: DiagnoseItemUiModel, newItem: DiagnoseItemUiModel): Boolean {
+    private class DiffCallback : DiffUtil.ItemCallback<DiagnoseUiModel>() {
+        override fun areItemsTheSame(oldItem: DiagnoseUiModel, newItem: DiagnoseUiModel): Boolean {
             return oldItem.id == newItem.id
         }
 
-        override fun areContentsTheSame(oldItem: DiagnoseItemUiModel, newItem: DiagnoseItemUiModel): Boolean {
+        override fun areContentsTheSame(oldItem: DiagnoseUiModel, newItem: DiagnoseUiModel): Boolean {
             return oldItem == newItem
         }
     }
 
     interface DiagnoseSelectorAdapterListener {
-        fun onDiagnoseSelected(diagnose: DiagnoseItemUiModel?)
+        fun onDiagnoseSelected(diagnose: DiagnoseUiModel?)
     }
 
 }

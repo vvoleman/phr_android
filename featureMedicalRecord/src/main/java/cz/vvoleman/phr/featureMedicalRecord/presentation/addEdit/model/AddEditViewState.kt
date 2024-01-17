@@ -9,7 +9,7 @@ import java.time.LocalDate
 data class AddEditViewState(
     val recordId: String? = null,
     val createdAt: LocalDate? = null,
-    val diagnoseId: String? = null,
+    val diagnose: DiagnosePresentationModel? = null,
     val specificMedicalWorkerId: String? = null,
     val problemCategoryId: String? = null,
     val patientId: String? = null,

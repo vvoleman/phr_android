@@ -4,14 +4,15 @@ import cz.vvoleman.phr.featureMedicalRecord.domain.model.addEdit.AddEditDomainMo
 import cz.vvoleman.phr.featureMedicalRecord.presentation.addEdit.model.AddEditPresentationModel
 
 class AddEditPresentationModelToDomainMapper(
-    private val assetPresentationToDomainModel: AssetPresentationToDomainModelMapper
+    private val assetPresentationToDomainModel: AssetPresentationToDomainModelMapper,
+    private val diagnoseMapper: DiagnosePresentationModelToDomainMapper,
 ) {
 
     fun toDomain(model: AddEditPresentationModel): AddEditDomainModel {
         return AddEditDomainModel(
             id = model.recordId,
             createdAt = model.createdAt,
-            diagnoseId = model.diagnoseId,
+            diagnose = model.diagnose?.let { diagnoseMapper.toDomain(it) },
             problemCategoryId = model.problemCategoryId,
             patientId = model.patientId,
             specificMedicalWorkerId = model.specificMedicalWorker,
