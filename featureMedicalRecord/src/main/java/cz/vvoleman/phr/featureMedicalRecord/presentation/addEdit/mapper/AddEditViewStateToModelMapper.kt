@@ -10,7 +10,7 @@ class AddEditViewStateToModelMapper {
         return AddEditPresentationModel(
             recordId = viewState.recordId,
             createdAt = viewState.createdAt ?: LocalDate.now(),
-            diagnoseId = viewState.diagnoseId,
+            diagnose = viewState.diagnose,
             problemCategoryId = viewState.problemCategoryId,
             patientId = viewState.patientId!!,
             specificMedicalWorker = viewState.specificMedicalWorkerId,

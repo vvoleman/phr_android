@@ -97,10 +97,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-<!--        <cz.vvoleman.phr.featureMedicalRecord.ui.component.diagnoseSelector.DiagnoseSelector-->
-<!--            android:id="@+id/diagnose_selector"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content" />-->
+        <cz.vvoleman.phr.featureMedicalRecord.ui.component.diagnoseSelector.DiagnoseSelector
+            android:id="@+id/diagnose_selector"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/text_input_layout_problem_category"

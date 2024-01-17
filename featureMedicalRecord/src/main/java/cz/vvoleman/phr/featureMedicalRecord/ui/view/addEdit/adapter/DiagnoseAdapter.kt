@@ -7,11 +7,11 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import cz.vvoleman.phr.featureMedicalRecord.databinding.ItemDiagnoseSpinnerBinding
-import cz.vvoleman.phr.featureMedicalRecord.ui.model.DiagnoseItemUiModel
+import cz.vvoleman.phr.featureMedicalRecord.ui.model.DiagnoseUiModel
 
 class DiagnoseAdapter(
     private val listener: OnItemClickListener
-) : ListAdapter<DiagnoseItemUiModel, DiagnoseAdapter.DialogOptionsViewHolder>(DiffCallback()) {
+) : ListAdapter<DiagnoseUiModel, DiagnoseAdapter.DialogOptionsViewHolder>(DiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DialogOptionsViewHolder {
         val binding = ItemDiagnoseSpinnerBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -49,7 +49,7 @@ class DiagnoseAdapter(
             }
         }
 
-        fun bind(item: DiagnoseItemUiModel) {
+        fun bind(item: DiagnoseUiModel) {
             binding.apply {
                 radioButton.text = item.name
             }
@@ -58,15 +58,15 @@ class DiagnoseAdapter(
 
     interface OnItemClickListener {
         // Returns true for unchecking button
-        fun onItemClicked(item: DiagnoseItemUiModel, position: Int): Boolean
+        fun onItemClicked(item: DiagnoseUiModel, position: Int): Boolean
     }
 
-    class DiffCallback : DiffUtil.ItemCallback<DiagnoseItemUiModel>() {
-        override fun areItemsTheSame(oldItem: DiagnoseItemUiModel, newItem: DiagnoseItemUiModel): Boolean {
+    class DiffCallback : DiffUtil.ItemCallback<DiagnoseUiModel>() {
+        override fun areItemsTheSame(oldItem: DiagnoseUiModel, newItem: DiagnoseUiModel): Boolean {
             return oldItem == newItem
         }
 
-        override fun areContentsTheSame(oldItem: DiagnoseItemUiModel, newItem: DiagnoseItemUiModel): Boolean {
+        override fun areContentsTheSame(oldItem: DiagnoseUiModel, newItem: DiagnoseUiModel): Boolean {
             return oldItem.id == newItem.id
         }
     }

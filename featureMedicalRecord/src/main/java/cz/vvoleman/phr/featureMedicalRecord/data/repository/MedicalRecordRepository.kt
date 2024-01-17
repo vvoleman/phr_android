@@ -45,7 +45,11 @@ class MedicalRecordRepository(
     }
 
     override suspend fun getRecordById(id: String): MedicalRecordDomainModel? {
-        return medicalRecordDao.getById(id).firstOrNull()?.let { medicalRecordDataSourceToDomainMapper.toDomain(it) }
+        return medicalRecordDao.getById(id)
+            .firstOrNull()
+            ?.let {
+                medicalRecordDataSourceToDomainMapper.toDomain(it)
+            }
     }
 
     override suspend fun filterRecords(request: FilterRequestDomainModel): List<MedicalRecordDomainModel> {

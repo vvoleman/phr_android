@@ -15,7 +15,7 @@ import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
 import cz.vvoleman.phr.featureMedicalRecord.databinding.CustomDiagnoseSpinnerBinding
 import cz.vvoleman.phr.featureMedicalRecord.databinding.DialogDiagnoseSpinnerBinding
-import cz.vvoleman.phr.featureMedicalRecord.ui.model.DiagnoseItemUiModel
+import cz.vvoleman.phr.featureMedicalRecord.ui.model.DiagnoseUiModel
 
 class DiagnoseDialogSpinner @JvmOverloads constructor(
     context: Context,
@@ -99,11 +99,11 @@ class DiagnoseDialogSpinner @JvmOverloads constructor(
         }
     }
 
-    suspend fun setData(data: List<DiagnoseItemUiModel>) {
+    suspend fun setData(data: List<DiagnoseUiModel>) {
         recyclerViewAdapter.submitList(data)
     }
 
-    fun setSelectedItem(selected: DiagnoseItemUiModel) {
+    fun setSelectedItem(selected: DiagnoseUiModel) {
         val adapter = ArrayAdapter(context, R.layout.simple_spinner_item, listOf(selected))
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinner.adapter = adapter
@@ -128,7 +128,7 @@ class DiagnoseDialogSpinner @JvmOverloads constructor(
         return true
     }
 
-    override fun onItemClicked(item: DiagnoseItemUiModel, position: Int): Boolean {
+    override fun onItemClicked(item: DiagnoseUiModel, position: Int): Boolean {
         val listenerResult = dialogListener?.onDiagnoseClicked(item)
         dialog.dismiss()
         setSelectedItem(item)
@@ -137,7 +137,7 @@ class DiagnoseDialogSpinner @JvmOverloads constructor(
     }
 
     interface OnDialogListener {
-        fun onDiagnoseClicked(item: DiagnoseItemUiModel): Boolean
+        fun onDiagnoseClicked(item: DiagnoseUiModel): Boolean
         fun onDiagnoseSearch(query: String)
     }
 

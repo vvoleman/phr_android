@@ -8,23 +8,23 @@ interface DiagnoseDao {
 
     @Transaction
     @Query("SELECT * FROM diagnose")
-    fun getAll(): Flow<List<DiagnoseWithGroup>>
+    fun getAll(): Flow<List<DiagnoseWithGroupDataSourceModel>>
 
     @Transaction
     @Query("SELECT * FROM diagnose WHERE id = :id")
-    fun getById(id: String): Flow<DiagnoseWithGroup>
+    fun getById(id: String): Flow<DiagnoseWithGroupDataSourceModel>
 
     @Transaction
     @Query("SELECT * FROM diagnose WHERE id IN (:ids)")
-    fun getByIds(ids: List<String>): Flow<List<DiagnoseDataSourceModel>>
+    fun getByIds(ids: List<String>): Flow<List<DiagnoseWithGroupDataSourceModel>>
 
     @Transaction
     @Query("SELECT * FROM diagnose WHERE parent = :id")
-    fun getByParent(id: String): Flow<List<DiagnoseWithGroup>>
+    fun getByParent(id: String): Flow<List<DiagnoseWithGroupDataSourceModel>>
 
     @Transaction
     @Query("SELECT * FROM diagnose WHERE name LIKE '%'||:value||'%' OR id LIKE '%'||:value||'%'")
-    fun search(value: String): Flow<List<DiagnoseWithGroup>>
+    fun search(value: String): Flow<List<DiagnoseWithGroupDataSourceModel>>
 
     @Transaction
     @Insert(onConflict = OnConflictStrategy.REPLACE)

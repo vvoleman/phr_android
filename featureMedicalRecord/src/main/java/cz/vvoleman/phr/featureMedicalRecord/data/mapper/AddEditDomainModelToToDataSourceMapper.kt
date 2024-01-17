@@ -11,7 +11,7 @@ class AddEditDomainModelToToDataSourceMapper {
             patientId = addEditDomainModel.patientId.toInt(),
             specificMedicalWorkerId = addEditDomainModel.specificMedicalWorkerId?.toInt(),
             problemCategoryId = addEditDomainModel.problemCategoryId?.toInt(),
-            diagnoseId = addEditDomainModel.diagnoseId,
+            diagnoseId = addEditDomainModel.diagnose?.id,
             visitDate = addEditDomainModel.visitDate,
             createdAt = addEditDomainModel.createdAt
         )
