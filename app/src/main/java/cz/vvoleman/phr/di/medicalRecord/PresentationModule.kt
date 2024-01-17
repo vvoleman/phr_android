@@ -1,6 +1,7 @@
 package cz.vvoleman.phr.di.medicalRecord
 
 import cz.vvoleman.phr.base.domain.coroutine.CoroutineContextProvider
+import cz.vvoleman.phr.common.domain.repository.healthcare.GetSpecificMedicalWorkersRepository
 import cz.vvoleman.phr.common.domain.repository.patient.GetPatientByIdRepository
 import cz.vvoleman.phr.common.domain.repository.patient.GetSelectedPatientRepository
 import cz.vvoleman.phr.common.presentation.mapper.PatientPresentationModelToDomainMapper
@@ -8,7 +9,6 @@ import cz.vvoleman.phr.featureMedicalRecord.domain.repository.AddEditMedicalReco
 import cz.vvoleman.phr.featureMedicalRecord.domain.repository.CreateDiagnoseRepository
 import cz.vvoleman.phr.featureMedicalRecord.domain.repository.CreateMedicalRecordAssetRepository
 import cz.vvoleman.phr.featureMedicalRecord.domain.repository.GetDiagnoseByIdRepository
-import cz.vvoleman.phr.featureMedicalRecord.domain.repository.GetMedicalWorkersForPatientRepository
 import cz.vvoleman.phr.featureMedicalRecord.domain.repository.GetProblemCategoriesForPatientRepository
 import cz.vvoleman.phr.featureMedicalRecord.domain.repository.GetRecordByIdRepository
 import cz.vvoleman.phr.featureMedicalRecord.domain.repository.GetUsedMedicalWorkersRepository
@@ -132,11 +132,11 @@ class PresentationModule {
     @Provides
     fun providesGetUserListsUseCase(
         getProblemCategoriesForPatientRepository: GetProblemCategoriesForPatientRepository,
-        getMedicalWorkersForPatientRepository: GetMedicalWorkersForPatientRepository,
+        getSpecificMedicalWorkersRepository: GetSpecificMedicalWorkersRepository,
         coroutineContextProvider: CoroutineContextProvider
     ) = GetUserListsUseCase(
         getProblemCategoriesForPatientRepository,
-        getMedicalWorkersForPatientRepository,
+        getSpecificMedicalWorkersRepository,
         coroutineContextProvider
     )
 

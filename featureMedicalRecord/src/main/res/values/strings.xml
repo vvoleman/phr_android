@@ -42,4 +42,7 @@
     <string name="medical_record_filter">Filtrovat</string>
     <string name="field_problem_category">Kategorie problému</string>
     <string name="field_diagnose">Diagnóza</string>
+    <string name="description_medical_worker">Lékařský pracovník</string>
+    <string name="description_problem_category">Kategorie problému</string>
+    <string name="field_medical_worker">Lékařský pracovník</string>
 </resources>

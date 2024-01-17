@@ -12,6 +12,7 @@ import com.google.android.material.snackbar.Snackbar
 import cz.vvoleman.phr.base.ui.ext.collectLifecycleFlow
 import cz.vvoleman.phr.base.ui.mapper.ViewStateBinder
 import cz.vvoleman.phr.base.ui.view.BaseFragment
+import cz.vvoleman.phr.common.ui.mapper.healthcare.SpecificMedicalWorkerUiModelToPresentationMapper
 import cz.vvoleman.phr.common.ui.view.datepicker.DatePicker
 import cz.vvoleman.phr.featureMedicalRecord.R
 import cz.vvoleman.phr.featureMedicalRecord.databinding.FragmentAddEditMedicalRecordBinding
@@ -54,6 +55,9 @@ class AddEditMedicalRecordsFragment :
 
     @Inject
     lateinit var diagnoseMapper: DiagnoseUiModelToPresentationMapper
+
+    @Inject
+    lateinit var specificWorkerMapper: SpecificMedicalWorkerUiModelToPresentationMapper
 
     override fun setupBinding(
         inflater: LayoutInflater,
@@ -99,6 +103,11 @@ class AddEditMedicalRecordsFragment :
 
                 is AddEditBinder.Notification.ProblemCategorySelected -> {
                     viewModel.onProblemCategorySelected(it.value)
+                }
+
+                is AddEditBinder.Notification.MedicalWorkerSelected -> {
+                    val model = specificWorkerMapper.toPresentation(it.item)
+                    viewModel.onMedicalWorkerSelected(model)
                 }
             }
         }

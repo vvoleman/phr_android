@@ -3,6 +3,7 @@ package cz.vvoleman.phr.di.medicalRecord
 import cz.vvoleman.phr.base.presentation.navigation.NavManager
 import cz.vvoleman.phr.base.ui.mapper.DestinationUiMapper
 import cz.vvoleman.phr.base.ui.mapper.ViewStateBinder
+import cz.vvoleman.phr.common.ui.mapper.healthcare.SpecificMedicalWorkerUiModelToPresentationMapper
 import cz.vvoleman.phr.featureMedicalRecord.databinding.FragmentAddEditMedicalRecordBinding
 import cz.vvoleman.phr.featureMedicalRecord.databinding.FragmentListMedicalRecordsBinding
 import cz.vvoleman.phr.featureMedicalRecord.databinding.FragmentSelectFileBinding
@@ -34,9 +35,14 @@ class UiModule {
     @Provides
     fun providesAddEditBinder(
         problemCategoryMapper: ProblemCategoryUiModelToColorMapper,
-        diagnoseMapper: DiagnoseUiModelToPresentationMapper
+        diagnoseMapper: DiagnoseUiModelToPresentationMapper,
+        specificWorkerMapper: SpecificMedicalWorkerUiModelToPresentationMapper
     ): ViewStateBinder<AddEditViewState, FragmentAddEditMedicalRecordBinding> =
-        AddEditBinder(problemCategoryMapper, diagnoseMapper)
+        AddEditBinder(
+            problemCategoryMapper,
+            diagnoseMapper,
+            specificWorkerMapper
+        )
 
     @Provides
     fun providesSelectFileBinder(): ViewStateBinder<SelectFileViewState, FragmentSelectFileBinding> =

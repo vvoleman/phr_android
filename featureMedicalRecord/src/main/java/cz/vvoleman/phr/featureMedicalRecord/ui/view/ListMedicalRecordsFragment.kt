@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.PopupMenu
 import androidx.fragment.app.viewModels
-import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import cz.vvoleman.phr.base.ui.ext.collectLifecycleFlow
@@ -29,7 +28,6 @@ import cz.vvoleman.phr.featureMedicalRecord.ui.mapper.GroupedItemsDomainModelToU
 import cz.vvoleman.phr.featureMedicalRecord.ui.model.MedicalRecordUiModel
 import cz.vvoleman.phr.featureMedicalRecord.ui.view.binder.MedicalRecordsBinder
 import cz.vvoleman.phr.featureMedicalRecord.ui.view.list.adapter.MedicalRecordsAdapter
-import cz.vvoleman.phr.featureMedicalRecord.ui.view.list.adapter.SwipeToDeleteCallback
 import dagger.hilt.android.AndroidEntryPoint
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
@@ -156,9 +154,6 @@ class ListMedicalRecordsFragment :
         item: GroupedItemsUiModel<MedicalRecordUiModel>
     ) {
         val medicalRecordsAdapter = MedicalRecordsAdapter(this)
-        val swipeToDeleteCallback = SwipeToDeleteCallback(medicalRecordsAdapter)
-        val itemTouchHelper = ItemTouchHelper(swipeToDeleteCallback)
-        itemTouchHelper.attachToRecyclerView(groupBinding.recyclerView)
         // if item.value is LocalDate, then get date format (january 2023) and set it to textViewTitle
         // if item.value is String, then set it to textViewTitle
         // if item.value is something else, then set it to "-"

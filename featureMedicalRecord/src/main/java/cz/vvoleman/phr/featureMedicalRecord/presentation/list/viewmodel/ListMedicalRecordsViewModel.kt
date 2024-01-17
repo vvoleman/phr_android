@@ -13,6 +13,7 @@ import cz.vvoleman.phr.common.domain.model.problemCategory.ProblemCategoryDomain
 import cz.vvoleman.phr.common.domain.usecase.patient.GetSelectedPatientUseCase
 import cz.vvoleman.phr.featureMedicalRecord.domain.model.MedicalRecordDomainModel
 import cz.vvoleman.phr.featureMedicalRecord.domain.model.list.GroupByDomainModel
+import cz.vvoleman.phr.featureMedicalRecord.domain.usecase.DeleteMedicalRecordUseCase
 import cz.vvoleman.phr.featureMedicalRecord.domain.usecase.DeletePatientUseCase
 import cz.vvoleman.phr.featureMedicalRecord.domain.usecase.GetFilteredRecordsUseCase
 import cz.vvoleman.phr.featureMedicalRecord.domain.usecase.GetUsedMedicalWorkersUseCase
@@ -33,6 +34,7 @@ class ListMedicalRecordsViewModel @Inject constructor(
     private val getUsedMedicalWorkersUseCase: GetUsedMedicalWorkersUseCase,
     private val listViewStateToDomainMapper: ListViewStateToDomainMapper,
     private val getSelectedPatientUseCase: GetSelectedPatientUseCase,
+    private val deleteMedicalRecordUseCase: DeleteMedicalRecordUseCase,
     private val deletePatientUseCase: DeletePatientUseCase,
     savedStateHandle: SavedStateHandle,
     useCaseExecutorProvider: UseCaseExecutorProvider
@@ -57,7 +59,8 @@ class ListMedicalRecordsViewModel @Inject constructor(
         filterRecords()
     }
 
-    fun onRecordDelete(id: String) {
+    fun onRecordDelete(id: String) = viewModelScope.launch {
+        deleteMedicalRecordUseCase.executeInBackground(id)
         notify(ListMedicalRecordsNotification.RecordDeleted(id))
         filterRecords()
     }

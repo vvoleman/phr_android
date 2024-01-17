@@ -96,4 +96,5 @@
     <string name="problem_category_deleted">Kategorie byla smazána!</string>
     <string name="problem_category_delete_failed">Nepodařilo se smazat kategorii!</string>
     <string name="field_medical_record_date">Datum zprávy</string>
+    <string name="add_problem_category">Přidat kategorii</string>
 </resources>
