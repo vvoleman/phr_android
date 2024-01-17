@@ -37,10 +37,10 @@
         android:layout_gravity="bottom|end"
         android:backgroundTint="@color/green_500"
         android:clickable="true"
-        android:contentDescription="@string/add_medical_worker"
+        android:contentDescription="@string/add_problem_category"
         android:focusable="true"
         android:padding="8dp"
-        android:text="@string/add_worker"
+        android:text="@string/add_problem_category"
         android:textColor="@color/white"
         app:icon="@drawable/ic_add"
         app:iconTint="@color/white" />

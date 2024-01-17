@@ -162,7 +162,7 @@ class MedicalRecordListener(
         when (event.deleteType) {
             is DataDeleteType.DeleteData -> {
                 records.forEach {
-                    deleteMedicalRecordUseCase.executeInBackground(it)
+                    deleteMedicalRecordUseCase.executeInBackground(it.id)
                 }
             }
             is DataDeleteType.MoveToAnother -> {

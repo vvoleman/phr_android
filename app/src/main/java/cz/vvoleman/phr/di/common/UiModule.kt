@@ -17,6 +17,7 @@ import cz.vvoleman.phr.common.ui.mapper.healthcare.MedicalServiceWithWorkersUiMo
 import cz.vvoleman.phr.common.ui.mapper.healthcare.MedicalWorkerAdditionalInfoUiModelToPresentationMapper
 import cz.vvoleman.phr.common.ui.mapper.healthcare.MedicalWorkerUiModelToPresentationMapper
 import cz.vvoleman.phr.common.ui.mapper.healthcare.MedicalWorkerWithInfoUiModelToPresentationMapper
+import cz.vvoleman.phr.common.ui.mapper.healthcare.SpecificMedicalWorkerUiModelToPresentationMapper
 import cz.vvoleman.phr.common.ui.mapper.healthcare.destination.AddEditMedicalWorkerDestinationUiMapper
 import cz.vvoleman.phr.common.ui.mapper.healthcare.destination.ListHealthcareDestinationUiMapper
 import cz.vvoleman.phr.common.ui.mapper.patient.PatientUiModelToPresentationMapper
@@ -174,4 +175,10 @@ class UiModule {
         colorMapper: ColorUiModelToPresentationMapper
     ): ViewStateBinder<AddEditProblemCategoryViewState, FragmentAddEditProblemCategoryBinding> =
         AddEditProblemCategoryBinder(colorMapper)
+
+    @Provides
+    fun providesSpecificMedicalWorkerUiModelToPresentationMapper(
+        medicalWorkerMapper: MedicalWorkerUiModelToPresentationMapper,
+        medicalServiceMapper: MedicalServiceUiModelToPresentationMapper
+    ) = SpecificMedicalWorkerUiModelToPresentationMapper(medicalWorkerMapper, medicalServiceMapper)
 }

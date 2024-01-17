@@ -107,7 +107,7 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:contentDescription="@string/description_color"
+            android:contentDescription="@string/description_problem_category"
             app:errorEnabled="true">
 
             <AutoCompleteTextView
@@ -116,13 +116,25 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/field_problem_category"
                 android:inputType="none"
-                android:labelFor="@id/text_input_layout_colors" />
+                android:labelFor="@id/text_input_layout_problem_category" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <Spinner
-            android:id="@+id/spinner_medical_worker"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/text_input_layout_medical_worker"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/description_medical_worker"
+            app:errorEnabled="true">
+
+            <AutoCompleteTextView
+                android:id="@+id/spinner_medical_worker"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/field_medical_worker"
+                android:inputType="none"
+                android:labelFor="@id/text_input_layout_medical_worker" />
+        </com.google.android.material.textfield.TextInputLayout>
 
         <Button
             android:id="@+id/button_save"

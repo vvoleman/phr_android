@@ -4,11 +4,6 @@
     <group
         android:id="@+id/group_base_actions"
         android:checkableBehavior="single">
-        <item
-            android:id="@+id/overviewFragment"
-            android:checked="true"
-            android:icon="@drawable/ic_home"
-            android:title="@string/overview" />
 
         <item
             android:id="@+id/listMedicalRecordsFragment"

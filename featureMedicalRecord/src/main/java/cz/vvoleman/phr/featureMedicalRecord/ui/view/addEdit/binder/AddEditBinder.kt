@@ -5,6 +5,8 @@ import android.widget.ArrayAdapter
 import androidx.lifecycle.LifecycleCoroutineScope
 import cz.vvoleman.phr.base.ui.mapper.BaseViewStateBinder
 import cz.vvoleman.phr.common.ui.adapter.problemCategory.ColorAdapter
+import cz.vvoleman.phr.common.ui.mapper.healthcare.SpecificMedicalWorkerUiModelToPresentationMapper
+import cz.vvoleman.phr.common.ui.model.healthcare.core.SpecificMedicalWorkerUiModel
 import cz.vvoleman.phr.featureMedicalRecord.databinding.FragmentAddEditMedicalRecordBinding
 import cz.vvoleman.phr.featureMedicalRecord.presentation.addEdit.model.AddEditViewState
 import cz.vvoleman.phr.featureMedicalRecord.ui.mapper.DiagnoseUiModelToPresentationMapper
@@ -15,7 +17,8 @@ import java.time.LocalDate
 
 class AddEditBinder(
     private val problemCategoryMapper: ProblemCategoryUiModelToColorMapper,
-    private val diagnoseMapper: DiagnoseUiModelToPresentationMapper
+    private val diagnoseMapper: DiagnoseUiModelToPresentationMapper,
+    private val specificWorkerMapper: SpecificMedicalWorkerUiModelToPresentationMapper,
 ) :
     BaseViewStateBinder<AddEditViewState, FragmentAddEditMedicalRecordBinding, AddEditBinder.Notification>(),
     ImageAdapter.OnAdapterItemListener {
@@ -45,13 +48,23 @@ class AddEditBinder(
             }
 
         viewBinding.spinnerMedicalWorker.apply {
-            adapter = ArrayAdapter(
-                fragmentContext,
-                android.R.layout.simple_spinner_item,
-                viewState.allMedicalWorkers.map {
-                    it.name
-                }
+            val items = viewState.allMedicalWorkers.map { specificWorkerMapper.toUi(it) }
+            setAdapter(
+                ArrayAdapter(
+                    fragmentContext,
+                    android.R.layout.simple_spinner_item,
+                    items
+                )
             )
+            setOnItemClickListener { _, _, position, _ ->
+                val item = adapter.getItem(position) as SpecificMedicalWorkerUiModel
+                notify(Notification.MedicalWorkerSelected(item))
+            }
+
+//            if (viewState.specificMedicalWorkerId != null) {
+//                val item = items.first { it.id == viewState.specificMedicalWorkerId }
+//                setText(item.toString())
+//            }
         }
     }
 
@@ -79,6 +92,7 @@ class AddEditBinder(
         data class FileClick(val item: ImageItemUiModel) : Notification()
         data class FileDelete(val item: ImageItemUiModel) : Notification()
         data class ProblemCategorySelected(val value: String?) : Notification()
+        data class MedicalWorkerSelected(val item: SpecificMedicalWorkerUiModel) : Notification()
     }
 
     override fun onItemClicked(item: ImageItemUiModel) {
