@@ -8,7 +8,7 @@ import java.time.LocalDate
 data class AddEditPresentationModel(
     val recordId: String? = null,
     val createdAt: LocalDate = LocalDate.now(),
-    val diagnoseId: String? = null,
+    val diagnose: DiagnosePresentationModel? = null,
     val problemCategoryId: String? = null,
     val visitDate: LocalDate,
     val patientId: String,

@@ -18,6 +18,9 @@ interface DiagnoseGroupDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(diagnoseGroup: DiagnoseGroupDataSourceModel)
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insert(diagnoseGroups: List<DiagnoseGroupDataSourceModel>)
+
     @Update
     suspend fun update(diagnoseGroup: DiagnoseGroupDataSourceModel)
 
