@@ -25,6 +25,7 @@ import cz.vvoleman.phr.common.presentation.mapper.healthcare.MedicalServiceWithW
 import cz.vvoleman.phr.common.presentation.mapper.healthcare.MedicalWorkerAdditionalInfoPresentationModelToDomainMapper
 import cz.vvoleman.phr.common.presentation.mapper.healthcare.MedicalWorkerPresentationModelToDomainMapper
 import cz.vvoleman.phr.common.presentation.mapper.healthcare.MedicalWorkerWithInfoPresentationModelToDomainMapper
+import cz.vvoleman.phr.common.presentation.mapper.healthcare.SpecificMedicalWorkerPresentationModelToDomainMapper
 import cz.vvoleman.phr.common.presentation.mapper.problemCategory.ProblemCategoryInfoPresentationModelToDomainMapper
 import cz.vvoleman.phr.common.presentation.mapper.problemCategory.ProblemCategoryPresentationModelToDomainMapper
 import cz.vvoleman.phr.common.presentation.mapper.problemCategory.ProblemCategoryWithInfoPresentationModelToDomainMapper
@@ -160,4 +161,13 @@ class PresentationModule {
     fun providesColorFactory(
         @ApplicationContext context: Context
     ) : ColorFactory = ColorFactory(context)
+
+    @Provides
+    fun providesSpecificMedicalWorkerPresentationModelToDomainMapper(
+        medicalWorkerMapper: MedicalWorkerPresentationModelToDomainMapper,
+        medicalServiceMapper: MedicalServicePresentationModelToDomainMapper
+    ) = SpecificMedicalWorkerPresentationModelToDomainMapper(
+        medicalWorkerMapper,
+        medicalServiceMapper
+    )
 }

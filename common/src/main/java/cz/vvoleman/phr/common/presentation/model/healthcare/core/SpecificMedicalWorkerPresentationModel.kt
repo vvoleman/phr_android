@@ -6,4 +6,8 @@ data class SpecificMedicalWorkerPresentationModel(
     val email: String = "",
     val medicalWorker: MedicalWorkerPresentationModel? = null,
     val medicalService: MedicalServicePresentationModel? = null,
-)
+) {
+    override fun toString(): String {
+        return medicalWorker?.name ?: ""
+    }
+}

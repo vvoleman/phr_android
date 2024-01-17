@@ -10,7 +10,9 @@ import cz.vvoleman.phr.base.presentation.viewmodel.BaseViewModel
 import cz.vvoleman.phr.base.presentation.viewmodel.usecase.UseCaseExecutorProvider
 import cz.vvoleman.phr.common.domain.usecase.patient.GetSelectedPatientUseCase
 import cz.vvoleman.phr.common.presentation.mapper.PatientPresentationModelToDomainMapper
+import cz.vvoleman.phr.common.presentation.mapper.healthcare.SpecificMedicalWorkerPresentationModelToDomainMapper
 import cz.vvoleman.phr.common.presentation.mapper.problemCategory.ProblemCategoryPresentationModelToDomainMapper
+import cz.vvoleman.phr.common.presentation.model.healthcare.core.SpecificMedicalWorkerPresentationModel
 import cz.vvoleman.phr.common.presentation.model.patient.PatientPresentationModel
 import cz.vvoleman.phr.featureMedicalRecord.domain.model.MedicalRecordDomainModel
 import cz.vvoleman.phr.featureMedicalRecord.domain.model.addEdit.UserListsDomainModel
@@ -58,6 +60,7 @@ class AddEditViewModel @Inject constructor(
     private val problemCategoryMapper: ProblemCategoryPresentationModelToDomainMapper,
     private val patientMapper: PatientPresentationModelToDomainMapper,
     private val viewStateMapper: AddEditViewStateToModelMapper,
+    private val specificWorkerMapper: SpecificMedicalWorkerPresentationModelToDomainMapper,
     savedStateHandle: SavedStateHandle,
     useCaseExecutorProvider: UseCaseExecutorProvider
 ) : BaseViewModel<AddEditViewState, AddEditNotification>(
@@ -84,7 +87,7 @@ class AddEditViewModel @Inject constructor(
                 patientId = previousState.patientId,
                 visitDate = previousState.visitDate,
                 allProblemCategories = userLists.problemCategories.map { problemCategoryMapper.toPresentation(it) },
-                allMedicalWorkers = userLists.medicalWorkers,
+                allMedicalWorkers = userLists.medicalWorkers.map { specificWorkerMapper.toPresentation(it) },
                 assets = previousState.assets,
             )
         }
@@ -98,7 +101,7 @@ class AddEditViewModel @Inject constructor(
             specificMedicalWorkerId = record?.specificMedicalWorker?.id,
             assets = record?.assets?.map { AssetPresentationModel(id = it.id, uri = it.url, createdAt = it.createdAt) }
                 ?: listOf(),
-            allMedicalWorkers = userLists.medicalWorkers,
+            allMedicalWorkers = userLists.medicalWorkers.map { specificWorkerMapper.toPresentation(it) },
             allProblemCategories = userLists.problemCategories.map { problemCategoryMapper.toPresentation(it) }
         )
     }
@@ -266,5 +269,9 @@ class AddEditViewModel @Inject constructor(
     fun onProblemCategorySelected(name: String?) {
         val problemCategory = currentViewState.allProblemCategories.find { it.name == name }
         updateViewState(currentViewState.copy(problemCategoryId = problemCategory?.id))
+    }
+
+    fun onMedicalWorkerSelected(id: SpecificMedicalWorkerPresentationModel?) {
+        updateViewState(currentViewState.copy(specificMedicalWorkerId = id?.id))
     }
 }

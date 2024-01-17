@@ -16,6 +16,7 @@ import com.gu.toolargetool.TooLargeTool
 import cz.vvoleman.phr.R
 import cz.vvoleman.phr.base.domain.ModuleListener
 import cz.vvoleman.phr.base.presentation.navigation.NavManager
+import cz.vvoleman.phr.common.data.datasource.model.PatientDataStore
 import cz.vvoleman.phr.common.domain.eventBus.CommonListener
 import cz.vvoleman.phr.databinding.ActivityMainBinding
 import cz.vvoleman.phr.featureMedicalRecord.domain.subscriber.MedicalRecordListener
@@ -39,6 +40,9 @@ class MainActivity : AppCompatActivity() {
     @Inject
     lateinit var medicalRecordListener: MedicalRecordListener
 
+    @Inject
+    lateinit var patientDataStore: PatientDataStore
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         TooLargeTool.startLogging(this.application)
@@ -52,7 +56,6 @@ class MainActivity : AppCompatActivity() {
             setOf(
                 R.id.listMedicalRecordsFragment,
                 R.id.listMedicineFragment,
-                R.id.overviewFragment,
                 R.id.measurementsFragment,
                 R.id.listHealthcareFragment,
                 R.id.listProblemCategoryFragment,
@@ -80,7 +83,15 @@ class MainActivity : AppCompatActivity() {
                     it.onInit()
                 }
             }
+
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                patientDataStore.preferencesFlow.collect { preferences ->
+                    Log.d("MainActivity", "Patient id: ${preferences.patientId}")
+                }
+            }
         }
+
+
     }
 
     private fun getListeners(): List<ModuleListener> {
