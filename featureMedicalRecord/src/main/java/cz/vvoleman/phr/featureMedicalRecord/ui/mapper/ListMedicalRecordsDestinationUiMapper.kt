@@ -4,16 +4,16 @@ import android.util.Log
 import cz.vvoleman.phr.base.presentation.model.PresentationDestination
 import cz.vvoleman.phr.base.presentation.navigation.NavManager
 import cz.vvoleman.phr.base.ui.mapper.DestinationUiMapper
-import cz.vvoleman.phr.featureMedicalRecord.presentation.list.model.ListMedicalRecordsDestination
-import cz.vvoleman.phr.featureMedicalRecord.ui.view.ListMedicalRecordsFragmentDirections
+import cz.vvoleman.phr.featureMedicalRecord.presentation.model.list.ListMedicalRecordDestination
+import cz.vvoleman.phr.featureMedicalRecord.ui.view.list.ListMedicalRecordFragmentDirections
 
 class ListMedicalRecordsDestinationUiMapper(
     navManager: NavManager
 ) : DestinationUiMapper(navManager) {
     override fun navigate(destination: PresentationDestination) {
         when (destination) {
-            is ListMedicalRecordsDestination.NewMedicalRecord -> {
-                val action = ListMedicalRecordsFragmentDirections
+            is ListMedicalRecordDestination.NewMedicalRecord -> {
+                val action = ListMedicalRecordFragmentDirections
                     .actionListMedicalRecordsFragmentToAddEditMedicalRecordsFragment(
                         null
                     )
@@ -21,8 +21,8 @@ class ListMedicalRecordsDestinationUiMapper(
                 navManager.navigate(action)
             }
 
-            is ListMedicalRecordsDestination.EditMedicalRecord -> {
-                val action = ListMedicalRecordsFragmentDirections
+            is ListMedicalRecordDestination.EditMedicalRecord -> {
+                val action = ListMedicalRecordFragmentDirections
                     .actionListMedicalRecordsFragmentToAddEditMedicalRecordsFragment(
                         destination.id
                     )

@@ -16,9 +16,9 @@ import cz.vvoleman.phr.common.ui.mapper.healthcare.SpecificMedicalWorkerUiModelT
 import cz.vvoleman.phr.common.ui.view.datepicker.DatePicker
 import cz.vvoleman.phr.featureMedicalRecord.R
 import cz.vvoleman.phr.featureMedicalRecord.databinding.FragmentAddEditMedicalRecordBinding
-import cz.vvoleman.phr.featureMedicalRecord.presentation.addEdit.model.AddEditNotification
-import cz.vvoleman.phr.featureMedicalRecord.presentation.addEdit.model.AddEditViewState
-import cz.vvoleman.phr.featureMedicalRecord.presentation.addEdit.viewmodel.AddEditViewModel
+import cz.vvoleman.phr.featureMedicalRecord.presentation.model.addEdit.AddEditNotification
+import cz.vvoleman.phr.featureMedicalRecord.presentation.model.addEdit.AddEditViewState
+import cz.vvoleman.phr.featureMedicalRecord.presentation.viewmodel.AddEditMedicalRecordViewModel
 import cz.vvoleman.phr.featureMedicalRecord.ui.component.diagnoseSelector.DiagnoseSelector
 import cz.vvoleman.phr.featureMedicalRecord.ui.mapper.AddEditDestinationUiMapper
 import cz.vvoleman.phr.featureMedicalRecord.ui.mapper.DiagnoseUiModelToPresentationMapper
@@ -44,7 +44,7 @@ class AddEditMedicalRecordsFragment :
     DatePicker.DatePickerListener,
     DiagnoseSelector.DiagnoseSelectorListener {
 
-    override val viewModel: AddEditViewModel by viewModels()
+    override val viewModel: AddEditMedicalRecordViewModel by viewModels()
 
     @Inject
     override lateinit var destinationMapper: AddEditDestinationUiMapper

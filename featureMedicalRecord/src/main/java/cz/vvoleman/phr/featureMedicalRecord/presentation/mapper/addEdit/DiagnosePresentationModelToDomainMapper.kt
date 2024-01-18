@@ -1,13 +1,13 @@
-package cz.vvoleman.phr.featureMedicalRecord.ui.mapper
+package cz.vvoleman.phr.featureMedicalRecord.presentation.mapper.addEdit
 
+import cz.vvoleman.phr.featureMedicalRecord.domain.model.DiagnoseDomainModel
+import cz.vvoleman.phr.featureMedicalRecord.domain.model.DiagnoseGroupDomainModel
 import cz.vvoleman.phr.featureMedicalRecord.presentation.model.addEdit.DiagnoseGroupPresentationModel
 import cz.vvoleman.phr.featureMedicalRecord.presentation.model.addEdit.DiagnosePresentationModel
-import cz.vvoleman.phr.featureMedicalRecord.ui.model.DiagnoseGroupUiModel
-import cz.vvoleman.phr.featureMedicalRecord.ui.model.DiagnoseUiModel
 
-class DiagnoseUiModelToPresentationMapper {
+class DiagnosePresentationModelToDomainMapper {
 
-    fun toPresentation(model: DiagnoseUiModel): DiagnosePresentationModel {
+    fun toPresentation(model: DiagnoseDomainModel): DiagnosePresentationModel {
         return DiagnosePresentationModel(
             id = model.id,
             name = model.name,
@@ -18,15 +18,14 @@ class DiagnoseUiModelToPresentationMapper {
         )
     }
 
-    fun toUi(model: DiagnosePresentationModel): DiagnoseUiModel {
-        return DiagnoseUiModel(
+    fun toDomain(model: DiagnosePresentationModel): DiagnoseDomainModel {
+        return DiagnoseDomainModel(
             id = model.id,
             name = model.name,
-            parent = DiagnoseGroupUiModel(
+            parent = DiagnoseGroupDomainModel(
                 id = model.parent.id,
                 name = model.parent.name
             )
         )
     }
-
 }

@@ -8,7 +8,7 @@ import cz.vvoleman.phr.common.ui.adapter.problemCategory.ColorAdapter
 import cz.vvoleman.phr.common.ui.mapper.healthcare.SpecificMedicalWorkerUiModelToPresentationMapper
 import cz.vvoleman.phr.common.ui.model.healthcare.core.SpecificMedicalWorkerUiModel
 import cz.vvoleman.phr.featureMedicalRecord.databinding.FragmentAddEditMedicalRecordBinding
-import cz.vvoleman.phr.featureMedicalRecord.presentation.addEdit.model.AddEditViewState
+import cz.vvoleman.phr.featureMedicalRecord.presentation.model.addEdit.AddEditViewState
 import cz.vvoleman.phr.featureMedicalRecord.ui.mapper.DiagnoseUiModelToPresentationMapper
 import cz.vvoleman.phr.featureMedicalRecord.ui.mapper.ProblemCategoryUiModelToColorMapper
 import cz.vvoleman.phr.featureMedicalRecord.ui.model.ImageItemUiModel
