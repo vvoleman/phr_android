@@ -11,9 +11,9 @@ import cz.vvoleman.phr.featureMedicalRecord.domain.model.selectFile.GetTextFromI
 import cz.vvoleman.phr.featureMedicalRecord.domain.model.selectFile.TextDomainModel
 import cz.vvoleman.phr.featureMedicalRecord.domain.usecase.selectFile.GetRecognizedOptionsFromTextUseCase
 import cz.vvoleman.phr.featureMedicalRecord.domain.usecase.selectFile.GetTextFromInputImageUseCase
+import cz.vvoleman.phr.featureMedicalRecord.presentation.mapper.selectFile.RecognizedOptionsDomainModelToPresentationMapper
 import cz.vvoleman.phr.featureMedicalRecord.presentation.model.addEdit.AddEditPresentationModel
 import cz.vvoleman.phr.featureMedicalRecord.presentation.model.addEdit.AssetPresentationModel
-import cz.vvoleman.phr.featureMedicalRecord.presentation.mapper.selectFile.RecognizedOptionsDomainModelToPresentationMapper
 import cz.vvoleman.phr.featureMedicalRecord.presentation.model.selectFile.SelectFileDestination
 import cz.vvoleman.phr.featureMedicalRecord.presentation.model.selectFile.SelectFileNotification
 import cz.vvoleman.phr.featureMedicalRecord.presentation.model.selectFile.SelectFileViewState

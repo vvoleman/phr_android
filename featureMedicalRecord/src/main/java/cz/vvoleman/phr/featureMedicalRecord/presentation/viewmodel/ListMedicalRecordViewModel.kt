@@ -86,10 +86,8 @@ class ListMedicalRecordViewModel @Inject constructor(
         notify(ListMedicalRecordNotification.NotImplemented)
     }
 
-    fun onRecordSelect(id: String) = viewModelScope.launch {
-//        val patient = getSelectedPatientUseCase.execute(null).first()
-//        val newPatient = (patient.id.toInt() % 2) + 1
-//        patientDataStore.updatePatient(newPatient)
+    fun onRecordDetail(id: String) {
+        navigateTo(ListMedicalRecordDestination.DetailMedicalRecord(id))
     }
 
     fun onFilterOptionsToggle(option: FilterPair) {

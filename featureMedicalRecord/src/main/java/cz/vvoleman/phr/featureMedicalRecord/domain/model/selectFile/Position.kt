@@ -1,10 +1,14 @@
 package cz.vvoleman.phr.featureMedicalRecord.domain.model.selectFile
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
 @Suppress("MagicNumber")
+@Parcelize
 data class Position(
     val x: Int,
     val y: Int
-) : Comparable<Position> {
+) : Comparable<Position>, Parcelable {
 
     override fun compareTo(other: Position): Int {
         return if (this.x == other.x) {

@@ -93,6 +93,9 @@ dependencies {
     // OCR
     implementation(libs.textRecognition)
 
+    // Image Cropper
+//    implementation(libs.documentScanner)
+
     // Event Bus
     implementation(libs.eventBus)
 

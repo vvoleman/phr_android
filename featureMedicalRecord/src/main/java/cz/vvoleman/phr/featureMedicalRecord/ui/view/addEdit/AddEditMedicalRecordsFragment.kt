@@ -20,7 +20,7 @@ import cz.vvoleman.phr.featureMedicalRecord.presentation.model.addEdit.AddEditNo
 import cz.vvoleman.phr.featureMedicalRecord.presentation.model.addEdit.AddEditViewState
 import cz.vvoleman.phr.featureMedicalRecord.presentation.viewmodel.AddEditMedicalRecordViewModel
 import cz.vvoleman.phr.featureMedicalRecord.ui.component.diagnoseSelector.DiagnoseSelector
-import cz.vvoleman.phr.featureMedicalRecord.ui.mapper.AddEditDestinationUiMapper
+import cz.vvoleman.phr.featureMedicalRecord.ui.mapper.destination.AddEditDestinationUiMapper
 import cz.vvoleman.phr.featureMedicalRecord.ui.mapper.DiagnoseUiModelToPresentationMapper
 import cz.vvoleman.phr.featureMedicalRecord.ui.model.DiagnoseUiModel
 import cz.vvoleman.phr.featureMedicalRecord.ui.model.ImageItemUiModel

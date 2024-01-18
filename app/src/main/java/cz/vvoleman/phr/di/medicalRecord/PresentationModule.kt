@@ -5,6 +5,8 @@ import cz.vvoleman.phr.common.domain.repository.healthcare.GetSpecificMedicalWor
 import cz.vvoleman.phr.common.domain.repository.patient.GetPatientByIdRepository
 import cz.vvoleman.phr.common.domain.repository.patient.GetSelectedPatientRepository
 import cz.vvoleman.phr.common.presentation.mapper.PatientPresentationModelToDomainMapper
+import cz.vvoleman.phr.common.presentation.mapper.healthcare.SpecificMedicalWorkerPresentationModelToDomainMapper
+import cz.vvoleman.phr.common.presentation.mapper.problemCategory.ProblemCategoryPresentationModelToDomainMapper
 import cz.vvoleman.phr.featureMedicalRecord.domain.repository.AddEditMedicalRecordRepository
 import cz.vvoleman.phr.featureMedicalRecord.domain.repository.CreateDiagnoseRepository
 import cz.vvoleman.phr.featureMedicalRecord.domain.repository.CreateMedicalRecordAssetRepository
@@ -35,6 +37,8 @@ import cz.vvoleman.phr.featureMedicalRecord.presentation.mapper.addEdit.AddEditV
 import cz.vvoleman.phr.featureMedicalRecord.presentation.mapper.addEdit.AssetPresentationToDomainModelMapper
 import cz.vvoleman.phr.featureMedicalRecord.presentation.mapper.addEdit.DiagnosePresentationModelToDomainMapper
 import cz.vvoleman.phr.featureMedicalRecord.presentation.mapper.addEdit.PatientDomainModelToPresentationMapper
+import cz.vvoleman.phr.featureMedicalRecord.presentation.mapper.core.MedicalRecordAssetPresentationModelToDomainMapper
+import cz.vvoleman.phr.featureMedicalRecord.presentation.mapper.core.MedicalRecordPresentationModelToDomainMapper
 import cz.vvoleman.phr.featureMedicalRecord.presentation.mapper.list.ListViewStateToDomainMapper
 import cz.vvoleman.phr.featureMedicalRecord.presentation.mapper.selectFile.RecognizedOptionsDomainModelToPresentationMapper
 import cz.vvoleman.phr.featureMedicalRecord.presentation.mapper.selectFile.SelectedOptionsPresentationToDomainMapper
@@ -186,4 +190,23 @@ class PresentationModule {
 
     @Provides
     fun providesAddEditViewStateToModelMapper() = AddEditViewStateToModelMapper()
+
+    @Provides
+    fun providesMedicalRecordAssetPresentationModelToDomainMapper() =
+        MedicalRecordAssetPresentationModelToDomainMapper()
+
+    @Provides
+    fun providesMedicalRecordPresentationModelToDomainMapper(
+        patientMapper: PatientPresentationModelToDomainMapper,
+        problemCategoryMapper: ProblemCategoryPresentationModelToDomainMapper,
+        diagnoseMapper: DiagnosePresentationModelToDomainMapper,
+        specificMedicalWorkerMapper: SpecificMedicalWorkerPresentationModelToDomainMapper,
+        assetMapper: MedicalRecordAssetPresentationModelToDomainMapper
+    ) = MedicalRecordPresentationModelToDomainMapper(
+        patientMapper,
+        problemCategoryMapper,
+        diagnoseMapper,
+        specificMedicalWorkerMapper,
+        assetMapper
+    )
 }

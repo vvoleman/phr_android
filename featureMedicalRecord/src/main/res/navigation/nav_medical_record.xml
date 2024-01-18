@@ -22,6 +22,9 @@
         <deepLink
             android:id="@+id/deepLinkListMedicalRecords"
             app:uri="phr://listMedicalRecord/?medicalWorkerId={medicalWorkerId}" />
+        <action
+            android:id="@+id/action_listMedicalRecordsFragment_to_detailMedicalRecordFragment"
+            app:destination="@id/detailMedicalRecordFragment" />
     </fragment>
     <fragment
         android:id="@+id/addEditMedicalRecordsFragment"
@@ -68,5 +71,17 @@
         <argument
             android:name="parentViewState"
             app:argType="cz.vvoleman.phr.featureMedicalRecord.presentation.model.addEdit.AddEditPresentationModel" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailMedicalRecordFragment"
+        android:name="cz.vvoleman.phr.featureMedicalRecord.ui.view.detail.DetailMedicalRecordFragment"
+        android:label="@string/navigation_detail_medical_record"
+        tools:layout="@layout/fragment_detail_medical_record">
+        <action
+            android:id="@+id/action_detailMedicalRecordFragment_to_addEditMedicalRecordsFragment"
+            app:destination="@id/addEditMedicalRecordsFragment" />
+        <argument
+            android:name="medicalRecordId"
+            app:argType="string" />
     </fragment>
 </navigation>
