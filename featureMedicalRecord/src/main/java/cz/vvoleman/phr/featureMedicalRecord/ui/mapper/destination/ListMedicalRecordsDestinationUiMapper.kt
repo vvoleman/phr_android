@@ -1,4 +1,4 @@
-package cz.vvoleman.phr.featureMedicalRecord.ui.mapper
+package cz.vvoleman.phr.featureMedicalRecord.ui.mapper.destination
 
 import android.util.Log
 import cz.vvoleman.phr.base.presentation.model.PresentationDestination
@@ -11,7 +11,7 @@ class ListMedicalRecordsDestinationUiMapper(
     navManager: NavManager
 ) : DestinationUiMapper(navManager) {
     override fun navigate(destination: PresentationDestination) {
-        when (destination) {
+        when (val dest = destination as ListMedicalRecordDestination) {
             is ListMedicalRecordDestination.NewMedicalRecord -> {
                 val action = ListMedicalRecordFragmentDirections
                     .actionListMedicalRecordsFragmentToAddEditMedicalRecordsFragment(
@@ -24,7 +24,15 @@ class ListMedicalRecordsDestinationUiMapper(
             is ListMedicalRecordDestination.EditMedicalRecord -> {
                 val action = ListMedicalRecordFragmentDirections
                     .actionListMedicalRecordsFragmentToAddEditMedicalRecordsFragment(
-                        destination.id
+                        dest.id
+                    )
+                navManager.navigate(action)
+            }
+
+            is ListMedicalRecordDestination.DetailMedicalRecord -> {
+                val action = ListMedicalRecordFragmentDirections
+                    .actionListMedicalRecordsFragmentToDetailMedicalRecordFragment(
+                        dest.id
                     )
                 navManager.navigate(action)
             }

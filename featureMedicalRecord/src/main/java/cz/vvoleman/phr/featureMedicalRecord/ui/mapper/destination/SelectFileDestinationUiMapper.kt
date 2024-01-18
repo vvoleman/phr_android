@@ -1,4 +1,4 @@
-package cz.vvoleman.phr.featureMedicalRecord.ui.mapper
+package cz.vvoleman.phr.featureMedicalRecord.ui.mapper.destination
 
 import cz.vvoleman.phr.base.presentation.model.PresentationDestination
 import cz.vvoleman.phr.base.presentation.navigation.NavManager
