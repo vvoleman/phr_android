@@ -8,5 +8,5 @@ import java.time.LocalDate
 data class SelectedOptionsPresentationModel(
     val diagnoseId: String? = null,
     val visitDate: LocalDate? = null,
-    val patientId: String? = null
+    val patientId: String? = null,
 ) : Parcelable

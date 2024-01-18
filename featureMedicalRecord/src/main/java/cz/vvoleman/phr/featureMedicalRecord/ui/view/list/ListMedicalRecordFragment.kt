@@ -145,7 +145,7 @@ class ListMedicalRecordFragment :
     }
 
     override fun onItemClicked(item: MedicalRecordUiModel) {
-        viewModel.onRecordSelect(item.id)
+        viewModel.onRecordDetail(item.id)
     }
 
     override fun onItemDelete(item: MedicalRecordUiModel) {
