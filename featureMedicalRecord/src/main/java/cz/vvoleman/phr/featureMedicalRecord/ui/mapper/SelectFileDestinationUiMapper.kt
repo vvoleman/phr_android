@@ -3,7 +3,7 @@ package cz.vvoleman.phr.featureMedicalRecord.ui.mapper
 import cz.vvoleman.phr.base.presentation.model.PresentationDestination
 import cz.vvoleman.phr.base.presentation.navigation.NavManager
 import cz.vvoleman.phr.base.ui.mapper.DestinationUiMapper
-import cz.vvoleman.phr.featureMedicalRecord.presentation.selectFile.model.SelectFileDestination
+import cz.vvoleman.phr.featureMedicalRecord.presentation.model.selectFile.SelectFileDestination
 import cz.vvoleman.phr.featureMedicalRecord.ui.view.selectFile.SelectFileFragmentDirections
 
 class SelectFileDestinationUiMapper(navManager: NavManager) : DestinationUiMapper(navManager) {
