@@ -36,18 +36,6 @@ class ProblemCategoryFixture(
             )
         }
 
-        patients.getOrNull(1)?.let {
-            problemCategories.add(
-                ProblemCategoryDataSourceModel(
-                    id = 2,
-                    name = "Operace 2019",
-                    createdAt = LocalDateTime.now(),
-                    color = "#992624",
-                    patientId = it.id!!
-                )
-            )
-        }
-
         return problemCategories
     }
 }
