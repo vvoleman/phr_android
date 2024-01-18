@@ -87,10 +87,14 @@ class ListMedicalRecordsFragment :
         collectLifecycleFlow(medicalBinder.notification) {
             when (it) {
                 is MedicalRecordsBinder.Notification.OptionCheckChanged -> {
-                    Log.d(TAG, "OptionCheckChanged: $it")
+                    viewModel.onFilterOptionsToggle(it.item)
                 }
                 is MedicalRecordsBinder.Notification.GroupByChanged -> {
                     viewModel.onFilterGroupByChange(it.item)
+                }
+
+                MedicalRecordsBinder.Notification.FilterButtonPressed -> {
+                    viewModel.onFilter()
                 }
             }
         }

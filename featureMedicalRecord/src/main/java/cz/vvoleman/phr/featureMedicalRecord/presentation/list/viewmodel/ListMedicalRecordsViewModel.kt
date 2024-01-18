@@ -11,6 +11,7 @@ import cz.vvoleman.phr.common.domain.model.healthcare.worker.MedicalWorkerDomain
 import cz.vvoleman.phr.common.domain.model.patient.PatientDomainModel
 import cz.vvoleman.phr.common.domain.model.problemCategory.ProblemCategoryDomainModel
 import cz.vvoleman.phr.common.domain.usecase.patient.GetSelectedPatientUseCase
+import cz.vvoleman.phr.common.ui.model.FilterPair
 import cz.vvoleman.phr.featureMedicalRecord.domain.model.MedicalRecordDomainModel
 import cz.vvoleman.phr.featureMedicalRecord.domain.model.list.GroupByDomainModel
 import cz.vvoleman.phr.featureMedicalRecord.domain.usecase.DeleteMedicalRecordUseCase
@@ -71,7 +72,6 @@ class ListMedicalRecordsViewModel @Inject constructor(
 
     fun onFilterGroupByChange(groupBy: GroupByDomainModel) {
         updateViewState(currentViewState.copy(groupBy = groupBy))
-        filterRecords()
     }
 
     fun onRecordExport(id: String) {
@@ -90,6 +90,34 @@ class ListMedicalRecordsViewModel @Inject constructor(
 //        val patient = getSelectedPatientUseCase.execute(null).first()
 //        val newPatient = (patient.id.toInt() % 2) + 1
 //        patientDataStore.updatePatient(newPatient)
+    }
+
+    fun onFilterOptionsToggle(option: FilterPair) {
+        when (option.objectValue) {
+            is ProblemCategoryDomainModel -> {
+                val id = option.id
+                val selected = currentViewState.selectedProblemCategories.toMutableList()
+                if (selected.contains(id)) {
+                    selected.remove(id)
+                } else {
+                    selected.add(id)
+                }
+                updateViewState(currentViewState.copy(selectedProblemCategories = selected))
+            }
+            is MedicalWorkerDomainModel -> {
+                val id = option.id
+                val selected = currentViewState.selectedMedicalWorkers.toMutableList()
+                if (selected.contains(id)) {
+                    selected.remove(id)
+                } else {
+                    selected.add(id)
+                }
+                updateViewState(currentViewState.copy(selectedMedicalWorkers = selected))
+            }
+            else -> {
+                Log.d(TAG, "onFilterOptionsToggle other: ${option.objectValue}")
+            }
+        }
     }
 
     fun onEventPatientDeleted(event: PatientDeletedEvent) = viewModelScope.launch {
@@ -115,7 +143,6 @@ class ListMedicalRecordsViewModel @Inject constructor(
 
     private fun filterRecords() {
         val filterRequest = listViewStateToDomainMapper.toDomain(currentViewState)
-        updateViewState(currentViewState.copy(isLoading = true))
         execute(getFilteredRecordsUseCase, filterRequest, ::handleRecordsResult)
     }
 
