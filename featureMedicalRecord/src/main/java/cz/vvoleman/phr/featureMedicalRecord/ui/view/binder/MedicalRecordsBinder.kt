@@ -65,6 +65,7 @@ class MedicalRecordsBinder(
                     Log.e("MedicalRecordsBinder", "Unknown radio button id: $checkedId")
                 }
             }
+            buttonFilter.setOnClickListener { notify(Notification.FilterButtonPressed) }
         }
 
         problemCategoryAdapter = FilterAdapter(this)
@@ -151,6 +152,7 @@ class MedicalRecordsBinder(
     sealed class Notification {
         data class OptionCheckChanged(val item: FilterPair) : Notification()
         data class GroupByChanged(val item: GroupByDomainModel) : Notification()
+        object FilterButtonPressed : Notification()
     }
 
     override fun onOptionCheckChanged(item: FilterPair) {

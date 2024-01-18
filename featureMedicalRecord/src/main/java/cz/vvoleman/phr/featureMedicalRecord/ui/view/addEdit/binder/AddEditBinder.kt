@@ -44,7 +44,7 @@ class AddEditBinder(
         }
         viewState.allProblemCategories.firstOrNull { it.id == viewState.problemCategoryId }
             ?.let {
-                viewBinding.spinnerProblemCategory.setText(it.name)
+                viewBinding.spinnerProblemCategory.setText(it.name, false)
             }
 
         viewBinding.spinnerMedicalWorker.apply {
@@ -61,10 +61,10 @@ class AddEditBinder(
                 notify(Notification.MedicalWorkerSelected(item))
             }
 
-//            if (viewState.specificMedicalWorkerId != null) {
-//                val item = items.first { it.id == viewState.specificMedicalWorkerId }
-//                setText(item.toString())
-//            }
+            if (viewState.specificMedicalWorkerId != null) {
+                val item = items.first { it.id == viewState.specificMedicalWorkerId }
+                setText(item.toString(), false)
+            }
         }
     }
 
