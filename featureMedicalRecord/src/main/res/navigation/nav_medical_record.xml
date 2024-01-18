@@ -8,7 +8,7 @@
 
     <fragment
         android:id="@+id/listMedicalRecordsFragment"
-        android:name="cz.vvoleman.phr.featureMedicalRecord.ui.view.ListMedicalRecordsFragment"
+        android:name="cz.vvoleman.phr.featureMedicalRecord.ui.view.list.ListMedicalRecordFragment"
         android:label="Lékařské zprávy"
         tools:layout="@layout/fragment_list_medical_records">
         <argument
@@ -42,16 +42,16 @@
         <argument
             android:name="selectedOptions"
             android:defaultValue="@null"
-            app:argType="cz.vvoleman.phr.featureMedicalRecord.presentation.selectFile.model.SelectedOptionsPresentationModel"
+            app:argType="cz.vvoleman.phr.featureMedicalRecord.presentation.model.selectFile.SelectedOptionsPresentationModel"
             app:nullable="true" />
         <argument
             android:name="fileAsset"
             android:defaultValue="@null"
-            app:argType="cz.vvoleman.phr.featureMedicalRecord.presentation.addEdit.model.AssetPresentationModel"
+            app:argType="cz.vvoleman.phr.featureMedicalRecord.presentation.model.addEdit.AssetPresentationModel"
             app:nullable="true" />
         <argument
             android:name="previousViewState"
-            app:argType="cz.vvoleman.phr.featureMedicalRecord.presentation.addEdit.model.AddEditPresentationModel"
+            app:argType="cz.vvoleman.phr.featureMedicalRecord.presentation.model.addEdit.AddEditPresentationModel"
             app:nullable="true"
             android:defaultValue="@null" />
     </fragment>
@@ -67,6 +67,6 @@
             app:popUpToInclusive="true" />
         <argument
             android:name="parentViewState"
-            app:argType="cz.vvoleman.phr.featureMedicalRecord.presentation.addEdit.model.AddEditPresentationModel" />
+            app:argType="cz.vvoleman.phr.featureMedicalRecord.presentation.model.addEdit.AddEditPresentationModel" />
     </fragment>
 </navigation>

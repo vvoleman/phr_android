@@ -10,9 +10,9 @@ import androidx.lifecycle.LifecycleCoroutineScope
 import cz.vvoleman.phr.base.ui.mapper.BaseViewStateBinder
 import cz.vvoleman.phr.featureMedicalRecord.R
 import cz.vvoleman.phr.featureMedicalRecord.databinding.FragmentSelectFileBinding
-import cz.vvoleman.phr.featureMedicalRecord.presentation.selectFile.model.SelectFileViewState
-import cz.vvoleman.phr.featureMedicalRecord.ui.view.selectFile.OptionAdapter
-import cz.vvoleman.phr.featureMedicalRecord.ui.view.selectFile.OptionItem
+import cz.vvoleman.phr.featureMedicalRecord.presentation.model.selectFile.SelectFileViewState
+import cz.vvoleman.phr.featureMedicalRecord.ui.view.selectFile.adapter.OptionAdapter
+import cz.vvoleman.phr.featureMedicalRecord.ui.view.selectFile.adapter.OptionItem
 import java.time.format.DateTimeFormatter
 import java.util.Locale
 

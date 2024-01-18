@@ -6,7 +6,9 @@ import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.FileProvider
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.google.android.material.snackbar.Snackbar
 import com.google.mlkit.vision.common.InputImage
 import cz.vvoleman.phr.base.BuildConfig
@@ -15,12 +17,13 @@ import cz.vvoleman.phr.base.ui.mapper.ViewStateBinder
 import cz.vvoleman.phr.base.ui.view.BaseFragment
 import cz.vvoleman.phr.featureMedicalRecord.R
 import cz.vvoleman.phr.featureMedicalRecord.databinding.FragmentSelectFileBinding
-import cz.vvoleman.phr.featureMedicalRecord.presentation.selectFile.model.SelectFileNotification
-import cz.vvoleman.phr.featureMedicalRecord.presentation.selectFile.model.SelectFileViewState
-import cz.vvoleman.phr.featureMedicalRecord.presentation.selectFile.viewmodel.SelectFileViewModel
+import cz.vvoleman.phr.featureMedicalRecord.presentation.model.selectFile.SelectFileNotification
+import cz.vvoleman.phr.featureMedicalRecord.presentation.model.selectFile.SelectFileViewState
+import cz.vvoleman.phr.featureMedicalRecord.presentation.viewmodel.SelectFileViewModel
 import cz.vvoleman.phr.featureMedicalRecord.ui.mapper.SelectFileDestinationUiMapper
 import cz.vvoleman.phr.featureMedicalRecord.ui.view.selectFile.binder.SelectFileBinder
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import java.io.File
 import javax.inject.Inject
 
@@ -98,10 +101,12 @@ class SelectFileFragment : BaseFragment<SelectFileViewState, SelectFileNotificat
     }
 
     private fun takePicture() {
-        lifecycleScope.launchWhenStarted {
-            getTempFileUri().let { uri ->
-                latestTmpUri = uri
-                takePictureContract.launch(uri)
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                getTempFileUri().let { uri ->
+                    latestTmpUri = uri
+                    takePictureContract.launch(uri)
+                }
             }
         }
     }
