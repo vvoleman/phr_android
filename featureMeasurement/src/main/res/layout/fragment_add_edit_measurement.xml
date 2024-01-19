@@ -1,12 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".ui.view.addEdit.AddEditMeasurementFragment"
     android:layout_height="match_parent">
-    <TextView
-        android:id="@+id/text_view_test"
-        android:text="AddEdit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-</LinearLayout>
+
+    <LinearLayout xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="16dp"
+        android:orientation="vertical"
+        tools:context=".ui.addEdit.view.AddEditMedicineFragment">
+
+        <LinearLayout
+            android:id="@+id/layout_timing_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/text_view_select_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFeatureSettings="smcp"
+                android:text="Vyberte čas" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/button_add_time"
+                style="@style/SecondaryButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Přidat podání"
+                android:textAlignment="center" />
+        </LinearLayout>
+
+        <cz.vvoleman.featureMeasurement.ui.component.timeSelector.TimeSelector
+            android:id="@+id/time_selector"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/text_view_select_frequency"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFeatureSettings="smcp"
+            android:text="Vyberte frekvenci" />
+
+        <cz.vvoleman.phr.common.ui.component.frequencySelector.FrequencySelector
+            android:id="@+id/frequency_selector"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <Button
+            style="@style/StyledButton"
+            android:id="@+id/button_save"
+            android:layout_width="match_parent"
+            android:text="@string/action_save"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>
