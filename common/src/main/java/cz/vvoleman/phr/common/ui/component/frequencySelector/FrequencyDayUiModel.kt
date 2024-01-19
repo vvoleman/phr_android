@@ -1,4 +1,4 @@
-package cz.vvoleman.phr.featureMedicine.ui.component.frequencySelector
+package cz.vvoleman.phr.common.ui.component.frequencySelector
 
 import java.time.DayOfWeek
 

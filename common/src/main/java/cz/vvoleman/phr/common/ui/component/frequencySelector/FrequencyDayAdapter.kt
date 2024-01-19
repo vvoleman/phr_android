@@ -1,4 +1,4 @@
-package cz.vvoleman.phr.featureMedicine.ui.component.frequencySelector
+package cz.vvoleman.phr.common.ui.component.frequencySelector
 
 import android.util.Log
 import android.view.LayoutInflater
@@ -6,8 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.RecyclerView.ViewHolder
-import cz.vvoleman.phr.featureMedicine.databinding.ItemFrequencyDayBinding
+import cz.vvoleman.phr.common_datasource.databinding.ItemFrequencyDayBinding
 import java.time.format.TextStyle
 import java.util.Locale
 
@@ -30,7 +29,7 @@ class FrequencyDayAdapter(
         }
     }
 
-    inner class FrequencyDayViewHolder(val binding: ItemFrequencyDayBinding) : ViewHolder(binding.root) {
+    inner class FrequencyDayViewHolder(val binding: ItemFrequencyDayBinding) : RecyclerView.ViewHolder(binding.root) {
         init {
             binding.apply {
                 textViewDay.setOnClickListener {

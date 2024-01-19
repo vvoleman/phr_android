@@ -32,12 +32,12 @@
                 <com.google.android.material.tabs.TabItem
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Itinerář" />
+                    android:text="Skupiny měření" />
 
                 <com.google.android.material.tabs.TabItem
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Léky" />
+                    android:text="Itinerář" />
 
             </com.google.android.material.tabs.TabLayout>
         </androidx.cardview.widget.CardView>

@@ -6,7 +6,9 @@ import androidx.lifecycle.viewModelScope
 import cz.vvoleman.phr.base.presentation.viewmodel.BaseViewModel
 import cz.vvoleman.phr.base.presentation.viewmodel.usecase.UseCaseExecutorProvider
 import cz.vvoleman.phr.common.domain.usecase.patient.GetSelectedPatientUseCase
+import cz.vvoleman.phr.common.presentation.factory.FrequencyDaysPresentationFactory
 import cz.vvoleman.phr.common.presentation.mapper.PatientPresentationModelToDomainMapper
+import cz.vvoleman.phr.common.presentation.model.frequencySelector.FrequencyDayPresentationModel
 import cz.vvoleman.phr.featureMedicine.domain.model.SearchMedicineRequestDomainModel
 import cz.vvoleman.phr.featureMedicine.domain.model.schedule.MedicineScheduleDomainModel
 import cz.vvoleman.phr.featureMedicine.domain.usecase.GetMedicineByIdUseCase
@@ -14,13 +16,11 @@ import cz.vvoleman.phr.featureMedicine.domain.usecase.GetMedicineScheduleByIdUse
 import cz.vvoleman.phr.featureMedicine.domain.usecase.SaveMedicineScheduleUseCase
 import cz.vvoleman.phr.featureMedicine.domain.usecase.ScheduleMedicineAlertUseCase
 import cz.vvoleman.phr.featureMedicine.domain.usecase.SearchMedicineUseCase
-import cz.vvoleman.phr.featureMedicine.presentation.addEdit.factory.FrequencyDaysPresentationFactory
 import cz.vvoleman.phr.featureMedicine.presentation.addEdit.factory.TimeUpdateFactory
 import cz.vvoleman.phr.featureMedicine.presentation.addEdit.mapper.SaveMedicineSchedulePresentationModelToDomainMapper
 import cz.vvoleman.phr.featureMedicine.presentation.addEdit.model.AddEditMedicineDestination
 import cz.vvoleman.phr.featureMedicine.presentation.addEdit.model.AddEditMedicineNotification
 import cz.vvoleman.phr.featureMedicine.presentation.addEdit.model.AddEditMedicineViewState
-import cz.vvoleman.phr.featureMedicine.presentation.addEdit.model.FrequencyDayPresentationModel
 import cz.vvoleman.phr.featureMedicine.presentation.addEdit.model.SaveMedicineSchedulePresentationModel
 import cz.vvoleman.phr.featureMedicine.presentation.addEdit.model.TimePresentationModel
 import cz.vvoleman.phr.featureMedicine.presentation.list.mapper.MedicinePresentationModelToDomainMapper
