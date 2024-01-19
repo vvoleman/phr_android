@@ -2,9 +2,9 @@ package cz.vvoleman.phr.featureMedicine.ui.addEdit.view
 
 import android.util.Log
 import cz.vvoleman.phr.base.ui.mapper.BaseViewStateBinder
+import cz.vvoleman.phr.common.ui.mapper.frequencySelector.FrequencyDayUiModelToPresentationMapper
 import cz.vvoleman.phr.featureMedicine.databinding.FragmentAddEditMedicineBinding
 import cz.vvoleman.phr.featureMedicine.presentation.addEdit.model.AddEditMedicineViewState
-import cz.vvoleman.phr.featureMedicine.ui.addEdit.mapper.FrequencyDayUiModelToPresentationMapper
 import cz.vvoleman.phr.featureMedicine.ui.addEdit.mapper.TimeUiModelToPresentationMapper
 import cz.vvoleman.phr.featureMedicine.ui.list.mapper.MedicineUiModelToPresentationMapper
 import kotlinx.coroutines.launch

@@ -9,6 +9,7 @@ import cz.vvoleman.phr.common.presentation.model.patient.addedit.AddEditViewStat
 import cz.vvoleman.phr.common.presentation.model.patient.listpatients.ListPatientsViewState
 import cz.vvoleman.phr.common.presentation.model.problemCategory.addEdit.AddEditProblemCategoryViewState
 import cz.vvoleman.phr.common.presentation.model.problemCategory.list.ListProblemCategoryViewState
+import cz.vvoleman.phr.common.ui.mapper.frequencySelector.FrequencyDayUiModelToPresentationMapper
 import cz.vvoleman.phr.common.ui.mapper.healthcare.AddEditMedicalServiceItemUiModelToPresentationMapper
 import cz.vvoleman.phr.common.ui.mapper.healthcare.MedicalFacilityAdditionalInfoUiModelToPresentationMapper
 import cz.vvoleman.phr.common.ui.mapper.healthcare.MedicalFacilityUiModelToPresentationMapper
@@ -181,4 +182,8 @@ class UiModule {
         medicalWorkerMapper: MedicalWorkerUiModelToPresentationMapper,
         medicalServiceMapper: MedicalServiceUiModelToPresentationMapper
     ) = SpecificMedicalWorkerUiModelToPresentationMapper(medicalWorkerMapper, medicalServiceMapper)
+
+    @Provides
+    fun providesFrequencyDayUiModelToPresentationMapper() = FrequencyDayUiModelToPresentationMapper()
+
 }

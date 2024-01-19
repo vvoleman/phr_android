@@ -1,4 +1,4 @@
-package cz.vvoleman.phr.featureMedicine.ui.component.frequencySelector
+package cz.vvoleman.phr.common.ui.component.frequencySelector
 
 import android.content.Context
 import android.util.AttributeSet
@@ -6,7 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.widget.LinearLayout
 import cz.vvoleman.phr.common.utils.TimeConstants
-import cz.vvoleman.phr.featureMedicine.databinding.ViewFrequencySelectorBinding
+import cz.vvoleman.phr.common_datasource.databinding.ViewFrequencySelectorBinding
 import java.time.DayOfWeek
 
 class FrequencySelector @JvmOverloads constructor(

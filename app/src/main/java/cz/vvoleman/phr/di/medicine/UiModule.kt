@@ -2,6 +2,7 @@ package cz.vvoleman.phr.di.medicine
 
 import cz.vvoleman.phr.base.presentation.navigation.NavManager
 import cz.vvoleman.phr.base.ui.mapper.ViewStateBinder
+import cz.vvoleman.phr.common.ui.mapper.frequencySelector.FrequencyDayUiModelToPresentationMapper
 import cz.vvoleman.phr.common.ui.mapper.patient.PatientUiModelToPresentationMapper
 import cz.vvoleman.phr.featureMedicine.databinding.FragmentAddEditMedicineBinding
 import cz.vvoleman.phr.featureMedicine.databinding.FragmentExportBinding
@@ -10,7 +11,6 @@ import cz.vvoleman.phr.featureMedicine.presentation.addEdit.model.AddEditMedicin
 import cz.vvoleman.phr.featureMedicine.presentation.export.model.ExportViewState
 import cz.vvoleman.phr.featureMedicine.presentation.list.model.ListMedicineViewState
 import cz.vvoleman.phr.featureMedicine.ui.addEdit.mapper.AddEditMedicineDestinationUiMapper
-import cz.vvoleman.phr.featureMedicine.ui.addEdit.mapper.FrequencyDayUiModelToPresentationMapper
 import cz.vvoleman.phr.featureMedicine.ui.addEdit.mapper.TimeUiModelToPresentationMapper
 import cz.vvoleman.phr.featureMedicine.ui.addEdit.view.AddEditMedicineBinder
 import cz.vvoleman.phr.featureMedicine.ui.export.mapper.ExportDestinationMapper
@@ -102,11 +102,6 @@ class UiModule {
     @Provides
     fun providesTimeUiModelToPresentationMapper(): TimeUiModelToPresentationMapper {
         return TimeUiModelToPresentationMapper()
-    }
-
-    @Provides
-    fun providesFrequencyDayUiModelToPresentationMapper(): FrequencyDayUiModelToPresentationMapper {
-        return FrequencyDayUiModelToPresentationMapper()
     }
 
     @Provides

@@ -3,8 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+    <LinearLayout xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="16dp"
@@ -70,7 +69,7 @@
             android:fontFeatureSettings="smcp"
             android:text="@string/add_edit_medicine_select_frequency" />
 
-        <cz.vvoleman.phr.featureMedicine.ui.component.frequencySelector.FrequencySelector
+        <cz.vvoleman.phr.common.ui.component.frequencySelector.FrequencySelector
             android:id="@+id/frequency_selector"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />

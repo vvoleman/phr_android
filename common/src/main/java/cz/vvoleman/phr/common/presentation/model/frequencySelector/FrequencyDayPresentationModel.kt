@@ -1,4 +1,4 @@
-package cz.vvoleman.phr.featureMedicine.presentation.addEdit.model
+package cz.vvoleman.phr.common.presentation.model.frequencySelector
 
 import java.time.DayOfWeek
 

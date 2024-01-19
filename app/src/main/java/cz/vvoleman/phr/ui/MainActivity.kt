@@ -56,7 +56,7 @@ class MainActivity : AppCompatActivity() {
             setOf(
                 R.id.listMedicalRecordsFragment,
                 R.id.listMedicineFragment,
-                R.id.measurementsFragment,
+                R.id.listMeasurementFragment,
                 R.id.listHealthcareFragment,
                 R.id.listProblemCategoryFragment,
             ),
