@@ -11,6 +11,9 @@ import androidx.lifecycle.lifecycleScope
 import com.google.android.material.snackbar.Snackbar
 import cz.vvoleman.phr.base.ui.mapper.ViewStateBinder
 import cz.vvoleman.phr.base.ui.view.BaseFragment
+import cz.vvoleman.phr.common.ui.component.frequencySelector.FrequencyDayUiModel
+import cz.vvoleman.phr.common.ui.component.frequencySelector.FrequencySelector
+import cz.vvoleman.phr.common.ui.mapper.frequencySelector.FrequencyDayUiModelToPresentationMapper
 import cz.vvoleman.phr.featureMedicine.R
 import cz.vvoleman.phr.featureMedicine.databinding.FragmentAddEditMedicineBinding
 import cz.vvoleman.phr.featureMedicine.presentation.addEdit.model.AddEditMedicineNotification
@@ -18,10 +21,7 @@ import cz.vvoleman.phr.featureMedicine.presentation.addEdit.model.AddEditMedicin
 import cz.vvoleman.phr.featureMedicine.presentation.addEdit.model.TimePresentationModel
 import cz.vvoleman.phr.featureMedicine.presentation.addEdit.viewmodel.AddEditMedicineViewModel
 import cz.vvoleman.phr.featureMedicine.ui.addEdit.mapper.AddEditMedicineDestinationUiMapper
-import cz.vvoleman.phr.featureMedicine.ui.addEdit.mapper.FrequencyDayUiModelToPresentationMapper
 import cz.vvoleman.phr.featureMedicine.ui.addEdit.mapper.TimeUiModelToPresentationMapper
-import cz.vvoleman.phr.featureMedicine.ui.component.frequencySelector.FrequencyDayUiModel
-import cz.vvoleman.phr.featureMedicine.ui.component.frequencySelector.FrequencySelector
 import cz.vvoleman.phr.featureMedicine.ui.component.medicineSelector.MedicineSelector
 import cz.vvoleman.phr.featureMedicine.ui.component.timeSelector.TimeSelector
 import cz.vvoleman.phr.featureMedicine.ui.component.timeSelector.TimeUiModel
@@ -165,4 +165,5 @@ class AddEditMedicineFragment :
     override fun onValueChange(days: List<FrequencyDayUiModel>) {
         viewModel.onFrequencyUpdate(days.map { frequencyDayUiModelToPresentationMapper.toPresentation(it) })
     }
+
 }

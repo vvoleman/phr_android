@@ -1,7 +1,7 @@
-package cz.vvoleman.phr.featureMedicine.ui.addEdit.mapper
+package cz.vvoleman.phr.common.ui.mapper.frequencySelector
 
-import cz.vvoleman.phr.featureMedicine.presentation.addEdit.model.FrequencyDayPresentationModel
-import cz.vvoleman.phr.featureMedicine.ui.component.frequencySelector.FrequencyDayUiModel
+import cz.vvoleman.phr.common.presentation.model.frequencySelector.FrequencyDayPresentationModel
+import cz.vvoleman.phr.common.ui.component.frequencySelector.FrequencyDayUiModel
 
 class FrequencyDayUiModelToPresentationMapper {
 
@@ -18,4 +18,5 @@ class FrequencyDayUiModelToPresentationMapper {
             isSelected = model.isSelected
         )
     }
+
 }
