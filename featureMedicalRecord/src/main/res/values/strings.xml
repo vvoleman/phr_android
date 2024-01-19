@@ -46,4 +46,9 @@
     <string name="description_problem_category">Kategorie problému</string>
     <string name="field_medical_worker">Lékařský pracovník</string>
     <string name="navigation_detail_medical_record">Detail lék. zprávy</string>
+    <string name="detail_medical_record_medical_worker">Lékařský pracovník</string>
+    <string name="detail_medical_record_diagnose">Diagnóza</string>
+    <string name="no_problem_category">Žádná kategorie problému</string>
+    <string name="no_diagnose">Žádná diagnóza</string>
+    <string name="no_medical_worker">Žádný lék. pracovník</string>
 </resources>

@@ -1,8 +1,12 @@
 package cz.vvoleman.phr.featureMedicalRecord.ui.view.detail
 
+import android.content.Intent
+import android.net.Uri
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import cz.vvoleman.phr.base.ui.ext.collectLatestLifecycleFlow
 import cz.vvoleman.phr.base.ui.mapper.ViewStateBinder
 import cz.vvoleman.phr.base.ui.view.BaseFragment
 import cz.vvoleman.phr.featureMedicalRecord.databinding.FragmentDetailMedicalRecordBinding
@@ -10,6 +14,7 @@ import cz.vvoleman.phr.featureMedicalRecord.presentation.model.detail.DetailMedi
 import cz.vvoleman.phr.featureMedicalRecord.presentation.model.detail.DetailMedicalRecordViewState
 import cz.vvoleman.phr.featureMedicalRecord.presentation.viewmodel.DetailMedicalRecordViewModel
 import cz.vvoleman.phr.featureMedicalRecord.ui.mapper.destination.DetailMedicalRecordDestinationUiMapper
+import cz.vvoleman.phr.featureMedicalRecord.ui.model.ImageItemUiModel
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -29,10 +34,31 @@ class DetailMedicalRecordFragment :
         return FragmentDetailMedicalRecordBinding.inflate(inflater, container, false)
     }
 
+    override fun setupListeners() {
+        super.setupListeners()
+
+        val binder = viewStateBinder as DetailMedicalRecordBinder
+        collectLatestLifecycleFlow(binder.notification) {
+            when(it) {
+                is DetailMedicalRecordBinder.Notification.FileClicked -> {
+                    openImage(it.item)
+                }
+            }
+        }
+    }
+
     override fun handleNotification(notification: DetailMedicalRecordNotification) {
         when (notification) {
             else -> {
             }
         }
+    }
+
+    private fun openImage(item: ImageItemUiModel) {
+        Log.d("DetailMedicalRecordFragment", "openImage: ${item.asset.uri}")
+        val imageUri = Uri.parse(item.asset.uri)
+        val intent = Intent(Intent.ACTION_VIEW)
+        intent.setDataAndType(imageUri, "image/*")
+        startActivity(intent)
     }
 }

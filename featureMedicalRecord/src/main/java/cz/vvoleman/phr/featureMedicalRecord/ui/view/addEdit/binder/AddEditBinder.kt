@@ -20,8 +20,7 @@ class AddEditBinder(
     private val diagnoseMapper: DiagnoseUiModelToPresentationMapper,
     private val specificWorkerMapper: SpecificMedicalWorkerUiModelToPresentationMapper,
 ) :
-    BaseViewStateBinder<AddEditViewState, FragmentAddEditMedicalRecordBinding, AddEditBinder.Notification>(),
-    ImageAdapter.OnAdapterItemListener {
+    BaseViewStateBinder<AddEditViewState, FragmentAddEditMedicalRecordBinding, AddEditBinder.Notification>() {
 
     private lateinit var adapter: ImageAdapter
 
@@ -89,18 +88,8 @@ class AddEditBinder(
 
     sealed class Notification {
         object AddFile : Notification()
-        data class FileClick(val item: ImageItemUiModel) : Notification()
-        data class FileDelete(val item: ImageItemUiModel) : Notification()
         data class ProblemCategorySelected(val value: String?) : Notification()
         data class MedicalWorkerSelected(val item: SpecificMedicalWorkerUiModel) : Notification()
-    }
-
-    override fun onItemClicked(item: ImageItemUiModel) {
-        notify(Notification.FileClick(item))
-    }
-
-    override fun onItemDeleted(item: ImageItemUiModel) {
-        notify(Notification.FileDelete(item))
     }
 
 }
