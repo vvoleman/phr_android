@@ -40,7 +40,7 @@ class AddEditMedicalRecordsFragment :
             AddEditNotification,
             FragmentAddEditMedicalRecordBinding
             >(),
-    ImageAdapter.OnAdapterItemListener,
+    ImageAdapter.FileAdapterListener,
     DatePicker.DatePickerListener,
     DiagnoseSelector.DiagnoseSelectorListener {
 
@@ -93,13 +93,6 @@ class AddEditMedicalRecordsFragment :
         collectLifecycleFlow(addEditBinder.notification) {
             when (it) {
                 is AddEditBinder.Notification.AddFile -> TODO()
-                is AddEditBinder.Notification.FileClick -> {
-                    onItemClicked(it.item)
-                }
-
-                is AddEditBinder.Notification.FileDelete -> {
-                    onItemDeleted(it.item)
-                }
 
                 is AddEditBinder.Notification.ProblemCategorySelected -> {
                     viewModel.onProblemCategorySelected(it.value)
@@ -152,12 +145,12 @@ class AddEditMedicalRecordsFragment :
         viewModel.onDateSelected(date)
     }
 
-    override fun onItemDeleted(item: ImageItemUiModel) {
+    override fun onFileDeleted(item: ImageItemUiModel) {
         Log.d(TAG, "onItemDeleted: $item")
         viewModel.onDeleteFile(item.asset)
     }
 
-    override fun onItemClicked(item: ImageItemUiModel) {
+    override fun onFileClicked(item: ImageItemUiModel) {
         Log.d(TAG, "onItemClicked: $item")
     }
 
