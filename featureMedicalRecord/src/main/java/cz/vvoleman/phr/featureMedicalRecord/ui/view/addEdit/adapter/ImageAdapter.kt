@@ -11,7 +11,8 @@ import cz.vvoleman.phr.featureMedicalRecord.databinding.ItemFileThumbnailBinding
 import cz.vvoleman.phr.featureMedicalRecord.ui.model.ImageItemUiModel
 
 class ImageAdapter(
-    private val listener: OnAdapterItemListener
+    private val listener: FileAdapterListener,
+    private val allowDelete: Boolean = true
 ) : ListAdapter<ImageItemUiModel, ImageAdapter.ImageViewHolder>(DiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImageViewHolder {
@@ -19,7 +20,7 @@ class ImageAdapter(
         val binding =
             ItemFileThumbnailBinding.inflate(LayoutInflater.from(parent.context), parent, false)
 
-        return ImageViewHolder(binding)
+        return ImageViewHolder(binding, allowDelete)
     }
 
     override fun onBindViewHolder(holder: ImageViewHolder, position: Int) {
@@ -27,7 +28,8 @@ class ImageAdapter(
         holder.bind(currentItem)
     }
 
-    inner class ImageViewHolder(private val binding: ItemFileThumbnailBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class ImageViewHolder(private val binding: ItemFileThumbnailBinding, private val allowDelete: Boolean) :
+        RecyclerView.ViewHolder(binding.root) {
 
         init {
             binding.apply {
@@ -35,16 +37,20 @@ class ImageAdapter(
                     val position = bindingAdapterPosition
                     if (position != RecyclerView.NO_POSITION) {
                         val item = getItem(position)
-                        listener.onItemClicked(item)
+                        listener.onFileClicked(item)
                     }
                 }
                 buttonDelete.setOnClickListener {
                     val position = bindingAdapterPosition
                     if (position != RecyclerView.NO_POSITION) {
                         val item = getItem(position)
-                        listener.onItemDeleted(item)
+                        listener.onFileDeleted(item)
                     }
                 }
+            }
+
+            if (!allowDelete) {
+                binding.buttonDelete.visibility = android.view.View.GONE
             }
         }
 
@@ -67,8 +73,8 @@ class ImageAdapter(
         }
     }
 
-    interface OnAdapterItemListener {
-        fun onItemClicked(item: ImageItemUiModel)
-        fun onItemDeleted(item: ImageItemUiModel)
+    interface FileAdapterListener {
+        fun onFileClicked(item: ImageItemUiModel)
+        fun onFileDeleted(item: ImageItemUiModel)
     }
 }

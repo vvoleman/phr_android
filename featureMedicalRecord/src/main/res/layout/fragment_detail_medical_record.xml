@@ -1,16 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.view.detail.DetailMedicalRecordFragment"
-    android:layout_height="match_parent">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:padding="16dp"
+    tools:context=".ui.view.detail.DetailMedicalRecordFragment">
 
     <TextView
-        android:id="@+id/text_view_temp"
+        android:id="@+id/text_view_problem_category"
         android:layout_width="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/layout_rounded"
+        android:backgroundTint="@color/category_b"
+        android:padding="16dp"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Problem Category" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/detail_medical_record_medical_worker"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/text_view_medical_worker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Dr. John Doe"
+            android:layout_marginStart="8dp" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/detail_medical_record_diagnose"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/text_view_diagnose"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Hyperbilirubinemie bez zmínky o žloutence nezařazená jinde"
+            android:layout_marginStart="8dp" />
+    </LinearLayout>
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_marginTop="8dp"
+        android:id="@+id/recycler_view_files"
+        android:layout_width="match_parent"
+        tools:itemCount="3"
+        tools:listitem="@layout/item_file_thumbnail"
         android:layout_height="wrap_content" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>
