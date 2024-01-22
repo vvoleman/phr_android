@@ -5,6 +5,7 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
 import android.os.Build
+import cz.vvoleman.phr.featureMeasurement.data.alarm.receiver.measurementGroup.MeasurementGroupAlarmReceiver
 import cz.vvoleman.phr.featureMedicine.data.alarm.MedicineAlarmReceiver
 import dagger.hilt.android.HiltAndroidApp
 import org.greenrobot.eventbus.EventBus
@@ -21,15 +22,39 @@ class PHRApplication : Application() {
 
     private fun createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val channel = NotificationChannel(
-                MedicineAlarmReceiver.CHANNEL_ID,
-                "Medicine alarm",
-                NotificationManager.IMPORTANCE_DEFAULT
+            val channels = listOf(
+                Channel(
+                    MedicineAlarmReceiver.CHANNEL_ID,
+                    "Medicine alarm",
+                    NotificationManager.IMPORTANCE_DEFAULT,
+                    "Used for the medicine alarm notifications"
+                ),
+                Channel(
+                    MeasurementGroupAlarmReceiver.CHANNEL_ID,
+                    "Measurement group alarm",
+                    NotificationManager.IMPORTANCE_DEFAULT,
+                    "Used for the measurement group alarm notifications"
+                )
             )
-            channel.description = "Used for the increment counter notifications"
 
             val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-            notificationManager.createNotificationChannel(channel)
+            channels.forEach {
+                val channel = NotificationChannel(
+                    it.channelId,
+                    it.name,
+                    it.importance
+                )
+                channel.description = it.description
+
+                notificationManager.createNotificationChannel(channel)
+            }
         }
     }
+
+    private data class Channel(
+        val channelId: String,
+        val name: String,
+        val importance: Int,
+        val description: String,
+    )
 }

@@ -1,12 +1,12 @@
 package cz.vvoleman.phr.di.measurement
 
-import cz.vvoleman.featureMeasurement.data.datasource.room.mapper.MeasurementGroupDataSourceModelToDataMapper
-import cz.vvoleman.featureMeasurement.data.datasource.room.mapper.MeasurementGroupEntryDataSourceModelToDataMapper
-import cz.vvoleman.featureMeasurement.data.datasource.room.mapper.MeasurementGroupScheduleItemDataSourceModelToDataMapper
-import cz.vvoleman.featureMeasurement.data.datasource.room.mapper.NumericFieldDataSourceModelToDataMapper
-import cz.vvoleman.featureMeasurement.data.datasource.room.mapper.UnitDataSourceModelToDataMapper
-import cz.vvoleman.featureMeasurement.data.datasource.room.mapper.UnitGroupDataSourceModelToDataMapper
-import cz.vvoleman.featureMeasurement.data.datasource.room.unit.UnitGroupDao
+import cz.vvoleman.phr.featureMeasurement.data.datasource.room.mapper.MeasurementGroupDataSourceModelToDataMapper
+import cz.vvoleman.phr.featureMeasurement.data.datasource.room.mapper.MeasurementGroupEntryDataSourceModelToDataMapper
+import cz.vvoleman.phr.featureMeasurement.data.datasource.room.mapper.MeasurementGroupScheduleItemDataSourceModelToDataMapper
+import cz.vvoleman.phr.featureMeasurement.data.datasource.room.mapper.NumericFieldDataSourceModelToDataMapper
+import cz.vvoleman.phr.featureMeasurement.data.datasource.room.mapper.UnitDataSourceModelToDataMapper
+import cz.vvoleman.phr.featureMeasurement.data.datasource.room.mapper.UnitGroupDataSourceModelToDataMapper
+import cz.vvoleman.phr.featureMeasurement.data.datasource.room.unit.UnitGroupDao
 import cz.vvoleman.phr.common.data.mapper.PatientDataSourceModelToDomainMapper
 import cz.vvoleman.phr.data.PatientDatabase
 import dagger.Module

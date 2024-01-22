@@ -27,7 +27,7 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <cz.vvoleman.featureMeasurement.ui.component.fieldEditor.FieldEditor
+        <cz.vvoleman.phr.featureMeasurement.ui.component.fieldEditor.FieldEditor
             android:id="@+id/field_editor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
@@ -59,7 +59,7 @@
                 android:textAlignment="center" />
         </LinearLayout>
 
-        <cz.vvoleman.featureMeasurement.ui.component.reminderTimeSelector.ReminderTimeSelector
+        <cz.vvoleman.phr.featureMeasurement.ui.component.reminderTimeSelector.ReminderTimeSelector
             android:id="@+id/time_selector"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />

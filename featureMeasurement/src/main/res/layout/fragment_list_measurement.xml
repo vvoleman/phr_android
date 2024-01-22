@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.view.list.ListMeasurementFragment"
+    tools:context="cz.vvoleman.phr.featureMeasurement.ui.view.list.ListMeasurementFragment"
     android:layout_margin="16dp"
     android:layout_height="match_parent">
 
