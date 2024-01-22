@@ -55,8 +55,17 @@
             </intent-filter>
         </receiver>
 
+        <receiver
+            android:name=".featureMeasurement.data.alarm.MeasurementBootReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+
         <receiver android:name=".featureMedicine.data.alarm.CounterNotificationReceiver" />
         <receiver android:name=".featureMedicine.data.alarm.MedicineAlarmReceiver" />
+        <receiver android:name=".featureMeasurement.data.alarm.receiver.measurementGroup.MeasurementGroupReceiver" />
     </application>
 
 </manifest>
