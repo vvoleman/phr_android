@@ -1,4 +1,4 @@
-package cz.vvoleman.featureMeasurement.ui.component.timeSelector
+package cz.vvoleman.featureMeasurement.ui.component.reminderTimeSelector
 
 import android.content.Context
 import android.util.AttributeSet
@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import cz.vvoleman.featureMeasurement.databinding.ViewTimeSelectorBinding
 import java.time.LocalTime
 
-class TimeSelector @JvmOverloads constructor(
+class ReminderTimeSelector @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0

@@ -1,6 +1,5 @@
 package cz.vvoleman.featureMeasurement.data.model
 
-import cz.vvoleman.featureMeasurement.domain.model.MeasurementGroupField
 import cz.vvoleman.phr.common.domain.model.patient.PatientDomainModel
 
 data class MeasurementGroupDataModel(
@@ -9,5 +8,5 @@ data class MeasurementGroupDataModel(
     val patient: PatientDomainModel,
     val scheduleItems: List<MeasurementGroupScheduleItemDataModel>,
     val entries: List<MeasurementGroupEntryDataModel>,
-    val fields: List<MeasurementGroupField>,
+    val fields: List<MeasurementGroupFieldData>,
 )

@@ -1,6 +1,6 @@
 package cz.vvoleman.featureMeasurement.presentation.mapper.core
 
-import cz.vvoleman.featureMeasurement.domain.model.field.unit.UnitGroupDomainModel
+import cz.vvoleman.featureMeasurement.domain.model.core.field.unit.UnitGroupDomainModel
 import cz.vvoleman.featureMeasurement.presentation.model.core.field.unit.UnitGroupPresentationModel
 
 class UnitGroupPresentationModelToDomainMapper(

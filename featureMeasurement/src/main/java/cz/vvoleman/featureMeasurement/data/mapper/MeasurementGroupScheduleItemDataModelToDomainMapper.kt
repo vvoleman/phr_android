@@ -1,7 +1,7 @@
 package cz.vvoleman.featureMeasurement.data.mapper
 
 import cz.vvoleman.featureMeasurement.data.model.MeasurementGroupScheduleItemDataModel
-import cz.vvoleman.featureMeasurement.domain.model.MeasurementGroupScheduleItemDomainModel
+import cz.vvoleman.featureMeasurement.domain.model.core.MeasurementGroupScheduleItemDomainModel
 
 class MeasurementGroupScheduleItemDataModelToDomainMapper {
 

@@ -1,4 +1,4 @@
-package cz.vvoleman.featureMeasurement.ui.component.timeSelector
+package cz.vvoleman.featureMeasurement.ui.component.reminderTimeSelector
 
 import cz.vvoleman.featureMeasurement.presentation.model.addEdit.TimePresentationModel
 import java.time.LocalTime

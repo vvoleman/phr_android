@@ -22,5 +22,5 @@
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
         tools:itemCount="3"
 
-        tools:listitem="@layout/item_time_selector" />
+        tools:listitem="@layout/item_reminder_time_selector" />
 </LinearLayout>

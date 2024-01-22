@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "34e2e6728a53f4f7e5b0b7c118b89a21",
+    "identityHash": "cd4c6abffac560dd40873f0354e0c277",
     "entities": [
       {
         "tableName": "patient",
@@ -914,7 +914,7 @@
       },
       {
         "tableName": "numeric_field",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT NOT NULL, `measurement_group_id` INTEGER NOT NULL, `unitGroupId` INTEGER NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT NOT NULL, `measurement_group_id` INTEGER NOT NULL, `unitGroupId` INTEGER NOT NULL, `minimal_values` REAL, `maximal_values` REAL)",
         "fields": [
           {
             "fieldPath": "id",
@@ -939,6 +939,18 @@
             "columnName": "unitGroupId",
             "affinity": "INTEGER",
             "notNull": true
+          },
+          {
+            "fieldPath": "minimalValue",
+            "columnName": "minimal_values",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "maximalValue",
+            "columnName": "maximal_values",
+            "affinity": "REAL",
+            "notNull": false
           }
         ],
         "primaryKey": {
@@ -954,7 +966,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '34e2e6728a53f4f7e5b0b7c118b89a21')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'cd4c6abffac560dd40873f0354e0c277')"
     ]
   }
 }

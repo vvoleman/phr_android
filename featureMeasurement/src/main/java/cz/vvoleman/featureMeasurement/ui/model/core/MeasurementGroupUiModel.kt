@@ -1,6 +1,5 @@
 package cz.vvoleman.featureMeasurement.ui.model.core
 
-import cz.vvoleman.featureMeasurement.domain.model.MeasurementGroupField
 import cz.vvoleman.phr.common.ui.model.patient.PatientUiModel
 
 data class MeasurementGroupUiModel(
@@ -8,6 +7,6 @@ data class MeasurementGroupUiModel(
     val name: String,
     val patient: PatientUiModel,
     val scheduleItems: List<MeasurementGroupScheduleItemUiModel>,
-    val fields: List<MeasurementGroupField>,
+    val fields: List<MeasurementGroupFieldUi>,
     val entries: List<MeasurementGroupEntryUiModel>,
 )
