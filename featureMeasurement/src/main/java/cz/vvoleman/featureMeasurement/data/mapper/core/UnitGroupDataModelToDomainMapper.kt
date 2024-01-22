@@ -1,6 +1,6 @@
-package cz.vvoleman.featureMeasurement.data.mapper
+package cz.vvoleman.featureMeasurement.data.mapper.core
 
-import cz.vvoleman.featureMeasurement.data.model.field.unit.UnitGroupDataModel
+import cz.vvoleman.featureMeasurement.data.model.core.field.unit.UnitGroupDataModel
 import cz.vvoleman.featureMeasurement.domain.model.core.field.unit.UnitGroupDomainModel
 
 class UnitGroupDataModelToDomainMapper(

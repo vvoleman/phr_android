@@ -2,7 +2,7 @@ package cz.vvoleman.featureMeasurement.data.datasource.room.mapper
 
 import cz.vvoleman.featureMeasurement.data.datasource.room.field.NumericFieldDataSourceModel
 import cz.vvoleman.featureMeasurement.data.datasource.room.unit.UnitGroupDao
-import cz.vvoleman.featureMeasurement.data.model.field.NumericFieldDataModel
+import cz.vvoleman.featureMeasurement.data.model.core.field.NumericFieldDataModel
 import kotlinx.coroutines.flow.firstOrNull
 
 class NumericFieldDataSourceModelToDataMapper(

@@ -2,7 +2,7 @@ package cz.vvoleman.featureMeasurement.data.repository
 
 import cz.vvoleman.featureMeasurement.data.datasource.room.mapper.UnitGroupDataSourceModelToDataMapper
 import cz.vvoleman.featureMeasurement.data.datasource.room.unit.UnitGroupDao
-import cz.vvoleman.featureMeasurement.data.mapper.UnitGroupDataModelToDomainMapper
+import cz.vvoleman.featureMeasurement.data.mapper.core.UnitGroupDataModelToDomainMapper
 import cz.vvoleman.featureMeasurement.domain.model.core.field.unit.UnitGroupDomainModel
 import cz.vvoleman.featureMeasurement.domain.repository.GetUnitGroupsRepository
 import kotlinx.coroutines.flow.first

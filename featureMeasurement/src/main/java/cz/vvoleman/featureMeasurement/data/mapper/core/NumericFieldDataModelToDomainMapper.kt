@@ -1,6 +1,6 @@
-package cz.vvoleman.featureMeasurement.data.mapper
+package cz.vvoleman.featureMeasurement.data.mapper.core
 
-import cz.vvoleman.featureMeasurement.data.model.field.NumericFieldDataModel
+import cz.vvoleman.featureMeasurement.data.model.core.field.NumericFieldDataModel
 import cz.vvoleman.featureMeasurement.domain.model.core.field.NumericFieldDomainModel
 
 class NumericFieldDataModelToDomainMapper(

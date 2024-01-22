@@ -2,10 +2,12 @@ package cz.vvoleman.featureMeasurement.data.datasource.room.mapper
 
 import cz.vvoleman.featureMeasurement.data.datasource.room.MeasurementGroupDataSourceModel
 import cz.vvoleman.featureMeasurement.data.datasource.room.MeasurementGroupWithDetailsDataSourceModel
-import cz.vvoleman.featureMeasurement.data.model.MeasurementGroupDataModel
+import cz.vvoleman.featureMeasurement.data.model.addEdit.SaveMeasurementGroupDataModel
+import cz.vvoleman.featureMeasurement.data.model.core.MeasurementGroupDataModel
 import cz.vvoleman.phr.common.data.mapper.PatientDataSourceModelToDomainMapper
 
 class MeasurementGroupDataSourceModelToDataMapper(
+    private val scheduleItemMapper: MeasurementGroupScheduleItemDataSourceModelToDataMapper,
     private val numericFieldMapper: NumericFieldDataSourceModelToDataMapper,
     private val patientMapper: PatientDataSourceModelToDomainMapper,
     private val entryMapper: MeasurementGroupEntryDataSourceModelToDataMapper,
@@ -18,7 +20,7 @@ class MeasurementGroupDataSourceModelToDataMapper(
             id = model.measurementGroup.id.toString(),
             name = model.measurementGroup.name,
             patient = patientMapper.toDomain(model.patient),
-            scheduleItems = model.scheduleItems.map { MeasurementGroupScheduleItemDataSourceModelToDataMapper().toData(it) },
+            scheduleItems = model.scheduleItems.map { scheduleItemMapper.toData(it) },
             fields = numericFields,
             entries = entryMapper.toData(model.entries),
         )
@@ -38,6 +40,14 @@ class MeasurementGroupDataSourceModelToDataMapper(
 
     fun toDataSource(models: List<MeasurementGroupDataModel>): List<MeasurementGroupDataSourceModel> {
         return models.map { toDataSource(it) }
+    }
+
+    fun toDataSource(model: SaveMeasurementGroupDataModel): MeasurementGroupDataSourceModel {
+        return MeasurementGroupDataSourceModel(
+            id = model.id?.toInt(),
+            name = model.name,
+            patientId = model.patientId.toInt(),
+        )
     }
 
 }

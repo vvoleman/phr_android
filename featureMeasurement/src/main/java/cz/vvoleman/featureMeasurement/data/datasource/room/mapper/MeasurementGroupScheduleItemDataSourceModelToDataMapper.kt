@@ -1,7 +1,8 @@
 package cz.vvoleman.featureMeasurement.data.datasource.room.mapper
 
 import cz.vvoleman.featureMeasurement.data.datasource.room.MeasurementGroupScheduleItemDataSourceModel
-import cz.vvoleman.featureMeasurement.data.model.MeasurementGroupScheduleItemDataModel
+import cz.vvoleman.featureMeasurement.data.model.addEdit.SaveMeasurementGroupScheduleItemDataModel
+import cz.vvoleman.featureMeasurement.data.model.core.MeasurementGroupScheduleItemDataModel
 
 class MeasurementGroupScheduleItemDataSourceModelToDataMapper {
 
@@ -36,6 +37,19 @@ class MeasurementGroupScheduleItemDataSourceModelToDataMapper {
         measurementGroupId: String
     ): List<MeasurementGroupScheduleItemDataSourceModel> {
         return models.map { toDataSource(it, measurementGroupId) }
+    }
+
+    fun toDataSource(
+        model: SaveMeasurementGroupScheduleItemDataModel,
+        measurementGroupId: String
+    ): MeasurementGroupScheduleItemDataSourceModel {
+        return MeasurementGroupScheduleItemDataSourceModel(
+            id = model.id?.toInt(),
+            dayOfWeek = model.dayOfWeek,
+            time = model.time,
+            scheduledAt = model.scheduledAt,
+            measurementGroupId = measurementGroupId.toInt()
+        )
     }
 
 }
