@@ -65,7 +65,7 @@
 
         <receiver android:name=".featureMedicine.data.alarm.CounterNotificationReceiver" />
         <receiver android:name=".featureMedicine.data.alarm.MedicineAlarmReceiver" />
-        <receiver android:name=".featureMeasurement.data.alarm.receiver.measurementGroup.MeasurementGroupReceiver" />
+        <receiver android:name=".featureMeasurement.data.alarm.receiver.measurementGroup.MeasurementGroupAlarmReceiver" />
     </application>
 
 </manifest>
