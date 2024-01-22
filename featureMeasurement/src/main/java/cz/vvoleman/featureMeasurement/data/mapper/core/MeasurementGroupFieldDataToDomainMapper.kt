@@ -1,7 +1,7 @@
-package cz.vvoleman.featureMeasurement.data.mapper
+package cz.vvoleman.featureMeasurement.data.mapper.core
 
-import cz.vvoleman.featureMeasurement.data.model.MeasurementGroupFieldData
-import cz.vvoleman.featureMeasurement.data.model.field.NumericFieldDataModel
+import cz.vvoleman.featureMeasurement.data.model.core.MeasurementGroupFieldData
+import cz.vvoleman.featureMeasurement.data.model.core.field.NumericFieldDataModel
 import cz.vvoleman.featureMeasurement.domain.model.core.MeasurementGroupFieldDomain
 import cz.vvoleman.featureMeasurement.domain.model.core.field.NumericFieldDomainModel
 

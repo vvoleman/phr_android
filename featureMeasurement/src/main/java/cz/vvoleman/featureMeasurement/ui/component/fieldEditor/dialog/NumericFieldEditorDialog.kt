@@ -28,6 +28,10 @@ class NumericFieldEditorDialog(
             throw IllegalArgumentException("Minimal value cannot be greater than maximal value")
         }
 
+        if (unitGroup == null) {
+            throw IllegalArgumentException("Unit group cannot be null")
+        }
+
         return NumericFieldUiModel(
             id = existingField?.id ?: System.currentTimeMillis().toString(),
             name = binding.editTextFieldName.text.toString(),

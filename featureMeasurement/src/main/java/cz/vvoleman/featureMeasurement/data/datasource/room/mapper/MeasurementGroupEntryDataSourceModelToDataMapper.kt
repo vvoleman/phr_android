@@ -1,7 +1,7 @@
 package cz.vvoleman.featureMeasurement.data.datasource.room.mapper
 
 import cz.vvoleman.featureMeasurement.data.datasource.room.MeasurementGroupEntryDataSourceModel
-import cz.vvoleman.featureMeasurement.data.model.MeasurementGroupEntryDataModel
+import cz.vvoleman.featureMeasurement.data.model.core.MeasurementGroupEntryDataModel
 
 class MeasurementGroupEntryDataSourceModelToDataMapper {
 

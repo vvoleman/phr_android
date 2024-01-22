@@ -7,4 +7,5 @@ sealed class AddEditMeasurementNotification {
     data class EditItem(val item: MeasurementGroupFieldUi) : AddEditMeasurementNotification()
     data class MissingFields(val fields: List<AddEditMeasurementViewState.RequiredField>) :
         AddEditMeasurementNotification()
+    object SaveError : AddEditMeasurementNotification()
 }

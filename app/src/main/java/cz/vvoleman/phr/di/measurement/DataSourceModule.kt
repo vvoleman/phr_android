@@ -52,10 +52,16 @@ class DataSourceModule {
 
     @Provides
     fun providesMeasurementGroupDataSourceModelToDataMapper(
+        scheduleItemMapper: MeasurementGroupScheduleItemDataSourceModelToDataMapper,
         numericFieldMapper: NumericFieldDataSourceModelToDataMapper,
         patientMapper: PatientDataSourceModelToDomainMapper,
         entryMapper: MeasurementGroupEntryDataSourceModelToDataMapper
-    ) = MeasurementGroupDataSourceModelToDataMapper(numericFieldMapper, patientMapper, entryMapper)
+    ) = MeasurementGroupDataSourceModelToDataMapper(
+        scheduleItemMapper = scheduleItemMapper,
+        numericFieldMapper = numericFieldMapper,
+        patientMapper = patientMapper,
+        entryMapper = entryMapper
+    )
 
     @Provides
     fun providesMeasurementGroupEntryDataSourceModelToDataMapper() = MeasurementGroupEntryDataSourceModelToDataMapper()

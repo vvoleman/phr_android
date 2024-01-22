@@ -10,4 +10,5 @@
     <string name="field_maximal_value">Maximální hodnota</string>
     <string name="description_maximal_value">Maximální hodnota</string>
     <string name="field_measurement_group_name">Jméno skupiny měření</string>
+    <string name="success_measurement_group_saved">Skupina měření byla uložena!</string>
 </resources>

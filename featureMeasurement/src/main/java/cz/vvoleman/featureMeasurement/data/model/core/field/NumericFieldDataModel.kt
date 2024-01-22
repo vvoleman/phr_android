@@ -1,7 +1,7 @@
-package cz.vvoleman.featureMeasurement.data.model.field
+package cz.vvoleman.featureMeasurement.data.model.core.field
 
-import cz.vvoleman.featureMeasurement.data.model.MeasurementGroupFieldData
-import cz.vvoleman.featureMeasurement.data.model.field.unit.UnitGroupDataModel
+import cz.vvoleman.featureMeasurement.data.model.core.MeasurementGroupFieldData
+import cz.vvoleman.featureMeasurement.data.model.core.field.unit.UnitGroupDataModel
 
 data class NumericFieldDataModel(
     override val id: String,
