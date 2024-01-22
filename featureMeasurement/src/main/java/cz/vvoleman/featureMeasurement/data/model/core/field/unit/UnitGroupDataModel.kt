@@ -1,4 +1,4 @@
-package cz.vvoleman.featureMeasurement.data.model.field.unit
+package cz.vvoleman.featureMeasurement.data.model.core.field.unit
 
 data class UnitGroupDataModel(
     val id: String,

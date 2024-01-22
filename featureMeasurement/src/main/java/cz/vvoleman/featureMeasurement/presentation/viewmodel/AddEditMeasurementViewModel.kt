@@ -1,10 +1,14 @@
 package cz.vvoleman.featureMeasurement.presentation.viewmodel
 
 import androidx.lifecycle.SavedStateHandle
-import cz.vvoleman.featureMeasurement.domain.model.addEdit.SaveMeasurementGroupRequest
+import androidx.lifecycle.viewModelScope
+import cz.vvoleman.featureMeasurement.domain.model.addEdit.SaveMeasurementGroupDomainModel
 import cz.vvoleman.featureMeasurement.domain.model.addEdit.SaveMeasurementGroupScheduleItemDomainModel
 import cz.vvoleman.featureMeasurement.domain.repository.GetUnitGroupsRepository
+import cz.vvoleman.featureMeasurement.domain.usecase.addEdit.SaveMeasurementGroupUseCase
+import cz.vvoleman.featureMeasurement.presentation.mapper.core.MeasurementGroupFieldPresentationToDomainMapper
 import cz.vvoleman.featureMeasurement.presentation.mapper.core.UnitGroupPresentationModelToDomainMapper
+import cz.vvoleman.featureMeasurement.presentation.model.addEdit.AddEditMeasurementDestination
 import cz.vvoleman.featureMeasurement.presentation.model.addEdit.AddEditMeasurementNotification
 import cz.vvoleman.featureMeasurement.presentation.model.addEdit.AddEditMeasurementViewState
 import cz.vvoleman.featureMeasurement.presentation.model.core.MeasurementGroupFieldPresentation
@@ -19,6 +23,7 @@ import cz.vvoleman.phr.common.presentation.model.frequencySelector.FrequencyDayP
 import cz.vvoleman.phr.common.presentation.model.patient.PatientPresentationModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 import java.time.LocalDateTime
 import java.time.LocalTime
 import javax.inject.Inject
@@ -27,8 +32,10 @@ import javax.inject.Inject
 class AddEditMeasurementViewModel @Inject constructor(
     private val getSelectedPatientUseCase: GetSelectedPatientUseCase,
     private val getUnitGroupsRepository: GetUnitGroupsRepository,
+    private val saveMeasurementGroupUseCase: SaveMeasurementGroupUseCase,
     private val unitGroupMapper: UnitGroupPresentationModelToDomainMapper,
     private val patientMapper: PatientPresentationModelToDomainMapper,
+    private val fieldMapper: MeasurementGroupFieldPresentationToDomainMapper,
     savedStateHandle: SavedStateHandle,
     useCaseExecutorProvider: UseCaseExecutorProvider
 ) : BaseViewModel<AddEditMeasurementViewState, AddEditMeasurementNotification>(
@@ -53,8 +60,6 @@ class AddEditMeasurementViewModel @Inject constructor(
     }
 
     fun onSaveField(item: MeasurementGroupFieldPresentation) {
-        // If there is already item in list with same id, replace it
-        // If not, add new item to list
         val fields = currentViewState.fields.toMutableList()
         val index = fields.indexOfFirst { it.id == item.id }
 
@@ -77,7 +82,7 @@ class AddEditMeasurementViewModel @Inject constructor(
     fun onAddTime(time: LocalTime?) {
         val times = currentViewState.times.toMutableSet()
         times.add(time ?: return)
-        updateViewState(currentViewState.copy(times = times))
+        updateViewState(currentViewState.copy(times = times.sorted().toSet()))
     }
 
     fun onFrequencyUpdate(days: List<FrequencyDayPresentationModel>) {
@@ -94,7 +99,7 @@ class AddEditMeasurementViewModel @Inject constructor(
         times.remove(oldTime)
         times.add(updatedTime)
 
-        updateViewState(currentViewState.copy(times = times))
+        updateViewState(currentViewState.copy(times = times.sorted().toSet()))
     }
 
     fun onTimeDelete(index: Int) {
@@ -109,7 +114,7 @@ class AddEditMeasurementViewModel @Inject constructor(
         updateViewState(currentViewState.copy(name = name))
     }
 
-    fun onSave() {
+    suspend fun onSave() {
         val missingFields = currentViewState.missingFields
 
         if (missingFields.isNotEmpty()) {
@@ -117,14 +122,33 @@ class AddEditMeasurementViewModel @Inject constructor(
             return
         }
 
-        val request = SaveMeasurementGroupRequest(
+        val request = SaveMeasurementGroupDomainModel(
             id = currentViewState.measurementGroup?.id,
             name = currentViewState.name,
             patientId = currentViewState.patient.id,
-            scheduleItems = listOf(),
-            fields = listOf()
+            scheduleItems = makeSaveSchedules(
+                times = currentViewState.times.toList(),
+                frequencies = currentViewState.frequencyDays
+            ),
+            fields = fieldMapper.toDomain(currentViewState.fields),
         )
 
+        saveMeasurementGroupUseCase.execute(request, ::handleSaveMeasurementGroup)
+
+//        if (result != null) {
+//            navigateTo(AddEditMeasurementDestination.SaveSuccess(id = result))
+//        } else {
+//            notify(AddEditMeasurementNotification.SaveError)
+//        }
+    }
+
+    private fun handleSaveMeasurementGroup(result: String?) = viewModelScope.launch {
+        if (result == null) {
+            notify(AddEditMeasurementNotification.SaveError)
+            return@launch
+        }
+
+        navigateTo(AddEditMeasurementDestination.SaveSuccess(id = result))
     }
 
     private fun makeSaveSchedules(

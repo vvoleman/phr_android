@@ -1,7 +1,7 @@
 package cz.vvoleman.featureMeasurement.data.datasource.room.mapper
 
 import cz.vvoleman.featureMeasurement.data.datasource.room.unit.UnitGroupDataSourceModel
-import cz.vvoleman.featureMeasurement.data.model.field.unit.UnitGroupDataModel
+import cz.vvoleman.featureMeasurement.data.model.core.field.unit.UnitGroupDataModel
 
 class UnitGroupDataSourceModelToDataMapper(
     private val unitMapper: UnitDataSourceModelToDataMapper

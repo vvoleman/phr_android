@@ -1,20 +1,25 @@
 package cz.vvoleman.phr.di.measurement
 
 import cz.vvoleman.featureMeasurement.data.datasource.room.MeasurementGroupDao
+import cz.vvoleman.featureMeasurement.data.datasource.room.MeasurementGroupScheduleItemDao
 import cz.vvoleman.featureMeasurement.data.datasource.room.mapper.MeasurementGroupDataSourceModelToDataMapper
+import cz.vvoleman.featureMeasurement.data.datasource.room.mapper.MeasurementGroupScheduleItemDataSourceModelToDataMapper
 import cz.vvoleman.featureMeasurement.data.datasource.room.mapper.UnitGroupDataSourceModelToDataMapper
 import cz.vvoleman.featureMeasurement.data.datasource.room.unit.UnitGroupDao
-import cz.vvoleman.featureMeasurement.data.mapper.MeasurementGroupDataModelToDomainMapper
-import cz.vvoleman.featureMeasurement.data.mapper.MeasurementGroupEntryDataModelToDomainMapper
-import cz.vvoleman.featureMeasurement.data.mapper.MeasurementGroupFieldDataToDomainMapper
-import cz.vvoleman.featureMeasurement.data.mapper.MeasurementGroupScheduleItemDataModelToDomainMapper
-import cz.vvoleman.featureMeasurement.data.mapper.NumericFieldDataModelToDomainMapper
-import cz.vvoleman.featureMeasurement.data.mapper.UnitDataModelToDomainMapper
-import cz.vvoleman.featureMeasurement.data.mapper.UnitGroupDataModelToDomainMapper
+import cz.vvoleman.featureMeasurement.data.mapper.addEdit.SaveMeasurementGroupDataModelToDomainMapper
+import cz.vvoleman.featureMeasurement.data.mapper.addEdit.SaveMeasurementGroupScheduleItemDataModelToDomainMapper
+import cz.vvoleman.featureMeasurement.data.mapper.core.MeasurementGroupDataModelToDomainMapper
+import cz.vvoleman.featureMeasurement.data.mapper.core.MeasurementGroupEntryDataModelToDomainMapper
+import cz.vvoleman.featureMeasurement.data.mapper.core.MeasurementGroupFieldDataToDomainMapper
+import cz.vvoleman.featureMeasurement.data.mapper.core.MeasurementGroupScheduleItemDataModelToDomainMapper
+import cz.vvoleman.featureMeasurement.data.mapper.core.NumericFieldDataModelToDomainMapper
+import cz.vvoleman.featureMeasurement.data.mapper.core.UnitDataModelToDomainMapper
+import cz.vvoleman.featureMeasurement.data.mapper.core.UnitGroupDataModelToDomainMapper
 import cz.vvoleman.featureMeasurement.data.repository.MeasurementGroupRepository
 import cz.vvoleman.featureMeasurement.data.repository.UnitRepository
 import cz.vvoleman.featureMeasurement.domain.repository.GetMeasurementGroupRepository
 import cz.vvoleman.featureMeasurement.domain.repository.GetUnitGroupsRepository
+import cz.vvoleman.featureMeasurement.domain.repository.SaveMeasurementGroupRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -67,13 +72,21 @@ class DataModule {
 
     @Provides
     fun providesMeasurementGroupRepository(
+        saveMeasurementGroupMapper: SaveMeasurementGroupDataModelToDomainMapper,
         measurementGroupDao: MeasurementGroupDao,
         groupDataSourceMapper: MeasurementGroupDataSourceModelToDataMapper,
         groupDataMapper: MeasurementGroupDataModelToDomainMapper,
+        saveScheduleItemMapper: SaveMeasurementGroupScheduleItemDataModelToDomainMapper,
+        scheduleItemDataSource: MeasurementGroupScheduleItemDataSourceModelToDataMapper,
+        scheduleItemDao: MeasurementGroupScheduleItemDao,
     ) = MeasurementGroupRepository(
+        saveMeasurementGroupMapper = saveMeasurementGroupMapper,
         measurementGroupDao = measurementGroupDao,
         measurementGroupDataSourceMapper = groupDataSourceMapper,
-        measurementGroupDataMapper = groupDataMapper
+        measurementGroupDataMapper = groupDataMapper,
+        saveScheduleItemMapper = saveScheduleItemMapper,
+        scheduleItemDataSourceMapper = scheduleItemDataSource,
+        scheduleItemDao = scheduleItemDao,
     )
 
     @Provides
@@ -103,5 +116,23 @@ class DataModule {
     ) = MeasurementGroupFieldDataToDomainMapper(
         numericMapper,
     )
+
+    @Provides
+    fun providesSaveMeasurementGroupDataModelToDomainMapper(
+        fieldMapper: MeasurementGroupFieldDataToDomainMapper,
+        saveScheduleItemMapper: SaveMeasurementGroupScheduleItemDataModelToDomainMapper,
+    ) = SaveMeasurementGroupDataModelToDomainMapper(
+        fieldMapper,
+        saveScheduleItemMapper,
+    )
+
+    @Provides
+    fun providesSaveMeasurementGroupScheduleItemDataModelToDomainMapper() =
+        SaveMeasurementGroupScheduleItemDataModelToDomainMapper()
+
+    @Provides
+    fun providesSaveMeasurementGroupRepository(
+        measurementGroupRepository: MeasurementGroupRepository,
+    ): SaveMeasurementGroupRepository = measurementGroupRepository
 
 }

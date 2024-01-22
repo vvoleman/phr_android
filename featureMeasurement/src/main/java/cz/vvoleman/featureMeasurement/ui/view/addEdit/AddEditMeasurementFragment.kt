@@ -9,6 +9,7 @@ import android.widget.PopupMenu
 import android.widget.TimePicker
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import cz.vvoleman.featureMeasurement.R
 import cz.vvoleman.featureMeasurement.databinding.FragmentAddEditMeasurementBinding
 import cz.vvoleman.featureMeasurement.presentation.model.addEdit.AddEditMeasurementNotification
@@ -32,6 +33,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.launch
 import java.time.LocalTime
 import javax.inject.Inject
 
@@ -74,6 +76,9 @@ class AddEditMeasurementFragment :
                 viewModel.onAddTime(time)
             }
         }
+        binding.buttonSave.setOnClickListener {
+            lifecycleScope.launch { viewModel.onSave() }
+        }
 
         val nameChanges = binding.editTextName.textChanges()
             .debounce(TimeConstants.DEBOUNCE_TIME)
@@ -88,9 +93,12 @@ class AddEditMeasurementFragment :
             is AddEditMeasurementNotification.EditItem -> {
                 binding.fieldEditor.startEdit(notification.item)
             }
-
             is AddEditMeasurementNotification.MissingFields -> {
                 showSnackbar(notification.fields.toString())
+            }
+
+            AddEditMeasurementNotification.SaveError -> {
+                showSnackbar(cz.vvoleman.phr.common_datasource.R.string.error_cannot_save)
             }
         }
     }

@@ -1,6 +1,6 @@
-package cz.vvoleman.featureMeasurement.data.mapper
+package cz.vvoleman.featureMeasurement.data.mapper.core
 
-import cz.vvoleman.featureMeasurement.data.model.MeasurementGroupDataModel
+import cz.vvoleman.featureMeasurement.data.model.core.MeasurementGroupDataModel
 import cz.vvoleman.featureMeasurement.domain.model.core.MeasurementGroupDomainModel
 
 class MeasurementGroupDataModelToDomainMapper(
