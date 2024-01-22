@@ -1,8 +1,8 @@
 package cz.vvoleman.phr.data.fixture
 
-import cz.vvoleman.featureMeasurement.data.datasource.room.unit.UnitDataSourceModel
-import cz.vvoleman.featureMeasurement.data.datasource.room.unit.UnitGroupDao
-import cz.vvoleman.featureMeasurement.data.datasource.room.unit.UnitGroupDataSourceModel
+import cz.vvoleman.phr.featureMeasurement.data.datasource.room.unit.UnitDataSourceModel
+import cz.vvoleman.phr.featureMeasurement.data.datasource.room.unit.UnitGroupDao
+import cz.vvoleman.phr.featureMeasurement.data.datasource.room.unit.UnitGroupDataSourceModel
 
 class UnitGroupFixture(
     private val unitGroupDao: UnitGroupDao,

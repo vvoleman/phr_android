@@ -1,25 +1,30 @@
 package cz.vvoleman.phr.di.measurement
 
-import cz.vvoleman.featureMeasurement.data.datasource.room.MeasurementGroupDao
-import cz.vvoleman.featureMeasurement.data.datasource.room.MeasurementGroupScheduleItemDao
-import cz.vvoleman.featureMeasurement.data.datasource.room.mapper.MeasurementGroupDataSourceModelToDataMapper
-import cz.vvoleman.featureMeasurement.data.datasource.room.mapper.MeasurementGroupScheduleItemDataSourceModelToDataMapper
-import cz.vvoleman.featureMeasurement.data.datasource.room.mapper.UnitGroupDataSourceModelToDataMapper
-import cz.vvoleman.featureMeasurement.data.datasource.room.unit.UnitGroupDao
-import cz.vvoleman.featureMeasurement.data.mapper.addEdit.SaveMeasurementGroupDataModelToDomainMapper
-import cz.vvoleman.featureMeasurement.data.mapper.addEdit.SaveMeasurementGroupScheduleItemDataModelToDomainMapper
-import cz.vvoleman.featureMeasurement.data.mapper.core.MeasurementGroupDataModelToDomainMapper
-import cz.vvoleman.featureMeasurement.data.mapper.core.MeasurementGroupEntryDataModelToDomainMapper
-import cz.vvoleman.featureMeasurement.data.mapper.core.MeasurementGroupFieldDataToDomainMapper
-import cz.vvoleman.featureMeasurement.data.mapper.core.MeasurementGroupScheduleItemDataModelToDomainMapper
-import cz.vvoleman.featureMeasurement.data.mapper.core.NumericFieldDataModelToDomainMapper
-import cz.vvoleman.featureMeasurement.data.mapper.core.UnitDataModelToDomainMapper
-import cz.vvoleman.featureMeasurement.data.mapper.core.UnitGroupDataModelToDomainMapper
-import cz.vvoleman.featureMeasurement.data.repository.MeasurementGroupRepository
-import cz.vvoleman.featureMeasurement.data.repository.UnitRepository
-import cz.vvoleman.featureMeasurement.domain.repository.GetMeasurementGroupRepository
-import cz.vvoleman.featureMeasurement.domain.repository.GetUnitGroupsRepository
-import cz.vvoleman.featureMeasurement.domain.repository.SaveMeasurementGroupRepository
+import cz.vvoleman.phr.featureMeasurement.data.alarm.MeasurementAlarmManager
+import cz.vvoleman.phr.featureMeasurement.data.datasource.room.MeasurementGroupDao
+import cz.vvoleman.phr.featureMeasurement.data.datasource.room.MeasurementGroupScheduleItemDao
+import cz.vvoleman.phr.featureMeasurement.data.datasource.room.mapper.MeasurementGroupDataSourceModelToDataMapper
+import cz.vvoleman.phr.featureMeasurement.data.datasource.room.mapper.MeasurementGroupScheduleItemDataSourceModelToDataMapper
+import cz.vvoleman.phr.featureMeasurement.data.datasource.room.mapper.UnitGroupDataSourceModelToDataMapper
+import cz.vvoleman.phr.featureMeasurement.data.datasource.room.unit.UnitGroupDao
+import cz.vvoleman.phr.featureMeasurement.data.mapper.addEdit.SaveMeasurementGroupDataModelToDomainMapper
+import cz.vvoleman.phr.featureMeasurement.data.mapper.addEdit.SaveMeasurementGroupScheduleItemDataModelToDomainMapper
+import cz.vvoleman.phr.featureMeasurement.data.mapper.core.MeasurementGroupDataModelToDomainMapper
+import cz.vvoleman.phr.featureMeasurement.data.mapper.core.MeasurementGroupEntryDataModelToDomainMapper
+import cz.vvoleman.phr.featureMeasurement.data.mapper.core.MeasurementGroupFieldDataToDomainMapper
+import cz.vvoleman.phr.featureMeasurement.data.mapper.core.MeasurementGroupScheduleItemDataModelToDomainMapper
+import cz.vvoleman.phr.featureMeasurement.data.mapper.core.NumericFieldDataModelToDomainMapper
+import cz.vvoleman.phr.featureMeasurement.data.mapper.core.UnitDataModelToDomainMapper
+import cz.vvoleman.phr.featureMeasurement.data.mapper.core.UnitGroupDataModelToDomainMapper
+import cz.vvoleman.phr.featureMeasurement.data.repository.AlarmRepository
+import cz.vvoleman.phr.featureMeasurement.data.repository.MeasurementGroupRepository
+import cz.vvoleman.phr.featureMeasurement.data.repository.UnitRepository
+import cz.vvoleman.phr.featureMeasurement.domain.repository.DeleteMeasurementGroupAlarmRepository
+import cz.vvoleman.phr.featureMeasurement.domain.repository.GetMeasurementGroupRepository
+import cz.vvoleman.phr.featureMeasurement.domain.repository.GetUnitGroupsRepository
+import cz.vvoleman.phr.featureMeasurement.domain.repository.SaveMeasurementGroupRepository
+import cz.vvoleman.phr.featureMeasurement.domain.repository.ScheduleMeasurementGroupRepository
+import cz.vvoleman.phr.common.data.alarm.AlarmScheduler
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -134,5 +139,33 @@ class DataModule {
     fun providesSaveMeasurementGroupRepository(
         measurementGroupRepository: MeasurementGroupRepository,
     ): SaveMeasurementGroupRepository = measurementGroupRepository
+
+    @Provides
+    fun providesAlarmRepository(
+        measurementGroupDao: MeasurementGroupDao,
+        measurementGroupDataMapper: MeasurementGroupDataSourceModelToDataMapper,
+        measurementMapper: MeasurementGroupDataModelToDomainMapper,
+        alarmScheduler: AlarmScheduler
+    ) = AlarmRepository(
+        measurementGroupDao,
+        measurementGroupDataMapper,
+        measurementMapper,
+        alarmScheduler
+    )
+
+    @Provides
+    fun providesMeasurementAlarmManager(
+        alarmRepository: AlarmRepository
+    ) = MeasurementAlarmManager(alarmRepository)
+
+    @Provides
+    fun providesScheduleMeasurementGroupRepository(
+        alarmRepository: AlarmRepository
+    ): ScheduleMeasurementGroupRepository = alarmRepository
+
+    @Provides
+    fun providesDeleteMeasurementGroupAlarmRepository(
+        alarmRepository: AlarmRepository
+    ): DeleteMeasurementGroupAlarmRepository = alarmRepository
 
 }
