@@ -1,7 +1,7 @@
 package cz.vvoleman.featureMeasurement.data.mapper
 
 import cz.vvoleman.featureMeasurement.data.model.MeasurementGroupEntryDataModel
-import cz.vvoleman.featureMeasurement.domain.model.MeasurementGroupEntryDomainModel
+import cz.vvoleman.featureMeasurement.domain.model.core.MeasurementGroupEntryDomainModel
 
 class MeasurementGroupEntryDataModelToDomainMapper {
 

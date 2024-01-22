@@ -1,6 +1,7 @@
 package cz.vvoleman.phr.di.measurement
 
 import cz.vvoleman.featureMeasurement.presentation.mapper.core.MeasurementGroupEntryPresentationModelToDomainMapper
+import cz.vvoleman.featureMeasurement.presentation.mapper.core.MeasurementGroupFieldPresentationToDomainMapper
 import cz.vvoleman.featureMeasurement.presentation.mapper.core.MeasurementGroupPresentationModelToDomainMapper
 import cz.vvoleman.featureMeasurement.presentation.mapper.core.MeasurementGroupScheduleItemPresentationModelToDomainMapper
 import cz.vvoleman.featureMeasurement.presentation.mapper.core.NumericFieldPresentationModelToDomainMapper
@@ -53,14 +54,23 @@ class PresentationModule {
     fun provideMeasurementGroupPresentationModelToDomainMapper(
         scheduleItemMapper: MeasurementGroupScheduleItemPresentationModelToDomainMapper,
         entryMapper: MeasurementGroupEntryPresentationModelToDomainMapper,
-        numericFieldMapper: NumericFieldPresentationModelToDomainMapper,
+        fieldMapper: MeasurementGroupFieldPresentationToDomainMapper,
         patientMapper: PatientPresentationModelToDomainMapper,
     ): MeasurementGroupPresentationModelToDomainMapper {
         return MeasurementGroupPresentationModelToDomainMapper(
             scheduleItemMapper = scheduleItemMapper,
             entryMapper = entryMapper,
-            numericFieldMapper = numericFieldMapper,
+            fieldMapper = fieldMapper,
             patientMapper = patientMapper
+        )
+    }
+
+    @Provides
+    fun providesMeasurementGroupFieldPresentationToDomainMapper(
+        numericMapper: NumericFieldPresentationModelToDomainMapper,
+    ): MeasurementGroupFieldPresentationToDomainMapper {
+        return MeasurementGroupFieldPresentationToDomainMapper(
+            numericMapper = numericMapper,
         )
     }
 

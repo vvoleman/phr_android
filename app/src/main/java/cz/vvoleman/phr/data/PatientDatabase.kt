@@ -32,6 +32,7 @@ import cz.vvoleman.phr.data.fixture.DiagnoseGroupFixture
 import cz.vvoleman.phr.data.fixture.MedicalWorkerFixture
 import cz.vvoleman.phr.data.fixture.PatientFixture
 import cz.vvoleman.phr.data.fixture.ProblemCategoryFixture
+import cz.vvoleman.phr.data.fixture.UnitGroupFixture
 import cz.vvoleman.phr.di.ApplicationScope
 import cz.vvoleman.phr.featureMedicalRecord.data.datasource.model.room.MedicalRecordDao
 import cz.vvoleman.phr.featureMedicalRecord.data.datasource.model.room.MedicalRecordDataSourceModel
@@ -159,6 +160,8 @@ abstract class PatientDatabase : RoomDatabase() {
                 val medicalWorkerFixture = MedicalWorkerFixture(database.medicalWorkerDao())
                 val medicalWorkers = medicalWorkerFixture.setup()
 
+                val unitGroupFixture = UnitGroupFixture(database.unitGroupDao())
+                unitGroupFixture.setup()
 //                val medicalRecordFixture = MedicalRecordFixture(
 //                    medicalRecordDao,
 //                    patients,

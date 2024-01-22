@@ -1,6 +1,6 @@
 package cz.vvoleman.featureMeasurement.presentation.mapper.core
 
-import cz.vvoleman.featureMeasurement.domain.model.field.NumericFieldDomainModel
+import cz.vvoleman.featureMeasurement.domain.model.core.field.NumericFieldDomainModel
 import cz.vvoleman.featureMeasurement.presentation.model.core.field.NumericFieldPresentationModel
 
 class NumericFieldPresentationModelToDomainMapper(
@@ -11,7 +11,9 @@ class NumericFieldPresentationModelToDomainMapper(
         return NumericFieldDomainModel(
             id = model.id,
             name = model.name,
-            unitGroup = unitGroupMapper.toDomain(model.unitGroup),
+            unitGroup = unitGroupMapper.toDomain(model.unitGroup!!),
+            minimalValue = model.minimalValue,
+            maximalValue = model.maximalValue
         )
     }
 
@@ -20,6 +22,8 @@ class NumericFieldPresentationModelToDomainMapper(
             id = model.id,
             name = model.name,
             unitGroup = unitGroupMapper.toPresentation(model.unitGroup),
+            minimalValue = model.minimalValue,
+            maximalValue = model.maximalValue
         )
     }
 

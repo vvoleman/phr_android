@@ -1,4 +1,4 @@
-package cz.vvoleman.featureMeasurement.domain.model
+package cz.vvoleman.featureMeasurement.domain.model.core
 
 import java.time.LocalDateTime
 

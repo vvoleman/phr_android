@@ -11,7 +11,9 @@ class NumericFieldUiModelToPresentationMapper(
         return NumericFieldPresentationModel(
             id = model.id,
             name = model.name,
-            unitGroup = unitGroupMapper.toPresentation(model.unitGroup),
+            unitGroup = model.unitGroup?.let { unitGroupMapper.toPresentation(it) },
+            minimalValue = model.minimalValue,
+            maximalValue = model.maximalValue
         )
     }
 
@@ -19,7 +21,9 @@ class NumericFieldUiModelToPresentationMapper(
         return NumericFieldUiModel(
             id = model.id,
             name = model.name,
-            unitGroup = unitGroupMapper.toUi(model.unitGroup),
+            unitGroup = model.unitGroup?.let { unitGroupMapper.toUi(it) },
+            minimalValue = model.minimalValue,
+            maximalValue = model.maximalValue
         )
     }
 

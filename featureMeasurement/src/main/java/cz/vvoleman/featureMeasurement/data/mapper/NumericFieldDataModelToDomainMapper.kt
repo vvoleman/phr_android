@@ -1,7 +1,7 @@
 package cz.vvoleman.featureMeasurement.data.mapper
 
 import cz.vvoleman.featureMeasurement.data.model.field.NumericFieldDataModel
-import cz.vvoleman.featureMeasurement.domain.model.field.NumericFieldDomainModel
+import cz.vvoleman.featureMeasurement.domain.model.core.field.NumericFieldDomainModel
 
 class NumericFieldDataModelToDomainMapper(
     private val unitGroupMapper: UnitGroupDataModelToDomainMapper
@@ -12,6 +12,8 @@ class NumericFieldDataModelToDomainMapper(
             id = model.id,
             name = model.name,
             unitGroup = unitGroupMapper.toDomain(model.unitGroup),
+            minimalValue = model.minimalValue,
+            maximalValue = model.maximalValue
         )
     }
 
@@ -24,6 +26,8 @@ class NumericFieldDataModelToDomainMapper(
             id = model.id,
             name = model.name,
             unitGroup = unitGroupMapper.toData(model.unitGroup),
+            minimalValue = model.minimalValue,
+            maximalValue = model.maximalValue
         )
     }
 
