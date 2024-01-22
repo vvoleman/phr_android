@@ -3,4 +3,11 @@
     <string name="navigation_list_measurement">Měření</string>
     <string name="navigation_add_edit_measurement">{action} skupinu měření</string>
     <string name="add_measurement_group">Přidat skupinu měření</string>
+    <string name="field_measurement_group_field_name">Jméno pole</string>
+    <string name="description_unit_group">Typ jednotek</string>
+    <string name="description_minimal_value">Minimální hodnota</string>
+    <string name="field_minimal_value">Minimální hodnota</string>
+    <string name="field_maximal_value">Maximální hodnota</string>
+    <string name="description_maximal_value">Maximální hodnota</string>
+    <string name="field_measurement_group_name">Jméno skupiny měření</string>
 </resources>

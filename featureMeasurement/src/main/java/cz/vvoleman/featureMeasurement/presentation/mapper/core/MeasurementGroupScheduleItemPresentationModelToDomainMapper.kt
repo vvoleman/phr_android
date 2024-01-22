@@ -1,6 +1,6 @@
 package cz.vvoleman.featureMeasurement.presentation.mapper.core
 
-import cz.vvoleman.featureMeasurement.domain.model.MeasurementGroupScheduleItemDomainModel
+import cz.vvoleman.featureMeasurement.domain.model.core.MeasurementGroupScheduleItemDomainModel
 import cz.vvoleman.featureMeasurement.presentation.model.core.MeasurementGroupScheduleItemPresentationModel
 
 class MeasurementGroupScheduleItemPresentationModelToDomainMapper {

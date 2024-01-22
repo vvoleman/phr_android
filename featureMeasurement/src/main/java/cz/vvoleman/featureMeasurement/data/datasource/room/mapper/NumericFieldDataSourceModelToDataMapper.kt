@@ -18,6 +18,8 @@ class NumericFieldDataSourceModelToDataMapper(
             id = model.id.toString(),
             name = model.name,
             unitGroup = unitGroupMapper.toData(unitGroup),
+            minimalValue = model.minimalValue,
+            maximalValue = model.maximalValue
         )
     }
 
@@ -30,7 +32,9 @@ class NumericFieldDataSourceModelToDataMapper(
             id = model.id.toIntOrNull(),
             name = model.name,
             unitGroupId = model.unitGroup.id.toInt(),
-            measurementGroupId = measurementGroupId.toInt()
+            measurementGroupId = measurementGroupId.toInt(),
+            minimalValue = model.minimalValue,
+            maximalValue = model.maximalValue
         )
     }
 

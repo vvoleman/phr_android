@@ -1,7 +1,7 @@
 package cz.vvoleman.featureMeasurement.data.mapper
 
 import cz.vvoleman.featureMeasurement.data.model.field.unit.UnitGroupDataModel
-import cz.vvoleman.featureMeasurement.domain.model.field.unit.UnitGroupDomainModel
+import cz.vvoleman.featureMeasurement.domain.model.core.field.unit.UnitGroupDomainModel
 
 class UnitGroupDataModelToDomainMapper(
     private val unitMapper: UnitDataModelToDomainMapper

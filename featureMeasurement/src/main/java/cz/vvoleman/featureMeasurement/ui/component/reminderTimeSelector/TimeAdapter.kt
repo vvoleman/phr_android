@@ -1,4 +1,4 @@
-package cz.vvoleman.featureMeasurement.ui.component.timeSelector
+package cz.vvoleman.featureMeasurement.ui.component.reminderTimeSelector
 
 import android.view.LayoutInflater
 import android.view.View
@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import cz.vvoleman.featureMeasurement.databinding.ItemTimeSelectorBinding
+import cz.vvoleman.featureMeasurement.databinding.ItemReminderTimeSelectorBinding
 import java.time.LocalTime
 import java.time.format.DateTimeFormatterBuilder
 
@@ -16,7 +16,7 @@ class TimeAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TimeViewHolder {
         val binding =
-            ItemTimeSelectorBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            ItemReminderTimeSelectorBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return TimeViewHolder(binding)
     }
 
@@ -28,7 +28,7 @@ class TimeAdapter(
         }
     }
 
-    inner class TimeViewHolder(private val binding: ItemTimeSelectorBinding) :
+    inner class TimeViewHolder(private val binding: ItemReminderTimeSelectorBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         init {
