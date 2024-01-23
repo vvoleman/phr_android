@@ -7,6 +7,10 @@ import cz.vvoleman.phr.featureMeasurement.domain.repository.ScheduleMeasurementG
 import cz.vvoleman.phr.featureMeasurement.domain.usecase.addEdit.SaveMeasurementGroupUseCase
 import cz.vvoleman.phr.featureMeasurement.domain.usecase.addEdit.ScheduleMeasurementGroupAlertUseCase
 import cz.vvoleman.phr.base.domain.coroutine.CoroutineContextProvider
+import cz.vvoleman.phr.featureMeasurement.domain.facade.MeasurementTranslateDateTimeFacade
+import cz.vvoleman.phr.featureMeasurement.domain.facade.NextMeasurementGroupScheduleFacade
+import cz.vvoleman.phr.featureMeasurement.domain.repository.GetMeasurementGroupsByPatientRepository
+import cz.vvoleman.phr.featureMeasurement.domain.usecase.list.GetNextScheduledMeasurementGroupUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -32,6 +36,25 @@ class DomainModule {
         scheduleMeasurementGroupRepository = scheduleMeasurementGroupRepository,
         deleteMeasurementGroupAlarmRepository = deleteMeasurementGroupAlarmRepository,
         getMeasurementGroupByIdRepository = getMeasurementGroupByIdRepository,
+        coroutineContextProvider = coroutineContextProvider
+    )
+
+    @Provides
+    fun providesMeasurementGroupTranslateDateTimeFacade() = MeasurementTranslateDateTimeFacade()
+
+    @Provides
+    fun providesNextMeasurementGroupScheduleFacade(
+        translateFacade: MeasurementTranslateDateTimeFacade
+    ) = NextMeasurementGroupScheduleFacade(translateFacade)
+
+    @Provides
+    fun providesGetNextScheduledMeasurementGroupUseCase(
+        getMeasurementGroupsByPatientRepository: GetMeasurementGroupsByPatientRepository,
+        translateDateTimeFacade: MeasurementTranslateDateTimeFacade,
+        coroutineContextProvider: CoroutineContextProvider
+    ) = GetNextScheduledMeasurementGroupUseCase(
+        getMeasurementGroupsByPatientRepository = getMeasurementGroupsByPatientRepository,
+        translateDateTimeFacade = translateDateTimeFacade,
         coroutineContextProvider = coroutineContextProvider
     )
 

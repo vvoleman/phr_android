@@ -7,6 +7,12 @@
     android:layout_margin="16dp"
     android:layout_height="match_parent">
 
+    <cz.vvoleman.phr.common.ui.component.nextSchedule.NextSchedule
+        android:id="@+id/next_schedule"
+        app:labelText="@string/next_schedule_label_measurement"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
