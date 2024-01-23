@@ -78,11 +78,11 @@ class ListMedicineFragment :
 
     override fun handleNotification(notification: ListMedicineNotification) {
         when (notification) {
-            is ListMedicineNotification.DataLoaded -> showSnackbar(R.string.notification_data_loaded)
-            is ListMedicineNotification.UnableToLoad -> showSnackbar(R.string.notification_unable_to_load)
-            is ListMedicineNotification.AlarmNotDeleted -> showSnackbar(R.string.notification_alarm_not_deleted)
-            is ListMedicineNotification.ScheduleNotDeleted -> showSnackbar(R.string.notification_schedule_not_deleted)
-            is ListMedicineNotification.Deleted -> showSnackbar(R.string.notification_deleted)
+            ListMedicineNotification.DataLoaded -> showSnackbar(R.string.notification_data_loaded)
+            ListMedicineNotification.UnableToLoad -> showSnackbar(R.string.notification_unable_to_load)
+            ListMedicineNotification.AlarmNotDeleted -> showSnackbar(R.string.notification_alarm_not_deleted)
+            ListMedicineNotification.ScheduleNotDeleted -> showSnackbar(R.string.notification_schedule_not_deleted)
+            ListMedicineNotification.Deleted -> showSnackbar(R.string.notification_deleted)
         }
     }
 

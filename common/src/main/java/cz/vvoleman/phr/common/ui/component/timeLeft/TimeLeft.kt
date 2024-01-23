@@ -1,4 +1,4 @@
-package cz.vvoleman.phr.featureMedicine.ui.component.timeLeft
+package cz.vvoleman.phr.common.ui.component.timeLeft
 
 import android.content.Context
 import android.os.Handler
@@ -10,8 +10,8 @@ import android.widget.LinearLayout
 import cz.vvoleman.phr.common.utils.getHoursPart
 import cz.vvoleman.phr.common.utils.getMinutesPart
 import cz.vvoleman.phr.common.utils.getSecondsPart
-import cz.vvoleman.phr.featureMedicine.R
-import cz.vvoleman.phr.featureMedicine.databinding.ViewTimeLeftBinding
+import cz.vvoleman.phr.common_datasource.R
+import cz.vvoleman.phr.common_datasource.databinding.ViewTimeLeftBinding
 import java.time.Duration
 import java.time.LocalDateTime
 import java.util.concurrent.TimeUnit

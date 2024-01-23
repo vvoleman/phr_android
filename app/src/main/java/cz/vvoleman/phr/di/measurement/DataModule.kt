@@ -25,6 +25,7 @@ import cz.vvoleman.phr.featureMeasurement.domain.repository.GetUnitGroupsReposit
 import cz.vvoleman.phr.featureMeasurement.domain.repository.SaveMeasurementGroupRepository
 import cz.vvoleman.phr.featureMeasurement.domain.repository.ScheduleMeasurementGroupRepository
 import cz.vvoleman.phr.common.data.alarm.AlarmScheduler
+import cz.vvoleman.phr.featureMeasurement.domain.repository.GetMeasurementGroupsByPatientRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -139,6 +140,11 @@ class DataModule {
     fun providesSaveMeasurementGroupRepository(
         measurementGroupRepository: MeasurementGroupRepository,
     ): SaveMeasurementGroupRepository = measurementGroupRepository
+
+    @Provides
+    fun providesGetMeasurementGroupsByPatientRepository(
+        measurementGroupRepository: MeasurementGroupRepository,
+    ): GetMeasurementGroupsByPatientRepository = measurementGroupRepository
 
     @Provides
     fun providesAlarmRepository(

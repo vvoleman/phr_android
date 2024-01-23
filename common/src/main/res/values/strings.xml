@@ -99,4 +99,9 @@
     <string name="add_problem_category">Přidat kategorii</string>
     <string name="frequency_every_day">Každý den</string>
     <string name="frequency_custom">Vlastní</string>
+
+    <string name="time_left_days">Zbývá %1$dd a %2$dh</string>
+    <string name="time_left_hours">Zbývá %1$dh a %2$dm</string>
+    <string name="time_left_minutes">Zbývá %1$dm a %2$ds</string>
+    <string name="next_schedule_multiple_items">Více položek</string>
 </resources>
