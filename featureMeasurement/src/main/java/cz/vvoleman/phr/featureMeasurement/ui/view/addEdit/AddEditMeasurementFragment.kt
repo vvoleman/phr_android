@@ -10,8 +10,8 @@ import android.widget.TimePicker
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import cz.vvoleman.featureMeasurement.R
-import cz.vvoleman.featureMeasurement.databinding.FragmentAddEditMeasurementBinding
+import cz.vvoleman.phr.featureMeasurement.R
+import cz.vvoleman.phr.featureMeasurement.databinding.FragmentAddEditMeasurementBinding
 import cz.vvoleman.phr.featureMeasurement.presentation.model.addEdit.AddEditMeasurementNotification
 import cz.vvoleman.phr.featureMeasurement.presentation.model.addEdit.AddEditMeasurementViewState
 import cz.vvoleman.phr.featureMeasurement.presentation.viewmodel.AddEditMeasurementViewModel

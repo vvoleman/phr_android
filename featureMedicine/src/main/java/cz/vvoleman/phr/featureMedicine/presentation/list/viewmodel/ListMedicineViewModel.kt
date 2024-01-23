@@ -9,6 +9,7 @@ import cz.vvoleman.phr.common.domain.GroupedItemsDomainModel
 import cz.vvoleman.phr.common.domain.usecase.patient.GetSelectedPatientUseCase
 import cz.vvoleman.phr.common.presentation.mapper.PatientPresentationModelToDomainMapper
 import cz.vvoleman.phr.common.presentation.model.grouped.GroupedItemsPresentationModel
+import cz.vvoleman.phr.common.presentation.model.nextSchedule.NextSchedulePresentationModel
 import cz.vvoleman.phr.featureMedicine.domain.facade.MedicineScheduleFacade
 import cz.vvoleman.phr.featureMedicine.domain.model.schedule.MedicineScheduleDomainModel
 import cz.vvoleman.phr.featureMedicine.domain.model.schedule.ScheduleItemWithDetailsDomainModel
@@ -21,11 +22,11 @@ import cz.vvoleman.phr.featureMedicine.domain.usecase.GetScheduledInTimeRangeUse
 import cz.vvoleman.phr.featureMedicine.domain.usecase.GroupMedicineScheduleUseCase
 import cz.vvoleman.phr.featureMedicine.domain.usecase.GroupScheduleItemsUseCase
 import cz.vvoleman.phr.featureMedicine.presentation.list.mapper.MedicineSchedulePresentationModelToDomainMapper
+import cz.vvoleman.phr.featureMedicine.presentation.list.mapper.ScheduleItemWithDetailsDomainModelToNextScheduleMapper
 import cz.vvoleman.phr.featureMedicine.presentation.list.mapper.ScheduleItemWithDetailsPresentationModelToDomainMapper
 import cz.vvoleman.phr.featureMedicine.presentation.list.model.ListMedicineDestination
 import cz.vvoleman.phr.featureMedicine.presentation.list.model.ListMedicineNotification
 import cz.vvoleman.phr.featureMedicine.presentation.list.model.ListMedicineViewState
-import cz.vvoleman.phr.featureMedicine.presentation.list.model.NextScheduleItemPresentationModel
 import cz.vvoleman.phr.featureMedicine.presentation.list.model.ScheduleItemWithDetailsPresentationModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.first
@@ -47,6 +48,7 @@ class ListMedicineViewModel @Inject constructor(
     private val patientMapper: PatientPresentationModelToDomainMapper,
     private val scheduleItemDetailsMapper: ScheduleItemWithDetailsPresentationModelToDomainMapper,
     private val medicineScheduleMapper: MedicineSchedulePresentationModelToDomainMapper,
+    private val nextScheduleMapper: ScheduleItemWithDetailsDomainModelToNextScheduleMapper,
     savedStateHandle: SavedStateHandle,
     useCaseExecutorProvider: UseCaseExecutorProvider
 ) : BaseViewModel<ListMedicineViewState, ListMedicineNotification>(savedStateHandle, useCaseExecutorProvider) {
@@ -201,16 +203,13 @@ class ListMedicineViewModel @Inject constructor(
 
     private fun getNextSelectedSchedule(
         list: List<ScheduleItemWithDetailsPresentationModel>
-    ): NextScheduleItemPresentationModel? {
-        var selectedSchedule: NextScheduleItemPresentationModel? = null
+    ): NextSchedulePresentationModel? {
+        var selectedSchedule: NextSchedulePresentationModel? = null
         if (list.isNotEmpty()) {
             val listDomain = list.map { scheduleItemDetailsMapper.toDomain(it) }
             val next = MedicineScheduleFacade.getNextScheduleItem(listDomain, LocalDateTime.now())
 
-            selectedSchedule = NextScheduleItemPresentationModel(
-                scheduleItems = next.map { scheduleItemDetailsMapper.toPresentation(it) },
-                dateTime = next.first().scheduleItem.getTranslatedDateTime(LocalDateTime.now())
-            )
+            selectedSchedule = nextScheduleMapper.toNextSchedule(next)
         }
 
         return selectedSchedule
@@ -219,6 +218,31 @@ class ListMedicineViewModel @Inject constructor(
     private suspend fun loadSelectedPatient() {
         val patient = getSelectedPatientUseCase.execute(null).first()
         updateViewState(currentViewState.copy(patient = patientMapper.toPresentation(patient)))
+    }
+
+    fun onNextScheduleClick(model: NextSchedulePresentationModel) {
+        // Retrieve schedule items by ids
+        if (model.id != currentViewState.selectedNextSchedule?.id || model.items.isEmpty()) {
+            return
+        }
+
+        val ids = model.items.map { it.id }
+        val list = currentViewState.nextSchedules.toMutableList()
+
+        val items = mutableListOf<ScheduleItemWithDetailsPresentationModel>()
+        ids.forEach { id ->
+            val item = list.find { it.scheduleItem.id == id }
+            if (item != null) {
+                items.add(item)
+            }
+        }
+
+        notify(
+            ListMedicineNotification.OpenSchedule(
+                dateTime = model.items.first().time,
+                items = items.sortedBy { it.medicine.name }
+            )
+        )
     }
 
     companion object {

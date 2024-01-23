@@ -29,10 +29,39 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/text_view_name"
         android:layout_height="wrap_content">
-        <include
-            android:id="@+id/layout_info"
-            layout="@layout/item_next_schedule_item"
-            />
+        <TextView
+            android:id="@+id/text_view_info_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="12:00"
+            tools:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/text_view_info_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@id/text_view_time"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="ZYRTEC"
+            tools:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/text_view_info_additional_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:fontFeatureSettings="smcp"
+            android:textColor="@color/green_500"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@id/text_view_info_name"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="1 tableta" />
     </LinearLayout>
 
 

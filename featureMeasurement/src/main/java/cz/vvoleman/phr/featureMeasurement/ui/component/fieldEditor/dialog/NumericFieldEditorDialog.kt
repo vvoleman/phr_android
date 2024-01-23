@@ -2,7 +2,7 @@ package cz.vvoleman.phr.featureMeasurement.ui.component.fieldEditor.dialog
 
 import android.util.Log
 import android.widget.ArrayAdapter
-import cz.vvoleman.featureMeasurement.databinding.DialogNumericFieldEditorBinding
+import cz.vvoleman.phr.featureMeasurement.databinding.DialogNumericFieldEditorBinding
 import cz.vvoleman.phr.featureMeasurement.ui.model.core.field.NumericFieldUiModel
 import cz.vvoleman.phr.featureMeasurement.ui.model.core.field.unit.UnitGroupUiModel
 

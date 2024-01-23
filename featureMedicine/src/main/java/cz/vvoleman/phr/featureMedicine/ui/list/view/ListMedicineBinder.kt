@@ -2,18 +2,18 @@ package cz.vvoleman.phr.featureMedicine.ui.list.view
 
 import com.google.android.material.tabs.TabLayoutMediator
 import cz.vvoleman.phr.base.ui.mapper.BaseViewStateBinder
+import cz.vvoleman.phr.common.ui.component.nextSchedule.NextScheduleUiModelToPresentationMapper
 import cz.vvoleman.phr.common.ui.model.GroupedItemsUiModel
 import cz.vvoleman.phr.featureMedicine.R
 import cz.vvoleman.phr.featureMedicine.databinding.FragmentListMedicineBinding
 import cz.vvoleman.phr.featureMedicine.presentation.list.model.ListMedicineViewState
 import cz.vvoleman.phr.featureMedicine.ui.list.adapter.MedicineFragmentAdapter
 import cz.vvoleman.phr.featureMedicine.ui.list.mapper.MedicineScheduleUiModelToPresentationMapper
-import cz.vvoleman.phr.featureMedicine.ui.list.mapper.NextScheduleItemUiModelToPresentationMapper
 import cz.vvoleman.phr.featureMedicine.ui.list.mapper.ScheduleItemWithDetailsUiModelToPresentationMapper
 
 @Suppress("UnusedPrivateProperty")
 class ListMedicineBinder(
-    private val nextScheduleItemMapper: NextScheduleItemUiModelToPresentationMapper,
+    private val nextScheduleMapper: NextScheduleUiModelToPresentationMapper,
     private val medicineScheduleMapper: MedicineScheduleUiModelToPresentationMapper,
     private val scheduleItemMapper: ScheduleItemWithDetailsUiModelToPresentationMapper,
 ) : BaseViewStateBinder<ListMedicineViewState, FragmentListMedicineBinding, ListMedicineBinder.Notification>() {
@@ -27,8 +27,8 @@ class ListMedicineBinder(
             bindFragmentAdapter(viewBinding)
         }
 
-        if (viewState.selectedNextSchedule?.dateTime != viewBinding.nextSchedule.getSchedule()?.dateTime) {
-            val nextScheduleUi = viewState.selectedNextSchedule?.let { nextScheduleItemMapper.toUi(it) }
+        if (viewState.selectedNextSchedule?.id != viewBinding.nextSchedule.getSchedule()?.id) {
+            val nextScheduleUi = viewState.selectedNextSchedule?.let { nextScheduleMapper.toUi(it) }
             viewBinding.nextSchedule.setSchedule(nextScheduleUi)
         }
 

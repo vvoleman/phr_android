@@ -9,13 +9,16 @@ import com.google.android.material.snackbar.Snackbar
 import cz.vvoleman.phr.base.ui.mapper.ViewStateBinder
 import cz.vvoleman.phr.base.ui.view.BaseFragment
 import cz.vvoleman.phr.common.data.repository.HealthcareRepository
+import cz.vvoleman.phr.common.ui.component.nextSchedule.NextSchedule
+import cz.vvoleman.phr.common.ui.component.nextSchedule.NextScheduleUiModel
+import cz.vvoleman.phr.common.ui.component.nextSchedule.NextScheduleUiModelToPresentationMapper
 import cz.vvoleman.phr.featureMedicine.R
 import cz.vvoleman.phr.featureMedicine.databinding.FragmentListMedicineBinding
 import cz.vvoleman.phr.featureMedicine.presentation.list.model.ListMedicineNotification
 import cz.vvoleman.phr.featureMedicine.presentation.list.model.ListMedicineViewState
+import cz.vvoleman.phr.featureMedicine.presentation.list.model.ScheduleItemWithDetailsPresentationModel
 import cz.vvoleman.phr.featureMedicine.presentation.list.viewmodel.ListMedicineViewModel
 import cz.vvoleman.phr.featureMedicine.ui.component.medicineDetailSheet.MedicineDetailSheet
-import cz.vvoleman.phr.featureMedicine.ui.component.nextSchedule.NextSchedule
 import cz.vvoleman.phr.featureMedicine.ui.component.scheduleDetailDialog.ScheduleDetailAdapter
 import cz.vvoleman.phr.featureMedicine.ui.component.scheduleDetailDialog.ScheduleDetailDialogFragment
 import cz.vvoleman.phr.featureMedicine.ui.list.adapter.MedicineCatalogueAdapter
@@ -24,10 +27,11 @@ import cz.vvoleman.phr.featureMedicine.ui.list.fragment.TimelineFragment
 import cz.vvoleman.phr.featureMedicine.ui.list.fragment.viewModel.MedicineCatalogueViewModel
 import cz.vvoleman.phr.featureMedicine.ui.list.fragment.viewModel.TimelineViewModel
 import cz.vvoleman.phr.featureMedicine.ui.list.mapper.ListMedicineDestinationUiMapper
+import cz.vvoleman.phr.featureMedicine.ui.list.mapper.ScheduleItemWithDetailsUiModelToPresentationMapper
 import cz.vvoleman.phr.featureMedicine.ui.list.model.schedule.MedicineScheduleUiModel
-import cz.vvoleman.phr.featureMedicine.ui.list.model.schedule.NextScheduleItemUiModel
 import cz.vvoleman.phr.featureMedicine.ui.list.model.schedule.ScheduleItemWithDetailsUiModel
 import dagger.hilt.android.AndroidEntryPoint
+import java.time.LocalDateTime
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -52,6 +56,12 @@ class ListMedicineFragment :
 
     @Inject
     public lateinit var healthcareRepository: HealthcareRepository
+
+    @Inject
+    lateinit var nextScheduleMapper: NextScheduleUiModelToPresentationMapper
+
+    @Inject
+    lateinit var scheduleItemMapper: ScheduleItemWithDetailsUiModelToPresentationMapper
 
     private var counter = 0
 
@@ -83,6 +93,10 @@ class ListMedicineFragment :
             ListMedicineNotification.AlarmNotDeleted -> showSnackbar(R.string.notification_alarm_not_deleted)
             ListMedicineNotification.ScheduleNotDeleted -> showSnackbar(R.string.notification_schedule_not_deleted)
             ListMedicineNotification.Deleted -> showSnackbar(R.string.notification_deleted)
+            is ListMedicineNotification.OpenSchedule -> openScheduleDetailDialog(
+                notification.dateTime,
+                notification.items
+            )
         }
     }
 
@@ -96,6 +110,7 @@ class ListMedicineFragment :
                 viewModel.onExportSelected()
                 true
             }
+
             else -> super.onOptionsMenuItemSelected(menuItem)
         }
     }
@@ -105,8 +120,15 @@ class ListMedicineFragment :
         Snackbar.make(binding.root, "Time out", Snackbar.LENGTH_SHORT).show()
     }
 
-    override fun onNextScheduleClick(item: NextScheduleItemUiModel) {
-        val dialog = ScheduleDetailDialogFragment.newInstance(item.dateTime, item.scheduleItems)
+    override fun onNextScheduleClick(item: NextScheduleUiModel) {
+        viewModel.onNextScheduleClick(nextScheduleMapper.toPresentation(item))
+    }
+
+    private fun openScheduleDetailDialog(
+        dateTime: LocalDateTime,
+        items: List<ScheduleItemWithDetailsPresentationModel>
+    ) {
+        val dialog = ScheduleDetailDialogFragment.newInstance(dateTime, scheduleItemMapper.toUi(items))
         dialog.setTargetFragment(this, SCHEDULE_DIALOG)
         dialog.show(requireFragmentManager(), ScheduleDetailDialogFragment.TAG)
     }

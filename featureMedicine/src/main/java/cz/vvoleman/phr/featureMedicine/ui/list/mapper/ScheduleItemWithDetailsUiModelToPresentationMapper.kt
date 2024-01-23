@@ -20,6 +20,10 @@ class ScheduleItemWithDetailsUiModelToPresentationMapper(
         )
     }
 
+    fun toPresentation(models: List<ScheduleItemWithDetailsUiModel>): List<ScheduleItemWithDetailsPresentationModel> {
+        return models.map { toPresentation(it) }
+    }
+
     fun toUi(model: ScheduleItemWithDetailsPresentationModel): ScheduleItemWithDetailsUiModel {
         return ScheduleItemWithDetailsUiModel(
             scheduleItem = scheduleItemMapper.toUi(model.scheduleItem),
@@ -28,5 +32,9 @@ class ScheduleItemWithDetailsUiModelToPresentationMapper(
             medicineScheduleId = model.medicineScheduleId,
             isAlarmEnabled = model.isAlarmEnabled
         )
+    }
+
+    fun toUi(models: List<ScheduleItemWithDetailsPresentationModel>): List<ScheduleItemWithDetailsUiModel> {
+        return models.map { toUi(it) }
     }
 }

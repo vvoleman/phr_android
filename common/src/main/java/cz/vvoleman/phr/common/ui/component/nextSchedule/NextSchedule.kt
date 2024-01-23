@@ -29,26 +29,6 @@ class NextSchedule @JvmOverloads constructor(
         Log.d("NextSchedule", "1")
         binding = ViewNextScheduleBinding.inflate(LayoutInflater.from(context), this, true)
 
-        try {
-            context.theme.obtainStyledAttributes(
-                attrs,
-                R.styleable.NextSchedule,
-                0, 0
-            ).apply {
-                try {
-                    val label = getString(R.styleable.NextSchedule_labelText)
-                    val multipleItemsText = getString(R.styleable.NextSchedule_multipleItemsText)
-                    _labelText = label
-                    _multipleItemsText = multipleItemsText
-                } finally {
-                    recycle()
-                }
-            }
-        } catch (e: Exception) {
-            Log.e("NextSchedule", "Error while reading attributes")
-            throw e
-        }
-
         _adapter = NextScheduleAdapter()
         binding.recyclerView.apply {
             adapter = _adapter
@@ -101,7 +81,7 @@ class NextSchedule @JvmOverloads constructor(
         binding.apply {
             timeLeft.setTime(schedule.items.first().time)
             textViewLabel.text = _labelText ?: ""
-            textViewFrontName.text = if (schedule.items.size == 1) {
+            textViewName.text = if (schedule.items.size == 1) {
                 schedule.items.first().name
             } else {
                 _multipleItemsText ?: context.getText(R.string.next_schedule_multiple_items)
