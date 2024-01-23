@@ -16,7 +16,7 @@ interface MeasurementGroupDao {
 
     @Transaction
     @Query("SELECT * FROM measurement_group WHERE patient_id = :patientId")
-    fun getByPatientId(patientId: Int): Flow<List<MeasurementGroupWithDetailsDataSourceModel>>
+    fun getByPatient(patientId: Int): Flow<List<MeasurementGroupWithDetailsDataSourceModel>>
 
     @Transaction
     @Query("SELECT * FROM measurement_group WHERE id = :id")

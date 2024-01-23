@@ -10,12 +10,15 @@ import cz.vvoleman.phr.featureMeasurement.presentation.viewmodel.ListMeasurement
 import cz.vvoleman.phr.featureMeasurement.ui.mapper.list.destination.ListMeasurementDestinationUiMapper
 import cz.vvoleman.phr.base.ui.mapper.ViewStateBinder
 import cz.vvoleman.phr.base.ui.view.BaseFragment
+import cz.vvoleman.phr.common.ui.component.nextSchedule.NextSchedule
+import cz.vvoleman.phr.common.ui.component.nextSchedule.NextScheduleUiModel
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
 class ListMeasurementFragment :
-    BaseFragment<ListMeasurementViewState, ListMeasurementNotification, FragmentListMeasurementBinding>() {
+    BaseFragment<ListMeasurementViewState, ListMeasurementNotification, FragmentListMeasurementBinding>(),
+    NextSchedule.NextScheduleListener {
 
     override val viewModel: ListMeasurementViewModel by viewModels()
 
@@ -32,6 +35,7 @@ class ListMeasurementFragment :
     override fun setupListeners() {
         super.setupListeners()
 
+        binding.nextSchedule.setListener(this)
         binding.fabAddMeasurementGroup.setOnClickListener {
             viewModel.onAddMeasurementGroup()
         }
@@ -42,5 +46,13 @@ class ListMeasurementFragment :
             else -> {
             }
         }
+    }
+
+    override fun onTimeOut() {
+        viewModel.onNextScheduleTimeOut()
+    }
+
+    override fun onNextScheduleClick(item: NextScheduleUiModel) {
+        showSnackbar("Clicked on ${item}")
     }
 }

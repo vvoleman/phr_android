@@ -1,14 +1,14 @@
-package cz.vvoleman.phr.featureMedicine.ui.component.nextSchedule
+package cz.vvoleman.phr.common.ui.component.nextSchedule
 
 import android.content.Context
 import android.util.AttributeSet
+import android.util.Log
 import android.view.LayoutInflater
 import android.widget.LinearLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import cz.vvoleman.phr.common.ui.component.timeLeft.TimeLeft
-import cz.vvoleman.phr.featureMedicine.R
-import cz.vvoleman.phr.featureMedicine.databinding.ViewNextScheduleBinding
-import cz.vvoleman.phr.featureMedicine.ui.list.model.schedule.NextScheduleItemUiModel
+import cz.vvoleman.phr.common_datasource.R
+import cz.vvoleman.phr.common_datasource.databinding.ViewNextScheduleBinding
 import java.time.LocalDateTime
 
 class NextSchedule @JvmOverloads constructor(
@@ -18,15 +18,38 @@ class NextSchedule @JvmOverloads constructor(
 ) : LinearLayout(context, attrs, defStyleAttr), TimeLeft.TimeLeftListener {
 
     private val binding: ViewNextScheduleBinding
-    private var _adapter: ScheduleItemAdapter? = null
+    private var _adapter: NextScheduleAdapter? = null
 
     private var _listener: NextScheduleListener? = null
-    private var _schedule: NextScheduleItemUiModel? = null
+    private var _schedule: NextScheduleUiModel? = null
+    private var _labelText: String? = null
+    private var _multipleItemsText: String? = null
 
     init {
+        Log.d("NextSchedule", "1")
         binding = ViewNextScheduleBinding.inflate(LayoutInflater.from(context), this, true)
 
-        _adapter = ScheduleItemAdapter()
+        try {
+            context.theme.obtainStyledAttributes(
+                attrs,
+                R.styleable.NextSchedule,
+                0, 0
+            ).apply {
+                try {
+                    val label = getString(R.styleable.NextSchedule_labelText)
+                    val multipleItemsText = getString(R.styleable.NextSchedule_multipleItemsText)
+                    _labelText = label
+                    _multipleItemsText = multipleItemsText
+                } finally {
+                    recycle()
+                }
+            }
+        } catch (e: Exception) {
+            Log.e("NextSchedule", "Error while reading attributes")
+            throw e
+        }
+
+        _adapter = NextScheduleAdapter()
         binding.recyclerView.apply {
             adapter = _adapter
             setHasFixedSize(true)
@@ -44,21 +67,12 @@ class NextSchedule @JvmOverloads constructor(
         render()
     }
 
-    fun setSchedule(schedule: NextScheduleItemUiModel?) {
+    fun setSchedule(schedule: NextScheduleUiModel?) {
         _schedule = schedule
 
-        val list = schedule?.scheduleItems?.map {
-            NextScheduleUiModel(
-                id = it.scheduleItem.id!!,
-                time = schedule.dateTime,
-                medicineName = it.medicine.name,
-                medicineId = it.medicine.id,
-                quantity = it.scheduleItem.quantity.toString(),
-                unit = it.scheduleItem.unit,
-            )
-        } ?: mutableListOf()
+        val items = schedule?.items ?: emptyList()
 
-        _adapter?.submitList(list)
+        _adapter?.submitList(items)
         render()
     }
 
@@ -66,7 +80,7 @@ class NextSchedule @JvmOverloads constructor(
         _listener = listener
     }
 
-    fun getSchedule(): NextScheduleItemUiModel? {
+    fun getSchedule(): NextScheduleUiModel? {
         return _schedule
     }
 
@@ -85,11 +99,12 @@ class NextSchedule @JvmOverloads constructor(
         val schedule = _schedule!!
 
         binding.apply {
-            timeLeft.setTime(schedule.dateTime)
-            textViewMedicineName.text = if (schedule.scheduleItems.size == 1) {
-                schedule.scheduleItems.first().medicine.name
+            timeLeft.setTime(schedule.items.first().time)
+            textViewLabel.text = _labelText ?: ""
+            textViewFrontName.text = if (schedule.items.size == 1) {
+                schedule.items.first().name
             } else {
-                context.getText(R.string.multiple_medicines)
+                _multipleItemsText ?: context.getText(R.string.next_schedule_multiple_items)
             }
         }
 
@@ -107,6 +122,6 @@ class NextSchedule @JvmOverloads constructor(
 
     interface NextScheduleListener {
         fun onTimeOut()
-        fun onNextScheduleClick(item: NextScheduleItemUiModel)
+        fun onNextScheduleClick(item: NextScheduleUiModel)
     }
 }

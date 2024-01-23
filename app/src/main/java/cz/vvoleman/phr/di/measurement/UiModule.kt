@@ -21,6 +21,10 @@ import cz.vvoleman.phr.base.presentation.navigation.NavManager
 import cz.vvoleman.phr.base.ui.mapper.ViewStateBinder
 import cz.vvoleman.phr.common.ui.mapper.frequencySelector.FrequencyDayUiModelToPresentationMapper
 import cz.vvoleman.phr.common.ui.mapper.patient.PatientUiModelToPresentationMapper
+import cz.vvoleman.phr.featureMeasurement.domain.facade.MeasurementTranslateDateTimeFacade
+import cz.vvoleman.phr.featureMeasurement.presentation.mapper.core.MeasurementGroupPresentationModelToDomainMapper
+import cz.vvoleman.phr.featureMeasurement.presentation.mapper.core.MeasurementGroupScheduleItemPresentationModelToDomainMapper
+import cz.vvoleman.phr.featureMeasurement.ui.mapper.list.MeasurementGroupPresentationModelToNextScheduleMapper
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -38,8 +42,20 @@ class UiModule {
     ) = ListMeasurementDestinationUiMapper(context, navManager)
 
     @Provides
+    fun providesMeasurementGroupPresentationModelToNextScheduleMapper(
+        translateFacade: MeasurementTranslateDateTimeFacade,
+        domainMapper: MeasurementGroupScheduleItemPresentationModelToDomainMapper,
+    ) =
+        MeasurementGroupPresentationModelToNextScheduleMapper(
+            translateFacade = translateFacade,
+            domainMapper = domainMapper
+        )
+
+    @Provides
     fun providesListMeasurementViewBinder(
-    ): ViewStateBinder<ListMeasurementViewState, FragmentListMeasurementBinding> = ListMeasurementBinder()
+        nextScheduleMapper: MeasurementGroupPresentationModelToNextScheduleMapper
+    ): ViewStateBinder<ListMeasurementViewState, FragmentListMeasurementBinding> =
+        ListMeasurementBinder(nextScheduleMapper)
 
     @Provides
     fun providesAddEditMeasurementDestinationUiMapper(
