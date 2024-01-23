@@ -8,7 +8,7 @@ import android.view.View
 import android.widget.LinearLayout
 import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import cz.vvoleman.featureMeasurement.databinding.ViewFieldEditorBinding
+import cz.vvoleman.phr.featureMeasurement.databinding.ViewFieldEditorBinding
 import cz.vvoleman.phr.featureMeasurement.ui.component.fieldEditor.dialog.FieldEditorDialog
 import cz.vvoleman.phr.featureMeasurement.ui.component.fieldEditor.dialog.NumericFieldEditorDialog
 import cz.vvoleman.phr.featureMeasurement.ui.model.core.MeasurementGroupFieldUi

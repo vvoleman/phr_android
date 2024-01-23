@@ -9,7 +9,7 @@ plugins {
 }
 
 android {
-    namespace 'cz.vvoleman.featureMeasurement'
+    namespace 'cz.vvoleman.phr.featureMeasurement'
     compileSdk 34
 
     defaultConfig {

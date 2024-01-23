@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import cz.vvoleman.featureMeasurement.databinding.ItemReminderTimeSelectorBinding
+import cz.vvoleman.phr.featureMeasurement.databinding.ItemReminderTimeSelectorBinding
 import java.time.LocalTime
 import java.time.format.DateTimeFormatterBuilder
 

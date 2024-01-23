@@ -2,7 +2,7 @@ package cz.vvoleman.phr.featureMeasurement.ui.view.list
 
 import android.content.Context
 import androidx.lifecycle.LifecycleCoroutineScope
-import cz.vvoleman.featureMeasurement.databinding.FragmentListMeasurementBinding
+import cz.vvoleman.phr.featureMeasurement.databinding.FragmentListMeasurementBinding
 import cz.vvoleman.phr.base.ui.mapper.BaseViewStateBinder
 import cz.vvoleman.phr.featureMeasurement.presentation.model.list.ListMeasurementNotification
 import cz.vvoleman.phr.featureMeasurement.presentation.model.list.ListMeasurementViewState

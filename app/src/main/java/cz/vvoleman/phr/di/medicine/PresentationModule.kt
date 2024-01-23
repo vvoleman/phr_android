@@ -10,6 +10,7 @@ import cz.vvoleman.phr.featureMedicine.presentation.list.mapper.MedicineSchedule
 import cz.vvoleman.phr.featureMedicine.presentation.list.mapper.PackagingPresentationModelToDomainMapper
 import cz.vvoleman.phr.featureMedicine.presentation.list.mapper.ProductFormPresentationModelToDomainMapper
 import cz.vvoleman.phr.featureMedicine.presentation.list.mapper.ScheduleItemPresentationModelToDomainMapper
+import cz.vvoleman.phr.featureMedicine.presentation.list.mapper.ScheduleItemWithDetailsDomainModelToNextScheduleMapper
 import cz.vvoleman.phr.featureMedicine.presentation.list.mapper.ScheduleItemWithDetailsPresentationModelToDomainMapper
 import cz.vvoleman.phr.featureMedicine.presentation.list.mapper.SubstanceAmountPresentationModelToDomainMapper
 import cz.vvoleman.phr.featureMedicine.presentation.list.mapper.SubstancePresentationModelToDomainMapper
@@ -123,4 +124,8 @@ class PresentationModule {
             patientMapper
         )
     }
+
+    @Provides
+    fun providesScheduleItemWithDetailsDomainModelToNextScheduleMapper() =
+        ScheduleItemWithDetailsDomainModelToNextScheduleMapper()
 }

@@ -2,6 +2,7 @@ package cz.vvoleman.phr.di.medicine
 
 import cz.vvoleman.phr.base.presentation.navigation.NavManager
 import cz.vvoleman.phr.base.ui.mapper.ViewStateBinder
+import cz.vvoleman.phr.common.ui.component.nextSchedule.NextScheduleUiModelToPresentationMapper
 import cz.vvoleman.phr.common.ui.mapper.frequencySelector.FrequencyDayUiModelToPresentationMapper
 import cz.vvoleman.phr.common.ui.mapper.patient.PatientUiModelToPresentationMapper
 import cz.vvoleman.phr.featureMedicine.databinding.FragmentAddEditMedicineBinding
@@ -21,7 +22,6 @@ import cz.vvoleman.phr.featureMedicine.ui.export.view.ExportBinder
 import cz.vvoleman.phr.featureMedicine.ui.list.mapper.ListMedicineDestinationUiMapper
 import cz.vvoleman.phr.featureMedicine.ui.list.mapper.MedicineScheduleUiModelToPresentationMapper
 import cz.vvoleman.phr.featureMedicine.ui.list.mapper.MedicineUiModelToPresentationMapper
-import cz.vvoleman.phr.featureMedicine.ui.list.mapper.NextScheduleItemUiModelToPresentationMapper
 import cz.vvoleman.phr.featureMedicine.ui.list.mapper.PackagingUiModelToPresentationMapper
 import cz.vvoleman.phr.featureMedicine.ui.list.mapper.ProductFormUiModelToPresentationMapper
 import cz.vvoleman.phr.featureMedicine.ui.list.mapper.ScheduleItemUiModelToPresentationMapper
@@ -40,11 +40,11 @@ class UiModule {
 
     @Provides
     fun providesListMedicineBinder(
-        nextScheduleItemMapper: NextScheduleItemUiModelToPresentationMapper,
+        nextScheduleMapper: NextScheduleUiModelToPresentationMapper,
         medicineScheduleMapper: MedicineScheduleUiModelToPresentationMapper,
         scheduleItemMapper: ScheduleItemWithDetailsUiModelToPresentationMapper,
     ): ViewStateBinder<ListMedicineViewState, FragmentListMedicineBinding> =
-        ListMedicineBinder(nextScheduleItemMapper, medicineScheduleMapper, scheduleItemMapper)
+        ListMedicineBinder(nextScheduleMapper, medicineScheduleMapper, scheduleItemMapper)
 
     @Provides
     fun providesListMedicineDestinationUiMapper(navManager: NavManager) =
@@ -134,11 +134,6 @@ class UiModule {
             medicineMapper
         )
     }
-
-    @Provides
-    fun providesNextScheduleItemUiModelToPresentationMapper(
-        mapper: ScheduleItemWithDetailsUiModelToPresentationMapper
-    ) = NextScheduleItemUiModelToPresentationMapper(mapper)
 
     @Provides
     fun providesExportDestinationMapper(navManager: NavManager) =

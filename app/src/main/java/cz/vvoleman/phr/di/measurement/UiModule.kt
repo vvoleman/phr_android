@@ -1,8 +1,14 @@
 package cz.vvoleman.phr.di.measurement
 
 import android.content.Context
-import cz.vvoleman.featureMeasurement.databinding.FragmentAddEditMeasurementBinding
-import cz.vvoleman.featureMeasurement.databinding.FragmentListMeasurementBinding
+import cz.vvoleman.phr.base.presentation.navigation.NavManager
+import cz.vvoleman.phr.base.ui.mapper.ViewStateBinder
+import cz.vvoleman.phr.common.ui.mapper.frequencySelector.FrequencyDayUiModelToPresentationMapper
+import cz.vvoleman.phr.common.ui.mapper.patient.PatientUiModelToPresentationMapper
+import cz.vvoleman.phr.featureMeasurement.databinding.FragmentAddEditMeasurementBinding
+import cz.vvoleman.phr.featureMeasurement.databinding.FragmentListMeasurementBinding
+import cz.vvoleman.phr.featureMeasurement.domain.facade.MeasurementTranslateDateTimeFacade
+import cz.vvoleman.phr.featureMeasurement.presentation.mapper.core.MeasurementGroupScheduleItemPresentationModelToDomainMapper
 import cz.vvoleman.phr.featureMeasurement.presentation.model.addEdit.AddEditMeasurementViewState
 import cz.vvoleman.phr.featureMeasurement.presentation.model.list.ListMeasurementViewState
 import cz.vvoleman.phr.featureMeasurement.ui.component.reminderTimeSelector.TimeUiModelToPresentationMapper
@@ -14,17 +20,10 @@ import cz.vvoleman.phr.featureMeasurement.ui.mapper.core.MeasurementGroupUiModel
 import cz.vvoleman.phr.featureMeasurement.ui.mapper.core.NumericFieldUiModelToPresentationMapper
 import cz.vvoleman.phr.featureMeasurement.ui.mapper.core.UnitGroupUiModelToPresentationMapper
 import cz.vvoleman.phr.featureMeasurement.ui.mapper.core.UnitUiModelToPresentationMapper
+import cz.vvoleman.phr.featureMeasurement.ui.mapper.list.MeasurementGroupPresentationModelToNextScheduleMapper
 import cz.vvoleman.phr.featureMeasurement.ui.mapper.list.destination.ListMeasurementDestinationUiMapper
 import cz.vvoleman.phr.featureMeasurement.ui.view.addEdit.AddEditMeasurementBinder
 import cz.vvoleman.phr.featureMeasurement.ui.view.list.ListMeasurementBinder
-import cz.vvoleman.phr.base.presentation.navigation.NavManager
-import cz.vvoleman.phr.base.ui.mapper.ViewStateBinder
-import cz.vvoleman.phr.common.ui.mapper.frequencySelector.FrequencyDayUiModelToPresentationMapper
-import cz.vvoleman.phr.common.ui.mapper.patient.PatientUiModelToPresentationMapper
-import cz.vvoleman.phr.featureMeasurement.domain.facade.MeasurementTranslateDateTimeFacade
-import cz.vvoleman.phr.featureMeasurement.presentation.mapper.core.MeasurementGroupPresentationModelToDomainMapper
-import cz.vvoleman.phr.featureMeasurement.presentation.mapper.core.MeasurementGroupScheduleItemPresentationModelToDomainMapper
-import cz.vvoleman.phr.featureMeasurement.ui.mapper.list.MeasurementGroupPresentationModelToNextScheduleMapper
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
