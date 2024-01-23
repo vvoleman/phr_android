@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.LinearLayout
 import androidx.recyclerview.widget.GridLayoutManager
-import cz.vvoleman.featureMeasurement.databinding.ViewTimeSelectorBinding
+import cz.vvoleman.phr.featureMeasurement.databinding.ViewTimeSelectorBinding
 import java.time.LocalTime
 
 class ReminderTimeSelector @JvmOverloads constructor(

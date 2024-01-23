@@ -28,8 +28,8 @@ class TimelineAdapter :
         fun bind(item: ScheduleItemWithDetailsUiModel) {
             binding.apply {
                 textViewName.text = item.medicine.name
-                layoutInfo.textViewTime.text = item.scheduleItem.time.toString()
-                layoutInfo.textViewDosage.text = binding.root.context.getString(
+                textViewInfoTime.text = item.scheduleItem.time.toString()
+                textViewInfoAdditionalInfo.text = binding.root.context.getString(
                     R.string.schedule_item_dosage,
                     item.scheduleItem.quantity,
                     item.scheduleItem.unit

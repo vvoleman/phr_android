@@ -6,7 +6,7 @@ import java.time.LocalDateTime
 import java.time.LocalTime
 import java.time.ZoneOffset
 
-abstract class TranslateDateTimeFacade {
+open class TranslateDateTimeFacade {
 
     private val alreadyTranslated = mutableMapOf<String, LocalDateTime>()
 

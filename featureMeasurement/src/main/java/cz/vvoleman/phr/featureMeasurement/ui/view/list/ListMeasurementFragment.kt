@@ -3,7 +3,7 @@ package cz.vvoleman.phr.featureMeasurement.ui.view.list
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
-import cz.vvoleman.featureMeasurement.databinding.FragmentListMeasurementBinding
+import cz.vvoleman.phr.featureMeasurement.databinding.FragmentListMeasurementBinding
 import cz.vvoleman.phr.featureMeasurement.presentation.model.list.ListMeasurementNotification
 import cz.vvoleman.phr.featureMeasurement.presentation.model.list.ListMeasurementViewState
 import cz.vvoleman.phr.featureMeasurement.presentation.viewmodel.ListMeasurementViewModel

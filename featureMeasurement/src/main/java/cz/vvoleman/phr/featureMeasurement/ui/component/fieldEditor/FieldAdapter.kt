@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
-import cz.vvoleman.featureMeasurement.databinding.ItemFieldEditBinding
+import cz.vvoleman.phr.featureMeasurement.databinding.ItemFieldEditBinding
 import cz.vvoleman.phr.featureMeasurement.ui.model.core.MeasurementGroupFieldUi
 import cz.vvoleman.phr.featureMeasurement.ui.model.core.field.NumericFieldUiModel
 

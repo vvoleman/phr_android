@@ -5,7 +5,7 @@ import android.content.Context
 import android.os.Bundle
 import androidx.core.app.NotificationCompat
 import androidx.navigation.NavDeepLinkBuilder
-import cz.vvoleman.featureMeasurement.R
+import cz.vvoleman.phr.featureMeasurement.R
 import cz.vvoleman.phr.featureMeasurement.data.alarm.receiver.measurementGroup.MeasurementGroupAlarmReceiver
 import cz.vvoleman.phr.featureMeasurement.domain.model.core.MeasurementGroupDomainModel
 

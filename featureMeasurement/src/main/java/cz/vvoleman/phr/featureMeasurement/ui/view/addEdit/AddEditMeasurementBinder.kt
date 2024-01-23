@@ -3,7 +3,7 @@ package cz.vvoleman.phr.featureMeasurement.ui.view.addEdit
 import android.content.Context
 import android.util.Log
 import androidx.lifecycle.LifecycleCoroutineScope
-import cz.vvoleman.featureMeasurement.databinding.FragmentAddEditMeasurementBinding
+import cz.vvoleman.phr.featureMeasurement.databinding.FragmentAddEditMeasurementBinding
 import cz.vvoleman.phr.featureMeasurement.presentation.model.addEdit.AddEditMeasurementNotification
 import cz.vvoleman.phr.featureMeasurement.presentation.model.addEdit.AddEditMeasurementViewState
 import cz.vvoleman.phr.featureMeasurement.ui.mapper.core.MeasurementGroupFieldUiToPresentationMapper
