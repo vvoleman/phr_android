@@ -12,19 +12,19 @@ interface MeasurementGroupScheduleItemDao {
 
     @Transaction
     @Query("SELECT * FROM measurement_group_schedule_item WHERE measurement_group_id = :measurementGroupId")
-    fun getByMeasurementGroup(measurementGroupId: Int): Flow<List<MeasurementGroupScheduleItemDataSourceModel>>
+    fun getByMeasurementGroup(measurementGroupId: String): Flow<List<MeasurementGroupScheduleItemDataSourceModel>>
 
     @Transaction
     @Query("SELECT * FROM measurement_group_schedule_item WHERE id = :id")
-    fun getById(id: Int): Flow<MeasurementGroupScheduleItemDataSourceModel>
+    fun getById(id: String): Flow<MeasurementGroupScheduleItemDataSourceModel>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(model: MeasurementGroupScheduleItemDataSourceModel): Long
 
     @Query("DELETE FROM measurement_group_schedule_item WHERE id = :id")
-    fun delete(id: Int)
+    suspend fun delete(id: String)
 
     @Query("DELETE FROM measurement_group_schedule_item WHERE measurement_group_id = :measurementGroupId")
-    fun deleteByMeasurementGroup(measurementGroupId: Int)
+    suspend fun deleteByMeasurementGroup(measurementGroupId: String)
 
 }

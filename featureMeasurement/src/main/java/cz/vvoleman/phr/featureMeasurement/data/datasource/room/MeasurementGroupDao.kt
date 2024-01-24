@@ -23,12 +23,12 @@ interface MeasurementGroupDao {
     fun getById(id: Int): Flow<MeasurementGroupWithDetailsDataSourceModel>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(measurementGroup: MeasurementGroupDataSourceModel): Long
+    suspend fun insert(measurementGroup: MeasurementGroupDataSourceModel): Long
 
     @Query("DELETE FROM measurement_group WHERE id = :id")
-    fun delete(id: Int)
+    suspend fun delete(id: String)
 
     @Query("DELETE FROM measurement_group WHERE patient_id = :patientId")
-    fun deleteByPatientId(patientId: Int)
+    suspend fun deleteByPatientId(patientId: String)
 
 }

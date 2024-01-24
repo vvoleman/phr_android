@@ -1,0 +1,75 @@
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="4dp"
+    android:background="@drawable/layout_rounded"
+    android:backgroundTint="@color/beige_500"
+    android:clickable="true"
+    android:contextClickable="true"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/text_view_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFeatureSettings="smcp"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Calcium chloratum biotika" />
+
+
+    <LinearLayout
+        android:id="@+id/layout_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="18dp"
+        android:gravity="start"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/text_view_name">
+
+        <TextView
+            android:id="@+id/text_view_times"
+
+            style="@style/BeigeInfoBox"
+            android:layout_marginLeft="0dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="9:00 | 16:00"
+            app:layout_constraintEnd_toStartOf="@id/text_view_frequency"
+            app:layout_constraintTop_toBottomOf="@id/text_view_name"
+            app:drawableStartCompat="@drawable/ic_time" />
+
+        <TextView
+            android:id="@+id/text_view_frequency"
+            style="@style/BeigeInfoBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:drawableStartCompat="@drawable/ic_calendar"
+            tools:text="Každý den"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/text_view_name" />
+
+    </LinearLayout>
+
+<!--   Options button -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/button_options"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:background="?android:attr/selectableItemBackground"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:icon="@drawable/ic_options"
+        app:iconTint="@color/white"
+        android:layout_alignParentEnd="true"
+        app:iconGravity="textStart"
+        app:cornerRadius="32dp" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

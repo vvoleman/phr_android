@@ -11,6 +11,7 @@ import cz.vvoleman.phr.featureMeasurement.data.mapper.core.MeasurementGroupDataM
 import cz.vvoleman.phr.featureMeasurement.domain.model.addEdit.SaveMeasurementGroupDomainModel
 import cz.vvoleman.phr.featureMeasurement.domain.model.addEdit.SaveMeasurementGroupScheduleItemDomainModel
 import cz.vvoleman.phr.featureMeasurement.domain.model.core.MeasurementGroupDomainModel
+import cz.vvoleman.phr.featureMeasurement.domain.repository.DeleteMeasurementGroupRepository
 import cz.vvoleman.phr.featureMeasurement.domain.repository.GetMeasurementGroupRepository
 import cz.vvoleman.phr.featureMeasurement.domain.repository.GetMeasurementGroupsByPatientRepository
 import cz.vvoleman.phr.featureMeasurement.domain.repository.SaveMeasurementGroupRepository
@@ -26,7 +27,10 @@ class MeasurementGroupRepository(
     private val saveScheduleItemMapper: SaveMeasurementGroupScheduleItemDataModelToDomainMapper,
     private val scheduleItemDataSourceMapper: MeasurementGroupScheduleItemDataSourceModelToDataMapper,
     private val scheduleItemDao: MeasurementGroupScheduleItemDao,
-) : GetMeasurementGroupRepository, SaveMeasurementGroupRepository, GetMeasurementGroupsByPatientRepository {
+) : GetMeasurementGroupRepository,
+    SaveMeasurementGroupRepository,
+    GetMeasurementGroupsByPatientRepository,
+    DeleteMeasurementGroupRepository {
 
     override suspend fun getMeasurementGroup(id: String): MeasurementGroupDomainModel? {
         return measurementGroupDao.getById(id.toInt())
@@ -46,7 +50,7 @@ class MeasurementGroupRepository(
 
         // Remove all schedule items
         if (model.id != null) {
-            scheduleItemDao.deleteByMeasurementGroup(model.id.toInt())
+            scheduleItemDao.deleteByMeasurementGroup(model.id)
         }
 
         // Save each schedule item
@@ -78,5 +82,10 @@ class MeasurementGroupRepository(
             .let { scheduleItemDataSourceMapper.toDataSource(it, scheduleId) }
 
         return scheduleItemDao.insert(saveModel).toString()
+    }
+
+    override suspend fun deleteMeasurementGroup(measurementGroupId: String) {
+        scheduleItemDao.deleteByMeasurementGroup(measurementGroupId)
+        measurementGroupDao.delete(measurementGroupId)
     }
 }
