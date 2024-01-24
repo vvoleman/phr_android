@@ -146,6 +146,12 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
 
+                R.id.listMeasurementFragment -> {
+                    navController.navigate(cz.vvoleman.phr.featureMeasurement.R.id.nav_measurement)
+                    binding.drawerLayout.close()
+                    true
+                }
+
                 R.id.listHealthcareFragment -> {
                     navController.navigate(cz.vvoleman.phr.common_datasource.R.id.nav_healthcare)
                     binding.drawerLayout.close()

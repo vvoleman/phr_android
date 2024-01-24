@@ -3,12 +3,11 @@ package cz.vvoleman.phr.di.measurement
 import android.content.Context
 import cz.vvoleman.phr.base.presentation.navigation.NavManager
 import cz.vvoleman.phr.base.ui.mapper.ViewStateBinder
+import cz.vvoleman.phr.common.ui.component.nextSchedule.NextScheduleUiModelToPresentationMapper
 import cz.vvoleman.phr.common.ui.mapper.frequencySelector.FrequencyDayUiModelToPresentationMapper
 import cz.vvoleman.phr.common.ui.mapper.patient.PatientUiModelToPresentationMapper
 import cz.vvoleman.phr.featureMeasurement.databinding.FragmentAddEditMeasurementBinding
 import cz.vvoleman.phr.featureMeasurement.databinding.FragmentListMeasurementBinding
-import cz.vvoleman.phr.featureMeasurement.domain.facade.MeasurementTranslateDateTimeFacade
-import cz.vvoleman.phr.featureMeasurement.presentation.mapper.core.MeasurementGroupScheduleItemPresentationModelToDomainMapper
 import cz.vvoleman.phr.featureMeasurement.presentation.model.addEdit.AddEditMeasurementViewState
 import cz.vvoleman.phr.featureMeasurement.presentation.model.list.ListMeasurementViewState
 import cz.vvoleman.phr.featureMeasurement.ui.component.reminderTimeSelector.TimeUiModelToPresentationMapper
@@ -18,9 +17,9 @@ import cz.vvoleman.phr.featureMeasurement.ui.mapper.core.MeasurementGroupFieldUi
 import cz.vvoleman.phr.featureMeasurement.ui.mapper.core.MeasurementGroupScheduleItemUiModelToPresentationMapper
 import cz.vvoleman.phr.featureMeasurement.ui.mapper.core.MeasurementGroupUiModelToPresentationMapper
 import cz.vvoleman.phr.featureMeasurement.ui.mapper.core.NumericFieldUiModelToPresentationMapper
+import cz.vvoleman.phr.featureMeasurement.ui.mapper.core.ScheduledMeasurementGroupUiModelToPresentationMapper
 import cz.vvoleman.phr.featureMeasurement.ui.mapper.core.UnitGroupUiModelToPresentationMapper
 import cz.vvoleman.phr.featureMeasurement.ui.mapper.core.UnitUiModelToPresentationMapper
-import cz.vvoleman.phr.featureMeasurement.ui.mapper.list.MeasurementGroupPresentationModelToNextScheduleMapper
 import cz.vvoleman.phr.featureMeasurement.ui.mapper.list.destination.ListMeasurementDestinationUiMapper
 import cz.vvoleman.phr.featureMeasurement.ui.view.addEdit.AddEditMeasurementBinder
 import cz.vvoleman.phr.featureMeasurement.ui.view.list.ListMeasurementBinder
@@ -41,18 +40,8 @@ class UiModule {
     ) = ListMeasurementDestinationUiMapper(context, navManager)
 
     @Provides
-    fun providesMeasurementGroupPresentationModelToNextScheduleMapper(
-        translateFacade: MeasurementTranslateDateTimeFacade,
-        domainMapper: MeasurementGroupScheduleItemPresentationModelToDomainMapper,
-    ) =
-        MeasurementGroupPresentationModelToNextScheduleMapper(
-            translateFacade = translateFacade,
-            domainMapper = domainMapper
-        )
-
-    @Provides
     fun providesListMeasurementViewBinder(
-        nextScheduleMapper: MeasurementGroupPresentationModelToNextScheduleMapper
+        nextScheduleMapper: NextScheduleUiModelToPresentationMapper
     ): ViewStateBinder<ListMeasurementViewState, FragmentListMeasurementBinding> =
         ListMeasurementBinder(nextScheduleMapper)
 
@@ -128,5 +117,10 @@ class UiModule {
     fun providesMeasurementGroupFieldUiToPresentationMapper(
         numericFieldMapper: NumericFieldUiModelToPresentationMapper
     ) = MeasurementGroupFieldUiToPresentationMapper(numericFieldMapper)
+
+    @Provides
+    fun providesScheduledMeasurementGroupUiModelToPresentationMapper(
+        measurementGroupMapper: MeasurementGroupUiModelToPresentationMapper
+    ) = ScheduledMeasurementGroupUiModelToPresentationMapper(measurementGroupMapper)
 
 }

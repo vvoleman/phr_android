@@ -8,7 +8,7 @@ class NextScheduleUiModelToPresentationMapper(
 
     fun toPresentation(model: NextScheduleUiModel): NextSchedulePresentationModel {
         return NextSchedulePresentationModel(
-            id = model.id,
+            dateTime = model.dateTime,
             items = model.items.map { itemMapper.toPresentation(it) }
         )
     }
@@ -19,7 +19,7 @@ class NextScheduleUiModelToPresentationMapper(
 
     fun toUi(model: NextSchedulePresentationModel): NextScheduleUiModel {
         return NextScheduleUiModel(
-            id = model.id,
+            dateTime = model.dateTime,
             items = model.items.map { itemMapper.toUi(it) }
         )
     }

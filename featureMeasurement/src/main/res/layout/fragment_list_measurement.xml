@@ -17,6 +17,9 @@
         <cz.vvoleman.phr.common.ui.component.nextSchedule.NextSchedule
             android:id="@+id/next_schedule"
             android:layout_width="match_parent"
+            app:labelText="@string/next_schedule_label_measurement"
+            app:multipleItemsText="@string/next_schedule_multiple_measurement"
+            app:noSchedulteText="@string/next_schedule_no_measurement"
             android:layout_height="wrap_content" />
 
         <androidx.cardview.widget.CardView

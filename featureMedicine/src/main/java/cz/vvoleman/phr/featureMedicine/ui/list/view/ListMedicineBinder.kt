@@ -27,7 +27,7 @@ class ListMedicineBinder(
             bindFragmentAdapter(viewBinding)
         }
 
-        if (viewState.selectedNextSchedule?.id != viewBinding.nextSchedule.getSchedule()?.id) {
+        if (viewState.selectedNextSchedule?.dateTime != viewBinding.nextSchedule.getSchedule()?.dateTime) {
             val nextScheduleUi = viewState.selectedNextSchedule?.let { nextScheduleMapper.toUi(it) }
             viewBinding.nextSchedule.setSchedule(nextScheduleUi)
         }

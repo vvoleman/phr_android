@@ -24,10 +24,26 @@ class NextSchedule @JvmOverloads constructor(
     private var _schedule: NextScheduleUiModel? = null
     private var _labelText: String? = null
     private var _multipleItemsText: String? = null
+    private var _noScheduleText: String? = null
 
     init {
         Log.d("NextSchedule", "1")
         binding = ViewNextScheduleBinding.inflate(LayoutInflater.from(context), this, true)
+
+        // Load attributes
+        context.theme.obtainStyledAttributes(
+            attrs,
+            R.styleable.NextSchedule,
+            0, 0).apply {
+
+            try {
+                _labelText = getString(R.styleable.NextSchedule_labelText)
+                _multipleItemsText = getString(R.styleable.NextSchedule_multipleItemsText)
+                _noScheduleText = getString(R.styleable.NextSchedule_noSchedulteText)
+            } finally {
+                recycle()
+            }
+        }
 
         _adapter = NextScheduleAdapter()
         binding.recyclerView.apply {
@@ -80,7 +96,8 @@ class NextSchedule @JvmOverloads constructor(
 
         binding.apply {
             timeLeft.setTime(schedule.items.first().time)
-            textViewLabel.text = _labelText ?: ""
+            textViewLabel.text = _labelText ?: context.getText(R.string.next_schedule_label)
+            textViewNoSchedule.text = _noScheduleText ?: context.getText(R.string.next_schedule_no_schedule)
             textViewName.text = if (schedule.items.size == 1) {
                 schedule.items.first().name
             } else {
