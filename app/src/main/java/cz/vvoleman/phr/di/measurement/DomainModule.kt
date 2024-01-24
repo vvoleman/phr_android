@@ -9,8 +9,12 @@ import cz.vvoleman.phr.featureMeasurement.domain.usecase.addEdit.ScheduleMeasure
 import cz.vvoleman.phr.base.domain.coroutine.CoroutineContextProvider
 import cz.vvoleman.phr.featureMeasurement.domain.facade.MeasurementTranslateDateTimeFacade
 import cz.vvoleman.phr.featureMeasurement.domain.facade.NextMeasurementGroupScheduleFacade
+import cz.vvoleman.phr.featureMeasurement.domain.repository.DeleteEntriesByMeasurementGroupRepository
+import cz.vvoleman.phr.featureMeasurement.domain.repository.DeleteMeasurementGroupRepository
 import cz.vvoleman.phr.featureMeasurement.domain.repository.GetMeasurementGroupsByPatientRepository
+import cz.vvoleman.phr.featureMeasurement.domain.usecase.list.DeleteMeasurementGroupUseCase
 import cz.vvoleman.phr.featureMeasurement.domain.usecase.list.GetNextScheduledMeasurementGroupUseCase
+import cz.vvoleman.phr.featureMeasurement.domain.usecase.list.GroupMeasurementGroupUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -55,6 +59,28 @@ class DomainModule {
     ) = GetNextScheduledMeasurementGroupUseCase(
         getMeasurementGroupsByPatientRepository = getMeasurementGroupsByPatientRepository,
         translateDateTimeFacade = translateDateTimeFacade,
+        coroutineContextProvider = coroutineContextProvider
+    )
+
+    @Provides
+    fun providesGroupMeasurementGroupUseCase(
+        getMeasurementGroupsByPatientRepository: GetMeasurementGroupsByPatientRepository,
+        coroutineContextProvider: CoroutineContextProvider
+    ) = GroupMeasurementGroupUseCase(
+        getMeasurementGroupsByPatientRepository = getMeasurementGroupsByPatientRepository,
+        coroutineContextProvider = coroutineContextProvider
+    )
+
+    @Provides
+    fun providesDeleteMeasurementGroupUseCase(
+        deleteMeasurementGroupAlarmRepository: DeleteMeasurementGroupAlarmRepository,
+        deleteEntriesByMeasurementGroupRepository: DeleteEntriesByMeasurementGroupRepository,
+        deleteMeasurementGroupRepository: DeleteMeasurementGroupRepository,
+        coroutineContextProvider: CoroutineContextProvider
+    ) = DeleteMeasurementGroupUseCase(
+        deleteMeasurementGroupAlarmRepository = deleteMeasurementGroupAlarmRepository,
+        deleteEntriesByMeasurementGroupRepository = deleteEntriesByMeasurementGroupRepository,
+        deleteMeasurementGroupRepository = deleteMeasurementGroupRepository,
         coroutineContextProvider = coroutineContextProvider
     )
 

@@ -25,6 +25,11 @@ import cz.vvoleman.phr.featureMeasurement.domain.repository.GetUnitGroupsReposit
 import cz.vvoleman.phr.featureMeasurement.domain.repository.SaveMeasurementGroupRepository
 import cz.vvoleman.phr.featureMeasurement.domain.repository.ScheduleMeasurementGroupRepository
 import cz.vvoleman.phr.common.data.alarm.AlarmScheduler
+import cz.vvoleman.phr.featureMeasurement.data.datasource.room.MeasurementGroupEntryDao
+import cz.vvoleman.phr.featureMeasurement.data.repository.MeasurementGroupEntryRepository
+import cz.vvoleman.phr.featureMeasurement.domain.repository.DeleteEntriesByMeasurementGroupRepository
+import cz.vvoleman.phr.featureMeasurement.domain.repository.DeleteEntryRepository
+import cz.vvoleman.phr.featureMeasurement.domain.repository.DeleteMeasurementGroupRepository
 import cz.vvoleman.phr.featureMeasurement.domain.repository.GetMeasurementGroupsByPatientRepository
 import dagger.Module
 import dagger.Provides
@@ -173,5 +178,25 @@ class DataModule {
     fun providesDeleteMeasurementGroupAlarmRepository(
         alarmRepository: AlarmRepository
     ): DeleteMeasurementGroupAlarmRepository = alarmRepository
+
+    @Provides
+    fun providesMeasurementGroupEntryRepository(
+        entryDao: MeasurementGroupEntryDao
+    ) = MeasurementGroupEntryRepository(entryDao)
+
+    @Provides
+    fun providesDeleteMeasurementGroupEntryRepository(
+        entryRepository: MeasurementGroupEntryRepository
+    ): DeleteEntriesByMeasurementGroupRepository = entryRepository
+
+    @Provides
+    fun providesDeleteEntryRepository(
+        entryRepository: MeasurementGroupEntryRepository
+    ): DeleteEntryRepository = entryRepository
+
+    @Provides
+    fun providesDeleteMeasurementGroupRepository(
+        measurementGroupRepository: MeasurementGroupRepository
+    ): DeleteMeasurementGroupRepository = measurementGroupRepository
 
 }

@@ -6,4 +6,6 @@ sealed class ListMeasurementDestination : PresentationDestination {
 
     object AddMeasurementGroup : ListMeasurementDestination()
 
+    data class EditMeasurementGroup(val id: String) : ListMeasurementDestination()
+
 }
