@@ -39,4 +39,7 @@
     <string name="navigation_export">Export záznamů o lécích</string>
     <string name="dosage_format">%1$s %2$s</string>
     <string name="export_date_format">%1$s %2$s</string>
+    <string name="next_schedule_label_medicine">Další lék</string>
+    <string name="next_schedule_multiple_medicine">Více léků</string>
+    <string name="next_schedule_no_medicine">Nemáte naplánovány žádné léky</string>
 </resources>

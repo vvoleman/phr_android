@@ -222,7 +222,7 @@ class ListMedicineViewModel @Inject constructor(
 
     fun onNextScheduleClick(model: NextSchedulePresentationModel) {
         // Retrieve schedule items by ids
-        if (model.id != currentViewState.selectedNextSchedule?.id || model.items.isEmpty()) {
+        if (model.dateTime != currentViewState.selectedNextSchedule?.dateTime || model.items.isEmpty()) {
             return
         }
 

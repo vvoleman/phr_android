@@ -4,7 +4,6 @@ import cz.vvoleman.phr.common.presentation.model.nextSchedule.NextScheduleItemPr
 import cz.vvoleman.phr.common.presentation.model.nextSchedule.NextSchedulePresentationModel
 import cz.vvoleman.phr.featureMedicine.domain.model.schedule.ScheduleItemWithDetailsDomainModel
 import java.time.LocalDateTime
-import java.time.ZoneOffset
 
 class ScheduleItemWithDetailsDomainModelToNextScheduleMapper {
 
@@ -14,7 +13,7 @@ class ScheduleItemWithDetailsDomainModelToNextScheduleMapper {
             .getTranslatedDateTime(LocalDateTime.now())
 
         return NextSchedulePresentationModel(
-            id = time.toEpochSecond(ZoneOffset.UTC).toString(),
+            dateTime = time,
             items = models.map {
                 NextScheduleItemPresentationModel(
                     id = it.scheduleItem.id!!,

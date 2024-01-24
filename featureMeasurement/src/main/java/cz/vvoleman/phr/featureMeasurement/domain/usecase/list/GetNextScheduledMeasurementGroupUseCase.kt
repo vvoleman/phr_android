@@ -3,8 +3,8 @@ package cz.vvoleman.phr.featureMeasurement.domain.usecase.list
 import cz.vvoleman.phr.base.domain.coroutine.CoroutineContextProvider
 import cz.vvoleman.phr.base.domain.usecase.BackgroundExecutingUseCase
 import cz.vvoleman.phr.featureMeasurement.domain.facade.MeasurementTranslateDateTimeFacade
-import cz.vvoleman.phr.featureMeasurement.domain.model.core.MeasurementGroupDomainModel
 import cz.vvoleman.phr.featureMeasurement.domain.model.list.NextScheduledRequestDomainModel
+import cz.vvoleman.phr.featureMeasurement.domain.model.list.ScheduledMeasurementGroupDomainModel
 import cz.vvoleman.phr.featureMeasurement.domain.repository.GetMeasurementGroupsByPatientRepository
 
 class GetNextScheduledMeasurementGroupUseCase(
@@ -12,11 +12,11 @@ class GetNextScheduledMeasurementGroupUseCase(
     private val translateDateTimeFacade: MeasurementTranslateDateTimeFacade,
     coroutineContextProvider: CoroutineContextProvider
 ) :
-    BackgroundExecutingUseCase<NextScheduledRequestDomainModel, List<MeasurementGroupDomainModel>>(
+    BackgroundExecutingUseCase<NextScheduledRequestDomainModel, List<ScheduledMeasurementGroupDomainModel>>(
         coroutineContextProvider
     ) {
 
-    override suspend fun executeInBackground(request: NextScheduledRequestDomainModel): List<MeasurementGroupDomainModel> {
+    override suspend fun executeInBackground(request: NextScheduledRequestDomainModel): List<ScheduledMeasurementGroupDomainModel> {
         val groups = getMeasurementGroupsByPatientRepository.getMeasurementGroupsByPatient(request.patientId)
         val translatedTimes =
             translateDateTimeFacade.translate(groups, request.currentLocalDateTime, request.limit ?: 5)
@@ -25,10 +25,10 @@ class GetNextScheduledMeasurementGroupUseCase(
         val sorted = translatedTimes.toSortedMap()
 
         // Get list of next schedules
-        val nextSchedules = mutableListOf<MeasurementGroupDomainModel>()
+        val nextSchedules = mutableListOf<ScheduledMeasurementGroupDomainModel>()
         val values = sorted.values.map { item ->
             item.sortedBy {
-                it.name
+                it.measurementGroup.name
             }
         }.flatten()
 

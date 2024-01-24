@@ -8,6 +8,8 @@ import cz.vvoleman.phr.featureMeasurement.presentation.mapper.core.NumericFieldP
 import cz.vvoleman.phr.featureMeasurement.presentation.mapper.core.UnitGroupPresentationModelToDomainMapper
 import cz.vvoleman.phr.featureMeasurement.presentation.mapper.core.UnitPresentationModelToDomainMapper
 import cz.vvoleman.phr.common.presentation.mapper.PatientPresentationModelToDomainMapper
+import cz.vvoleman.phr.featureMeasurement.presentation.mapper.core.ScheduledMeasurementGroupPresentationModelToDomainMapper
+import cz.vvoleman.phr.featureMeasurement.presentation.mapper.list.MeasurementGroupPresentationModelToNextScheduleMapper
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -73,5 +75,18 @@ class PresentationModule {
             numericMapper = numericMapper,
         )
     }
+
+    @Provides
+    fun providesScheduledMeasurementGroupPresentationModelToDomainMapper(
+        measurementGroupMapper: MeasurementGroupPresentationModelToDomainMapper
+    ): ScheduledMeasurementGroupPresentationModelToDomainMapper {
+        return ScheduledMeasurementGroupPresentationModelToDomainMapper(
+            measurementGroupMapper = measurementGroupMapper
+        )
+    }
+
+    @Provides
+    fun providesMeasurementGroupPresentationModelToNextScheduleMapper() =
+        MeasurementGroupPresentationModelToNextScheduleMapper()
 
 }
