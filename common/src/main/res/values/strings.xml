@@ -104,4 +104,6 @@
     <string name="time_left_hours">Zbývá %1$dh a %2$dm</string>
     <string name="time_left_minutes">Zbývá %1$dm a %2$ds</string>
     <string name="next_schedule_multiple_items">Více položek</string>
+    <string name="next_schedule_label">Další plán</string>
+    <string name="next_schedule_no_schedule">Nemáte nic naplánováno</string>
 </resources>

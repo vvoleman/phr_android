@@ -3,6 +3,7 @@ package cz.vvoleman.phr.featureMeasurement.domain.facade
 import cz.vvoleman.phr.common.domain.facade.TranslateDateTimeFacade
 import cz.vvoleman.phr.featureMeasurement.domain.model.core.MeasurementGroupDomainModel
 import cz.vvoleman.phr.featureMeasurement.domain.model.core.MeasurementGroupScheduleItemDomainModel
+import cz.vvoleman.phr.featureMeasurement.domain.model.list.ScheduledMeasurementGroupDomainModel
 import java.time.LocalDateTime
 
 class MeasurementTranslateDateTimeFacade : TranslateDateTimeFacade() {
@@ -11,10 +12,10 @@ class MeasurementTranslateDateTimeFacade : TranslateDateTimeFacade() {
         schedules: List<MeasurementGroupDomainModel>,
         currentDateTime: LocalDateTime,
         numberOfWeeks: Int = 1
-    ): Map<LocalDateTime, List<MeasurementGroupDomainModel>> {
+    ): Map<LocalDateTime, List<ScheduledMeasurementGroupDomainModel>> {
         val currentWeekDay = currentDateTime.dayOfWeek
 
-        val translatedTimes = mutableMapOf<LocalDateTime, MutableList<MeasurementGroupDomainModel>>()
+        val translatedTimes = mutableMapOf<LocalDateTime, MutableList<ScheduledMeasurementGroupDomainModel>>()
         schedules.forEach {schedule ->
             schedule.scheduleItems.forEach {
                 for (i in 0 until numberOfWeeks) {
@@ -30,10 +31,15 @@ class MeasurementTranslateDateTimeFacade : TranslateDateTimeFacade() {
                         continue
                     }
 
+                    val scheduledGroup = ScheduledMeasurementGroupDomainModel(
+                        measurementGroup = schedule,
+                        dateTime = translated
+                    )
+
                     if (translatedTimes.containsKey(translated)) {
-                        translatedTimes[translated]!!.add(schedule)
+                        translatedTimes[translated]!!.add(scheduledGroup)
                     } else {
-                        translatedTimes[translated] = mutableListOf(schedule)
+                        translatedTimes[translated] = mutableListOf(scheduledGroup)
                     }
                 }
             }
