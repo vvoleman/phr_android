@@ -2,6 +2,13 @@ package cz.vvoleman.phr.featureMeasurement.presentation.viewmodel
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
+import cz.vvoleman.phr.base.presentation.viewmodel.BaseViewModel
+import cz.vvoleman.phr.base.presentation.viewmodel.usecase.UseCaseExecutorProvider
+import cz.vvoleman.phr.common.domain.usecase.patient.GetSelectedPatientUseCase
+import cz.vvoleman.phr.common.presentation.factory.FrequencyDaysPresentationFactory
+import cz.vvoleman.phr.common.presentation.mapper.PatientPresentationModelToDomainMapper
+import cz.vvoleman.phr.common.presentation.model.frequencySelector.FrequencyDayPresentationModel
+import cz.vvoleman.phr.common.presentation.model.patient.PatientPresentationModel
 import cz.vvoleman.phr.featureMeasurement.domain.model.addEdit.SaveMeasurementGroupDomainModel
 import cz.vvoleman.phr.featureMeasurement.domain.model.addEdit.SaveMeasurementGroupScheduleItemDomainModel
 import cz.vvoleman.phr.featureMeasurement.domain.repository.GetUnitGroupsRepository
@@ -13,15 +20,7 @@ import cz.vvoleman.phr.featureMeasurement.presentation.model.addEdit.AddEditMeas
 import cz.vvoleman.phr.featureMeasurement.presentation.model.addEdit.AddEditMeasurementNotification
 import cz.vvoleman.phr.featureMeasurement.presentation.model.addEdit.AddEditMeasurementViewState
 import cz.vvoleman.phr.featureMeasurement.presentation.model.core.MeasurementGroupFieldPresentation
-import cz.vvoleman.phr.featureMeasurement.presentation.model.core.field.NumericFieldPresentationModel
 import cz.vvoleman.phr.featureMeasurement.presentation.model.core.field.unit.UnitGroupPresentationModel
-import cz.vvoleman.phr.base.presentation.viewmodel.BaseViewModel
-import cz.vvoleman.phr.base.presentation.viewmodel.usecase.UseCaseExecutorProvider
-import cz.vvoleman.phr.common.domain.usecase.patient.GetSelectedPatientUseCase
-import cz.vvoleman.phr.common.presentation.factory.FrequencyDaysPresentationFactory
-import cz.vvoleman.phr.common.presentation.mapper.PatientPresentationModelToDomainMapper
-import cz.vvoleman.phr.common.presentation.model.frequencySelector.FrequencyDayPresentationModel
-import cz.vvoleman.phr.common.presentation.model.patient.PatientPresentationModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
@@ -55,9 +54,7 @@ class AddEditMeasurementViewModel @Inject constructor(
             unitGroups = unitGroups,
             frequencyDaysDefault = FrequencyDaysPresentationFactory.makeDays(),
             frequencyDays = FrequencyDaysPresentationFactory.makeDays(),
-            fields = listOf(
-                NumericFieldPresentationModel("1", "Hmotnost", null, null, null),
-            ),
+            fields = listOf(),
         )
     }
 

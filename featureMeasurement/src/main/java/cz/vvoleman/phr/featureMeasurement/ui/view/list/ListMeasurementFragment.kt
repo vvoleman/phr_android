@@ -1,7 +1,9 @@
 package cz.vvoleman.phr.featureMeasurement.ui.view.list
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.widget.PopupMenu
 import androidx.fragment.app.viewModels
 import cz.vvoleman.phr.featureMeasurement.databinding.FragmentListMeasurementBinding
 import cz.vvoleman.phr.featureMeasurement.presentation.model.list.ListMeasurementNotification
@@ -12,15 +14,25 @@ import cz.vvoleman.phr.base.ui.mapper.ViewStateBinder
 import cz.vvoleman.phr.base.ui.view.BaseFragment
 import cz.vvoleman.phr.common.ui.component.nextSchedule.NextSchedule
 import cz.vvoleman.phr.common.ui.component.nextSchedule.NextScheduleUiModel
+import cz.vvoleman.phr.featureMeasurement.R
+import cz.vvoleman.phr.featureMeasurement.presentation.model.core.MeasurementGroupPresentationModel
+import cz.vvoleman.phr.featureMeasurement.ui.adapter.list.MeasurementFragmentAdapter
+import cz.vvoleman.phr.featureMeasurement.ui.adapter.list.MeasurementGroupAdapter
+import cz.vvoleman.phr.featureMeasurement.ui.mapper.core.MeasurementGroupUiModelToPresentationMapper
+import cz.vvoleman.phr.featureMeasurement.ui.model.core.MeasurementGroupUiModel
+import cz.vvoleman.phr.featureMeasurement.ui.view.list.fragment.viewModel.MeasurementGroupViewModel
+import cz.vvoleman.phr.featureMeasurement.ui.view.list.fragment.viewModel.TimelineViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
 class ListMeasurementFragment :
     BaseFragment<ListMeasurementViewState, ListMeasurementNotification, FragmentListMeasurementBinding>(),
-    NextSchedule.NextScheduleListener {
+    NextSchedule.NextScheduleListener, MeasurementGroupAdapter.MeasurementGroupAdapterInterface {
 
     override val viewModel: ListMeasurementViewModel by viewModels()
+    private val measurementGroupViewModel: MeasurementGroupViewModel by viewModels()
+    private val timelineViewModel: TimelineViewModel by viewModels()
 
     @Inject
     override lateinit var destinationMapper: ListMeasurementDestinationUiMapper
@@ -28,12 +40,25 @@ class ListMeasurementFragment :
     @Inject
     override lateinit var viewStateBinder: ViewStateBinder<ListMeasurementViewState, FragmentListMeasurementBinding>
 
+    @Inject
+    lateinit var measurementGroupMapper: MeasurementGroupUiModelToPresentationMapper
+
+    private lateinit var fragmentAdapter: MeasurementFragmentAdapter
+
     override fun setupBinding(inflater: LayoutInflater, container: ViewGroup?): FragmentListMeasurementBinding {
         return FragmentListMeasurementBinding.inflate(inflater, container, false)
     }
 
     override fun setupListeners() {
         super.setupListeners()
+
+        measurementGroupViewModel.setListener(this)
+        fragmentAdapter = MeasurementFragmentAdapter(
+            measurementGroupViewModel,
+            timelineViewModel,
+            this
+        )
+        (viewStateBinder as ListMeasurementBinder).setFragmentAdapter(fragmentAdapter)
 
         binding.nextSchedule.setListener(this)
         binding.fabAddMeasurementGroup.setOnClickListener {
@@ -54,5 +79,48 @@ class ListMeasurementFragment :
 
     override fun onNextScheduleClick(item: NextScheduleUiModel) {
         showSnackbar("Clicked on ${item}")
+    }
+
+    override fun onDestroyView() {
+        binding.viewPager.adapter = null
+        super.onDestroyView()
+    }
+
+    override fun onMeasurementGroupClick(item: MeasurementGroupUiModel) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onMeasurementGroupOptionsClick(item: MeasurementGroupUiModel, anchorView: View) {
+        val popupMenu = PopupMenu(requireContext(), anchorView)
+        popupMenu.inflate(R.menu.options_measurement_group)
+
+        val model = measurementGroupMapper.toPresentation(item)
+        popupMenu.setOnMenuItemClickListener {
+            when (it.itemId) {
+                R.id.action_edit -> {
+                    viewModel.onEditMeasurementGroup(model.id)
+                    true
+                }
+                R.id.action_delete -> {
+                    handleDeleteMeasurementGroupDialog(model)
+                    true
+                }
+                else -> false
+            }
+        }
+        popupMenu.show()
+    }
+
+    private fun handleDeleteMeasurementGroupDialog(model: MeasurementGroupPresentationModel) {
+        showConfirmDialog(
+            title = R.string.dialog_delete_measurement_group_title,
+            message = R.string.dialog_delete_measurement_group_message,
+            positiveAction = Pair(cz.vvoleman.phr.common_datasource.R.string.action_delete) {
+                viewModel.onDeleteMeasurementGroup(model)
+            },
+            negativeAction = Pair(cz.vvoleman.phr.common_datasource.R.string.action_cancel) {
+                //do nothing
+            }
+        )
     }
 }

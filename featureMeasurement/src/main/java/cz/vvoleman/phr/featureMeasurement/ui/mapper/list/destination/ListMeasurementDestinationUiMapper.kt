@@ -17,13 +17,18 @@ class ListMeasurementDestinationUiMapper(
             ListMeasurementDestination.AddMeasurementGroup -> {
                 navigateToAddEdit(cz.vvoleman.phr.common_datasource.R.string.action_add)
             }
+            is ListMeasurementDestination.EditMeasurementGroup -> {
+                navigateToAddEdit(cz.vvoleman.phr.common_datasource.R.string.action_edit, dest.id)
+            }
         }
     }
 
-    private fun navigateToAddEdit(actionId: Int) {
+    private fun navigateToAddEdit(actionId: Int, id: String? = null) {
         val actionLabel = context.resources.getString(actionId)
         val action = ListMeasurementFragmentDirections
-            .actionListMeasurementFragmentToAddEditMeasurementFragment(actionLabel)
+            .actionListMeasurementFragmentToAddEditMeasurementFragment(
+                action = actionLabel
+            )
         navManager.navigate(action)
     }
 }

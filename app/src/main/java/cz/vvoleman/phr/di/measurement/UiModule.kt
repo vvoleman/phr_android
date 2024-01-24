@@ -41,9 +41,10 @@ class UiModule {
 
     @Provides
     fun providesListMeasurementViewBinder(
-        nextScheduleMapper: NextScheduleUiModelToPresentationMapper
+        nextScheduleMapper: NextScheduleUiModelToPresentationMapper,
+        measurementGroupMapper: MeasurementGroupUiModelToPresentationMapper,
     ): ViewStateBinder<ListMeasurementViewState, FragmentListMeasurementBinding> =
-        ListMeasurementBinder(nextScheduleMapper)
+        ListMeasurementBinder(nextScheduleMapper, measurementGroupMapper)
 
     @Provides
     fun providesAddEditMeasurementDestinationUiMapper(
