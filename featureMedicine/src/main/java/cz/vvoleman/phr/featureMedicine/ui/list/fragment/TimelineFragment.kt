@@ -4,10 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import cz.vvoleman.phr.common.ui.adapter.grouped.GroupedItemsAdapter
+import cz.vvoleman.phr.common.ui.fragment.AbstractTimelineFragment
 import cz.vvoleman.phr.common.ui.model.GroupedItemsUiModel
 import cz.vvoleman.phr.common.utils.withLeadingZero
 import cz.vvoleman.phr.common_datasource.databinding.ItemGroupedItemsBinding
@@ -15,11 +15,9 @@ import cz.vvoleman.phr.featureMedicine.databinding.FragmentTimelineBinding
 import cz.vvoleman.phr.featureMedicine.ui.list.adapter.TimelineAdapter
 import cz.vvoleman.phr.featureMedicine.ui.list.fragment.viewModel.TimelineViewModel
 import cz.vvoleman.phr.featureMedicine.ui.list.model.schedule.ScheduleItemWithDetailsUiModel
-import java.time.LocalDateTime
 
 class TimelineFragment :
-    Fragment(),
-    GroupedItemsAdapter.GroupedItemsAdapterInterface<ScheduleItemWithDetailsUiModel>,
+    AbstractTimelineFragment<ScheduleItemWithDetailsUiModel>(),
     TimelineAdapter.TimelineAdapterInterface {
 
     private var viewModel: TimelineViewModel? = null
@@ -105,32 +103,6 @@ class TimelineFragment :
         this.viewModel = viewModel
     }
 
-    @Suppress("MagicNumber")
-    private fun isMultipleDays(schedules: List<GroupedItemsUiModel<ScheduleItemWithDetailsUiModel>>): Boolean {
-        if (schedules.size < 2) {
-            return false
-        }
-
-        val keys = schedules.map {
-            it.value.toString().split("-").take(GROUP_STRING_PARTS).joinToString("-")
-        }.toMutableList()
-
-        val firstDate = keys.removeFirst()
-
-        return !keys.all { it == firstDate }
-    }
-
-    @Suppress("MagicNumber")
-    private fun getDateFromValue(value: String): LocalDateTime {
-        val date = value.split("-")
-
-        if (date.size != TIMESTAMP_PARTS) {
-            return LocalDateTime.now()
-        }
-
-        return LocalDateTime.of(date[0].toInt(), date[1].toInt(), date[2].toInt(), date[3].toInt(), 0)
-    }
-
     interface TimelineInterface {
         fun onTimelineItemClick(item: ScheduleItemWithDetailsUiModel)
 
@@ -145,8 +117,6 @@ class TimelineFragment :
 
     companion object {
         const val TAG = "TimelineFragment"
-        const val TIMESTAMP_PARTS = 4
-        const val GROUP_STRING_PARTS = 3
 
         fun newInstance(viewModel: TimelineViewModel): TimelineFragment {
             val fragment = TimelineFragment()
