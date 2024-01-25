@@ -10,6 +10,7 @@ import cz.vvoleman.phr.base.presentation.model.UiState
 import cz.vvoleman.phr.base.ui.ext.collectLatestLifecycleFlow
 import cz.vvoleman.phr.common.ui.adapter.grouped.GroupedItemsAdapter
 import cz.vvoleman.phr.common.ui.model.GroupedItemsUiModel
+import cz.vvoleman.phr.common.utils.checkVisibility
 import cz.vvoleman.phr.common_datasource.databinding.ItemGroupedItemsBinding
 import cz.vvoleman.phr.featureMeasurement.databinding.FragmentMeasurementGroupBinding
 import cz.vvoleman.phr.featureMeasurement.ui.adapter.list.MeasurementGroupAdapter
@@ -74,14 +75,6 @@ class MeasurementGroupFragment : Fragment(), GroupedItemsAdapter.GroupedItemsAda
         }
     }
 
-    private fun checkVisibility(condition: Boolean): Int {
-        return if (condition) {
-            View.VISIBLE
-        } else {
-            View.GONE
-        }
-    }
-
     override fun onDestroyGroupedItems(groupBinding: ItemGroupedItemsBinding) {
         groupBinding.recyclerView.adapter = null
     }
@@ -90,11 +83,6 @@ class MeasurementGroupFragment : Fragment(), GroupedItemsAdapter.GroupedItemsAda
         super.onDestroyView()
 
         _binding = null
-    }
-
-    interface MeasurementGroupInterface {
-        fun onMeasurementGroupClick(id: String)
-        fun onSortClick()
     }
 
     companion object {

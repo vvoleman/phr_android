@@ -5,6 +5,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import cz.vvoleman.phr.base.presentation.viewmodel.BaseViewModel
 import cz.vvoleman.phr.base.presentation.viewmodel.usecase.UseCaseExecutorProvider
+import cz.vvoleman.phr.common.domain.model.enum.SortDirection
 import cz.vvoleman.phr.common.domain.usecase.patient.GetSelectedPatientUseCase
 import cz.vvoleman.phr.common.presentation.mapper.PatientPresentationModelToDomainMapper
 import cz.vvoleman.phr.common.presentation.model.grouped.GroupedItemsPresentationModel
@@ -12,15 +13,20 @@ import cz.vvoleman.phr.common.presentation.model.nextSchedule.NextSchedulePresen
 import cz.vvoleman.phr.common.presentation.model.patient.PatientPresentationModel
 import cz.vvoleman.phr.featureMeasurement.domain.facade.NextMeasurementGroupScheduleFacade
 import cz.vvoleman.phr.featureMeasurement.domain.model.list.DeleteMeasurementGroupRequest
+import cz.vvoleman.phr.featureMeasurement.domain.model.list.GetScheduledMeasurementGroupInTimeRangeRequest
 import cz.vvoleman.phr.featureMeasurement.domain.model.list.GroupMeasurementGroupRequest
+import cz.vvoleman.phr.featureMeasurement.domain.model.list.GroupScheduledMeasurementsRequest
 import cz.vvoleman.phr.featureMeasurement.domain.model.list.NextScheduledRequestDomainModel
 import cz.vvoleman.phr.featureMeasurement.domain.usecase.list.DeleteMeasurementGroupUseCase
 import cz.vvoleman.phr.featureMeasurement.domain.usecase.list.GetNextScheduledMeasurementGroupUseCase
+import cz.vvoleman.phr.featureMeasurement.domain.usecase.list.GetScheduledMeasurementGroupInTimeRangeUseCase
 import cz.vvoleman.phr.featureMeasurement.domain.usecase.list.GroupMeasurementGroupUseCase
+import cz.vvoleman.phr.featureMeasurement.domain.usecase.list.GroupScheduledMeasurementsByTimeUseCase
 import cz.vvoleman.phr.featureMeasurement.presentation.mapper.core.MeasurementGroupPresentationModelToDomainMapper
 import cz.vvoleman.phr.featureMeasurement.presentation.mapper.core.ScheduledMeasurementGroupPresentationModelToDomainMapper
 import cz.vvoleman.phr.featureMeasurement.presentation.mapper.list.MeasurementGroupPresentationModelToNextScheduleMapper
 import cz.vvoleman.phr.featureMeasurement.presentation.model.core.MeasurementGroupPresentationModel
+import cz.vvoleman.phr.featureMeasurement.presentation.model.core.ScheduledMeasurementGroupPresentationModel
 import cz.vvoleman.phr.featureMeasurement.presentation.model.list.ListMeasurementDestination
 import cz.vvoleman.phr.featureMeasurement.presentation.model.list.ListMeasurementNotification
 import cz.vvoleman.phr.featureMeasurement.presentation.model.list.ListMeasurementViewState
@@ -28,6 +34,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import java.time.LocalDateTime
+import java.time.LocalTime
 import javax.inject.Inject
 
 @HiltViewModel
@@ -36,6 +43,8 @@ class ListMeasurementViewModel @Inject constructor(
     private val getNextScheduledMeasurementGroupUseCase: GetNextScheduledMeasurementGroupUseCase,
     private val groupMeasurementGroupUseCase: GroupMeasurementGroupUseCase,
     private val deleteMeasurementGroupUseCase: DeleteMeasurementGroupUseCase,
+    private val getScheduledMeasurementGroupInTimeRangeUseCase: GetScheduledMeasurementGroupInTimeRangeUseCase,
+    private val groupScheduledMeasurementsByTimeUseCase: GroupScheduledMeasurementsByTimeUseCase,
     private val nextMeasurementGroupScheduleFacade: NextMeasurementGroupScheduleFacade,
     private val patientMapper: PatientPresentationModelToDomainMapper,
     private val measurementGroupMapper: MeasurementGroupPresentationModelToDomainMapper,
@@ -53,6 +62,7 @@ class ListMeasurementViewModel @Inject constructor(
         val nextSchedule = scheduled.removeFirstOrNull()
         val direction = GroupMeasurementGroupRequest.OrderByDirection.ASC
         val grouped = getGroupedMeasurementGroups(patient.id, direction)
+        val timelineSchedules = getTimelineSchedules(patient.id, LocalDateTime.now())
 
         return ListMeasurementViewState(
             patient = patient,
@@ -60,6 +70,7 @@ class ListMeasurementViewModel @Inject constructor(
             selectedNextSchedule = nextSchedule,
             groupDirection = direction,
             groupedMeasurementGroups = grouped,
+            timelineSchedules = timelineSchedules
         )
     }
 
@@ -103,6 +114,34 @@ class ListMeasurementViewModel @Inject constructor(
             GroupedItemsPresentationModel(
                 value = it.value,
                 items = it.items.map { group -> measurementGroupMapper.toPresentation(group) }
+            )
+        }
+    }
+
+    private suspend fun getTimelineSchedules(
+        patientId: String,
+        currentDateTime: LocalDateTime
+    ): List<GroupedItemsPresentationModel<ScheduledMeasurementGroupPresentationModel>> {
+        val date = currentDateTime.toLocalDate()
+
+        val rangeRequest = GetScheduledMeasurementGroupInTimeRangeRequest(
+            patientId = patientId,
+            startAt = date.atTime(LocalTime.MIN),
+            endAt = date.atTime(LocalTime.MAX)
+        )
+        val schedules = getScheduledMeasurementGroupInTimeRangeUseCase.executeInBackground(rangeRequest)
+
+        val groupRequest = GroupScheduledMeasurementsRequest(
+            scheduleItems = schedules,
+            sortDirection = SortDirection.ASC
+        )
+
+        val grouped = groupScheduledMeasurementsByTimeUseCase.executeInBackground(groupRequest)
+
+        return grouped.map {
+            GroupedItemsPresentationModel(
+                value = it.value,
+                items = it.items.map { group -> scheduledMapper.toPresentation(group) }
             )
         }
     }
