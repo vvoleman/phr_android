@@ -16,23 +16,26 @@ import cz.vvoleman.phr.common.ui.component.nextSchedule.NextSchedule
 import cz.vvoleman.phr.common.ui.component.nextSchedule.NextScheduleUiModel
 import cz.vvoleman.phr.featureMeasurement.R
 import cz.vvoleman.phr.featureMeasurement.presentation.model.core.MeasurementGroupPresentationModel
+import cz.vvoleman.phr.featureMeasurement.ui.adapter.MeasurementTimelineAdapter
 import cz.vvoleman.phr.featureMeasurement.ui.adapter.list.MeasurementFragmentAdapter
 import cz.vvoleman.phr.featureMeasurement.ui.adapter.list.MeasurementGroupAdapter
 import cz.vvoleman.phr.featureMeasurement.ui.mapper.core.MeasurementGroupUiModelToPresentationMapper
 import cz.vvoleman.phr.featureMeasurement.ui.model.core.MeasurementGroupUiModel
+import cz.vvoleman.phr.featureMeasurement.ui.model.core.ScheduledMeasurementGroupUiModel
 import cz.vvoleman.phr.featureMeasurement.ui.view.list.fragment.viewModel.MeasurementGroupViewModel
-import cz.vvoleman.phr.featureMeasurement.ui.view.list.fragment.viewModel.TimelineViewModel
+import cz.vvoleman.phr.featureMeasurement.ui.view.list.fragment.viewModel.MeasurementTimelineViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
 class ListMeasurementFragment :
     BaseFragment<ListMeasurementViewState, ListMeasurementNotification, FragmentListMeasurementBinding>(),
-    NextSchedule.NextScheduleListener, MeasurementGroupAdapter.MeasurementGroupAdapterInterface {
+    NextSchedule.NextScheduleListener, MeasurementGroupAdapter.MeasurementGroupAdapterInterface,
+    MeasurementTimelineAdapter.MeasurementTimelineAdapterInterface {
 
     override val viewModel: ListMeasurementViewModel by viewModels()
     private val measurementGroupViewModel: MeasurementGroupViewModel by viewModels()
-    private val timelineViewModel: TimelineViewModel by viewModels()
+    private val timelineViewModel: MeasurementTimelineViewModel by viewModels()
 
     @Inject
     override lateinit var destinationMapper: ListMeasurementDestinationUiMapper
@@ -53,6 +56,7 @@ class ListMeasurementFragment :
         super.setupListeners()
 
         measurementGroupViewModel.setListener(this)
+        timelineViewModel.setListener(this)
         fragmentAdapter = MeasurementFragmentAdapter(
             measurementGroupViewModel,
             timelineViewModel,
@@ -122,5 +126,13 @@ class ListMeasurementFragment :
                 //do nothing
             }
         )
+    }
+
+    override fun onMeasurementTimelineClick(item: ScheduledMeasurementGroupUiModel) {
+        showSnackbar("Clicked on ${item}")
+    }
+
+    override fun onMeasurementTimelineMakeEntryClick(item: ScheduledMeasurementGroupUiModel) {
+        showSnackbar("Clicked on ${item}, make entry now")
     }
 }

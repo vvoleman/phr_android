@@ -12,10 +12,12 @@ import cz.vvoleman.phr.featureMeasurement.presentation.model.list.ListMeasuremen
 import cz.vvoleman.phr.featureMeasurement.presentation.model.list.ListMeasurementViewState
 import cz.vvoleman.phr.featureMeasurement.ui.adapter.list.MeasurementFragmentAdapter
 import cz.vvoleman.phr.featureMeasurement.ui.mapper.core.MeasurementGroupUiModelToPresentationMapper
+import cz.vvoleman.phr.featureMeasurement.ui.mapper.core.ScheduledMeasurementGroupUiModelToPresentationMapper
 
 class ListMeasurementBinder(
     private val nextScheduleMapper: NextScheduleUiModelToPresentationMapper,
     private val measurementGroupMapper: MeasurementGroupUiModelToPresentationMapper,
+    private val scheduledMapper: ScheduledMeasurementGroupUiModelToPresentationMapper
 ) :
     BaseViewStateBinder<ListMeasurementViewState, FragmentListMeasurementBinding, ListMeasurementNotification>() {
 
@@ -43,11 +45,15 @@ class ListMeasurementBinder(
         }
 
         fragmentAdapter?.let { adapter ->
-            adapter.setAllGroups(
-                viewState.groupedMeasurementGroups.map { group ->
-                    GroupedItemsUiModel(group.value, group.items.map { measurementGroupMapper.toUi(it) })
-                }
-            )
+            val allGroups = viewState.groupedMeasurementGroups.map { group ->
+                GroupedItemsUiModel(group.value, group.items.map { measurementGroupMapper.toUi(it) })
+            }
+            adapter.setAllGroups(allGroups)
+
+            val scheduled = viewState.timelineSchedules.map { schedule ->
+                GroupedItemsUiModel(schedule.value, schedule.items.map { scheduledMapper.toUi(it) })
+            }
+            adapter.setScheduledGroups(scheduled)
         }
     }
 
