@@ -14,6 +14,7 @@ import cz.vvoleman.phr.common.ui.adapter.healthcare.MedicalFacilityAdapter
 import cz.vvoleman.phr.common.ui.fragment.healthcare.viewmodel.MedicalFacilityViewModel
 import cz.vvoleman.phr.common.ui.model.healthcare.core.MedicalFacilityUiModel
 import cz.vvoleman.phr.common.utils.SizingConstants
+import cz.vvoleman.phr.common.utils.checkVisibility
 import cz.vvoleman.phr.common_datasource.databinding.FragmentMedicalFacilityBinding
 
 class MedicalFacilityFragment : Fragment(), MedicalFacilityAdapter.MedicalFacilityAdapterListener {
@@ -57,14 +58,6 @@ class MedicalFacilityFragment : Fragment(), MedicalFacilityAdapter.MedicalFacili
             if (it is UiState.Success) {
                 adapter.submitList(it.data)
             }
-        }
-    }
-
-    private fun checkVisibility(condition: Boolean): Int {
-        return if (condition) {
-            View.VISIBLE
-        } else {
-            View.GONE
         }
     }
 

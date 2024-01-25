@@ -24,4 +24,5 @@
     <string name="dialog_delete_measurement_group_title">Smazat skupinu měření</string>
     <string name="dialog_delete_measurement_group_message">Opravdu si přejete smazat tuto skupinu měření? Tato akce smaže všechny záznamy v této skupině!</string>
     <string name="no_measurement_group">Nemáte žádnou skupinu měření</string>
+    <string name="action_make_entry">Zapsat</string>
 </resources>

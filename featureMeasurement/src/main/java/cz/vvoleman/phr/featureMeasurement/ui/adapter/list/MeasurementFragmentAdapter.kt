@@ -4,20 +4,26 @@ import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import cz.vvoleman.phr.common.ui.model.GroupedItemsUiModel
 import cz.vvoleman.phr.featureMeasurement.ui.model.core.MeasurementGroupUiModel
+import cz.vvoleman.phr.featureMeasurement.ui.model.core.ScheduledMeasurementGroupUiModel
 import cz.vvoleman.phr.featureMeasurement.ui.view.list.fragment.MeasurementGroupFragment
 import cz.vvoleman.phr.featureMeasurement.ui.view.list.fragment.MeasurementTimelineFragment
 import cz.vvoleman.phr.featureMeasurement.ui.view.list.fragment.viewModel.MeasurementGroupViewModel
-import cz.vvoleman.phr.featureMeasurement.ui.view.list.fragment.viewModel.TimelineViewModel
+import cz.vvoleman.phr.featureMeasurement.ui.view.list.fragment.viewModel.MeasurementTimelineViewModel
 
 class MeasurementFragmentAdapter(
     private val measurementGroupViewModel: MeasurementGroupViewModel,
-    private val timelineViewModel: TimelineViewModel,
+    private val timelineViewModel: MeasurementTimelineViewModel,
     parent: Fragment
 ) : FragmentStateAdapter(parent) {
 
     fun setAllGroups(allGroups: List<GroupedItemsUiModel<MeasurementGroupUiModel>>) {
         measurementGroupViewModel.setItems(allGroups)
         notifyItemChanged(0)
+    }
+
+    fun setScheduledGroups(scheduledGroups: List<GroupedItemsUiModel<ScheduledMeasurementGroupUiModel>>) {
+        timelineViewModel.setItems(scheduledGroups)
+        notifyItemChanged(1)
     }
 
     override fun getItemCount(): Int {

@@ -14,7 +14,9 @@ import cz.vvoleman.phr.featureMeasurement.domain.repository.DeleteMeasurementGro
 import cz.vvoleman.phr.featureMeasurement.domain.repository.GetMeasurementGroupsByPatientRepository
 import cz.vvoleman.phr.featureMeasurement.domain.usecase.list.DeleteMeasurementGroupUseCase
 import cz.vvoleman.phr.featureMeasurement.domain.usecase.list.GetNextScheduledMeasurementGroupUseCase
+import cz.vvoleman.phr.featureMeasurement.domain.usecase.list.GetScheduledMeasurementGroupInTimeRangeUseCase
 import cz.vvoleman.phr.featureMeasurement.domain.usecase.list.GroupMeasurementGroupUseCase
+import cz.vvoleman.phr.featureMeasurement.domain.usecase.list.GroupScheduledMeasurementsByTimeUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -81,6 +83,24 @@ class DomainModule {
         deleteMeasurementGroupAlarmRepository = deleteMeasurementGroupAlarmRepository,
         deleteEntriesByMeasurementGroupRepository = deleteEntriesByMeasurementGroupRepository,
         deleteMeasurementGroupRepository = deleteMeasurementGroupRepository,
+        coroutineContextProvider = coroutineContextProvider
+    )
+
+    @Provides
+    fun providesGetScheduledMeasurementGroupInTimeRangeUseCase(
+        translateDateTimeFacade: MeasurementTranslateDateTimeFacade,
+        getMeasurementGroupsByPatientRepository: GetMeasurementGroupsByPatientRepository,
+        coroutineContextProvider: CoroutineContextProvider
+    ) = GetScheduledMeasurementGroupInTimeRangeUseCase(
+        translateDateTimeFacade = translateDateTimeFacade,
+        getMeasurementGroupsByPatientRepository = getMeasurementGroupsByPatientRepository,
+        coroutineContextProvider = coroutineContextProvider
+    )
+
+    @Provides
+    fun providesGroupScheduledMeasurementsByTimeUseCase(
+        coroutineContextProvider: CoroutineContextProvider
+    ) = GroupScheduledMeasurementsByTimeUseCase(
         coroutineContextProvider = coroutineContextProvider
     )
 
