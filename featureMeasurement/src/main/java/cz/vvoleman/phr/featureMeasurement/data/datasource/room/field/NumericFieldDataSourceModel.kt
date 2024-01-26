@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "numeric_field")
 data class NumericFieldDataSourceModel(
-    @PrimaryKey(autoGenerate = true) val id: Int? = null,
+    @PrimaryKey(autoGenerate = true) val id: Long? = null,
     val name: String,
     @ColumnInfo(name = "measurement_group_id") val measurementGroupId: Int,
     val unitGroupId: Int,

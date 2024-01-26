@@ -11,15 +11,18 @@ import cz.vvoleman.phr.common.presentation.model.frequencySelector.FrequencyDayP
 import cz.vvoleman.phr.common.presentation.model.patient.PatientPresentationModel
 import cz.vvoleman.phr.featureMeasurement.domain.model.addEdit.SaveMeasurementGroupDomainModel
 import cz.vvoleman.phr.featureMeasurement.domain.model.addEdit.SaveMeasurementGroupScheduleItemDomainModel
+import cz.vvoleman.phr.featureMeasurement.domain.repository.GetMeasurementGroupRepository
 import cz.vvoleman.phr.featureMeasurement.domain.repository.GetUnitGroupsRepository
 import cz.vvoleman.phr.featureMeasurement.domain.usecase.addEdit.SaveMeasurementGroupUseCase
 import cz.vvoleman.phr.featureMeasurement.domain.usecase.addEdit.ScheduleMeasurementGroupAlertUseCase
 import cz.vvoleman.phr.featureMeasurement.presentation.mapper.core.MeasurementGroupFieldPresentationToDomainMapper
+import cz.vvoleman.phr.featureMeasurement.presentation.mapper.core.MeasurementGroupPresentationModelToDomainMapper
 import cz.vvoleman.phr.featureMeasurement.presentation.mapper.core.UnitGroupPresentationModelToDomainMapper
 import cz.vvoleman.phr.featureMeasurement.presentation.model.addEdit.AddEditMeasurementDestination
 import cz.vvoleman.phr.featureMeasurement.presentation.model.addEdit.AddEditMeasurementNotification
 import cz.vvoleman.phr.featureMeasurement.presentation.model.addEdit.AddEditMeasurementViewState
 import cz.vvoleman.phr.featureMeasurement.presentation.model.core.MeasurementGroupFieldPresentation
+import cz.vvoleman.phr.featureMeasurement.presentation.model.core.MeasurementGroupPresentationModel
 import cz.vvoleman.phr.featureMeasurement.presentation.model.core.field.unit.UnitGroupPresentationModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.first
@@ -31,9 +34,11 @@ import javax.inject.Inject
 @HiltViewModel
 class AddEditMeasurementViewModel @Inject constructor(
     private val getSelectedPatientUseCase: GetSelectedPatientUseCase,
-    private val getUnitGroupsRepository: GetUnitGroupsRepository,
     private val saveMeasurementGroupUseCase: SaveMeasurementGroupUseCase,
     private val scheduleMeasurementGroupAlertUseCase: ScheduleMeasurementGroupAlertUseCase,
+    private val getMeasurementGroupRepository: GetMeasurementGroupRepository,
+    private val getUnitGroupsRepository: GetUnitGroupsRepository,
+    private val measurementGroupMapper: MeasurementGroupPresentationModelToDomainMapper,
     private val unitGroupMapper: UnitGroupPresentationModelToDomainMapper,
     private val patientMapper: PatientPresentationModelToDomainMapper,
     private val fieldMapper: MeasurementGroupFieldPresentationToDomainMapper,
@@ -48,13 +53,18 @@ class AddEditMeasurementViewModel @Inject constructor(
     override suspend fun initState(): AddEditMeasurementViewState {
         val patient = getSelectedPatient()
         val unitGroups = getUnitGroups()
+        val measurementGroup = getMeasurementGroup()
+        val times = getTimes(measurementGroup)
 
         return AddEditMeasurementViewState(
+            measurementGroup = measurementGroup,
             patient = patient,
             unitGroups = unitGroups,
             frequencyDaysDefault = FrequencyDaysPresentationFactory.makeDays(),
             frequencyDays = FrequencyDaysPresentationFactory.makeDays(),
-            fields = listOf(),
+            fields = measurementGroup?.fields ?: emptyList(),
+            times = times,
+            name = measurementGroup?.name ?: "",
         )
     }
 
@@ -177,6 +187,21 @@ class AddEditMeasurementViewModel @Inject constructor(
         }
 
         return schedules
+    }
+
+    private suspend fun getMeasurementGroup(): MeasurementGroupPresentationModel? {
+        val id = savedStateHandle.get<String>("measurementGroupId") ?: return null
+
+        return getMeasurementGroupRepository
+            .getMeasurementGroup(id)
+            ?.let { measurementGroupMapper.toPresentation(it) }
+    }
+
+    private suspend fun getTimes(measurementGroup: MeasurementGroupPresentationModel?): Set<LocalTime> {
+        return measurementGroup?.scheduleItems
+            ?.map { it.time }
+            ?.toSet()
+            ?: emptySet()
     }
 
     private suspend fun getUnitGroups(): List<UnitGroupPresentationModel> {

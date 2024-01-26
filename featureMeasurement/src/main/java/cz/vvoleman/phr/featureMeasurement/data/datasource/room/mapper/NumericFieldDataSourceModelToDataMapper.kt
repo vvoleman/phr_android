@@ -29,7 +29,7 @@ class NumericFieldDataSourceModelToDataMapper(
 
     fun toDataSource(model: NumericFieldDataModel, measurementGroupId: String): NumericFieldDataSourceModel {
         return NumericFieldDataSourceModel(
-            id = model.id.toIntOrNull(),
+            id = model.id.toLongOrNull(),
             name = model.name,
             unitGroupId = model.unitGroup.id.toInt(),
             measurementGroupId = measurementGroupId.toInt(),
