@@ -20,6 +20,7 @@ import cz.vvoleman.phr.featureMeasurement.ui.adapter.MeasurementTimelineAdapter
 import cz.vvoleman.phr.featureMeasurement.ui.adapter.list.MeasurementFragmentAdapter
 import cz.vvoleman.phr.featureMeasurement.ui.adapter.list.MeasurementGroupAdapter
 import cz.vvoleman.phr.featureMeasurement.ui.mapper.core.MeasurementGroupUiModelToPresentationMapper
+import cz.vvoleman.phr.featureMeasurement.ui.mapper.core.ScheduledMeasurementGroupUiModelToPresentationMapper
 import cz.vvoleman.phr.featureMeasurement.ui.model.core.MeasurementGroupUiModel
 import cz.vvoleman.phr.featureMeasurement.ui.model.core.ScheduledMeasurementGroupUiModel
 import cz.vvoleman.phr.featureMeasurement.ui.view.list.fragment.viewModel.MeasurementGroupViewModel
@@ -45,6 +46,9 @@ class ListMeasurementFragment :
 
     @Inject
     lateinit var measurementGroupMapper: MeasurementGroupUiModelToPresentationMapper
+
+    @Inject
+    lateinit var scheduleMapper: ScheduledMeasurementGroupUiModelToPresentationMapper
 
     private lateinit var fragmentAdapter: MeasurementFragmentAdapter
 
@@ -91,7 +95,7 @@ class ListMeasurementFragment :
     }
 
     override fun onMeasurementGroupClick(item: MeasurementGroupUiModel) {
-        TODO("Not yet implemented")
+        showSnackbar("Clicked on ${item}")
     }
 
     override fun onMeasurementGroupOptionsClick(item: MeasurementGroupUiModel, anchorView: View) {
@@ -133,6 +137,6 @@ class ListMeasurementFragment :
     }
 
     override fun onMeasurementTimelineMakeEntryClick(item: ScheduledMeasurementGroupUiModel) {
-        showSnackbar("Clicked on ${item}, make entry now")
+        viewModel.onAddEntry(scheduleMapper.toPresentation(item))
     }
 }

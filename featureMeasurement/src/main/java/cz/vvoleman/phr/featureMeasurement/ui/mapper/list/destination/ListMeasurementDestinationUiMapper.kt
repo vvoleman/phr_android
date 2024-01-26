@@ -20,6 +20,14 @@ class ListMeasurementDestinationUiMapper(
             is ListMeasurementDestination.EditMeasurementGroup -> {
                 navigateToAddEdit(cz.vvoleman.phr.common_datasource.R.string.action_edit, dest.id)
             }
+            is ListMeasurementDestination.AddEntry -> {
+                val action = ListMeasurementFragmentDirections
+                    .actionListMeasurementFragmentToAddEditEntryFragment(
+                        action = context.resources.getString(cz.vvoleman.phr.common_datasource.R.string.action_add),
+                        measurementGroupId = dest.measurementGroupId
+                    )
+                navManager.navigate(action)
+            }
         }
     }
 
@@ -27,7 +35,8 @@ class ListMeasurementDestinationUiMapper(
         val actionLabel = context.resources.getString(actionId)
         val action = ListMeasurementFragmentDirections
             .actionListMeasurementFragmentToAddEditMeasurementFragment(
-                action = actionLabel
+                action = actionLabel,
+                measurementGroupId = id
             )
         navManager.navigate(action)
     }
