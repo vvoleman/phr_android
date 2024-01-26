@@ -20,6 +20,7 @@ import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
 
 class MeasurementGroupRepository(
+    private val fieldRepository: MeasurementGroupFieldRepository,
     private val saveMeasurementGroupMapper: SaveMeasurementGroupDataModelToDomainMapper,
     private val measurementGroupDao: MeasurementGroupDao,
     private val measurementGroupDataSourceMapper: MeasurementGroupDataSourceModelToDataMapper,
@@ -45,6 +46,11 @@ class MeasurementGroupRepository(
             .let { measurementGroupDataSourceMapper.toDataSource(it) }
 
         val id = measurementGroupDao.insert(saveModel)
+
+        // Save fields
+        model.fields.forEach {
+            fieldRepository.saveMeasurementGroupField(it, id.toString())
+        }
 
         Log.d("MeasurementGroupRepository", "MeasurementGroup saved with ID '$id'")
 

@@ -30,6 +30,7 @@ class AddEditMeasurementBinder(
         super.firstBind(viewBinding, viewState)
 
         viewBinding.fieldEditor.setUnitGroups(viewState.unitGroups.map { unitGroupMapper.toUi(it) })
+        viewBinding.timeSelector.setTimes(viewState.times)
         viewBinding.editTextName.setText(viewState.name)
     }
 

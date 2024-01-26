@@ -6,12 +6,15 @@ import cz.vvoleman.phr.base.ui.mapper.ViewStateBinder
 import cz.vvoleman.phr.common.ui.component.nextSchedule.NextScheduleUiModelToPresentationMapper
 import cz.vvoleman.phr.common.ui.mapper.frequencySelector.FrequencyDayUiModelToPresentationMapper
 import cz.vvoleman.phr.common.ui.mapper.patient.PatientUiModelToPresentationMapper
+import cz.vvoleman.phr.featureMeasurement.databinding.FragmentAddEditEntryBinding
 import cz.vvoleman.phr.featureMeasurement.databinding.FragmentAddEditMeasurementBinding
 import cz.vvoleman.phr.featureMeasurement.databinding.FragmentListMeasurementBinding
 import cz.vvoleman.phr.featureMeasurement.presentation.model.addEdit.AddEditMeasurementViewState
+import cz.vvoleman.phr.featureMeasurement.presentation.model.addEditEntry.AddEditEntryViewState
 import cz.vvoleman.phr.featureMeasurement.presentation.model.list.ListMeasurementViewState
 import cz.vvoleman.phr.featureMeasurement.ui.component.reminderTimeSelector.TimeUiModelToPresentationMapper
 import cz.vvoleman.phr.featureMeasurement.ui.mapper.addEdit.destination.AddEditMeasurementDestinationUiMapper
+import cz.vvoleman.phr.featureMeasurement.ui.mapper.addEditEntry.destination.AddEditEntryDestinationUiMapper
 import cz.vvoleman.phr.featureMeasurement.ui.mapper.core.MeasurementGroupEntryUiModelToPresentationMapper
 import cz.vvoleman.phr.featureMeasurement.ui.mapper.core.MeasurementGroupFieldUiToPresentationMapper
 import cz.vvoleman.phr.featureMeasurement.ui.mapper.core.MeasurementGroupScheduleItemUiModelToPresentationMapper
@@ -22,6 +25,7 @@ import cz.vvoleman.phr.featureMeasurement.ui.mapper.core.UnitGroupUiModelToPrese
 import cz.vvoleman.phr.featureMeasurement.ui.mapper.core.UnitUiModelToPresentationMapper
 import cz.vvoleman.phr.featureMeasurement.ui.mapper.list.destination.ListMeasurementDestinationUiMapper
 import cz.vvoleman.phr.featureMeasurement.ui.view.addEdit.AddEditMeasurementBinder
+import cz.vvoleman.phr.featureMeasurement.ui.view.addEditEntry.AddEditEntryBinder
 import cz.vvoleman.phr.featureMeasurement.ui.view.list.ListMeasurementBinder
 import dagger.Module
 import dagger.Provides
@@ -128,5 +132,14 @@ class UiModule {
     fun providesScheduledMeasurementGroupUiModelToPresentationMapper(
         measurementGroupMapper: MeasurementGroupUiModelToPresentationMapper
     ) = ScheduledMeasurementGroupUiModelToPresentationMapper(measurementGroupMapper)
+
+    @Provides
+    fun providesAddEditEntryDestinationUiMapper(
+        navManager: NavManager
+    ) = AddEditEntryDestinationUiMapper(navManager)
+
+    @Provides
+    fun providesAddEditEntryBinder(): ViewStateBinder<AddEditEntryViewState, FragmentAddEditEntryBinding> =
+        AddEditEntryBinder()
 
 }

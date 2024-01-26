@@ -26,7 +26,10 @@ import cz.vvoleman.phr.featureMeasurement.domain.repository.SaveMeasurementGroup
 import cz.vvoleman.phr.featureMeasurement.domain.repository.ScheduleMeasurementGroupRepository
 import cz.vvoleman.phr.common.data.alarm.AlarmScheduler
 import cz.vvoleman.phr.featureMeasurement.data.datasource.room.MeasurementGroupEntryDao
+import cz.vvoleman.phr.featureMeasurement.data.datasource.room.field.NumericFieldDao
+import cz.vvoleman.phr.featureMeasurement.data.datasource.room.mapper.NumericFieldDataSourceModelToDataMapper
 import cz.vvoleman.phr.featureMeasurement.data.repository.MeasurementGroupEntryRepository
+import cz.vvoleman.phr.featureMeasurement.data.repository.MeasurementGroupFieldRepository
 import cz.vvoleman.phr.featureMeasurement.domain.repository.DeleteEntriesByMeasurementGroupRepository
 import cz.vvoleman.phr.featureMeasurement.domain.repository.DeleteEntryRepository
 import cz.vvoleman.phr.featureMeasurement.domain.repository.DeleteMeasurementGroupRepository
@@ -83,6 +86,7 @@ class DataModule {
 
     @Provides
     fun providesMeasurementGroupRepository(
+        fieldRepository: MeasurementGroupFieldRepository,
         saveMeasurementGroupMapper: SaveMeasurementGroupDataModelToDomainMapper,
         measurementGroupDao: MeasurementGroupDao,
         groupDataSourceMapper: MeasurementGroupDataSourceModelToDataMapper,
@@ -91,6 +95,7 @@ class DataModule {
         scheduleItemDataSource: MeasurementGroupScheduleItemDataSourceModelToDataMapper,
         scheduleItemDao: MeasurementGroupScheduleItemDao,
     ) = MeasurementGroupRepository(
+        fieldRepository = fieldRepository,
         saveMeasurementGroupMapper = saveMeasurementGroupMapper,
         measurementGroupDao = measurementGroupDao,
         measurementGroupDataSourceMapper = groupDataSourceMapper,
@@ -198,5 +203,16 @@ class DataModule {
     fun providesDeleteMeasurementGroupRepository(
         measurementGroupRepository: MeasurementGroupRepository
     ): DeleteMeasurementGroupRepository = measurementGroupRepository
+
+    @Provides
+    fun providesMeasurementGroupFieldRepository(
+        fieldMapper: MeasurementGroupFieldDataToDomainMapper,
+        numericFieldDao: NumericFieldDao,
+        numericFieldMapper: NumericFieldDataSourceModelToDataMapper
+    ) = MeasurementGroupFieldRepository(
+        fieldMapper = fieldMapper,
+        numericFieldDao = numericFieldDao,
+        numericFieldMapper = numericFieldMapper
+    )
 
 }

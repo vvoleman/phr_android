@@ -70,8 +70,22 @@ class ListMeasurementViewModel @Inject constructor(
             selectedNextSchedule = nextSchedule,
             groupDirection = direction,
             groupedMeasurementGroups = grouped,
-            timelineSchedules = timelineSchedules
+            timelineSchedules = timelineSchedules,
         )
+    }
+
+    fun onEditMeasurementGroup(id: String) {
+        navigateTo(ListMeasurementDestination.EditMeasurementGroup(id))
+    }
+
+    fun onDeleteMeasurementGroup(measurementGroup: MeasurementGroupPresentationModel) = viewModelScope.launch {
+        val model = measurementGroupMapper.toDomain(measurementGroup)
+        val request = DeleteMeasurementGroupRequest(measurementGroup = model)
+        deleteMeasurementGroupUseCase.execute(request, ::handleDeleteMeasurementGroup)
+    }
+
+    fun onAddEntry(model: ScheduledMeasurementGroupPresentationModel) {
+        navigateTo(ListMeasurementDestination.AddEntry(model.measurementGroup.id))
     }
 
     private suspend fun getSelectedPatient(): PatientPresentationModel {
@@ -184,17 +198,6 @@ class ListMeasurementViewModel @Inject constructor(
             patientId = currentViewState.patient.id,
             dateTime = dateTime
         )
-    }
-
-    fun onEditMeasurementGroup(id: String) {
-        navigateTo(ListMeasurementDestination.EditMeasurementGroup(id))
-    }
-
-    fun onDeleteMeasurementGroup(measurementGroup: MeasurementGroupPresentationModel) = viewModelScope.launch {
-        val model = measurementGroupMapper.toDomain(measurementGroup)
-        val request = DeleteMeasurementGroupRequest(measurementGroup = model)
-        deleteMeasurementGroupUseCase.execute(request, ::handleDeleteMeasurementGroup)
-
     }
 
     private fun handleDeleteMeasurementGroup(unit: Unit) = viewModelScope.launch {
