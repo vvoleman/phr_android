@@ -5,4 +5,9 @@
         <attr name="labelText" format="string" />
         <attr name="multipleItemsText" format="string" />
     </declare-styleable>
+    <declare-styleable name="Picker">
+        <attr name="dialogTitle" format="string" />
+        <attr name="hint" format="string" />
+        <attr name="showEndIcon" format="boolean" />
+    </declare-styleable>
 </resources>

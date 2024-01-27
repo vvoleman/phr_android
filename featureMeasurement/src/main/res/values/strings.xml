@@ -25,4 +25,12 @@
     <string name="dialog_delete_measurement_group_message">Opravdu si přejete smazat tuto skupinu měření? Tato akce smaže všechny záznamy v této skupině!</string>
     <string name="no_measurement_group">Nemáte žádnou skupinu měření</string>
     <string name="action_make_entry">Zapsat</string>
+    <string name="field_error_value_range">Hodnota musí být v rozsahu %s a %s (včetně)</string>
+    <string name="field_error_value_minimal">Hodnota musí být menší než %s (včetně)</string>
+    <string name="field_error_value_maximal">Hodnota musí být větší než %s (včetně)</string>
+    <string name="field_error_unknown">Neznámá chyba</string>
+    <string name="field_entry_time">Čas zápisu</string>
+    <string name="field_entry_date">Datum zápisu</string>
+    <string name="end_icon_entry_date">Otevřít dialogové okno pro výběr data</string>
+    <string name="end_icon_entry_time">Otevřít dialogové okno pro výběr času</string>
 </resources>

@@ -92,7 +92,7 @@
         app:layout_constraintTop_toBottomOf="@id/layout_files_box">
 
 
-        <cz.vvoleman.phr.common.ui.view.datepicker.DatePicker
+        <cz.vvoleman.phr.common.ui.component.picker.DatePicker
             android:id="@+id/date_picker"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />

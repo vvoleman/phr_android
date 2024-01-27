@@ -19,7 +19,7 @@ import cz.vvoleman.phr.featureMeasurement.ui.component.fieldEditor.FieldEditor
 import cz.vvoleman.phr.featureMeasurement.ui.component.reminderTimeSelector.ReminderTimeSelector
 import cz.vvoleman.phr.featureMeasurement.ui.component.reminderTimeSelector.TimeUiModelToPresentationMapper
 import cz.vvoleman.phr.featureMeasurement.ui.mapper.addEdit.destination.AddEditMeasurementDestinationUiMapper
-import cz.vvoleman.phr.featureMeasurement.ui.mapper.core.MeasurementGroupFieldUiToPresentationMapper
+import cz.vvoleman.phr.featureMeasurement.ui.mapper.core.MeasurementGroupFieldUiModelToPresentationMapper
 import cz.vvoleman.phr.featureMeasurement.ui.model.core.MeasurementGroupFieldUi
 import cz.vvoleman.phr.base.ui.ext.collectLatestLifecycleFlow
 import cz.vvoleman.phr.base.ui.mapper.ViewStateBinder
@@ -58,7 +58,7 @@ class AddEditMeasurementFragment :
     lateinit var timeMapper: TimeUiModelToPresentationMapper
 
     @Inject
-    lateinit var fieldMapper: MeasurementGroupFieldUiToPresentationMapper
+    lateinit var fieldMapper: MeasurementGroupFieldUiModelToPresentationMapper
 
     override fun setupBinding(inflater: LayoutInflater, container: ViewGroup?): FragmentAddEditMeasurementBinding {
         return FragmentAddEditMeasurementBinding.inflate(inflater, container, false)
