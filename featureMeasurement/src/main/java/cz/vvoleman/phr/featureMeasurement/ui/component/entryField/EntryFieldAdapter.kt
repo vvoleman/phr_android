@@ -6,11 +6,11 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 
 class EntryFieldAdapter(
-    private val items: List<EntryField>
+    private val items: List<EntryFieldItem>
 ) : RecyclerView.Adapter<EntryFieldAdapter.EntryFieldViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EntryFieldViewHolder {
-        val type = EntryField.Type.values().find { it.layoutId == viewType }
+        val type = EntryFieldItem.Type.values().find { it.layoutId == viewType }
             ?: throw IllegalArgumentException("Unknown view type: $viewType")
 
         val inflater = LayoutInflater.from(parent.context)
@@ -34,7 +34,7 @@ class EntryFieldAdapter(
 
     inner class EntryFieldViewHolder(private val binding: ViewBinding) : RecyclerView.ViewHolder(binding.root) {
         private var isInitialized = false
-        fun bind(field: EntryField) {
+        fun bind(field: EntryFieldItem) {
             if (!isInitialized) {
                 field.initField(binding)
                 isInitialized = true

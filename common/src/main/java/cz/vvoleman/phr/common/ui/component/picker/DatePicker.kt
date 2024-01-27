@@ -1,4 +1,4 @@
-package cz.vvoleman.phr.common.ui.view.datepicker
+package cz.vvoleman.phr.common.ui.component.picker
 
 import android.app.DatePickerDialog
 import android.content.Context
@@ -7,6 +7,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.widget.LinearLayout
 import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
+import cz.vvoleman.phr.common_datasource.R
 import cz.vvoleman.phr.common_datasource.databinding.DatePickerLayoutBinding
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -26,6 +28,25 @@ class DatePicker @JvmOverloads constructor(
     init {
         val layoutBinding =
             DatePickerLayoutBinding.inflate(LayoutInflater.from(context), this, true)
+
+        context.theme.obtainStyledAttributes(
+            attrs,
+            R.styleable.Picker,
+            0, 0
+        ).apply {
+
+            try {
+                layoutBinding.datePicker.hint = getString(R.styleable.Picker_hint)
+                layoutBinding.textInputLayoutDatePicker.endIconMode =
+                    if (getBoolean(R.styleable.Picker_showEndIcon, true)) {
+                        TextInputLayout.END_ICON_CUSTOM
+                    } else {
+                        TextInputLayout.END_ICON_NONE
+                    }
+            } finally {
+                recycle()
+            }
+        }
 
         editText = layoutBinding.datePicker
         editText.showSoftInputOnFocus = false
@@ -87,7 +108,7 @@ class DatePicker @JvmOverloads constructor(
         editText.setText(date.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)))
     }
 
-    interface DatePickerListener {
+    interface DatePickerListener : PickerListener {
         fun onDateSelected(date: LocalDate)
     }
 

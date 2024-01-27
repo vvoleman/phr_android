@@ -6,13 +6,13 @@ import androidx.lifecycle.LifecycleCoroutineScope
 import cz.vvoleman.phr.featureMeasurement.databinding.FragmentAddEditMeasurementBinding
 import cz.vvoleman.phr.featureMeasurement.presentation.model.addEdit.AddEditMeasurementNotification
 import cz.vvoleman.phr.featureMeasurement.presentation.model.addEdit.AddEditMeasurementViewState
-import cz.vvoleman.phr.featureMeasurement.ui.mapper.core.MeasurementGroupFieldUiToPresentationMapper
+import cz.vvoleman.phr.featureMeasurement.ui.mapper.core.MeasurementGroupFieldUiModelToPresentationMapper
 import cz.vvoleman.phr.featureMeasurement.ui.mapper.core.UnitGroupUiModelToPresentationMapper
 import cz.vvoleman.phr.base.ui.mapper.BaseViewStateBinder
 import cz.vvoleman.phr.common.ui.mapper.frequencySelector.FrequencyDayUiModelToPresentationMapper
 
 class AddEditMeasurementBinder(
-    private val fieldMapper: MeasurementGroupFieldUiToPresentationMapper,
+    private val fieldMapper: MeasurementGroupFieldUiModelToPresentationMapper,
     private val unitGroupMapper: UnitGroupUiModelToPresentationMapper,
     private val frequencyMapper: FrequencyDayUiModelToPresentationMapper
 ) :

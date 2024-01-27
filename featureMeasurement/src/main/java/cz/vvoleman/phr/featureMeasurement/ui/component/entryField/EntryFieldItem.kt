@@ -7,11 +7,25 @@ import androidx.viewbinding.ViewBinding
 import cz.vvoleman.phr.featureMeasurement.R
 import cz.vvoleman.phr.featureMeasurement.databinding.ItemNumericFieldEntryBinding
 import cz.vvoleman.phr.featureMeasurement.databinding.ItemTextFieldEntryBinding
+import kotlinx.coroutines.CoroutineScope
 
-abstract class EntryField(protected val listener: EntryFieldListener? = null) {
+abstract class EntryFieldItem(
+    val id: String,
+    protected val coroutineScope: CoroutineScope,
+    protected val listener: EntryFieldItemListener? = null
+) {
+
+    fun validate(value: String?): ItemStatus {
+        if (!isValid(value)) {
+            return ItemStatus.Invalid
+        }
+
+        return ItemStatus.Valid(value = value)
+    }
 
     abstract fun getType(): Type
-    abstract fun getLabel(): String
+
+    protected abstract fun isValid(value: String?): Boolean
 
     abstract fun initField(binding: ViewBinding)
 
@@ -32,8 +46,13 @@ abstract class EntryField(protected val listener: EntryFieldListener? = null) {
         abstract fun getBinding(inflater: LayoutInflater, parent: ViewGroup): ViewBinding
     }
 
-    interface EntryFieldListener {
+    interface EntryFieldItemListener {
         fun onValueChanged(id: String, value: String)
+    }
+
+    sealed class ItemStatus {
+        object Invalid : ItemStatus()
+        data class Valid(val value: String?) : ItemStatus()
     }
 
 }
