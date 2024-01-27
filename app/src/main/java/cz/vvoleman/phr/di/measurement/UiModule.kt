@@ -14,9 +14,11 @@ import cz.vvoleman.phr.featureMeasurement.presentation.model.addEditEntry.AddEdi
 import cz.vvoleman.phr.featureMeasurement.presentation.model.list.ListMeasurementViewState
 import cz.vvoleman.phr.featureMeasurement.ui.component.reminderTimeSelector.TimeUiModelToPresentationMapper
 import cz.vvoleman.phr.featureMeasurement.ui.mapper.addEdit.destination.AddEditMeasurementDestinationUiMapper
+import cz.vvoleman.phr.featureMeasurement.ui.mapper.addEditEntry.EntryFieldUiModelToEntryFieldItemMapper
+import cz.vvoleman.phr.featureMeasurement.ui.mapper.addEditEntry.EntryFieldUiModelToPresentationMapper
 import cz.vvoleman.phr.featureMeasurement.ui.mapper.addEditEntry.destination.AddEditEntryDestinationUiMapper
 import cz.vvoleman.phr.featureMeasurement.ui.mapper.core.MeasurementGroupEntryUiModelToPresentationMapper
-import cz.vvoleman.phr.featureMeasurement.ui.mapper.core.MeasurementGroupFieldUiToPresentationMapper
+import cz.vvoleman.phr.featureMeasurement.ui.mapper.core.MeasurementGroupFieldUiModelToPresentationMapper
 import cz.vvoleman.phr.featureMeasurement.ui.mapper.core.MeasurementGroupScheduleItemUiModelToPresentationMapper
 import cz.vvoleman.phr.featureMeasurement.ui.mapper.core.MeasurementGroupUiModelToPresentationMapper
 import cz.vvoleman.phr.featureMeasurement.ui.mapper.core.NumericFieldUiModelToPresentationMapper
@@ -62,7 +64,7 @@ class UiModule {
 
     @Provides
     fun providesAddEditMeasurementViewBinder(
-        fieldMapper: MeasurementGroupFieldUiToPresentationMapper,
+        fieldMapper: MeasurementGroupFieldUiModelToPresentationMapper,
         unitGroupMapper: UnitGroupUiModelToPresentationMapper,
         frequencyMapper: FrequencyDayUiModelToPresentationMapper,
     ): ViewStateBinder<AddEditMeasurementViewState, FragmentAddEditMeasurementBinding> =
@@ -112,7 +114,7 @@ class UiModule {
     fun provideMeasurementGroupUiModelToPresentationMapper(
         scheduleItemMapper: MeasurementGroupScheduleItemUiModelToPresentationMapper,
         entryMapper: MeasurementGroupEntryUiModelToPresentationMapper,
-        fieldMapper: MeasurementGroupFieldUiToPresentationMapper,
+        fieldMapper: MeasurementGroupFieldUiModelToPresentationMapper,
         patientMapper: PatientUiModelToPresentationMapper,
     ): MeasurementGroupUiModelToPresentationMapper {
         return MeasurementGroupUiModelToPresentationMapper(
@@ -126,7 +128,7 @@ class UiModule {
     @Provides
     fun providesMeasurementGroupFieldUiToPresentationMapper(
         numericFieldMapper: NumericFieldUiModelToPresentationMapper
-    ) = MeasurementGroupFieldUiToPresentationMapper(numericFieldMapper)
+    ) = MeasurementGroupFieldUiModelToPresentationMapper(numericFieldMapper)
 
     @Provides
     fun providesScheduledMeasurementGroupUiModelToPresentationMapper(
@@ -139,7 +141,21 @@ class UiModule {
     ) = AddEditEntryDestinationUiMapper(navManager)
 
     @Provides
-    fun providesAddEditEntryBinder(): ViewStateBinder<AddEditEntryViewState, FragmentAddEditEntryBinding> =
-        AddEditEntryBinder()
+    fun providesAddEditEntryBinder(
+        fieldMapper: MeasurementGroupFieldUiModelToPresentationMapper,
+        entryFieldMapper: EntryFieldUiModelToPresentationMapper,
+        entryFieldItemMapper: EntryFieldUiModelToEntryFieldItemMapper,
+    ): ViewStateBinder<AddEditEntryViewState, FragmentAddEditEntryBinding> =
+        AddEditEntryBinder(
+            fieldMapper = fieldMapper,
+            entryFieldMapper = entryFieldMapper,
+            entryFieldItemMapper = entryFieldItemMapper
+        )
+
+    @Provides
+    fun providesEntryFieldUiModelToPresentationMapper() = EntryFieldUiModelToPresentationMapper()
+
+    @Provides
+    fun providesEntryFieldUiModelToEntryFieldItemMapper() = EntryFieldUiModelToEntryFieldItemMapper()
 
 }

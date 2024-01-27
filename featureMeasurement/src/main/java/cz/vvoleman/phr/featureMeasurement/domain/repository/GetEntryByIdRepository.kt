@@ -4,6 +4,6 @@ import cz.vvoleman.phr.featureMeasurement.domain.model.core.MeasurementGroupEntr
 
 interface GetEntryByIdRepository {
 
-    suspend fun getEntryById(measurementGroupId: String): List<MeasurementGroupEntryDomainModel>
+    suspend fun getEntryById(id: String): MeasurementGroupEntryDomainModel?
 
 }

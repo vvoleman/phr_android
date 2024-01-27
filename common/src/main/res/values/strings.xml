@@ -63,7 +63,7 @@
     <string name="dialog_delete_facility_message">Přejete si smazat kontakt pro zařízení \"%s\"?</string>
     <string name="dialog_delete_facility_done">Kontakt smazán</string>
     <string name="save_medical_worker">Uložit lékařského pracovníka</string>
-    <string name="error_missing_fields">Prosím, opravte chybějící položky</string>
+    <string name="error_missing_fields">Prosím, opravte chybné položky</string>
     <string name="error_cannot_save">Při ukládání se vyskytla chyba.</string>
     <string name="no_medical_workers">Žádní zdravotní pracovníci</string>
     <string name="dialog_delete_medical_worker_title">Smazat lék. pracovníka</string>
@@ -106,4 +106,7 @@
     <string name="next_schedule_multiple_items">Více položek</string>
     <string name="next_schedule_label">Další plán</string>
     <string name="next_schedule_no_schedule">Nemáte nic naplánováno</string>
+    <string name="end_icon_entry_date">Kliknutím si otevřete dialog pro výběr data</string>
+    <string name="end_icon_entry_time">Kliknutím si otevřete dialog pro výběr času</string>
+    <string name="field_date">Datum</string>
 </resources>

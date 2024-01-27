@@ -11,7 +11,9 @@ import cz.vvoleman.phr.featureMeasurement.domain.facade.MeasurementTranslateDate
 import cz.vvoleman.phr.featureMeasurement.domain.facade.NextMeasurementGroupScheduleFacade
 import cz.vvoleman.phr.featureMeasurement.domain.repository.DeleteEntriesByMeasurementGroupRepository
 import cz.vvoleman.phr.featureMeasurement.domain.repository.DeleteMeasurementGroupRepository
+import cz.vvoleman.phr.featureMeasurement.domain.repository.GetEntryByIdRepository
 import cz.vvoleman.phr.featureMeasurement.domain.repository.GetMeasurementGroupsByPatientRepository
+import cz.vvoleman.phr.featureMeasurement.domain.usecase.addEditEntry.GetEntryFieldsUseCase
 import cz.vvoleman.phr.featureMeasurement.domain.usecase.list.DeleteMeasurementGroupUseCase
 import cz.vvoleman.phr.featureMeasurement.domain.usecase.list.GetNextScheduledMeasurementGroupUseCase
 import cz.vvoleman.phr.featureMeasurement.domain.usecase.list.GetScheduledMeasurementGroupInTimeRangeUseCase
@@ -101,6 +103,15 @@ class DomainModule {
     fun providesGroupScheduledMeasurementsByTimeUseCase(
         coroutineContextProvider: CoroutineContextProvider
     ) = GroupScheduledMeasurementsByTimeUseCase(
+        coroutineContextProvider = coroutineContextProvider
+    )
+
+    @Provides
+    fun providesGetEntryFieldsUseCase(
+        getEntryByIdRepository: GetEntryByIdRepository,
+        coroutineContextProvider: CoroutineContextProvider
+    ) = GetEntryFieldsUseCase(
+        getEntryByIdRepository = getEntryByIdRepository,
         coroutineContextProvider = coroutineContextProvider
     )
 

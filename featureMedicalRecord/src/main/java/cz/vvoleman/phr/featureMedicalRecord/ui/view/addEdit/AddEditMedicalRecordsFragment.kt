@@ -4,6 +4,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.PagingData
@@ -13,7 +14,7 @@ import cz.vvoleman.phr.base.ui.ext.collectLifecycleFlow
 import cz.vvoleman.phr.base.ui.mapper.ViewStateBinder
 import cz.vvoleman.phr.base.ui.view.BaseFragment
 import cz.vvoleman.phr.common.ui.mapper.healthcare.SpecificMedicalWorkerUiModelToPresentationMapper
-import cz.vvoleman.phr.common.ui.view.datepicker.DatePicker
+import cz.vvoleman.phr.common.ui.component.picker.DatePicker
 import cz.vvoleman.phr.featureMedicalRecord.R
 import cz.vvoleman.phr.featureMedicalRecord.databinding.FragmentAddEditMedicalRecordBinding
 import cz.vvoleman.phr.featureMedicalRecord.presentation.model.addEdit.AddEditNotification
@@ -143,6 +144,10 @@ class AddEditMedicalRecordsFragment :
 
     override fun onDateSelected(date: LocalDate) {
         viewModel.onDateSelected(date)
+    }
+
+    override fun injectFragmentManager(): FragmentManager {
+        TODO("Not yet implemented")
     }
 
     override fun onFileDeleted(item: ImageItemUiModel) {

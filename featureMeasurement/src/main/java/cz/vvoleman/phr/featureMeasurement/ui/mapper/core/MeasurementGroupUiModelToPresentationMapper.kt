@@ -7,7 +7,7 @@ import cz.vvoleman.phr.common.ui.mapper.patient.PatientUiModelToPresentationMapp
 class MeasurementGroupUiModelToPresentationMapper(
     private val scheduleItemMapper: MeasurementGroupScheduleItemUiModelToPresentationMapper,
     private val entryMapper: MeasurementGroupEntryUiModelToPresentationMapper,
-    private val fieldMapper: MeasurementGroupFieldUiToPresentationMapper,
+    private val fieldMapper: MeasurementGroupFieldUiModelToPresentationMapper,
     private val patientMapper: PatientUiModelToPresentationMapper,
 ) {
 

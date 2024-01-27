@@ -1,11 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="cz.vvoleman.phr.featureMeasurement.ui.view.addEdit.AddEditMeasurementFragment">
+
+    <com.google.android.flexbox.FlexboxLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <cz.vvoleman.phr.common.ui.component.picker.DatePicker
+            android:id="@+id/date_picker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            app:hint="@string/field_entry_date"
+            app:layout_flexBasisPercent="50%" />
+
+        <cz.vvoleman.phr.common.ui.component.picker.TimePicker
+            android:id="@+id/time_picker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+
+            app:hint="@string/field_entry_time"
+            app:layout_flexBasisPercent="50%" />
+    </com.google.android.flexbox.FlexboxLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/beige_200" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view"

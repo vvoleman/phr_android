@@ -6,22 +6,22 @@
     android:layout_height="match_parent">
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/text_input_layout_date_picker"
+        android:id="@+id/text_input_layout_time_picker"
         style="?attr/textInputOutlinedStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:endIconMode="custom"
-        app:endIconDrawable="@drawable/ic_calendar"
+        app:endIconDrawable="@drawable/ic_time"
         app:endIconContentDescription="@string/end_icon_entry_date"
         app:errorEnabled="true">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/date_picker"
+            android:id="@+id/time_picker"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textIsSelectable="false"
             android:cursorVisible="false"
-            android:inputType="date" />
+            android:inputType="time" />
 
     </com.google.android.material.textfield.TextInputLayout>
 

@@ -5,7 +5,7 @@ import cz.vvoleman.phr.featureMeasurement.presentation.model.core.field.NumericF
 import cz.vvoleman.phr.featureMeasurement.ui.model.core.MeasurementGroupFieldUi
 import cz.vvoleman.phr.featureMeasurement.ui.model.core.field.NumericFieldUiModel
 
-class MeasurementGroupFieldUiToPresentationMapper(
+class MeasurementGroupFieldUiModelToPresentationMapper(
     private val numericFieldMapper: NumericFieldUiModelToPresentationMapper
 ) {
 
