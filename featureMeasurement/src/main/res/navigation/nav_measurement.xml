@@ -24,6 +24,9 @@
         <action
             android:id="@+id/action_listMeasurementFragment_to_addEditEntryFragment"
             app:destination="@id/addEditEntryFragment" />
+        <action
+            android:id="@+id/action_listMeasurementFragment_to_detailMeasurementGroupFragment"
+            app:destination="@id/detailMeasurementGroupFragment" />
     </fragment>
     <fragment
         android:id="@+id/addEditMeasurementFragment"
@@ -59,5 +62,16 @@
         <action
             android:id="@+id/action_addEditEntryFragment_to_listMeasurementFragment"
             app:destination="@id/listMeasurementFragment" />
+        <action
+            android:id="@+id/action_addEditEntryFragment_to_detailMeasurementGroupFragment"
+            app:destination="@id/detailMeasurementGroupFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailMeasurementGroupFragment"
+        android:name="cz.vvoleman.phr.featureMeasurement.ui.view.detail.DetailMeasurementGroupFragment"
+        android:label="DetailMeasurementGroupFragment" >
+        <argument
+            android:name="measurementGroupId"
+            app:argType="string" />
     </fragment>
 </navigation>
