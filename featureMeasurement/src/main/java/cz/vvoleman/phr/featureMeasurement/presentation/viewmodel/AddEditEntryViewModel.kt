@@ -6,10 +6,14 @@ import androidx.lifecycle.viewModelScope
 import cz.vvoleman.phr.base.presentation.viewmodel.BaseViewModel
 import cz.vvoleman.phr.base.presentation.viewmodel.usecase.UseCaseExecutorProvider
 import cz.vvoleman.phr.featureMeasurement.domain.model.addEditEntry.GetEntryFieldsRequest
+import cz.vvoleman.phr.featureMeasurement.domain.model.addEditEntry.SaveEntryRequest
 import cz.vvoleman.phr.featureMeasurement.domain.repository.GetMeasurementGroupRepository
 import cz.vvoleman.phr.featureMeasurement.domain.usecase.addEditEntry.GetEntryFieldsUseCase
+import cz.vvoleman.phr.featureMeasurement.domain.usecase.addEditEntry.SaveEntryUseCase
 import cz.vvoleman.phr.featureMeasurement.presentation.mapper.addEditEntry.EntryFieldPresentationModelToDomainMapper
+import cz.vvoleman.phr.featureMeasurement.presentation.mapper.core.MeasurementGroupEntryPresentationModelToDomainMapper
 import cz.vvoleman.phr.featureMeasurement.presentation.mapper.core.MeasurementGroupPresentationModelToDomainMapper
+import cz.vvoleman.phr.featureMeasurement.presentation.model.addEditEntry.AddEditEntryDestination
 import cz.vvoleman.phr.featureMeasurement.presentation.model.addEditEntry.AddEditEntryNotification
 import cz.vvoleman.phr.featureMeasurement.presentation.model.addEditEntry.AddEditEntryViewState
 import cz.vvoleman.phr.featureMeasurement.presentation.model.addEditEntry.EntryFieldPresentationModel
@@ -26,8 +30,10 @@ import javax.inject.Inject
 @HiltViewModel
 class AddEditEntryViewModel @Inject constructor(
     private val getEntryFieldsUseCase: GetEntryFieldsUseCase,
+    private val saveEntryUseCase: SaveEntryUseCase,
     private val getMeasurementGroupRepository: GetMeasurementGroupRepository,
     private val entryFieldMapper: EntryFieldPresentationModelToDomainMapper,
+    private val entryMapper: MeasurementGroupEntryPresentationModelToDomainMapper,
     private val measurementGroupMapper: MeasurementGroupPresentationModelToDomainMapper,
     savedStateHandle: SavedStateHandle,
     useCaseExecutorProvider: UseCaseExecutorProvider,
@@ -73,7 +79,14 @@ class AddEditEntryViewModel @Inject constructor(
         }
 
 
-        Log.d(TAG, "onSave entry: ${currentViewState.entryFields}")
+        val request = SaveEntryRequest(
+            measurementGroup = measurementGroupMapper.toDomain(currentViewState.measurementGroup),
+            entry = currentViewState.existingEntry?.let { entryMapper.toDomain(it) },
+            entryFields = currentViewState.entryFields.let { entryFieldMapper.toDomain(it.values.toList()) },
+            dateTime = currentViewState.dateTime ?: LocalDateTime.now(),
+        )
+
+        saveEntryUseCase.execute(request, ::handleOnSave)
     }
 
     fun onDateChange(date: LocalDate) {
@@ -88,6 +101,12 @@ class AddEditEntryViewModel @Inject constructor(
         val dateTime = LocalDateTime.of(currentDateTime.toLocalDate(), time)
 
         updateViewState(currentViewState.copy(dateTime = dateTime))
+    }
+
+    private fun handleOnSave(unit: Unit) {
+        navigateTo(AddEditEntryDestination.EntrySaved(
+            measurementGroupId = currentViewState.measurementGroup.id
+        ))
     }
 
     private suspend fun getMeasurementGroup(): MeasurementGroupPresentationModel {

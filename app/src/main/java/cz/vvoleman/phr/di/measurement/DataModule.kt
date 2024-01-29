@@ -36,6 +36,7 @@ import cz.vvoleman.phr.featureMeasurement.domain.repository.DeleteEntryRepositor
 import cz.vvoleman.phr.featureMeasurement.domain.repository.DeleteMeasurementGroupRepository
 import cz.vvoleman.phr.featureMeasurement.domain.repository.GetEntryByIdRepository
 import cz.vvoleman.phr.featureMeasurement.domain.repository.GetMeasurementGroupsByPatientRepository
+import cz.vvoleman.phr.featureMeasurement.domain.repository.SaveEntryRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -228,4 +229,8 @@ class DataModule {
         numericFieldMapper = numericFieldMapper
     )
 
+    @Provides
+    fun providesSaveEntryRepository(
+        entryRepository: MeasurementGroupEntryRepository
+    ): SaveEntryRepository = entryRepository
 }
