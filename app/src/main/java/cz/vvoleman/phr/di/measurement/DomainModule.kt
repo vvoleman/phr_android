@@ -13,7 +13,9 @@ import cz.vvoleman.phr.featureMeasurement.domain.repository.DeleteEntriesByMeasu
 import cz.vvoleman.phr.featureMeasurement.domain.repository.DeleteMeasurementGroupRepository
 import cz.vvoleman.phr.featureMeasurement.domain.repository.GetEntryByIdRepository
 import cz.vvoleman.phr.featureMeasurement.domain.repository.GetMeasurementGroupsByPatientRepository
+import cz.vvoleman.phr.featureMeasurement.domain.repository.SaveEntryRepository
 import cz.vvoleman.phr.featureMeasurement.domain.usecase.addEditEntry.GetEntryFieldsUseCase
+import cz.vvoleman.phr.featureMeasurement.domain.usecase.addEditEntry.SaveEntryUseCase
 import cz.vvoleman.phr.featureMeasurement.domain.usecase.list.DeleteMeasurementGroupUseCase
 import cz.vvoleman.phr.featureMeasurement.domain.usecase.list.GetNextScheduledMeasurementGroupUseCase
 import cz.vvoleman.phr.featureMeasurement.domain.usecase.list.GetScheduledMeasurementGroupInTimeRangeUseCase
@@ -112,6 +114,15 @@ class DomainModule {
         coroutineContextProvider: CoroutineContextProvider
     ) = GetEntryFieldsUseCase(
         getEntryByIdRepository = getEntryByIdRepository,
+        coroutineContextProvider = coroutineContextProvider
+    )
+
+    @Provides
+    fun providesSaveEntryUseCase(
+        saveEntryRepository: SaveEntryRepository,
+        coroutineContextProvider: CoroutineContextProvider
+    ) = SaveEntryUseCase(
+        saveEntryRepository = saveEntryRepository,
         coroutineContextProvider = coroutineContextProvider
     )
 

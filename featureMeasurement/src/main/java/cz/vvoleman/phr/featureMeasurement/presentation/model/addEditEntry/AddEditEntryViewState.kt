@@ -24,7 +24,7 @@ data class AddEditEntryViewState(
 
             if (dateTime == null) {
                 missingFields.add(FieldError.DateTimeRequired)
-            } else if (dateTime.isBefore(LocalDateTime.now())) {
+            } else if (dateTime.isAfter(LocalDateTime.now())) {
                 missingFields.add(FieldError.DateTimeInFuture)
             }
 

@@ -1,3 +1,7 @@
 package cz.vvoleman.phr.featureMeasurement.presentation.model.addEditEntry
 
-sealed class AddEditEntryDestination
+import cz.vvoleman.phr.base.presentation.model.PresentationDestination
+
+sealed class AddEditEntryDestination : PresentationDestination {
+    data class EntrySaved(val measurementGroupId: String) : AddEditEntryDestination()
+}
