@@ -3,18 +3,24 @@ package cz.vvoleman.phr.featureMeasurement.presentation.viewmodel
 import androidx.lifecycle.SavedStateHandle
 import cz.vvoleman.phr.base.presentation.viewmodel.BaseViewModel
 import cz.vvoleman.phr.base.presentation.viewmodel.usecase.UseCaseExecutorProvider
+import cz.vvoleman.phr.featureMeasurement.domain.model.detail.GetFieldStatsRequest
 import cz.vvoleman.phr.featureMeasurement.domain.repository.GetMeasurementGroupRepository
+import cz.vvoleman.phr.featureMeasurement.domain.usecase.detail.GetFieldStatsUseCase
 import cz.vvoleman.phr.featureMeasurement.presentation.mapper.core.MeasurementGroupPresentationModelToDomainMapper
+import cz.vvoleman.phr.featureMeasurement.presentation.mapper.detail.FieldStatsPresentationModelToDomainMapper
 import cz.vvoleman.phr.featureMeasurement.presentation.model.core.MeasurementGroupPresentationModel
 import cz.vvoleman.phr.featureMeasurement.presentation.model.detail.DetailMeasurementGroupNotification
 import cz.vvoleman.phr.featureMeasurement.presentation.model.detail.DetailMeasurementGroupViewState
+import cz.vvoleman.phr.featureMeasurement.presentation.model.detail.FieldStatsPresentationModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
 class DetailMeasurementGroupViewModel @Inject constructor(
+    private val getFieldStatsUseCase: GetFieldStatsUseCase,
     private val getMeasurementGroupRepository: GetMeasurementGroupRepository,
     private val measurementGroupMapper: MeasurementGroupPresentationModelToDomainMapper,
+    private val fieldStatsMapper: FieldStatsPresentationModelToDomainMapper,
     savedStateHandle: SavedStateHandle,
     useCaseExecutorProvider: UseCaseExecutorProvider,
 ) : BaseViewModel<DetailMeasurementGroupViewState, DetailMeasurementGroupNotification>(
@@ -26,9 +32,11 @@ class DetailMeasurementGroupViewModel @Inject constructor(
 
     override suspend fun initState(): DetailMeasurementGroupViewState {
         val measurementGroup = getMeasurementGroup()
+        val fieldStats = getFieldStats(measurementGroup)
 
         return DetailMeasurementGroupViewState(
-            measurementGroup = measurementGroup
+            measurementGroup = measurementGroup,
+            fieldStats = fieldStats,
         )
     }
 
@@ -40,5 +48,15 @@ class DetailMeasurementGroupViewModel @Inject constructor(
         requireNotNull(model) { "No measurement group found for id $id" }
 
         return measurementGroupMapper.toPresentation(model)
+    }
+
+    private suspend fun getFieldStats(measurementGroup: MeasurementGroupPresentationModel): List<FieldStatsPresentationModel> {
+        val request = GetFieldStatsRequest(
+            measurementGroup = measurementGroupMapper.toDomain(measurementGroup),
+        )
+
+        val result = getFieldStatsUseCase.executeInBackground(request)
+
+        return fieldStatsMapper.toPresentation(result)
     }
 }

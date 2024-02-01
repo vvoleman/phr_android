@@ -181,6 +181,10 @@ class ListMeasurementViewModel @Inject constructor(
         }
     }
 
+    fun onDetailMeasurementGroup(model: MeasurementGroupPresentationModel) {
+        navigateTo(ListMeasurementDestination.Detail(model.id, model.name))
+    }
+
     private suspend fun reloadNextSchedules(): List<NextSchedulePresentationModel> {
         val list = currentViewState.nextSchedules
 

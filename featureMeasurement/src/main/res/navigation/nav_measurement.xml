@@ -69,9 +69,12 @@
     <fragment
         android:id="@+id/detailMeasurementGroupFragment"
         android:name="cz.vvoleman.phr.featureMeasurement.ui.view.detail.DetailMeasurementGroupFragment"
-        android:label="DetailMeasurementGroupFragment" >
+        android:label="@string/navigation_detail_measurement_group">
         <argument
             android:name="measurementGroupId"
+            app:argType="string" />
+        <argument
+            android:name="name"
             app:argType="string" />
     </fragment>
 </navigation>

@@ -27,6 +27,8 @@ import cz.vvoleman.phr.featureMeasurement.ui.mapper.core.NumericFieldUiModelToPr
 import cz.vvoleman.phr.featureMeasurement.ui.mapper.core.ScheduledMeasurementGroupUiModelToPresentationMapper
 import cz.vvoleman.phr.featureMeasurement.ui.mapper.core.UnitGroupUiModelToPresentationMapper
 import cz.vvoleman.phr.featureMeasurement.ui.mapper.core.UnitUiModelToPresentationMapper
+import cz.vvoleman.phr.featureMeasurement.ui.mapper.detail.EntryInfoUiModelToMeasurementGroupMapper
+import cz.vvoleman.phr.featureMeasurement.ui.mapper.detail.FieldStatsUiModelToPresentationMapper
 import cz.vvoleman.phr.featureMeasurement.ui.mapper.detail.destination.DetailMeasurementGroupDestinationUiMapper
 import cz.vvoleman.phr.featureMeasurement.ui.mapper.list.destination.ListMeasurementDestinationUiMapper
 import cz.vvoleman.phr.featureMeasurement.ui.view.addEdit.AddEditMeasurementBinder
@@ -168,7 +170,21 @@ class UiModule {
     ) = DetailMeasurementGroupDestinationUiMapper(navManager)
 
     @Provides
-    fun providesDetailMeasurementGroupBinder(): ViewStateBinder<DetailMeasurementGroupViewState, FragmentDetailMeasurementGroupBinding> =
-        DetailMeasurementGroupBinder()
+    fun providesDetailMeasurementGroupBinder(
+        entryInfoMapper: EntryInfoUiModelToMeasurementGroupMapper,
+        fieldStatsMapper: FieldStatsUiModelToPresentationMapper,
+    ): ViewStateBinder<DetailMeasurementGroupViewState, FragmentDetailMeasurementGroupBinding> =
+        DetailMeasurementGroupBinder(
+            entryInfoMapper = entryInfoMapper,
+            statsMapper = fieldStatsMapper
+        )
+
+    @Provides
+    fun providesFieldStatsUiModelToPresentationMapper() = FieldStatsUiModelToPresentationMapper()
+
+    @Provides
+    fun providesEntryInfoUiModelToMeasurementGroupMapper(
+        measurementGroupMapper: MeasurementGroupUiModelToPresentationMapper
+    ) = EntryInfoUiModelToMeasurementGroupMapper(measurementGroupMapper)
 
 }

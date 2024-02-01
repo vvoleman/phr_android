@@ -10,6 +10,7 @@ import cz.vvoleman.phr.featureMeasurement.presentation.mapper.core.UnitPresentat
 import cz.vvoleman.phr.common.presentation.mapper.PatientPresentationModelToDomainMapper
 import cz.vvoleman.phr.featureMeasurement.presentation.mapper.addEditEntry.EntryFieldPresentationModelToDomainMapper
 import cz.vvoleman.phr.featureMeasurement.presentation.mapper.core.ScheduledMeasurementGroupPresentationModelToDomainMapper
+import cz.vvoleman.phr.featureMeasurement.presentation.mapper.detail.FieldStatsPresentationModelToDomainMapper
 import cz.vvoleman.phr.featureMeasurement.presentation.mapper.list.MeasurementGroupPresentationModelToNextScheduleMapper
 import dagger.Module
 import dagger.Provides
@@ -93,5 +94,9 @@ class PresentationModule {
     @Provides
     fun providesEntryFieldPresentationModelToDomainMapper() =
         EntryFieldPresentationModelToDomainMapper()
+
+    @Provides
+    fun providesFieldStatsPresentationModelToDomainMapper() =
+        FieldStatsPresentationModelToDomainMapper()
 
 }

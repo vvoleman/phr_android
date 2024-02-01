@@ -28,6 +28,11 @@ class ListMeasurementDestinationUiMapper(
                     )
                 navManager.navigate(action)
             }
+            is ListMeasurementDestination.Detail -> {
+                val action = ListMeasurementFragmentDirections
+                    .actionListMeasurementFragmentToDetailMeasurementGroupFragment(dest.measurementGroupId, dest.name)
+                navManager.navigate(action)
+            }
         }
     }
 
