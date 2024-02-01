@@ -95,7 +95,7 @@ class ListMeasurementFragment :
     }
 
     override fun onMeasurementGroupClick(item: MeasurementGroupUiModel) {
-        showSnackbar("Clicked on ${item}")
+        viewModel.onDetailMeasurementGroup(measurementGroupMapper.toPresentation(item))
     }
 
     override fun onMeasurementGroupOptionsClick(item: MeasurementGroupUiModel, anchorView: View) {
