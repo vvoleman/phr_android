@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright 2023 by Patryk Goworowski and Patrick Michalik.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<resources>
+    <color name="chart_color_1">@color/green_500</color>
+    <color name="chart_color_2">#9db591</color>
+
+    <style name="ChartAxisStyle">
+        <item name="showTitle">true</item>
+    </style>
+
+    <style name="ChartAxisTitleStyle">
+        <item name="android:paddingStart">8dp</item>
+        <item name="android:paddingTop">2dp</item>
+        <item name="android:paddingEnd">8dp</item>
+        <item name="android:paddingBottom">2dp</item>
+    </style>
+
+    <style name="ChartAxisTitleBackgroundShapeStyle">
+        <item name="cornerSize">100%</item>
+    </style>
+
+    <style name="ChartAxisTitleBackgroundStyle">
+        <item name="shapeStyle">@style/ChartAxisTitleBackgroundShapeStyle</item>
+    </style>
+
+    <style name="ChartBottomAxisTitleBackgroundStyle" parent="ChartAxisTitleBackgroundStyle">
+        <item name="color">@color/chart_color_2</item>
+    </style>
+
+    <style name="ChartBottomAxisTitleStyle" parent="ChartAxisTitleStyle">
+        <item name="labelColor">@android:color/white</item>
+        <item name="backgroundStyle">@style/ChartBottomAxisTitleBackgroundStyle</item>
+        <item name="marginTop">4dp</item>
+    </style>
+
+    <style name="ChartLine1Style">
+        <item name="color">@color/chart_color_1</item>
+    </style>
+
+    <style name="ChartStartAxisTitleBackgroundStyle" parent="ChartAxisTitleBackgroundStyle">
+        <item name="color">@color/chart_color_1</item>
+    </style>
+
+    <style name="ChartStartAxisTitleStyle" parent="ChartAxisTitleStyle">
+        <item name="labelColor">@android:color/black</item>
+        <item name="backgroundStyle">@style/ChartStartAxisTitleBackgroundStyle</item>
+        <item name="marginEnd">4dp</item>
+    </style>
+
+    <style name="ChartBottomAxisStyle" parent="ChartAxisStyle">
+        <item name="titleStyle">@style/ChartBottomAxisTitleStyle</item>
+    </style>
+
+    <style name="ChartLineLayerStyle">
+        <item name="line1Spec">@style/ChartLine1Style</item>
+    </style>
+
+    <style name="ChartStartAxisStyle" parent="ChartAxisStyle">
+        <item name="showGuideline">false</item>
+        <item name="verticalAxisHorizontalLabelPosition">inside</item>
+        <item name="titleStyle">@style/ChartStartAxisTitleStyle</item>
+    </style>
+</resources>

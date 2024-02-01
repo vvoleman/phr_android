@@ -98,6 +98,10 @@ dependencies {
     // Event Bus
     implementation(libs.eventBus)
 
+    // Graphs
+    implementation(libs.vico.core)
+    implementation(libs.vico.views)
+
     testImplementation(libs.junit.core)
     testImplementation(libs.mockito.kotlin)
     testImplementation(libs.mockito.inline)

@@ -16,6 +16,7 @@ import cz.vvoleman.phr.featureMeasurement.domain.repository.GetMeasurementGroups
 import cz.vvoleman.phr.featureMeasurement.domain.repository.SaveEntryRepository
 import cz.vvoleman.phr.featureMeasurement.domain.usecase.addEditEntry.GetEntryFieldsUseCase
 import cz.vvoleman.phr.featureMeasurement.domain.usecase.addEditEntry.SaveEntryUseCase
+import cz.vvoleman.phr.featureMeasurement.domain.usecase.detail.GetFieldStatsUseCase
 import cz.vvoleman.phr.featureMeasurement.domain.usecase.list.DeleteMeasurementGroupUseCase
 import cz.vvoleman.phr.featureMeasurement.domain.usecase.list.GetNextScheduledMeasurementGroupUseCase
 import cz.vvoleman.phr.featureMeasurement.domain.usecase.list.GetScheduledMeasurementGroupInTimeRangeUseCase
@@ -123,6 +124,13 @@ class DomainModule {
         coroutineContextProvider: CoroutineContextProvider
     ) = SaveEntryUseCase(
         saveEntryRepository = saveEntryRepository,
+        coroutineContextProvider = coroutineContextProvider
+    )
+
+    @Provides
+    fun providesGetFieldStatsUseCase(
+        coroutineContextProvider: CoroutineContextProvider
+    ) = GetFieldStatsUseCase(
         coroutineContextProvider = coroutineContextProvider
     )
 
