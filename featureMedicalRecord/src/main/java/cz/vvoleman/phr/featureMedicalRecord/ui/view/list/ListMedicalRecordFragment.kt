@@ -13,7 +13,7 @@ import cz.vvoleman.phr.base.ui.ext.collectLifecycleFlow
 import cz.vvoleman.phr.base.ui.mapper.DestinationUiMapper
 import cz.vvoleman.phr.base.ui.mapper.ViewStateBinder
 import cz.vvoleman.phr.base.ui.view.BaseFragment
-import cz.vvoleman.phr.common.domain.event.PatientDeletedEvent
+import cz.vvoleman.phr.common.presentation.event.PatientDeletedEvent
 import cz.vvoleman.phr.common.ui.adapter.grouped.GroupedItemsAdapter
 import cz.vvoleman.phr.common.ui.adapter.grouped.OnAdapterItemListener
 import cz.vvoleman.phr.common.ui.model.GroupedItemsUiModel

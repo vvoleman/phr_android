@@ -15,6 +15,7 @@ import cz.vvoleman.phr.common.domain.usecase.patient.GetSelectedPatientUseCase
 import cz.vvoleman.phr.common.domain.usecase.patient.SwitchSelectedPatientUseCase
 import cz.vvoleman.phr.common.domain.usecase.patient.addedit.GetPatientByIdUseCase
 import cz.vvoleman.phr.common.domain.usecase.patient.addedit.SavePatientUseCase
+import cz.vvoleman.phr.common.presentation.eventBus.CommonEventBus
 import cz.vvoleman.phr.common.presentation.factory.ColorFactory
 import cz.vvoleman.phr.common.presentation.mapper.PatientPresentationModelToDomainMapper
 import cz.vvoleman.phr.common.presentation.mapper.healthcare.AddEditMedicalServiceItemPresentationModelToDomainMapper
@@ -170,4 +171,32 @@ class PresentationModule {
         medicalWorkerMapper,
         medicalServiceMapper
     )
+
+    @Provides
+    fun providesCommonEventBus() = CommonEventBus
+
+    @Provides
+    fun providesGetWorkerAdditionalInfoBus(
+        eventBus: CommonEventBus
+    ) = eventBus.getWorkerAdditionalInfoBus
+
+    @Provides
+    fun providesGetFacilityAdditionalInfoBus(
+        eventBus: CommonEventBus
+    ) = eventBus.getFacilityAdditionalInfoBus
+
+    @Provides
+    fun providesGetCategoryAdditionalInfoBus(
+        eventBus: CommonEventBus
+    ) = eventBus.getCategoryAdditionalInfoBus
+
+    @Provides
+    fun providesEventBusChannelMedicalWorkerDeleted(
+        eventBus: CommonEventBus
+    ) = eventBus.medicalWorkerDeletedEvent
+
+    @Provides
+    fun providesDeleteProblemCategoryEventBus(
+        eventBus: CommonEventBus
+    ) = eventBus.deleteProblemCategoryBus
 }

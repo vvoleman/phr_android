@@ -2,7 +2,7 @@ package cz.vvoleman.phr.di.medicalRecord
 
 import android.content.Context
 import cz.vvoleman.phr.base.domain.coroutine.CoroutineContextProvider
-import cz.vvoleman.phr.common.domain.eventBus.CommonEventBus
+import cz.vvoleman.phr.common.presentation.eventBus.CommonEventBus
 import cz.vvoleman.phr.common.domain.repository.patient.GetPatientByBirthDateRepository
 import cz.vvoleman.phr.featureMedicalRecord.domain.mapper.TextToTextDomainModelMapper
 import cz.vvoleman.phr.featureMedicalRecord.domain.repository.DeleteMedicalRecordRepository
@@ -12,7 +12,7 @@ import cz.vvoleman.phr.featureMedicalRecord.domain.repository.GetMedicalRecordBy
 import cz.vvoleman.phr.featureMedicalRecord.domain.repository.UpdateMedicalRecordProblemCategoryRepository
 import cz.vvoleman.phr.featureMedicalRecord.domain.repository.patientDelete.DeleteMedicalRecordAssetsRepository
 import cz.vvoleman.phr.featureMedicalRecord.domain.repository.selectFile.GetDiagnosesByIdsRepository
-import cz.vvoleman.phr.featureMedicalRecord.domain.subscriber.MedicalRecordListener
+import cz.vvoleman.phr.featureMedicalRecord.presentation.subscriber.MedicalRecordListener
 import cz.vvoleman.phr.featureMedicalRecord.domain.usecase.DeleteMedicalRecordUseCase
 import cz.vvoleman.phr.featureMedicalRecord.domain.usecase.selectFile.GetRecognizedOptionsFromTextUseCase
 import cz.vvoleman.phr.featureMedicalRecord.domain.usecase.selectFile.GetTextFromInputImageUseCase
@@ -65,25 +65,6 @@ class DomainModule {
         dateFieldProcessor: DateFieldProcessor,
         diagnoseFieldProcessor: DiagnoseFieldProcessor
     ) = RecordRecognizer(patientFieldProcessor, dateFieldProcessor, diagnoseFieldProcessor)
-
-    @Provides
-    fun providesMedicalRecordListener(
-        commonBus: CommonEventBus,
-        byWorkerRepository: GetMedicalRecordByMedicalWorkerRepository,
-        byFacilityRepository: GetMedicalRecordByFacilityRepository,
-        byProblemCategoryRepository: GetMedicalRecordByProblemCategoryRepository,
-        updateMedicalRecordProblemCategoryRepository: UpdateMedicalRecordProblemCategoryRepository,
-        deleteMedicalRecordUseCase: DeleteMedicalRecordUseCase,
-        @ApplicationContext context: Context
-    ) = MedicalRecordListener(
-        commonBus,
-        byWorkerRepository,
-        byFacilityRepository,
-        byProblemCategoryRepository,
-        updateMedicalRecordProblemCategoryRepository,
-        deleteMedicalRecordUseCase,
-        context
-    )
 
     @Provides
     fun providesDeleteMedicalRecordUseCase(

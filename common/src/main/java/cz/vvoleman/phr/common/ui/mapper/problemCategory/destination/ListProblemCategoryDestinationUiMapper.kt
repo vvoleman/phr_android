@@ -26,8 +26,12 @@ class ListProblemCategoryDestinationUiMapper(
                 navigateAddEdit(R.string.action_edit, det.id)
             }
 
-            else -> {
-                Log.e("ListProblemCategoryDestinationUiMapper","Unknown destination: $destination")
+            is ListProblemCategoryDestination.OpenDetail -> {
+                val action =
+                    ListProblemCategoryFragmentDirections.actionListProblemCategoryFragmentToDetailProblemCategoryFragment(
+                        det.id
+                    )
+                navManager.navigate(action)
             }
         }
     }

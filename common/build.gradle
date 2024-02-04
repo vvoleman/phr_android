@@ -96,6 +96,9 @@ dependencies {
     // Event Bus
     implementation(libs.eventBus)
 
+    implementation "com.github.lisawray.groupie:groupie:2.10.1"
+    implementation "com.github.lisawray.groupie:groupie-viewbinding:2.10.1"
+
     testImplementation(libs.junit.core)
     testImplementation(libs.mockito.kotlin)
     testImplementation(libs.mockito.inline)

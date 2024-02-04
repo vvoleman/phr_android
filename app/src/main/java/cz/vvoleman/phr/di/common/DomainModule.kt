@@ -4,13 +4,13 @@ import android.content.Context
 import cz.vvoleman.phr.base.domain.coroutine.CoroutineContextProvider
 import cz.vvoleman.phr.base.domain.eventBus.EventBusChannel
 import cz.vvoleman.phr.common.data.repository.problemCategory.ProblemCategoryRepository
-import cz.vvoleman.phr.common.domain.event.GetMedicalFacilitiesAdditionalInfoEvent
-import cz.vvoleman.phr.common.domain.event.GetMedicalWorkersAdditionalInfoEvent
-import cz.vvoleman.phr.common.domain.event.MedicalWorkerDeletedEvent
-import cz.vvoleman.phr.common.domain.event.problemCategory.DeleteProblemCategoryEvent
-import cz.vvoleman.phr.common.domain.event.problemCategory.GetProblemCategoriesAdditionalInfoEvent
-import cz.vvoleman.phr.common.domain.eventBus.CommonEventBus
-import cz.vvoleman.phr.common.domain.eventBus.CommonListener
+import cz.vvoleman.phr.common.presentation.event.GetMedicalFacilitiesAdditionalInfoEvent
+import cz.vvoleman.phr.common.presentation.event.GetMedicalWorkersAdditionalInfoEvent
+import cz.vvoleman.phr.common.presentation.event.MedicalWorkerDeletedEvent
+import cz.vvoleman.phr.common.presentation.event.problemCategory.DeleteProblemCategoryEvent
+import cz.vvoleman.phr.common.presentation.event.problemCategory.GetProblemCategoriesAdditionalInfoEvent
+import cz.vvoleman.phr.common.presentation.eventBus.CommonEventBus
+import cz.vvoleman.phr.common.presentation.eventBus.CommonListener
 import cz.vvoleman.phr.common.domain.mapper.patient.PatientDomainModelToAddEditMapper
 import cz.vvoleman.phr.common.domain.model.healthcare.AdditionalInfoDomainModel
 import cz.vvoleman.phr.common.domain.model.healthcare.facility.MedicalFacilityDomainModel
@@ -82,24 +82,6 @@ class DomainModule {
     )
 
     @Provides
-    fun providesCommonEventBus() = CommonEventBus
-
-    @Provides
-    fun providesGetWorkerAdditionalInfoBus(
-        eventBus: CommonEventBus
-    ) = eventBus.getWorkerAdditionalInfoBus
-
-    @Provides
-    fun providesGetFacilityAdditionalInfoBus(
-        eventBus: CommonEventBus
-    ) = eventBus.getFacilityAdditionalInfoBus
-
-    @Provides
-    fun providesGetCategoryAdditionalInfoBus(
-        eventBus: CommonEventBus
-    ) = eventBus.getCategoryAdditionalInfoBus
-
-    @Provides
     fun providesSaveMedicalWorkerUseCase(
         saveMedicalFacilityRepository: SaveMedicalFacilityRepository,
         saveMedicalWorkerRepository: SaveMedicalWorkerRepository,
@@ -115,11 +97,6 @@ class DomainModule {
         removeSpecificMedicalWorkerRepository,
         coroutineContextProvider
     )
-
-    @Provides
-    fun providesEventBusChannelMedicalWorkerDeleted(
-        eventBus: CommonEventBus
-    ) = eventBus.medicalWorkerDeletedEvent
 
     @Provides
     fun providesDeleteMedicalWorkerUseCase(
@@ -168,11 +145,6 @@ class DomainModule {
         saveProblemCategoryRepository,
         coroutineContextProvider
     )
-
-    @Provides
-    fun providesDeleteProblemCategoryEventBus(
-        eventBus: CommonEventBus
-    ) = eventBus.deleteProblemCategoryBus
 
     @Provides
     fun providesDeleteProblemCategoryUseCase(

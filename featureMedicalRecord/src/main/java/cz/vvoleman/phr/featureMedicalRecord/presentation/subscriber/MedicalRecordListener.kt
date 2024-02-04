@@ -1,20 +1,22 @@
-package cz.vvoleman.phr.featureMedicalRecord.domain.subscriber
+package cz.vvoleman.phr.featureMedicalRecord.presentation.subscriber
 
 import android.content.Context
 import android.net.Uri
 import android.util.Log
 import cz.vvoleman.phr.base.domain.ModuleListener
-import cz.vvoleman.phr.common.domain.event.GetMedicalFacilitiesAdditionalInfoEvent
-import cz.vvoleman.phr.common.domain.event.GetMedicalWorkersAdditionalInfoEvent
-import cz.vvoleman.phr.common.domain.event.problemCategory.DeleteProblemCategoryEvent
-import cz.vvoleman.phr.common.domain.event.problemCategory.GetProblemCategoriesAdditionalInfoEvent
-import cz.vvoleman.phr.common.domain.eventBus.CommonEventBus
+import cz.vvoleman.phr.common.presentation.event.GetMedicalFacilitiesAdditionalInfoEvent
+import cz.vvoleman.phr.common.presentation.event.GetMedicalWorkersAdditionalInfoEvent
+import cz.vvoleman.phr.common.presentation.event.problemCategory.DeleteProblemCategoryEvent
+import cz.vvoleman.phr.common.presentation.event.problemCategory.GetProblemCategoriesAdditionalInfoEvent
+import cz.vvoleman.phr.common.presentation.event.problemCategory.GetProblemCategoryDetailSectionEvent
+import cz.vvoleman.phr.common.presentation.eventBus.CommonEventBus
 import cz.vvoleman.phr.common.domain.model.healthcare.AdditionalInfoDomainModel
 import cz.vvoleman.phr.common.domain.model.healthcare.facility.MedicalFacilityDomainModel
 import cz.vvoleman.phr.common.domain.model.healthcare.worker.MedicalWorkerDomainModel
 import cz.vvoleman.phr.common.domain.model.problemCategory.ProblemCategoryDomainModel
 import cz.vvoleman.phr.common.domain.model.problemCategory.ProblemCategoryInfoDomainModel
 import cz.vvoleman.phr.common.domain.model.problemCategory.request.DataDeleteType
+import cz.vvoleman.phr.common.ui.view.problemCategory.detail.groupie.SectionContainer
 import cz.vvoleman.phr.common.utils.localizedDiff
 import cz.vvoleman.phr.featureMedicalRecord.R
 import cz.vvoleman.phr.featureMedicalRecord.domain.repository.GetMedicalRecordByFacilityRepository
@@ -49,6 +51,9 @@ class MedicalRecordListener(
         }
         commonEventBus.deleteProblemCategoryBus.addListener(TAG) {
             return@addListener onDeleteProblemCategoryEvent(it)
+        }
+        commonEventBus.getCategoryDetailSection.addListener(TAG) {
+            return@addListener onGetProblemCategoryDetailSectionEvent(it)
         }
     }
 
@@ -175,5 +180,16 @@ class MedicalRecordListener(
                 }
             }
         }
+    }
+
+    private suspend fun onGetProblemCategoryDetailSectionEvent(
+        event: GetProblemCategoryDetailSectionEvent
+    ): SectionContainer {
+        // Get all records for category
+        val records = getMedicalRecordByCategoryRepository.getMedicalRecordByProblemCategory(event.problemCategory.id)
+
+        return SectionContainer(
+            "",0,"", emptyList()
+        )
     }
 }
