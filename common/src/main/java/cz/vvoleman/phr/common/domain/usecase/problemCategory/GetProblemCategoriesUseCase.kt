@@ -3,7 +3,7 @@ package cz.vvoleman.phr.common.domain.usecase.problemCategory
 import cz.vvoleman.phr.base.domain.coroutine.CoroutineContextProvider
 import cz.vvoleman.phr.base.domain.eventBus.EventBusChannel
 import cz.vvoleman.phr.base.domain.usecase.BackgroundExecutingUseCase
-import cz.vvoleman.phr.common.domain.event.problemCategory.GetProblemCategoriesAdditionalInfoEvent
+import cz.vvoleman.phr.common.presentation.event.problemCategory.GetProblemCategoriesAdditionalInfoEvent
 import cz.vvoleman.phr.common.domain.model.problemCategory.ProblemCategoryDomainModel
 import cz.vvoleman.phr.common.domain.model.problemCategory.ProblemCategoryInfoDomainModel
 import cz.vvoleman.phr.common.domain.model.problemCategory.ProblemCategoryWithInfoDomainModel

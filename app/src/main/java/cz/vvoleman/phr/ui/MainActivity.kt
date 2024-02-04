@@ -17,9 +17,9 @@ import cz.vvoleman.phr.R
 import cz.vvoleman.phr.base.domain.ModuleListener
 import cz.vvoleman.phr.base.presentation.navigation.NavManager
 import cz.vvoleman.phr.common.data.datasource.model.PatientDataStore
-import cz.vvoleman.phr.common.domain.eventBus.CommonListener
+import cz.vvoleman.phr.common.presentation.eventBus.CommonListener
 import cz.vvoleman.phr.databinding.ActivityMainBinding
-import cz.vvoleman.phr.featureMedicalRecord.domain.subscriber.MedicalRecordListener
+import cz.vvoleman.phr.featureMedicalRecord.presentation.subscriber.MedicalRecordListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import javax.inject.Inject

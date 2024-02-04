@@ -17,6 +17,9 @@
             app:argType="string"
             app:nullable="true"
             android:defaultValue="@null" />
+        <action
+            android:id="@+id/action_listProblemCategoryFragment_to_detailProblemCategoryFragment"
+            app:destination="@id/detailProblemCategoryFragment" />
     </fragment>
     <fragment
         android:id="@+id/addEditProblemCategoryFragment"
@@ -34,6 +37,15 @@
         <argument
             android:name="action"
             android:defaultValue="Přidat"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailProblemCategoryFragment"
+        android:name="cz.vvoleman.phr.common.ui.view.problemCategory.detail.DetailProblemCategoryFragment"
+        android:label="@string/navigation_detail_problem_category"
+        tools:layout="@layout/fragment_detail_problem_category" >
+        <argument
+            android:name="problemCategoryId"
             app:argType="string" />
     </fragment>
 </navigation>

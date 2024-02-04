@@ -86,6 +86,10 @@ class ListProblemCategoryFragment :
         val presentationModel = problemCategoryMapper.toPresentation(problemCategory.problemCategory)
         popup.setOnMenuItemClickListener {
             when (it.itemId) {
+                R.id.action_detail -> {
+                    viewModel.onDetail(presentationModel)
+                    true
+                }
                 R.id.action_edit -> {
                     viewModel.onEdit(presentationModel)
                     true

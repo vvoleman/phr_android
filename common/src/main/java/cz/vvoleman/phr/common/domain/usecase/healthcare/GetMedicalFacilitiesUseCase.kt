@@ -3,7 +3,7 @@ package cz.vvoleman.phr.common.domain.usecase.healthcare
 import cz.vvoleman.phr.base.domain.coroutine.CoroutineContextProvider
 import cz.vvoleman.phr.base.domain.eventBus.EventBusChannel
 import cz.vvoleman.phr.base.domain.usecase.BackgroundExecutingUseCase
-import cz.vvoleman.phr.common.domain.event.GetMedicalFacilitiesAdditionalInfoEvent
+import cz.vvoleman.phr.common.presentation.event.GetMedicalFacilitiesAdditionalInfoEvent
 import cz.vvoleman.phr.common.domain.model.healthcare.AdditionalInfoDomainModel
 import cz.vvoleman.phr.common.domain.model.healthcare.facility.MedicalFacilityDomainModel
 import cz.vvoleman.phr.common.domain.model.healthcare.request.GetMedicalFacilitiesRequest
