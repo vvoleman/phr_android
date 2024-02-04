@@ -30,5 +30,5 @@ object CommonEventBus {
 
     val deleteProblemCategoryBus = EventBusChannel<DeleteProblemCategoryEvent, Unit>()
 
-    val getCategoryDetailSection = EventBusChannel<GetProblemCategoryDetailSectionEvent, SectionContainer>()
+    val getCategoryDetailSection = EventBusChannel<GetProblemCategoryDetailSectionEvent, List<SectionContainer>>()
 }

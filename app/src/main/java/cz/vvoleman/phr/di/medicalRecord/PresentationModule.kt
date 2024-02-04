@@ -49,6 +49,7 @@ import cz.vvoleman.phr.featureMedicalRecord.presentation.mapper.core.MedicalReco
 import cz.vvoleman.phr.featureMedicalRecord.presentation.mapper.list.ListViewStateToDomainMapper
 import cz.vvoleman.phr.featureMedicalRecord.presentation.mapper.selectFile.RecognizedOptionsDomainModelToPresentationMapper
 import cz.vvoleman.phr.featureMedicalRecord.presentation.mapper.selectFile.SelectedOptionsPresentationToDomainMapper
+import cz.vvoleman.phr.featureMedicalRecord.presentation.provider.ProblemCategoryDetailProvider
 import cz.vvoleman.phr.featureMedicalRecord.presentation.subscriber.MedicalRecordListener
 import dagger.Module
 import dagger.Provides
@@ -227,14 +228,18 @@ class PresentationModule {
         byProblemCategoryRepository: GetMedicalRecordByProblemCategoryRepository,
         updateMedicalRecordProblemCategoryRepository: UpdateMedicalRecordProblemCategoryRepository,
         deleteMedicalRecordUseCase: DeleteMedicalRecordUseCase,
-        @ApplicationContext context: Context
+        @ApplicationContext context: Context,
+        medicalRecordMapper: MedicalRecordPresentationModelToDomainMapper,
+        problemCategoryDetailProvider: ProblemCategoryDetailProvider
     ) = MedicalRecordListener(
-        commonBus,
-        byWorkerRepository,
-        byFacilityRepository,
-        byProblemCategoryRepository,
-        updateMedicalRecordProblemCategoryRepository,
-        deleteMedicalRecordUseCase,
-        context
+        commonEventBus = commonBus,
+        problemCategoryDetailProvider = problemCategoryDetailProvider,
+        getMedicalRecordByMedicalWorkerRepository = byWorkerRepository,
+        getMedicalRecordByFacilityRepository = byFacilityRepository,
+        getMedicalRecordByCategoryRepository = byProblemCategoryRepository,
+        updateMedicalRecordProblemCategoryRepository = updateMedicalRecordProblemCategoryRepository,
+        deleteMedicalRecordUseCase = deleteMedicalRecordUseCase,
+        medicalRecordMapper = medicalRecordMapper,
+        context = context,
     )
 }

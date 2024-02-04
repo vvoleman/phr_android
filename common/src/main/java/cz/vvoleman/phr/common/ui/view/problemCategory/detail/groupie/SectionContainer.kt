@@ -1,11 +1,6 @@
 package cz.vvoleman.phr.common.ui.view.problemCategory.detail.groupie
 
 import android.view.View
-import com.google.android.flexbox.AlignItems
-import com.google.android.flexbox.FlexDirection
-import com.google.android.flexbox.FlexWrap
-import com.google.android.flexbox.FlexboxLayoutManager
-import com.google.android.flexbox.JustifyContent
 import com.xwray.groupie.GroupieAdapter
 import com.xwray.groupie.viewbinding.BindableItem
 import cz.vvoleman.phr.common.ui.adapter.MarginItemDecoration
@@ -23,6 +18,7 @@ class SectionContainer(
     override fun bind(viewBinding: ItemDetailSectionBinding, position: Int) {
         viewBinding.apply {
             titleTextView.text = title
+            titleTextView.setCompoundDrawablesWithIntrinsicBounds(icon, 0, 0, 0)
             descriptionTextView.text = description
             val groupieAdapter = GroupieAdapter().apply {
                 addAll(items)

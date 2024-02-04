@@ -4,18 +4,18 @@ import android.content.Context
 import android.net.Uri
 import android.util.Log
 import cz.vvoleman.phr.base.domain.ModuleListener
-import cz.vvoleman.phr.common.presentation.event.GetMedicalFacilitiesAdditionalInfoEvent
-import cz.vvoleman.phr.common.presentation.event.GetMedicalWorkersAdditionalInfoEvent
-import cz.vvoleman.phr.common.presentation.event.problemCategory.DeleteProblemCategoryEvent
-import cz.vvoleman.phr.common.presentation.event.problemCategory.GetProblemCategoriesAdditionalInfoEvent
-import cz.vvoleman.phr.common.presentation.event.problemCategory.GetProblemCategoryDetailSectionEvent
-import cz.vvoleman.phr.common.presentation.eventBus.CommonEventBus
 import cz.vvoleman.phr.common.domain.model.healthcare.AdditionalInfoDomainModel
 import cz.vvoleman.phr.common.domain.model.healthcare.facility.MedicalFacilityDomainModel
 import cz.vvoleman.phr.common.domain.model.healthcare.worker.MedicalWorkerDomainModel
 import cz.vvoleman.phr.common.domain.model.problemCategory.ProblemCategoryDomainModel
 import cz.vvoleman.phr.common.domain.model.problemCategory.ProblemCategoryInfoDomainModel
 import cz.vvoleman.phr.common.domain.model.problemCategory.request.DataDeleteType
+import cz.vvoleman.phr.common.presentation.event.GetMedicalFacilitiesAdditionalInfoEvent
+import cz.vvoleman.phr.common.presentation.event.GetMedicalWorkersAdditionalInfoEvent
+import cz.vvoleman.phr.common.presentation.event.problemCategory.DeleteProblemCategoryEvent
+import cz.vvoleman.phr.common.presentation.event.problemCategory.GetProblemCategoriesAdditionalInfoEvent
+import cz.vvoleman.phr.common.presentation.event.problemCategory.GetProblemCategoryDetailSectionEvent
+import cz.vvoleman.phr.common.presentation.eventBus.CommonEventBus
 import cz.vvoleman.phr.common.ui.view.problemCategory.detail.groupie.SectionContainer
 import cz.vvoleman.phr.common.utils.localizedDiff
 import cz.vvoleman.phr.featureMedicalRecord.R
@@ -24,15 +24,19 @@ import cz.vvoleman.phr.featureMedicalRecord.domain.repository.GetMedicalRecordBy
 import cz.vvoleman.phr.featureMedicalRecord.domain.repository.GetMedicalRecordByProblemCategoryRepository
 import cz.vvoleman.phr.featureMedicalRecord.domain.repository.UpdateMedicalRecordProblemCategoryRepository
 import cz.vvoleman.phr.featureMedicalRecord.domain.usecase.DeleteMedicalRecordUseCase
+import cz.vvoleman.phr.featureMedicalRecord.presentation.mapper.core.MedicalRecordPresentationModelToDomainMapper
+import cz.vvoleman.phr.featureMedicalRecord.presentation.provider.ProblemCategoryDetailProvider
 import java.time.LocalDate
 
 class MedicalRecordListener(
     private val commonEventBus: CommonEventBus,
+    private val problemCategoryDetailProvider: ProblemCategoryDetailProvider,
     private val getMedicalRecordByMedicalWorkerRepository: GetMedicalRecordByMedicalWorkerRepository,
     private val getMedicalRecordByFacilityRepository: GetMedicalRecordByFacilityRepository,
     private val getMedicalRecordByCategoryRepository: GetMedicalRecordByProblemCategoryRepository,
     private val updateMedicalRecordProblemCategoryRepository: UpdateMedicalRecordProblemCategoryRepository,
     private val deleteMedicalRecordUseCase: DeleteMedicalRecordUseCase,
+    private val medicalRecordMapper: MedicalRecordPresentationModelToDomainMapper,
     private val context: Context
 ) : ModuleListener() {
     override val TAG: String = "MedicalRecordListener"
@@ -184,12 +188,16 @@ class MedicalRecordListener(
 
     private suspend fun onGetProblemCategoryDetailSectionEvent(
         event: GetProblemCategoryDetailSectionEvent
-    ): SectionContainer {
+    ): List<SectionContainer> {
         // Get all records for category
         val records = getMedicalRecordByCategoryRepository.getMedicalRecordByProblemCategory(event.problemCategory.id)
+            .map { medicalRecordMapper.toPresentation(it) }
 
-        return SectionContainer(
-            "",0,"", emptyList()
-        )
+        val section = problemCategoryDetailProvider.getBindingItems(records) { id ->
+            val uri = Uri.parse("phr://medicalRecordDetail/?medicalRecordId=$id")
+//            navController?.navigate(uri)
+        }
+
+        return listOf(section)
     }
 }
