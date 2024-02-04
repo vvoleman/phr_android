@@ -4,6 +4,7 @@
     <string name="list_patients_add_new_patient">Přidat nového pacienta</string>
     <string name="list_patients_switch">Přepnout</string>
     <string name="list_patients_no_birthdate">Bez narození</string>
+    <string name="action_detail">Otevřít</string>
     <string name="action_edit">Upravit</string>
     <string name="action_delete">Smazat</string>
     <string name="action_undo">Obnovit</string>
@@ -109,4 +110,7 @@
     <string name="end_icon_entry_date">Kliknutím si otevřete dialog pro výběr data</string>
     <string name="end_icon_entry_time">Kliknutím si otevřete dialog pro výběr času</string>
     <string name="field_date">Datum</string>
+    <string name="navigation_detail_problem_category">Detail kategorie problému</string>
+    <string name="medicine_date_from">od %s</string>
+    <string name="medicine_date_to">do %s</string>
 </resources>

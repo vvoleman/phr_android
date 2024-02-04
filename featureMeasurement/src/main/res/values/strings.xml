@@ -20,7 +20,6 @@
     <string name="fragment_measurement_group">Skupiny měření</string>
     <string name="fragment_timeline">Itinerář</string>
     <string name="frequency_everyday">Každý den</string>
-    <string name="action_detail">Otevřít</string>
     <string name="dialog_delete_measurement_group_title">Smazat skupinu měření</string>
     <string name="dialog_delete_measurement_group_message">Opravdu si přejete smazat tuto skupinu měření? Tato akce smaže všechny záznamy v této skupině!</string>
     <string name="no_measurement_group">Nemáte žádnou skupinu měření</string>

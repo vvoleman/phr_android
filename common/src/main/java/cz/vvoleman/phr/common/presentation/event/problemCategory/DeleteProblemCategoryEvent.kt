@@ -1,4 +1,4 @@
-package cz.vvoleman.phr.common.domain.event.problemCategory
+package cz.vvoleman.phr.common.presentation.event.problemCategory
 
 import cz.vvoleman.phr.common.domain.model.problemCategory.ProblemCategoryDomainModel
 import cz.vvoleman.phr.common.domain.model.problemCategory.request.DataDeleteType

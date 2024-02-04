@@ -1,11 +1,11 @@
-package cz.vvoleman.phr.common.domain.eventBus
+package cz.vvoleman.phr.common.presentation.eventBus
 
 import android.content.Context
 import android.util.Log
 import cz.vvoleman.phr.base.domain.ModuleListener
-import cz.vvoleman.phr.common.domain.event.GetMedicalFacilitiesAdditionalInfoEvent
-import cz.vvoleman.phr.common.domain.event.GetMedicalWorkersAdditionalInfoEvent
-import cz.vvoleman.phr.common.domain.event.problemCategory.GetProblemCategoriesAdditionalInfoEvent
+import cz.vvoleman.phr.common.presentation.event.GetMedicalFacilitiesAdditionalInfoEvent
+import cz.vvoleman.phr.common.presentation.event.GetMedicalWorkersAdditionalInfoEvent
+import cz.vvoleman.phr.common.presentation.event.problemCategory.GetProblemCategoriesAdditionalInfoEvent
 import cz.vvoleman.phr.common.domain.model.healthcare.AdditionalInfoDomainModel
 import cz.vvoleman.phr.common.domain.model.healthcare.facility.MedicalFacilityDomainModel
 import cz.vvoleman.phr.common.domain.model.healthcare.worker.MedicalWorkerDomainModel
@@ -27,17 +27,17 @@ class CommonListener(
     override suspend fun onInit() {
         super.onInit()
 
-        commonEventBus.getWorkerAdditionalInfoBus.addListener(TAG) {
+        CommonEventBus.getWorkerAdditionalInfoBus.addListener(TAG) {
             Log.d(TAG, "onGetMedicalWorkersAdditionalInfoEvent")
             return@addListener onGetMedicalWorkersAdditionalInfoEvent(it)
         }
 
-        commonEventBus.getFacilityAdditionalInfoBus.addListener(TAG) {
+        CommonEventBus.getFacilityAdditionalInfoBus.addListener(TAG) {
             Log.d(TAG, "onGetMedicalFacilitiesAdditionalInfoEvent")
             return@addListener onGetMedicalFacilitiesAdditionalInfoEvent(it)
         }
 
-        commonEventBus.getCategoryAdditionalInfoBus.addListener(TAG) {
+        CommonEventBus.getCategoryAdditionalInfoBus.addListener(TAG) {
             Log.d(TAG, "onGetProblemCategoriesAdditionalInfoEvent")
             return@addListener onGetProblemCategoriesAdditionalInfoEvent(it)
         }
