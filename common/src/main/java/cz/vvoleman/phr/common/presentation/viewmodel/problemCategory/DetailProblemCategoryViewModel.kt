@@ -1,18 +1,22 @@
 package cz.vvoleman.phr.common.presentation.viewmodel.problemCategory
 
 import androidx.lifecycle.SavedStateHandle
+import cz.vvoleman.phr.base.domain.eventBus.EventBusChannel
 import cz.vvoleman.phr.base.presentation.viewmodel.BaseViewModel
 import cz.vvoleman.phr.base.presentation.viewmodel.usecase.UseCaseExecutorProvider
 import cz.vvoleman.phr.common.domain.repository.problemCategory.GetProblemCategoryByIdRepository
+import cz.vvoleman.phr.common.presentation.event.problemCategory.GetProblemCategoryDetailSectionEvent
 import cz.vvoleman.phr.common.presentation.mapper.problemCategory.ProblemCategoryPresentationModelToDomainMapper
 import cz.vvoleman.phr.common.presentation.model.problemCategory.ProblemCategoryPresentationModel
 import cz.vvoleman.phr.common.presentation.model.problemCategory.detail.DetailProblemCategoryNotification
 import cz.vvoleman.phr.common.presentation.model.problemCategory.detail.DetailProblemCategoryViewState
+import cz.vvoleman.phr.common.ui.view.problemCategory.detail.groupie.SectionContainer
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
 class DetailProblemCategoryViewModel @Inject constructor(
+    private val detailSectionEventBus: EventBusChannel<GetProblemCategoryDetailSectionEvent, List<SectionContainer>>,
     private val getProblemCategoryByIdRepository: GetProblemCategoryByIdRepository,
     private val problemCategoryMapper: ProblemCategoryPresentationModelToDomainMapper,
     savedStateHandle: SavedStateHandle,
@@ -25,9 +29,11 @@ class DetailProblemCategoryViewModel @Inject constructor(
 
     override suspend fun initState(): DetailProblemCategoryViewState {
         val problemCategory = getProblemCategory()
-        
+        val sections = getDetailSection(problemCategory)
+
         return DetailProblemCategoryViewState(
-            problemCategory = problemCategory
+            problemCategory = problemCategory,
+            sections = sections
         )
     }
 
@@ -39,5 +45,12 @@ class DetailProblemCategoryViewModel @Inject constructor(
         requireNotNull(problemCategory) { "Problem category not found" }
 
         return problemCategoryMapper.toPresentation(problemCategory)
+    }
+
+    private suspend fun getDetailSection(problemCategory: ProblemCategoryPresentationModel): List<SectionContainer> {
+        val event = GetProblemCategoryDetailSectionEvent(problemCategory)
+        val results = detailSectionEventBus.pushEvent(event)
+
+        return results.flatten()
     }
 }

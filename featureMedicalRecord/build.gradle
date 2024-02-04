@@ -93,6 +93,10 @@ dependencies {
     // OCR
     implementation(libs.textRecognition)
 
+    // Groupie
+    implementation(libs.groupie.core)
+    implementation(libs.groupie.viewbinding)
+
     // Image Cropper
 //    implementation(libs.documentScanner)
 

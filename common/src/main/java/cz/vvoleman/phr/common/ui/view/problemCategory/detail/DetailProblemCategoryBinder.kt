@@ -23,12 +23,8 @@ class DetailProblemCategoryBinder :
     ) {
         super.firstBind(viewBinding, viewState)
 
-        val sections = listOf(
-            getMedicineSection(),
-        )
-
         val groupieAdapter = GroupieAdapter().apply {
-            addAll(sections)
+            addAll(viewState.sections)
         }
 
         viewBinding.recyclerView.apply {

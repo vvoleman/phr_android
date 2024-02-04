@@ -51,4 +51,6 @@
     <string name="no_problem_category">Žádná kategorie problému</string>
     <string name="no_diagnose">Žádná diagnóza</string>
     <string name="no_medical_worker">Žádný lék. pracovník</string>
+    <string name="medical_record_problem_category_detail_title">Lékařské zprávy</string>
+    <string name="medical_record_problem_category_detail_description">Všechny lékařské zprávy přiřazené k této kategorii.</string>
 </resources>

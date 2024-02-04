@@ -48,6 +48,8 @@ import cz.vvoleman.phr.common_datasource.databinding.FragmentDetailProblemCatego
 import cz.vvoleman.phr.common_datasource.databinding.FragmentListHealthcareBinding
 import cz.vvoleman.phr.common_datasource.databinding.FragmentListPatientsBinding
 import cz.vvoleman.phr.common_datasource.databinding.FragmentListProblemCategoryBinding
+import cz.vvoleman.phr.featureMedicalRecord.presentation.provider.ProblemCategoryDetailProvider
+import cz.vvoleman.phr.featureMedicalRecord.ui.provider.problemCategoryDetail.MedicalRecordProblemCategoryDetailProvider
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -209,5 +211,11 @@ class UiModule {
     fun providesDetailProblemCategoryBinder(
     ): ViewStateBinder<DetailProblemCategoryViewState, FragmentDetailProblemCategoryBinding> =
         DetailProblemCategoryBinder()
+
+    @Provides
+    fun providesProblemCategoryDetailProvider(
+        @ApplicationContext context: Context
+    ): ProblemCategoryDetailProvider =
+        MedicalRecordProblemCategoryDetailProvider(context)
 
 }

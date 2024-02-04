@@ -199,4 +199,9 @@ class PresentationModule {
     fun providesDeleteProblemCategoryEventBus(
         eventBus: CommonEventBus
     ) = eventBus.deleteProblemCategoryBus
+
+    @Provides
+    fun providesGetCategoryDetailSectionEventBus(
+        eventBus: CommonEventBus
+    ) = eventBus.getCategoryDetailSection
 }
