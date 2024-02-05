@@ -1,6 +1,7 @@
 package cz.vvoleman.phr.di.medicine
 
 import cz.vvoleman.phr.base.domain.coroutine.CoroutineContextProvider
+import cz.vvoleman.phr.featureMedicine.domain.repository.ChangeMedicineScheduleAlarmEnabledRepository
 import cz.vvoleman.phr.featureMedicine.domain.repository.DeleteMedicineScheduleRepository
 import cz.vvoleman.phr.featureMedicine.domain.repository.DeleteScheduleAlarmRepository
 import cz.vvoleman.phr.featureMedicine.domain.repository.GetMedicineByIdRepository
@@ -20,6 +21,7 @@ import cz.vvoleman.phr.featureMedicine.domain.usecase.GroupScheduleItemsUseCase
 import cz.vvoleman.phr.featureMedicine.domain.usecase.SaveMedicineScheduleUseCase
 import cz.vvoleman.phr.featureMedicine.domain.usecase.ScheduleMedicineAlertUseCase
 import cz.vvoleman.phr.featureMedicine.domain.usecase.SearchMedicineUseCase
+import cz.vvoleman.phr.featureMedicine.domain.usecase.ToggleScheduleAlarmUseCase
 import cz.vvoleman.phr.featureMedicine.domain.usecase.export.GetDataForExportUseCase
 import dagger.Module
 import dagger.Provides
@@ -132,6 +134,21 @@ class DomainModule {
     ) = GetDataForExportUseCase(
         getSchedulesByMedicineRepository,
         getSchedulesByPatientRepository,
+        coroutineContextProvider
+    )
+
+    @Provides
+    fun providesToggleScheduleAlarmUseCase(
+        changeRepository: ChangeMedicineScheduleAlarmEnabledRepository,
+        getMedicineScheduleByIdRepository: GetMedicineScheduleByIdRepository,
+        scheduleMedicineRepository: ScheduleMedicineRepository,
+        deleteScheduleAlarmRepository: DeleteScheduleAlarmRepository,
+        coroutineContextProvider: CoroutineContextProvider
+    ) = ToggleScheduleAlarmUseCase(
+        changeRepository,
+        getMedicineScheduleByIdRepository,
+        scheduleMedicineRepository,
+        deleteScheduleAlarmRepository,
         coroutineContextProvider
     )
 }

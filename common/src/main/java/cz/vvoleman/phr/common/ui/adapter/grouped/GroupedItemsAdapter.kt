@@ -9,11 +9,10 @@ import cz.vvoleman.phr.common.ui.model.GroupedItemsUiModel
 import cz.vvoleman.phr.common_datasource.databinding.ItemGroupedItemsBinding
 
 class GroupedItemsAdapter<TYPE : Any> (private val listener: GroupedItemsAdapterInterface<TYPE>) :
-    ListAdapter<GroupedItemsUiModel<TYPE>, GroupedItemsAdapter<TYPE>.SectionViewHolder>(DiffCallback<TYPE>()) {
+    ListAdapter<GroupedItemsUiModel<TYPE>, GroupedItemsAdapter<TYPE>.SectionViewHolder>(DiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SectionViewHolder {
         val binding = ItemGroupedItemsBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-
         return SectionViewHolder(binding)
     }
 

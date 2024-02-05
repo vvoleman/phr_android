@@ -5,31 +5,32 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import cz.vvoleman.phr.base.presentation.viewmodel.BaseViewModel
 import cz.vvoleman.phr.base.presentation.viewmodel.usecase.UseCaseExecutorProvider
-import cz.vvoleman.phr.common.domain.GroupedItemsDomainModel
 import cz.vvoleman.phr.common.domain.usecase.patient.GetSelectedPatientUseCase
 import cz.vvoleman.phr.common.presentation.mapper.PatientPresentationModelToDomainMapper
 import cz.vvoleman.phr.common.presentation.model.grouped.GroupedItemsPresentationModel
 import cz.vvoleman.phr.common.presentation.model.nextSchedule.NextSchedulePresentationModel
+import cz.vvoleman.phr.common.presentation.model.patient.PatientPresentationModel
 import cz.vvoleman.phr.featureMedicine.domain.facade.MedicineScheduleFacade
-import cz.vvoleman.phr.featureMedicine.domain.model.schedule.MedicineScheduleDomainModel
-import cz.vvoleman.phr.featureMedicine.domain.model.schedule.ScheduleItemWithDetailsDomainModel
 import cz.vvoleman.phr.featureMedicine.domain.model.timeline.GroupScheduleItemsRequest
 import cz.vvoleman.phr.featureMedicine.domain.model.timeline.NextScheduledRequestDomainModel
 import cz.vvoleman.phr.featureMedicine.domain.model.timeline.SchedulesInRangeRequest
+import cz.vvoleman.phr.featureMedicine.domain.model.timeline.ToggleScheduleAlarmRequest
 import cz.vvoleman.phr.featureMedicine.domain.usecase.DeleteMedicineScheduleUseCase
 import cz.vvoleman.phr.featureMedicine.domain.usecase.GetNextScheduledUseCase
 import cz.vvoleman.phr.featureMedicine.domain.usecase.GetScheduledInTimeRangeUseCase
 import cz.vvoleman.phr.featureMedicine.domain.usecase.GroupMedicineScheduleUseCase
 import cz.vvoleman.phr.featureMedicine.domain.usecase.GroupScheduleItemsUseCase
+import cz.vvoleman.phr.featureMedicine.domain.usecase.ToggleScheduleAlarmUseCase
 import cz.vvoleman.phr.featureMedicine.presentation.list.mapper.MedicineSchedulePresentationModelToDomainMapper
 import cz.vvoleman.phr.featureMedicine.presentation.list.mapper.ScheduleItemWithDetailsDomainModelToNextScheduleMapper
 import cz.vvoleman.phr.featureMedicine.presentation.list.mapper.ScheduleItemWithDetailsPresentationModelToDomainMapper
 import cz.vvoleman.phr.featureMedicine.presentation.list.model.ListMedicineDestination
 import cz.vvoleman.phr.featureMedicine.presentation.list.model.ListMedicineNotification
 import cz.vvoleman.phr.featureMedicine.presentation.list.model.ListMedicineViewState
+import cz.vvoleman.phr.featureMedicine.presentation.list.model.MedicineSchedulePresentationModel
 import cz.vvoleman.phr.featureMedicine.presentation.list.model.ScheduleItemWithDetailsPresentationModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -45,6 +46,7 @@ class ListMedicineViewModel @Inject constructor(
     private val groupScheduleItemsUseCase: GroupScheduleItemsUseCase,
     private val groupMedicineSchedulesUseCase: GroupMedicineScheduleUseCase,
     private val deleteMedicineScheduleUseCase: DeleteMedicineScheduleUseCase,
+    private val toggleScheduleAlarmUseCase: ToggleScheduleAlarmUseCase,
     private val patientMapper: PatientPresentationModelToDomainMapper,
     private val scheduleItemDetailsMapper: ScheduleItemWithDetailsPresentationModelToDomainMapper,
     private val medicineScheduleMapper: MedicineSchedulePresentationModelToDomainMapper,
@@ -56,42 +58,22 @@ class ListMedicineViewModel @Inject constructor(
     override val TAG = "ListMedicineViewModel"
 
     override suspend fun initState(): ListMedicineViewState {
-        return ListMedicineViewState()
-    }
+        val patient = getSelectedPatient()
+        val nextSchedules = getNextSchedules(patient)
+        val selectedSchedule = getNextSelectedSchedule(nextSchedules)
+        val timelineSchedules = getTimelineSchedules(patient)
+        val medicineCatalogue = getMedicineCatalogue(patient)
 
-    override suspend fun onInit() {
-        super.onInit()
-
-        viewModelScope.launch {
-            loadSelectedPatient()
-
-            if (currentViewState.patient == null) {
-                notify(ListMedicineNotification.UnableToLoad)
-                return@launch
-            }
-
-            retrieveSchedules()
-        }
+        return ListMedicineViewState(
+            patient = patient,
+            nextSchedules = nextSchedules,
+            selectedNextSchedule = selectedSchedule,
+            timelineSchedules = timelineSchedules,
+            medicineCatalogue = medicineCatalogue
+        )
     }
 
     fun onCreate() {
-//        val time = LocalTime.now().plusSeconds(5)
-//
-//        // Create schedule
-//        val result = alarmScheduler.schedule(AlarmItem(
-//            id = "medicine-schedule-${time.toString()}",
-//            triggerAt = time,
-//            content = MedicineAlarmContent(
-//                medicineScheduleId = "1",
-//                triggerAt = time.toSecondOfDay().toLong(),
-//                alarmDays = listOf(DayOfWeek.SUNDAY)
-//            ),
-// //            content = TestContent(id = "1"),
-//            repeatInterval = AlarmItem.REPEAT_SECOND.toLong()*10,
-//            receiver = MedicineAlarmReceiver::class.java
-//        ))
-//
-//        Log.d(TAG, "Was scheduled?: $result")
         navigateTo(ListMedicineDestination.CreateSchedule)
     }
 
@@ -101,10 +83,10 @@ class ListMedicineViewModel @Inject constructor(
 
             if (isDeleted) {
                 notify(ListMedicineNotification.Deleted)
-                retrieveSchedules()
+                reloadSchedules()
             } else if (it.isScheduleDeleted) {
                 notify(ListMedicineNotification.AlarmNotDeleted)
-                retrieveSchedules()
+                reloadSchedules()
             } else {
                 notify(ListMedicineNotification.ScheduleNotDeleted)
             }
@@ -119,7 +101,7 @@ class ListMedicineViewModel @Inject constructor(
         navigateTo(ListMedicineDestination.EditSchedule(id))
     }
 
-    fun onNextScheduleTimeOut() {
+    fun onNextScheduleTimeOut() = viewModelScope.launch {
         Log.d(TAG, "onNextScheduleTimeOut: ${currentViewState.nextSchedules.size} items")
         if (currentViewState.nextSchedules.size > 1) {
             val list = currentViewState.nextSchedules.toMutableList()
@@ -132,92 +114,47 @@ class ListMedicineViewModel @Inject constructor(
                     selectedNextSchedule = selectedSchedule
                 )
             )
-            return
+            return@launch
         }
 
-        loadNextSchedules()
+        reloadSchedules()
     }
 
-    private fun retrieveSchedules() = viewModelScope.launch {
-        val today = LocalDate.now()
-        val rangeRequest = SchedulesInRangeRequest(
-            patientId = currentViewState.patient!!.id,
-            startAt = today.atTime(LocalTime.now()),
-            endAt = today.atTime(LocalTime.MAX)
-        )
-        getScheduledInTimeRangeUseCase.execute(rangeRequest, ::handleGroupScheduleItems)
-        groupMedicineSchedulesUseCase.execute(currentViewState.patient!!.id, ::handleGroupMedicineSchedules)
-
-        loadNextSchedules()
-    }
-
-    private fun loadNextSchedules() = viewModelScope.launch {
-        val nextRequest = NextScheduledRequestDomainModel(
-            patientId = currentViewState.patient!!.id,
-        )
-        getNextScheduledUseCase.execute(nextRequest, ::handleGetNextSchedule)
-    }
-
-    private fun handleGetNextSchedule(result: List<ScheduleItemWithDetailsDomainModel>) {
-        val schedules = result.map { scheduleItemDetailsMapper.toPresentation(it) }
-        val selectedSchedule = getNextSelectedSchedule(schedules)
-
-        updateViewState(
-            currentViewState.copy(
-                nextSchedules = schedules,
-                selectedNextSchedule = selectedSchedule
-            )
-        )
-    }
-
-    private fun handleGroupScheduleItems(result: List<ScheduleItemWithDetailsDomainModel>) = viewModelScope.launch {
-        val request = GroupScheduleItemsRequest(
-            scheduleItems = result,
-            currentDateTime = LocalDateTime.now()
+    fun onAlarmToggle(model: ScheduleItemWithDetailsPresentationModel, oldState: Boolean) = viewModelScope.launch {
+        val request = ToggleScheduleAlarmRequest(
+            schedule = scheduleItemDetailsMapper.toDomain(model),
+            newState = !oldState
         )
 
-        groupScheduleItemsUseCase.execute(request) { listGrouped ->
-            val list = listGrouped.map { group ->
-                val items = group.items.map { scheduleItemDetailsMapper.toPresentation(it) }
-                GroupedItemsPresentationModel(
-                    group.value,
-                    items
-                )
+        val result = toggleScheduleAlarmUseCase.executeInBackground(request)
+
+        if (!result) {
+            notify(ListMedicineNotification.UnableToToggleAlarm)
+            return@launch
+        }
+
+        val items = currentViewState.timelineSchedules.map {
+            // Check if items have medicine same as model
+            val newItems = it.items.map { item ->
+                if (item.medicine.id == model.medicine.id) {
+                    item.copy(isAlarmEnabled = !oldState)
+                } else {
+                    item
+                }
             }
 
-            updateViewState(currentViewState.copy(timelineSchedules = list))
+            it.copy(items = newItems)
         }
-    }
 
-    private fun handleGroupMedicineSchedules(result: List<GroupedItemsDomainModel<MedicineScheduleDomainModel>>) {
-        val list = result.map { group ->
-            val items = group.items.map { medicineScheduleMapper.toPresentation(it) }
-            GroupedItemsPresentationModel(
-                group.value,
-                items
+        val nextSchedules = getNextSchedules(currentViewState.patient!!)
+        val selectedSchedule = getNextSelectedSchedule(nextSchedules)
+        updateViewState(
+            currentViewState.copy(
+                timelineSchedules = items,
+                selectedNextSchedule = selectedSchedule,
+                nextSchedules = nextSchedules
             )
-        }
-
-        updateViewState(currentViewState.copy(medicineCatalogue = list))
-    }
-
-    private fun getNextSelectedSchedule(
-        list: List<ScheduleItemWithDetailsPresentationModel>
-    ): NextSchedulePresentationModel? {
-        var selectedSchedule: NextSchedulePresentationModel? = null
-        if (list.isNotEmpty()) {
-            val listDomain = list.map { scheduleItemDetailsMapper.toDomain(it) }
-            val next = MedicineScheduleFacade.getNextScheduleItem(listDomain, LocalDateTime.now())
-
-            selectedSchedule = nextScheduleMapper.toNextSchedule(next)
-        }
-
-        return selectedSchedule
-    }
-
-    private suspend fun loadSelectedPatient() {
-        val patient = getSelectedPatientUseCase.execute(null).first()
-        updateViewState(currentViewState.copy(patient = patientMapper.toPresentation(patient)))
+        )
     }
 
     fun onNextScheduleClick(model: NextSchedulePresentationModel) {
@@ -243,6 +180,94 @@ class ListMedicineViewModel @Inject constructor(
                 items = items.sortedBy { it.medicine.name }
             )
         )
+    }
+
+    private fun reloadSchedules() = viewModelScope.launch {
+        val timeline = getTimelineSchedules(currentViewState.patient!!)
+        val medicineCatalogue = getMedicineCatalogue(currentViewState.patient!!)
+        val nextSchedules = getNextSchedules(currentViewState.patient!!)
+        val selectedSchedule = getNextSelectedSchedule(nextSchedules)
+
+        updateViewState(
+            currentViewState.copy(
+                timelineSchedules = timeline,
+                medicineCatalogue = medicineCatalogue,
+                nextSchedules = nextSchedules,
+                selectedNextSchedule = selectedSchedule
+            )
+        )
+    }
+
+    private fun getNextSelectedSchedule(
+        list: List<ScheduleItemWithDetailsPresentationModel>
+    ): NextSchedulePresentationModel? {
+        var selectedSchedule: NextSchedulePresentationModel? = null
+        val listDomain = list.filter { it.isAlarmEnabled }.map { scheduleItemDetailsMapper.toDomain(it) }
+        if (listDomain.isNotEmpty()) {
+            val next = MedicineScheduleFacade.getNextScheduleItem(listDomain, LocalDateTime.now())
+
+            selectedSchedule = nextScheduleMapper.toNextSchedule(next)
+        }
+
+        return selectedSchedule
+    }
+
+    private suspend fun getSelectedPatient(): PatientPresentationModel {
+        val patient = getSelectedPatientUseCase.execute(null).firstOrNull()
+        if (patient == null) {
+            notify(ListMedicineNotification.UnableToLoad)
+            throw IllegalStateException("Patient not found")
+        }
+
+        return patientMapper.toPresentation(patient)
+    }
+
+    private suspend fun getNextSchedules(patient: PatientPresentationModel): List<ScheduleItemWithDetailsPresentationModel> {
+        val nextRequest = NextScheduledRequestDomainModel(
+            patientId = patient.id
+        )
+
+        val results = getNextScheduledUseCase.executeInBackground(nextRequest)
+
+        return results.map { scheduleItemDetailsMapper.toPresentation(it) }
+    }
+
+    private suspend fun getTimelineSchedules(patient: PatientPresentationModel): List<GroupedItemsPresentationModel<ScheduleItemWithDetailsPresentationModel>> {
+        val today = LocalDate.now()
+        val rangeRequest = SchedulesInRangeRequest(
+            patientId = patient.id,
+            startAt = today.atTime(LocalTime.MIN),
+            endAt = today.atTime(LocalTime.MAX)
+        )
+
+        val results = getScheduledInTimeRangeUseCase.executeInBackground(rangeRequest)
+
+        val request = GroupScheduleItemsRequest(
+            scheduleItems = results,
+            currentDateTime = LocalDateTime.now()
+        )
+
+        val listGrouped = groupScheduleItemsUseCase.executeInBackground(request)
+
+        return listGrouped.map { group ->
+            val items = group.items.map { scheduleItemDetailsMapper.toPresentation(it) }
+            GroupedItemsPresentationModel(
+                group.value,
+                items
+            )
+        }
+    }
+
+    private suspend fun getMedicineCatalogue(patient: PatientPresentationModel): List<GroupedItemsPresentationModel<MedicineSchedulePresentationModel>> {
+        val results = groupMedicineSchedulesUseCase.executeInBackground(patient.id)
+
+        return results.map { group ->
+            val items = group.items.map { medicineScheduleMapper.toPresentation(it) }
+            GroupedItemsPresentationModel(
+                group.value,
+                items
+            )
+        }
     }
 
     companion object {

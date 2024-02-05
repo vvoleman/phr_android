@@ -4,10 +4,11 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import cz.vvoleman.phr.base.presentation.viewmodel.BaseViewModel
 import cz.vvoleman.phr.base.presentation.viewmodel.usecase.UseCaseExecutorProvider
+import cz.vvoleman.phr.common.domain.model.export.ExportType
 import cz.vvoleman.phr.common.domain.usecase.patient.GetSelectedPatientUseCase
 import cz.vvoleman.phr.common.presentation.mapper.PatientPresentationModelToDomainMapper
+import cz.vvoleman.phr.common.presentation.model.export.PermissionStatus
 import cz.vvoleman.phr.common.utils.TimeConstants
-import cz.vvoleman.phr.featureMedicine.domain.model.export.ExportType
 import cz.vvoleman.phr.featureMedicine.domain.model.export.GetDataForExportRequest
 import cz.vvoleman.phr.featureMedicine.domain.usecase.export.GetDataForExportUseCase
 import cz.vvoleman.phr.featureMedicine.presentation.export.mapper.ExportMedicineSchedulePresentationModelToDomainMapper
@@ -15,7 +16,6 @@ import cz.vvoleman.phr.featureMedicine.presentation.export.model.ExportMedicineS
 import cz.vvoleman.phr.featureMedicine.presentation.export.model.ExportNotification
 import cz.vvoleman.phr.featureMedicine.presentation.export.model.ExportParamsPresentationModel
 import cz.vvoleman.phr.featureMedicine.presentation.export.model.ExportViewState
-import cz.vvoleman.phr.featureMedicine.presentation.export.model.PermissionStatus
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch

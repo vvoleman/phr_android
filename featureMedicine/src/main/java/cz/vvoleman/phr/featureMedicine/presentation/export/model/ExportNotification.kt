@@ -1,6 +1,7 @@
 package cz.vvoleman.phr.featureMedicine.presentation.export.model
 
-import cz.vvoleman.phr.featureMedicine.domain.model.export.ExportType
+import cz.vvoleman.phr.common.domain.model.export.ExportType
+
 
 sealed class ExportNotification {
     object CannotExport : ExportNotification()
