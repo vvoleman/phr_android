@@ -58,6 +58,8 @@ class ListMedicineBinder(
         TabLayoutMediator(viewBinding.tabLayout, viewBinding.viewPager) { tab, position ->
             tab.text = fragmentContext.getText(textIds[position])
         }.attach()
+
+        isAdapterSet = true
     }
 
     sealed class Notification

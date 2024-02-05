@@ -1,13 +1,11 @@
 package cz.vvoleman.phr.featureMedicine.ui.export.view
 
-import android.graphics.pdf.PdfDocument
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.result.contract.ActivityResultContracts.CreateDocument
 import androidx.fragment.app.viewModels
@@ -15,28 +13,26 @@ import androidx.lifecycle.lifecycleScope
 import cz.vvoleman.phr.base.ui.exception.PermissionDeniedException
 import cz.vvoleman.phr.base.ui.mapper.ViewStateBinder
 import cz.vvoleman.phr.base.ui.view.BaseFragment
+import cz.vvoleman.phr.common.domain.model.export.ExportType
+import cz.vvoleman.phr.common.ui.export.exception.ExportFailedException
+import cz.vvoleman.phr.common.ui.export.usecase.DocumentFactory
+import cz.vvoleman.phr.common.ui.export.usecase.ExportPdfHelper
 import cz.vvoleman.phr.common.utils.toLocalDateTime
-import cz.vvoleman.phr.common.utils.toLocalString
 import cz.vvoleman.phr.featureMedicine.R
 import cz.vvoleman.phr.featureMedicine.databinding.FragmentExportBinding
-import cz.vvoleman.phr.featureMedicine.domain.model.export.ExportType
 import cz.vvoleman.phr.featureMedicine.presentation.export.model.ExportNotification
 import cz.vvoleman.phr.featureMedicine.presentation.export.model.ExportParamsPresentationModel
 import cz.vvoleman.phr.featureMedicine.presentation.export.model.ExportViewState
 import cz.vvoleman.phr.featureMedicine.presentation.export.viewmodel.ExportViewModel
 import cz.vvoleman.phr.featureMedicine.ui.export.adapter.ExportAdapter
-import cz.vvoleman.phr.featureMedicine.ui.export.exception.ExportFailedException
 import cz.vvoleman.phr.featureMedicine.ui.export.mapper.ExportDestinationMapper
-import cz.vvoleman.phr.featureMedicine.ui.export.usecase.ExportFileHelper
-import cz.vvoleman.phr.featureMedicine.ui.export.usecase.ExportPdfHelper
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
 class ExportFragment :
-    BaseFragment<ExportViewState, ExportNotification, FragmentExportBinding>(),
-    ExportPdfHelper.ExportPdfHelperListener {
+    BaseFragment<ExportViewState, ExportNotification, FragmentExportBinding>() {
 
     override val viewModel: ExportViewModel by viewModels()
 
@@ -70,7 +66,6 @@ class ExportFragment :
 
         _exportPdfHelper = ExportPdfHelper(
             R.layout.document_test_pdf,
-            this,
             requireContext(),
             createFileLauncher,
             permissionsLauncher
@@ -168,11 +163,15 @@ class ExportFragment :
     }
 
     private fun launchExport(
-        helper: ExportFileHelper,
+        helper: ExportPdfHelper,
         params: ExportParamsPresentationModel
     ) {
         try {
-            helper.run(params)
+            DocumentFactory(
+                helper, listOf(
+                    MedicineExportPage(params)
+                )
+            ).generate()
         } catch (e: PermissionDeniedException) {
             showSnackbar("Aplikace nemá oprávnění k přístupu k uložišti: ${e.message}")
             viewModel.onPermissionDenied(helper.hasPermissions())
@@ -181,13 +180,5 @@ class ExportFragment :
         } catch (e: Throwable) {
             showSnackbar("Vyskytla se neočekávaná chyba: ${e.message}")
         }
-    }
-
-    override fun bindPdf(view: View, params: ExportParamsPresentationModel, pdfDocument: PdfDocument) {
-        view.findViewById<TextView>(R.id.text_view_header_start_at).text = params.startAt.toLocalDate().toLocalString()
-        view.findViewById<TextView>(R.id.text_view_header_end_at).text = params.endAt.toLocalDate().toLocalString()
-        view.findViewById<TextView>(R.id.text_view_patient_name).text = params.patient.name
-        view.findViewById<TextView>(R.id.text_view_patient_birthdate).text =
-            params.patient.birthDate?.toLocalString() ?: "N/A"
     }
 }

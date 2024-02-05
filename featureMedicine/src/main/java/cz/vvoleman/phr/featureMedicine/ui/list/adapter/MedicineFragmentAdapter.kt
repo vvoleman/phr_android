@@ -18,7 +18,6 @@ class MedicineFragmentAdapter(
 
     fun setNextSchedules(nextSchedules: List<GroupedItemsUiModel<ScheduleItemWithDetailsUiModel>>) {
         timelineViewModel.setItems(nextSchedules)
-        notifyItemChanged(0)
     }
 
     fun setAllSchedules(allSchedules: List<GroupedItemsUiModel<MedicineScheduleUiModel>>) {

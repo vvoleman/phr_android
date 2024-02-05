@@ -35,11 +35,12 @@
     <string name="link_here">Odkaz zde</string>
     <string name="dosage">Dávka:</string>
     <string name="pil">Příbalový leták:</string>
-    <string name="action_export">Export</string>
     <string name="navigation_export">Export záznamů o lécích</string>
     <string name="dosage_format">%1$s %2$s</string>
     <string name="export_date_format">%1$s %2$s</string>
     <string name="next_schedule_label_medicine">Další lék</string>
     <string name="next_schedule_multiple_medicine">Více léků</string>
     <string name="next_schedule_no_medicine">Nemáte naplánovány žádné léky</string>
+    <string name="switch_alarm_off">Vypnout upozornění na lék %s v %s</string>
+    <string name="notification_unable_to_toggle_alarm">Nepodařilo se přepnout upozornění na lék</string>
 </resources>

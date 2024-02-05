@@ -11,4 +11,6 @@ sealed class ListMedicineNotification {
     object AlarmNotDeleted : ListMedicineNotification()
     data class OpenSchedule(val dateTime: LocalDateTime, val items: List<ScheduleItemWithDetailsPresentationModel>) :
         ListMedicineNotification()
+
+    object UnableToToggleAlarm : ListMedicineNotification()
 }
