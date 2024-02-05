@@ -6,6 +6,7 @@
     <string name="list_patients_no_birthdate">Bez narození</string>
     <string name="action_detail">Otevřít</string>
     <string name="action_edit">Upravit</string>
+    <string name="action_export">Export</string>
     <string name="action_delete">Smazat</string>
     <string name="action_undo">Obnovit</string>
     <string name="patient_deleted">Pacient %s byl smazán</string>

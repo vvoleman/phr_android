@@ -6,9 +6,8 @@ import cz.vvoleman.phr.common.presentation.model.patient.PatientPresentationMode
 
 data class ListMedicineViewState(
     val patient: PatientPresentationModel? = null,
-    val nextSchedules: List<ScheduleItemWithDetailsPresentationModel> = emptyList(),
-    val selectedNextSchedule: NextSchedulePresentationModel? = null,
-    val timelineSchedules: List<GroupedItemsPresentationModel<ScheduleItemWithDetailsPresentationModel>> = emptyList(),
-    val medicineCatalogue: List<GroupedItemsPresentationModel<MedicineSchedulePresentationModel>> = emptyList(),
-    val medicines: List<MedicinePresentationModel> = emptyList()
+    val nextSchedules: List<ScheduleItemWithDetailsPresentationModel>,
+    val selectedNextSchedule: NextSchedulePresentationModel?,
+    val timelineSchedules: List<GroupedItemsPresentationModel<ScheduleItemWithDetailsPresentationModel>>,
+    val medicineCatalogue: List<GroupedItemsPresentationModel<MedicineSchedulePresentationModel>>,
 )

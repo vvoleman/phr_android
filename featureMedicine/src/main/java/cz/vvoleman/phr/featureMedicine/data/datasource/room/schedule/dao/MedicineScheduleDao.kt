@@ -33,6 +33,10 @@ interface MedicineScheduleDao {
     @Query("SELECT * FROM medicine_schedule WHERE is_alarm_enabled = :isAlarmEnabled")
     fun getActive(isAlarmEnabled: Boolean = true): Flow<List<ScheduleWithDetailsDataSourceModel>>
 
+    @Transaction
+    @Query("UPDATE medicine_schedule SET is_alarm_enabled = :enabled WHERE id = :id")
+    suspend fun changeAlarmEnabled(id: String, enabled: Boolean)
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(medicineSchedule: MedicineScheduleDataSourceModel): Long
 

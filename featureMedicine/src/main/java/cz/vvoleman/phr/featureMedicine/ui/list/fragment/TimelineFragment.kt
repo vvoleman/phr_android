@@ -1,14 +1,18 @@
 package cz.vvoleman.phr.featureMedicine.ui.list.fragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import cz.vvoleman.phr.base.presentation.model.UiState
+import cz.vvoleman.phr.base.ui.ext.collectLatestLifecycleFlow
 import cz.vvoleman.phr.common.ui.adapter.grouped.GroupedItemsAdapter
 import cz.vvoleman.phr.common.ui.fragment.AbstractTimelineFragment
 import cz.vvoleman.phr.common.ui.model.GroupedItemsUiModel
+import cz.vvoleman.phr.common.utils.checkVisibility
 import cz.vvoleman.phr.common.utils.withLeadingZero
 import cz.vvoleman.phr.common_datasource.databinding.ItemGroupedItemsBinding
 import cz.vvoleman.phr.featureMedicine.databinding.FragmentTimelineBinding
@@ -42,18 +46,9 @@ class TimelineFragment :
         super.onViewCreated(view, savedInstanceState)
 
         if (viewModel?.getListener() == null) {
+            Log.e(TAG, "onViewCreated: listener is null")
             return
         }
-
-        val schedules = viewModel!!.getItems()
-
-        if (schedules.isEmpty()) {
-            binding.textViewEmpty.visibility = View.VISIBLE
-            binding.recyclerView.visibility = View.GONE
-            return
-        }
-
-        isMultipleDays = isMultipleDays(schedules)
 
         val groupAdapter = GroupedItemsAdapter(this)
         binding.recyclerView.apply {
@@ -62,11 +57,22 @@ class TimelineFragment :
             setHasFixedSize(true)
         }
 
-        groupAdapter.submitList(schedules)
+        Log.d(TAG, "onViewCreated: aha")
+        collectLatestLifecycleFlow(viewModel!!.items) {
+            binding.textViewEmpty.visibility = checkVisibility(it is UiState.Success && it.data.isEmpty())
+            binding.recyclerView.visibility = checkVisibility(it is UiState.Success && it.data.isNotEmpty())
+            binding.progressBar.visibility = checkVisibility(it is UiState.Loading)
+
+            Log.d(TAG, "state: $it")
+            if (it is UiState.Success) {
+                Log.d(TAG, "onViewCreated: ${it.data}")
+                groupAdapter.submitList(it.data)
+            }
+        }
     }
 
     override fun bindGroupedItems(groupBinding: ItemGroupedItemsBinding, item: GroupedItemsUiModel<ScheduleItemWithDetailsUiModel>) {
-        val timelineAdapter = TimelineAdapter()
+        val timelineAdapter = TimelineAdapter(this)
 
         val dateTime = getDateFromValue(item.value.toString())
         var text = if (isMultipleDays) {
@@ -84,7 +90,7 @@ class TimelineFragment :
             }
         }
 
-        timelineAdapter.submitList(item.items)
+        timelineAdapter.submitList(item.items.toList())
     }
 
     override fun onDestroyGroupedItems(groupBinding: ItemGroupedItemsBinding) {
@@ -119,6 +125,7 @@ class TimelineFragment :
         const val TAG = "TimelineFragment"
 
         fun newInstance(viewModel: TimelineViewModel): TimelineFragment {
+            Log.d(TAG, "newInstance: ")
             val fragment = TimelineFragment()
             fragment.setViewModel(viewModel)
 

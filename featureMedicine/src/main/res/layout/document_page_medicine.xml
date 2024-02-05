@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="992px"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:padding="8dp"
+    android:layout_height="1403px">
+
+    <TextView
+        android:id="@+id/text_view_header"
+        android:layout_width="wrap_content"
+        android:text="Plánované léky"
+        android:textSize="24sp"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/text_view_time_range"
+        android:layout_width="wrap_content"
+        android:text="13.06.2023 - 13.11.2023"
+        android:layout_marginTop="8dp"
+        android:layout_height="wrap_content" />
+
+    <com.google.android.material.divider.MaterialDivider
+        android:layout_width="992px"
+        android:layout_marginTop="4dp"
+        android:layout_height="wrap_content" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view_medicines"
+        android:layout_width="match_parent"
+        tools:listitem="@layout/item_document_page_medicine"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>

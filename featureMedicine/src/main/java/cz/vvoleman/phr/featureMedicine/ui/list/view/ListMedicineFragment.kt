@@ -93,6 +93,7 @@ class ListMedicineFragment :
             ListMedicineNotification.AlarmNotDeleted -> showSnackbar(R.string.notification_alarm_not_deleted)
             ListMedicineNotification.ScheduleNotDeleted -> showSnackbar(R.string.notification_schedule_not_deleted)
             ListMedicineNotification.Deleted -> showSnackbar(R.string.notification_deleted)
+            ListMedicineNotification.UnableToToggleAlarm -> showSnackbar(R.string.notification_unable_to_toggle_alarm)
             is ListMedicineNotification.OpenSchedule -> openScheduleDetailDialog(
                 notification.dateTime,
                 notification.items
@@ -138,7 +139,7 @@ class ListMedicineFragment :
     }
 
     override fun onTimelineItemAlarmToggle(item: ScheduleItemWithDetailsUiModel, oldState: Boolean) {
-        Log.d("Timeline", "onTimelineItemAlarmToggle: $item, $oldState")
+        viewModel.onAlarmToggle(scheduleItemMapper.toPresentation(item), oldState)
     }
 
     override fun onCatalogueItemClick(item: MedicineScheduleUiModel) {

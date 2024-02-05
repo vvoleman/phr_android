@@ -12,6 +12,7 @@ import cz.vvoleman.phr.featureMedicine.data.mapper.schedule.ScheduleItemDataMode
 import cz.vvoleman.phr.featureMedicine.domain.model.schedule.MedicineScheduleDomainModel
 import cz.vvoleman.phr.featureMedicine.domain.model.schedule.ScheduleItemDomainModel
 import cz.vvoleman.phr.featureMedicine.domain.model.schedule.save.SaveMedicineScheduleDomainModel
+import cz.vvoleman.phr.featureMedicine.domain.repository.ChangeMedicineScheduleAlarmEnabledRepository
 import cz.vvoleman.phr.featureMedicine.domain.repository.DeleteMedicineScheduleRepository
 import cz.vvoleman.phr.featureMedicine.domain.repository.GetMedicineScheduleByIdRepository
 import cz.vvoleman.phr.featureMedicine.domain.repository.GetSchedulesByMedicineRepository
@@ -35,7 +36,8 @@ class SchedulesRepository(
     SaveScheduleItemRepository,
     GetSchedulesByPatientRepository,
     GetMedicineScheduleByIdRepository,
-    DeleteMedicineScheduleRepository {
+    DeleteMedicineScheduleRepository,
+    ChangeMedicineScheduleAlarmEnabledRepository {
 
     override suspend fun getSchedulesByMedicine(
         medicineIds: List<String>,
@@ -120,5 +122,10 @@ class SchedulesRepository(
         return medicineScheduleDao.getById(id.toInt()).firstOrNull()
             ?.let { medicineScheduleDataSourceMapper.toData(it) }
             ?.let { medicineScheduleDataMapper.toDomain(it) }
+    }
+
+    override suspend fun changeMedicineScheduleAlarmEnabled(medicineScheduleId: String, enabled: Boolean): Boolean {
+        medicineScheduleDao.changeAlarmEnabled(medicineScheduleId, enabled)
+        return true
     }
 }
