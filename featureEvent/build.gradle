@@ -91,9 +91,6 @@ dependencies {
     // Paging
     implementation(libs.androidx.paging.runtime)
 
-    // OCR
-    implementation(libs.textRecognition)
-
     // Event Bus
     implementation(libs.eventBus)
 

@@ -28,6 +28,14 @@ class ListEventFragment : BaseFragment<ListEventViewState, ListEventNotification
         return FragmentListEventBinding.inflate(inflater, container, false)
     }
 
+    override fun setupListeners() {
+        super.setupListeners()
+
+        binding.fabAddEvent.setOnClickListener {
+            viewModel.onAddEvent()
+        }
+    }
+
     override fun handleNotification(notification: ListEventNotification) {
         when(notification) {
             else -> {

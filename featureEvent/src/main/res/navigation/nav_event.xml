@@ -3,11 +3,32 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_event"
+    android:label="@string/navigation_list_event"
     app:startDestination="@id/listEventFragment">
 
     <fragment
         android:id="@+id/listEventFragment"
         android:name="cz.vvoleman.phr.featureEvent.ui.view.list.ListEventFragment"
-        android:label="fragment_list_event"
-        tools:layout="@layout/fragment_list_event" />
+        android:label="@string/navigation_list_event"
+        tools:layout="@layout/fragment_list_event">
+        <action
+            android:id="@+id/action_listEventFragment_to_addEditEventFragment"
+            app:destination="@id/addEditEventFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addEditEventFragment"
+        android:name="cz.vvoleman.phr.featureEvent.ui.view.addEdit.AddEditEventFragment"
+        android:label="@string/navigation_add_edit_event">
+        <action
+            android:id="@+id/action_addEditEventFragment_to_listEventFragment"
+            app:destination="@id/listEventFragment" />
+        <argument
+            android:name="eventId"
+            android:defaultValue="@null"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="action"
+            app:argType="string" />
+    </fragment>
 </navigation>
