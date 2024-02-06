@@ -34,6 +34,8 @@ import cz.vvoleman.phr.data.fixture.PatientFixture
 import cz.vvoleman.phr.data.fixture.ProblemCategoryFixture
 import cz.vvoleman.phr.data.fixture.UnitGroupFixture
 import cz.vvoleman.phr.di.ApplicationScope
+import cz.vvoleman.phr.featureEvent.data.datasource.room.EventDao
+import cz.vvoleman.phr.featureEvent.data.datasource.room.EventDataSourceModel
 import cz.vvoleman.phr.featureMedicalRecord.data.datasource.model.room.MedicalRecordDao
 import cz.vvoleman.phr.featureMedicalRecord.data.datasource.model.room.MedicalRecordDataSourceModel
 import cz.vvoleman.phr.featureMedicalRecord.data.datasource.model.room.asset.MedicalRecordAssetDao
@@ -82,6 +84,9 @@ import javax.inject.Provider
         MeasurementGroupEntryDataSourceModel::class,
         UnitGroupDataSourceModel::class,
         NumericFieldDataSourceModel::class,
+
+        // Event
+        EventDataSourceModel::class,
     ],
     version = 1
 )
@@ -128,6 +133,9 @@ abstract class PatientDatabase : RoomDatabase() {
     abstract fun unitGroupDao(): UnitGroupDao
 
     abstract fun numericFieldTypeDao(): NumericFieldDao
+
+    // Event
+    abstract fun eventDao(): EventDao
 
     class Callback @Inject constructor(
         private val database: Provider<PatientDatabase>,

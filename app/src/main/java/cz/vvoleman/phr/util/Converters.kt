@@ -60,4 +60,14 @@ class Converters {
     fun toNumber(value: Double?): Number? {
         return value
     }
+
+    @TypeConverter
+    fun fromLongList(list: List<Long>): String {
+        return Gson().toJson(list)
+    }
+
+    @TypeConverter
+    fun toLongList(list: String): List<Long> {
+        return Gson().fromJson(list, List::class.java) as List<Long>
+    }
 }
