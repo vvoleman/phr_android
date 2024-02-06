@@ -149,9 +149,7 @@ class AddEditEventViewModel @Inject constructor(
     }
 
     private suspend fun getEvent(): EventPresentationModel? {
-        val eventId = savedStateHandle.get<String>("eventId")
-
-        requireNotNull(eventId) { "Event ID is required" }
+        val eventId = savedStateHandle.get<String>("eventId") ?: return null
 
         return getEventByIdRepository.getEventById(eventId)
             ?.let { eventMapper.toPresentation(it) }

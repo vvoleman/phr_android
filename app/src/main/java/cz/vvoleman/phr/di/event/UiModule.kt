@@ -9,6 +9,7 @@ import cz.vvoleman.phr.featureEvent.databinding.FragmentAddEditEventBinding
 import cz.vvoleman.phr.featureEvent.databinding.FragmentListEventBinding
 import cz.vvoleman.phr.featureEvent.presentation.model.addEdit.AddEditEventViewState
 import cz.vvoleman.phr.featureEvent.presentation.model.list.ListEventViewState
+import cz.vvoleman.phr.featureEvent.ui.factory.ListEventFactory
 import cz.vvoleman.phr.featureEvent.ui.mapper.addEdit.ReminderUiModelToPresentationMapper
 import cz.vvoleman.phr.featureEvent.ui.mapper.addEdit.destination.AddEditEventDestinationUiMapper
 import cz.vvoleman.phr.featureEvent.ui.mapper.core.EventUiModelToPresentationMapper
@@ -32,7 +33,15 @@ class UiModule {
     ) = ListEventDestinationUiMapper(context, navManager)
 
     @Provides
-    fun providesListEventBinder(): ViewStateBinder<ListEventViewState, FragmentListEventBinding> = ListEventBinder()
+    fun providesListEventBinder(
+        eventFactory: ListEventFactory,
+        eventMapper: EventUiModelToPresentationMapper,
+    ): ViewStateBinder<ListEventViewState, FragmentListEventBinding> {
+        return ListEventBinder(
+            eventFactory = eventFactory,
+            eventMapper = eventMapper
+        )
+    }
 
     @Provides
     fun providesEventUiModelToPresentationMapper(
@@ -56,5 +65,8 @@ class UiModule {
 
     @Provides
     fun providesReminderUiModelToPresentationMapper() = ReminderUiModelToPresentationMapper()
+
+    @Provides
+    fun providesListEventFactory() = ListEventFactory()
 
 }
