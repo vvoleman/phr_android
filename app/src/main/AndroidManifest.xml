@@ -11,6 +11,7 @@
     <uses-feature android:name="android.hardware.camera.any" />
 
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.WRITE_CALENDAR" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
 
 
@@ -63,9 +64,18 @@
             </intent-filter>
         </receiver>
 
+        <receiver
+            android:name=".featureEvent.data.alarm.EventBootReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+
         <receiver android:name=".featureMedicine.data.alarm.CounterNotificationReceiver" />
         <receiver android:name=".featureMedicine.data.alarm.MedicineAlarmReceiver" />
         <receiver android:name=".featureMeasurement.data.alarm.receiver.measurementGroup.MeasurementGroupAlarmReceiver" />
+        <receiver android:name=".featureEvent.data.alarm.receiver.event.EventAlarmReceiver" />
     </application>
 
 </manifest>

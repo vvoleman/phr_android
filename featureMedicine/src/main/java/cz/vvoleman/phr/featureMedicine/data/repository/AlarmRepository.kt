@@ -50,7 +50,7 @@ class AlarmRepository(
 
         return groupedItems.map { (time, _) ->
 
-            val alarmItem = AlarmItem(
+            val alarmItem = AlarmItem.Repeat(
                 id = "medicine-schedule-${medicineSchedule.id!!}",
                 triggerAt = time,
                 content = MedicineAlarmContent(
@@ -58,7 +58,7 @@ class AlarmRepository(
                     triggerAt = time.toEpochSeconds(),
                     alarmDays = getAlarmDays(medicineSchedule.schedules)
                 ),
-                repeatInterval = AlarmItem.REPEAT_DAY.toLong(),
+                repeatInterval = AlarmItem.Repeat.REPEAT_DAY.toLong(),
                 receiver = MedicineAlarmReceiver::class.java
             )
 

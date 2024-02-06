@@ -1,12 +1,14 @@
 package cz.vvoleman.phr.di.event
 
+import cz.vvoleman.phr.common.data.alarm.AlarmScheduler
+import cz.vvoleman.phr.featureEvent.data.alarm.EventAlarmManager
 import cz.vvoleman.phr.featureEvent.data.datasource.room.EventDao
 import cz.vvoleman.phr.featureEvent.data.datasource.room.mapper.EventDataSourceModelToDataMapper
 import cz.vvoleman.phr.featureEvent.data.datasource.room.mapper.EventDataSourceModelToSaveDomainMapper
 import cz.vvoleman.phr.featureEvent.data.mapper.core.EventDataModelToDomainMapper
-import cz.vvoleman.phr.featureEvent.domain.mapper.core.LongToReminderOffsetMapper
 import cz.vvoleman.phr.featureEvent.data.repository.AlarmRepository
 import cz.vvoleman.phr.featureEvent.data.repository.EventRepository
+import cz.vvoleman.phr.featureEvent.domain.mapper.core.LongToReminderOffsetMapper
 import cz.vvoleman.phr.featureEvent.domain.repository.DeleteEventAlarmRepository
 import cz.vvoleman.phr.featureEvent.domain.repository.GetEventByIdRepository
 import cz.vvoleman.phr.featureEvent.domain.repository.GetEventsByPatientRepository
@@ -59,7 +61,17 @@ class DataModule {
     ): SaveEventRepository = eventRepository
 
     @Provides
-    fun providesAlarmRepository() = AlarmRepository()
+    fun providesAlarmRepository(
+        eventDao: EventDao,
+        eventMapper: EventDataModelToDomainMapper,
+        eventDataSourceMapper: EventDataSourceModelToDataMapper,
+        alarmScheduler: AlarmScheduler
+    ) = AlarmRepository(
+        eventDao = eventDao,
+        eventMapper = eventMapper,
+        eventDataSourceMapper = eventDataSourceMapper,
+        alarmScheduler = alarmScheduler,
+    )
 
     @Provides
     fun providesScheduleEventAlarmRepository(
@@ -70,5 +82,10 @@ class DataModule {
     fun providesDeleteEventAlarmRepository(
         alarmRepository: AlarmRepository
     ): DeleteEventAlarmRepository = alarmRepository
+
+    @Provides
+    fun providesEventAlarmManager(
+        alarmRepository: AlarmRepository
+    ): EventAlarmManager = EventAlarmManager(alarmRepository)
 
 }

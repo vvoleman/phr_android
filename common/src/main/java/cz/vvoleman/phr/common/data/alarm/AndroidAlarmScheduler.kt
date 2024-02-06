@@ -7,13 +7,16 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.util.Log
 import androidx.core.content.ContextCompat
 import cz.vvoleman.phr.common.utils.toEpochSeconds
+import java.time.ZoneOffset
 import java.util.concurrent.TimeUnit
 
 class AndroidAlarmScheduler(
     private val context: Context
 ) : AlarmScheduler {
+
 
     private val alarmManager = context.getSystemService(AlarmManager::class.java) as AlarmManager
 
@@ -25,29 +28,38 @@ class AndroidAlarmScheduler(
         }
 
         val intent = getIntent(item)
-//        val triggerAt = item.triggerAt.atZone(ZoneId.systemDefault()).toEpochSecond() * 1000
-//        alarmManager.setExactAndAllowWhileIdle(
-//            AlarmManager.RTC_WAKEUP,
-//            seconds * 1000,
-//            PendingIntent.getBroadcast(
-//                context,
-//                item.id.hashCode(),
-//                intent,
-//                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
-//            )
-//        )
 
-        alarmManager.setRepeating(
-            item.type,
-            TimeUnit.SECONDS.toMillis(item.triggerAt.toEpochSeconds()),
-            item.repeatInterval,
-            PendingIntent.getBroadcast(
-                context,
-                item.id.hashCode(),
-                intent,
-                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
-            )
-        )
+        Log.d("AndroidAlarmScheduler", "Scheduling alarm for item: $item")
+
+        when (item) {
+            is AlarmItem.Repeat -> {
+                alarmManager.setRepeating(
+                    item.type,
+                    TimeUnit.SECONDS.toMillis(item.triggerAt.toEpochSeconds()),
+                    item.repeatInterval,
+                    PendingIntent.getBroadcast(
+                        context,
+                        item.id.hashCode(),
+                        intent,
+                        PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+                    )
+                )
+            }
+            is AlarmItem.Single -> {
+                val seconds = item.triggerAt.toEpochSecond(ZoneOffset.UTC)
+
+                alarmManager.setExactAndAllowWhileIdle(
+                    item.type,
+                    TimeUnit.SECONDS.toMillis(seconds),
+                    PendingIntent.getBroadcast(
+                        context,
+                        item.id.hashCode(),
+                        intent,
+                        PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+                    )
+                )
+            }
+        }
 
         return true
     }
