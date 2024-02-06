@@ -107,6 +107,11 @@ class TimePicker @JvmOverloads constructor(
         this.listener = listener
     }
 
+    fun setError(error: String?) {
+        val layout = editText.parent.parent as TextInputLayout
+        layout.error = error
+    }
+
     fun setTime(time: LocalTime) {
         setEditTextValue(time)
         dialogBuilder

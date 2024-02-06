@@ -5,4 +5,26 @@
     <string name="description_event_name">Označení návštěvy</string>
     <string name="field_event_name">Označení návštěvy</string>
     <string name="navigation_add_edit_event">{action} plán návštěvy</string>
+    <string name="field_entry_start_at_date">Datum</string>
+    <string name="field_entry_start_at_time">Čas</string>
+    <string name="field_entry_end_at_date">Datum konce</string>
+    <string name="field_entry_end_at_time">Čas konce</string>
+    <string name="description_medical_worker">Lékařský pracovník</string>
+    <string name="field_medical_worker">Lékařský pracovník</string>
+    <string name="field_event_description">Poznámka</string>
+    <string name="field_event_reminder">Upozornění</string>
+    <string name="field_event_reminder_description">Výběr položky níže nastavíte upozornění pro plán návštěvy</string>
+    <string name="reminder_one_week">1 týden předem</string>
+    <string name="reminder_two_days">2 dny předem</string>
+    <string name="reminder_one_day">1 den předem</string>
+    <string name="reminder_two_hour">2 hodiny předem</string>
+    <string name="reminder_one_hour">1 hodina předem</string>
+    <string name="reminder_thirty_minutes">30 minut předem</string>
+    <string name="reminder_fifteen_minutes">15 minut předem</string>
+    <string name="reminder_five_minutes">5 minut předem</string>
+    <string name="reminder_one_minute">1 minuta předem</string>
+    <string name="reminder_at_start">V daný čas</string>
+    <string name="save_event">Uložit plán</string>
+    <string name="event_date_past">Zadané datum je v minulosti, nelze tedy k němu nastavit upozornění</string>
+    <string name="error_cannot_save_event">Nepodařilo se uložit plán.</string>
 </resources>
