@@ -91,8 +91,9 @@ dependencies {
     // Paging
     implementation(libs.androidx.paging.runtime)
 
-    // Event Bus
-    implementation(libs.eventBus)
+    // Groupie
+    implementation(libs.groupie.core)
+    implementation(libs.groupie.viewbinding)
 
     testImplementation(libs.junit.core)
     testImplementation(libs.mockito.kotlin)
