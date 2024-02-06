@@ -1,31 +1,25 @@
 plugins {
-    id 'com.android.application'
+    id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
-    id 'kotlin-android'
-    id 'kotlin-kapt'
     id 'com.google.dagger.hilt.android'
-    id 'androidx.navigation.safeargs.kotlin'
+    id 'kotlin-kapt'
+    id 'de.mannodermaus.android-junit5'
+    id "androidx.navigation.safeargs.kotlin"
     id 'kotlin-parcelize'
 }
 
 android {
-    namespace 'cz.vvoleman.phr'
+    namespace 'cz.vvoleman.phr.featureEvent'
     compileSdk 34
 
     defaultConfig {
-        applicationId "cz.vvoleman.phr"
         minSdk 26
         targetSdk 34
         versionCode 1
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-
-        javaCompileOptions {
-            annotationProcessorOptions {
-                arguments += ["room.schemaLocation": "$projectDir/schemas".toString()]
-            }
-        }
+        consumerProguardFiles "consumer-rules.pro"
     }
 
     buildTypes {
@@ -41,54 +35,54 @@ android {
     kotlinOptions {
         jvmTarget = '18'
     }
-
     buildFeatures {
         viewBinding = true
         buildConfig = true
     }
-
-//    test {
-//        useJUnitPlatform()
-//    }
-
 }
 
 dependencies {
-    // Default dependencies
+    implementation project(":base")
+    implementation project(":common")
+
+    // Base
+    implementation(libs.androidx.fragment.ktx)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.activity.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.constraintlayout)
+    implementation(libs.androidx.recyclerview)
     implementation(libs.androidx.camera.core)
+    implementation(libs.androidx.datastore.preferences)
+    implementation(libs.material)
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.androidx.test.espresso.core)
 
-    // Material
-    implementation(libs.material)
 
     // Navigation
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
+    implementation(libs.androidx.navigation.dynamic.features.fragment)
 
     // Hilt
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
 
-    // Lifecycle & ViewModel
+
+    // Lifecycle
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.lifecycle.livedata.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
 
-    // TooLargeTool
-    implementation(libs.tooLargeTool)
+    implementation(libs.androidx.fragment.ktx)
+
+    // RecyclerView
+    implementation(libs.androidx.recyclerview)
 
     // Room
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.room.ktx)
     kapt(libs.androidx.room.compiler)
-
-    // Glide
-    implementation(libs.glide)
 
     // Retrofit
     implementation(libs.retrofit2.retrofit)
@@ -100,33 +94,23 @@ dependencies {
     // OCR
     implementation(libs.textRecognition)
 
-    // Data Store
-    implementation(libs.androidx.datastore.preferences)
-
-    // Material
-    implementation(libs.material)
-
     // Event Bus
     implementation(libs.eventBus)
-
-    // Groupie
-    implementation(libs.groupie.core)
-    implementation(libs.groupie.viewbinding)
 
     testImplementation(libs.junit.core)
     testImplementation(libs.mockito.kotlin)
     testImplementation(libs.mockito.inline)
+    testImplementation(libs.junit.jupiter.core)
+    testImplementation(libs.junit.jupiter.api)
+    testRuntimeOnly(libs.junit.jupiter.engine)
+    testImplementation(libs.junit.jupiter.params)
 
-//    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.12'
-
-    implementation project(':base')
-    implementation project(':common')
-    implementation project(':featureMedicalRecord')
-    implementation project(':featureMedicine')
-    implementation project(':featureMeasurement')
-    implementation project(':featureEvent')
-}
-
-kapt {
-    correctErrorTypes = true
+    testImplementation(libs.mockito.core)
+    testImplementation(libs.mockito.junit.jupiter)
+    testImplementation(libs.mockito.kotlin)
+    testImplementation(libs.mockito.inline)
+    testImplementation(libs.androidx.arch.core.testing)
+    testImplementation(libs.androidx.arch.core.testing)
+    testImplementation(libs.kotlinx.coroutines.test)
+    testImplementation(libs.mockk)
 }
