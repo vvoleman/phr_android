@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="add_event">Přidat plán</string>
+    <string name="navigation_list_event">Plány návštěv</string>
+    <string name="description_event_name">Označení návštěvy</string>
+    <string name="field_event_name">Označení návštěvy</string>
+    <string name="navigation_add_edit_event">{action} plán návštěvy</string>
+</resources>
