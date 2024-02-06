@@ -24,7 +24,7 @@ interface EventDao {
     fun getActive(patientId: String, current: LocalDateTime): Flow<List<EventWithDetailsDataSourceModel>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(event: EventDataSourceModel)
+    suspend fun insert(event: EventDataSourceModel): Long
 
     @Query("DELETE FROM event WHERE id = :id")
     suspend fun delete(id: String)

@@ -16,5 +16,5 @@ data class EventWithDetailsDataSourceModel(
         parentColumn = "specific_medical_worker_id",
         entityColumn = "id"
     )
-    val specificMedicalWorker: SpecificMedicalWorkerDataSourceModel,
+    val specificMedicalWorker: SpecificMedicalWorkerDataSourceModel?,
 )

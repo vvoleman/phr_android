@@ -93,7 +93,7 @@ class AddEditMedicalRecordViewModel @Inject constructor(
                 patientId = previousState.patientId,
                 visitDate = previousState.visitDate,
                 allProblemCategories = userLists.problemCategories.map { problemCategoryMapper.toPresentation(it) },
-                allMedicalWorkers = userLists.medicalWorkers.map { specificWorkerMapper.toPresentation(it) },
+                allMedicalWorkers = specificWorkerMapper.toPresentation(userLists.medicalWorkers),
                 assets = previousState.assets,
             )
         }

@@ -11,7 +11,7 @@ data class EventUiModel(
     val startAt: LocalDateTime,
     val endAt: LocalDateTime?,
     val patient: PatientUiModel,
-    val specificMedicalWorker: SpecificMedicalWorkerUiModel,
+    val specificMedicalWorker: SpecificMedicalWorkerUiModel?,
     val description: String?,
     val reminders: List<ReminderOffset>
 )

@@ -18,6 +18,10 @@ class SpecificMedicalWorkerPresentationModelToDomainMapper(
         )
     }
 
+    fun toDomain(models: List<SpecificMedicalWorkerPresentationModel>): List<SpecificMedicalWorkerDomainModel> {
+        return models.map { toDomain(it) }
+    }
+
     fun toPresentation(model: SpecificMedicalWorkerDomainModel): SpecificMedicalWorkerPresentationModel {
         return SpecificMedicalWorkerPresentationModel(
             id = model.id,
@@ -26,6 +30,10 @@ class SpecificMedicalWorkerPresentationModelToDomainMapper(
             medicalWorker = medicalWorkerMapper.toPresentation(model.medicalWorker),
             medicalService = medicalServiceMapper.toPresentation(model.medicalService)
         )
+    }
+
+    fun toPresentation(models: List<SpecificMedicalWorkerDomainModel>): List<SpecificMedicalWorkerPresentationModel> {
+        return models.map { toPresentation(it) }
     }
 
 }

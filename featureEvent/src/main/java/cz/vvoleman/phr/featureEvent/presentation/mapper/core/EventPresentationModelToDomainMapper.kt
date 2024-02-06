@@ -17,7 +17,7 @@ class EventPresentationModelToDomainMapper(
             startAt = model.startAt,
             endAt = model.endAt,
             patient = patientMapper.toDomain(model.patient),
-            specificMedicalWorker = workerMapper.toDomain(model.specificMedicalWorker),
+            specificMedicalWorker = model.specificMedicalWorker?.let { workerMapper.toDomain(it) },
             description = model.description,
             reminders = model.reminders
         )
@@ -34,7 +34,7 @@ class EventPresentationModelToDomainMapper(
             startAt = model.startAt,
             endAt = model.endAt,
             patient = patientMapper.toPresentation(model.patient),
-            specificMedicalWorker = workerMapper.toPresentation(model.specificMedicalWorker),
+            specificMedicalWorker = model.specificMedicalWorker?.let { workerMapper.toPresentation(it) },
             description = model.description,
             reminders = model.reminders
         )

@@ -1,10 +1,17 @@
 package cz.vvoleman.phr.common.data.mapper.healthcare
 
+import cz.vvoleman.phr.common.data.datasource.model.healthcare.service.MedicalServiceDao
+import cz.vvoleman.phr.common.data.datasource.model.healthcare.service.MedicalServiceDataSourceModel
+import cz.vvoleman.phr.common.data.datasource.model.healthcare.worker.MedicalWorkerDao
+import cz.vvoleman.phr.common.data.datasource.model.healthcare.worker.MedicalWorkerDataSourceModel
 import cz.vvoleman.phr.common.data.datasource.model.healthcare.worker.SpecificMedicalWorkerDataSourceModel
 import cz.vvoleman.phr.common.data.datasource.model.healthcare.worker.SpecificMedicalWorkerWithDetailsDataSourceModel
 import cz.vvoleman.phr.common.domain.model.healthcare.worker.SpecificMedicalWorkerDomainModel
+import kotlinx.coroutines.flow.first
 
 class SpecificMedicalWorkerDataSourceToDomainMapper(
+    private val workerDao: MedicalWorkerDao,
+    private val serviceDao: MedicalServiceDao,
     private val workerMapper: MedicalWorkerDataSourceModelToDomainMapper,
     private val serviceInfoMapper: MedicalServiceDataSourceModelToDomainMapper,
 ) {
@@ -16,6 +23,17 @@ class SpecificMedicalWorkerDataSourceToDomainMapper(
             medicalService = serviceInfoMapper.toDomain(model.medicalService),
             email = model.specificMedicalWorker.email,
             telephone = model.specificMedicalWorker.telephone,
+        )
+    }
+
+    suspend fun toDetails(model: SpecificMedicalWorkerDataSourceModel): SpecificMedicalWorkerWithDetailsDataSourceModel {
+        val worker = workerDao.getById(model.medicalWorkerId).first()
+        val service = serviceDao.getById(model.medicalServiceId).first()
+
+        return SpecificMedicalWorkerWithDetailsDataSourceModel(
+            specificMedicalWorker = model,
+            medicalWorker = worker,
+            medicalService = service,
         )
     }
 

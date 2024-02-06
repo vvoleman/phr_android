@@ -104,6 +104,11 @@ class DatePicker @JvmOverloads constructor(
         dialog.updateDate(date.year, date.monthValue - 1, date.dayOfMonth)
     }
 
+    fun setError(error: String?) {
+        val layout = editText.parent.parent as TextInputLayout
+        layout.error = error
+    }
+
     private fun setEditTextValue(date: LocalDate) {
         editText.setText(date.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)))
     }

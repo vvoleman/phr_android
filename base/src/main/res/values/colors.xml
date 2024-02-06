@@ -41,6 +41,10 @@
     <color name="red_500">#c34d40</color>
     <color name="red_700">#b4342e</color>
 
+    <color name="orange_200">#e2a795</color>
+    <color name="orange_500">#ce5a37</color>
+    <color name="orange_700">#b74f2f</color>
+
 
     <color name="category_a">#3F51B5</color>
     <color name="category_b">#835E3A</color>

@@ -167,9 +167,13 @@ class DataModule {
 
     @Provides
     fun providesSpecificMedicalWorkerDataSourceModelToDomainMapper(
+        workerDao: MedicalWorkerDao,
+        serviceDao: MedicalServiceDao,
         medicalWorkerDataSourceModelToDomainMapper: MedicalWorkerDataSourceModelToDomainMapper,
         medicalServiceDataSourceModelToDomainMapper: MedicalServiceDataSourceModelToDomainMapper,
     ) = SpecificMedicalWorkerDataSourceToDomainMapper(
+        workerDao,
+        serviceDao,
         medicalWorkerDataSourceModelToDomainMapper,
         medicalServiceDataSourceModelToDomainMapper,
     )

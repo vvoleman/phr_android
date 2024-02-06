@@ -17,7 +17,7 @@ class EventUiModelToPresentationMapper(
             startAt = model.startAt,
             endAt = model.endAt,
             patient = patientMapper.toPresentation(model.patient),
-            specificMedicalWorker = workerMapper.toPresentation(model.specificMedicalWorker),
+            specificMedicalWorker = model.specificMedicalWorker?.let { workerMapper.toPresentation(it) },
             description = model.description,
             reminders = model.reminders
         )
@@ -34,7 +34,7 @@ class EventUiModelToPresentationMapper(
             startAt = model.startAt,
             endAt = model.endAt,
             patient = patientMapper.toUi(model.patient),
-            specificMedicalWorker = workerMapper.toUi(model.specificMedicalWorker),
+            specificMedicalWorker = model.specificMedicalWorker?.let { workerMapper.toUi(it) },
             description = model.description,
             reminders = model.reminders
         )
