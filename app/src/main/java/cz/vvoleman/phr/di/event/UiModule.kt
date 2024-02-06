@@ -14,6 +14,7 @@ import cz.vvoleman.phr.featureEvent.ui.mapper.addEdit.ReminderUiModelToPresentat
 import cz.vvoleman.phr.featureEvent.ui.mapper.addEdit.destination.AddEditEventDestinationUiMapper
 import cz.vvoleman.phr.featureEvent.ui.mapper.core.EventUiModelToPresentationMapper
 import cz.vvoleman.phr.featureEvent.ui.mapper.list.destination.ListEventDestinationUiMapper
+import cz.vvoleman.phr.featureEvent.ui.usecase.ExportEventsToCalendarUseCase
 import cz.vvoleman.phr.featureEvent.ui.view.addEdit.AddEditEventBinder
 import cz.vvoleman.phr.featureEvent.ui.view.list.ListEventBinder
 import dagger.Module
@@ -68,5 +69,10 @@ class UiModule {
 
     @Provides
     fun providesListEventFactory() = ListEventFactory()
+
+    @Provides
+    fun providesExportEventsToCalendarUseCase(
+        @ApplicationContext context: Context
+    ) = ExportEventsToCalendarUseCase(context)
 
 }

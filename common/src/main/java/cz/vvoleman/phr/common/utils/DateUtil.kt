@@ -1,7 +1,6 @@
 package cz.vvoleman.phr.common.utils
 
 import android.icu.text.RelativeDateTimeFormatter
-import android.icu.text.RelativeDateTimeFormatter.AbsoluteUnit
 import android.icu.text.RelativeDateTimeFormatter.Direction
 import java.time.DayOfWeek
 import java.time.LocalDate
@@ -12,6 +11,7 @@ import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 import java.time.format.TextStyle
 import java.util.Locale
+import kotlin.math.abs
 
 fun LocalDateTime.toLocalString(): String {
     val formatter = DateTimeFormatter
@@ -76,12 +76,70 @@ fun DayOfWeek.getLocalString(textStyle: TextStyle = TextStyle.FULL_STANDALONE): 
 }
 
 fun LocalDate.localizedDiff(other: LocalDate): String {
-    val days = this.toEpochDay() - other.toEpochDay()
     val fmt = RelativeDateTimeFormatter.getInstance(Locale.getDefault())
-
-    return when {
-        days < 31 -> fmt.format(Direction.LAST, AbsoluteUnit.DAY)
-        days < 365 -> fmt.format(Direction.LAST, AbsoluteUnit.MONTH)
-        else -> fmt.format(Direction.LAST, AbsoluteUnit.YEAR)
+    val direction = if (this.isBefore(other)) {
+        Direction.NEXT
+    } else {
+        Direction.LAST
     }
+
+    if (this.year != other.year) {
+        val value = abs(this.year - other.year).toDouble()
+        return fmt.format(value, direction, RelativeDateTimeFormatter.RelativeUnit.YEARS)
+    }
+
+    if (this.month != other.month) {
+        val value = abs(this.month.value - other.month.value).toDouble()
+        return fmt.format(value, direction, RelativeDateTimeFormatter.RelativeUnit.MONTHS)
+    }
+
+    if (this.dayOfMonth != other.dayOfMonth) {
+        val value = abs(this.dayOfMonth - other.dayOfMonth).toDouble()
+        return fmt.format(value, direction, RelativeDateTimeFormatter.RelativeUnit.DAYS)
+    }
+
+    return "dnes"
+}
+
+fun LocalDateTime.localizedDiff(other: LocalDateTime): String {
+    // This methods returns a string that represents the difference between two dateTimes. It uses the RelativeDateTimeFormatter
+    val fmt = RelativeDateTimeFormatter.getInstance(Locale.getDefault())
+    val direction = if (this.isBefore(other)) {
+        Direction.NEXT
+    } else {
+        Direction.LAST
+    }
+
+    // If diff year
+    if (this.year != other.year) {
+        val value = abs(this.year - other.year).toDouble()
+        return fmt.format(value, direction, RelativeDateTimeFormatter.RelativeUnit.YEARS)
+    }
+
+    if (this.month != other.month) {
+        val value = abs(this.month.value - other.month.value).toDouble()
+        return fmt.format(value, direction, RelativeDateTimeFormatter.RelativeUnit.MONTHS)
+    }
+
+    if (this.dayOfMonth != other.dayOfMonth) {
+        val value = abs(this.dayOfMonth - other.dayOfMonth).toDouble()
+        return fmt.format(value, direction, RelativeDateTimeFormatter.RelativeUnit.DAYS)
+    }
+
+    if (this.hour != other.hour) {
+        val value = abs(this.hour - other.hour).toDouble()
+        return fmt.format(value, direction, RelativeDateTimeFormatter.RelativeUnit.HOURS)
+    }
+
+    if (this.minute != other.minute) {
+        val value = abs(this.minute - other.minute).toDouble()
+        return fmt.format(value, direction, RelativeDateTimeFormatter.RelativeUnit.MINUTES)
+    }
+
+    if (this.second != other.second) {
+        val value = abs(this.second - other.second).toDouble()
+        return fmt.format(value, direction, RelativeDateTimeFormatter.RelativeUnit.SECONDS)
+    }
+
+    return "teď"
 }

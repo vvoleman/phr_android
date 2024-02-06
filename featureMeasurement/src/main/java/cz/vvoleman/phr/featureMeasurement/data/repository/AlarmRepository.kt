@@ -1,6 +1,9 @@
 package cz.vvoleman.phr.featureMeasurement.data.repository
 
 import android.util.Log
+import cz.vvoleman.phr.common.data.alarm.AlarmItem
+import cz.vvoleman.phr.common.data.alarm.AlarmScheduler
+import cz.vvoleman.phr.common.utils.toEpochSeconds
 import cz.vvoleman.phr.featureMeasurement.data.alarm.receiver.measurementGroup.MeasurementGroupAlarmContent
 import cz.vvoleman.phr.featureMeasurement.data.alarm.receiver.measurementGroup.MeasurementGroupAlarmReceiver
 import cz.vvoleman.phr.featureMeasurement.data.datasource.room.MeasurementGroupDao
@@ -11,9 +14,6 @@ import cz.vvoleman.phr.featureMeasurement.data.model.core.MeasurementGroupSchedu
 import cz.vvoleman.phr.featureMeasurement.domain.model.core.MeasurementGroupDomainModel
 import cz.vvoleman.phr.featureMeasurement.domain.repository.DeleteMeasurementGroupAlarmRepository
 import cz.vvoleman.phr.featureMeasurement.domain.repository.ScheduleMeasurementGroupRepository
-import cz.vvoleman.phr.common.data.alarm.AlarmItem
-import cz.vvoleman.phr.common.data.alarm.AlarmScheduler
-import cz.vvoleman.phr.common.utils.toEpochSeconds
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import java.time.DayOfWeek
@@ -57,7 +57,7 @@ class AlarmRepository(
 
         return groupedItems.map { (time, _) ->
 
-            val alarmItem = AlarmItem(
+            val alarmItem = AlarmItem.Repeat(
                 id = "measurement-group-${model.id}",
                 triggerAt = time,
                 content = MeasurementGroupAlarmContent(
@@ -65,6 +65,7 @@ class AlarmRepository(
                     triggerAt = time.toEpochSeconds(),
                     alarmDays = getAlarmDays(model.scheduleItems)
                 ),
+                repeatInterval = AlarmItem.Repeat.REPEAT_DAY.toLong(),
                 receiver = MeasurementGroupAlarmReceiver::class.java
             )
 
