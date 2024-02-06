@@ -58,4 +58,9 @@ class ListEventViewModel @Inject constructor(
     fun onAddEvent() {
         navigateTo(ListEventDestination.AddEvent)
     }
+
+    fun onExportEvents() {
+        val events = currentViewState.events.map { it.value }.flatten()
+        notify(ListEventNotification.ExportEvents(events))
+    }
 }

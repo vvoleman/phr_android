@@ -5,6 +5,7 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
 import android.os.Build
+import cz.vvoleman.phr.featureEvent.data.alarm.receiver.event.EventAlarmReceiver
 import cz.vvoleman.phr.featureMeasurement.data.alarm.receiver.measurementGroup.MeasurementGroupAlarmReceiver
 import cz.vvoleman.phr.featureMedicine.data.alarm.MedicineAlarmReceiver
 import dagger.hilt.android.HiltAndroidApp
@@ -25,15 +26,21 @@ class PHRApplication : Application() {
             val channels = listOf(
                 Channel(
                     MedicineAlarmReceiver.CHANNEL_ID,
-                    "Medicine alarm",
+                    "Léky",
                     NotificationManager.IMPORTANCE_DEFAULT,
-                    "Used for the medicine alarm notifications"
+                    "Upozorňuje na nadcházející užití léků"
                 ),
                 Channel(
                     MeasurementGroupAlarmReceiver.CHANNEL_ID,
-                    "Measurement group alarm",
+                    "Měření",
                     NotificationManager.IMPORTANCE_DEFAULT,
-                    "Used for the measurement group alarm notifications"
+                    "Upozorňuje na nadcházející měření hodnot"
+                ),
+                Channel(
+                    EventAlarmReceiver.CHANNEL_ID,
+                    "Plány návštěv",
+                    NotificationManager.IMPORTANCE_DEFAULT,
+                    "Upozorňuje na nadcházející návštěvy"
                 )
             )
 

@@ -20,8 +20,8 @@ interface EventDao {
     fun getById(id: String): Flow<EventWithDetailsDataSourceModel>
 
     @Transaction
-    @Query("SELECT * FROM event WHERE patient_id = :patientId AND start_at <= :current AND end_at >= :current")
-    fun getActive(patientId: String, current: LocalDateTime): Flow<List<EventWithDetailsDataSourceModel>>
+    @Query("SELECT * FROM event WHERE start_at > :current")
+    fun getActive(current: LocalDateTime): Flow<List<EventWithDetailsDataSourceModel>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(event: EventDataSourceModel): Long

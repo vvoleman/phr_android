@@ -27,4 +27,6 @@
     <string name="save_event">Uložit plán</string>
     <string name="event_date_past">Zadané datum je v minulosti, nelze tedy k němu nastavit upozornění</string>
     <string name="error_cannot_save_event">Nepodařilo se uložit plán.</string>
+    <string name="notification_event_title">Upozornění na plán</string>
+    <string name="notification_event_text">Do plánu \"%s\" zbývá %s</string>
 </resources>
