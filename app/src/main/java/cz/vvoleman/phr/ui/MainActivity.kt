@@ -57,6 +57,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.listMedicalRecordsFragment,
                 R.id.listMedicineFragment,
                 R.id.listMeasurementFragment,
+                R.id.listEventFragment,
                 R.id.listHealthcareFragment,
                 R.id.listProblemCategoryFragment,
             ),
@@ -148,6 +149,12 @@ class MainActivity : AppCompatActivity() {
 
                 R.id.listMeasurementFragment -> {
                     navController.navigate(cz.vvoleman.phr.featureMeasurement.R.id.nav_measurement)
+                    binding.drawerLayout.close()
+                    true
+                }
+
+                R.id.listEventFragment -> {
+                    navController.navigate(cz.vvoleman.phr.featureEvent.R.id.nav_event)
                     binding.drawerLayout.close()
                     true
                 }
