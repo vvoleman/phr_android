@@ -10,7 +10,7 @@ data class EventDomainModel(
     val startAt: LocalDateTime,
     val endAt: LocalDateTime?,
     val patient: PatientDomainModel,
-    val specificMedicalWorker: SpecificMedicalWorkerDomainModel,
+    val specificMedicalWorker: SpecificMedicalWorkerDomainModel?,
     val description: String?,
     val reminders: List<ReminderOffset>
 )

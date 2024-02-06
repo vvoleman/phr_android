@@ -18,6 +18,10 @@ class SpecificMedicalWorkerUiModelToPresentationMapper(
         )
     }
 
+    fun toPresentation(models: List<SpecificMedicalWorkerUiModel>): List<SpecificMedicalWorkerPresentationModel> {
+        return models.map { toPresentation(it) }
+    }
+
     fun toUi(model: SpecificMedicalWorkerPresentationModel): SpecificMedicalWorkerUiModel {
         return SpecificMedicalWorkerUiModel(
             id = model.id,
@@ -26,6 +30,10 @@ class SpecificMedicalWorkerUiModelToPresentationMapper(
             medicalWorker = model.medicalWorker?.let { medicalWorkerMapper.toUi(it) },
             medicalService = model.medicalService?.let { medicalServiceMapper.toUi(it) }
         )
+    }
+
+    fun toUi(models: List<SpecificMedicalWorkerPresentationModel>): List<SpecificMedicalWorkerUiModel> {
+        return models.map { toUi(it) }
     }
 
 }

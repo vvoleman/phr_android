@@ -1,6 +1,7 @@
 package cz.vvoleman.phr.featureEvent.data.mapper.core
 
 import cz.vvoleman.phr.featureEvent.data.model.core.EventDataModel
+import cz.vvoleman.phr.featureEvent.domain.mapper.core.LongToReminderOffsetMapper
 import cz.vvoleman.phr.featureEvent.domain.model.core.EventDomainModel
 
 class EventDataModelToDomainMapper(

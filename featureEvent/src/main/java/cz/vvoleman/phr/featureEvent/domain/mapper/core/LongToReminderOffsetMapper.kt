@@ -1,4 +1,4 @@
-package cz.vvoleman.phr.featureEvent.data.mapper.core
+package cz.vvoleman.phr.featureEvent.domain.mapper.core
 
 import cz.vvoleman.phr.featureEvent.domain.model.core.ReminderOffset
 

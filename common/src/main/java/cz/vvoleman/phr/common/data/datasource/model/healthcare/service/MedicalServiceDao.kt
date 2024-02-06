@@ -13,7 +13,7 @@ interface MedicalServiceDao {
     fun getAll(): Flow<List<MedicalServiceDataSourceModel>>
 
     @Query("SELECT * FROM medical_service WHERE id = :id")
-    fun getById(id: Int): Flow<MedicalServiceDataSourceModel>
+    fun getById(id: String): Flow<MedicalServiceDataSourceModel>
 
     @Query("SELECT * FROM medical_service WHERE medical_facility_id = :facilityId")
     fun getByFacilityId(facilityId: Int): Flow<List<MedicalServiceDataSourceModel>>

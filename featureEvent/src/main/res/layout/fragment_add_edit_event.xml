@@ -1,34 +1,159 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="cz.vvoleman.phr.featureEvent.ui.view.addEdit.AddEditEventFragment"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    tools:context="cz.vvoleman.phr.featureEvent.ui.view.addEdit.AddEditEventFragment">
 
-    <LinearLayout
-        style="@style/BaseFrontBox"
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:backgroundTint="@color/box_background_light">
+        android:layout_height="match_parent">
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/text_input_layout_event_name"
-            style="?attr/textInputOutlinedStyle"
+        <LinearLayout
+            style="@style/BaseFrontBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/field_event_name"
-            app:errorEnabled="true">
+            android:layout_marginTop="16dp"
+            android:backgroundTint="@color/box_background_light"
+            android:orientation="vertical">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/edit_text_name"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/text_input_layout_event_name"
+                style="?attr/textInputOutlinedStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="text" />
+                android:hint="@string/field_event_name"
+                app:errorEnabled="true">
 
-        </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edit_text_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text" />
 
-    </LinearLayout>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.flexbox.FlexboxLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <cz.vvoleman.phr.common.ui.component.picker.DatePicker
+                    android:id="@+id/date_picker_start_at"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    app:hint="@string/field_entry_start_at_date"
+                    app:layout_flexBasisPercent="50%" />
+
+                <cz.vvoleman.phr.common.ui.component.picker.TimePicker
+                    android:id="@+id/time_picker_start_at"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    app:hint="@string/field_entry_start_at_time"
+                    app:layout_flexBasisPercent="50%" />
+            </com.google.android.flexbox.FlexboxLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/text_input_layout_medical_worker"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/description_medical_worker"
+                app:errorEnabled="true">
+
+                <AutoCompleteTextView
+                    android:id="@+id/spinner_medical_worker"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/field_medical_worker"
+                    android:inputType="none"
+                    android:labelFor="@id/text_input_layout_medical_worker" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/text_input_layout_description"
+                style="?attr/textInputOutlinedStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/field_event_description"
+                app:errorEnabled="true">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edit_text_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="top|left"
+                    android:inputType="textMultiLine" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:id="@+id/text_view_in_past"
+                android:layout_width="match_parent"
+                android:visibility="gone"
+                android:layout_height="wrap_content"
+                android:drawablePadding="8dp"
+                android:text="@string/event_date_past"
+                app:drawableStartCompat="@drawable/ic_warning"
+                app:drawableTint="@color/orange_500" />
+
+            <LinearLayout
+                android:id="@+id/layout_reminder"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <com.google.android.flexbox.FlexboxLayout
+                    android:id="@+id/layout_reminder_switch"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:alignItems="center"
+                    app:justifyContent="flex_start">
+
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:contentDescription="@string/field_event_reminder_description"
+                        android:text="@string/field_event_reminder"
+                        android:textSize="17sp" />
+
+                    <androidx.appcompat.widget.SwitchCompat
+                        android:id="@+id/switch_reminder"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:checked="true" />
+
+
+                </com.google.android.flexbox.FlexboxLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycler_view_reminder"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:itemCount="4"
+                    tools:listitem="@layout/item_reminder" />
+            </LinearLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/button_save"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:backgroundTint="@color/green_500"
+                android:clickable="true"
+                android:contentDescription="@string/save_event"
+                android:elevation="4dp"
+                android:focusable="true"
+                android:text="@string/action_save"
+                android:textColor="@color/white"
+                app:icon="@drawable/ic_add"
+                app:iconGravity="textStart"
+                app:iconTint="@color/white" />
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
 
 </LinearLayout>

@@ -11,7 +11,7 @@ data class EventPresentationModel(
     val startAt: LocalDateTime,
     val endAt: LocalDateTime?,
     val patient: PatientPresentationModel,
-    val specificMedicalWorker: SpecificMedicalWorkerPresentationModel,
+    val specificMedicalWorker: SpecificMedicalWorkerPresentationModel?,
     val description: String?,
     val reminders: List<ReminderOffset>
 )
