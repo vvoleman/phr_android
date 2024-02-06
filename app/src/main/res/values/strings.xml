@@ -23,5 +23,6 @@
     <string name="categorization">Kategorizace</string>
     <string name="problem_categories">Kategorie problémů</string>
     <string name="medical_workers">Seznam lék. zařízení</string>
+    <string name="event">Plány návštěv</string>
 
 </resources>
