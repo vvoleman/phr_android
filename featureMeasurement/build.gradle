@@ -102,6 +102,10 @@ dependencies {
     implementation(libs.vico.core)
     implementation(libs.vico.views)
 
+    // Groupie
+    implementation(libs.groupie.core)
+    implementation(libs.groupie.viewbinding)
+
     testImplementation(libs.junit.core)
     testImplementation(libs.mockito.kotlin)
     testImplementation(libs.mockito.inline)
