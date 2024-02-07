@@ -15,11 +15,12 @@ abstract class BaseViewStateBinder<VIEW_STATE : Any, VIEW_BINDING : Any, NOTIFIC
 
     protected lateinit var lifecycleScope: CoroutineScope
     protected lateinit var fragmentContext: Context
-    protected var hasBeenBound = false
+    private var hasBeenBound = false
 
     override fun init(viewBinding: VIEW_BINDING, context: Context, lifecycleScope: LifecycleCoroutineScope) {
         this.lifecycleScope = lifecycleScope
         fragmentContext = context
+        hasBeenBound = false
     }
 
     protected fun notify(notification: NOTIFICATION) {

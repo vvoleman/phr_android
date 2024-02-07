@@ -3,44 +3,37 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="8dp"
     android:layout_marginTop="8dp"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="8dp">
 
     <TextView
         android:id="@+id/text_view_patient_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="36sp"
-        android:textFontWeight="700"
+        android:text="Jan Novák"
         android:textColor="@color/text"
-        android:text="Jan Novák" />
+        android:textFontWeight="700"
+        android:textSize="36sp" />
 
     <LinearLayout
-        android:layout_marginTop="8dp"
-        android:gravity="start"
-        android:layout_below="@id/text_view_patient_name"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/text_view_patient_name"
+        android:layout_marginTop="8dp"
         android:layout_marginBottom="16dp"
-        android:layout_height="wrap_content">
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/button_change_patient"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            style="@style/PrimaryButton"
-            android:textAlignment="center"
-            android:text="Přepnout"/>
+        android:gravity="start">
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/button_edit_patient"
+            style="@style/PrimaryButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            style="@style/SecondaryButton"
             android:text="@string/action_edit"
-            android:textSize="12sp"
+            android:textAlignment="center"
             app:icon="@drawable/ic_edit"
             app:iconSize="16dp" />
+
     </LinearLayout>
 
     <com.google.android.material.divider.MaterialDivider

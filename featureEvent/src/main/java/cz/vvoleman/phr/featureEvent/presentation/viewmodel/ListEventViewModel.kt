@@ -1,5 +1,6 @@
 package cz.vvoleman.phr.featureEvent.presentation.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import cz.vvoleman.phr.base.presentation.viewmodel.BaseViewModel
 import cz.vvoleman.phr.base.presentation.viewmodel.usecase.UseCaseExecutorProvider
@@ -32,6 +33,8 @@ class ListEventViewModel @Inject constructor(
     override suspend fun initState(): ListEventViewState {
         val patient = getSelectedPatient()
         val events = getEvents(patient)
+
+        Log.d(TAG, "initState: $patient, $events")
 
         return ListEventViewState(
             patient = patient,

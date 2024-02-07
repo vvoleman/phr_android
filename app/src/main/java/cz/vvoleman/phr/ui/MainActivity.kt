@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -11,12 +12,17 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.ui.*
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.navigateUp
+import androidx.navigation.ui.setupActionBarWithNavController
+import androidx.navigation.ui.setupWithNavController
 import com.gu.toolargetool.TooLargeTool
 import cz.vvoleman.phr.R
 import cz.vvoleman.phr.base.domain.ModuleListener
 import cz.vvoleman.phr.base.presentation.navigation.NavManager
+import cz.vvoleman.phr.base.ui.ext.collectLatestLifecycleFlow
 import cz.vvoleman.phr.common.data.datasource.model.PatientDataStore
+import cz.vvoleman.phr.common.domain.repository.patient.GetPatientByIdRepository
 import cz.vvoleman.phr.common.presentation.eventBus.CommonListener
 import cz.vvoleman.phr.databinding.ActivityMainBinding
 import cz.vvoleman.phr.featureMedicalRecord.presentation.subscriber.MedicalRecordListener
@@ -42,6 +48,9 @@ class MainActivity : AppCompatActivity() {
 
     @Inject
     lateinit var patientDataStore: PatientDataStore
+
+    @Inject
+    lateinit var getPatientByIdRepository: GetPatientByIdRepository
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -72,10 +81,18 @@ class MainActivity : AppCompatActivity() {
         setupNavigation()
 
         val patientsButton = binding.navView.getHeaderView(0).findViewById<Button>(R.id.button_edit_patient)
+        val headerName = binding.navView.getHeaderView(0).findViewById<TextView>(R.id.text_view_patient_name)
         patientsButton.setOnClickListener {
             navController.navigate(cz.vvoleman.phr.common_datasource.R.id.nav_patient)
             binding.drawerLayout.close()
         }
+
+        collectLatestLifecycleFlow(patientDataStore.preferencesFlow) { preferences ->
+            val patientId = preferences.patientId
+            val patient = getPatientByIdRepository.getById(patientId)
+            headerName.text = patient?.name
+        }
+
 
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -85,13 +102,14 @@ class MainActivity : AppCompatActivity() {
                 }
             }
 
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                patientDataStore.preferencesFlow.collect { preferences ->
-                    Log.d("MainActivity", "Patient id: ${preferences.patientId}")
-                }
-            }
+//            repeatOnLifecycle(Lifecycle.State.STARTED) {
+//                patientDataStore.preferencesFlow.collect { preferences ->
+//                    val patientId = preferences.patientId
+//                    val patient = getPatientByIdRepository.getById(patientId)
+//                    headerName.text = patient?.name
+//                }
+//            }
         }
-
 
     }
 
