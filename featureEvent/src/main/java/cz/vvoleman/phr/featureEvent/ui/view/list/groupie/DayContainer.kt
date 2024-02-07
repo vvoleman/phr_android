@@ -19,6 +19,10 @@ class DayContainer(
 
         override fun bind(viewBinding: ItemEventDayBinding, position: Int) {
             viewBinding.apply {
+                if (date.isBefore(LocalDate.now())) {
+                    root.alpha = 0.5f
+                }
+
                 textViewDay.text = date.dayOfMonth.toString()
                 textViewWeekDay.text = date.dayOfWeek.getLocalString(TextStyle.SHORT)
 
