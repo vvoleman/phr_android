@@ -8,14 +8,15 @@ import android.view.View
 import android.widget.LinearLayout
 import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import cz.vvoleman.phr.common.ui.adapter.MarginItemDecoration
+import cz.vvoleman.phr.common.utils.SizingConstants
+import cz.vvoleman.phr.common.utils.checkVisibility
 import cz.vvoleman.phr.featureMeasurement.databinding.ViewFieldEditorBinding
 import cz.vvoleman.phr.featureMeasurement.ui.component.fieldEditor.dialog.FieldEditorDialog
 import cz.vvoleman.phr.featureMeasurement.ui.component.fieldEditor.dialog.NumericFieldEditorDialog
 import cz.vvoleman.phr.featureMeasurement.ui.model.core.MeasurementGroupFieldUi
 import cz.vvoleman.phr.featureMeasurement.ui.model.core.field.NumericFieldUiModel
 import cz.vvoleman.phr.featureMeasurement.ui.model.core.field.unit.UnitGroupUiModel
-import cz.vvoleman.phr.common.ui.adapter.MarginItemDecoration
-import cz.vvoleman.phr.common.utils.SizingConstants
 
 class FieldEditor @JvmOverloads constructor(
     context: Context,
@@ -54,6 +55,8 @@ class FieldEditor @JvmOverloads constructor(
 
     fun setItems(items: List<MeasurementGroupFieldUi>) {
         _adapter.submitList(items)
+
+        binding.textViewNoField.visibility = checkVisibility(items.isEmpty())
     }
 
     override fun onFieldClick(item: MeasurementGroupFieldUi, position: Int) {

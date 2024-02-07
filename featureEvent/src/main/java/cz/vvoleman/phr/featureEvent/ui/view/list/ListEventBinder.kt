@@ -1,5 +1,7 @@
 package cz.vvoleman.phr.featureEvent.ui.view.list
 
+import android.util.Log
+import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.xwray.groupie.GroupieAdapter
 import cz.vvoleman.phr.base.ui.mapper.BaseViewStateBinder
@@ -9,32 +11,53 @@ import cz.vvoleman.phr.featureEvent.databinding.FragmentListEventBinding
 import cz.vvoleman.phr.featureEvent.presentation.model.list.ListEventViewState
 import cz.vvoleman.phr.featureEvent.ui.factory.ListEventFactory
 import cz.vvoleman.phr.featureEvent.ui.mapper.core.EventUiModelToPresentationMapper
+import cz.vvoleman.phr.featureEvent.ui.model.core.EventUiModel
+import cz.vvoleman.phr.featureEvent.ui.view.list.groupie.DayItem
+import cz.vvoleman.phr.featureEvent.ui.view.list.groupie.MonthContainer
 
 class ListEventBinder(
     private val eventFactory: ListEventFactory,
     private val eventMapper: EventUiModelToPresentationMapper
 ) :
-    BaseViewStateBinder<ListEventViewState, FragmentListEventBinding, ListEventBinder.Notification>() {
+    BaseViewStateBinder<ListEventViewState, FragmentListEventBinding, ListEventBinder.Notification>(),
+    DayItem.EventItemListener {
+
 
     override fun firstBind(viewBinding: FragmentListEventBinding, viewState: ListEventViewState) {
         super.firstBind(viewBinding, viewState)
 
-        val events = viewState.events.map { (date, eventList) ->
-            date to eventList.map { eventMapper.toUi(it) }
-        }.toMap()
-        val containers = eventFactory.create(events)
-        val groupieAdapter = GroupieAdapter().apply {
-            addAll(containers)
-        }
-
         viewBinding.recyclerView.apply {
-            adapter = groupieAdapter
             layoutManager = LinearLayoutManager(context)
             addItemDecoration(MarginItemDecoration(SizingConstants.MARGIN_SIZE))
             setHasFixedSize(true)
         }
     }
 
-    sealed class Notification
+    override fun bind(viewBinding: FragmentListEventBinding, viewState: ListEventViewState) {
+        super.bind(viewBinding, viewState)
+
+        val groupieAdapter = GroupieAdapter().apply {
+            addAll(getItems(viewState))
+        }
+
+        viewBinding.recyclerView.adapter = groupieAdapter
+    }
+
+    private fun getItems(viewState: ListEventViewState): List<MonthContainer> {
+        Log.d("ListEventBinder", "getItems: $viewState")
+        val events = viewState.events.map { (date, eventList) ->
+            date to eventList.map { eventMapper.toUi(it) }
+        }.toMap()
+
+        return eventFactory.create(events, this)
+    }
+
+    sealed class Notification {
+        data class OnOptionsMenuPopup(val item: EventUiModel, val view: View) : Notification()
+    }
+
+    override fun onOptionsMenuPopup(item: EventUiModel, view: View) {
+        notify(Notification.OnOptionsMenuPopup(item, view))
+    }
 
 }

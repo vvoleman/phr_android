@@ -1,15 +1,23 @@
 package cz.vvoleman.phr.featureMeasurement.ui.view.addEdit
 
-import android.app.TimePickerDialog
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
-import android.widget.TimePicker
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import com.google.android.material.timepicker.MaterialTimePicker
+import com.google.android.material.timepicker.TimeFormat
+import cz.vvoleman.phr.base.ui.ext.collectLatestLifecycleFlow
+import cz.vvoleman.phr.base.ui.mapper.ViewStateBinder
+import cz.vvoleman.phr.base.ui.view.BaseFragment
+import cz.vvoleman.phr.common.ui.component.frequencySelector.FrequencyDayUiModel
+import cz.vvoleman.phr.common.ui.component.frequencySelector.FrequencySelector
+import cz.vvoleman.phr.common.ui.mapper.frequencySelector.FrequencyDayUiModelToPresentationMapper
+import cz.vvoleman.phr.common.utils.TimeConstants
+import cz.vvoleman.phr.common.utils.textChanges
 import cz.vvoleman.phr.featureMeasurement.R
 import cz.vvoleman.phr.featureMeasurement.databinding.FragmentAddEditMeasurementBinding
 import cz.vvoleman.phr.featureMeasurement.presentation.model.addEdit.AddEditMeasurementNotification
@@ -21,14 +29,6 @@ import cz.vvoleman.phr.featureMeasurement.ui.component.reminderTimeSelector.Time
 import cz.vvoleman.phr.featureMeasurement.ui.mapper.addEdit.destination.AddEditMeasurementDestinationUiMapper
 import cz.vvoleman.phr.featureMeasurement.ui.mapper.core.MeasurementGroupFieldUiModelToPresentationMapper
 import cz.vvoleman.phr.featureMeasurement.ui.model.core.MeasurementGroupFieldUi
-import cz.vvoleman.phr.base.ui.ext.collectLatestLifecycleFlow
-import cz.vvoleman.phr.base.ui.mapper.ViewStateBinder
-import cz.vvoleman.phr.base.ui.view.BaseFragment
-import cz.vvoleman.phr.common.ui.component.frequencySelector.FrequencyDayUiModel
-import cz.vvoleman.phr.common.ui.component.frequencySelector.FrequencySelector
-import cz.vvoleman.phr.common.ui.mapper.frequencySelector.FrequencyDayUiModelToPresentationMapper
-import cz.vvoleman.phr.common.utils.TimeConstants
-import cz.vvoleman.phr.common.utils.textChanges
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
@@ -94,7 +94,7 @@ class AddEditMeasurementFragment :
                 binding.fieldEditor.startEdit(notification.item)
             }
             is AddEditMeasurementNotification.MissingFields -> {
-                showSnackbar(notification.fields.toString())
+                showErrors(notification.fields)
             }
 
             AddEditMeasurementNotification.CannotSave -> {
@@ -104,6 +104,16 @@ class AddEditMeasurementFragment :
                 showSnackbar(R.string.error_cannot_schedule_measurement_group)
             }
         }
+    }
+
+    private fun showErrors(fields: List<AddEditMeasurementViewState.RequiredField>) {
+        val name = if (fields.contains(AddEditMeasurementViewState.RequiredField.NAME)) {
+            cz.vvoleman.phr.common_datasource.R.string.error_required
+        } else {
+            null
+        }
+
+        binding.textInputLayoutName.error = name?.let { getString(it) }
     }
 
     override fun onStartDialog(dialog: DialogFragment, item: MeasurementGroupFieldUi) {
@@ -145,19 +155,19 @@ class AddEditMeasurementFragment :
     private fun openTimeDialog(index: Int? = null, updateUnit: (LocalTime, Int?) -> Unit) {
         val time = index?.let { viewModel.onGetTime(it) } ?: LocalTime.now()
 
-        val dialog = TimePickerDialog(
-            context,
-            { _: TimePicker, selectedHour: Int, selectedMinute: Int ->
-                val updatedTime = LocalTime.of(selectedHour, selectedMinute)
+        // Use material time picker
+        val dialog = MaterialTimePicker.Builder()
+            .setTimeFormat(TimeFormat.CLOCK_24H)
+            .setHour(time.hour)
+            .setMinute(time.minute)
+            .build()
 
-                updateUnit(updatedTime, index)
-            },
-            time.hour,
-            time.minute,
-            true
-        )
+        dialog.addOnPositiveButtonClickListener {
+            val updatedTime = LocalTime.of(dialog.hour, dialog.minute)
+            updateUnit(updatedTime, index)
+        }
 
-        dialog.show()
+        dialog.show(childFragmentManager, "time_picker")
     }
     override fun onValueChange(days: List<FrequencyDayUiModel>) {
         viewModel.onFrequencyUpdate(days.map { frequencyMapper.toPresentation(it) })

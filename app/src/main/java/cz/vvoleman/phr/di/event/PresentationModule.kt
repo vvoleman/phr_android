@@ -2,6 +2,7 @@ package cz.vvoleman.phr.di.event
 
 import cz.vvoleman.phr.common.presentation.mapper.PatientPresentationModelToDomainMapper
 import cz.vvoleman.phr.common.presentation.mapper.healthcare.SpecificMedicalWorkerPresentationModelToDomainMapper
+import cz.vvoleman.phr.featureEvent.presentation.mapper.EventPresentationModelToSaveDomainMapper
 import cz.vvoleman.phr.featureEvent.presentation.mapper.core.EventPresentationModelToDomainMapper
 import dagger.Module
 import dagger.Provides
@@ -18,6 +19,11 @@ class PresentationModule {
         workerMapper: SpecificMedicalWorkerPresentationModelToDomainMapper
     ): EventPresentationModelToDomainMapper {
         return EventPresentationModelToDomainMapper(patientMapper, workerMapper)
+    }
+
+    @Provides
+    fun providesEventPresentationModelToSaveDomainMapper(): EventPresentationModelToSaveDomainMapper {
+        return EventPresentationModelToSaveDomainMapper()
     }
 
 }

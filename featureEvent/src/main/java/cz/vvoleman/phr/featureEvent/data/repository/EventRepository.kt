@@ -6,6 +6,7 @@ import cz.vvoleman.phr.featureEvent.data.datasource.room.mapper.EventDataSourceM
 import cz.vvoleman.phr.featureEvent.data.mapper.core.EventDataModelToDomainMapper
 import cz.vvoleman.phr.featureEvent.domain.model.addEdit.SaveEventDomainModel
 import cz.vvoleman.phr.featureEvent.domain.model.core.EventDomainModel
+import cz.vvoleman.phr.featureEvent.domain.repository.DeleteEventRepository
 import cz.vvoleman.phr.featureEvent.domain.repository.GetEventByIdRepository
 import cz.vvoleman.phr.featureEvent.domain.repository.GetEventsByPatientRepository
 import cz.vvoleman.phr.featureEvent.domain.repository.SaveEventRepository
@@ -17,7 +18,7 @@ class EventRepository(
     private val saveDomainMapper: EventDataSourceModelToSaveDomainMapper,
     private val eventMapper: EventDataModelToDomainMapper,
     private val eventDataSourceMapper: EventDataSourceModelToDataMapper
-) : GetEventByIdRepository, GetEventsByPatientRepository, SaveEventRepository {
+) : GetEventByIdRepository, GetEventsByPatientRepository, SaveEventRepository, DeleteEventRepository {
 
     override suspend fun getEventById(id: String): EventDomainModel? {
         return eventDao.getById(id).firstOrNull()
@@ -35,5 +36,9 @@ class EventRepository(
         val model = saveDomainMapper.toDataSource(event)
 
         return eventDao.insert(model).toString()
+    }
+
+    override suspend fun deleteEvent(event: EventDomainModel) {
+        eventDao.delete(event.id)
     }
 }

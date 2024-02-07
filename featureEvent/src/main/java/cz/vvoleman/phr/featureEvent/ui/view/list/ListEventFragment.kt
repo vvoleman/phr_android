@@ -2,10 +2,13 @@ package cz.vvoleman.phr.featureEvent.ui.view.list
 
 import android.view.LayoutInflater
 import android.view.MenuItem
+import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.widget.PopupMenu
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import cz.vvoleman.phr.base.ui.ext.collectLatestLifecycleFlow
 import cz.vvoleman.phr.base.ui.mapper.ViewStateBinder
 import cz.vvoleman.phr.base.ui.view.BaseFragment
 import cz.vvoleman.phr.featureEvent.R
@@ -15,6 +18,7 @@ import cz.vvoleman.phr.featureEvent.presentation.model.list.ListEventViewState
 import cz.vvoleman.phr.featureEvent.presentation.viewmodel.ListEventViewModel
 import cz.vvoleman.phr.featureEvent.ui.mapper.core.EventUiModelToPresentationMapper
 import cz.vvoleman.phr.featureEvent.ui.mapper.list.destination.ListEventDestinationUiMapper
+import cz.vvoleman.phr.featureEvent.ui.model.core.EventUiModel
 import cz.vvoleman.phr.featureEvent.ui.usecase.ExportEventsToCalendarUseCase
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -58,6 +62,43 @@ class ListEventFragment : BaseFragment<ListEventViewState, ListEventNotification
         binding.fabAddEvent.setOnClickListener {
             viewModel.onAddEvent()
         }
+
+        val binder = viewStateBinder as ListEventBinder
+        collectLatestLifecycleFlow(binder.notification) {
+            when (it) {
+                is ListEventBinder.Notification.OnOptionsMenuPopup -> {
+                    showPopupMenu(it.item, it.view)
+                }
+            }
+        }
+    }
+
+    private fun showPopupMenu(item: EventUiModel, view: View) {
+        val popup = PopupMenu(requireContext(), view)
+        popup.inflate(R.menu.options_event_item)
+
+        popup.setOnMenuItemClickListener {
+            when (it.itemId) {
+                R.id.action_edit -> {
+                    viewModel.onEditEvent(item.id)
+                    true
+                }
+                R.id.action_delete -> {
+                    showConfirmDialog(
+                        title = R.string.delete_event_title,
+                        message = R.string.delete_event_message,
+                        positiveAction = Pair(cz.vvoleman.phr.common_datasource.R.string.action_delete) {
+                            viewModel.onDeleteEvent(eventMapper.toPresentation(item))
+                        },
+                        negativeAction = Pair(cz.vvoleman.phr.common_datasource.R.string.action_cancel) {}
+                    )
+                    true
+                }
+                else -> super.onOptionsMenuItemSelected(it)
+            }
+        }
+
+        popup.show()
     }
 
     override fun setOptionsMenu(): Int {
@@ -89,6 +130,16 @@ class ListEventFragment : BaseFragment<ListEventViewState, ListEventNotification
                 lifecycleScope.launch {
                     exportUseCase.execute(eventMapper.toUi(notification.events))
                 }
+            }
+            is ListEventNotification.EventDeleted -> {
+                showSnackbar(
+                    message = R.string.event_deleted,
+                    actions = listOf(
+                        Pair(getString(cz.vvoleman.phr.common_datasource.R.string.action_undo)) {
+                            viewModel.onUndoDeleteEvent(notification.event)
+                        }
+                    )
+                )
             }
         }
     }

@@ -8,10 +8,10 @@ import java.time.LocalDate
 
 class ListEventFactory {
 
-    fun create(items: Map<LocalDate, List<EventUiModel>>): List<MonthContainer> {
+    fun create(items: Map<LocalDate, List<EventUiModel>>, listener: DayItem.EventItemListener): List<MonthContainer> {
         val dayContainers = mutableMapOf<LocalDate, List<DayContainer>>()
         for((date, events) in items) {
-            val dayItems = events.map { event -> DayItem(event) }
+            val dayItems = events.map { event -> DayItem(event) }.onEach { it.setListener(listener) }
             val dayContainer = DayContainer(date, dayItems)
             val month = LocalDate.of(date.year, date.month, 1)
             val dayContainerList = dayContainers[month] ?: emptyList()

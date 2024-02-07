@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="match_parent">
 
     <LinearLayout xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
@@ -11,76 +11,103 @@
         android:orientation="vertical"
         tools:context=".ui.addEdit.view.AddEditMedicineFragment">
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/text_input_layout_name"
-            style="?attr/textInputOutlinedStyle"
+        <LinearLayout
+            style="@style/BaseFrontBox"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/field_measurement_group_name"
-            app:errorEnabled="true">
+            android:layout_height="wrap_content">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/edit_text_name"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/text_input_layout_name"
+                style="?attr/textInputOutlinedStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textPersonName" />
+                android:hint="@string/field_measurement_group_name"
+                app:errorEnabled="true">
 
-        </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edit_text_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPersonName" />
 
-        <cz.vvoleman.phr.featureMeasurement.ui.component.fieldEditor.FieldEditor
-            android:id="@+id/field_editor"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            </com.google.android.material.textfield.TextInputLayout>
+        </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/layout_timing_header"
+            style="@style/BaseFrontBox"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <cz.vvoleman.phr.featureMeasurement.ui.component.fieldEditor.FieldEditor
+                android:id="@+id/field_editor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/BaseFrontBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="vertical">
+
+            <com.google.android.flexbox.FlexboxLayout
+                android:id="@+id/layout_timing_header"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:alignItems="baseline"
+                app:justifyContent="space_between">
+
+                <TextView
+                    android:id="@+id/text_view_select_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFeatureSettings="smcp"
+                    android:text="Vyberte čas" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/button_add_time"
+                    style="@style/SecondaryButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Přidat podání"
+                    android:textAlignment="center" />
+            </com.google.android.flexbox.FlexboxLayout>
+
+            <cz.vvoleman.phr.featureMeasurement.ui.component.reminderTimeSelector.ReminderTimeSelector
+                android:id="@+id/time_selector"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            style="@style/BaseFrontBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
             <TextView
-                android:id="@+id/text_view_select_time"
+                android:id="@+id/text_view_select_frequency"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFeatureSettings="smcp"
-                android:text="Vyberte čas" />
+                android:text="Vyberte frekvenci" />
 
-            <View
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="1" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/button_add_time"
-                style="@style/SecondaryButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Přidat podání"
-                android:textAlignment="center" />
+            <cz.vvoleman.phr.common.ui.component.frequencySelector.FrequencySelector
+                android:id="@+id/frequency_selector"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
         </LinearLayout>
 
-        <cz.vvoleman.phr.featureMeasurement.ui.component.reminderTimeSelector.ReminderTimeSelector
-            android:id="@+id/time_selector"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <TextView
-            android:id="@+id/text_view_select_frequency"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFeatureSettings="smcp"
-            android:text="Vyberte frekvenci" />
-
-        <cz.vvoleman.phr.common.ui.component.frequencySelector.FrequencySelector
-            android:id="@+id/frequency_selector"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
 
         <Button
-            style="@style/StyledButton"
             android:id="@+id/button_save"
+            style="@style/StyledButton"
             android:layout_width="match_parent"
-            android:text="@string/action_save"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:text="@string/action_save" />
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>
