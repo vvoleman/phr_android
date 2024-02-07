@@ -39,4 +39,6 @@
     <string name="maximal_value">%s %s (%s)</string>
     <string name="week_average">7denní průměr</string>
     <string name="entry_count_label">Celkem záznamů</string>
+    <string name="navigation_add_edit_entry">{action} zápis měření</string>
+    <string name="save_measurement_entry">Uložit zápis měření</string>
 </resources>

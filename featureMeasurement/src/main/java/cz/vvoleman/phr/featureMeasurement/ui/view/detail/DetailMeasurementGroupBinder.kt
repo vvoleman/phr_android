@@ -2,9 +2,9 @@ package cz.vvoleman.phr.featureMeasurement.ui.view.detail
 
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.patrykandpatrick.vico.core.entry.ChartEntryModelProducer
 import com.patrykandpatrick.vico.core.entry.FloatEntry
 import com.patrykandpatrick.vico.core.entry.entryOf
+import com.xwray.groupie.GroupieAdapter
 import cz.vvoleman.phr.base.ui.mapper.BaseViewStateBinder
 import cz.vvoleman.phr.common.ui.adapter.MarginItemDecoration
 import cz.vvoleman.phr.common.utils.SizingConstants
@@ -12,6 +12,7 @@ import cz.vvoleman.phr.featureMeasurement.databinding.FragmentDetailMeasurementG
 import cz.vvoleman.phr.featureMeasurement.presentation.model.detail.DetailMeasurementGroupViewState
 import cz.vvoleman.phr.featureMeasurement.ui.adapter.detail.FieldStatsAdapter
 import cz.vvoleman.phr.featureMeasurement.ui.component.fieldInfoTable.FieldInfoTableAdapter
+import cz.vvoleman.phr.featureMeasurement.ui.factory.TableFactory
 import cz.vvoleman.phr.featureMeasurement.ui.mapper.detail.EntryInfoUiModelToMeasurementGroupMapper
 import cz.vvoleman.phr.featureMeasurement.ui.mapper.detail.FieldStatsUiModelToPresentationMapper
 import cz.vvoleman.phr.featureMeasurement.ui.model.detail.EntryInfoUiModel
@@ -41,14 +42,14 @@ class DetailMeasurementGroupBinder(
 
         statsAdapter.submitList(viewState.fieldStats.map { statsMapper.toUi(it) })
 
-        val tableAdapter = FieldInfoTableAdapter(this)
+        val containers = TableFactory().create(entryInfoMapper.toUi(viewState.measurementGroup))
+
+        val tableAdapter = GroupieAdapter().apply { add(containers) }
         viewBinding.recyclerViewTable.apply {
             adapter = tableAdapter
             layoutManager = LinearLayoutManager(context)
             setHasFixedSize(false)
         }
-
-        tableAdapter.submitList(entryInfoMapper.toUi(viewState.measurementGroup))
     }
 
     override fun bind(viewBinding: FragmentDetailMeasurementGroupBinding, viewState: DetailMeasurementGroupViewState) {
