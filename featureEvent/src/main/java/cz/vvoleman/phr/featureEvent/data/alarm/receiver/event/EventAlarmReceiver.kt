@@ -29,6 +29,7 @@ class EventAlarmReceiver : BroadcastReceiver() {
         }
 
         scope.launch {
+            Log.d(TAG, "onReceive: event id: ${content.eventId}")
             val event = repository.getEventById(content.eventId)
             if (event == null) {
                 Log.e(TAG, "onReceive: event is null (id: ${content.eventId})")

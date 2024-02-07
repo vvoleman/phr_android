@@ -29,4 +29,7 @@
     <string name="error_cannot_save_event">Nepodařilo se uložit plán.</string>
     <string name="notification_event_title">Upozornění na plán</string>
     <string name="notification_event_text">Do plánu \"%s\" zbývá %s</string>
+    <string name="delete_event_title">Smazat plán</string>
+    <string name="delete_event_message">Opravdu chcete smazat plán?</string>
+    <string name="event_deleted">Plán byl smazán</string>
 </resources>
