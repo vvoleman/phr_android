@@ -37,7 +37,8 @@
             app:destination="@id/listMeasurementFragment" />
         <argument
             android:name="action"
-            app:argType="string" />
+            app:argType="string"
+            android:defaultValue="Přidat" />
         <argument
             android:name="measurementGroupId"
             app:argType="string"

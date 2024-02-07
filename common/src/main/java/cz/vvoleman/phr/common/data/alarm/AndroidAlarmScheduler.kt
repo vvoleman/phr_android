@@ -1,16 +1,13 @@
 package cz.vvoleman.phr.common.data.alarm
 
-import android.Manifest
 import android.annotation.SuppressLint
 import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.util.Log
-import androidx.core.content.ContextCompat
 import cz.vvoleman.phr.common.utils.toEpochSeconds
-import java.time.ZoneOffset
+import java.time.ZoneId
 import java.util.concurrent.TimeUnit
 
 class AndroidAlarmScheduler(
@@ -33,6 +30,8 @@ class AndroidAlarmScheduler(
 
         when (item) {
             is AlarmItem.Repeat -> {
+                val millis = TimeUnit.SECONDS.toMillis(item.triggerAt.toEpochSeconds())
+                Log.d("AndroidAlarmScheduler", "Scheduling repeating alarm, triggerAt: ${millis} for item: $item")
                 alarmManager.setRepeating(
                     item.type,
                     TimeUnit.SECONDS.toMillis(item.triggerAt.toEpochSeconds()),
@@ -42,11 +41,11 @@ class AndroidAlarmScheduler(
                         item.id.hashCode(),
                         intent,
                         PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
-                    )
+                    ),
                 )
             }
             is AlarmItem.Single -> {
-                val seconds = item.triggerAt.toEpochSecond(ZoneOffset.UTC)
+                val seconds = item.triggerAt.atZone(ZoneId.systemDefault()).toEpochSecond()
 
                 alarmManager.setExactAndAllowWhileIdle(
                     item.type,
@@ -84,9 +83,10 @@ class AndroidAlarmScheduler(
     }
 
     private fun checkPermissions(): Boolean {
-        return ContextCompat.checkSelfPermission(
-            context,
-            Manifest.permission.SET_ALARM
-        ) != PackageManager.PERMISSION_GRANTED
+//        return ContextCompat.checkSelfPermission(
+//            context,
+//            Manifest.permission.SET_ALARM
+//        ) != PackageManager.PERMISSION_GRANTED
+        return true
     }
 }

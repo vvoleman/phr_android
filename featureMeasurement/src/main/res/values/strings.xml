@@ -12,7 +12,7 @@
     <string name="field_measurement_group_name">Jméno skupiny měření</string>
     <string name="success_measurement_group_saved">Skupina měření byla uložena!</string>
     <string name="notification_measurement_group_title">Upozornění na měření</string>
-    <string name="notification_measurement_group_text">Je čas si zapsat měření \"%s\"</string>
+    <string name="notification_measurement_group_text">Je čas si zapsat měření \"%s\" (%s)</string>
     <string name="error_cannot_schedule_measurement_group">Skupina měření byla uložena. Nepodařilo se však naplánovat notifikace.</string>
     <string name="next_schedule_label_measurement">Další měření</string>
     <string name="next_schedule_multiple_measurement">Více měření</string>

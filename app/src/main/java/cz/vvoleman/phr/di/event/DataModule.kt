@@ -10,6 +10,7 @@ import cz.vvoleman.phr.featureEvent.data.repository.AlarmRepository
 import cz.vvoleman.phr.featureEvent.data.repository.EventRepository
 import cz.vvoleman.phr.featureEvent.domain.mapper.core.LongToReminderOffsetMapper
 import cz.vvoleman.phr.featureEvent.domain.repository.DeleteEventAlarmRepository
+import cz.vvoleman.phr.featureEvent.domain.repository.DeleteEventRepository
 import cz.vvoleman.phr.featureEvent.domain.repository.GetEventByIdRepository
 import cz.vvoleman.phr.featureEvent.domain.repository.GetEventsByPatientRepository
 import cz.vvoleman.phr.featureEvent.domain.repository.SaveEventRepository
@@ -87,5 +88,10 @@ class DataModule {
     fun providesEventAlarmManager(
         alarmRepository: AlarmRepository
     ): EventAlarmManager = EventAlarmManager(alarmRepository)
+
+    @Provides
+    fun providesDeleteEventRepository(
+        eventRepository: EventRepository
+    ): DeleteEventRepository = eventRepository
 
 }

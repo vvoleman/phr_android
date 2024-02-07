@@ -8,6 +8,7 @@ import androidx.navigation.NavDeepLinkBuilder
 import cz.vvoleman.phr.featureMeasurement.R
 import cz.vvoleman.phr.featureMeasurement.data.alarm.receiver.measurementGroup.MeasurementGroupAlarmReceiver
 import cz.vvoleman.phr.featureMeasurement.domain.model.core.MeasurementGroupDomainModel
+import java.time.LocalDateTime
 
 class MeasurementGroupNotificationService(
     private val context: Context
@@ -15,7 +16,7 @@ class MeasurementGroupNotificationService(
 
     private val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
-    fun showNotification(measurementGroup: MeasurementGroupDomainModel) {
+    fun showNotification(measurementGroup: MeasurementGroupDomainModel, timestamp: LocalDateTime) {
         val args = Bundle().apply {
             putString("scheduledMeasurementGroupId", measurementGroup.id)
         }
@@ -32,7 +33,8 @@ class MeasurementGroupNotificationService(
             .setContentText(
                 context.resources.getString(
                     R.string.notification_measurement_group_text,
-                    measurementGroup.name
+                    measurementGroup.name,
+                    timestamp.toLocalTime().toString()
                 )
             )
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)

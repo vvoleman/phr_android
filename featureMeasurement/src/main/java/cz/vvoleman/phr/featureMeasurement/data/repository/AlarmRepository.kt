@@ -1,5 +1,6 @@
 package cz.vvoleman.phr.featureMeasurement.data.repository
 
+import android.app.AlarmManager
 import android.util.Log
 import cz.vvoleman.phr.common.data.alarm.AlarmItem
 import cz.vvoleman.phr.common.data.alarm.AlarmScheduler
@@ -58,8 +59,9 @@ class AlarmRepository(
         return groupedItems.map { (time, _) ->
 
             val alarmItem = AlarmItem.Repeat(
-                id = "measurement-group-${model.id}",
+                id = "measurement-group-${model.id}-${time.toEpochSeconds()}",
                 triggerAt = time,
+                type = AlarmManager.RTC_WAKEUP,
                 content = MeasurementGroupAlarmContent(
                     measurementGroupId = model.id,
                     triggerAt = time.toEpochSeconds(),
