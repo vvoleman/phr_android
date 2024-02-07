@@ -48,7 +48,7 @@
     <fragment
         android:id="@+id/addEditEntryFragment"
         android:name="cz.vvoleman.phr.featureMeasurement.ui.view.addEditEntry.AddEditEntryFragment"
-        android:label="AddEditEntryFragment" >
+        android:label="@string/navigation_add_edit_entry">
         <argument
             android:name="action"
             app:argType="string" />
@@ -57,9 +57,9 @@
             app:argType="string" />
         <argument
             android:name="entryId"
+            android:defaultValue="@null"
             app:argType="string"
-            app:nullable="true"
-            android:defaultValue="@null" />
+            app:nullable="true" />
         <action
             android:id="@+id/action_addEditEntryFragment_to_listMeasurementFragment"
             app:destination="@id/listMeasurementFragment" />
