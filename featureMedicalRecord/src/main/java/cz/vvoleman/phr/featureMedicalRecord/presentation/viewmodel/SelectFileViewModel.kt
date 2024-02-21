@@ -1,5 +1,6 @@
 package cz.vvoleman.phr.featureMedicalRecord.presentation.viewmodel
 
+import android.graphics.Bitmap
 import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.SavedStateHandle
@@ -38,7 +39,15 @@ class SelectFileViewModel @Inject constructor(
     override val TAG = "SelectFileViewModel"
 
     override suspend fun initState(): SelectFileViewState {
-        return SelectFileViewState()
+        val parentViewState = checkNotNull(savedStateHandle.get<AddEditPresentationModel>("parentViewState")) {
+            "Parent view state not found"
+        }
+        val croppedImage = getCroppedImage()
+
+        return SelectFileViewState(
+            parentViewState = parentViewState,
+            previewUri = croppedImage
+        )
     }
 
     fun onRunImageAnalyze(inputImage: InputImage, uri: Uri) {
@@ -94,6 +103,10 @@ class SelectFileViewModel @Inject constructor(
         }
     }
 
+    fun onCropImage(uri: Uri) {
+        navigateTo(SelectFileDestination.CropImage(uri, currentViewState.parentViewState))
+    }
+
     private fun setLoading(loading: Boolean) {
         var newValue: LocalDate? = null
         if (loading) {
@@ -132,5 +145,9 @@ class SelectFileViewModel @Inject constructor(
             updateViewState(currentViewState.copy(recognizedOptions = presentationOptions))
             notify(SelectFileNotification.OptionsRecognized)
         }
+    }
+
+    private fun getCroppedImage(): Bitmap? {
+        return savedStateHandle.get<Bitmap>("croppedImage")
     }
 }

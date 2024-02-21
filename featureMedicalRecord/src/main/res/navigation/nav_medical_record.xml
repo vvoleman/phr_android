@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_medical_record"
-    android:label="@string/navigation_add_medical_record"
-    app:startDestination="@id/listMedicalRecordsFragment">
+    android:label="@string/navigation_crop_image"
+    app:startDestination="@id/addEditMedicalRecordsFragment">
 
     <fragment
         android:id="@+id/listMedicalRecordsFragment"
@@ -15,7 +15,7 @@
             android:name="medicalWorkerId"
             android:defaultValue="@null"
             app:argType="string"
-            app:nullable="true"/>
+            app:nullable="true" />
         <action
             android:id="@+id/action_listMedicalRecordsFragment_to_addEditMedicalRecordsFragment"
             app:destination="@id/addEditMedicalRecordsFragment" />
@@ -54,9 +54,9 @@
             app:nullable="true" />
         <argument
             android:name="previousViewState"
+            android:defaultValue="@null"
             app:argType="cz.vvoleman.phr.featureMedicalRecord.presentation.model.addEdit.AddEditPresentationModel"
-            app:nullable="true"
-            android:defaultValue="@null" />
+            app:nullable="true" />
     </fragment>
     <fragment
         android:id="@+id/selectFileFragment"
@@ -71,6 +71,14 @@
         <argument
             android:name="parentViewState"
             app:argType="cz.vvoleman.phr.featureMedicalRecord.presentation.model.addEdit.AddEditPresentationModel" />
+        <action
+            android:id="@+id/action_selectFileFragment_to_cropImageFragment"
+            app:destination="@id/cropImageFragment" />
+        <argument
+            android:name="cropped_image"
+            app:argType="android.graphics.Bitmap"
+            app:nullable="true"
+            android:defaultValue="@null" />
     </fragment>
     <fragment
         android:id="@+id/detailMedicalRecordFragment"
@@ -83,5 +91,20 @@
         <argument
             android:name="medicalRecordId"
             app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/cropImageFragment"
+        android:name="cz.vvoleman.phr.featureMedicalRecord.ui.view.cropImage.CropImageFragment"
+        android:label="fragment_crop_image"
+        tools:layout="@layout/fragment_crop_image">
+        <action
+            android:id="@+id/action_cropImageFragment_to_selectFileFragment"
+            app:destination="@id/selectFileFragment" />
+        <argument
+            android:name="uri"
+            app:argType="android.net.Uri" />
+        <argument
+            android:name="parentViewState"
+            app:argType="cz.vvoleman.phr.featureMedicalRecord.presentation.model.addEdit.AddEditPresentationModel" />
     </fragment>
 </navigation>
