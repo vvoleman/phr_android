@@ -53,4 +53,5 @@
     <string name="no_medical_worker">Žádný lék. pracovník</string>
     <string name="medical_record_problem_category_detail_title">Lékařské zprávy</string>
     <string name="medical_record_problem_category_detail_description">Všechny lékařské zprávy přiřazené k této kategorii.</string>
+    <string name="navigation_crop_image">Oříznutí dokumentu</string>
 </resources>
