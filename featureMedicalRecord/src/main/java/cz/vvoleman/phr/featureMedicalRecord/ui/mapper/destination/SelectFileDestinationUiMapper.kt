@@ -8,37 +8,27 @@ import cz.vvoleman.phr.featureMedicalRecord.ui.view.selectFile.SelectFileFragmen
 
 class SelectFileDestinationUiMapper(navManager: NavManager) : DestinationUiMapper(navManager) {
     override fun navigate(destination: PresentationDestination) {
-        when (val dest = destination as SelectFileDestination) {
+        when (destination) {
             is SelectFileDestination.SuccessWithOptions -> {
                 val action =
                     SelectFileFragmentDirections.actionSelectFileFragmentToAddEditMedicalRecordsFragment(
-                        previousViewState = dest.parentViewState,
-                        fileAsset = dest.fileAsset,
-                        selectedOptions = dest.selectedOptions
+                        previousViewState = destination.parentViewState,
+                        fileAsset = destination.fileAsset,
+                        selectedOptions = destination.selectedOptions
                     )
                 navManager.navigate(action)
             }
-
             is SelectFileDestination.Success -> {
                 val action =
                     SelectFileFragmentDirections.actionSelectFileFragmentToAddEditMedicalRecordsFragment(
-                        previousViewState = dest.parentViewState,
-                        fileAsset = dest.fileAsset
+                        previousViewState = destination.parentViewState,
+                        fileAsset = destination.fileAsset
                     )
                 navManager.navigate(action)
             }
-
             is SelectFileDestination.Cancel -> {
                 val action =
                     SelectFileFragmentDirections.actionSelectFileFragmentToAddEditMedicalRecordsFragment()
-                navManager.navigate(action)
-            }
-
-            is SelectFileDestination.CropImage -> {
-                val action = SelectFileFragmentDirections.actionSelectFileFragmentToCropImageFragment(
-                    dest.uri,
-                    dest.parentViewState
-                )
                 navManager.navigate(action)
             }
         }

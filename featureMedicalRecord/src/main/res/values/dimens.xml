@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <dimen name="cropper_corner_radius">25px</dimen>
-    <dimen name="cropper_selected_corner_radius_magnification">4px</dimen>
-    <dimen name="cropper_selected_corner_background_magnification">5px</dimen>
-    <dimen name="image_crop_view_initial_height">0dp</dimen>
-    <dimen name="image_crop_view_vertical_padding">15.4dp</dimen>
-</resources>

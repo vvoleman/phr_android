@@ -1,7 +1,6 @@
 package cz.vvoleman.phr.featureMedicalRecord.ui.view.selectFile
 
 import android.net.Uri
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
@@ -23,7 +22,6 @@ import cz.vvoleman.phr.featureMedicalRecord.ui.mapper.destination.SelectFileDest
 import cz.vvoleman.phr.featureMedicalRecord.ui.view.selectFile.binder.SelectFileBinder
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import org.opencv.android.OpenCVLoader
 import java.io.File
 import javax.inject.Inject
 
@@ -42,9 +40,8 @@ class SelectFileFragment : BaseFragment<SelectFileViewState, SelectFileNotificat
         registerForActivityResult(ActivityResultContracts.TakePicture()) { success ->
             if (success) {
                 latestTmpUri?.let { uri ->
-                    Log.d("SelectFileFragment", "onActivityResult: $uri")
-                    viewModel.onCropImage(uri)
-//                    viewModel.onRunImageAnalyze(image, uri)
+                    val image = InputImage.fromFilePath(requireContext(), uri)
+                    viewModel.onRunImageAnalyze(image, uri)
                 }
             }
         }
@@ -68,8 +65,6 @@ class SelectFileFragment : BaseFragment<SelectFileViewState, SelectFileNotificat
 
     override fun setupListeners() {
         super.setupListeners()
-
-        OpenCVLoader.initDebug();
 
         binding.apply {
             cancelButton.setOnClickListener { viewModel.onCancel() }

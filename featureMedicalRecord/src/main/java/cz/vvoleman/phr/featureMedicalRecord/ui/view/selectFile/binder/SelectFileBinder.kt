@@ -2,7 +2,6 @@ package cz.vvoleman.phr.featureMedicalRecord.ui.view.selectFile.binder
 
 import android.app.Dialog
 import android.content.Context
-import android.graphics.Bitmap
 import android.view.View
 import android.widget.Button
 import android.widget.LinearLayout
@@ -21,10 +20,8 @@ class SelectFileBinder :
     BaseViewStateBinder<SelectFileViewState, FragmentSelectFileBinding, SelectFileBinder.Notification>() {
 
     private lateinit var selectOptionsDialog: Dialog
-    private var bitmap: Bitmap? = null
 
     override fun bind(viewBinding: FragmentSelectFileBinding, viewState: SelectFileViewState) {
-        super.bind(viewBinding, viewState)
         viewBinding.progress.visibility = getVisibility(viewState.isLoading())
 
         if (viewState.previewUri != null) {
@@ -36,10 +33,6 @@ class SelectFileBinder :
         }
 
         viewBinding.confirmButton.visibility = getVisibility(viewState.recognizedOptions != null)
-    }
-
-    override fun firstBind(viewBinding: FragmentSelectFileBinding, viewState: SelectFileViewState) {
-        super.firstBind(viewBinding, viewState)
     }
 
     override fun init(
@@ -135,7 +128,6 @@ class SelectFileBinder :
     sealed class Notification {
         data class ConfirmWithOptions(val diagnose: String?, val visitDate: String?, val patient: String?) :
             Notification()
-
         object ConfirmWithoutOptions : Notification()
     }
 }
