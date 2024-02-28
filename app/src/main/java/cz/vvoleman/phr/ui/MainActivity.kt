@@ -6,7 +6,6 @@ import android.util.Log
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -73,8 +72,6 @@ class MainActivity : AppCompatActivity() {
             ),
             binding.drawerLayout
         )
-
-        binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
 
         initNavManager()
         setupActionBarWithNavController(navController, appBarConfiguration)
