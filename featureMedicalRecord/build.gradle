@@ -54,7 +54,6 @@ dependencies {
     implementation(libs.androidx.camera.core)
     implementation(libs.androidx.datastore.preferences)
     implementation(libs.material)
-    implementation project(path: ':opencv')
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.androidx.test.espresso.core)
 
