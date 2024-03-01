@@ -166,8 +166,9 @@ class UiModule {
 
     @Provides
     fun providesDetailMeasurementGroupDestinationUiMapper(
+        @ApplicationContext context: Context,
         navManager: NavManager
-    ) = DetailMeasurementGroupDestinationUiMapper(navManager)
+    ) = DetailMeasurementGroupDestinationUiMapper(context, navManager)
 
     @Provides
     fun providesDetailMeasurementGroupBinder(

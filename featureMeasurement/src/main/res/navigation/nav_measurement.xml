@@ -66,6 +66,9 @@
         <action
             android:id="@+id/action_addEditEntryFragment_to_detailMeasurementGroupFragment"
             app:destination="@id/detailMeasurementGroupFragment" />
+        <argument
+            android:name="source"
+            app:argType="cz.vvoleman.phr.featureMeasurement.presentation.model.addEditEntry.NavigationSource" />
     </fragment>
     <fragment
         android:id="@+id/detailMeasurementGroupFragment"
@@ -77,5 +80,8 @@
         <argument
             android:name="name"
             app:argType="string" />
+        <action
+            android:id="@+id/action_detailMeasurementGroupFragment_to_addEditEntryFragment"
+            app:destination="@id/addEditEntryFragment" />
     </fragment>
 </navigation>

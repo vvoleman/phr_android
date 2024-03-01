@@ -11,7 +11,6 @@ import cz.vvoleman.phr.common.utils.SizingConstants
 import cz.vvoleman.phr.featureMeasurement.databinding.FragmentDetailMeasurementGroupBinding
 import cz.vvoleman.phr.featureMeasurement.presentation.model.detail.DetailMeasurementGroupViewState
 import cz.vvoleman.phr.featureMeasurement.ui.adapter.detail.FieldStatsAdapter
-import cz.vvoleman.phr.featureMeasurement.ui.component.fieldInfoTable.FieldInfoTableAdapter
 import cz.vvoleman.phr.featureMeasurement.ui.factory.TableFactory
 import cz.vvoleman.phr.featureMeasurement.ui.mapper.detail.EntryInfoUiModelToMeasurementGroupMapper
 import cz.vvoleman.phr.featureMeasurement.ui.mapper.detail.FieldStatsUiModelToPresentationMapper
@@ -24,13 +23,17 @@ class DetailMeasurementGroupBinder(
     private val statsMapper: FieldStatsUiModelToPresentationMapper
 ) :
     BaseViewStateBinder<DetailMeasurementGroupViewState, FragmentDetailMeasurementGroupBinding, DetailMeasurementGroupBinder.Notification>(),
-    FieldInfoTableAdapter.FieldInfoTableListener {
+    TableFactory.EntryTableInterface {
 
     override fun firstBind(
         viewBinding: FragmentDetailMeasurementGroupBinding,
         viewState: DetailMeasurementGroupViewState
     ) {
         super.firstBind(viewBinding, viewState)
+    }
+
+    override fun bind(viewBinding: FragmentDetailMeasurementGroupBinding, viewState: DetailMeasurementGroupViewState) {
+        super.bind(viewBinding, viewState)
 
         val statsAdapter = FieldStatsAdapter()
         viewBinding.recyclerViewStats.apply {
@@ -42,7 +45,8 @@ class DetailMeasurementGroupBinder(
 
         statsAdapter.submitList(viewState.fieldStats.map { statsMapper.toUi(it) })
 
-        val containers = TableFactory().create(entryInfoMapper.toUi(viewState.measurementGroup))
+        val containers = TableFactory(this)
+            .create(entryInfoMapper.toUi(viewState.measurementGroup))
 
         val tableAdapter = GroupieAdapter().apply { add(containers) }
         viewBinding.recyclerViewTable.apply {
@@ -50,11 +54,6 @@ class DetailMeasurementGroupBinder(
             layoutManager = LinearLayoutManager(context)
             setHasFixedSize(false)
         }
-    }
-
-    override fun bind(viewBinding: FragmentDetailMeasurementGroupBinding, viewState: DetailMeasurementGroupViewState) {
-        super.bind(viewBinding, viewState)
-
     }
 
     private fun getRandomEntries(): List<FloatEntry> {

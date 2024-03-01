@@ -1,33 +1,48 @@
 package cz.vvoleman.phr.featureMeasurement.ui.factory
 
+import android.view.View
 import com.xwray.groupie.viewbinding.BindableItem
 import cz.vvoleman.phr.common.utils.toLocalString
 import cz.vvoleman.phr.featureMeasurement.ui.model.detail.EntryInfoUiModel
-import cz.vvoleman.phr.featureMeasurement.ui.view.addEditEntry.groupie.ColumnContainer
-import cz.vvoleman.phr.featureMeasurement.ui.view.addEditEntry.groupie.HeaderItem
-import cz.vvoleman.phr.featureMeasurement.ui.view.addEditEntry.groupie.RowItem
-import cz.vvoleman.phr.featureMeasurement.ui.view.addEditEntry.groupie.TableContainer
+import cz.vvoleman.phr.featureMeasurement.ui.view.detail.groupie.ButtonItem
+import cz.vvoleman.phr.featureMeasurement.ui.view.detail.groupie.ColumnContainer
+import cz.vvoleman.phr.featureMeasurement.ui.view.detail.groupie.HeaderItem
+import cz.vvoleman.phr.featureMeasurement.ui.view.detail.groupie.RowItem
+import cz.vvoleman.phr.featureMeasurement.ui.view.detail.groupie.TableContainer
 
-class TableFactory {
+class TableFactory(
+    private val entryTableInterface: EntryTableInterface
+) {
     fun create(items: List<EntryInfoUiModel>) : TableContainer {
-        val headers = listOf("Datum").plus(items.first().fields.map { it.name }).map { HeaderItem(it) }
+        if (items.isEmpty()) {
+            return TableContainer(emptyList())
+        }
 
-        val columns = mutableMapOf<String,List<BindableItem<*>>>()
+        val headers = listOf("Datum").plus(items.first().fields.map { it.name }).plus("Akce").map { HeaderItem(it) }
 
-        // Dates
+        val columns = mutableMapOf<String,MutableList<BindableItem<*>>>()
+
+        for(i in headers.indices){
+            columns[i.toString()] = mutableListOf(headers[i])
+        }
+
         val dates = items.map { it.entry.createdAt.toLocalString() }
-        columns["Datum"] = dates.map { date -> RowItem(date) }
+        columns["0"]!!.addAll(dates.map { RowItem(it) })
 
-        // Fields
-        items.first().fields.forEach { field ->
-            val values = items.map { it.entry.values[field.id] ?: "" }
-            columns[field.name] = values.map { value -> RowItem(value) }
+        val fields = items.first().fields
+
+        for(i in fields.indices){
+            val values = items.map { it.entry.values[fields[i].id] ?: "" }
+            columns[(i+1).toString()]!!.addAll(values.map { RowItem(it) })
         }
 
-        items.first().fields.forEach { field ->
-            val values = items.map { it.entry.values[field.id] ?: "" }
-            columns[field.name] = values.map { value -> RowItem(value) }
+        val lastIndex = headers.size - 1
+        val buttons = items.map {
+            ButtonItem(it) { item, anchorView ->
+                entryTableInterface.onItemOptionsMenuClicked(item, anchorView)
+            }
         }
+        columns[lastIndex.toString()]!!.addAll(buttons)
 
         val columnContainers = mutableListOf<ColumnContainer>()
         for(column in columns.values){
@@ -36,6 +51,10 @@ class TableFactory {
 
 
         return TableContainer(columnContainers)
+    }
+
+    interface EntryTableInterface {
+        fun onItemOptionsMenuClicked(item: EntryInfoUiModel, anchorView: View)
     }
 
 }

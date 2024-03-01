@@ -1,11 +1,12 @@
 package cz.vvoleman.phr.featureMeasurement.ui.mapper.list.destination
 
 import android.content.Context
-import cz.vvoleman.phr.featureMeasurement.presentation.model.list.ListMeasurementDestination
-import cz.vvoleman.phr.featureMeasurement.ui.view.list.ListMeasurementFragmentDirections
 import cz.vvoleman.phr.base.presentation.model.PresentationDestination
 import cz.vvoleman.phr.base.presentation.navigation.NavManager
 import cz.vvoleman.phr.base.ui.mapper.DestinationUiMapper
+import cz.vvoleman.phr.featureMeasurement.presentation.model.addEditEntry.NavigationSource
+import cz.vvoleman.phr.featureMeasurement.presentation.model.list.ListMeasurementDestination
+import cz.vvoleman.phr.featureMeasurement.ui.view.list.ListMeasurementFragmentDirections
 
 class ListMeasurementDestinationUiMapper(
     private val context: Context,
@@ -24,7 +25,8 @@ class ListMeasurementDestinationUiMapper(
                 val action = ListMeasurementFragmentDirections
                     .actionListMeasurementFragmentToAddEditEntryFragment(
                         action = context.resources.getString(cz.vvoleman.phr.common_datasource.R.string.action_add),
-                        measurementGroupId = dest.measurementGroupId
+                        measurementGroupId = dest.measurementGroupId,
+                        source = NavigationSource.List
                     )
                 navManager.navigate(action)
             }

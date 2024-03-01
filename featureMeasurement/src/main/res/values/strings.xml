@@ -41,4 +41,7 @@
     <string name="entry_count_label">Celkem záznamů</string>
     <string name="navigation_add_edit_entry">{action} zápis měření</string>
     <string name="save_measurement_entry">Uložit zápis měření</string>
+    <string name="action_add_measurement">Přidat záznam</string>
+    <string name="dialog_delete_entry_title">Smazat záznam měření</string>
+    <string name="dialog_delete_entry_message">Opravdu si přejete smazat záznam měření</string>
 </resources>
