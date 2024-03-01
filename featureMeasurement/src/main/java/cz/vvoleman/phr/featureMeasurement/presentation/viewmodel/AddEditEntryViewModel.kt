@@ -17,6 +17,7 @@ import cz.vvoleman.phr.featureMeasurement.presentation.model.addEditEntry.AddEdi
 import cz.vvoleman.phr.featureMeasurement.presentation.model.addEditEntry.AddEditEntryNotification
 import cz.vvoleman.phr.featureMeasurement.presentation.model.addEditEntry.AddEditEntryViewState
 import cz.vvoleman.phr.featureMeasurement.presentation.model.addEditEntry.EntryFieldPresentationModel
+import cz.vvoleman.phr.featureMeasurement.presentation.model.addEditEntry.NavigationSource
 import cz.vvoleman.phr.featureMeasurement.presentation.model.core.MeasurementGroupEntryPresentationModel
 import cz.vvoleman.phr.featureMeasurement.presentation.model.core.MeasurementGroupPresentationModel
 import cz.vvoleman.phr.featureMeasurement.presentation.model.core.MeasurementGroupScheduleItemPresentationModel
@@ -46,6 +47,8 @@ class AddEditEntryViewModel @Inject constructor(
         val existingEntry= getExistingEntry(measurementGroup)
         val entryFields = getEntryFields(measurementGroup)
         val scheduleItem = getScheduleItem(measurementGroup)
+        val navigationSource = savedStateHandle.get<NavigationSource>("source")
+        require(navigationSource != null) { "Navigation source is null" }
 
         return AddEditEntryViewState(
             measurementGroup = measurementGroup,
@@ -53,6 +56,7 @@ class AddEditEntryViewModel @Inject constructor(
             entryFields = entryFields,
             scheduleItemId = scheduleItem?.id,
             dateTime = existingEntry?.createdAt ?: LocalDateTime.now(),
+            navigationSource = navigationSource
         )
     }
 
@@ -105,7 +109,8 @@ class AddEditEntryViewModel @Inject constructor(
 
     private fun handleOnSave(unit: Unit) {
         navigateTo(AddEditEntryDestination.EntrySaved(
-            measurementGroupId = currentViewState.measurementGroup.id
+            measurementGroupId = currentViewState.measurementGroup.id,
+            source = currentViewState.navigationSource
         ))
     }
 
