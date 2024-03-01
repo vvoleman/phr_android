@@ -1,4 +1,4 @@
-package cz.vvoleman.phr.featureMeasurement.ui.view.addEditEntry.groupie
+package cz.vvoleman.phr.featureMeasurement.ui.view.detail.groupie
 
 import android.view.View
 import com.xwray.groupie.GroupieAdapter
@@ -11,6 +11,13 @@ class ColumnContainer(
 ) : BindableItem<ItemColumnBinding>() {
 
     override fun bind(viewBinding: ItemColumnBinding, position: Int) {
+        for (i in items.indices) {
+            when (val item = items[i]) {
+                is RowItem -> item.setItemIndex(i)
+                is ButtonItem -> item.setItemIndex(i)
+            }
+        }
+
         val groupieAdapter = GroupieAdapter().apply {
             addAll(items)
         }

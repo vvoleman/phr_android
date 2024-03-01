@@ -1,4 +1,4 @@
-package cz.vvoleman.phr.featureMeasurement.ui.view.addEditEntry.groupie
+package cz.vvoleman.phr.featureMeasurement.ui.view.detail.groupie
 
 import android.view.View
 import com.xwray.groupie.viewbinding.BindableItem

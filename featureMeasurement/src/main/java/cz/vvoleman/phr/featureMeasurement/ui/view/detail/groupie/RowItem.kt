@@ -1,4 +1,4 @@
-package cz.vvoleman.phr.featureMeasurement.ui.view.addEditEntry.groupie
+package cz.vvoleman.phr.featureMeasurement.ui.view.detail.groupie
 
 import android.view.View
 import com.xwray.groupie.viewbinding.BindableItem
@@ -9,8 +9,22 @@ class RowItem(
     val text: String
 ) : BindableItem<ItemRowItemBinding>() {
 
+    private var itemIndex: Int? = null
+
     override fun bind(viewBinding: ItemRowItemBinding, position: Int) {
         viewBinding.textView.text = text
+
+        itemIndex?.let {
+            if (it % 2 == 0) {
+                viewBinding.root.setBackgroundColor(viewBinding.root.context.getColor(cz.vvoleman.phr.base.R.color.gray_500))
+            } else {
+//                viewBinding.root.setBackgroundColor(viewBinding.root.context.getColor(cz.vvoleman.phr.base.R.color.gray_200))
+            }
+        }
+    }
+
+    fun setItemIndex(index: Int) {
+        itemIndex = index
     }
 
     override fun getLayout(): Int = R.layout.item_row_item

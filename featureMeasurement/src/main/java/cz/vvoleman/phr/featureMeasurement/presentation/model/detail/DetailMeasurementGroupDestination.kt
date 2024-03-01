@@ -4,4 +4,9 @@ import cz.vvoleman.phr.base.presentation.model.PresentationDestination
 
 sealed class DetailMeasurementGroupDestination : PresentationDestination {
 
+    data class AddEntry(
+        val measurementGroupId: String,
+        val name: String
+    ) : DetailMeasurementGroupDestination()
+
 }

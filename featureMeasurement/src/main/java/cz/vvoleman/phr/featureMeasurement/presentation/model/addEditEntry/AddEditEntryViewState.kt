@@ -10,6 +10,7 @@ data class AddEditEntryViewState(
     val entryFields: Map<String, EntryFieldPresentationModel>,
     val dateTime: LocalDateTime? = null,
     val scheduleItemId: String? = null,
+    val navigationSource: NavigationSource,
 ) {
 
     val errorFields: List<FieldError>
