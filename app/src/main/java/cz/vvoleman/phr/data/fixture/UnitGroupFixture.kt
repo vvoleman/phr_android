@@ -51,7 +51,15 @@ class UnitGroupFixture(
                     units["k"]!!
                 ),
                 defaultUnit = units["c"]!!
-            )
+            ),
+            UnitGroupDataSourceModel(
+                id = 3,
+                name = "Jiné",
+                units = listOf(
+                    units["custom"]!!
+                ),
+                defaultUnit = units["custom"]!!
+            ),
         )
     }
 
@@ -127,6 +135,14 @@ class UnitGroupFixture(
                     name = "Kelvin",
                     multiplier = 1,
                     addition = 273.15
+                )
+            ),
+            Pair(
+                "custom", UnitDataSourceModel(
+                    code = "",
+                    name = "Vlastní",
+                    multiplier = 1,
+                    addition = 0
                 )
             ),
         )

@@ -52,7 +52,6 @@ class DetailProblemCategoryFragment :
             }
 
         _exportPdfHelper = ExportPdfHelper(
-            R.layout.document_problem_category,
             requireContext(),
             createFileLauncher,
             permissionsLauncher

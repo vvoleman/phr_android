@@ -15,12 +15,40 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_view_table"
+                android:layout_marginTop="16dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/layout_rounded"
                 tools:itemCount="3"
                 tools:listitem="@layout/item_field_info_table" />
+
+            <com.google.android.flexbox.FlexboxLayout
+                android:layout_width="match_parent"
+                app:justifyContent="space_between"
+                android:layout_marginTop="8dp"
+                app:flexDirection="column"
+                android:layout_marginHorizontal="16dp"
+                app:alignItems="stretch"
+                android:layout_height="wrap_content">
+                <com.google.android.material.button.MaterialButton
+                    android:backgroundTint="@color/beige_700"
+                    android:id="@+id/button_add_entry"
+                    android:layout_width="wrap_content"
+                    android:text="Přidat záznam"
+                    app:iconGravity="textStart"
+                    app:icon="@drawable/ic_add"
+                    android:layout_height="wrap_content" />
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/button_export"
+                    android:layout_width="wrap_content"
+                    android:backgroundTint="@color/beige_500"
+                    android:text="Exportovat"
+                    android:layout_height="wrap_content" />
+            </com.google.android.flexbox.FlexboxLayout>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_view_stats"

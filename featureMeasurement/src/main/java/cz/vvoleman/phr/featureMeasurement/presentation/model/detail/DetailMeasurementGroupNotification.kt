@@ -1,3 +1,7 @@
 package cz.vvoleman.phr.featureMeasurement.presentation.model.detail
 
-sealed class DetailMeasurementGroupNotification
+import cz.vvoleman.phr.featureMeasurement.presentation.model.core.MeasurementGroupPresentationModel
+
+sealed class DetailMeasurementGroupNotification {
+    data class Export(val measurementGroup: MeasurementGroupPresentationModel) : DetailMeasurementGroupNotification()
+}
