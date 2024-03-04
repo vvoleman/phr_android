@@ -6,6 +6,7 @@ data class SaveMeasurementGroupDomainModel(
     val id: String?,
     val name: String,
     val patientId: String,
+    val problemCategoryId: String?,
     val fields: List<MeasurementGroupFieldDomain>,
     val scheduleItems: List<SaveMeasurementGroupScheduleItemDomainModel>,
 )

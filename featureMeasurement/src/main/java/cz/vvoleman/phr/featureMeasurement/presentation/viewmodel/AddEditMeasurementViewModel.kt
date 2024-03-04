@@ -135,6 +135,7 @@ class AddEditMeasurementViewModel @Inject constructor(
             id = currentViewState.measurementGroup?.id,
             name = currentViewState.name,
             patientId = currentViewState.patient.id,
+            problemCategoryId = null,
             scheduleItems = makeSaveSchedules(
                 times = currentViewState.times.toList(),
                 frequencies = currentViewState.frequencyDays

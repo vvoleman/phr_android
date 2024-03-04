@@ -1,15 +1,16 @@
 package cz.vvoleman.phr.di.measurement
 
+import cz.vvoleman.phr.common.presentation.mapper.PatientPresentationModelToDomainMapper
+import cz.vvoleman.phr.common.presentation.mapper.problemCategory.ProblemCategoryPresentationModelToDomainMapper
+import cz.vvoleman.phr.featureMeasurement.presentation.mapper.addEditEntry.EntryFieldPresentationModelToDomainMapper
 import cz.vvoleman.phr.featureMeasurement.presentation.mapper.core.MeasurementGroupEntryPresentationModelToDomainMapper
 import cz.vvoleman.phr.featureMeasurement.presentation.mapper.core.MeasurementGroupFieldPresentationToDomainMapper
 import cz.vvoleman.phr.featureMeasurement.presentation.mapper.core.MeasurementGroupPresentationModelToDomainMapper
 import cz.vvoleman.phr.featureMeasurement.presentation.mapper.core.MeasurementGroupScheduleItemPresentationModelToDomainMapper
 import cz.vvoleman.phr.featureMeasurement.presentation.mapper.core.NumericFieldPresentationModelToDomainMapper
+import cz.vvoleman.phr.featureMeasurement.presentation.mapper.core.ScheduledMeasurementGroupPresentationModelToDomainMapper
 import cz.vvoleman.phr.featureMeasurement.presentation.mapper.core.UnitGroupPresentationModelToDomainMapper
 import cz.vvoleman.phr.featureMeasurement.presentation.mapper.core.UnitPresentationModelToDomainMapper
-import cz.vvoleman.phr.common.presentation.mapper.PatientPresentationModelToDomainMapper
-import cz.vvoleman.phr.featureMeasurement.presentation.mapper.addEditEntry.EntryFieldPresentationModelToDomainMapper
-import cz.vvoleman.phr.featureMeasurement.presentation.mapper.core.ScheduledMeasurementGroupPresentationModelToDomainMapper
 import cz.vvoleman.phr.featureMeasurement.presentation.mapper.detail.FieldStatsPresentationModelToDomainMapper
 import cz.vvoleman.phr.featureMeasurement.presentation.mapper.list.MeasurementGroupPresentationModelToNextScheduleMapper
 import dagger.Module
@@ -60,12 +61,14 @@ class PresentationModule {
         entryMapper: MeasurementGroupEntryPresentationModelToDomainMapper,
         fieldMapper: MeasurementGroupFieldPresentationToDomainMapper,
         patientMapper: PatientPresentationModelToDomainMapper,
+        problemCategoryMapper: ProblemCategoryPresentationModelToDomainMapper,
     ): MeasurementGroupPresentationModelToDomainMapper {
         return MeasurementGroupPresentationModelToDomainMapper(
             scheduleItemMapper = scheduleItemMapper,
             entryMapper = entryMapper,
             fieldMapper = fieldMapper,
-            patientMapper = patientMapper
+            patientMapper = patientMapper,
+            problemCategoryMapper = problemCategoryMapper,
         )
     }
 

@@ -19,6 +19,10 @@ interface MeasurementGroupDao {
     fun getByPatient(patientId: Int): Flow<List<MeasurementGroupWithDetailsDataSourceModel>>
 
     @Transaction
+    @Query("SELECT * FROM measurement_group WHERE problem_category_id = :problemCategoryId")
+    fun getByProblemCategory(problemCategoryId: Int): Flow<List<MeasurementGroupWithDetailsDataSourceModel>>
+
+    @Transaction
     @Query("SELECT * FROM measurement_group WHERE id = :id")
     fun getById(id: Int): Flow<MeasurementGroupWithDetailsDataSourceModel>
 

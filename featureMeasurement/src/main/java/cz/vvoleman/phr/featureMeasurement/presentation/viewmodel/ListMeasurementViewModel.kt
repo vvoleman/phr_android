@@ -17,6 +17,7 @@ import cz.vvoleman.phr.featureMeasurement.domain.model.list.GetScheduledMeasurem
 import cz.vvoleman.phr.featureMeasurement.domain.model.list.GroupMeasurementGroupRequest
 import cz.vvoleman.phr.featureMeasurement.domain.model.list.GroupScheduledMeasurementsRequest
 import cz.vvoleman.phr.featureMeasurement.domain.model.list.NextScheduledRequestDomainModel
+import cz.vvoleman.phr.featureMeasurement.domain.usecase.addEdit.ScheduleMeasurementGroupAlertUseCase
 import cz.vvoleman.phr.featureMeasurement.domain.usecase.list.DeleteMeasurementGroupUseCase
 import cz.vvoleman.phr.featureMeasurement.domain.usecase.list.GetNextScheduledMeasurementGroupUseCase
 import cz.vvoleman.phr.featureMeasurement.domain.usecase.list.GetScheduledMeasurementGroupInTimeRangeUseCase
@@ -44,6 +45,7 @@ class ListMeasurementViewModel @Inject constructor(
     private val groupMeasurementGroupUseCase: GroupMeasurementGroupUseCase,
     private val deleteMeasurementGroupUseCase: DeleteMeasurementGroupUseCase,
     private val getScheduledMeasurementGroupInTimeRangeUseCase: GetScheduledMeasurementGroupInTimeRangeUseCase,
+    private val scheduleMeasurementGroupUseCase: ScheduleMeasurementGroupAlertUseCase,
     private val groupScheduledMeasurementsByTimeUseCase: GroupScheduledMeasurementsByTimeUseCase,
     private val nextMeasurementGroupScheduleFacade: NextMeasurementGroupScheduleFacade,
     private val patientMapper: PatientPresentationModelToDomainMapper,
@@ -216,5 +218,9 @@ class ListMeasurementViewModel @Inject constructor(
                 selectedNextSchedule = nextSchedule
             )
         )
+    }
+
+    fun schedule() = viewModelScope.launch {
+        scheduleMeasurementGroupUseCase.executeInBackground("1")
     }
 }

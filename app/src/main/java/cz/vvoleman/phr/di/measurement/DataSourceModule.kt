@@ -1,5 +1,8 @@
 package cz.vvoleman.phr.di.measurement
 
+import cz.vvoleman.phr.common.data.mapper.PatientDataSourceModelToDomainMapper
+import cz.vvoleman.phr.common.data.mapper.problemCategory.ProblemCategoryDataSourceModelToDomainMapper
+import cz.vvoleman.phr.data.PatientDatabase
 import cz.vvoleman.phr.featureMeasurement.data.datasource.room.mapper.MeasurementGroupDataSourceModelToDataMapper
 import cz.vvoleman.phr.featureMeasurement.data.datasource.room.mapper.MeasurementGroupEntryDataSourceModelToDataMapper
 import cz.vvoleman.phr.featureMeasurement.data.datasource.room.mapper.MeasurementGroupScheduleItemDataSourceModelToDataMapper
@@ -7,8 +10,6 @@ import cz.vvoleman.phr.featureMeasurement.data.datasource.room.mapper.NumericFie
 import cz.vvoleman.phr.featureMeasurement.data.datasource.room.mapper.UnitDataSourceModelToDataMapper
 import cz.vvoleman.phr.featureMeasurement.data.datasource.room.mapper.UnitGroupDataSourceModelToDataMapper
 import cz.vvoleman.phr.featureMeasurement.data.datasource.room.unit.UnitGroupDao
-import cz.vvoleman.phr.common.data.mapper.PatientDataSourceModelToDomainMapper
-import cz.vvoleman.phr.data.PatientDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -55,12 +56,14 @@ class DataSourceModule {
         scheduleItemMapper: MeasurementGroupScheduleItemDataSourceModelToDataMapper,
         numericFieldMapper: NumericFieldDataSourceModelToDataMapper,
         patientMapper: PatientDataSourceModelToDomainMapper,
-        entryMapper: MeasurementGroupEntryDataSourceModelToDataMapper
+        entryMapper: MeasurementGroupEntryDataSourceModelToDataMapper,
+        problemCategoryMapper: ProblemCategoryDataSourceModelToDomainMapper,
     ) = MeasurementGroupDataSourceModelToDataMapper(
         scheduleItemMapper = scheduleItemMapper,
         numericFieldMapper = numericFieldMapper,
         patientMapper = patientMapper,
-        entryMapper = entryMapper
+        entryMapper = entryMapper,
+        problemCategoryMapper = problemCategoryMapper,
     )
 
     @Provides
