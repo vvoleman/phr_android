@@ -2,7 +2,8 @@ package cz.vvoleman.phr.featureMeasurement.ui.factory
 
 import android.view.View
 import com.xwray.groupie.viewbinding.BindableItem
-import cz.vvoleman.phr.common.utils.toLocalString
+import cz.vvoleman.phr.common.utils.DateTimePattern
+import cz.vvoleman.phr.common.utils.toPattern
 import cz.vvoleman.phr.featureMeasurement.ui.model.detail.EntryInfoUiModel
 import cz.vvoleman.phr.featureMeasurement.ui.view.detail.groupie.ButtonItem
 import cz.vvoleman.phr.featureMeasurement.ui.view.detail.groupie.ColumnContainer
@@ -26,7 +27,7 @@ class TableFactory(
             columns[i.toString()] = mutableListOf(headers[i])
         }
 
-        val dates = items.map { it.entry.createdAt.toLocalString() }
+        val dates = items.map { it.entry.createdAt.toPattern(DateTimePattern.DATE_TIME) }
         columns["0"]!!.addAll(dates.map { RowItem(it) })
 
         val fields = items.first().fields

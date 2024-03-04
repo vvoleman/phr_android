@@ -22,6 +22,11 @@ fun LocalDateTime.toLocalString(): String {
     return this.format(formatter)
 }
 
+fun LocalDateTime.toPattern(pattern: String): String {
+    val formatter = DateTimeFormatter.ofPattern(pattern)
+    return this.format(formatter)
+}
+
 fun String.toLocalDateTime(): LocalDateTime? {
     val formatter = DateTimeFormatter
         .ofLocalizedDateTime(FormatStyle.MEDIUM)
@@ -142,4 +147,11 @@ fun LocalDateTime.localizedDiff(other: LocalDateTime): String {
     }
 
     return "teď"
+}
+
+object DateTimePattern {
+    const val DATE_TIME = "d. M. yyyy H:mm"
+    const val DATE = "d. M. yyyy"
+    const val TIME = "H:mm"
+    const val TIME_SECONDS = "H:mm:ss"
 }
