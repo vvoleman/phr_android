@@ -14,6 +14,7 @@ class SaveMeasurementGroupDataModelToDomainMapper(
             id = model.id,
             name = model.name,
             patientId = model.patientId,
+            problemCategoryId = model.problemCategoryId,
             scheduleItems = saveScheduleItemMapper.toData(model.scheduleItems),
             fields = fieldMapper.toData(model.fields),
         )

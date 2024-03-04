@@ -9,4 +9,5 @@ data class MeasurementGroupDataSourceModel(
     @PrimaryKey(autoGenerate = true) val id: Int? = null,
     val name: String,
     @ColumnInfo(name = "patient_id") val patientId: Int,
+    @ColumnInfo(name = "problem_category_id") val problemCategoryId: Int? = null,
 )

@@ -6,6 +6,7 @@ import cz.vvoleman.phr.base.ui.mapper.ViewStateBinder
 import cz.vvoleman.phr.common.ui.component.nextSchedule.NextScheduleUiModelToPresentationMapper
 import cz.vvoleman.phr.common.ui.mapper.frequencySelector.FrequencyDayUiModelToPresentationMapper
 import cz.vvoleman.phr.common.ui.mapper.patient.PatientUiModelToPresentationMapper
+import cz.vvoleman.phr.common.ui.mapper.problemCategory.ProblemCategoryUiModelToPresentationMapper
 import cz.vvoleman.phr.featureMeasurement.databinding.FragmentAddEditEntryBinding
 import cz.vvoleman.phr.featureMeasurement.databinding.FragmentAddEditMeasurementBinding
 import cz.vvoleman.phr.featureMeasurement.databinding.FragmentDetailMeasurementGroupBinding
@@ -122,12 +123,14 @@ class UiModule {
         entryMapper: MeasurementGroupEntryUiModelToPresentationMapper,
         fieldMapper: MeasurementGroupFieldUiModelToPresentationMapper,
         patientMapper: PatientUiModelToPresentationMapper,
+        problemCategoryMapper: ProblemCategoryUiModelToPresentationMapper,
     ): MeasurementGroupUiModelToPresentationMapper {
         return MeasurementGroupUiModelToPresentationMapper(
             scheduleItemMapper = scheduleItemMapper,
             entryMapper = entryMapper,
             fieldMapper = fieldMapper,
-            patientMapper = patientMapper
+            patientMapper = patientMapper,
+            problemCategoryMapper = problemCategoryMapper,
         )
     }
 
