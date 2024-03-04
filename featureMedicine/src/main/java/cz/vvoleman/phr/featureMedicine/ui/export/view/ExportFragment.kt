@@ -18,7 +18,6 @@ import cz.vvoleman.phr.common.ui.export.exception.ExportFailedException
 import cz.vvoleman.phr.common.ui.export.usecase.DocumentFactory
 import cz.vvoleman.phr.common.ui.export.usecase.ExportPdfHelper
 import cz.vvoleman.phr.common.utils.toLocalDateTime
-import cz.vvoleman.phr.featureMedicine.R
 import cz.vvoleman.phr.featureMedicine.databinding.FragmentExportBinding
 import cz.vvoleman.phr.featureMedicine.presentation.export.model.ExportNotification
 import cz.vvoleman.phr.featureMedicine.presentation.export.model.ExportParamsPresentationModel
@@ -65,7 +64,6 @@ class ExportFragment :
             }
 
         _exportPdfHelper = ExportPdfHelper(
-            R.layout.document_test_pdf,
             requireContext(),
             createFileLauncher,
             permissionsLauncher

@@ -4,6 +4,13 @@ class DocumentFactory(
     private val helper: ExportPdfHelper,
     private val pages: List<DocumentPage> = listOf()
 ) {
+
+    init {
+        for (i in pages.indices) {
+            pages[i].setDetails(DocumentPage.PageDetails(i + 1, pages.size))
+        }
+    }
+
     fun generate() {
         val inflater = helper.getInflater()
 

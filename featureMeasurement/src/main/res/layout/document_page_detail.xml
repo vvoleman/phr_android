@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="595px"
+    android:layout_height="842px"
+    android:orientation="vertical"
+    android:padding="7dp">
+
+    <TextView
+        android:id="@+id/text_view_header"
+        style="@style/PdfTextLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Záznamy měření"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/layout_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="0dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/text_view_header">
+
+        <TextView
+            android:id="@+id/text_view_group_name"
+            style="@style/PdfText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="4sp"
+            android:text="Krevní tlak"
+            android:textColor="@color/green_500"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/text_view_time_range"
+            style="@style/PdfText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="13.06.2023 - 13.11.2023" />
+
+    </LinearLayout>
+
+    <com.google.android.material.divider.MaterialDivider
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4pt"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/layout_info" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view_entries"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4pt"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/divider" />
+
+    <com.google.android.flexbox.FlexboxLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        app:justifyContent="space_between"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <TextView
+            android:id="@+id/text_view_generated_at"
+            style="@style/PdfTextSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Vygenerováno 3.3.2024 16:00" />
+
+        <TextView
+            android:id="@+id/text_view_patient_name"
+            style="@style/PdfTextSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Pacient: Jan Novák" />
+
+        <TextView
+            android:id="@+id/text_view_page"
+            style="@style/PdfTextSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Strana 1/1" />
+
+
+    </com.google.android.flexbox.FlexboxLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

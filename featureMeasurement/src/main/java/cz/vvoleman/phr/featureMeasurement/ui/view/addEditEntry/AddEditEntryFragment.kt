@@ -8,6 +8,7 @@ import androidx.fragment.app.viewModels
 import cz.vvoleman.phr.base.ui.ext.collectLatestLifecycleFlow
 import cz.vvoleman.phr.base.ui.mapper.ViewStateBinder
 import cz.vvoleman.phr.base.ui.view.BaseFragment
+import cz.vvoleman.phr.common.ui.component.picker.DatePicker
 import cz.vvoleman.phr.common.ui.component.picker.TimePicker
 import cz.vvoleman.phr.featureMeasurement.databinding.FragmentAddEditEntryBinding
 import cz.vvoleman.phr.featureMeasurement.presentation.model.addEditEntry.AddEditEntryNotification
@@ -15,13 +16,14 @@ import cz.vvoleman.phr.featureMeasurement.presentation.model.addEditEntry.AddEdi
 import cz.vvoleman.phr.featureMeasurement.presentation.viewmodel.AddEditEntryViewModel
 import cz.vvoleman.phr.featureMeasurement.ui.mapper.addEditEntry.destination.AddEditEntryDestinationUiMapper
 import dagger.hilt.android.AndroidEntryPoint
+import java.time.LocalDate
 import java.time.LocalTime
 import javax.inject.Inject
 
 @AndroidEntryPoint
 class AddEditEntryFragment :
     BaseFragment<AddEditEntryViewState, AddEditEntryNotification, FragmentAddEditEntryBinding>(),
-    TimePicker.TimePickerListener {
+    TimePicker.TimePickerListener, DatePicker.DatePickerListener {
 
     override val viewModel: AddEditEntryViewModel by viewModels()
 
@@ -52,6 +54,7 @@ class AddEditEntryFragment :
             }
         }
         binding.timePicker.setListener(this)
+        binding.datePicker.setListener(this)
 //        binding.editTextDate.setOnClickListener {
 //            val value = binding.editTextDate.text.toString()
 //            val date = if (value.isBlank()) {
@@ -74,6 +77,10 @@ class AddEditEntryFragment :
 
     override fun onTimeSelected(time: LocalTime) {
         viewModel.onTimeChange(time)
+    }
+
+    override fun onDateSelected(date: LocalDate) {
+        viewModel.onDateChange(date)
     }
 
     override fun injectFragmentManager(): FragmentManager {

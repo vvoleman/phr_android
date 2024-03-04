@@ -14,7 +14,6 @@ import java.time.LocalDateTime
 import java.time.ZoneOffset
 
 class ExportPdfHelper(
-    private val layoutResId: Int,
     context: Context,
     createFileLauncher: ActivityResultLauncher<String>,
     permissionsLauncher: ActivityResultLauncher<Array<String>>,
@@ -58,10 +57,10 @@ class ExportPdfHelper(
 
     fun addPage(view: View) {
         view.measure(
-            View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
-            View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
+            View.MeasureSpec.makeMeasureSpec(PDF_PAGE_WIDTH, View.MeasureSpec.EXACTLY),
+            View.MeasureSpec.makeMeasureSpec(PDF_PAGE_HEIGHT, View.MeasureSpec.EXACTLY)
         )
-        view.layout(0, 0, PDF_PAGE_WIDTH, PDF_PAGE_HEIGHT)
+        view.layout(0, 0, view.measuredWidth, view.measuredHeight)
 
         val pageInfo = PdfDocument.PageInfo.Builder(view.width, view.height, ++_currentPage).create()
         val page = _document.startPage(pageInfo)
@@ -75,7 +74,7 @@ class ExportPdfHelper(
     }
 
     companion object {
-        private const val PDF_PAGE_WIDTH = 992
-        private const val PDF_PAGE_HEIGHT = 1403
+        private const val PDF_PAGE_WIDTH = 595
+        private const val PDF_PAGE_HEIGHT = 842
     }
 }
