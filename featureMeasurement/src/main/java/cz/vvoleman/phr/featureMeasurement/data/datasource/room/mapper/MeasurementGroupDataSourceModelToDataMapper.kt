@@ -1,15 +1,17 @@
 package cz.vvoleman.phr.featureMeasurement.data.datasource.room.mapper
 
+import cz.vvoleman.phr.common.data.mapper.PatientDataSourceModelToDomainMapper
+import cz.vvoleman.phr.common.data.mapper.problemCategory.ProblemCategoryDataSourceModelToDomainMapper
 import cz.vvoleman.phr.featureMeasurement.data.datasource.room.MeasurementGroupDataSourceModel
 import cz.vvoleman.phr.featureMeasurement.data.datasource.room.MeasurementGroupWithDetailsDataSourceModel
 import cz.vvoleman.phr.featureMeasurement.data.model.addEdit.SaveMeasurementGroupDataModel
 import cz.vvoleman.phr.featureMeasurement.data.model.core.MeasurementGroupDataModel
-import cz.vvoleman.phr.common.data.mapper.PatientDataSourceModelToDomainMapper
 
 class MeasurementGroupDataSourceModelToDataMapper(
     private val scheduleItemMapper: MeasurementGroupScheduleItemDataSourceModelToDataMapper,
     private val numericFieldMapper: NumericFieldDataSourceModelToDataMapper,
     private val patientMapper: PatientDataSourceModelToDomainMapper,
+    private val problemCategoryMapper: ProblemCategoryDataSourceModelToDomainMapper,
     private val entryMapper: MeasurementGroupEntryDataSourceModelToDataMapper,
 ) {
 
@@ -20,6 +22,7 @@ class MeasurementGroupDataSourceModelToDataMapper(
             id = model.measurementGroup.id.toString(),
             name = model.measurementGroup.name,
             patient = patientMapper.toDomain(model.patient),
+            problemCategory = model.problemCategory?.let { problemCategoryMapper.toDomain(it) },
             scheduleItems = model.scheduleItems.map { scheduleItemMapper.toData(it) },
             fields = numericFields,
             entries = entryMapper.toData(model.entries),
@@ -35,6 +38,7 @@ class MeasurementGroupDataSourceModelToDataMapper(
             id = model.id.toIntOrNull(),
             name = model.name,
             patientId = model.patient.id.toInt(),
+            problemCategoryId = model.problemCategory?.id?.toIntOrNull(),
         )
     }
 
@@ -47,6 +51,7 @@ class MeasurementGroupDataSourceModelToDataMapper(
             id = model.id?.toInt(),
             name = model.name,
             patientId = model.patientId.toInt(),
+            problemCategoryId = model.problemCategoryId?.toIntOrNull(),
         )
     }
 

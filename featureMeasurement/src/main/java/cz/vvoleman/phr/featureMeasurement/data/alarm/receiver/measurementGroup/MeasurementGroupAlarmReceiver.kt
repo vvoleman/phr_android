@@ -14,6 +14,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.LocalDateTime
+import java.time.OffsetDateTime
 import java.time.ZoneOffset
 import javax.inject.Inject
 import kotlin.math.floor
@@ -43,10 +44,11 @@ class MeasurementGroupAlarmReceiver : BroadcastReceiver() {
         scope.launch {
             val measurementGroup = repository.getMeasurementGroup(content.measurementGroupId)
 
+            val zoneOffset = OffsetDateTime.now().offset
             val timestamp = LocalDateTime.ofEpochSecond(
                 floor((content.triggerAt).toDouble()).toLong(),
                 0,
-                ZoneOffset.UTC
+                zoneOffset
             )
             Log.d(
                 TAG,

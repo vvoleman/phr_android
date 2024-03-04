@@ -1,26 +1,27 @@
 package cz.vvoleman.phr.featureMeasurement.ui.view.list
 
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
 import androidx.fragment.app.viewModels
-import cz.vvoleman.phr.featureMeasurement.databinding.FragmentListMeasurementBinding
-import cz.vvoleman.phr.featureMeasurement.presentation.model.list.ListMeasurementNotification
-import cz.vvoleman.phr.featureMeasurement.presentation.model.list.ListMeasurementViewState
-import cz.vvoleman.phr.featureMeasurement.presentation.viewmodel.ListMeasurementViewModel
-import cz.vvoleman.phr.featureMeasurement.ui.mapper.list.destination.ListMeasurementDestinationUiMapper
 import cz.vvoleman.phr.base.ui.mapper.ViewStateBinder
 import cz.vvoleman.phr.base.ui.view.BaseFragment
 import cz.vvoleman.phr.common.ui.component.nextSchedule.NextSchedule
 import cz.vvoleman.phr.common.ui.component.nextSchedule.NextScheduleUiModel
 import cz.vvoleman.phr.featureMeasurement.R
+import cz.vvoleman.phr.featureMeasurement.databinding.FragmentListMeasurementBinding
 import cz.vvoleman.phr.featureMeasurement.presentation.model.core.MeasurementGroupPresentationModel
+import cz.vvoleman.phr.featureMeasurement.presentation.model.list.ListMeasurementNotification
+import cz.vvoleman.phr.featureMeasurement.presentation.model.list.ListMeasurementViewState
+import cz.vvoleman.phr.featureMeasurement.presentation.viewmodel.ListMeasurementViewModel
 import cz.vvoleman.phr.featureMeasurement.ui.adapter.MeasurementTimelineAdapter
 import cz.vvoleman.phr.featureMeasurement.ui.adapter.list.MeasurementFragmentAdapter
 import cz.vvoleman.phr.featureMeasurement.ui.adapter.list.MeasurementGroupAdapter
 import cz.vvoleman.phr.featureMeasurement.ui.mapper.core.MeasurementGroupUiModelToPresentationMapper
 import cz.vvoleman.phr.featureMeasurement.ui.mapper.core.ScheduledMeasurementGroupUiModelToPresentationMapper
+import cz.vvoleman.phr.featureMeasurement.ui.mapper.list.destination.ListMeasurementDestinationUiMapper
 import cz.vvoleman.phr.featureMeasurement.ui.model.core.MeasurementGroupUiModel
 import cz.vvoleman.phr.featureMeasurement.ui.model.core.ScheduledMeasurementGroupUiModel
 import cz.vvoleman.phr.featureMeasurement.ui.view.list.fragment.viewModel.MeasurementGroupViewModel
@@ -79,6 +80,20 @@ class ListMeasurementFragment :
             else -> {
             }
         }
+    }
+
+    override fun setOptionsMenu(): Int {
+        return R.menu.options_measurement_group
+    }
+
+    override fun onOptionsMenuItemSelected(menuItem: MenuItem): Boolean {
+        if (menuItem.itemId == R.id.action_detail) {
+            viewModel.schedule()
+            showSnackbar("Detail")
+            return true
+        }
+
+        return super.onOptionsMenuItemSelected(menuItem)
     }
 
     override fun onTimeOut() {

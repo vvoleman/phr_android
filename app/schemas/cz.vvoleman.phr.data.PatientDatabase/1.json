@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "86fafd8887c4513d345f42564e5f5551",
+    "identityHash": "4248f7a498658403346659ceed812155",
     "entities": [
       {
         "tableName": "patient",
@@ -756,7 +756,7 @@
       },
       {
         "tableName": "measurement_group",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT NOT NULL, `patient_id` INTEGER NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT NOT NULL, `patient_id` INTEGER NOT NULL, `problem_category_id` INTEGER)",
         "fields": [
           {
             "fieldPath": "id",
@@ -775,6 +775,12 @@
             "columnName": "patient_id",
             "affinity": "INTEGER",
             "notNull": true
+          },
+          {
+            "fieldPath": "problemCategoryId",
+            "columnName": "problem_category_id",
+            "affinity": "INTEGER",
+            "notNull": false
           }
         ],
         "primaryKey": {
@@ -1028,7 +1034,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '86fafd8887c4513d345f42564e5f5551')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '4248f7a498658403346659ceed812155')"
     ]
   }
 }
