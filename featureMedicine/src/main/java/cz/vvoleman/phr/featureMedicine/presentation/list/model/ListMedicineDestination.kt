@@ -6,5 +6,4 @@ sealed class ListMedicineDestination : PresentationDestination {
 
     data class EditSchedule(val id: String) : PresentationDestination
     object CreateSchedule : PresentationDestination
-    object Export : PresentationDestination
 }

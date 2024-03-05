@@ -1,5 +1,6 @@
 package cz.vvoleman.phr.featureMedicine.presentation.list.model
 
+import cz.vvoleman.phr.featureMedicine.presentation.export.model.ExportParamsPresentationModel
 import java.time.LocalDateTime
 
 sealed class ListMedicineNotification {
@@ -13,4 +14,5 @@ sealed class ListMedicineNotification {
         ListMedicineNotification()
 
     object UnableToToggleAlarm : ListMedicineNotification()
+    data class Export(val params: ExportParamsPresentationModel) : ListMedicineNotification()
 }

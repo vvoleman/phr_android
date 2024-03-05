@@ -6,19 +6,12 @@ import cz.vvoleman.phr.common.ui.component.nextSchedule.NextScheduleUiModelToPre
 import cz.vvoleman.phr.common.ui.mapper.frequencySelector.FrequencyDayUiModelToPresentationMapper
 import cz.vvoleman.phr.common.ui.mapper.patient.PatientUiModelToPresentationMapper
 import cz.vvoleman.phr.featureMedicine.databinding.FragmentAddEditMedicineBinding
-import cz.vvoleman.phr.featureMedicine.databinding.FragmentExportBinding
 import cz.vvoleman.phr.featureMedicine.databinding.FragmentListMedicineBinding
 import cz.vvoleman.phr.featureMedicine.presentation.addEdit.model.AddEditMedicineViewState
-import cz.vvoleman.phr.featureMedicine.presentation.export.model.ExportViewState
 import cz.vvoleman.phr.featureMedicine.presentation.list.model.ListMedicineViewState
 import cz.vvoleman.phr.featureMedicine.ui.addEdit.mapper.AddEditMedicineDestinationUiMapper
 import cz.vvoleman.phr.featureMedicine.ui.addEdit.mapper.TimeUiModelToPresentationMapper
 import cz.vvoleman.phr.featureMedicine.ui.addEdit.view.AddEditMedicineBinder
-import cz.vvoleman.phr.featureMedicine.ui.export.mapper.ExportDestinationMapper
-import cz.vvoleman.phr.featureMedicine.ui.export.mapper.ExportMedicineScheduleUiModelToPresentationMapper
-import cz.vvoleman.phr.featureMedicine.ui.export.mapper.ExportScheduleItemUiModelToPresentationMapper
-import cz.vvoleman.phr.featureMedicine.ui.export.mapper.ExportUiModelToPresentationMapper
-import cz.vvoleman.phr.featureMedicine.ui.export.view.ExportBinder
 import cz.vvoleman.phr.featureMedicine.ui.list.mapper.ListMedicineDestinationUiMapper
 import cz.vvoleman.phr.featureMedicine.ui.list.mapper.MedicineScheduleUiModelToPresentationMapper
 import cz.vvoleman.phr.featureMedicine.ui.list.mapper.MedicineUiModelToPresentationMapper
@@ -134,32 +127,4 @@ class UiModule {
             medicineMapper
         )
     }
-
-    @Provides
-    fun providesExportDestinationMapper(navManager: NavManager) =
-        ExportDestinationMapper(navManager)
-
-    @Provides
-    fun providesExportViewStateBinder(
-        exportUiMapper: ExportUiModelToPresentationMapper
-    ): ViewStateBinder<ExportViewState, FragmentExportBinding> =
-        ExportBinder(exportUiMapper)
-
-    @Provides
-    fun providesExportScheduleItemUiModelToPresentationMapper() =
-        ExportScheduleItemUiModelToPresentationMapper()
-
-    @Provides
-    fun providesExportMedicineScheduleUiModelToPresentationMapper(
-        medicineMapper: MedicineUiModelToPresentationMapper,
-        patientMapper: PatientUiModelToPresentationMapper,
-        scheduleItemMapper: ExportScheduleItemUiModelToPresentationMapper
-    ) = ExportMedicineScheduleUiModelToPresentationMapper(
-        medicineMapper,
-        patientMapper,
-        scheduleItemMapper
-    )
-
-    @Provides
-    fun providesExportUiModelToPresentationMapper() = ExportUiModelToPresentationMapper()
 }

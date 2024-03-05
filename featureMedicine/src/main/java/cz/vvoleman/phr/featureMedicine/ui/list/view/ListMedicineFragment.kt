@@ -9,13 +9,15 @@ import androidx.appcompat.widget.PopupMenu
 import androidx.fragment.app.viewModels
 import com.google.android.material.snackbar.Snackbar
 import cz.vvoleman.phr.base.ui.mapper.ViewStateBinder
-import cz.vvoleman.phr.base.ui.view.BaseFragment
 import cz.vvoleman.phr.common.data.repository.HealthcareRepository
 import cz.vvoleman.phr.common.ui.component.nextSchedule.NextSchedule
 import cz.vvoleman.phr.common.ui.component.nextSchedule.NextScheduleUiModel
 import cz.vvoleman.phr.common.ui.component.nextSchedule.NextScheduleUiModelToPresentationMapper
+import cz.vvoleman.phr.common.ui.export.usecase.DocumentPage
+import cz.vvoleman.phr.common.ui.view.BaseExportFragment
 import cz.vvoleman.phr.featureMedicine.R
 import cz.vvoleman.phr.featureMedicine.databinding.FragmentListMedicineBinding
+import cz.vvoleman.phr.featureMedicine.presentation.export.model.ExportParamsPresentationModel
 import cz.vvoleman.phr.featureMedicine.presentation.list.model.ListMedicineNotification
 import cz.vvoleman.phr.featureMedicine.presentation.list.model.ListMedicineViewState
 import cz.vvoleman.phr.featureMedicine.presentation.list.model.ScheduleItemWithDetailsPresentationModel
@@ -23,6 +25,7 @@ import cz.vvoleman.phr.featureMedicine.presentation.list.viewmodel.ListMedicineV
 import cz.vvoleman.phr.featureMedicine.ui.component.medicineDetailSheet.MedicineDetailSheet
 import cz.vvoleman.phr.featureMedicine.ui.component.scheduleDetailDialog.ScheduleDetailAdapter
 import cz.vvoleman.phr.featureMedicine.ui.component.scheduleDetailDialog.ScheduleDetailDialogFragment
+import cz.vvoleman.phr.featureMedicine.ui.export.view.MedicineExportPage
 import cz.vvoleman.phr.featureMedicine.ui.list.adapter.MedicineCatalogueAdapter
 import cz.vvoleman.phr.featureMedicine.ui.list.adapter.MedicineFragmentAdapter
 import cz.vvoleman.phr.featureMedicine.ui.list.fragment.TimelineFragment
@@ -39,7 +42,7 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class ListMedicineFragment :
-    BaseFragment<ListMedicineViewState, ListMedicineNotification, FragmentListMedicineBinding>(),
+    BaseExportFragment<ListMedicineViewState, ListMedicineNotification, FragmentListMedicineBinding>(),
     NextSchedule.NextScheduleListener,
     TimelineFragment.TimelineInterface,
     MedicineCatalogueAdapter.MedicineCatalogueAdapterInterface,
@@ -104,6 +107,11 @@ class ListMedicineFragment :
                 notification.dateTime,
                 notification.items
             )
+            is ListMedicineNotification.Export -> {
+                val pages = splitParamsToPages(notification.params)
+
+                launchExport(pages)
+            }
         }
     }
 
@@ -209,10 +217,18 @@ class ListMedicineFragment :
         )
     }
 
-    companion object {
-        private const val TAG = "ListMedicineFragment"
-        const val SCHEDULE_DIALOG = 1
-        const val MEDICINE_DETAIL_SHEET = 2
+    private fun splitParamsToPages(params: ExportParamsPresentationModel): List<DocumentPage> {
+        val pages = mutableListOf<DocumentPage>()
+        val items = params.medicineSchedules
+        val chunks = items.chunked(EXPORT_LIMIT_PER_PAGE)
+
+        val context = requireContext()
+        for (chunk in chunks) {
+            val page = MedicineExportPage(context, chunk.map { medicineScheduleMapper.toUi(it) })
+            pages.add(page)
+        }
+
+        return pages
     }
 
     override fun onLeafletOpen(scheduleItem: ScheduleItemWithDetailsUiModel) {
@@ -222,5 +238,12 @@ class ListMedicineFragment :
     override fun onDestroyView() {
         binding.viewPager.adapter = null
         super.onDestroyView()
+    }
+
+    companion object {
+        private const val TAG = "ListMedicineFragment"
+        const val SCHEDULE_DIALOG = 1
+        const val MEDICINE_DETAIL_SHEET = 2
+        const val EXPORT_LIMIT_PER_PAGE = 4
     }
 }

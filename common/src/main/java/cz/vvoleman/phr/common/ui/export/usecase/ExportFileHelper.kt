@@ -55,7 +55,9 @@ abstract class ExportFileHelper(
         writePermissionGranted =
             permissions[Manifest.permission.WRITE_EXTERNAL_STORAGE] ?: writePermissionGranted
 
-        execute()
+        if (readPermissionGranted && writePermissionGranted) {
+            execute()
+        }
     }
 
     protected fun execute() {

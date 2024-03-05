@@ -19,7 +19,7 @@ data class MedicineScheduleUiModel(
 ) : Parcelable {
 
     val isFinished: Boolean
-        get() = schedules.all { it.endingAt?.isBefore(LocalDateTime.now()) ?: true }
+        get() = schedules.all { it.endingAt?.isBefore(LocalDateTime.now()) ?: false }
 
     fun getTimes(): List<LocalTime> {
         return schedules.map { it.time }.toSet().sorted()

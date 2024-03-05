@@ -22,6 +22,7 @@ import cz.vvoleman.phr.featureMedicine.domain.usecase.GetScheduledInTimeRangeUse
 import cz.vvoleman.phr.featureMedicine.domain.usecase.GroupMedicineScheduleUseCase
 import cz.vvoleman.phr.featureMedicine.domain.usecase.GroupScheduleItemsUseCase
 import cz.vvoleman.phr.featureMedicine.domain.usecase.ToggleScheduleAlarmUseCase
+import cz.vvoleman.phr.featureMedicine.presentation.export.model.ExportParamsPresentationModel
 import cz.vvoleman.phr.featureMedicine.presentation.list.mapper.MedicineSchedulePresentationModelToDomainMapper
 import cz.vvoleman.phr.featureMedicine.presentation.list.mapper.ScheduleItemWithDetailsDomainModelToNextScheduleMapper
 import cz.vvoleman.phr.featureMedicine.presentation.list.mapper.ScheduleItemWithDetailsPresentationModelToDomainMapper
@@ -96,7 +97,11 @@ class ListMedicineViewModel @Inject constructor(
     }
 
     fun onExportSelected() {
-        navigateTo(ListMedicineDestination.Export)
+        val params = currentViewState.medicineCatalogue
+            .flatMap { it.items }
+            .let { ExportParamsPresentationModel(it) }
+
+        notify(ListMedicineNotification.Export(params))
     }
 
     fun onEdit(id: String) {

@@ -1,11 +1,7 @@
 package cz.vvoleman.phr.featureMedicine.presentation.export.model
 
-import cz.vvoleman.phr.common.presentation.model.patient.PatientPresentationModel
-import java.time.LocalDateTime
+import cz.vvoleman.phr.featureMedicine.presentation.list.model.MedicineSchedulePresentationModel
 
 data class ExportParamsPresentationModel(
-    val data: List<ExportMedicineSchedulePresentationModel>,
-    val patient: PatientPresentationModel,
-    val startAt: LocalDateTime,
-    val endAt: LocalDateTime,
+    val medicineSchedules: List<MedicineSchedulePresentationModel>,
 )
