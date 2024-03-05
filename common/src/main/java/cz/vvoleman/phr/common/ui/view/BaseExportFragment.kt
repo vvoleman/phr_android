@@ -26,7 +26,10 @@ abstract class BaseExportFragment<VIEW_STATE : Any, NOTIFICATION : Any, VIEW_BIN
     protected open fun setupExportHelper() {
         val createFileLauncher = registerForActivityResult(ActivityResultContracts.CreateDocument("application/pdf")) { uri ->
             lifecycleScope.launch {
-                kotlin.runCatching { exportPdfHelper?.handleCreateFileResult(uri) }.getOrElse {
+                kotlin.runCatching {
+                    exportPdfHelper?.handleCreateFileResult(uri)
+                    showSnackbar("Soubor byl úspěšně vytvořen")
+                }.getOrElse {
                     showSnackbar("Nepodařilo se vytvořit soubor: ${it.message}")
                 }
             }

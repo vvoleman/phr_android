@@ -3,8 +3,6 @@ package cz.vvoleman.phr.di.medicine
 import cz.vvoleman.phr.common.presentation.mapper.PatientPresentationModelToDomainMapper
 import cz.vvoleman.phr.featureMedicine.presentation.addEdit.mapper.SaveMedicineSchedulePresentationModelToDomainMapper
 import cz.vvoleman.phr.featureMedicine.presentation.addEdit.mapper.SaveScheduleItemPresentationModelToDomainMapper
-import cz.vvoleman.phr.featureMedicine.presentation.export.mapper.ExportMedicineSchedulePresentationModelToDomainMapper
-import cz.vvoleman.phr.featureMedicine.presentation.export.mapper.ExportScheduleItemPresentationModelToDomainMapper
 import cz.vvoleman.phr.featureMedicine.presentation.list.mapper.MedicinePresentationModelToDomainMapper
 import cz.vvoleman.phr.featureMedicine.presentation.list.mapper.MedicineSchedulePresentationModelToDomainMapper
 import cz.vvoleman.phr.featureMedicine.presentation.list.mapper.PackagingPresentationModelToDomainMapper
@@ -104,24 +102,6 @@ class PresentationModule {
             scheduleItemMapper,
             patientMapper,
             medicineMapper
-        )
-    }
-
-    @Provides
-    fun providesExportScheduleItemPresentationModelToDomainMapper(): ExportScheduleItemPresentationModelToDomainMapper {
-        return ExportScheduleItemPresentationModelToDomainMapper()
-    }
-
-    @Provides
-    fun providesExportMedicineSchedulePresentationModelToDomainMapper(
-        medicineMapper: MedicinePresentationModelToDomainMapper,
-        scheduleItemMapper: ExportScheduleItemPresentationModelToDomainMapper,
-        patientMapper: PatientPresentationModelToDomainMapper
-    ): ExportMedicineSchedulePresentationModelToDomainMapper {
-        return ExportMedicineSchedulePresentationModelToDomainMapper(
-            medicineMapper,
-            scheduleItemMapper,
-            patientMapper
         )
     }
 

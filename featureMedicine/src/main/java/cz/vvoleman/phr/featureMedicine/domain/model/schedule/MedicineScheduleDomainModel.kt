@@ -16,5 +16,5 @@ data class MedicineScheduleDomainModel(
     val isAlarmEnabled: Boolean,
 ) : Parcelable {
     val isFinished: Boolean
-        get() = schedules.all { it.endingAt?.isBefore(LocalDateTime.now()) ?: true }
+        get() = schedules.all { it.endingAt?.isBefore(LocalDateTime.now()) ?: false }
 }

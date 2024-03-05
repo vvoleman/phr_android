@@ -59,18 +59,20 @@
 
     </LinearLayout>
 
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/fab_add_medical_record"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="8dp"
+        android:backgroundTint="@color/green_500"
         android:clickable="true"
-        android:contentDescription="@string/schedule_medicine"
+        android:contentDescription="@string/add_medicine_schedule"
         android:focusable="true"
         android:padding="8dp"
-
-        android:src="@drawable/ic_add" />
+        android:text="@string/add_medicine_schedule"
+        android:textColor="@color/white"
+        app:icon="@drawable/ic_add"
+        app:iconTint="@color/white" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -12,5 +12,5 @@ data class MedicineSchedulePresentationModel(
     val isAlarmEnabled: Boolean,
 ) {
     val isFinished: Boolean
-        get() = schedules.all { it.endingAt?.isBefore(LocalDateTime.now()) ?: true }
+        get() = schedules.all { it.endingAt?.isBefore(LocalDateTime.now()) ?: false }
 }

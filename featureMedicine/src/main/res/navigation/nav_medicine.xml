@@ -22,9 +22,6 @@
             android:name="savedMedicineScheduleId"
             app:argType="string"
             app:nullable="true" />
-        <action
-            android:id="@+id/action_listMedicineFragment_to_exportFragment"
-            app:destination="@id/exportFragment" />
     </fragment>
     <fragment
         android:id="@+id/addEditMedicineFragment"
@@ -44,14 +41,5 @@
         <deepLink
             android:id="@+id/deepLink"
             app:uri="phr://medicine/add" />
-    </fragment>
-    <fragment
-        android:id="@+id/exportFragment"
-        android:name="cz.vvoleman.phr.featureMedicine.ui.export.view.ExportFragment"
-        android:label="@string/navigation_export"
-        tools:layout="@layout/fragment_export">
-        <action
-            android:id="@+id/action_exportFragment_to_listMedicineFragment"
-            app:destination="@id/listMedicineFragment" />
     </fragment>
 </navigation>

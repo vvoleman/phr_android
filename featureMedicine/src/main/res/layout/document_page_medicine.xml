@@ -1,34 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="992px"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="595px"
+    android:layout_height="842px"
     android:orientation="vertical"
-    android:padding="8dp"
-    android:layout_height="1403px">
+    android:padding="7dp">
 
     <TextView
+        style="@style/PdfTextLarge"
         android:id="@+id/text_view_header"
         android:layout_width="wrap_content"
-        android:text="Plánované léky"
-        android:textSize="24sp"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:text="Podávané léky"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/text_view_time_range"
-        android:layout_width="wrap_content"
-        android:text="13.06.2023 - 13.11.2023"
-        android:layout_marginTop="8dp"
-        android:layout_height="wrap_content" />
+    <LinearLayout
+        android:id="@+id/layout_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:orientation="vertical"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/text_view_header">
+
+        <TextView
+            style="@style/PdfText"
+            android:id="@+id/text_view_time_range"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:text="13.06.2023 - 13.11.2023" />
+    </LinearLayout>
+
 
     <com.google.android.material.divider.MaterialDivider
+        android:id="@+id/divider"
         android:layout_width="992px"
+        android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
-        android:layout_height="wrap_content" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/layout_info" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view_medicines"
         android:layout_width="match_parent"
-        tools:listitem="@layout/item_document_page_medicine"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/divider"
+        tools:listitem="@layout/item_document_page_medicine" />
 
-</LinearLayout>
+    <com.google.android.flexbox.FlexboxLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        app:justifyContent="space_between"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <TextView
+            android:id="@+id/text_view_generated_at"
+            style="@style/PdfTextSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Vygenerováno 3.3.2024 16:00" />
+
+        <TextView
+            android:id="@+id/text_view_patient_name"
+            style="@style/PdfTextSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Pacient: Jan Novák" />
+
+        <TextView
+            android:id="@+id/text_view_page"
+            style="@style/PdfTextSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Strana 1/1" />
+
+
+    </com.google.android.flexbox.FlexboxLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

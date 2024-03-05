@@ -50,4 +50,9 @@
     <string name="dialog_stop_scheduling_action_cancel">Neukončovat</string>
     <string name="action_start_scheduling">Začít podávat</string>
     <string name="medicine_catalogue_item_expired">Nepodává se od %s</string>
+    <string name="document_medicine_time_range">%s - %s</string>
+    <string name="document_medicine_item_date_range_expired">Podáváno od %s do %s</string>
+    <string name="document_medicine_item_date_range">Podáváno od %s</string>
+    <string name="document_medicine_generated_at">Vygenerováno v %s</string>
+    <string name="add_medicine_schedule">Přidat lék</string>
 </resources>

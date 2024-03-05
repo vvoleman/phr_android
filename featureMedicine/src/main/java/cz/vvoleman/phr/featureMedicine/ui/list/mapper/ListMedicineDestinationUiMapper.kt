@@ -16,10 +16,6 @@ class ListMedicineDestinationUiMapper(navManager: NavManager) : DestinationUiMap
             is ListMedicineDestination.CreateSchedule -> {
                 navigateToAddEdit()
             }
-            is ListMedicineDestination.Export -> {
-                val action = ListMedicineFragmentDirections.actionListMedicineFragmentToExportFragment()
-                navManager.navigate(action)
-            }
         }
     }
 
