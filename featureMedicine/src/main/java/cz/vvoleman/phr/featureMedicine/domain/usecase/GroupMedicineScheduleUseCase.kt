@@ -26,7 +26,7 @@ class GroupMedicineScheduleUseCase(
             } else {
                 '-'
             }
-        }
+        }.toSortedMap()
 
         return groupedSchedules.map { (key, value) ->
             GroupedItemsDomainModel(
