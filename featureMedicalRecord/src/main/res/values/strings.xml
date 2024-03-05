@@ -53,4 +53,7 @@
     <string name="no_medical_worker">Žádný lék. pracovník</string>
     <string name="medical_record_problem_category_detail_title">Lékařské zprávy</string>
     <string name="medical_record_problem_category_detail_description">Všechny lékařské zprávy přiřazené k této kategorii.</string>
+    <string name="export_medical_record_failed">Nepodařilo se exportovat lékařskou zprávu</string>
+    <string name="record_deleted">Lékařská zpráva byla smazána</string>
+    <string name="record_not_found">Lékařská zpráva nebyla nalezena</string>
 </resources>

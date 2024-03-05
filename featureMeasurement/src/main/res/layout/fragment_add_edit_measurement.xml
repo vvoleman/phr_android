@@ -14,6 +14,7 @@
         <LinearLayout
             style="@style/BaseFrontBox"
             android:layout_width="match_parent"
+            android:orientation="vertical"
             android:layout_height="wrap_content">
 
             <com.google.android.material.textfield.TextInputLayout
@@ -30,6 +31,23 @@
                     android:layout_height="wrap_content"
                     android:inputType="textPersonName" />
 
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/text_input_layout_problem_category"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/description_problem_category"
+                app:errorEnabled="true">
+
+                <AutoCompleteTextView
+                    android:id="@+id/spinner_problem_category"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/field_problem_category"
+                    android:inputType="none"
+                    android:labelFor="@id/text_input_layout_problem_category" />
             </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
 

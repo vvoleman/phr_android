@@ -1,4 +1,4 @@
-package cz.vvoleman.phr.featureMedicalRecord.ui.mapper
+package cz.vvoleman.phr.common.ui.mapper.problemCategory
 
 import cz.vvoleman.phr.common.presentation.model.problemCategory.ProblemCategoryPresentationModel
 import cz.vvoleman.phr.common.ui.model.problemCategory.ColorUiModel

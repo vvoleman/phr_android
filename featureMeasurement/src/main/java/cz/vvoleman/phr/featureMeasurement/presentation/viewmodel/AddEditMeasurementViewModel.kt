@@ -4,11 +4,14 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import cz.vvoleman.phr.base.presentation.viewmodel.BaseViewModel
 import cz.vvoleman.phr.base.presentation.viewmodel.usecase.UseCaseExecutorProvider
+import cz.vvoleman.phr.common.domain.repository.problemCategory.GetProblemCategoriesRepository
 import cz.vvoleman.phr.common.domain.usecase.patient.GetSelectedPatientUseCase
 import cz.vvoleman.phr.common.presentation.factory.FrequencyDaysPresentationFactory
 import cz.vvoleman.phr.common.presentation.mapper.PatientPresentationModelToDomainMapper
+import cz.vvoleman.phr.common.presentation.mapper.problemCategory.ProblemCategoryPresentationModelToDomainMapper
 import cz.vvoleman.phr.common.presentation.model.frequencySelector.FrequencyDayPresentationModel
 import cz.vvoleman.phr.common.presentation.model.patient.PatientPresentationModel
+import cz.vvoleman.phr.common.presentation.model.problemCategory.ProblemCategoryPresentationModel
 import cz.vvoleman.phr.featureMeasurement.domain.model.addEdit.SaveMeasurementGroupDomainModel
 import cz.vvoleman.phr.featureMeasurement.domain.model.addEdit.SaveMeasurementGroupScheduleItemDomainModel
 import cz.vvoleman.phr.featureMeasurement.domain.repository.GetMeasurementGroupRepository
@@ -37,11 +40,13 @@ class AddEditMeasurementViewModel @Inject constructor(
     private val saveMeasurementGroupUseCase: SaveMeasurementGroupUseCase,
     private val scheduleMeasurementGroupAlertUseCase: ScheduleMeasurementGroupAlertUseCase,
     private val getMeasurementGroupRepository: GetMeasurementGroupRepository,
+    private val getProblemCategoriesRepository: GetProblemCategoriesRepository,
     private val getUnitGroupsRepository: GetUnitGroupsRepository,
     private val measurementGroupMapper: MeasurementGroupPresentationModelToDomainMapper,
     private val unitGroupMapper: UnitGroupPresentationModelToDomainMapper,
     private val patientMapper: PatientPresentationModelToDomainMapper,
     private val fieldMapper: MeasurementGroupFieldPresentationToDomainMapper,
+    private val problemCategoryMapper: ProblemCategoryPresentationModelToDomainMapper,
     savedStateHandle: SavedStateHandle,
     useCaseExecutorProvider: UseCaseExecutorProvider
 ) : BaseViewModel<AddEditMeasurementViewState, AddEditMeasurementNotification>(
@@ -55,6 +60,7 @@ class AddEditMeasurementViewModel @Inject constructor(
         val unitGroups = getUnitGroups()
         val measurementGroup = getMeasurementGroup()
         val times = getTimes(measurementGroup)
+        val problemCategories = getProblemCategories(patient)
 
         return AddEditMeasurementViewState(
             measurementGroup = measurementGroup,
@@ -65,6 +71,8 @@ class AddEditMeasurementViewModel @Inject constructor(
             fields = measurementGroup?.fields ?: emptyList(),
             times = times,
             name = measurementGroup?.name ?: "",
+            allProblemCategories = problemCategories,
+            problemCategoryId = measurementGroup?.problemCategory?.id ?: problemCategories.firstOrNull()?.id,
         )
     }
 
@@ -123,6 +131,11 @@ class AddEditMeasurementViewModel @Inject constructor(
         updateViewState(currentViewState.copy(name = name))
     }
 
+    fun onProblemCategorySelected(value: String?) {
+        val problemCategory = currentViewState.allProblemCategories.find { it.name == value }
+        updateViewState(currentViewState.copy(problemCategoryId = problemCategory?.id))
+    }
+
     suspend fun onSave() {
         val missingFields = currentViewState.missingFields
 
@@ -135,7 +148,7 @@ class AddEditMeasurementViewModel @Inject constructor(
             id = currentViewState.measurementGroup?.id,
             name = currentViewState.name,
             patientId = currentViewState.patient.id,
-            problemCategoryId = null,
+            problemCategoryId = currentViewState.problemCategoryId,
             scheduleItems = makeSaveSchedules(
                 times = currentViewState.times.toList(),
                 frequencies = currentViewState.frequencyDays
@@ -144,12 +157,6 @@ class AddEditMeasurementViewModel @Inject constructor(
         )
 
         saveMeasurementGroupUseCase.execute(request, ::handleSaveMeasurementGroup)
-
-//        if (result != null) {
-//            navigateTo(AddEditMeasurementDestination.SaveSuccess(id = result))
-//        } else {
-//            notify(AddEditMeasurementNotification.SaveError)
-//        }
     }
 
     private fun handleSaveMeasurementGroup(result: String?) = viewModelScope.launch {
@@ -214,5 +221,11 @@ class AddEditMeasurementViewModel @Inject constructor(
         val patient = getSelectedPatientUseCase.execute(null).first()
 
         return patientMapper.toPresentation(patient)
+    }
+
+    private suspend fun getProblemCategories(patient: PatientPresentationModel): List<ProblemCategoryPresentationModel> {
+        val result = getProblemCategoriesRepository.getProblemCategories(patient.id)
+
+        return result.map { problemCategoryMapper.toPresentation(it) }
     }
 }

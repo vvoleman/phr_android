@@ -1,10 +1,11 @@
 package cz.vvoleman.phr.featureMeasurement.presentation.model.addEdit
 
+import cz.vvoleman.phr.common.presentation.model.frequencySelector.FrequencyDayPresentationModel
+import cz.vvoleman.phr.common.presentation.model.patient.PatientPresentationModel
+import cz.vvoleman.phr.common.presentation.model.problemCategory.ProblemCategoryPresentationModel
 import cz.vvoleman.phr.featureMeasurement.presentation.model.core.MeasurementGroupFieldPresentation
 import cz.vvoleman.phr.featureMeasurement.presentation.model.core.MeasurementGroupPresentationModel
 import cz.vvoleman.phr.featureMeasurement.presentation.model.core.field.unit.UnitGroupPresentationModel
-import cz.vvoleman.phr.common.presentation.model.frequencySelector.FrequencyDayPresentationModel
-import cz.vvoleman.phr.common.presentation.model.patient.PatientPresentationModel
 import java.time.LocalTime
 
 data class AddEditMeasurementViewState(
@@ -16,6 +17,8 @@ data class AddEditMeasurementViewState(
     val frequencyDaysDefault: List<FrequencyDayPresentationModel> = emptyList(),
     val fields: List<MeasurementGroupFieldPresentation> = emptyList(),
     val unitGroups: List<UnitGroupPresentationModel> = emptyList(),
+    val problemCategoryId: String? = null,
+    val allProblemCategories: List<ProblemCategoryPresentationModel> = emptyList()
 ) {
 
    val missingFields: List<RequiredField>

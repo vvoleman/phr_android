@@ -86,6 +86,15 @@ class AddEditMeasurementFragment :
         collectLatestLifecycleFlow(nameChanges) {
             viewModel.onNameUpdate(it.toString())
         }
+
+        val binder = viewStateBinder as AddEditMeasurementBinder
+        collectLatestLifecycleFlow(binder.notification) {
+            when (it) {
+                is AddEditMeasurementBinder.Notification.ProblemCategorySelected -> {
+                    viewModel.onProblemCategorySelected(it.value)
+                }
+            }
+        }
     }
 
     override fun handleNotification(notification: AddEditMeasurementNotification) {
