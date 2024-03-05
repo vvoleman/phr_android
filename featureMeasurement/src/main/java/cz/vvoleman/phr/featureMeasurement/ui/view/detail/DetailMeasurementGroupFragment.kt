@@ -1,21 +1,14 @@
 package cz.vvoleman.phr.featureMeasurement.ui.view.detail
 
-import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.widget.PopupMenu
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
-import cz.vvoleman.phr.base.ui.exception.PermissionDeniedException
 import cz.vvoleman.phr.base.ui.ext.collectLatestLifecycleFlow
 import cz.vvoleman.phr.base.ui.mapper.ViewStateBinder
-import cz.vvoleman.phr.base.ui.view.BaseFragment
-import cz.vvoleman.phr.common.ui.export.exception.ExportFailedException
-import cz.vvoleman.phr.common.ui.export.usecase.DocumentFactory
-import cz.vvoleman.phr.common.ui.export.usecase.ExportPdfHelper
+import cz.vvoleman.phr.common.ui.view.BaseExportFragment
 import cz.vvoleman.phr.featureMeasurement.R
 import cz.vvoleman.phr.featureMeasurement.databinding.FragmentDetailMeasurementGroupBinding
 import cz.vvoleman.phr.featureMeasurement.presentation.mapper.export.ExportDetailParamsPresentationModel
@@ -28,12 +21,11 @@ import cz.vvoleman.phr.featureMeasurement.ui.mapper.detail.destination.DetailMea
 import cz.vvoleman.phr.featureMeasurement.ui.model.detail.EntryInfoUiModel
 import cz.vvoleman.phr.featureMeasurement.ui.view.export.DetailMeasurementGroupPage
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
 class DetailMeasurementGroupFragment :
-    BaseFragment<DetailMeasurementGroupViewState, DetailMeasurementGroupNotification, FragmentDetailMeasurementGroupBinding>() {
+    BaseExportFragment<DetailMeasurementGroupViewState, DetailMeasurementGroupNotification, FragmentDetailMeasurementGroupBinding>() {
 
     override val viewModel: DetailMeasurementGroupViewModel by viewModels()
 
@@ -48,31 +40,6 @@ class DetailMeasurementGroupFragment :
 
     @Inject
     lateinit var entryInfoMapper: EntryInfoUiModelToMeasurementGroupMapper
-
-    private var _exportPdfHelper: ExportPdfHelper? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        val createFileLauncher = registerForActivityResult(ActivityResultContracts.CreateDocument("application/pdf")) { uri ->
-            lifecycleScope.launch {
-                kotlin.runCatching { _exportPdfHelper?.handleCreateFileResult(uri) }.getOrElse {
-                    showSnackbar("Nepodařilo se vytvořit soubor: ${it.message}")
-                }
-            }
-        }
-
-        val permissionsLauncher =
-            registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
-                _exportPdfHelper?.handlePermissionResult(permissions)
-            }
-
-        _exportPdfHelper = ExportPdfHelper(
-            requireContext(),
-            createFileLauncher,
-            permissionsLauncher
-        )
-    }
 
     override fun setupBinding(inflater: LayoutInflater, container: ViewGroup?): FragmentDetailMeasurementGroupBinding {
         return FragmentDetailMeasurementGroupBinding.inflate(inflater, container, false)
@@ -119,7 +86,8 @@ class DetailMeasurementGroupFragment :
                     measurementGroup = notification.measurementGroup,
                     entries = entryInfoMapper.toUi(notification.measurementGroup)
                 )
-                launchExport(_exportPdfHelper!!, params)
+                val pages = splitEntriesToPages(params)
+                launchExport(pages)
             }
         }
     }
@@ -156,24 +124,6 @@ class DetailMeasurementGroupFragment :
                 it.dismiss()
             }
         )
-    }
-
-    private fun launchExport(
-        helper: ExportPdfHelper,
-        params: ExportDetailParamsPresentationModel
-    ) {
-        try {
-            DocumentFactory(
-                helper, splitEntriesToPages(params)
-            ).generate()
-        } catch (e: PermissionDeniedException) {
-            showSnackbar("Aplikace nemá oprávnění k přístupu k uložišti: ${e.message}")
-            viewModel.onPermissionDenied(helper.hasPermissions())
-        } catch (_: ExportFailedException) {
-            showSnackbar("Nepodařilo se exportovat do ${helper.exportType}")
-        } catch (e: Throwable) {
-            showSnackbar("Vyskytla se neočekávaná chyba: ${e.message}")
-        }
     }
 
     private fun splitEntriesToPages(params: ExportDetailParamsPresentationModel): List<DetailMeasurementGroupPage> {

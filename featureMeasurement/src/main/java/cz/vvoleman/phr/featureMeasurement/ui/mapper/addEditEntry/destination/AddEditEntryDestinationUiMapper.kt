@@ -20,18 +20,19 @@ class AddEditEntryDestinationUiMapper(
     }
 
     private fun handleEntrySaved(destination: AddEditEntryDestination.EntrySaved) {
-         val action = when (destination.source) {
+        when (destination.source) {
             NavigationSource.List -> {
-                AddEditEntryFragmentDirections.actionAddEditEntryFragmentToListMeasurementFragment()
+                val action = AddEditEntryFragmentDirections.actionAddEditEntryFragmentToListMeasurementFragment()
+                navManager.navigate(action)
             }
+
             is NavigationSource.Detail -> {
-                AddEditEntryFragmentDirections.actionAddEditEntryFragmentToDetailMeasurementGroupFragment(
-                    measurementGroupId = destination.measurementGroupId,
-                    name = destination.source.name
+                val action = AddEditEntryFragmentDirections.actionAddEditEntryFragmentToDetailMeasurementGroupFragment(
+                    destination.measurementGroupId,
+                    destination.source.name
                 )
+                navManager.navigate(action)
             }
         }
-
-        navManager.navigate(action)
     }
 }
