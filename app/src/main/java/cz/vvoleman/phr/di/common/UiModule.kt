@@ -29,6 +29,7 @@ import cz.vvoleman.phr.common.ui.mapper.patient.destination.AddEditPatientDestin
 import cz.vvoleman.phr.common.ui.mapper.patient.destination.ListPatientsDestinationUiMapper
 import cz.vvoleman.phr.common.ui.mapper.problemCategory.ColorUiModelToPresentationMapper
 import cz.vvoleman.phr.common.ui.mapper.problemCategory.ProblemCategoryInfoUiModelToPresentationMapper
+import cz.vvoleman.phr.common.ui.mapper.problemCategory.ProblemCategoryUiModelToColorMapper
 import cz.vvoleman.phr.common.ui.mapper.problemCategory.ProblemCategoryUiModelToPresentationMapper
 import cz.vvoleman.phr.common.ui.mapper.problemCategory.ProblemCategoryWithInfoUiModelToPresentationMapper
 import cz.vvoleman.phr.common.ui.mapper.problemCategory.destination.AddEditProblemCategoryDestinationUiMapper
@@ -217,5 +218,9 @@ class UiModule {
         @ApplicationContext context: Context
     ): ProblemCategoryDetailProvider =
         MedicalRecordProblemCategoryDetailProvider(context)
+
+    @Provides
+    fun providesProblemCategoryUiModelToColorMapper() = ProblemCategoryUiModelToColorMapper()
+
 
 }

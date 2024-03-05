@@ -6,6 +6,7 @@ import cz.vvoleman.phr.base.ui.mapper.ViewStateBinder
 import cz.vvoleman.phr.common.ui.component.nextSchedule.NextScheduleUiModelToPresentationMapper
 import cz.vvoleman.phr.common.ui.mapper.frequencySelector.FrequencyDayUiModelToPresentationMapper
 import cz.vvoleman.phr.common.ui.mapper.patient.PatientUiModelToPresentationMapper
+import cz.vvoleman.phr.common.ui.mapper.problemCategory.ProblemCategoryUiModelToColorMapper
 import cz.vvoleman.phr.common.ui.mapper.problemCategory.ProblemCategoryUiModelToPresentationMapper
 import cz.vvoleman.phr.featureMeasurement.databinding.FragmentAddEditEntryBinding
 import cz.vvoleman.phr.featureMeasurement.databinding.FragmentAddEditMeasurementBinding
@@ -74,11 +75,13 @@ class UiModule {
         fieldMapper: MeasurementGroupFieldUiModelToPresentationMapper,
         unitGroupMapper: UnitGroupUiModelToPresentationMapper,
         frequencyMapper: FrequencyDayUiModelToPresentationMapper,
+        problemCategoryColorMapper: ProblemCategoryUiModelToColorMapper,
     ): ViewStateBinder<AddEditMeasurementViewState, FragmentAddEditMeasurementBinding> =
         AddEditMeasurementBinder(
             fieldMapper = fieldMapper,
             unitGroupMapper = unitGroupMapper,
             frequencyMapper = frequencyMapper,
+            problemCategoryMapper = problemCategoryColorMapper,
         )
 
     @Provides

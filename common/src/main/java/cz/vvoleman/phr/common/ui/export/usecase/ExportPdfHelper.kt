@@ -21,7 +21,15 @@ class ExportPdfHelper(
 
     override val exportType = ExportType.PDF
 
-    public var _document: PdfDocument = PdfDocument()
+    private val document: PdfDocument
+        get() {
+            if (_document == null) {
+                _document = PdfDocument()
+            }
+            return _document!!
+        }
+
+    private var _document: PdfDocument? = null
 
     private var _currentPage: Int = 0
 
@@ -36,8 +44,9 @@ class ExportPdfHelper(
                 val fileDescriptor = context.contentResolver?.openFileDescriptor(uri, "w")
                 fileDescriptor?.use { fd ->
                     val outputStream = FileOutputStream(fd.fileDescriptor)
-                    _document.writeTo(outputStream)
-                    _document.close()
+                    document.writeTo(outputStream)
+                    document.close()
+                    _document = null
 
                     path = uri.toString()
                 }
@@ -63,10 +72,10 @@ class ExportPdfHelper(
         view.layout(0, 0, view.measuredWidth, view.measuredHeight)
 
         val pageInfo = PdfDocument.PageInfo.Builder(view.width, view.height, ++_currentPage).create()
-        val page = _document.startPage(pageInfo)
+        val page = document.startPage(pageInfo)
         val canvas = page.canvas
         view.draw(canvas)
-        _document.finishPage(page)
+        document.finishPage(page)
     }
 
     fun getInflater(): LayoutInflater {

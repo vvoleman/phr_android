@@ -4,6 +4,7 @@ import cz.vvoleman.phr.base.presentation.navigation.NavManager
 import cz.vvoleman.phr.base.ui.mapper.DestinationUiMapper
 import cz.vvoleman.phr.base.ui.mapper.ViewStateBinder
 import cz.vvoleman.phr.common.ui.mapper.healthcare.SpecificMedicalWorkerUiModelToPresentationMapper
+import cz.vvoleman.phr.common.ui.mapper.problemCategory.ProblemCategoryUiModelToColorMapper
 import cz.vvoleman.phr.featureMedicalRecord.databinding.FragmentAddEditMedicalRecordBinding
 import cz.vvoleman.phr.featureMedicalRecord.databinding.FragmentDetailMedicalRecordBinding
 import cz.vvoleman.phr.featureMedicalRecord.databinding.FragmentListMedicalRecordsBinding
@@ -83,9 +84,6 @@ class UiModule {
 
     @Provides
     fun providesTakePhotoPresentationUseCase(): TakePhotoPresentationUseCase = TakePhotoUiUseCase()
-
-    @Provides
-    fun providesProblemCategoryUiModelToColorMapper() = ProblemCategoryUiModelToColorMapper()
 
     @Provides
     fun providesDiagnoseUiModelToPresentationMapper() = DiagnoseUiModelToPresentationMapper()

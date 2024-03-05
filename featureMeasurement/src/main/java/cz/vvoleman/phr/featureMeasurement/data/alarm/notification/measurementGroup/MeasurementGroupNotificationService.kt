@@ -23,7 +23,7 @@ class MeasurementGroupNotificationService(
 
         val pendingIntent = NavDeepLinkBuilder(context)
             .setGraph(R.navigation.nav_measurement)
-            .setDestination(R.id.listMeasurementFragment)
+            .setDestination(R.id.addEditEntryFragment)
             .setArguments(args)
             .createPendingIntent()
 
@@ -41,6 +41,7 @@ class MeasurementGroupNotificationService(
             .setContentIntent(pendingIntent)
             .setColor(context.getColor(cz.vvoleman.phr.base.R.color.color_primary))
             .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+            .setAutoCancel(true)
             .build()
 
         notificationManager.notify(measurementGroup.id.hashCode(), notification)
