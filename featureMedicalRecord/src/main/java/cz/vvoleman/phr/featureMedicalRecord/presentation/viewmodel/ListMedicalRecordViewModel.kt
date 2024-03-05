@@ -6,11 +6,11 @@ import androidx.lifecycle.viewModelScope
 import cz.vvoleman.phr.base.presentation.viewmodel.BaseViewModel
 import cz.vvoleman.phr.base.presentation.viewmodel.usecase.UseCaseExecutorProvider
 import cz.vvoleman.phr.common.domain.GroupedItemsDomainModel
-import cz.vvoleman.phr.common.presentation.event.PatientDeletedEvent
 import cz.vvoleman.phr.common.domain.model.healthcare.worker.MedicalWorkerDomainModel
 import cz.vvoleman.phr.common.domain.model.patient.PatientDomainModel
 import cz.vvoleman.phr.common.domain.model.problemCategory.ProblemCategoryDomainModel
 import cz.vvoleman.phr.common.domain.usecase.patient.GetSelectedPatientUseCase
+import cz.vvoleman.phr.common.presentation.event.PatientDeletedEvent
 import cz.vvoleman.phr.common.ui.model.FilterPair
 import cz.vvoleman.phr.featureMedicalRecord.domain.model.MedicalRecordDomainModel
 import cz.vvoleman.phr.featureMedicalRecord.domain.model.list.GroupByDomainModel
@@ -19,7 +19,9 @@ import cz.vvoleman.phr.featureMedicalRecord.domain.usecase.DeletePatientUseCase
 import cz.vvoleman.phr.featureMedicalRecord.domain.usecase.GetFilteredRecordsUseCase
 import cz.vvoleman.phr.featureMedicalRecord.domain.usecase.GetUsedMedicalWorkersUseCase
 import cz.vvoleman.phr.featureMedicalRecord.domain.usecase.GetUsedProblemCategoriesUseCase
+import cz.vvoleman.phr.featureMedicalRecord.presentation.mapper.core.MedicalRecordPresentationModelToDomainMapper
 import cz.vvoleman.phr.featureMedicalRecord.presentation.mapper.list.ListViewStateToDomainMapper
+import cz.vvoleman.phr.featureMedicalRecord.presentation.model.export.ExportMedicalRecordParamsPresentationModel
 import cz.vvoleman.phr.featureMedicalRecord.presentation.model.list.ListMedicalRecordDestination
 import cz.vvoleman.phr.featureMedicalRecord.presentation.model.list.ListMedicalRecordNotification
 import cz.vvoleman.phr.featureMedicalRecord.presentation.model.list.ListMedicalRecordViewState
@@ -33,6 +35,7 @@ class ListMedicalRecordViewModel @Inject constructor(
     private val getFilteredRecordsUseCase: GetFilteredRecordsUseCase,
     private val getUsedProblemCategoriesUseCase: GetUsedProblemCategoriesUseCase,
     private val getUsedMedicalWorkersUseCase: GetUsedMedicalWorkersUseCase,
+    private val medicalRecordMapper: MedicalRecordPresentationModelToDomainMapper,
     private val listViewStateToDomainMapper: ListViewStateToDomainMapper,
     private val getSelectedPatientUseCase: GetSelectedPatientUseCase,
     private val deleteMedicalRecordUseCase: DeleteMedicalRecordUseCase,
@@ -75,7 +78,26 @@ class ListMedicalRecordViewModel @Inject constructor(
     }
 
     fun onRecordExport(id: String) {
-        notify(ListMedicalRecordNotification.NotImplemented)
+        // Find medical record
+        val medicalRecord = currentViewState.groupedRecords
+            ?.flatMap { it.items }
+            ?.find { it.id == id }
+            ?.let { medicalRecordMapper.toPresentation(it) }
+
+        if (medicalRecord == null) {
+            notify(ListMedicalRecordNotification.ExportFailed)
+            return
+        }
+
+        // Split into params for each asset
+        val params = medicalRecord.assets.map {
+            ExportMedicalRecordParamsPresentationModel(
+                medicalRecord = medicalRecord,
+                asset = it
+            )
+        }
+
+        notify(ListMedicalRecordNotification.Export(params))
     }
 
     fun onRecordEdit(id: String) {

@@ -44,4 +44,6 @@
     <string name="action_add_measurement">Přidat záznam</string>
     <string name="dialog_delete_entry_title">Smazat záznam měření</string>
     <string name="dialog_delete_entry_message">Opravdu si přejete smazat záznam měření</string>
+    <string name="description_problem_category">Kategorie problémů</string>
+    <string name="field_problem_category">Kategorie problému</string>
 </resources>

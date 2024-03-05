@@ -1,7 +1,6 @@
 package cz.vvoleman.phr.featureMeasurement.ui.view.list
 
 import android.view.LayoutInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
@@ -80,20 +79,6 @@ class ListMeasurementFragment :
             else -> {
             }
         }
-    }
-
-    override fun setOptionsMenu(): Int {
-        return R.menu.options_measurement_group
-    }
-
-    override fun onOptionsMenuItemSelected(menuItem: MenuItem): Boolean {
-        if (menuItem.itemId == R.id.action_detail) {
-            viewModel.schedule()
-            showSnackbar("Detail")
-            return true
-        }
-
-        return super.onOptionsMenuItemSelected(menuItem)
     }
 
     override fun onTimeOut() {

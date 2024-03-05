@@ -6,11 +6,11 @@ import androidx.lifecycle.LifecycleCoroutineScope
 import cz.vvoleman.phr.base.ui.mapper.BaseViewStateBinder
 import cz.vvoleman.phr.common.ui.adapter.problemCategory.ColorAdapter
 import cz.vvoleman.phr.common.ui.mapper.healthcare.SpecificMedicalWorkerUiModelToPresentationMapper
+import cz.vvoleman.phr.common.ui.mapper.problemCategory.ProblemCategoryUiModelToColorMapper
 import cz.vvoleman.phr.common.ui.model.healthcare.core.SpecificMedicalWorkerUiModel
 import cz.vvoleman.phr.featureMedicalRecord.databinding.FragmentAddEditMedicalRecordBinding
 import cz.vvoleman.phr.featureMedicalRecord.presentation.model.addEdit.AddEditViewState
 import cz.vvoleman.phr.featureMedicalRecord.ui.mapper.DiagnoseUiModelToPresentationMapper
-import cz.vvoleman.phr.featureMedicalRecord.ui.mapper.ProblemCategoryUiModelToColorMapper
 import cz.vvoleman.phr.featureMedicalRecord.ui.model.ImageItemUiModel
 import cz.vvoleman.phr.featureMedicalRecord.ui.view.addEdit.adapter.ImageAdapter
 import java.time.LocalDate

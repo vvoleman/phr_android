@@ -8,15 +8,14 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.PopupMenu
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.snackbar.Snackbar
 import cz.vvoleman.phr.base.ui.ext.collectLifecycleFlow
 import cz.vvoleman.phr.base.ui.mapper.DestinationUiMapper
 import cz.vvoleman.phr.base.ui.mapper.ViewStateBinder
-import cz.vvoleman.phr.base.ui.view.BaseFragment
 import cz.vvoleman.phr.common.presentation.event.PatientDeletedEvent
 import cz.vvoleman.phr.common.ui.adapter.grouped.GroupedItemsAdapter
 import cz.vvoleman.phr.common.ui.adapter.grouped.OnAdapterItemListener
 import cz.vvoleman.phr.common.ui.model.GroupedItemsUiModel
+import cz.vvoleman.phr.common.ui.view.BaseExportFragment
 import cz.vvoleman.phr.common.utils.getNameOfMonth
 import cz.vvoleman.phr.common_datasource.databinding.ItemGroupedItemsBinding
 import cz.vvoleman.phr.featureMedicalRecord.R
@@ -26,6 +25,7 @@ import cz.vvoleman.phr.featureMedicalRecord.presentation.model.list.ListMedicalR
 import cz.vvoleman.phr.featureMedicalRecord.presentation.viewmodel.ListMedicalRecordViewModel
 import cz.vvoleman.phr.featureMedicalRecord.ui.mapper.GroupedItemsDomainModelToUiMapper
 import cz.vvoleman.phr.featureMedicalRecord.ui.model.MedicalRecordUiModel
+import cz.vvoleman.phr.featureMedicalRecord.ui.view.export.MedicalRecordPage
 import cz.vvoleman.phr.featureMedicalRecord.ui.view.list.adapter.MedicalRecordsAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import org.greenrobot.eventbus.EventBus
@@ -35,7 +35,7 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class ListMedicalRecordFragment :
-    BaseFragment<
+    BaseExportFragment<
             ListMedicalRecordViewState,
             ListMedicalRecordNotification,
         FragmentListMedicalRecordsBinding
@@ -54,6 +54,12 @@ class ListMedicalRecordFragment :
 
     @Inject
     lateinit var groupedItemsDomainModelToUiMapper: GroupedItemsDomainModelToUiMapper
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        EventBus.getDefault().register(this)
+    }
 
     override fun setupBinding(
         inflater: LayoutInflater,
@@ -101,19 +107,22 @@ class ListMedicalRecordFragment :
 
     override fun handleNotification(notification: ListMedicalRecordNotification) {
         when (notification) {
-            is ListMedicalRecordNotification.Success -> {
-                Snackbar.make(binding.root, "Success", Snackbar.LENGTH_SHORT).show()
-            }
-            is ListMedicalRecordNotification.NotFoundError -> {
-                Snackbar.make(binding.root, "Not found", Snackbar.LENGTH_SHORT).show()
-            }
             is ListMedicalRecordNotification.NotImplemented -> {
-                Snackbar.make(binding.root, "Not implemented", Snackbar.LENGTH_SHORT).show()
+                showSnackbar("Not implemented")
             }
             is ListMedicalRecordNotification.RecordDeleted -> {
-                Snackbar.make(binding.root, "Record deleted", Snackbar.LENGTH_SHORT).setAction("Undo") {
-                    viewModel.onRecordDeleteUndo(notification.id)
-                }.show()
+                showSnackbar(R.string.record_deleted, actions = listOf(
+                    Pair(getString(cz.vvoleman.phr.common_datasource.R.string.action_undo)) {
+                        viewModel.onRecordDeleteUndo(notification.id)
+                    }
+                ))
+            }
+            is ListMedicalRecordNotification.Export -> {
+                val pages = notification.params.map { MedicalRecordPage(it, requireContext()) }
+                launchExport(pages)
+            }
+            ListMedicalRecordNotification.ExportFailed -> {
+                showSnackbar(R.string.export_medical_record_failed)
             }
         }
     }
@@ -183,12 +192,6 @@ class ListMedicalRecordFragment :
         groupBinding: ItemGroupedItemsBinding,
     ) {
         groupBinding.recyclerView.adapter = null
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        EventBus.getDefault().register(this)
     }
 
     @Subscribe
