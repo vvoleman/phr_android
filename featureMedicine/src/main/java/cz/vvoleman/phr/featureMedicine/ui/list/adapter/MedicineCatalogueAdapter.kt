@@ -1,11 +1,16 @@
 package cz.vvoleman.phr.featureMedicine.ui.list.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import cz.vvoleman.phr.common.utils.DateTimePattern
 import cz.vvoleman.phr.common.utils.TimeConstants
+import cz.vvoleman.phr.common.utils.checkVisibility
+import cz.vvoleman.phr.common.utils.toPattern
 import cz.vvoleman.phr.featureMedicine.R
 import cz.vvoleman.phr.featureMedicine.databinding.ItemMedicineCatalogueBinding
 import cz.vvoleman.phr.featureMedicine.ui.list.model.schedule.MedicineScheduleUiModel
@@ -39,19 +44,12 @@ class MedicineCatalogueAdapter(
                     }
                 }
 
-                buttonEdit.setOnClickListener {
+                buttonOptions.setOnClickListener {
                     val position = bindingAdapterPosition
+                    Log.d("MedicineCatalogueAdapter", "click options: $position")
                     if (position != RecyclerView.NO_POSITION) {
                         val item = getItem(position)
-                        listener.onCatalogueItemEdit(item)
-                    }
-                }
-
-                buttonDelete.setOnClickListener {
-                    val position = bindingAdapterPosition
-                    if (position != RecyclerView.NO_POSITION) {
-                        val item = getItem(position)
-                        listener.onCatalogueItemDelete(item)
+                        listener.onOptionsMenuClick(item, it)
                     }
                 }
             }
@@ -69,10 +67,16 @@ class MedicineCatalogueAdapter(
                         }
                     }
 
+            val expiredAt = item.schedules.first().endingAt?.toPattern(DateTimePattern.DATE_TIME)
+
             binding.apply {
                 textViewName.text = item.medicine.name
                 textViewTimes.text = times
                 textViewFrequency.text = frequencies
+                layoutInfo.visibility = checkVisibility(!item.isFinished)
+                layoutExpired.visibility = checkVisibility(item.isFinished)
+                buttonOptions.visibility = checkVisibility(!item.isFinished)
+                textViewExpired.text = binding.root.context.getString(R.string.medicine_catalogue_item_expired, expiredAt)
             }
         }
     }
@@ -86,9 +90,8 @@ class MedicineCatalogueAdapter(
     }
 
     interface MedicineCatalogueAdapterInterface {
+        fun onOptionsMenuClick(item: MedicineScheduleUiModel, anchorView: View)
         fun onCatalogueItemClick(item: MedicineScheduleUiModel)
-        fun onCatalogueItemEdit(item: MedicineScheduleUiModel)
-        fun onCatalogueItemDelete(item: MedicineScheduleUiModel)
     }
 
     companion object {

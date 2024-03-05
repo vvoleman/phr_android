@@ -11,28 +11,73 @@
     android:contextClickable="true"
     android:padding="16dp">
 
-    <TextView
-        android:id="@+id/text_view_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFeatureSettings="smcp"
-        android:textColor="@color/white"
-        android:textSize="18sp"
-        android:textStyle="bold"
+    <com.google.android.flexbox.FlexboxLayout
+        android:id="@+id/layout_header"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="Calcium chloratum biotika" />
+        android:layout_width="match_parent"
+        app:justifyContent="space_between"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/text_view_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFeatureSettings="smcp"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:textStyle="bold"
+
+            tools:text="Calcium chloratum biotika" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/button_options"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:background="?android:attr/selectableItemBackground"
+            app:icon="@drawable/ic_options"
+            android:layout_alignParentEnd="true"
+            android:fontFamily="@font/roboto_medium"
+            app:iconGravity="textStart"
+            app:cornerRadius="32dp" />
+
+    </com.google.android.flexbox.FlexboxLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_expired"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="start"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/layout_header">
+
+        <TextView
+            android:id="@+id/text_view_expired"
+
+            style="@style/BeigeInfoBox"
+            android:backgroundTint="@color/red_500"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/medicine_catalogue_item_expired"
+            app:layout_constraintEnd_toStartOf="@id/text_view_frequency"
+            app:layout_constraintTop_toBottomOf="@id/text_view_name"
+            app:drawableStartCompat="@drawable/ic_close" />
+
+    </LinearLayout>
 
 
     <LinearLayout
         android:id="@+id/layout_info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="18dp"
-        android:gravity="end"
+        tools:visibility="gone"
+        android:layout_marginTop="10dp"
+        android:gravity="start"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/text_view_name">
+        app:layout_constraintTop_toBottomOf="@id/layout_header">
 
         <TextView
             android:id="@+id/text_view_times"
@@ -56,36 +101,5 @@
             app:layout_constraintTop_toBottomOf="@id/text_view_name" />
 
     </LinearLayout>
-
-    <Button
-        android:id="@+id/button_delete"
-        style="@style/Widget.Material3.Button.ElevatedButton.Icon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="@string/action_delete"
-        android:backgroundTint="@color/red_500"
-        android:textColor="@color/white"
-        android:textSize="14sp"
-        app:icon="@drawable/ic_edit"
-        app:iconTint="@color/white"
-        android:layout_marginEnd="8dp"
-        app:layout_constraintBottom_toBottomOf="@id/button_edit"
-        app:layout_constraintEnd_toStartOf="@id/button_edit" />
-    <Button
-        android:id="@+id/button_edit"
-        style="@style/Widget.Material3.Button.ElevatedButton.Icon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:backgroundTint="@color/green_200"
-        android:gravity="center"
-        android:text="@string/action_edit"
-        android:textColor="@color/white"
-        android:textSize="14sp"
-        app:icon="@drawable/ic_edit"
-        app:iconTint="@color/white"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/layout_info" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
