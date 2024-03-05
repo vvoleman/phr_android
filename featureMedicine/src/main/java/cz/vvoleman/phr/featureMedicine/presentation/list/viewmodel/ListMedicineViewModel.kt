@@ -15,6 +15,7 @@ import cz.vvoleman.phr.featureMedicine.domain.model.timeline.GroupScheduleItemsR
 import cz.vvoleman.phr.featureMedicine.domain.model.timeline.NextScheduledRequestDomainModel
 import cz.vvoleman.phr.featureMedicine.domain.model.timeline.SchedulesInRangeRequest
 import cz.vvoleman.phr.featureMedicine.domain.model.timeline.ToggleScheduleAlarmRequest
+import cz.vvoleman.phr.featureMedicine.domain.repository.MarkMedicineScheduleFinishedRepository
 import cz.vvoleman.phr.featureMedicine.domain.usecase.DeleteMedicineScheduleUseCase
 import cz.vvoleman.phr.featureMedicine.domain.usecase.GetNextScheduledUseCase
 import cz.vvoleman.phr.featureMedicine.domain.usecase.GetScheduledInTimeRangeUseCase
@@ -47,6 +48,7 @@ class ListMedicineViewModel @Inject constructor(
     private val groupMedicineSchedulesUseCase: GroupMedicineScheduleUseCase,
     private val deleteMedicineScheduleUseCase: DeleteMedicineScheduleUseCase,
     private val toggleScheduleAlarmUseCase: ToggleScheduleAlarmUseCase,
+    private val markMedicineScheduleFinishedRepository: MarkMedicineScheduleFinishedRepository,
     private val patientMapper: PatientPresentationModelToDomainMapper,
     private val scheduleItemDetailsMapper: ScheduleItemWithDetailsPresentationModelToDomainMapper,
     private val medicineScheduleMapper: MedicineSchedulePresentationModelToDomainMapper,
@@ -99,6 +101,13 @@ class ListMedicineViewModel @Inject constructor(
 
     fun onEdit(id: String) {
         navigateTo(ListMedicineDestination.EditSchedule(id))
+    }
+
+    fun onStopScheduling(item: MedicineSchedulePresentationModel) = viewModelScope.launch  {
+        val model = medicineScheduleMapper.toDomain(item)
+
+        markMedicineScheduleFinishedRepository.markMedicineScheduleFinished(model, LocalDateTime.now())
+        reloadSchedules()
     }
 
     fun onNextScheduleTimeOut() = viewModelScope.launch {

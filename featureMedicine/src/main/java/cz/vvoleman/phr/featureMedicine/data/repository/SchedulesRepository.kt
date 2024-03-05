@@ -16,11 +16,13 @@ import cz.vvoleman.phr.featureMedicine.domain.repository.ChangeMedicineScheduleA
 import cz.vvoleman.phr.featureMedicine.domain.repository.DeleteMedicineScheduleRepository
 import cz.vvoleman.phr.featureMedicine.domain.repository.GetMedicineScheduleByIdRepository
 import cz.vvoleman.phr.featureMedicine.domain.repository.GetSchedulesByMedicineRepository
+import cz.vvoleman.phr.featureMedicine.domain.repository.MarkMedicineScheduleFinishedRepository
 import cz.vvoleman.phr.featureMedicine.domain.repository.SaveMedicineScheduleRepository
 import cz.vvoleman.phr.featureMedicine.domain.repository.SaveScheduleItemRepository
 import cz.vvoleman.phr.featureMedicine.domain.repository.timeline.GetSchedulesByPatientRepository
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.firstOrNull
+import java.time.LocalDateTime
 
 class SchedulesRepository(
     private val medicineScheduleDao: MedicineScheduleDao,
@@ -36,6 +38,7 @@ class SchedulesRepository(
     SaveScheduleItemRepository,
     GetSchedulesByPatientRepository,
     GetMedicineScheduleByIdRepository,
+    MarkMedicineScheduleFinishedRepository,
     DeleteMedicineScheduleRepository,
     ChangeMedicineScheduleAlarmEnabledRepository {
 
@@ -127,5 +130,20 @@ class SchedulesRepository(
     override suspend fun changeMedicineScheduleAlarmEnabled(medicineScheduleId: String, enabled: Boolean): Boolean {
         medicineScheduleDao.changeAlarmEnabled(medicineScheduleId, enabled)
         return true
+    }
+
+    override suspend fun markMedicineScheduleFinished(
+        medicineSchedule: MedicineScheduleDomainModel,
+        endingAt: LocalDateTime
+    ) {
+        val schedules = medicineSchedule.schedules.map{
+            it.copy(endingAt = LocalDateTime.now())
+        }.map {
+            scheduleItemDataMapper.toData(it)
+        }.map {
+            scheduleItemDataSourceMapper.toDataSource(it, medicineSchedule.id)
+        }
+
+        scheduleItemDao.insert(scheduleItems = schedules)
     }
 }

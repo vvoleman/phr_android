@@ -22,7 +22,9 @@ class GetScheduledInTimeRangeUseCase(
     ): List<ScheduleItemWithDetailsDomainModel> {
         require(!request.startAt.isAfter(request.endAt))
 
-        val schedules = getSchedulesByPatientRepository.getSchedulesByPatient(request.patientId)
+        val schedules = getSchedulesByPatientRepository.getSchedulesByPatient(request.patientId).filter {
+            !it.isFinished
+        }
         val daysBetween = ChronoUnit.DAYS.between(request.startAt.toLocalDate(), request.endAt.toLocalDate())
         var numberOfWeeks = (daysBetween / 7f)
         numberOfWeeks = if (numberOfWeeks < 1) {
