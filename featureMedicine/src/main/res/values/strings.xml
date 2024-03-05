@@ -43,4 +43,11 @@
     <string name="next_schedule_no_medicine">Nemáte naplánovány žádné léky</string>
     <string name="switch_alarm_off">Vypnout upozornění na lék %s v %s</string>
     <string name="notification_unable_to_toggle_alarm">Nepodařilo se přepnout upozornění na lék</string>
+    <string name="action_stop_scheduling">Ukončit podávání</string>
+    <string name="dialog_stop_scheduling_title">Ukončit podávání léku</string>
+    <string name="dialog_stop_scheduling_message">Přejete si ukončit podávání léku %s?</string>
+    <string name="dialog_stop_scheduling_action_immediately">Ano, okamžitě</string>
+    <string name="dialog_stop_scheduling_action_cancel">Neukončovat</string>
+    <string name="action_start_scheduling">Začít podávat</string>
+    <string name="medicine_catalogue_item_expired">Nepodává se od %s</string>
 </resources>

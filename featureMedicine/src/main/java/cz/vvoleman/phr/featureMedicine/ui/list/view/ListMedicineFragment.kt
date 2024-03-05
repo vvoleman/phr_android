@@ -3,7 +3,9 @@ package cz.vvoleman.phr.featureMedicine.ui.list.view
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.MenuItem
+import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.PopupMenu
 import androidx.fragment.app.viewModels
 import com.google.android.material.snackbar.Snackbar
 import cz.vvoleman.phr.base.ui.mapper.ViewStateBinder
@@ -27,6 +29,7 @@ import cz.vvoleman.phr.featureMedicine.ui.list.fragment.TimelineFragment
 import cz.vvoleman.phr.featureMedicine.ui.list.fragment.viewModel.MedicineCatalogueViewModel
 import cz.vvoleman.phr.featureMedicine.ui.list.fragment.viewModel.TimelineViewModel
 import cz.vvoleman.phr.featureMedicine.ui.list.mapper.ListMedicineDestinationUiMapper
+import cz.vvoleman.phr.featureMedicine.ui.list.mapper.MedicineScheduleUiModelToPresentationMapper
 import cz.vvoleman.phr.featureMedicine.ui.list.mapper.ScheduleItemWithDetailsUiModelToPresentationMapper
 import cz.vvoleman.phr.featureMedicine.ui.list.model.schedule.MedicineScheduleUiModel
 import cz.vvoleman.phr.featureMedicine.ui.list.model.schedule.ScheduleItemWithDetailsUiModel
@@ -62,6 +65,9 @@ class ListMedicineFragment :
 
     @Inject
     lateinit var scheduleItemMapper: ScheduleItemWithDetailsUiModelToPresentationMapper
+
+    @Inject
+    lateinit var medicineScheduleMapper: MedicineScheduleUiModelToPresentationMapper
 
     private var counter = 0
 
@@ -142,6 +148,33 @@ class ListMedicineFragment :
         viewModel.onAlarmToggle(scheduleItemMapper.toPresentation(item), oldState)
     }
 
+    override fun onOptionsMenuClick(item: MedicineScheduleUiModel, anchorView: View) {
+        val popup = PopupMenu(requireContext(), anchorView)
+        popup.inflate(R.menu.options_catalogue_item)
+
+        popup.setOnMenuItemClickListener {
+            when (it.itemId) {
+                R.id.action_stop_scheduling -> {
+                    handleStopSchedulingItem(item)
+                    true
+                }
+                R.id.action_edit -> {
+                    viewModel.onEdit(item.id)
+                    true
+                }
+
+                R.id.action_delete -> {
+                    handleDeleteItemClick(item)
+                    true
+                }
+
+                else -> false
+            }
+        }
+
+        popup.show()
+    }
+
     override fun onCatalogueItemClick(item: MedicineScheduleUiModel) {
         val modal = MedicineDetailSheet.newInstance(item.medicine)
         modal.setTargetFragment(this, MEDICINE_DETAIL_SHEET)
@@ -149,11 +182,7 @@ class ListMedicineFragment :
         Log.d("Catalogue", "onCatalogueItemClick: $item")
     }
 
-    override fun onCatalogueItemEdit(item: MedicineScheduleUiModel) {
-        viewModel.onEdit(item.id)
-    }
-
-    override fun onCatalogueItemDelete(item: MedicineScheduleUiModel) {
+    private fun handleDeleteItemClick(item: MedicineScheduleUiModel) {
         showConfirmDialog(
             getString(R.string.confirm_delete_title),
             getString(R.string.confirm_delete_message),
@@ -161,6 +190,20 @@ class ListMedicineFragment :
                 viewModel.onDelete(item.id)
             },
             Pair(getString(R.string.confirm_delete_negative)) {
+                it.cancel()
+            }
+        )
+    }
+
+    private fun handleStopSchedulingItem(item: MedicineScheduleUiModel) {
+        showConfirmDialog(
+            getString(R.string.dialog_stop_scheduling_title),
+            getString(R.string.dialog_stop_scheduling_message, item.medicine.name),
+            Pair(getString(R.string.dialog_stop_scheduling_action_immediately)) {
+                val model = medicineScheduleMapper.toPresentation(item)
+                viewModel.onStopScheduling(model)
+            },
+            Pair(getString(R.string.dialog_stop_scheduling_action_cancel)) {
                 it.cancel()
             }
         )

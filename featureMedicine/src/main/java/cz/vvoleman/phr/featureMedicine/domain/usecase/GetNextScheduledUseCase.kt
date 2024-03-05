@@ -17,7 +17,9 @@ class GetNextScheduledUseCase(
     override suspend fun executeInBackground(
         request: NextScheduledRequestDomainModel
     ): List<ScheduleItemWithDetailsDomainModel> {
-        val schedules = getSchedulesByPatientRepository.getSchedulesByPatient(request.patientId)
+        val schedules = getSchedulesByPatientRepository.getSchedulesByPatient(request.patientId).filter {
+            !it.isFinished
+        }
         val translatedTimes = TranslateDateTimeFacade
             .translate(schedules, request.currentLocalDateTime, 1)
 

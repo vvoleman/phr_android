@@ -4,9 +4,7 @@ import android.os.Parcelable
 import cz.vvoleman.phr.common.domain.model.patient.PatientDomainModel
 import cz.vvoleman.phr.featureMedicine.domain.model.medicine.MedicineDomainModel
 import kotlinx.parcelize.Parcelize
-import java.time.DayOfWeek
 import java.time.LocalDateTime
-import java.time.LocalTime
 
 @Parcelize
 data class MedicineScheduleDomainModel(
@@ -16,4 +14,7 @@ data class MedicineScheduleDomainModel(
     val schedules: List<ScheduleItemDomainModel>,
     val createdAt: LocalDateTime,
     val isAlarmEnabled: Boolean,
-) : Parcelable
+) : Parcelable {
+    val isFinished: Boolean
+        get() = schedules.all { it.endingAt?.isBefore(LocalDateTime.now()) ?: true }
+}
