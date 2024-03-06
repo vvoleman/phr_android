@@ -25,7 +25,10 @@ interface MedicalFacilityDao {
     fun getByPatient(patientId: String): Flow<List<MedicalFacilityWithDetailsDataSourceModel>>
 
     @Query("SELECT * FROM medical_facility WHERE id = :id")
-    fun getById(id: Int): Flow<MedicalFacilityWithDetailsDataSourceModel>
+    fun getById(id: String): Flow<MedicalFacilityWithDetailsDataSourceModel>
+
+    @Query("SELECT * FROM medical_facility WHERE id IN (:ids)")
+    fun getById(ids: List<String>): Flow<List<MedicalFacilityWithDetailsDataSourceModel>>
 
     @Query("SELECT * FROM medical_facility WHERE full_name = :name")
     fun getByName(name: String): Flow<MedicalFacilityWithDetailsDataSourceModel>

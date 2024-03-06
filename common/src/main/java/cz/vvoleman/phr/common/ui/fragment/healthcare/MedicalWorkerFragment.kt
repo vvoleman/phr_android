@@ -96,7 +96,12 @@ class MedicalWorkerFragment :
         popup.show()
     }
 
+    override fun onItemClicked(item: MedicalWorkerUiModel) {
+        viewModel?.getListener()?.onMedicalWorkerClicked(item)
+    }
+
     interface MedicalWorkerFragmentInterface {
+        fun onMedicalWorkerClicked(item: MedicalWorkerUiModel)
         fun onMedicalWorkerDelete(item: MedicalWorkerUiModel)
         fun onMedicalWorkerEdit(item: MedicalWorkerUiModel)
     }

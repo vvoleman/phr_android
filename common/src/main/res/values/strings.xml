@@ -114,4 +114,9 @@
     <string name="navigation_detail_problem_category">Detail kategorie problému</string>
     <string name="medicine_date_from">od %s</string>
     <string name="medicine_date_to">do %s</string>
+    <string name="navigation_detail_medical_worker">Detail lék. pracovníka</string>
+    <string name="action_contact_phone">Zkopírovat</string>
+    <string name="copied">Zkopírováno</string>
+    <string name="action_contact_email">Zkopírovat</string>
+    <string name="action_contact_address">Zkopírovat</string>
 </resources>

@@ -65,6 +65,10 @@ class ListHealthcareFragment :
     override fun handleNotification(notification: ListHealthcareNotification) {
     }
 
+    override fun onMedicalWorkerClicked(item: MedicalWorkerUiModel) {
+        viewModel.onDetailMedicalWorker(medicalWorkerMapper.toPresentation(item))
+    }
+
     override fun onMedicalWorkerDelete(item: MedicalWorkerUiModel) {
         showConfirmDialog(
             title = getString(R.string.dialog_delete_medical_worker_title),
