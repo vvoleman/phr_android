@@ -13,13 +13,20 @@ class ListHealthcareDestinationUiMapper(private val context: Context, navManager
     DestinationUiMapper(navManager) {
 
     override fun navigate(destination: PresentationDestination) {
-        when (destination as ListHealthcareDestination) {
+        when (val dest = destination as ListHealthcareDestination) {
             ListHealthcareDestination.AddMedicalWorker -> {
                 navigate(R.string.action_add)
             }
 
             is ListHealthcareDestination.EditMedicalWorker -> {
-                navigate(R.string.action_edit, (destination as ListHealthcareDestination.EditMedicalWorker).id)
+                navigate(R.string.action_edit, dest.id)
+            }
+
+            is ListHealthcareDestination.DetailMedicalWorker -> {
+                val action = ListHealthcareFragmentDirections.actionListHealthcareFragmentToDetailMedicalWorkerFragment(
+                    dest.id
+                )
+                navManager.navigate(action)
             }
         }
     }

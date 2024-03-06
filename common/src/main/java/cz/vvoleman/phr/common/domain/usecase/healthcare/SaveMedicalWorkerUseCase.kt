@@ -30,7 +30,7 @@ class SaveMedicalWorkerUseCase(
         }
 
         val servicesInfo = request.medicalServices.map {
-            MedicalServiceWithInfoDomainModel(services[it.serviceId]!!, it.telephone, it.email)
+            MedicalServiceWithInfoDomainModel(services[it.serviceId]!!, it.email, it.telephone)
         }
 
         saveMedicalFacilityRepository.saveMedicalFacility(facilities)
@@ -53,7 +53,6 @@ class SaveMedicalWorkerUseCase(
         servicesInfo.onEach { info ->
             if (specificWorkers.isNotEmpty() && previousServiceIds.contains(info.medicalService.id)) {
                 previousServiceIds.remove(info.medicalService.id)
-                return@onEach
             }
 
             updatedWorkers.add(

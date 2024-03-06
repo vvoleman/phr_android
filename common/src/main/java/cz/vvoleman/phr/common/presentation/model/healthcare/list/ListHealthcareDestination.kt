@@ -6,4 +6,6 @@ sealed class ListHealthcareDestination : PresentationDestination {
     object AddMedicalWorker : ListHealthcareDestination()
 
     data class EditMedicalWorker(val id: String) : ListHealthcareDestination()
+
+    data class DetailMedicalWorker(val id: String) : ListHealthcareDestination()
 }

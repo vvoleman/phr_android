@@ -61,7 +61,14 @@ class FacilityRepository(
     }
 
     override suspend fun getFacilityById(id: String): MedicalFacilityDomainModel? {
-        return medicalFacilityDao.getById(id.toInt()).firstOrNull()?.let { facilityMapper.toDomain(it) }
+        return medicalFacilityDao.getById(id).firstOrNull()?.let { facilityMapper.toDomain(it) }
+    }
+
+    override suspend fun getFacilityById(ids: List<String>): List<MedicalFacilityDomainModel> {
+        return medicalFacilityDao.getById(ids)
+            .firstOrNull()
+            ?.map { facilityMapper.toDomain(it) }
+            ?: emptyList()
     }
 
     override suspend fun getFacilitiesByPatient(patientId: String): List<MedicalFacilityDomainModel> {

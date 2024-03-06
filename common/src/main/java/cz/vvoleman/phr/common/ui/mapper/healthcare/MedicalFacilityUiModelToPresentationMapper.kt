@@ -31,6 +31,10 @@ class MedicalFacilityUiModelToPresentationMapper(
         )
     }
 
+    fun toPresentation(models: List<MedicalFacilityUiModel>): List<MedicalFacilityPresentationModel> {
+        return models.map { toPresentation(it) }
+    }
+
     fun toUi(model: MedicalFacilityPresentationModel): MedicalFacilityUiModel {
         return MedicalFacilityUiModel(
             id = model.id,
@@ -53,5 +57,9 @@ class MedicalFacilityUiModelToPresentationMapper(
             gps = model.gps,
             services = model.services.map { serviceWithWorkersMapper.toUi(it) }
         )
+    }
+
+    fun toUi(models: List<MedicalFacilityPresentationModel>): List<MedicalFacilityUiModel> {
+        return models.map { toUi(it) }
     }
 }
