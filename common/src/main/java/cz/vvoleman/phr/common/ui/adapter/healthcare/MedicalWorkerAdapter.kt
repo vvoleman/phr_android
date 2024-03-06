@@ -34,6 +34,18 @@ class MedicalWorkerAdapter(
 
         private val _adapter: AdditionalInfoAdapter<MedicalWorkerUiModel>
         init {
+            binding.root.setOnClickListener {
+                val position = bindingAdapterPosition
+
+                if (position != RecyclerView.NO_POSITION) {
+                    val item = getItem(position)
+
+                    if (item != null) {
+                        listener.onItemClicked(item.medicalWorker)
+                    }
+                }
+            }
+
             _adapter = AdditionalInfoAdapter(object :
                 AdditionalInfoAdapter.AdditionalInfoAdapterListener<MedicalWorkerUiModel> {
                 override fun onAdditionalInfoClick(): MedicalWorkerUiModel {
@@ -92,6 +104,7 @@ class MedicalWorkerAdapter(
     }
 
     interface MedicalWorkerAdapterListener {
+        fun onItemClicked(item: MedicalWorkerUiModel)
         fun onItemOptionsMenuClicked(item: MedicalWorkerUiModel, anchorView: View)
     }
 }

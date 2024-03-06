@@ -106,4 +106,8 @@ class ListHealthcareViewModel @Inject constructor(
     fun onEditWorker(item: MedicalWorkerPresentationModel) {
         navigateTo(ListHealthcareDestination.EditMedicalWorker(item.id!!))
     }
+
+    fun onDetailMedicalWorker(model: MedicalWorkerPresentationModel) {
+        navigateTo(ListHealthcareDestination.DetailMedicalWorker(model.id!!))
+    }
 }

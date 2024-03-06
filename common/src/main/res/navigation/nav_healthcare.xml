@@ -18,6 +18,9 @@
             app:argType="string"
             app:nullable="true"
             android:defaultValue="@null" />
+        <action
+            android:id="@+id/action_listHealthcareFragment_to_detailMedicalWorkerFragment"
+            app:destination="@id/detailMedicalWorkerFragment" />
     </fragment>
     <fragment
         android:id="@+id/addEditMedicalWorkerFragment"
@@ -35,6 +38,17 @@
         <argument
             android:name="action"
             android:defaultValue="Upravit"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailMedicalWorkerFragment"
+        android:name="cz.vvoleman.phr.common.ui.view.healthcare.detailMedicalWorker.DetailMedicalWorkerFragment"
+        android:label="@string/navigation_detail_medical_worker">
+        <action
+            android:id="@+id/action_detailMedicalWorkerFragment_to_addEditMedicalWorkerFragment"
+            app:destination="@id/addEditMedicalWorkerFragment" />
+        <argument
+            android:name="medicalWorkerId"
             app:argType="string" />
     </fragment>
 </navigation>

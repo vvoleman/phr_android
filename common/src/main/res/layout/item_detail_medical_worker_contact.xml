@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.flexbox.FlexboxLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:justifyContent="space_between"
+    android:elevation="2dp"
+    app:alignItems="center"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/text_view_mail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxWidth="200dp"
+        tools:text="test@test.cz"
+        android:gravity="start|center_vertical"
+        android:drawablePadding="8dp"
+        app:drawableStartCompat="@drawable/ic_mail" />
+
+    <Button
+        android:id="@+id/button_mail"
+        android:layout_width="wrap_content"
+        tools:text="Napsat"
+        android:layout_height="wrap_content" />
+
+</com.google.android.flexbox.FlexboxLayout>

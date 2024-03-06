@@ -4,6 +4,7 @@ import android.content.Context
 import cz.vvoleman.phr.base.presentation.navigation.NavManager
 import cz.vvoleman.phr.base.ui.mapper.ViewStateBinder
 import cz.vvoleman.phr.common.presentation.model.healthcare.addEdit.AddEditMedicalWorkerViewState
+import cz.vvoleman.phr.common.presentation.model.healthcare.detailMedicalWorker.DetailMedicalWorkerViewState
 import cz.vvoleman.phr.common.presentation.model.healthcare.list.ListHealthcareViewState
 import cz.vvoleman.phr.common.presentation.model.patient.addedit.AddEditViewState
 import cz.vvoleman.phr.common.presentation.model.patient.listpatients.ListPatientsViewState
@@ -12,6 +13,8 @@ import cz.vvoleman.phr.common.presentation.model.problemCategory.detail.DetailPr
 import cz.vvoleman.phr.common.presentation.model.problemCategory.list.ListProblemCategoryViewState
 import cz.vvoleman.phr.common.ui.component.nextSchedule.NextScheduleItemUiModelToPresentationMapper
 import cz.vvoleman.phr.common.ui.component.nextSchedule.NextScheduleUiModelToPresentationMapper
+import cz.vvoleman.phr.common.ui.factory.CopyManager
+import cz.vvoleman.phr.common.ui.factory.DetailMedicalWorkerContainerFactory
 import cz.vvoleman.phr.common.ui.mapper.frequencySelector.FrequencyDayUiModelToPresentationMapper
 import cz.vvoleman.phr.common.ui.mapper.healthcare.AddEditMedicalServiceItemUiModelToPresentationMapper
 import cz.vvoleman.phr.common.ui.mapper.healthcare.MedicalFacilityAdditionalInfoUiModelToPresentationMapper
@@ -23,6 +26,7 @@ import cz.vvoleman.phr.common.ui.mapper.healthcare.MedicalWorkerUiModelToPresent
 import cz.vvoleman.phr.common.ui.mapper.healthcare.MedicalWorkerWithInfoUiModelToPresentationMapper
 import cz.vvoleman.phr.common.ui.mapper.healthcare.SpecificMedicalWorkerUiModelToPresentationMapper
 import cz.vvoleman.phr.common.ui.mapper.healthcare.destination.AddEditMedicalWorkerDestinationUiMapper
+import cz.vvoleman.phr.common.ui.mapper.healthcare.destination.DetailMedicalWorkerDestinationUiMapper
 import cz.vvoleman.phr.common.ui.mapper.healthcare.destination.ListHealthcareDestinationUiMapper
 import cz.vvoleman.phr.common.ui.mapper.patient.PatientUiModelToPresentationMapper
 import cz.vvoleman.phr.common.ui.mapper.patient.destination.AddEditPatientDestinationUiMapper
@@ -36,6 +40,7 @@ import cz.vvoleman.phr.common.ui.mapper.problemCategory.destination.AddEditProbl
 import cz.vvoleman.phr.common.ui.mapper.problemCategory.destination.DetailProblemCategoryDestinationUiMapper
 import cz.vvoleman.phr.common.ui.mapper.problemCategory.destination.ListProblemCategoryDestinationUiMapper
 import cz.vvoleman.phr.common.ui.view.healthcare.addEdit.AddEditMedicalWorkerBinder
+import cz.vvoleman.phr.common.ui.view.healthcare.detailMedicalWorker.DetailMedicalWorkerBinder
 import cz.vvoleman.phr.common.ui.view.healthcare.list.ListHealthcareBinder
 import cz.vvoleman.phr.common.ui.view.patient.addedit.AddEditPatientBinder
 import cz.vvoleman.phr.common.ui.view.patient.listpatients.ListPatientsBinder
@@ -45,6 +50,7 @@ import cz.vvoleman.phr.common.ui.view.problemCategory.list.ListProblemCategoryBi
 import cz.vvoleman.phr.common_datasource.databinding.FragmentAddEditMedicalWorkerBinding
 import cz.vvoleman.phr.common_datasource.databinding.FragmentAddEditPatientBinding
 import cz.vvoleman.phr.common_datasource.databinding.FragmentAddEditProblemCategoryBinding
+import cz.vvoleman.phr.common_datasource.databinding.FragmentDetailMedicalWorkerBinding
 import cz.vvoleman.phr.common_datasource.databinding.FragmentDetailProblemCategoryBinding
 import cz.vvoleman.phr.common_datasource.databinding.FragmentListHealthcareBinding
 import cz.vvoleman.phr.common_datasource.databinding.FragmentListPatientsBinding
@@ -222,5 +228,31 @@ class UiModule {
     @Provides
     fun providesProblemCategoryUiModelToColorMapper() = ProblemCategoryUiModelToColorMapper()
 
+    @Provides
+    fun providesDetailMedicalWorkerDestinationUiMapper(
+        navManager: NavManager
+    ) = DetailMedicalWorkerDestinationUiMapper(navManager)
+
+    @Provides
+    fun providesDetailMedicalWorkerViewStateBinder(
+        workerMapper: SpecificMedicalWorkerUiModelToPresentationMapper,
+        facilityMapper: MedicalFacilityUiModelToPresentationMapper,
+        factory: DetailMedicalWorkerContainerFactory
+    ): ViewStateBinder<DetailMedicalWorkerViewState, FragmentDetailMedicalWorkerBinding> =
+        DetailMedicalWorkerBinder(
+            workerMapper,
+            facilityMapper,
+            factory
+        )
+
+    @Provides
+    fun providesCopyManager(
+        @ApplicationContext context: Context
+    ) = CopyManager(context)
+
+    @Provides
+    fun providesDetailMedicalWorkerContainerFactory(
+        copyManager: CopyManager
+    ) = DetailMedicalWorkerContainerFactory(copyManager)
 
 }
