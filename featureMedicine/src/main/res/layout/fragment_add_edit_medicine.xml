@@ -41,7 +41,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFeatureSettings="smcp"
-                android:text="@string/add_edit_medicine_select_medicine" />
+                android:text="@string/select_medicine_schedule" />
 
             <View
                 android:layout_width="0dp"
@@ -53,7 +53,7 @@
                 style="@style/SecondaryButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Přidat podání"
+                android:text="@string/add_medicine_schedule_time"
                 android:textAlignment="center" />
         </LinearLayout>
 

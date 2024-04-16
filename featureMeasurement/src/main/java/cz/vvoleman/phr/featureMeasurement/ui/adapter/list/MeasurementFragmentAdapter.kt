@@ -32,8 +32,8 @@ class MeasurementFragmentAdapter(
 
     override fun createFragment(position: Int): Fragment {
         return when(position){
-            0 -> MeasurementGroupFragment.newInstance(measurementGroupViewModel)
-            1 -> MeasurementTimelineFragment.newInstance(timelineViewModel)
+            0 -> MeasurementTimelineFragment.newInstance(timelineViewModel)
+            1 -> MeasurementGroupFragment.newInstance(measurementGroupViewModel)
             else -> {
                 error("Invalid fragment adapter position")
             }

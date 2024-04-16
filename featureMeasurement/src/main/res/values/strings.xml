@@ -32,7 +32,7 @@
     <string name="field_entry_date">Datum zápisu</string>
     <string name="end_icon_entry_date">Otevřít dialogové okno pro výběr data</string>
     <string name="end_icon_entry_time">Otevřít dialogové okno pro výběr času</string>
-    <string name="navigation_detail_measurement_group">Skupina měření \"{name}\"</string>
+    <string name="navigation_detail_measurement_group">{name}</string>
     <string name="minimal_label">Minimální hodnota</string>
     <string name="minimal_value">%s %s (%s)</string>
     <string name="maximal_label">Maximální hodnota</string>

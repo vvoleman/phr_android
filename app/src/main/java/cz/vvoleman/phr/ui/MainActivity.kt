@@ -90,7 +90,7 @@ class MainActivity : AppCompatActivity() {
         collectLatestLifecycleFlow(patientDataStore.preferencesFlow) { preferences ->
             val patientId = preferences.patientId
             val patient = getPatientByIdRepository.getById(patientId)
-            headerName.text = patient?.name
+            headerName.text = patient?.name ?: "-"
         }
 
 
