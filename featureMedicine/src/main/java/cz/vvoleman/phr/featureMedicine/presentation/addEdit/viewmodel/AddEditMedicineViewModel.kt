@@ -67,14 +67,6 @@ class AddEditMedicineViewModel @Inject constructor(
         viewModelScope.launch {
             loadSelectedPatient()
 
-            // Delete later
-            getMedicineByIdUseCase.execute("0000009") { medicine ->
-                if (medicine == null) {
-                    return@execute
-                }
-                updateViewState(currentViewState.copy(selectedMedicine = medicineMapper.toPresentation(medicine)))
-            }
-
             val scheduleId = savedStateHandle.get<String>(SCHEDULE_ID)
             updateViewState(currentViewState.copy(scheduleId = scheduleId))
             if (scheduleId != null) {

@@ -40,9 +40,9 @@
         </menu>
     </item>
 
-    <!-- Individual items without a group -->
-    <item
-        android:id="@+id/settingsFragment"
-        android:icon="@drawable/ic_settings"
-        android:title="@string/settings" />
+<!--    &lt;!&ndash; Individual items without a group &ndash;&gt;-->
+<!--    <item-->
+<!--        android:id="@+id/settingsFragment"-->
+<!--        android:icon="@drawable/ic_settings"-->
+<!--        android:title="@string/settings" />-->
 </menu>

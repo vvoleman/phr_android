@@ -6,7 +6,7 @@
     <string name="medical_records">Lékařské zprávy</string>
     <string name="medicine">Léky</string>
     <string name="measurements">Měření</string>
-    <string name="add_medical_record">Přidat novou zprávu</string>
+    <string name="add_medical_record">Přidat zprávu</string>
     <string name="edit">Upravit</string>
     <string name="delete">Smazat</string>
     <string name="export">Exportovat</string>
@@ -24,5 +24,6 @@
     <string name="problem_categories">Kategorie problémů</string>
     <string name="medical_workers">Seznam lék. zařízení</string>
     <string name="event">Plány návštěv</string>
+    <string name="drawer_header_current_patient">Současný pacient</string>
 
 </resources>

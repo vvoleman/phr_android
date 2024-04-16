@@ -1,7 +1,6 @@
 package cz.vvoleman.phr.featureMeasurement.ui.view.detail
 
 import android.view.LayoutInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.PopupMenu
@@ -62,20 +61,6 @@ class DetailMeasurementGroupFragment :
         }
         binding.buttonExport.setOnClickListener {
             viewModel.onExport()
-        }
-    }
-
-    override fun setOptionsMenu(): Int {
-        return R.menu.options_detail_measurement_group
-    }
-
-    override fun onOptionsMenuItemSelected(menuItem: MenuItem): Boolean {
-        return when(menuItem.itemId) {
-            R.id.action_add -> {
-                viewModel.onAddEntry()
-                true
-            }
-            else -> super.onOptionsMenuItemSelected(menuItem)
         }
     }
 

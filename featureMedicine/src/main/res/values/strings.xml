@@ -55,4 +55,6 @@
     <string name="document_medicine_item_date_range">Podáváno od %s</string>
     <string name="document_medicine_generated_at">Vygenerováno v %s</string>
     <string name="add_medicine_schedule">Přidat lék</string>
+    <string name="add_medicine_schedule_time">Přidat podání</string>
+    <string name="select_medicine_schedule">Vyberte podání</string>
 </resources>
