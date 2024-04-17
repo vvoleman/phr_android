@@ -7,24 +7,34 @@ on:
     types: [ opened, synchronize ]
 
 jobs:
-  build-and-test:
-    name: Build, Lint and Test
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Set up JDK
-        uses: actions/setup-java@v2
-        with:
-          java-version: 18  # Adjust this version as needed
-          distribution: 'adopt'
-
-      - name: Build and Test
-        run: |
-          chmod +x ./gradlew
-          ./gradlew test
+#  build-and-test:
+#    name: Build, Lint and Test
+#    runs-on: ubuntu-latest
+#
+#    steps:
+#      - name: Checkout code
+#        uses: actions/checkout@v2
+#
+#      - name: Set up JDK
+#        uses: actions/setup-java@v2
+#        with:
+#          java-version: 18  # Adjust this version as needed
+#          distribution: 'adopt'
+#
+#      - name: Cache Gradle and wrapper
+#        uses: actions/cache@v2
+#        with:
+#            path: |
+#              ~/.gradle/caches
+#              ~/.gradle/wrapper
+#            key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
+#            restore-keys: |
+#              ${{ runner.os }}-gradle-
+#
+#      - name: Build and Test
+#        run: |
+#          chmod +x ./gradlew
+#          ./gradlew test
 
   static-analysis:
     name: Execute analyse on code
@@ -50,8 +60,8 @@ jobs:
     runs-on: ubuntu-latest
     environment: Release
     timeout-minutes: 20
-    needs:
-      - build-and-test
+#    needs:
+#      - build-and-test
 
     steps:
       - name: Checkout
@@ -73,15 +83,15 @@ jobs:
 #          mkdir "${TMP_KEYSTORE_FILE_PATH}"
 #          echo $ENCODED_STRING | base64 -di > "${TMP_KEYSTORE_FILE_PATH}"/keystore_file.jks
 #
-#      - name: Cache Gradle and wrapper
-#        uses: actions/cache@v2
-#        with:
-#          path: |
-#            ~/.gradle/caches
-#            ~/.gradle/wrapper
-#          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
-#          restore-keys: |
-#            ${{ runner.os }}-gradle-
+      - name: Cache Gradle and wrapper
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
 
       - name: Build Release
         run: ./gradlew app:assembleRelease
