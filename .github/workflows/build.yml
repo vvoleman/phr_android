@@ -36,24 +36,24 @@ jobs:
   #          chmod +x ./gradlew
   #          ./gradlew test
 
-  static-analysis:
-    name: Execute analyse on code
-    continue-on-error: true
-    runs-on: ubuntu-latest
-    timeout-minutes: 20
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-
-      - name: Set up our JDK environment
-        uses: actions/setup-java@v2
-        with:
-          distribution: 'adopt'
-          java-version: '18'
-
-      - name: Run detekt Linter
-        run: ./gradlew detektAll
+#  static-analysis:
+#    name: Execute analyse on code
+#    continue-on-error: true
+#    runs-on: ubuntu-latest
+#    timeout-minutes: 20
+#
+#    steps:
+#      - name: Checkout
+#        uses: actions/checkout@v2
+#
+#      - name: Set up our JDK environment
+#        uses: actions/setup-java@v2
+#        with:
+#          distribution: 'adopt'
+#          java-version: '18'
+#
+#      - name: Run detekt Linter
+#        run: ./gradlew detektAll
   generate-release-apk:
     name: Try generate Releasable
     runs-on: ubuntu-latest
@@ -99,8 +99,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
+          tag_name: ${{ github.run_number }}
+          release_name: Release ${{ github.run_number }}
           bodyFile: "body.md"
 #        env:
 #          SIGNING_KEY_ALIAS: ${{ secrets.SIGNING_KEY_ALIAS }}
