@@ -2,9 +2,8 @@ name: Build
 
 on:
   push:
-    branches: [ bugfixing ]
-  pull_request:
-    types: [ opened, synchronize ]
+    tags:
+      - 'v*'
 
 jobs:
   build-app:
@@ -28,14 +27,6 @@ jobs:
 
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
-
-      - name: Decode Keystore
-        env:
-          ENCODED_STRING: ${{ secrets.KEYSTORE }}
-        run: |
-          TMP_KEYSTORE_FILE_PATH="${RUNNER_TEMP}"/keystore
-          mkdir "${TMP_KEYSTORE_FILE_PATH}"
-          echo $ENCODED_STRING | base64 -d > "${TMP_KEYSTORE_FILE_PATH}"/keystore.jks
 
       - name: Cache Gradle and wrapper
         uses: actions/cache@v2
@@ -78,90 +69,11 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: signed-apk
-      - name: Test Downloaded APK
-        run: ls -R
-
-  #      - name: Create GitHub Release
-  #        id: create_release
-  #        uses: actions/create-release@v1
-  #        env:
-  #          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  #        with:
-  #          tag_name: ${{ github.run_number }}
-  #          release_name: Release ${{ github.run_number }}
-  #
-  #      - name: Upload APK
-  #        uses: actions/upload-release-asset@v1
-  #        env:
-  #          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  #        with:
-  #          upload_url: ${{ steps.create_release.outputs.upload_url }}
-  #          asset_path: ${{ steps.download_artifact.outputs.artifact_paths }}
-  #          asset_name: app-release.apk
-  #          asset_content_type: application/vnd.android.package-archive
-
-  #  build-and-test:
-  #    name: Build, Lint and Test
-  #    runs-on: ubuntu-latest
-  #
-  #    steps:
-  #      - name: Checkout code
-  #        uses: actions/checkout@v2
-  #
-  #      - name: Set up JDK
-  #        uses: actions/setup-java@v2
-  #        with:
-  #          java-version: 18  # Adjust this version as needed
-  #          distribution: 'adopt'
-  #
-  #      - name: Cache Gradle and wrapper
-  #        uses: actions/cache@v2
-  #        with:
-  #            path: |
-  #              ~/.gradle/caches
-  #              ~/.gradle/wrapper
-  #            key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
-  #            restore-keys: |
-  #              ${{ runner.os }}-gradle-
-  #
-  #      - name: Build and Test
-  #        run: |
-  #          chmod +x ./gradlew
-  #          ./gradlew test
-
-  #  static-analysis:
-  #    name: Execute analyse on code
-  #    continue-on-error: true
-  #    runs-on: ubuntu-latest
-  #    timeout-minutes: 20
-  #
-  #    steps:
-  #      - name: Checkout
-  #        uses: actions/checkout@v2
-  #
-  #      - name: Set up our JDK environment
-  #        uses: actions/setup-java@v2
-  #        with:
-  #          distribution: 'adopt'
-  #          java-version: '18'
-  #
-  #      - name: Run detekt Linter
-  #        run: ./gradlew detektAll
-
-#      - name: Create GitHub release
-#        uses: actions/create-release@v1
-#        env:
-#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-#        with:
-#          tag_name: ${{ github.run_number }}
-#          release_name: Release ${{ github.run_number }}
-#
-#      - name: Upload APK
-#        uses: actions/upload-artifact@v2
-#        with:
-#          name: app-release
-#          path: app/build/outputs/apk/release/app-release.apk
-#        env:
-#          SIGNING_KEY_ALIAS: ${{ secrets.SIGNING_KEY_ALIAS }}
-#          SIGNING_KEY_PASSWORD: ${{ secrets.SIGNING_KEY_PASSWORD }}
-#          SIGNING_STORE_PASSWORD: ${{ secrets.SIGNING_STORE_PASSWORD }}
+      - name: Create GitHub Release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          # Use the tag name as the release name
+            tag_name: ${{ github.ref }}
+            release_name: ${{ github.ref }}
