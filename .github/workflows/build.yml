@@ -147,8 +147,6 @@ jobs:
   #
   #      - name: Run detekt Linter
   #        run: ./gradlew detektAll
-  generate-release-apk:
-
 
 #      - name: Create GitHub release
 #        uses: actions/create-release@v1
