@@ -36,24 +36,24 @@ jobs:
   #          chmod +x ./gradlew
   #          ./gradlew test
 
-#  static-analysis:
-#    name: Execute analyse on code
-#    continue-on-error: true
-#    runs-on: ubuntu-latest
-#    timeout-minutes: 20
-#
-#    steps:
-#      - name: Checkout
-#        uses: actions/checkout@v2
-#
-#      - name: Set up our JDK environment
-#        uses: actions/setup-java@v2
-#        with:
-#          distribution: 'adopt'
-#          java-version: '18'
-#
-#      - name: Run detekt Linter
-#        run: ./gradlew detektAll
+  #  static-analysis:
+  #    name: Execute analyse on code
+  #    continue-on-error: true
+  #    runs-on: ubuntu-latest
+  #    timeout-minutes: 20
+  #
+  #    steps:
+  #      - name: Checkout
+  #        uses: actions/checkout@v2
+  #
+  #      - name: Set up our JDK environment
+  #        uses: actions/setup-java@v2
+  #        with:
+  #          distribution: 'adopt'
+  #          java-version: '18'
+  #
+  #      - name: Run detekt Linter
+  #        run: ./gradlew detektAll
   generate-release-apk:
     name: Try generate Releasable
     runs-on: ubuntu-latest
@@ -73,14 +73,17 @@ jobs:
           distribution: 'adopt'
           java-version: '18'
 
-      #      - name: Decode Keystore
-      #        env:
-      #          ENCODED_STRING: ${{ secrets.KEYSTORE }}
-      #        run: |
-      #          TMP_KEYSTORE_FILE_PATH="${RUNNER_TEMP}"/keystore
-      #          mkdir "${TMP_KEYSTORE_FILE_PATH}"
-      #          echo $ENCODED_STRING | base64 -di > "${TMP_KEYSTORE_FILE_PATH}"/keystore_file.jks
-      #
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Decode Keystore
+        env:
+          ENCODED_STRING: ${{ secrets.KEYSTORE }}
+        run: |
+          TMP_KEYSTORE_FILE_PATH="${RUNNER_TEMP}"/keystore
+          mkdir "${TMP_KEYSTORE_FILE_PATH}"
+          echo $ENCODED_STRING | base64 -d > "${TMP_KEYSTORE_FILE_PATH}"/keystore.jks
+
       - name: Cache Gradle and wrapper
         uses: actions/cache@v2
         with:
@@ -94,27 +97,40 @@ jobs:
       - name: Build Release
         run: ./gradlew app:assembleRelease
 
-      - name: Check that the APK was generated
-        run: ls app/build/release/ && ls app/build/outputs/apk/release/
+      - name: Zipalign the APK
+        run: zipalign -v -p 4 app/build/outputs/apk/release/app-release-unsigned.apk app/build/outputs/apk/release/app-release-aligned.apk
 
-      - name: Upload APK
+      - name: Sign the Aligned APK
+        run: |
+          apksigner sign \
+          --ks "${RUNNER_TEMP}"/keystore/keystore.jks \
+          --ks-key-alias upload \
+          --ks-pass env:KEYSTORE_PASSWORD \
+          --out app/build/outputs/apk/release/app-release-signed.apk \
+          app/build/outputs/apk/release/app-release-aligned.apk
+
+      - name: Verify Signed APK
+        run: apksigner verify app/build/outputs/apk/release/app-release-signed.apk
+
+      - name: Upload Signed APK
         uses: actions/upload-artifact@v2
         with:
-          name: app-release
-          path: app/build/release/app-release.apk
+          name: signed-apk
+          path: app/build/outputs/apk/release/app-release-signed.apk
 
-      - name: Create GitHub release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ github.run_number }}
-          release_name: Release ${{ github.run_number }}
-      - name: Upload APK
-        uses: actions/upload-artifact@v2
-        with:
-          name: app-release
-          path: app/build/outputs/apk/release/app-release.apk
+#      - name: Create GitHub release
+#        uses: actions/create-release@v1
+#        env:
+#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#        with:
+#          tag_name: ${{ github.run_number }}
+#          release_name: Release ${{ github.run_number }}
+#
+#      - name: Upload APK
+#        uses: actions/upload-artifact@v2
+#        with:
+#          name: app-release
+#          path: app/build/outputs/apk/release/app-release.apk
 #        env:
 #          SIGNING_KEY_ALIAS: ${{ secrets.SIGNING_KEY_ALIAS }}
 #          SIGNING_KEY_PASSWORD: ${{ secrets.SIGNING_KEY_PASSWORD }}
