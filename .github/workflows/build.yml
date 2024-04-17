@@ -97,26 +97,21 @@ jobs:
       - name: Build Release
         run: ./gradlew app:assembleRelease
 
-      - name: Zipalign the APK
-        run: zipalign -v -p 4 app/build/outputs/apk/release/app-release-unsigned.apk app/build/outputs/apk/release/app-release-aligned.apk
-
-      - name: Sign the Aligned APK
-        run: |
-          apksigner sign \
-          --ks "${RUNNER_TEMP}"/keystore/keystore.jks \
-          --ks-key-alias upload \
-          --ks-pass env:KEYSTORE_PASSWORD \
-          --out app/build/outputs/apk/release/app-release-signed.apk \
-          app/build/outputs/apk/release/app-release-aligned.apk
-
-      - name: Verify Signed APK
-        run: apksigner verify app/build/outputs/apk/release/app-release-signed.apk
+      - name: Sign APK
+        uses: r0adkll/sign-android-release@v1
+        id: sign_app
+        with:
+          releaseDirectory: app/build/outputs/apk/release
+          signingKeyBase64: ${{ secrets.KEYSTORE }}
+          alias: ${{ secrets.KEYSTORE_ALIAS }}
+          keyStorePassword: ${{ secrets.KEYSTORE_PASSWORD }}
+          keyPassword: ${{ secrets.KEYSTORE_PASSWORD }}
 
       - name: Upload Signed APK
         uses: actions/upload-artifact@v2
         with:
           name: signed-apk
-          path: app/build/outputs/apk/release/app-release-signed.apk
+          path: ${{steps.sign_app.outputs.signedReleaseFile}}
 
 #      - name: Create GitHub release
 #        uses: actions/create-release@v1
