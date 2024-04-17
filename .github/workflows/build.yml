@@ -7,6 +7,99 @@ on:
     types: [ opened, synchronize ]
 
 jobs:
+  build-app:
+    name: Build and Sign APK
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    #    needs:
+    #      - build-and-test
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Set up JDK environment
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'adopt'
+          java-version: '18'
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Decode Keystore
+        env:
+          ENCODED_STRING: ${{ secrets.KEYSTORE }}
+        run: |
+          TMP_KEYSTORE_FILE_PATH="${RUNNER_TEMP}"/keystore
+          mkdir "${TMP_KEYSTORE_FILE_PATH}"
+          echo $ENCODED_STRING | base64 -d > "${TMP_KEYSTORE_FILE_PATH}"/keystore.jks
+
+      - name: Cache Gradle and wrapper
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
+      - name: Build Release
+        run: ./gradlew app:assembleRelease
+
+      - name: Sign APK
+        uses: r0adkll/sign-android-release@v1
+        id: sign_app
+        with:
+          releaseDirectory: app/build/outputs/apk/release
+          signingKeyBase64: ${{ secrets.KEYSTORE }}
+          alias: ${{ secrets.KEYSTORE_ALIAS }}
+          keyStorePassword: ${{ secrets.KEYSTORE_PASSWORD }}
+          keyPassword: ${{ secrets.KEYSTORE_PASSWORD }}
+        env:
+          BUILD_TOOLS_VERSION: "34.0.0"
+
+      - name: Upload Signed APK
+        uses: actions/upload-artifact@v2
+        with:
+          name: signed-apk
+          path: ${{steps.sign_app.outputs.signedReleaseFile}}
+  release-app:
+    name: Release APK
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    needs: build-app
+
+    steps:
+      - name: Download Signed APK
+        uses: actions/download-artifact@v2
+        with:
+          name: signed-apk
+      - name: Test Downloaded APK
+        run: ls -R
+
+  #      - name: Create GitHub Release
+  #        id: create_release
+  #        uses: actions/create-release@v1
+  #        env:
+  #          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  #        with:
+  #          tag_name: ${{ github.run_number }}
+  #          release_name: Release ${{ github.run_number }}
+  #
+  #      - name: Upload APK
+  #        uses: actions/upload-release-asset@v1
+  #        env:
+  #          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  #        with:
+  #          upload_url: ${{ steps.create_release.outputs.upload_url }}
+  #          asset_path: ${{ steps.download_artifact.outputs.artifact_paths }}
+  #          asset_name: app-release.apk
+  #          asset_content_type: application/vnd.android.package-archive
+
   #  build-and-test:
   #    name: Build, Lint and Test
   #    runs-on: ubuntu-latest
@@ -55,65 +148,7 @@ jobs:
   #      - name: Run detekt Linter
   #        run: ./gradlew detektAll
   generate-release-apk:
-    name: Try generate Releasable
-    runs-on: ubuntu-latest
-    timeout-minutes: 20
-    #    needs:
-    #      - build-and-test
 
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-
-      - name: Set up our JDK environment
-        uses: actions/setup-java@v2
-        with:
-          distribution: 'adopt'
-          java-version: '18'
-
-      - name: Setup Android SDK
-        uses: android-actions/setup-android@v3
-
-      - name: Decode Keystore
-        env:
-          ENCODED_STRING: ${{ secrets.KEYSTORE }}
-        run: |
-          TMP_KEYSTORE_FILE_PATH="${RUNNER_TEMP}"/keystore
-          mkdir "${TMP_KEYSTORE_FILE_PATH}"
-          echo $ENCODED_STRING | base64 -d > "${TMP_KEYSTORE_FILE_PATH}"/keystore.jks
-
-      - name: Cache Gradle and wrapper
-        uses: actions/cache@v2
-        with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
-          restore-keys: |
-            ${{ runner.os }}-gradle-
-
-      - name: Build Release
-        run: ./gradlew app:assembleRelease
-
-      - name: Sign APK
-        uses: r0adkll/sign-android-release@v1
-        id: sign_app
-        with:
-          releaseDirectory: app/build/outputs/apk/release
-          signingKeyBase64: ${{ secrets.KEYSTORE }}
-          alias: ${{ secrets.KEYSTORE_ALIAS }}
-          keyStorePassword: ${{ secrets.KEYSTORE_PASSWORD }}
-          keyPassword: ${{ secrets.KEYSTORE_PASSWORD }}
-        env:
-          BUILD_TOOLS_VERSION: "34.0.0"
-
-      - name: Upload Signed APK
-        uses: actions/upload-artifact@v2
-        with:
-          name: signed-apk
-          path: ${{steps.sign_app.outputs.signedReleaseFile}}
 
 #      - name: Create GitHub release
 #        uses: actions/create-release@v1
