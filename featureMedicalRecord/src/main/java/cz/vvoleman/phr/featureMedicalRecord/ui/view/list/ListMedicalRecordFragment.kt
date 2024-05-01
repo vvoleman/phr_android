@@ -138,8 +138,7 @@ class ListMedicalRecordFragment :
                     true
                 }
                 R.id.action_delete -> {
-                    Log.d(TAG, "onItemOptionsMenuClicked: $item")
-                    viewModel.onRecordDelete(item.id)
+                    showDeleteDialog(item)
                     true
                 }
                 R.id.action_download -> {
@@ -155,10 +154,6 @@ class ListMedicalRecordFragment :
 
     override fun onItemClicked(item: MedicalRecordUiModel) {
         viewModel.onRecordDetail(item.id)
-    }
-
-    override fun onItemDelete(item: MedicalRecordUiModel) {
-        viewModel.onRecordDelete(item.id)
     }
 
     override fun bindGroupedItems(
@@ -197,6 +192,20 @@ class ListMedicalRecordFragment :
     @Subscribe
     fun onPatientDeleted(event: PatientDeletedEvent) {
         viewModel.onEventPatientDeleted(event)
+    }
+
+    private fun showDeleteDialog(item: MedicalRecordUiModel) {
+        showConfirmDialog(
+            R.string.delete_record_title,
+            R.string.delete_record_message,
+            positiveAction = Pair(cz.vvoleman.phr.common_datasource.R.string.action_delete) {
+                viewModel.onRecordDelete(item.id)
+            },
+            negativeAction = Pair(cz.vvoleman.phr.common_datasource.R.string.action_cancel) {
+                it.dismiss()
+            }
+        )
+
     }
 
     override fun onDestroy() {

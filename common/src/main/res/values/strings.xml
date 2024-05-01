@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">common_datasource</string>
     <string name="navigation_list_patients">Seznam pacientů</string>
-    <string name="list_patients_add_new_patient">Přidat nového pacienta</string>
+    <string name="list_patients_add_new_patient">Přidat pacienta</string>
     <string name="list_patients_switch">Přepnout</string>
     <string name="list_patients_no_birthdate">Bez narození</string>
     <string name="action_detail">Otevřít</string>
@@ -119,4 +119,5 @@
     <string name="copied">Zkopírováno</string>
     <string name="action_contact_email">Zkopírovat</string>
     <string name="action_contact_address">Zkopírovat</string>
+    <string name="save_patient">Uložit pacienta</string>
 </resources>

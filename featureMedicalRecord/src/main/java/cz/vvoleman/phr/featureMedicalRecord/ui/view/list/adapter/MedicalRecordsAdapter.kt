@@ -101,15 +101,6 @@ class MedicalRecordsAdapter(
         private const val ALPHA = 128
     }
 
-    fun deleteItem(position: Int) {
-        // Remove the item from your data source
-        val deletedItem = getItem(position)
-        // Perform any additional actions, like deleting the item from a database
-        // ...
-        listener.onItemDelete(deletedItem)
-        notifyItemRemoved(position)
-    }
-
     class DiffCallback : DiffUtil.ItemCallback<MedicalRecordUiModel>() {
         override fun areItemsTheSame(
             oldItem: MedicalRecordUiModel,
