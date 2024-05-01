@@ -80,4 +80,11 @@ class AddEditEntryBinder(
         return true
     }
 
+    override fun onDestroy(viewBinding: FragmentAddEditEntryBinding) {
+        items.forEach { it.onDestroy() }
+        items = listOf()
+
+        super.onDestroy(viewBinding)
+    }
+
 }
