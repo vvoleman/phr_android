@@ -8,6 +8,7 @@ import cz.vvoleman.phr.featureMeasurement.R
 import cz.vvoleman.phr.featureMeasurement.databinding.ItemNumericFieldEntryBinding
 import cz.vvoleman.phr.featureMeasurement.databinding.ItemTextFieldEntryBinding
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.cancel
 
 abstract class EntryFieldItem(
     val id: String,
@@ -44,6 +45,10 @@ abstract class EntryFieldItem(
         };
 
         abstract fun getBinding(inflater: LayoutInflater, parent: ViewGroup): ViewBinding
+    }
+
+    fun onDestroy() {
+        coroutineScope.cancel()
     }
 
     interface EntryFieldItemListener {

@@ -58,7 +58,7 @@ class ListMedicineFragment :
     @Inject
     override lateinit var viewStateBinder: ViewStateBinder<ListMedicineViewState, FragmentListMedicineBinding>
 
-    private lateinit var fragmentAdapter: MedicineFragmentAdapter
+    private var fragmentAdapter: MedicineFragmentAdapter? = null
 
     @Inject
     public lateinit var healthcareRepository: HealthcareRepository
@@ -87,7 +87,7 @@ class ListMedicineFragment :
         timelineViewModel.setListener(this)
         medicineCatalogueViewModel.setListener(this)
         fragmentAdapter = MedicineFragmentAdapter(timelineViewModel, medicineCatalogueViewModel, this)
-        (viewStateBinder as ListMedicineBinder).setFragmentAdapter(fragmentAdapter)
+        (viewStateBinder as ListMedicineBinder).setFragmentAdapter(fragmentAdapter!!)
 
         binding.fabAddMedicalRecord.setOnClickListener {
             viewModel.onCreate()
@@ -236,6 +236,7 @@ class ListMedicineFragment :
     }
 
     override fun onDestroyView() {
+        fragmentAdapter = null
         binding.viewPager.adapter = null
         super.onDestroyView()
     }

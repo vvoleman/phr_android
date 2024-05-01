@@ -50,7 +50,7 @@ class ListMeasurementFragment :
     @Inject
     lateinit var scheduleMapper: ScheduledMeasurementGroupUiModelToPresentationMapper
 
-    private lateinit var fragmentAdapter: MeasurementFragmentAdapter
+    private var fragmentAdapter: MeasurementFragmentAdapter? = null
 
     override fun setupBinding(inflater: LayoutInflater, container: ViewGroup?): FragmentListMeasurementBinding {
         return FragmentListMeasurementBinding.inflate(inflater, container, false)
@@ -66,7 +66,7 @@ class ListMeasurementFragment :
             timelineViewModel,
             this
         )
-        (viewStateBinder as ListMeasurementBinder).setFragmentAdapter(fragmentAdapter)
+        (viewStateBinder as ListMeasurementBinder).setFragmentAdapter(fragmentAdapter!!)
 
         binding.nextSchedule.setListener(this)
         binding.fabAddMeasurementGroup.setOnClickListener {
@@ -90,6 +90,7 @@ class ListMeasurementFragment :
     }
 
     override fun onDestroyView() {
+        fragmentAdapter = null
         binding.viewPager.adapter = null
         super.onDestroyView()
     }
