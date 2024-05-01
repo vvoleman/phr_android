@@ -10,6 +10,7 @@ import cz.vvoleman.phr.common.domain.model.patient.AddEditPatientDomainModel
 import cz.vvoleman.phr.common.domain.usecase.patient.addedit.GetPatientByIdUseCase
 import cz.vvoleman.phr.common.domain.usecase.patient.addedit.SavePatientUseCase
 import cz.vvoleman.phr.common.presentation.mapper.PatientPresentationModelToDomainMapper
+import cz.vvoleman.phr.common.presentation.model.patient.PatientPresentationModel
 import cz.vvoleman.phr.common.presentation.model.patient.addedit.AddEditPatientDestination
 import cz.vvoleman.phr.common.presentation.model.patient.addedit.AddEditPatientNotification
 import cz.vvoleman.phr.common.presentation.model.patient.addedit.AddEditViewState
@@ -33,20 +34,13 @@ class AddEditPatientViewModel @Inject constructor(
     override val TAG = "AddEditPatientViewModel"
 
     override suspend fun initState(): AddEditViewState {
-        return AddEditViewState()
-    }
-
-    override suspend fun onInit() {
-        super.onInit()
-
-        val patientId = savedStateHandle.get<String>(PATIENT_KEY)
-        if (patientId != null) {
-            loadPatient(patientId)
-        }
+        val patient = getPatient()
+        return AddEditViewState(
+            patient = patient
+        )
     }
 
     fun onSave(name: String?, birthDate: LocalDate? = null) = viewModelScope.launch {
-        Log.d(TAG, "onSave: $name, $birthDate")
         if (!validateInput(name, birthDate)) return@launch
 
         val model = AddEditPatientDomainModel(id = currentViewState.patient?.id, name = name!!, birthDate = birthDate)
@@ -74,17 +68,19 @@ class AddEditPatientViewModel @Inject constructor(
         return errors.isEmpty()
     }
 
-    private fun loadPatient(id: String) = viewModelScope.launch {
-        getPatientByIdUseCase.execute(id) {
-            if (it == null) {
-                notify(AddEditPatientNotification.Error)
-                navigateTo(AddEditPatientDestination.Back)
-                return@execute
-            }
+    private suspend fun getPatient(): PatientPresentationModel?{
+        val id = savedStateHandle.get<String>(PATIENT_KEY) ?: return null
 
-            val presentationModel = patientPresentationModelToDomainMapper.toPresentation(it)
-            updateViewState(currentViewState.copy(patient = presentationModel))
+        val patient = getPatientByIdUseCase.executeInBackground(id)
+
+        if (patient == null) {
+            notify(AddEditPatientNotification.Error)
+            navigateTo(AddEditPatientDestination.Back)
+            return null
         }
+
+        return patientPresentationModelToDomainMapper.toPresentation(patient)
+
     }
 
     companion object {

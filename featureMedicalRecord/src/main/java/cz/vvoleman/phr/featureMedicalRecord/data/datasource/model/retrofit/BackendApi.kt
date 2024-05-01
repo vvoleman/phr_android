@@ -8,10 +8,9 @@ interface BackendApi {
 
     companion object {
         const val BASE_URL = "https://phr.vvoleman.eu/api/"
-        const val PAGE_SIZE = 10
     }
 
-    @GET("diagnose")
+    @GET("diagnose/list")
     suspend fun searchDiagnoses(
         @Query("search") query: String,
         @Query("page") page: Int,

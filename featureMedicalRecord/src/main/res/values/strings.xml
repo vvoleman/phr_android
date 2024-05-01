@@ -56,4 +56,6 @@
     <string name="export_medical_record_failed">Nepodařilo se exportovat lékařskou zprávu</string>
     <string name="record_deleted">Lékařská zpráva byla smazána</string>
     <string name="record_not_found">Lékařská zpráva nebyla nalezena</string>
+    <string name="delete_record_title">Smazat zprávu</string>
+    <string name="delete_record_message">Přejete si smazat tuto lékařskou zprávu?</string>
 </resources>
