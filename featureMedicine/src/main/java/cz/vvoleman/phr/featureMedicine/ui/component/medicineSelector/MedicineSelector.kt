@@ -33,6 +33,8 @@ class MedicineSelector @JvmOverloads constructor(
 
     private val dialogBinding: DialogMedicineSelectorBinding
 
+    private var isFirstOpen = false
+
     init {
         binding =
             ViewMedicineSelectorBinding.inflate(LayoutInflater.from(context), this, true)
@@ -45,8 +47,8 @@ class MedicineSelector @JvmOverloads constructor(
         val builder = MaterialAlertDialogBuilder(context)
         builder.setView(dialogBinding.root)
         builder.setPositiveButton("OK") { _, _ ->
-            listener?.onMedicineSelected(medicine)
             setupMedicine()
+            listener?.onMedicineSelected(medicine)
         }
         builder.setNegativeButton("Cancel") { _, _ ->
             Log.d("MedicineSelector", "Cancel")
@@ -55,16 +57,21 @@ class MedicineSelector @JvmOverloads constructor(
         dialog = builder.create()
 
         binding.root.setOnClickListener {
-            listener?.onMedicineSelectorSearch("")
+            if (!isFirstOpen) {
+                isFirstOpen = true
+
+                listener?.onMedicineSelectorSearch("") {
+                    setData(it)
+                }
+            }
             dialog.show()
         }
 
         recyclerViewAdapter = MedicineSelectorAdapter(this)
         recyclerViewAdapter.addLoadStateListener { loadState ->
-            dialogBinding.apply {
-                progressBar.isVisible = loadState.source.refresh is LoadState.Loading
-                recyclerViewMedicines.isVisible = loadState.source.refresh is LoadState.NotLoading
-            }
+            dialogBinding.progressBar.isVisible = loadState.source.refresh is LoadState.Loading
+            dialogBinding.textViewNoResults.isVisible = loadState.append.endOfPaginationReached && recyclerViewAdapter.itemCount < 1
+            dialogBinding.textViewError.isVisible = loadState.refresh is LoadState.Error
         }
 
         dialogBinding.apply {
@@ -77,11 +84,13 @@ class MedicineSelector @JvmOverloads constructor(
                 SearchView.OnQueryTextListener,
                 androidx.appcompat.widget.SearchView.OnQueryTextListener {
                 override fun onQueryTextSubmit(query: String?): Boolean {
+                    listener?.onMedicineSelectorSearch(query ?: "") {
+                        setData(it)
+                    }
                     return false
                 }
 
                 override fun onQueryTextChange(newText: String?): Boolean {
-                    listener?.onMedicineSelectorSearch(newText!!)
                     return false
                 }
             })
@@ -89,25 +98,27 @@ class MedicineSelector @JvmOverloads constructor(
     }
 
     private fun setupMedicine() {
-        binding.layoutNoMedicine.isVisible = false
+        binding.layoutNoMedicine.isVisible = medicine == null
 
-        binding.textViewMedicine.text = medicine!!.name
-        binding.textViewMedicineDosage.text = medicine!!.packaging.packaging
-        binding.textViewMedicineForm.text = medicine!!.packaging.form.name
-        binding.textViewMedicineSize.text = medicine!!.packaging.packaging
+        if (medicine != null) {
+            binding.textViewMedicine.text = medicine!!.name
+            binding.textViewMedicineDosage.text = medicine!!.packaging.packaging
+            binding.textViewMedicineForm.text = medicine!!.packaging.form.name
+            binding.textViewMedicineSize.text = medicine!!.packaging.packaging
+        }
 
-        binding.layoutMedicine.isVisible = true
+        binding.layoutMedicine.isVisible = medicine != null
     }
 
-    public fun setSelectedMedicine(medicine: MedicineUiModel?) {
+    fun setSelectedMedicine(medicine: MedicineUiModel?) {
         this.medicine = medicine
         if (medicine != null) {
             setupMedicine()
         }
     }
 
-    suspend fun setData(data: List<MedicineUiModel>) {
-        recyclerViewAdapter.submitData(PagingData.from(data))
+    suspend fun setData(data: PagingData<MedicineUiModel>) {
+        recyclerViewAdapter.submitData(data)
     }
 
     fun setListener(listener: MedicineSelectorListener) {
@@ -116,10 +127,10 @@ class MedicineSelector @JvmOverloads constructor(
 
     interface MedicineSelectorListener {
         fun onMedicineSelected(medicine: MedicineUiModel?)
-        fun onMedicineSelectorSearch(query: String)
+        fun onMedicineSelectorSearch(query: String, callback: suspend (PagingData<MedicineUiModel>) -> Unit)
     }
 
-    override fun onItemClick(item: MedicineUiModel) {
+    override fun onItemClick(item: MedicineUiModel?) {
         medicine = item
     }
 }

@@ -27,6 +27,7 @@ import cz.vvoleman.phr.featureMedicine.domain.repository.DeleteMedicineScheduleR
 import cz.vvoleman.phr.featureMedicine.domain.repository.DeleteScheduleAlarmRepository
 import cz.vvoleman.phr.featureMedicine.domain.repository.GetMedicineByIdRepository
 import cz.vvoleman.phr.featureMedicine.domain.repository.GetMedicineScheduleByIdRepository
+import cz.vvoleman.phr.featureMedicine.domain.repository.GetMedicinesPagingStreamRepository
 import cz.vvoleman.phr.featureMedicine.domain.repository.GetSchedulesByMedicineRepository
 import cz.vvoleman.phr.featureMedicine.domain.repository.MarkMedicineScheduleFinishedRepository
 import cz.vvoleman.phr.featureMedicine.domain.repository.SaveMedicineScheduleRepository
@@ -217,4 +218,9 @@ class DataModule {
     fun providesMarkMedicineScheduleFinishedRepository(
         scheduleRepository: SchedulesRepository
     ): MarkMedicineScheduleFinishedRepository = scheduleRepository
+
+    @Provides
+    fun providesGetMedicinesPagingStreamRepository(
+        medicineRepository: MedicineRepository
+    ): GetMedicinesPagingStreamRepository = medicineRepository
 }

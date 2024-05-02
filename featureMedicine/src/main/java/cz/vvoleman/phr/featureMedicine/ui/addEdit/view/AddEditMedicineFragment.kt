@@ -8,6 +8,8 @@ import android.widget.TimePicker
 import androidx.appcompat.widget.PopupMenu
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.paging.PagingData
+import androidx.paging.map
 import com.google.android.material.snackbar.Snackbar
 import cz.vvoleman.phr.base.ui.mapper.ViewStateBinder
 import cz.vvoleman.phr.base.ui.view.BaseFragment
@@ -28,6 +30,8 @@ import cz.vvoleman.phr.featureMedicine.ui.component.timeSelector.TimeUiModel
 import cz.vvoleman.phr.featureMedicine.ui.list.mapper.MedicineUiModelToPresentationMapper
 import cz.vvoleman.phr.featureMedicine.ui.list.model.MedicineUiModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import java.time.LocalTime
 import javax.inject.Inject
@@ -50,13 +54,13 @@ class AddEditMedicineFragment :
     override lateinit var viewStateBinder: ViewStateBinder<AddEditMedicineViewState, FragmentAddEditMedicineBinding>
 
     @Inject
-    lateinit var timeUiModelToPresentationMapper: TimeUiModelToPresentationMapper
+    lateinit var timeMapper: TimeUiModelToPresentationMapper
 
     @Inject
-    lateinit var frequencyDayUiModelToPresentationMapper: FrequencyDayUiModelToPresentationMapper
+    lateinit var frequencyDayMapper: FrequencyDayUiModelToPresentationMapper
 
     @Inject
-    lateinit var medicineUiModelToPresentationMapper: MedicineUiModelToPresentationMapper
+    lateinit var medicineMapper: MedicineUiModelToPresentationMapper
 
     override fun setupBinding(
         inflater: LayoutInflater,
@@ -104,11 +108,20 @@ class AddEditMedicineFragment :
     }
 
     override fun onMedicineSelected(medicine: MedicineUiModel?) {
-        viewModel.onMedicineSelected(medicine?.let { medicineUiModelToPresentationMapper.toPresentation(it) })
+        viewModel.onMedicineSelected(medicine?.let { medicineMapper.toPresentation(it) })
     }
 
-    override fun onMedicineSelectorSearch(query: String) {
-        viewModel.onSearch(query)
+    override fun onMedicineSelectorSearch(
+        query: String,
+        callback: suspend (PagingData<MedicineUiModel>) -> Unit
+    ) {
+        val stream = viewModel.onMedicineSearch(query)
+
+        lifecycleScope.launch {
+            stream.map { pagingData ->
+                pagingData.map { medicineMapper.toUi(it) }
+            }.collectLatest(callback)
+        }
     }
 
     override fun onTimeClick(index: Int, anchorView: View) {
@@ -142,7 +155,7 @@ class AddEditMedicineFragment :
 
     private fun openTimeDialog(index: Int? = null, updateUnit: (TimePresentationModel, Int?) -> Unit) {
         val time = if (index != null) {
-            timeUiModelToPresentationMapper.toUi(viewModel.onGetTime(index))
+            timeMapper.toUi(viewModel.onGetTime(index))
         } else {
             TimeUiModel(null, LocalTime.now(), 1)
         }
@@ -152,7 +165,7 @@ class AddEditMedicineFragment :
             { _: TimePicker, selectedHour: Int, selectedMinute: Int ->
                 val updatedTime = time.copy(time = LocalTime.of(selectedHour, selectedMinute))
 
-                updateUnit(timeUiModelToPresentationMapper.toPresentation(updatedTime), index)
+                updateUnit(timeMapper.toPresentation(updatedTime), index)
             },
             time.time.hour,
             time.time.minute,
@@ -163,7 +176,7 @@ class AddEditMedicineFragment :
     }
 
     override fun onValueChange(days: List<FrequencyDayUiModel>) {
-        viewModel.onFrequencyUpdate(days.map { frequencyDayUiModelToPresentationMapper.toPresentation(it) })
+        viewModel.onFrequencyUpdate(days.map { frequencyDayMapper.toPresentation(it) })
     }
 
 }

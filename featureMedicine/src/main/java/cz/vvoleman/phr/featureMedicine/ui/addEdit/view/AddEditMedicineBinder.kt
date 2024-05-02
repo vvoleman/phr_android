@@ -7,7 +7,6 @@ import cz.vvoleman.phr.featureMedicine.databinding.FragmentAddEditMedicineBindin
 import cz.vvoleman.phr.featureMedicine.presentation.addEdit.model.AddEditMedicineViewState
 import cz.vvoleman.phr.featureMedicine.ui.addEdit.mapper.TimeUiModelToPresentationMapper
 import cz.vvoleman.phr.featureMedicine.ui.list.mapper.MedicineUiModelToPresentationMapper
-import kotlinx.coroutines.launch
 
 @Suppress("MaximumLineLength", "MaxLineLength")
 class AddEditMedicineBinder(
@@ -17,11 +16,11 @@ class AddEditMedicineBinder(
 ) : BaseViewStateBinder<AddEditMedicineViewState, FragmentAddEditMedicineBinding, AddEditMedicineBinder.Notification>() {
 
     override fun bind(viewBinding: FragmentAddEditMedicineBinding, viewState: AddEditMedicineViewState) {
-        lifecycleScope.launch {
-            viewBinding.apply {
-                medicineSelector.setData(viewState.medicines.map { medicineMapper.toUi(it) })
-            }
-        }
+//        lifecycleScope.launch {
+//            viewBinding.apply {
+//                medicineSelector.setData(viewState.medicines.map { medicineMapper.toUi(it) })
+//            }
+//        }
 
         Log.d("AddEditMedicineBinder", "bind: ${viewState.times}")
         viewBinding.timeSelector.setTimes(viewState.times.map { timeMapper.toUi(it) })
