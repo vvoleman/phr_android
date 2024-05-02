@@ -125,7 +125,6 @@ class TimelineFragment :
         const val TAG = "TimelineFragment"
 
         fun newInstance(viewModel: TimelineViewModel): TimelineFragment {
-            Log.d(TAG, "newInstance: ")
             val fragment = TimelineFragment()
             fragment.setViewModel(viewModel)
 

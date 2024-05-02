@@ -34,7 +34,7 @@ class ListHealthcareFragment :
     private val medicalWorkerViewModel: MedicalWorkerViewModel by viewModels()
     private val medicalFacilityViewModel: MedicalFacilityViewModel by viewModels()
 
-    private lateinit var fragmentAdapter: HealthcareFragmentAdapter
+    private var fragmentAdapter: HealthcareFragmentAdapter? = null
 
     @Inject
     override lateinit var destinationMapper: ListHealthcareDestinationUiMapper
@@ -55,7 +55,7 @@ class ListHealthcareFragment :
         medicalFacilityViewModel.setListener(this)
         fragmentAdapter = HealthcareFragmentAdapter(medicalWorkerViewModel, medicalFacilityViewModel, this)
         Log.d("ListHealthcareFragment", "setFragmentAdapter")
-        (viewStateBinder as ListHealthcareBinder).setFragmentAdapter(fragmentAdapter)
+        (viewStateBinder as ListHealthcareBinder).setFragmentAdapter(fragmentAdapter!!)
 
         binding.fabAddWorker.setOnClickListener {
             viewModel.onAddWorker()
@@ -89,5 +89,11 @@ class ListHealthcareFragment :
 
     override fun onMedicalFacilityClick(item: MedicalFacilityUiModel) {
         showSnackbar("Clicked ${item.fullName}", Snackbar.LENGTH_SHORT)
+    }
+
+    override fun onDestroy() {
+        binding.viewPager.adapter = null
+
+        super.onDestroy()
     }
 }
