@@ -30,14 +30,8 @@ import cz.vvoleman.phr.featureMedicalRecord.domain.usecase.selectFile.SaveMedica
 import cz.vvoleman.phr.featureMedicalRecord.presentation.mapper.addEdit.AddEditPresentationModelToDomainMapper
 import cz.vvoleman.phr.featureMedicalRecord.presentation.mapper.addEdit.AddEditViewStateToModelMapper
 import cz.vvoleman.phr.featureMedicalRecord.presentation.mapper.addEdit.DiagnosePresentationModelToDomainMapper
-import cz.vvoleman.phr.featureMedicalRecord.presentation.model.addEdit.*
 import cz.vvoleman.phr.featureMedicalRecord.presentation.mapper.selectFile.SelectedOptionsPresentationToDomainMapper
-import cz.vvoleman.phr.featureMedicalRecord.presentation.model.addEdit.AddEditDestination
-import cz.vvoleman.phr.featureMedicalRecord.presentation.model.addEdit.AddEditNotification
-import cz.vvoleman.phr.featureMedicalRecord.presentation.model.addEdit.AddEditPresentationModel
-import cz.vvoleman.phr.featureMedicalRecord.presentation.model.addEdit.AddEditViewState
-import cz.vvoleman.phr.featureMedicalRecord.presentation.model.addEdit.AssetPresentationModel
-import cz.vvoleman.phr.featureMedicalRecord.presentation.model.addEdit.DiagnosePresentationModel
+import cz.vvoleman.phr.featureMedicalRecord.presentation.model.addEdit.*
 import cz.vvoleman.phr.featureMedicalRecord.presentation.model.selectFile.SelectedOptionsPresentationModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
@@ -82,16 +76,20 @@ class AddEditMedicalRecordViewModel @Inject constructor(
         val patient = getSelectedPatient()
         val record = getExistingRecord()
         val userLists = getUserLists(patient.id)
+        val selectedObjects = getSelectedOptions()
+
+        val diagnose = selectedObjects?.diagnose?.let { diagnoseMapper.toPresentation(it) } ?: previousState?.diagnose
+        val visitDate = selectedObjects?.visitDate ?: previousState?.visitDate
 
         if (previousState != null) {
             return AddEditViewState(
                 recordId = previousState.recordId,
                 createdAt = previousState.createdAt,
-                diagnose = previousState.diagnose,
+                diagnose = diagnose,
                 specificMedicalWorkerId = previousState.specificMedicalWorker,
                 problemCategoryId = previousState.problemCategoryId,
                 patientId = previousState.patientId,
-                visitDate = previousState.visitDate,
+                visitDate = visitDate,
                 allProblemCategories = userLists.problemCategories.map { problemCategoryMapper.toPresentation(it) },
                 allMedicalWorkers = specificWorkerMapper.toPresentation(userLists.medicalWorkers),
                 assets = previousState.assets,
@@ -116,17 +114,7 @@ class AddEditMedicalRecordViewModel @Inject constructor(
         super.onInit()
         viewModelScope.launch {
             // Get param
-            val selectedOptions =
-                savedStateHandle.get<SelectedOptionsPresentationModel>("selectedOptions")
-            if (selectedOptions != null) {
-                val options = selectedOptionsPresentationToDomainMapper.toDomain(selectedOptions)
-                viewModelScope.launch {
-                    getDataForSelectedOptionsUseCase.execute(
-                        options,
-                        ::setSelectedOptions
-                    )
-                }
-            }
+
 
             val fileAsset = savedStateHandle.get<AssetPresentationModel>("fileAsset")
             if (fileAsset != null) {
@@ -270,6 +258,13 @@ class AddEditMedicalRecordViewModel @Inject constructor(
         return getDiagnoseByIdRepository.getDiagnoseById(id)?.let {
             diagnoseMapper.toPresentation(it)
         }
+    }
+
+    private suspend fun getSelectedOptions(): SelectedObjectsDomainModel? {
+        val selectedOptions = savedStateHandle.get<SelectedOptionsPresentationModel>("selectedOptions") ?: return null
+
+        val options = selectedOptionsPresentationToDomainMapper.toDomain(selectedOptions)
+        return getDataForSelectedOptionsUseCase.executeInBackground(options)
     }
 
     fun onProblemCategorySelected(name: String?) {

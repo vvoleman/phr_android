@@ -58,4 +58,5 @@
     <string name="record_not_found">Lékařská zpráva nebyla nalezena</string>
     <string name="delete_record_title">Smazat zprávu</string>
     <string name="delete_record_message">Přejete si smazat tuto lékařskou zprávu?</string>
+    <string name="select_options_dialog_title">Nalezené možnosti</string>
 </resources>
