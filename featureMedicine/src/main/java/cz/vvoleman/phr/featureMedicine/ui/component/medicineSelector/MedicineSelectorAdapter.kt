@@ -5,7 +5,6 @@ import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import cz.vvoleman.phr.featureMedicine.R
 import cz.vvoleman.phr.featureMedicine.databinding.ItemMedicineSelectorBinding
 import cz.vvoleman.phr.featureMedicine.ui.list.model.MedicineUiModel
 
@@ -38,20 +37,21 @@ class MedicineSelectorAdapter(
         init {
             binding.apply {
                 root.setOnClickListener {
-                    val position = bindingAdapterPosition
-                    if (position != RecyclerView.NO_POSITION) {
-                        val item = getItem(position)
-                        if (item != null) {
-                            listener.onItemClick(item)
-                        }
+                    if (selectedItemPosition == bindingAdapterPosition) {
+                        selectedItemPosition = RecyclerView.NO_POSITION
+                        listener.onItemClick(null)
+                        notifyItemChanged(bindingAdapterPosition)
+                        return@setOnClickListener
                     }
 
                     val previousSelectedItemPosition = selectedItemPosition
-                    selectedItemPosition = position
+                    selectedItemPosition = bindingAdapterPosition
                     notifyItemChanged(selectedItemPosition)
                     if (previousSelectedItemPosition != RecyclerView.NO_POSITION) {
                         notifyItemChanged(previousSelectedItemPosition)
                     }
+                    listener.onItemClick(getItem(selectedItemPosition))
+
                 }
             }
         }
@@ -59,19 +59,20 @@ class MedicineSelectorAdapter(
         fun bind(item: MedicineUiModel, isSelected: Boolean) {
             binding.apply {
                 textViewName.text = item.name
-                textViewSize.text = item.packaging.packaging
+                textViewForm.text = item.packaging.form.name
+                textViewPackaging.text = item.packaging.packaging
 
                 if (isSelected) {
-                    root.setBackgroundResource(cz.vvoleman.phr.base.R.color.green_200)
+                    root.setBackgroundResource(cz.vvoleman.phr.base.R.color.beige_200)
                 } else {
-                    root.setBackgroundResource(android.R.color.transparent)
+                    root.setBackgroundResource(cz.vvoleman.phr.base.R.color.white)
                 }
             }
         }
     }
 
     interface OnItemClickListener {
-        fun onItemClick(item: MedicineUiModel)
+        fun onItemClick(item: MedicineUiModel?)
     }
 
     class DiffCallback : DiffUtil.ItemCallback<MedicineUiModel>() {

@@ -1,9 +1,15 @@
 package cz.vvoleman.phr.featureMedicine.data.repository
 
 import android.util.Log
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
 import cz.vvoleman.phr.featureMedicine.data.datasource.retrofit.BackendApi
+import cz.vvoleman.phr.featureMedicine.data.datasource.retrofit.medicine.MedicinePagingSource
 import cz.vvoleman.phr.featureMedicine.data.datasource.retrofit.medicine.mapper.MedicineApiDataSourceModelToDataMapper
-import cz.vvoleman.phr.featureMedicine.data.datasource.room.medicine.dao.*
+import cz.vvoleman.phr.featureMedicine.data.datasource.room.medicine.dao.MedicineDao
+import cz.vvoleman.phr.featureMedicine.data.datasource.room.medicine.dao.ProductFormDao
+import cz.vvoleman.phr.featureMedicine.data.datasource.room.medicine.dao.SubstanceDao
 import cz.vvoleman.phr.featureMedicine.data.datasource.room.medicine.mapper.MedicineDataSourceModelToDataMapper
 import cz.vvoleman.phr.featureMedicine.data.datasource.room.medicine.mapper.ProductFormDataSourceModelToDataMapper
 import cz.vvoleman.phr.featureMedicine.data.datasource.room.medicine.mapper.SubstanceDataSourceModelToDataMapper
@@ -13,7 +19,9 @@ import cz.vvoleman.phr.featureMedicine.data.mapper.medicine.SubstanceDataModelTo
 import cz.vvoleman.phr.featureMedicine.domain.model.medicine.MedicineDomainModel
 import cz.vvoleman.phr.featureMedicine.domain.repository.AddMedicineRepository
 import cz.vvoleman.phr.featureMedicine.domain.repository.GetMedicineByIdRepository
+import cz.vvoleman.phr.featureMedicine.domain.repository.GetMedicinesPagingStreamRepository
 import cz.vvoleman.phr.featureMedicine.domain.repository.SearchMedicineRepository
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.firstOrNull
 
 class MedicineRepository(
@@ -28,7 +36,7 @@ class MedicineRepository(
     private val substanceDataSourceMapper: SubstanceDataSourceModelToDataMapper,
     private val productFormDataMapper: ProductFormDataModelToDomainMapper,
     private val productFormDataSourceMapper: ProductFormDataSourceModelToDataMapper
-) : SearchMedicineRepository, AddMedicineRepository, GetMedicineByIdRepository {
+) : SearchMedicineRepository, AddMedicineRepository, GetMedicineByIdRepository, GetMedicinesPagingStreamRepository {
 
     override suspend fun searchMedicine(query: String, page: Int): List<MedicineDomainModel> {
         return try {
@@ -81,8 +89,23 @@ class MedicineRepository(
         return backendMedicine
     }
 
+    override fun getMedicinesPagingStream(query: String): Flow<PagingData<MedicineDomainModel>> {
+        return Pager(
+            config = PagingConfig(pageSize = PER_PAGE, enablePlaceholders = false),
+            pagingSourceFactory = {
+                MedicinePagingSource(
+                    backendApi = backendApi,
+                    query = query,
+                    apiMapper = medicineApiMapper,
+                    dataMapper = medicineDataMapper
+                )
+            }
+        ).flow
+    }
+
     companion object {
         const val TAG = "MedicineRepository"
+        const val PER_PAGE = 10
     }
 
     private suspend fun retrieveMedicineFromBackend(id: String): MedicineDomainModel? {
@@ -103,4 +126,5 @@ class MedicineRepository(
 
         return null
     }
+
 }

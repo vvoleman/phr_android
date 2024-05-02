@@ -3,14 +3,17 @@ package cz.vvoleman.phr.featureMedicine.presentation.addEdit.viewmodel
 import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
+import androidx.paging.map
 import cz.vvoleman.phr.base.presentation.viewmodel.BaseViewModel
 import cz.vvoleman.phr.base.presentation.viewmodel.usecase.UseCaseExecutorProvider
 import cz.vvoleman.phr.common.domain.usecase.patient.GetSelectedPatientUseCase
 import cz.vvoleman.phr.common.presentation.factory.FrequencyDaysPresentationFactory
 import cz.vvoleman.phr.common.presentation.mapper.PatientPresentationModelToDomainMapper
 import cz.vvoleman.phr.common.presentation.model.frequencySelector.FrequencyDayPresentationModel
-import cz.vvoleman.phr.featureMedicine.domain.model.SearchMedicineRequestDomainModel
 import cz.vvoleman.phr.featureMedicine.domain.model.schedule.MedicineScheduleDomainModel
+import cz.vvoleman.phr.featureMedicine.domain.repository.GetMedicinesPagingStreamRepository
 import cz.vvoleman.phr.featureMedicine.domain.usecase.GetMedicineByIdUseCase
 import cz.vvoleman.phr.featureMedicine.domain.usecase.GetMedicineScheduleByIdUseCase
 import cz.vvoleman.phr.featureMedicine.domain.usecase.SaveMedicineScheduleUseCase
@@ -27,7 +30,9 @@ import cz.vvoleman.phr.featureMedicine.presentation.list.mapper.MedicinePresenta
 import cz.vvoleman.phr.featureMedicine.presentation.list.model.MedicinePresentationModel
 import cz.vvoleman.phr.featureMedicine.presentation.list.model.ScheduleItemPresentationModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import java.time.LocalDateTime
 import java.time.LocalTime
@@ -41,6 +46,7 @@ class AddEditMedicineViewModel @Inject constructor(
     private val getMedicineScheduleByIdUseCase: GetMedicineScheduleByIdUseCase,
     private val getMedicineByIdUseCase: GetMedicineByIdUseCase,
     private val scheduleMedicineAlertUseCase: ScheduleMedicineAlertUseCase,
+    private val getMedicinesPagingStreamRepository: GetMedicinesPagingStreamRepository,
     private val medicineMapper: MedicinePresentationModelToDomainMapper,
     private val saveMedicineMapper: SaveMedicineSchedulePresentationModelToDomainMapper,
     private val patientMapper: PatientPresentationModelToDomainMapper,
@@ -77,11 +83,29 @@ class AddEditMedicineViewModel @Inject constructor(
         }
     }
 
-    fun onSearch(query: String) = viewModelScope.launch {
-        val request = SearchMedicineRequestDomainModel(query)
-        searchMedicineUseCase.execute(request) { list ->
-            updateViewState(currentViewState.copy(medicines = list.map { medicineMapper.toPresentation(it) }))
+    fun onMedicineSearch(query: String): Flow<PagingData<MedicinePresentationModel>>{
+        if (query != currentViewState.medicineQuery || currentViewState.medicineStream == null) {
+            updateViewState(currentViewState.copy(medicineQuery = query))
+
+            val flow = getMedicinesPagingStreamRepository
+                .getMedicinesPagingStream(query)
+                .map { pagingData ->
+                    pagingData.map {
+                        medicineMapper.toPresentation(it)
+                    }
+                }
+                .cachedIn(viewModelScope)
+
+            updateViewState(
+                currentViewState.copy(
+                    medicineStream = flow
+                )
+            )
+
+            return flow
         }
+
+        return currentViewState.medicineStream ?: throw IllegalStateException("Medicine stream is null")
     }
 
     fun onMedicineSelected(medicine: MedicinePresentationModel?) {

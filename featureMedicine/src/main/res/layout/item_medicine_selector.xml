@@ -1,26 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/white"
-    android:elevation="1dp"
-    android:padding="8dp"
     android:layout_marginVertical="4dp"
-    xmlns:tools="http://schemas.android.com/tools">
+    android:background="@color/white"
+    android:elevation="4dp"
+    android:padding="8dp">
 
     <TextView
         android:id="@+id/text_view_name"
         android:layout_width="wrap_content"
-        android:layout_alignParentStart="true"
         android:layout_height="wrap_content"
-        tools:text="Ibalgin Baby"/>
+        android:layout_alignParentStart="true"
+        android:textStyle="bold"
+        tools:text="Ibalgin" />
 
-    <TextView
-        android:id="@+id/text_view_size"
-        android:layout_width="wrap_content"
-        android:fontFeatureSettings="smcp"
-        android:layout_alignParentEnd="true"
-        tools:text="100ml"
-        android:layout_height="wrap_content" />
+    <TableLayout
+        android:id="@+id/layout_table_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/text_view_name"
+        android:layout_marginTop="8dp"
+        android:stretchColumns="1">
+
+        <!-- Row 1 -->
+        <TableRow>
+
+            <TextView
+                android:padding="4dp"
+                android:textColor="@color/beige_700"
+                android:textStyle="bold"
+                android:text="@string/medicine_info_form" />
+
+            <TextView
+                android:id="@+id/text_view_form"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="70dp"
+                android:padding="4dp"
+                tools:text="Tableta" />
+        </TableRow>
+
+        <!-- Row 2 -->
+        <TableRow>
+
+            <TextView
+                android:padding="4dp"
+                android:textColor="@color/beige_700"
+                android:textStyle="bold"
+                android:text="@string/medicine_info_packaging" />
+
+            <TextView
+                android:id="@+id/text_view_packaging"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="50dp"
+                android:padding="4dp"
+                tools:text="30" />
+        </TableRow>
+    </TableLayout>
 
 </RelativeLayout>

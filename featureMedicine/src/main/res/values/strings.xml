@@ -57,4 +57,6 @@
     <string name="add_medicine_schedule">Přidat lék</string>
     <string name="add_medicine_schedule_time">Přidat podání</string>
     <string name="select_medicine_schedule">Vyberte podání</string>
+    <string name="medicine_info_form">Forma</string>
+    <string name="medicine_info_packaging">Balení</string>
 </resources>
