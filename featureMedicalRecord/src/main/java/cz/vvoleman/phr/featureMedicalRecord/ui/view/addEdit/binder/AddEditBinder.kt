@@ -51,7 +51,7 @@ class AddEditBinder(
             setAdapter(
                 ArrayAdapter(
                     fragmentContext,
-                    android.R.layout.simple_spinner_item,
+                    cz.vvoleman.phr.common_datasource.R.layout.item_default,
                     items
                 )
             )

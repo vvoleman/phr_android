@@ -1,8 +1,6 @@
 package cz.vvoleman.phr.featureMeasurement.ui.view.addEdit
 
-import android.content.Context
 import android.util.Log
-import androidx.lifecycle.LifecycleCoroutineScope
 import cz.vvoleman.phr.base.ui.mapper.BaseViewStateBinder
 import cz.vvoleman.phr.common.ui.adapter.problemCategory.ColorAdapter
 import cz.vvoleman.phr.common.ui.mapper.frequencySelector.FrequencyDayUiModelToPresentationMapper
@@ -19,14 +17,6 @@ class AddEditMeasurementBinder(
     private val problemCategoryMapper: ProblemCategoryUiModelToColorMapper,
 ) :
     BaseViewStateBinder<AddEditMeasurementViewState, FragmentAddEditMeasurementBinding, AddEditMeasurementBinder.Notification>() {
-
-    override fun init(
-        viewBinding: FragmentAddEditMeasurementBinding,
-        context: Context,
-        lifecycleScope: LifecycleCoroutineScope
-    ) {
-        super.init(viewBinding, context, lifecycleScope)
-    }
 
     override fun firstBind(viewBinding: FragmentAddEditMeasurementBinding, viewState: AddEditMeasurementViewState) {
         super.firstBind(viewBinding, viewState)

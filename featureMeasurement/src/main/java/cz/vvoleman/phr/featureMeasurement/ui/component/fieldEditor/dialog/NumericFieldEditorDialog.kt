@@ -46,7 +46,7 @@ class NumericFieldEditorDialog(
         if (existingField != null) {
             val spinnerAdapter = ArrayAdapter(
                 requireContext(),
-                android.R.layout.simple_spinner_item,
+                cz.vvoleman.phr.common_datasource.R.layout.item_default,
                 unitGroups.map { it.name }
             )
 

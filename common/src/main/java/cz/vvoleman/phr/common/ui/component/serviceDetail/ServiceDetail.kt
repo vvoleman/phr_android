@@ -167,7 +167,7 @@ class ServiceDetail @JvmOverloads constructor(
         if (newState !is ItemState.NoFacility) {
             val services = getServices(item!!).mapValues { it.value.medicalService.careField }
             val adapter =
-                ArrayAdapter(binding.root.context, android.R.layout.simple_list_item_1, services.values.toList())
+                ArrayAdapter(binding.root.context, R.layout.item_default, services.values.toList())
 
             binding.autoCompleteTextViewServices.setAdapter(adapter)
             binding.autoCompleteTextViewServices.setText(
