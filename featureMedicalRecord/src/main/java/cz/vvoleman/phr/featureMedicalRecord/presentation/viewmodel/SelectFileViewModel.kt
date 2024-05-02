@@ -53,10 +53,10 @@ class SelectFileViewModel @Inject constructor(
         navigateTo(SelectFileDestination.Cancel)
     }
 
-    fun onConfirmWithOptions(diagnose: String?, visitDate: String?, patient: String?) {
+    fun onConfirmWithOptions(diagnose: String?, visitDate: LocalDate?, patient: String?) {
         val selected = SelectedOptionsPresentationModel(
             diagnoseId = diagnose,
-            visitDate = visitDate?.let { LocalDate.parse(visitDate) },
+            visitDate = visitDate,
             patientId = patient
         )
 

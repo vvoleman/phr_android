@@ -3,62 +3,58 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="@dimen/layout_margin"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="16dp">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/text_input_layout_diagnose"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/medical_record_diagnose" />
+        android:contentDescription="@string/medical_record_diagnose">
 
-    <Spinner
-        android:id="@+id/diagnose_spinner"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/medical_record_visit_date" />
-
-    <Spinner
-        android:id="@+id/date_spinner"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
-    <LinearLayout
-        android:id="@+id/patient_layout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <TextView
-            android:layout_width="wrap_content"
+        <AutoCompleteTextView
+            android:id="@+id/diagnose_spinner"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/patient" />
+            android:hint="@string/medical_record_diagnose"
+            android:inputType="none"
+            android:labelFor="@id/text_input_layout_diagnose" />
+    </com.google.android.material.textfield.TextInputLayout>
 
-        <Spinner
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/text_input_layout_date"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:contentDescription="@string/medical_record_visit_date">
+
+        <AutoCompleteTextView
+            android:id="@+id/date_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/medical_record_visit_date"
+            android:inputType="none"
+            android:labelFor="@id/text_input_layout_date" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/text_input_layout_patient"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/patient"
+        android:visibility="gone">
+
+        <AutoCompleteTextView
             android:id="@+id/patient_spinner"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
-
-    <Button
-        android:id="@+id/cancel_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/select_options_cancel" />
-
-    <Button
-        android:id="@+id/confirm_just_file_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/select_file_select_only_file" />
-
-    <Button
-        android:id="@+id/confirm_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/select_options_submit" />
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/patient"
+            android:inputType="none"
+            android:labelFor="@id/text_input_layout_patient" />
+    </com.google.android.material.textfield.TextInputLayout>
 
 
 </LinearLayout>
