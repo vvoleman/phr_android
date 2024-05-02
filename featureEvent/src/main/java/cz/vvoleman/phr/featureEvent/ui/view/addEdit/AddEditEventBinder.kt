@@ -1,6 +1,5 @@
 package cz.vvoleman.phr.featureEvent.ui.view.addEdit
 
-import android.R
 import android.util.Log
 import android.view.View
 import android.widget.ArrayAdapter
@@ -20,7 +19,6 @@ import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import java.time.LocalDate
 import java.time.LocalDateTime
 
 @OptIn(ExperimentalCoroutinesApi::class, FlowPreview::class)
@@ -72,7 +70,7 @@ class AddEditEventBinder(
             setAdapter(
                 ArrayAdapter(
                     fragmentContext,
-                    R.layout.simple_spinner_item,
+                    cz.vvoleman.phr.common_datasource.R.layout.item_default,
                     items
                 )
             )
@@ -110,6 +108,12 @@ class AddEditEventBinder(
             viewBinding.layoutReminder.visibility = checkVisibility(isVisible)
             viewBinding.textViewInPast.visibility = checkVisibility(!isVisible)
         }
+    }
+
+    override fun onDestroy(viewBinding: FragmentAddEditEventBinding) {
+        reminderAdapter = null
+
+        super.onDestroy(viewBinding)
     }
 
     sealed class Notification {

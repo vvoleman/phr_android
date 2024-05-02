@@ -20,6 +20,8 @@ class ListMedicineBinder(
 
     private var fragmentAdapter: MedicineFragmentAdapter? = null
 
+    private var mediator: TabLayoutMediator? = null
+
     private var isAdapterSet = false
 
     override fun bind(viewBinding: FragmentListMedicineBinding, viewState: ListMedicineViewState) {
@@ -55,9 +57,11 @@ class ListMedicineBinder(
         viewBinding.viewPager.adapter = fragmentAdapter
         val textIds = listOf(R.string.fragment_timeline, R.string.fragment_catalogue)
 
-        TabLayoutMediator(viewBinding.tabLayout, viewBinding.viewPager) { tab, position ->
+        mediator = TabLayoutMediator(viewBinding.tabLayout, viewBinding.viewPager) { tab, position ->
             tab.text = fragmentContext.getText(textIds[position])
-        }.attach()
+        }
+
+        mediator!!.attach()
 
         isAdapterSet = true
     }
@@ -69,9 +73,11 @@ class ListMedicineBinder(
     }
 
     override fun onDestroy(viewBinding: FragmentListMedicineBinding) {
-        super.onDestroy(viewBinding)
-
+        mediator?.detach()
+        mediator = null
         fragmentAdapter = null
         isAdapterSet = false
+
+        super.onDestroy(viewBinding)
     }
 }

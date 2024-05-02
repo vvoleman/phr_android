@@ -22,6 +22,9 @@ class ListMeasurementBinder(
     BaseViewStateBinder<ListMeasurementViewState, FragmentListMeasurementBinding, ListMeasurementNotification>() {
 
     private var fragmentAdapter: MeasurementFragmentAdapter? = null
+
+    private var mediator: TabLayoutMediator? = null
+
     private var isAdapterSet = false
 
     override fun init(
@@ -65,17 +68,21 @@ class ListMeasurementBinder(
         viewBinding.viewPager.adapter = fragmentAdapter
         val textIds = listOf(R.string.fragment_timeline,R.string.fragment_measurement_group)
 
-        TabLayoutMediator(viewBinding.tabLayout, viewBinding.viewPager) { tab, position ->
+        mediator = TabLayoutMediator(viewBinding.tabLayout, viewBinding.viewPager) { tab, position ->
             tab.text = fragmentContext.getText(textIds[position])
-        }.attach()
+        }
+
+        mediator!!.attach()
 
         isAdapterSet = true
     }
 
     override fun onDestroy(viewBinding: FragmentListMeasurementBinding) {
-        super.onDestroy(viewBinding)
-
+        mediator?.detach()
+        mediator = null
         fragmentAdapter = null
         isAdapterSet = false
+
+        super.onDestroy(viewBinding)
     }
 }

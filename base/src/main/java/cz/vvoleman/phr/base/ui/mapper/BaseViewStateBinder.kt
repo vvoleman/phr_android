@@ -3,6 +3,7 @@ package cz.vvoleman.phr.base.ui.mapper
 import android.content.Context
 import androidx.lifecycle.LifecycleCoroutineScope
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
@@ -44,5 +45,9 @@ abstract class BaseViewStateBinder<VIEW_STATE : Any, VIEW_BINDING : Any, NOTIFIC
         } else {
             hidden
         }
+    }
+
+    override fun onDestroy(viewBinding: VIEW_BINDING) {
+        lifecycleScope.cancel()
     }
 }

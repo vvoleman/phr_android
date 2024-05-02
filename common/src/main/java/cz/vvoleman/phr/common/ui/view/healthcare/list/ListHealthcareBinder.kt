@@ -17,6 +17,8 @@ class ListHealthcareBinder(
 
     private var fragmentAdapter: HealthcareFragmentAdapter? = null
 
+    private var mediator: TabLayoutMediator? = null
+
     private var isAdapterSet = false
 
     override fun bind(viewBinding: FragmentListHealthcareBinding, viewState: ListHealthcareViewState) {
@@ -46,14 +48,19 @@ class ListHealthcareBinder(
         viewBinding.viewPager.adapter = fragmentAdapter
         val textIds = listOf(R.string.fragment_worker, R.string.fragment_facility)
 
-        TabLayoutMediator(viewBinding.tabLayout, viewBinding.viewPager) { tab, position ->
+        mediator = TabLayoutMediator(viewBinding.tabLayout, viewBinding.viewPager) { tab, position ->
             tab.text = fragmentContext.getText(textIds[position])
-        }.attach()
+        }
+
+        mediator!!.attach()
         isAdapterSet = true
     }
 
     override fun onDestroy(viewBinding: FragmentListHealthcareBinding) {
-        super.onDestroy(viewBinding)
+        viewBinding.viewPager.adapter = null
+        mediator?.detach()
+        mediator = null
         fragmentAdapter = null
+        super.onDestroy(viewBinding)
     }
 }
