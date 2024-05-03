@@ -1,12 +1,12 @@
 package cz.vvoleman.phr.featureMedicine.ui.addEdit.view
 
-import android.util.Log
 import cz.vvoleman.phr.base.ui.mapper.BaseViewStateBinder
 import cz.vvoleman.phr.common.ui.mapper.frequencySelector.FrequencyDayUiModelToPresentationMapper
 import cz.vvoleman.phr.featureMedicine.databinding.FragmentAddEditMedicineBinding
 import cz.vvoleman.phr.featureMedicine.presentation.addEdit.model.AddEditMedicineViewState
 import cz.vvoleman.phr.featureMedicine.ui.addEdit.mapper.TimeUiModelToPresentationMapper
 import cz.vvoleman.phr.featureMedicine.ui.list.mapper.MedicineUiModelToPresentationMapper
+import java.time.LocalTime
 
 @Suppress("MaximumLineLength", "MaxLineLength")
 class AddEditMedicineBinder(
@@ -15,17 +15,27 @@ class AddEditMedicineBinder(
     private val frequencyMapper: FrequencyDayUiModelToPresentationMapper
 ) : BaseViewStateBinder<AddEditMedicineViewState, FragmentAddEditMedicineBinding, AddEditMedicineBinder.Notification>() {
 
-    override fun bind(viewBinding: FragmentAddEditMedicineBinding, viewState: AddEditMedicineViewState) {
-//        lifecycleScope.launch {
-//            viewBinding.apply {
-//                medicineSelector.setData(viewState.medicines.map { medicineMapper.toUi(it) })
-//            }
-//        }
+    private val existingTimes = mutableListOf<LocalTime>()
 
-        Log.d("AddEditMedicineBinder", "bind: ${viewState.times}")
-        viewBinding.timeSelector.setTimes(viewState.times.map { timeMapper.toUi(it) })
+    override fun firstBind(viewBinding: FragmentAddEditMedicineBinding, viewState: AddEditMedicineViewState) {
+        super.firstBind(viewBinding, viewState)
+
+        val times = viewState.times.map { timeMapper.toUi(it) }
+        existingTimes.addAll(times.map { it.time })
+        viewBinding.timeSelector.setTimes(times)
         viewBinding.frequencySelector.setDays(viewState.frequencyDays.map { frequencyMapper.toUi(it) })
+    }
 
+    override fun bind(viewBinding: FragmentAddEditMedicineBinding, viewState: AddEditMedicineViewState) {
+        super.bind(viewBinding, viewState)
+
+        val newTimes = viewState.times.map { it.time }
+
+        if (existingTimes != newTimes) {
+            existingTimes.clear()
+            existingTimes.addAll(newTimes)
+            viewBinding.timeSelector.setTimes(viewState.times.map { timeMapper.toUi(it) })
+        }
         viewBinding.medicineSelector.setSelectedMedicine(viewState.selectedMedicine?.let { medicineMapper.toUi(it) })
 
         if (!viewBinding.frequencySelector.hasEverydaySet()) {

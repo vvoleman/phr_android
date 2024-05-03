@@ -12,9 +12,10 @@
 
 
         <LinearLayout
+            style="@style/BaseFrontBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="0dp"
+            android:layout_marginBottom="16dp"
             android:orientation="vertical">
 
             <TextView
@@ -31,50 +32,65 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/layout_timing_header"
+            android:orientation="vertical"
+            style="@style/BaseFrontBox"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:id="@+id/layout_timing_header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
+                <TextView
+                    android:id="@+id/text_view_select_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFeatureSettings="smcp"
+                    android:text="@string/select_medicine_schedule" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/button_add_time"
+                    style="@style/SecondaryButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/add_medicine_schedule_time"
+                    android:textAlignment="center" />
+            </LinearLayout>
+
+            <cz.vvoleman.phr.featureMedicine.ui.component.timeSelector.TimeSelector
+                android:id="@+id/time_selector"
+                android:layout_width="match_parent"
+                android:layout_marginBottom="16dp"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            style="@style/BaseFrontBox"
+            android:orientation="vertical"
+            android:layout_height="wrap_content">
             <TextView
-                android:id="@+id/text_view_select_time"
+                android:id="@+id/text_view_select_frequency"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFeatureSettings="smcp"
-                android:text="@string/select_medicine_schedule" />
+                android:text="@string/add_edit_medicine_select_frequency" />
 
-            <View
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="1" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/button_add_time"
-                style="@style/SecondaryButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/add_medicine_schedule_time"
-                android:textAlignment="center" />
+            <cz.vvoleman.phr.common.ui.component.frequencySelector.FrequencySelector
+                android:id="@+id/frequency_selector"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
         </LinearLayout>
 
-        <cz.vvoleman.phr.featureMedicine.ui.component.timeSelector.TimeSelector
-            android:id="@+id/time_selector"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <TextView
-            android:id="@+id/text_view_select_frequency"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFeatureSettings="smcp"
-            android:text="@string/add_edit_medicine_select_frequency" />
-
-        <cz.vvoleman.phr.common.ui.component.frequencySelector.FrequencySelector
-            android:id="@+id/frequency_selector"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
         <Button
+            android:layout_marginTop="16dp"
             style="@style/StyledButton"
             android:id="@+id/button_save"
             android:layout_width="match_parent"

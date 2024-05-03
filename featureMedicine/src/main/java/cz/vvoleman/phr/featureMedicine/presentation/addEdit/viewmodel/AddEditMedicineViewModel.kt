@@ -148,6 +148,10 @@ class AddEditMedicineViewModel @Inject constructor(
         updateViewState(currentViewState.copy(frequencyDays = days))
     }
 
+    fun canAddTime(): Boolean {
+        return currentViewState.times.size < MAX_TIMES
+    }
+
     suspend fun onSave() {
         val canSave = currentViewState.selectedMedicine != null &&
             currentViewState.times.isNotEmpty() &&
@@ -254,7 +258,7 @@ class AddEditMedicineViewModel @Inject constructor(
         viewModelScope.launch {
             scheduleMedicineAlertUseCase.execute(result) { isScheduled ->
                 if (!isScheduled) {
-                    notify(AddEditMedicineNotification.CannotScheduleMedicine)
+                    notify(AddEditMedicineNotification.CannotSchedule)
                     return@execute
                 }
 
@@ -266,5 +270,6 @@ class AddEditMedicineViewModel @Inject constructor(
 
     companion object {
         private const val SCHEDULE_ID = "scheduleId"
+        private const val MAX_TIMES = 5
     }
 }

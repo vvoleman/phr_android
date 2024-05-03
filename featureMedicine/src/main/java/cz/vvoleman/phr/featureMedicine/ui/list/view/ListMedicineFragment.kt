@@ -1,5 +1,7 @@
 package cz.vvoleman.phr.featureMedicine.ui.list.view
 
+import android.content.Intent
+import android.net.Uri
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.MenuItem
@@ -26,6 +28,7 @@ import cz.vvoleman.phr.featureMedicine.ui.component.medicineDetailSheet.Medicine
 import cz.vvoleman.phr.featureMedicine.ui.component.scheduleDetailDialog.ScheduleDetailAdapter
 import cz.vvoleman.phr.featureMedicine.ui.component.scheduleDetailDialog.ScheduleDetailDialogFragment
 import cz.vvoleman.phr.featureMedicine.ui.export.view.MedicineExportPage
+import cz.vvoleman.phr.featureMedicine.ui.factory.LeafletFactory
 import cz.vvoleman.phr.featureMedicine.ui.list.adapter.MedicineCatalogueAdapter
 import cz.vvoleman.phr.featureMedicine.ui.list.adapter.MedicineFragmentAdapter
 import cz.vvoleman.phr.featureMedicine.ui.list.fragment.TimelineFragment
@@ -61,7 +64,7 @@ class ListMedicineFragment :
     private var fragmentAdapter: MedicineFragmentAdapter? = null
 
     @Inject
-    public lateinit var healthcareRepository: HealthcareRepository
+    lateinit var healthcareRepository: HealthcareRepository
 
     @Inject
     lateinit var nextScheduleMapper: NextScheduleUiModelToPresentationMapper
@@ -71,8 +74,6 @@ class ListMedicineFragment :
 
     @Inject
     lateinit var medicineScheduleMapper: MedicineScheduleUiModelToPresentationMapper
-
-    private var counter = 0
 
     override fun setupBinding(
         inflater: LayoutInflater,
@@ -232,7 +233,10 @@ class ListMedicineFragment :
     }
 
     override fun onLeafletOpen(scheduleItem: ScheduleItemWithDetailsUiModel) {
-        Log.d(TAG, "onLeafletOpen: $scheduleItem")
+        val url = LeafletFactory.getLeafletLink(scheduleItem.medicine)
+        val intent = Intent(Intent.ACTION_VIEW)
+        intent.data = Uri.parse(url)
+        startActivity(intent)
     }
 
     override fun onDestroyView() {

@@ -10,7 +10,6 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.PagingData
 import androidx.paging.map
-import com.google.android.material.snackbar.Snackbar
 import cz.vvoleman.phr.base.ui.mapper.ViewStateBinder
 import cz.vvoleman.phr.base.ui.view.BaseFragment
 import cz.vvoleman.phr.common.ui.component.frequencySelector.FrequencyDayUiModel
@@ -76,6 +75,8 @@ class AddEditMedicineFragment :
         binding.timeSelector.setListener(this)
         binding.frequencySelector.setListener(this)
 
+        binding.timeSelector.setLifecycleScope(lifecycleScope)
+
         binding.buttonAddTime.setOnClickListener {
             openTimeDialog { time, _ ->
                 viewModel.onTimeAdd(time)
@@ -89,20 +90,17 @@ class AddEditMedicineFragment :
 
     override fun handleNotification(notification: AddEditMedicineNotification) {
         when (notification) {
-            is AddEditMedicineNotification.DataLoaded -> {
-                Snackbar.make(binding.root, "Data loaded", Snackbar.LENGTH_SHORT).show()
-            }
 
             is AddEditMedicineNotification.CannotSave -> {
-                Snackbar.make(binding.root, "Cannot save", Snackbar.LENGTH_SHORT).show()
+                showSnackbar(R.string.add_edit_medicine_cannot_save)
             }
 
             is AddEditMedicineNotification.MedicineScheduleNotFound -> {
-                Snackbar.make(binding.root, "Medicine schedule not found", Snackbar.LENGTH_SHORT).show()
+                showSnackbar(R.string.add_edit_medicine_schedule_not_found)
             }
 
-            is AddEditMedicineNotification.CannotScheduleMedicine -> {
-                Snackbar.make(binding.root, "Cannot schedule medicine", Snackbar.LENGTH_SHORT).show()
+            is AddEditMedicineNotification.CannotSchedule -> {
+                showSnackbar(R.string.add_edit_medicine_cannot_schedule)
             }
         }
     }
