@@ -13,6 +13,7 @@ import cz.vvoleman.phr.common.ui.adapter.MarginItemDecoration
 import cz.vvoleman.phr.common.utils.SizingConstants
 import cz.vvoleman.phr.featureMedicine.R
 import cz.vvoleman.phr.featureMedicine.databinding.ModalMedicineDetailSheetBinding
+import cz.vvoleman.phr.featureMedicine.ui.factory.LeafletFactory
 import cz.vvoleman.phr.featureMedicine.ui.list.model.MedicineUiModel
 
 class MedicineDetailSheet : BottomSheetDialogFragment() {
@@ -59,7 +60,7 @@ class MedicineDetailSheet : BottomSheetDialogFragment() {
 
         binding.textViewName.text = medicine.name
         binding.buttonOpenLeaflet.setOnClickListener {
-            val url = "http://vvoleman.eu:9999/api/medical-product/list?search=${medicine.name}"
+            val url = LeafletFactory.getLeafletLink(medicine)
             val intent = Intent(Intent.ACTION_VIEW)
             intent.data = Uri.parse(url)
             startActivity(intent)

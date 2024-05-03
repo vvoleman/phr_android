@@ -59,4 +59,9 @@
     <string name="select_medicine_schedule">Vyberte podání</string>
     <string name="medicine_info_form">Forma</string>
     <string name="medicine_info_packaging">Balení</string>
+    <string name="add_edit_medicine_max_times">Nelze přidat více podání!</string>
+    <string name="tooltip_time_edit">Kliknutím na čas můžete upravit či smazat podání</string>
+    <string name="add_edit_medicine_cannot_save">Vyplňte, prosím, všechny údaje</string>
+    <string name="add_edit_medicine_schedule_not_found">Nastala neočekávaná chyba při načítání existujícího léku</string>
+    <string name="add_edit_medicine_cannot_schedule">Nastala neočekávaná chyba při načítání existujícího léku</string>
 </resources>

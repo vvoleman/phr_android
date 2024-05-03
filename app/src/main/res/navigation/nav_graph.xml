@@ -2,7 +2,7 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/nav_medical_record">
+    app:startDestination="@id/nav_medicine">
 
     <include app:graph="@navigation/nav_medical_record" />
     <include app:graph="@navigation/nav_patient" />
