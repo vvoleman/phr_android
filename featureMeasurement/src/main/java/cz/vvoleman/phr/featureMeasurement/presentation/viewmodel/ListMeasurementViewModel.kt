@@ -187,6 +187,16 @@ class ListMeasurementViewModel @Inject constructor(
         navigateTo(ListMeasurementDestination.Detail(model.id, model.name))
     }
 
+    fun onNextSchedule() {
+        val nextSchedule = currentViewState.selectedNextSchedule
+        if (nextSchedule == null) {
+            notify(ListMeasurementNotification.NoNextSchedule)
+            return
+        }
+
+        notify(ListMeasurementNotification.OpenNextScheduleDetail(nextSchedule))
+    }
+
     private suspend fun reloadNextSchedules(): List<NextSchedulePresentationModel> {
         val list = currentViewState.nextSchedules
 

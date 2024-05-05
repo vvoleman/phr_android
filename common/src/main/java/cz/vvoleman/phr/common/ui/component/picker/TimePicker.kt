@@ -54,11 +54,15 @@ class TimePicker @JvmOverloads constructor(
         editText = layoutBinding.timePicker
         editText.showSoftInputOnFocus = false
 
+        val fallbackTime = LocalTime.now()
+
         // Create DatePickerDialog
         dialogBuilder = MaterialTimePicker.Builder()
             .setTimeFormat(TimeFormat.CLOCK_24H)
             .setTitleText(dialogTitle)
             .setInputMode(MaterialTimePicker.INPUT_MODE_CLOCK)
+            .setHour(fallbackTime.hour)
+            .setMinute(fallbackTime.minute)
 
         // On click show dialog
         editText.setOnFocusChangeListener { _, hasFocus ->

@@ -167,6 +167,7 @@ class AddEditMeasurementFragment :
         // Use material time picker
         val dialog = MaterialTimePicker.Builder()
             .setTimeFormat(TimeFormat.CLOCK_24H)
+            .setInputMode(MaterialTimePicker.INPUT_MODE_CLOCK)
             .setHour(time.hour)
             .setMinute(time.minute)
             .build()
