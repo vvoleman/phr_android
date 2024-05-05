@@ -60,7 +60,7 @@ class SchedulesRepository(
 
         val id = medicineScheduleDao.insert(saveModel)
 
-        Log.d("ScheduleRepository", "saveMedicineSchedule: $id")
+        Log.d("ScheduleRepository", "is medicine schedule id null?: ${medicineSchedule.id}")
 
         // Remove all schedule items
         if (medicineSchedule.id != null) {

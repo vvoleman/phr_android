@@ -1,6 +1,7 @@
 package cz.vvoleman.phr.di.medicine
 
 import cz.vvoleman.phr.base.domain.coroutine.CoroutineContextProvider
+import cz.vvoleman.phr.featureMedicine.domain.repository.AddMedicineRepository
 import cz.vvoleman.phr.featureMedicine.domain.repository.ChangeMedicineScheduleAlarmEnabledRepository
 import cz.vvoleman.phr.featureMedicine.domain.repository.DeleteMedicineScheduleRepository
 import cz.vvoleman.phr.featureMedicine.domain.repository.DeleteScheduleAlarmRepository
@@ -34,9 +35,11 @@ class DomainModule {
 
     @Provides
     fun providesSaveMedicineScheduleUseCase(
+        addMedicineRepository: AddMedicineRepository,
         medicineScheduleRepository: SaveMedicineScheduleRepository,
         coroutineContextProvider: CoroutineContextProvider
     ) = SaveMedicineScheduleUseCase(
+        addMedicineRepository,
         medicineScheduleRepository,
         coroutineContextProvider
     )

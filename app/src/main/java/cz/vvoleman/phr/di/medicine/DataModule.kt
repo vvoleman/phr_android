@@ -22,6 +22,7 @@ import cz.vvoleman.phr.featureMedicine.data.mapper.schedule.ScheduleItemDataMode
 import cz.vvoleman.phr.featureMedicine.data.repository.AlarmRepository
 import cz.vvoleman.phr.featureMedicine.data.repository.MedicineRepository
 import cz.vvoleman.phr.featureMedicine.data.repository.SchedulesRepository
+import cz.vvoleman.phr.featureMedicine.domain.repository.AddMedicineRepository
 import cz.vvoleman.phr.featureMedicine.domain.repository.ChangeMedicineScheduleAlarmEnabledRepository
 import cz.vvoleman.phr.featureMedicine.domain.repository.DeleteMedicineScheduleRepository
 import cz.vvoleman.phr.featureMedicine.domain.repository.DeleteScheduleAlarmRepository
@@ -223,4 +224,9 @@ class DataModule {
     fun providesGetMedicinesPagingStreamRepository(
         medicineRepository: MedicineRepository
     ): GetMedicinesPagingStreamRepository = medicineRepository
+
+    @Provides
+    fun providesAddMedicineRepository(
+        medicineRepository: MedicineRepository
+    ): AddMedicineRepository = medicineRepository
 }

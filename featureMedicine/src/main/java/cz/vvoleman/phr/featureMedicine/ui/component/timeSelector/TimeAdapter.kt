@@ -60,9 +60,15 @@ class TimeAdapter(
                         if (position != RecyclerView.NO_POSITION) {
                             val item = getItem(position)
                             if (item != null) {
+                                val newValue = if (it.isNullOrBlank()) {
+                                    0
+                                } else {
+                                    it.toString().toInt()
+                                }
+
                                 listener.onQuantityChange(
                                     bindingAdapterPosition,
-                                    editTextQuantity.text.toString().toDouble()
+                                    newValue
                                 )
                             }
                         }

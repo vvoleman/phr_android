@@ -1,6 +1,5 @@
 package cz.vvoleman.phr.featureMedicine.ui.list.adapter
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -46,7 +45,6 @@ class MedicineCatalogueAdapter(
 
                 buttonOptions.setOnClickListener {
                     val position = bindingAdapterPosition
-                    Log.d("MedicineCatalogueAdapter", "click options: $position")
                     if (position != RecyclerView.NO_POSITION) {
                         val item = getItem(position)
                         listener.onOptionsMenuClick(item, it)

@@ -46,8 +46,7 @@ class MedicineDetailSheet : BottomSheetDialogFragment() {
             listOf(
                 MedicineInfoUiModel(R.string.medicine_detail_package_form.toString(), medicine.packaging.form.name),
                 MedicineInfoUiModel(R.string.medicine_detail_package_size.toString(), medicine.packaging.packaging),
-                MedicineInfoUiModel(R.string.medicine_detail_country.toString(), "SK"),
-                MedicineInfoUiModel(R.string.medicine_detail_expiration.toString(), "-"),
+                MedicineInfoUiModel(R.string.medicine_detail_country.toString(), medicine.country),
             )
         )
 
