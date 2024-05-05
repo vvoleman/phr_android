@@ -39,7 +39,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFeatureSettings="smcp"
-            tools:text="Tableta"
+            android:text="Tableta"
             android:textColor="@color/color_secondary_variant" />
 
         <EditText
@@ -49,6 +49,7 @@
             android:imeOptions="actionDone"
             android:layout_width="wrap_content"
             android:maxWidth="70dp"
+            android:hint="0"
             android:minWidth="65dp"
             android:backgroundTint="@color/beige_500"
             android:layout_height="wrap_content" />
