@@ -5,8 +5,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
 import androidx.fragment.app.viewModels
+import com.google.android.material.snackbar.Snackbar
 import cz.vvoleman.phr.base.ui.mapper.ViewStateBinder
 import cz.vvoleman.phr.base.ui.view.BaseFragment
+import cz.vvoleman.phr.common.presentation.model.nextSchedule.NextSchedulePresentationModel
 import cz.vvoleman.phr.common.ui.component.nextSchedule.NextSchedule
 import cz.vvoleman.phr.common.ui.component.nextSchedule.NextScheduleUiModel
 import cz.vvoleman.phr.featureMeasurement.R
@@ -76,7 +78,12 @@ class ListMeasurementFragment :
 
     override fun handleNotification(notification: ListMeasurementNotification) {
         when (notification) {
-            else -> {
+            ListMeasurementNotification.NoNextSchedule -> {
+                showSnackbar(R.string.no_next_schedule_error, Snackbar.LENGTH_LONG)
+            }
+
+            is ListMeasurementNotification.OpenNextScheduleDetail -> {
+                showSnackbar(notification.nextSchedule.dateTime.toString())
             }
         }
     }
@@ -86,7 +93,7 @@ class ListMeasurementFragment :
     }
 
     override fun onNextScheduleClick(item: NextScheduleUiModel) {
-        showSnackbar("Clicked on ${item}")
+        viewModel.onNextSchedule()
     }
 
     override fun onDestroyView() {
@@ -139,5 +146,9 @@ class ListMeasurementFragment :
 
     override fun onMeasurementTimelineMakeEntryClick(item: ScheduledMeasurementGroupUiModel) {
         viewModel.onAddEntry(scheduleMapper.toPresentation(item))
+    }
+
+    private fun openNextScheduleDialog(nextSchedule: NextSchedulePresentationModel) {
+
     }
 }

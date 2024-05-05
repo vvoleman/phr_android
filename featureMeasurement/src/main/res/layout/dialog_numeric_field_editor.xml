@@ -4,87 +4,105 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/layout_rounded"
-    android:orientation="vertical"
     android:backgroundTint="@color/background_light"
+    android:orientation="vertical"
     android:padding="8dp">
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/text_input_layout_field_name"
-        style="?attr/textInputOutlinedStyle"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/field_measurement_group_field_name"
-        app:errorEnabled="true">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/edit_text_field_name"
+        android:layout_marginVertical="4dp"
+        android:background="@color/white"
+        android:elevation="4dp"
+        android:padding="8dp"
+        android:orientation="vertical">
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/text_input_layout_field_name"
+            style="?attr/textInputOutlinedStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textPersonName" />
+            android:hint="@string/field_measurement_group_field_name"
+            app:errorEnabled="true">
 
-    </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edit_text_field_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName" />
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/text_input_layout_unit_group"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/text_input_layout_unit_group"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/description_unit_group"
+            app:errorEnabled="true">
+
+            <AutoCompleteTextView
+                android:id="@+id/spinner_unit_group"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/description_unit_group"
+                android:inputType="none"
+                android:labelFor="@id/text_input_layout_unit_group" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+    </LinearLayout>
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:contentDescription="@string/description_unit_group"
-        app:errorEnabled="true">
-
-        <AutoCompleteTextView
-            android:id="@+id/spinner_unit_group"
+        android:layout_marginVertical="4dp"
+        android:background="@color/white"
+        android:elevation="4dp"
+        android:padding="8dp"
+        android:orientation="vertical">
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/text_input_layout_minimal_value"
+            style="?attr/textInputOutlinedStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/description_unit_group"
-            android:inputType="none"
-            android:labelFor="@id/text_input_layout_unit_group" />
-    </com.google.android.material.textfield.TextInputLayout>
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:layout_marginTop="8dp"
+            android:contentDescription="@string/description_minimal_value"
+            app:errorEnabled="true"
+            app:helperText="@string/helper_optional"
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/text_input_layout_minimal_value"
-        style="?attr/textInputOutlinedStyle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:focusable="true"
-        android:focusableInTouchMode="true"
-        android:layout_marginTop="8dp"
-        android:contentDescription="@string/description_minimal_value"
-        app:errorEnabled="true"
-        app:helperText="@string/helper_optional"
+            app:helperTextEnabled="true">
 
-        app:helperTextEnabled="true">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edit_text_minimal_value"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:enabled="true"
+                android:hint="@string/field_minimal_value"
+                android:inputType="numberDecimal" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/edit_text_minimal_value"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/text_input_layout_maximal_value"
+            style="?attr/textInputOutlinedStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:enabled="true"
-            android:hint="@string/field_minimal_value"
-            android:inputType="numberDecimal" />
-    </com.google.android.material.textfield.TextInputLayout>
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:layout_marginTop="8dp"
+            android:contentDescription="@string/description_maximal_value"
+            app:errorEnabled="true"
+            app:helperText="@string/helper_optional"
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/text_input_layout_maximal_value"
-        style="?attr/textInputOutlinedStyle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:focusable="true"
-        android:focusableInTouchMode="true"
-        android:layout_marginTop="8dp"
-        android:contentDescription="@string/description_maximal_value"
-        app:errorEnabled="true"
-        app:helperText="@string/helper_optional"
+            app:helperTextEnabled="true">
 
-        app:helperTextEnabled="true">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/edit_text_maximal_value"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:enabled="true"
-            android:hint="@string/field_maximal_value"
-            android:inputType="numberDecimal" />
-    </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edit_text_maximal_value"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:enabled="true"
+                android:hint="@string/field_maximal_value"
+                android:inputType="numberDecimal" />
+        </com.google.android.material.textfield.TextInputLayout>
+    </LinearLayout>
 
 </LinearLayout>

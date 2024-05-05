@@ -1,15 +1,15 @@
 package cz.vvoleman.phr.featureMedicine.ui.addEdit.view
 
-import android.app.TimePickerDialog
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TimePicker
 import androidx.appcompat.widget.PopupMenu
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.PagingData
 import androidx.paging.map
+import com.google.android.material.timepicker.MaterialTimePicker
+import com.google.android.material.timepicker.TimeFormat
 import cz.vvoleman.phr.base.ui.mapper.ViewStateBinder
 import cz.vvoleman.phr.base.ui.view.BaseFragment
 import cz.vvoleman.phr.common.ui.component.frequencySelector.FrequencyDayUiModel
@@ -158,19 +158,20 @@ class AddEditMedicineFragment :
             TimeUiModel(null, LocalTime.now(), 1)
         }
 
-        val dialog = TimePickerDialog(
-            context,
-            { _: TimePicker, selectedHour: Int, selectedMinute: Int ->
-                val updatedTime = time.copy(time = LocalTime.of(selectedHour, selectedMinute))
+        val dialog = MaterialTimePicker.Builder()
+            .setTimeFormat(TimeFormat.CLOCK_24H)
+            .setInputMode(MaterialTimePicker.INPUT_MODE_CLOCK)
+            .setHour(time.time.hour)
+            .setMinute(time.time.minute)
+            .build()
 
-                updateUnit(timeMapper.toPresentation(updatedTime), index)
-            },
-            time.time.hour,
-            time.time.minute,
-            true
-        )
+        dialog.addOnPositiveButtonClickListener {
+            val updatedTime = time.copy(time = LocalTime.of(dialog.hour, dialog.minute))
 
-        dialog.show()
+            updateUnit(timeMapper.toPresentation(updatedTime), index)
+        }
+
+        dialog.show(childFragmentManager, "time_picker")
     }
 
     override fun onValueChange(days: List<FrequencyDayUiModel>) {
