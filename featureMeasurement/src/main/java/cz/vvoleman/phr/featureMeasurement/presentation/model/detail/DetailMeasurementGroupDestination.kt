@@ -9,4 +9,10 @@ sealed class DetailMeasurementGroupDestination : PresentationDestination {
         val name: String
     ) : DetailMeasurementGroupDestination()
 
+    data class EditEntry(
+        val measurementGroupId: String,
+        val entryId: String,
+        val name: String,
+    ) : DetailMeasurementGroupDestination()
+
 }

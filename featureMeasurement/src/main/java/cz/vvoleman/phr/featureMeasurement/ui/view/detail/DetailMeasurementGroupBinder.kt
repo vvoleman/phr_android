@@ -13,8 +13,6 @@ import cz.vvoleman.phr.featureMeasurement.ui.factory.TableFactory
 import cz.vvoleman.phr.featureMeasurement.ui.mapper.detail.EntryInfoUiModelToMeasurementGroupMapper
 import cz.vvoleman.phr.featureMeasurement.ui.mapper.detail.FieldStatsUiModelToPresentationMapper
 import cz.vvoleman.phr.featureMeasurement.ui.model.detail.EntryInfoUiModel
-import java.time.LocalDate
-import kotlin.random.Random
 
 class DetailMeasurementGroupBinder(
     private val entryInfoMapper: EntryInfoUiModelToMeasurementGroupMapper,
@@ -33,7 +31,7 @@ class DetailMeasurementGroupBinder(
     override fun bind(viewBinding: FragmentDetailMeasurementGroupBinding, viewState: DetailMeasurementGroupViewState) {
         super.bind(viewBinding, viewState)
 
-        val statsAdapter = FieldStatsAdapter(this.lifecycleScope)
+        val statsAdapter = FieldStatsAdapter()
         viewBinding.recyclerViewStats.apply {
             adapter = statsAdapter
             layoutManager = LinearLayoutManager(context)
@@ -54,22 +52,8 @@ class DetailMeasurementGroupBinder(
         }
     }
 
-    private fun getRandomData(): Map<LocalDate, Float> {
-        val map = mutableMapOf<LocalDate, Float>()
-        var date = startDate
-        repeat(100) {
-            map[date] = Random.nextFloat() * 16f
-            date = date.plusDays(1)
-        }
-        return map
-    }
-
     sealed class Notification {
         data class ShowTableItemOptionsMenu(val item: EntryInfoUiModel, val anchorView: View) : Notification()
-    }
-
-    companion object {
-        private val startDate = LocalDate.of(2023, 1, 22)
     }
 
     override fun onItemOptionsMenuClicked(item: EntryInfoUiModel, anchorView: View) {

@@ -44,8 +44,8 @@ class AddEditEntryViewModel @Inject constructor(
 
     override suspend fun initState(): AddEditEntryViewState {
         val measurementGroup = getMeasurementGroup()
-        val existingEntry= getExistingEntry(measurementGroup)
-        val entryFields = getEntryFields(measurementGroup)
+        val existingEntry = getExistingEntry(measurementGroup)
+        val entryFields = getEntryFields(measurementGroup, existingEntry)
         val scheduleItem = getScheduleItem(measurementGroup)
         val navigationSource = savedStateHandle.get<NavigationSource>("source")
         require(navigationSource != null) { "Navigation source is null" }
@@ -137,13 +137,14 @@ class AddEditEntryViewModel @Inject constructor(
     private fun getExistingEntry(
         measurementGroup: MeasurementGroupPresentationModel
     ): MeasurementGroupEntryPresentationModel? {
-        val existingEntryId = savedStateHandle.get<String>("existingEntryId") ?: return null
+        val existingEntryId = savedStateHandle.get<String>("entryId") ?: return null
 
         return measurementGroup.entries.find { it.id == existingEntryId }
     }
 
     private suspend fun getEntryFields(
-        measurementGroup: MeasurementGroupPresentationModel
+        measurementGroup: MeasurementGroupPresentationModel,
+        existingEntry: MeasurementGroupEntryPresentationModel?,
     ): Map<String, EntryFieldPresentationModel> {
         val request = GetEntryFieldsRequest(
             measurementGroup = measurementGroupMapper.toDomain(measurementGroup)
@@ -151,6 +152,14 @@ class AddEditEntryViewModel @Inject constructor(
         val results = getEntryFieldsUseCase.executeInBackground(request)
             .map { entryFieldMapper.toPresentation(it) }
 
-        return results.associateBy { it.fieldId }
+        val fields = results.associateBy { it.fieldId }.toMutableMap()
+
+        existingEntry?.values?.forEach { (key, value) ->
+            fields[key]?.let {
+                fields[key] = it.copy(value = value)
+            }
+        }
+
+        return fields.toMap()
     }
 }

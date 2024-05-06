@@ -4,7 +4,6 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import cz.vvoleman.phr.base.presentation.viewmodel.BaseViewModel
 import cz.vvoleman.phr.base.presentation.viewmodel.usecase.UseCaseExecutorProvider
-import cz.vvoleman.phr.common.presentation.model.export.PermissionStatus
 import cz.vvoleman.phr.featureMeasurement.domain.model.detail.GetFieldStatsRequest
 import cz.vvoleman.phr.featureMeasurement.domain.repository.DeleteEntryRepository
 import cz.vvoleman.phr.featureMeasurement.domain.repository.GetMeasurementGroupRepository
@@ -87,11 +86,18 @@ class DetailMeasurementGroupViewModel @Inject constructor(
         ))
     }
 
+    fun onEditEntry(model: MeasurementGroupEntryPresentationModel) {
+        navigateTo(
+            DetailMeasurementGroupDestination.EditEntry(
+                measurementGroupId = currentViewState.measurementGroup.id,
+                entryId = model.id,
+                name = currentViewState.measurementGroup.name,
+            )
+        )
+    }
+
     fun onExport() {
         notify(DetailMeasurementGroupNotification.Export(currentViewState.measurementGroup))
     }
 
-    fun onPermissionDenied(status: PermissionStatus) {
-        updateViewState(currentViewState.copy(permissionStatus = status))
-    }
 }

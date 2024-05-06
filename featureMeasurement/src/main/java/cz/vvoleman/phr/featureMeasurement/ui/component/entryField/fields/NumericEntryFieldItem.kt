@@ -8,6 +8,8 @@ import cz.vvoleman.phr.featureMeasurement.R
 import cz.vvoleman.phr.featureMeasurement.databinding.ItemNumericFieldEntryBinding
 import cz.vvoleman.phr.featureMeasurement.ui.component.entryField.EntryFieldItem
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -25,8 +27,11 @@ class NumericEntryFieldItem(
         return Type.NUMERIC
     }
 
+    @OptIn(ExperimentalCoroutinesApi::class, FlowPreview::class)
     override fun initField(binding: ViewBinding) {
         val numericBinding = binding as ItemNumericFieldEntryBinding
+
+        numericBinding.editText.setText(value.toString())
 
         Log.d("NumericEntryField", "initField: $label")
         numericBinding.editText.textChanges(false)

@@ -84,7 +84,7 @@ class DetailMeasurementGroupFragment :
         popup.setOnMenuItemClickListener {
             when (it.itemId) {
                 cz.vvoleman.phr.common_datasource.R.id.action_edit -> {
-                    showSnackbar("Edit ${item.entry.createdAt}")
+                    viewModel.onEditEntry(entryMapper.toPresentation(item.entry))
                     true
                 }
                 cz.vvoleman.phr.common_datasource.R.id.action_delete -> {
