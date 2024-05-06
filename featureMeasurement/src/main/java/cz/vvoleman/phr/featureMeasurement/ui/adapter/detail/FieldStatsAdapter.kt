@@ -15,25 +15,22 @@ import cz.vvoleman.phr.featureMeasurement.ui.model.detail.FieldStatsUiModel
 import cz.vvoleman.phr.featureMeasurement.ui.utils.detail.createHorizontalAxis
 import cz.vvoleman.phr.featureMeasurement.ui.utils.detail.createMarker
 import cz.vvoleman.phr.featureMeasurement.ui.utils.detail.createVerticalAxis
-import kotlinx.coroutines.CoroutineScope
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
-class FieldStatsAdapter(
-    private val lifecycleScope: CoroutineScope
-) :
+class FieldStatsAdapter() :
     ListAdapter<FieldStatsUiModel, FieldStatsAdapter.FieldStatsRecyclerViewHolder>(DiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FieldStatsRecyclerViewHolder {
         val binding = ItemFieldStatsBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return FieldStatsRecyclerViewHolder(binding, lifecycleScope)
+        return FieldStatsRecyclerViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: FieldStatsRecyclerViewHolder, position: Int) {
         getItem(position)?.let { holder.bind(it) }
     }
 
-    inner class FieldStatsRecyclerViewHolder(private val binding: ItemFieldStatsBinding, lifecycleScope: CoroutineScope) :
+    inner class FieldStatsRecyclerViewHolder(private val binding: ItemFieldStatsBinding) :
         RecyclerView.ViewHolder(binding.root) {
         private var firstBind = true
 
