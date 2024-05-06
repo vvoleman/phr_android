@@ -10,7 +10,8 @@ class SaveMedicineScheduleDataSourceModelToDataMapper {
             id = model.id?.toInt() ?: 0,
             patientId = model.patient.id.toInt(),
             medicineId = model.medicine.id,
-            createdAt = model.createdAt
+            createdAt = model.createdAt,
+            problemCategoryId = model.problemCategory?.id?.toInt()
         )
     }
 }

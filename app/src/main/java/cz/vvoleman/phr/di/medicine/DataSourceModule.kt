@@ -1,6 +1,7 @@
 package cz.vvoleman.phr.di.medicine
 
 import cz.vvoleman.phr.common.data.mapper.PatientDataSourceModelToDomainMapper
+import cz.vvoleman.phr.common.data.mapper.problemCategory.ProblemCategoryDataSourceModelToDomainMapper
 import cz.vvoleman.phr.data.PatientDatabase
 import cz.vvoleman.phr.featureMedicine.data.datasource.retrofit.BackendApi
 import cz.vvoleman.phr.featureMedicine.data.datasource.retrofit.medicine.mapper.MedicineApiDataSourceModelToDataMapper
@@ -18,8 +19,8 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import retrofit2.Retrofit
 import javax.inject.Singleton
+import retrofit2.Retrofit
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -108,11 +109,13 @@ class DataSourceModule {
     fun providesMedicineDataToDataSourceModelMapper(
         patientDataSourceModelToDomainMapper: PatientDataSourceModelToDomainMapper,
         medicineDataSourceModelToDataMapper: MedicineDataSourceModelToDataMapper,
-        scheduleItemDataSourceModelToDataMapper: ScheduleItemDataSourceModelToDataMapper
+        scheduleItemDataSourceModelToDataMapper: ScheduleItemDataSourceModelToDataMapper,
+        problemCategoryMapper: ProblemCategoryDataSourceModelToDomainMapper
     ) = MedicineScheduleDataSourceModelToDataMapper(
         patientDataSourceModelToDomainMapper,
         medicineDataSourceModelToDataMapper,
-        scheduleItemDataSourceModelToDataMapper
+        scheduleItemDataSourceModelToDataMapper,
+        problemCategoryMapper
     )
 
     @Provides

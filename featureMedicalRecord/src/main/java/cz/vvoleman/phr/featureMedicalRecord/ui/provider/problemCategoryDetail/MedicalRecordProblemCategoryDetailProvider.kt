@@ -22,7 +22,10 @@ class MedicalRecordProblemCategoryDetailProvider(
             )
         }
 
+        val updatedAt = items.maxOfOrNull { it.createdAt }
+
         return SectionContainer(
+            updatedAt = updatedAt,
             title = context.resources.getString(R.string.medical_record_problem_category_detail_title),
             icon = R.drawable.ic_document,
             description = context.resources.getString(R.string.medical_record_problem_category_detail_description),

@@ -1,6 +1,7 @@
 package cz.vvoleman.phr.featureMedicine.data.datasource.room.schedule.mapper
 
 import cz.vvoleman.phr.common.data.mapper.PatientDataSourceModelToDomainMapper
+import cz.vvoleman.phr.common.data.mapper.problemCategory.ProblemCategoryDataSourceModelToDomainMapper
 import cz.vvoleman.phr.featureMedicine.data.datasource.room.medicine.mapper.MedicineDataSourceModelToDataMapper
 import cz.vvoleman.phr.featureMedicine.data.datasource.room.schedule.MedicineScheduleDataSourceModel
 import cz.vvoleman.phr.featureMedicine.data.datasource.room.schedule.ScheduleWithDetailsDataSourceModel
@@ -9,7 +10,8 @@ import cz.vvoleman.phr.featureMedicine.data.model.schedule.MedicineScheduleDataM
 class MedicineScheduleDataSourceModelToDataMapper(
     private val patientDataSourceMapper: PatientDataSourceModelToDomainMapper,
     private val medicineDataSourceMapper: MedicineDataSourceModelToDataMapper,
-    private val scheduleItemDataSourceMapper: ScheduleItemDataSourceModelToDataMapper
+    private val scheduleItemDataSourceMapper: ScheduleItemDataSourceModelToDataMapper,
+    private val problemCategoryMapper: ProblemCategoryDataSourceModelToDomainMapper
 ) {
 
     suspend fun toData(model: ScheduleWithDetailsDataSourceModel): MedicineScheduleDataModel {
@@ -19,7 +21,8 @@ class MedicineScheduleDataSourceModelToDataMapper(
             medicine = medicineDataSourceMapper.toData(model.medicine),
             schedules = model.items.map { scheduleItemDataSourceMapper.toData(it) },
             createdAt = model.schedule.createdAt,
-            isAlarmEnabled = model.schedule.isAlarmEnabled
+            isAlarmEnabled = model.schedule.isAlarmEnabled,
+            problemCategory = problemCategoryMapper.toDomain(model.problemCategory)
         )
     }
 
@@ -29,7 +32,8 @@ class MedicineScheduleDataSourceModelToDataMapper(
             patientId = model.patient.id.toInt(),
             medicineId = model.medicine.id,
             createdAt = model.createdAt,
-            isAlarmEnabled = model.isAlarmEnabled
+            isAlarmEnabled = model.isAlarmEnabled,
+            problemCategoryId = model.problemCategory?.id?.toIntOrNull(),
         )
     }
 }

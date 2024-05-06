@@ -15,7 +15,8 @@ class SaveMedicineScheduleDomainModelToDataMapper(
             patient = model.patient,
             medicine = medicineDataModelToDomainMapper.toData(model.medicine),
             createdAt = model.createdAt,
-            schedules = model.schedules.map { scheduleItemDataModelToDomainMapper.toData(it) }
+            schedules = model.schedules.map { scheduleItemDataModelToDomainMapper.toData(it) },
+            problemCategory = model.problemCategory
         )
     }
 }

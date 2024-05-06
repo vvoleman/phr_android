@@ -64,4 +64,7 @@
     <string name="add_edit_medicine_cannot_save">Vyplňte, prosím, všechny údaje</string>
     <string name="add_edit_medicine_schedule_not_found">Nastala neočekávaná chyba při načítání existujícího léku</string>
     <string name="add_edit_medicine_cannot_schedule">Nastala neočekávaná chyba při načítání existujícího léku</string>
+    <string name="description_problem_category">Kategorie problému</string>
+    <string name="field_problem_category">Kategorie problému</string>
+    <string name="add_edit_medicine_select_problem_category">Vyberte kategorii</string>
 </resources>

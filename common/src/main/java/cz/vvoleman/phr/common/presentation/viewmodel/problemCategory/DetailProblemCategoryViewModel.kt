@@ -39,10 +39,14 @@ class DetailProblemCategoryViewModel @Inject constructor(
     override suspend fun initState(): DetailProblemCategoryViewState {
         val problemCategory = getProblemCategory()
         val sections = getDetailSection(problemCategory)
+        val createdAt = problemCategory.createdAt
+        val updatedAt = sections.mapNotNull { it.updatedAt }.maxOrNull()
 
         return DetailProblemCategoryViewState(
             problemCategory = problemCategory,
             sections = sections,
+            createdAt = createdAt.toLocalDate(),
+            updatedAt = updatedAt
         )
     }
 
