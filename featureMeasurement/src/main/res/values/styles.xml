@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <style name="table_row_item">
-        <item name="textAlign">left</item>
+        <item name="android:textAlignment">textStart</item>
         <item name="android:paddingHorizontal">16dp</item>
     </style>
 </resources>

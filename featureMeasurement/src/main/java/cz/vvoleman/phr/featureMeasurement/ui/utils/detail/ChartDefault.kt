@@ -2,47 +2,40 @@ package cz.vvoleman.phr.featureMeasurement.ui.utils.detail
 
 import android.graphics.Color
 import android.graphics.Typeface
-import com.patrykandpatrick.vico.core.axis.AxisPosition
-import com.patrykandpatrick.vico.core.axis.formatter.AxisValueFormatter
-import com.patrykandpatrick.vico.core.axis.horizontal.HorizontalAxis
-import com.patrykandpatrick.vico.core.axis.horizontal.createHorizontalAxis
-import com.patrykandpatrick.vico.core.axis.vertical.VerticalAxis
-import com.patrykandpatrick.vico.core.axis.vertical.createVerticalAxis
-import com.patrykandpatrick.vico.core.chart.values.ChartValues
-import com.patrykandpatrick.vico.core.component.Component
-import com.patrykandpatrick.vico.core.component.marker.MarkerComponent
-import com.patrykandpatrick.vico.core.component.shape.DashedShape
-import com.patrykandpatrick.vico.core.component.shape.LineComponent
-import com.patrykandpatrick.vico.core.component.shape.ShapeComponent
-import com.patrykandpatrick.vico.core.component.shape.cornered.Corner
-import com.patrykandpatrick.vico.core.component.shape.cornered.MarkerCorneredShape
-import com.patrykandpatrick.vico.core.component.text.TextComponent
-import com.patrykandpatrick.vico.core.dimensions.Dimensions
-import com.patrykandpatrick.vico.core.dimensions.MutableDimensions
-import com.patrykandpatrick.vico.core.marker.DefaultMarkerLabelFormatter
-import com.patrykandpatrick.vico.core.marker.Marker
-import com.patrykandpatrick.vico.core.marker.MarkerLabelFormatter
-import com.patrykandpatrick.vico.views.dimensions.dimensionsOf
-import cz.vvoleman.phr.featureMeasurement.ui.utils.detail.createHorizontalAxis as createHorizontalAxis1
+import com.patrykandpatrick.vico.core.cartesian.axis.AxisPosition
+import com.patrykandpatrick.vico.core.cartesian.axis.HorizontalAxis
+import com.patrykandpatrick.vico.core.cartesian.axis.VerticalAxis
+import com.patrykandpatrick.vico.core.cartesian.data.CartesianValueFormatter
+import com.patrykandpatrick.vico.core.cartesian.marker.CartesianMarker
+import com.patrykandpatrick.vico.core.cartesian.marker.DefaultCartesianMarker
+import com.patrykandpatrick.vico.core.common.Dimensions
+import com.patrykandpatrick.vico.core.common.component.Component
+import com.patrykandpatrick.vico.core.common.component.LineComponent
+import com.patrykandpatrick.vico.core.common.component.ShapeComponent
+import com.patrykandpatrick.vico.core.common.component.TextComponent
+import com.patrykandpatrick.vico.core.common.shape.Corner
+import com.patrykandpatrick.vico.core.common.shape.DashedShape
+import com.patrykandpatrick.vico.core.common.shape.MarkerCorneredShape
 
 fun createGuideline(
     stroke: Float = 0.1f,
-    margins: Dimensions = dimensionsOf(0f, 0f, 0f, 0f),
+    margins: Dimensions = Dimensions(0f, 0f, 0f, 0f),
+    color: Int = Color.BLACK,
 ): LineComponent {
     return LineComponent(
-        color = Color.BLACK,
+        color = color,
         thicknessDp = 0.1f,
         shape = DashedShape(),
         margins = margins,
         strokeWidthDp = stroke,
-        strokeColor = 0xff000000.toInt(),
+        strokeColor = color,
     )
 }
 
 fun createTextComponent(
     textSizeSp: Float = 14f,
     background: Component? = null,
-    margins: MutableDimensions = dimensionsOf(0f, 0f, 0f, 0f),
+    margins: Dimensions = Dimensions(0f, 0f, 0f, 0f),
     typeface: Typeface = Typeface.MONOSPACE,
     padding: Float = 0f,
 ): TextComponent {
@@ -50,63 +43,64 @@ fun createTextComponent(
         this.textSizeSp = textSizeSp
         this.margins = margins
         this.typeface = typeface
-        this.padding = dimensionsOf(padding, padding, padding, padding)
+        this.padding = Dimensions(padding, padding, padding, padding)
         this.background = background
     }.build()
 }
 
 fun createMarker(
     indicatorSizeDp: Float = 0f,
-    labelFormatter: MarkerLabelFormatter = DefaultMarkerLabelFormatter(),
-): Marker {
+    color: Int = Color.BLACK,
+): CartesianMarker {
     val background = ShapeComponent(MarkerCorneredShape(Corner.FullyRounded), Color.WHITE)
         .setShadow(
             radius = 4f,
             dy = 2f,
             applyElevationOverlay = true,
         )
-    return MarkerComponent(
-        label = createTextComponent(padding = 10f, background = background),
+    return DefaultCartesianMarker(
+        label = createTextComponent(padding = 5f, background = background),
         indicator = null,
-        guideline = createGuideline(1f),
+        guideline = createGuideline(0.5f, color = color),
+        labelPosition = DefaultCartesianMarker.LabelPosition.Top
     ).apply {
         this.indicatorSizeDp = indicatorSizeDp
-        this.labelFormatter = labelFormatter
     }
 }
 
 inline fun <reified T : AxisPosition.Vertical> createVerticalAxis(
     title: String = "",
     typeface: Typeface = Typeface.MONOSPACE,
-    titleMargins: MutableDimensions = dimensionsOf(0f, 0f, 0f, 0f),
-    labelMargins: MutableDimensions = dimensionsOf(0f, 0f, 0f, 0f),
-    noinline valueFormatter: ((Float, ChartValues) -> String)? = null,
+    titleMargins: Dimensions = Dimensions(0f, 0f, 0f, 0f),
+    labelMargins: Dimensions = Dimensions(0f, 0f, 0f, 0f),
+    valueFormatter: CartesianValueFormatter? = null,
 ): VerticalAxis<T> {
 
-    return createVerticalAxis {
+    return VerticalAxis.build {
         this.title = title
         this.titleComponent = createTextComponent(typeface = typeface, margins = titleMargins)
         this.label = createTextComponent(margins = labelMargins)
         if (valueFormatter != null) {
-            this.valueFormatter = AxisValueFormatter(valueFormatter)
+            this.valueFormatter = valueFormatter
         }
         this.guideline = createGuideline()
+        horizontalLabelPosition = VerticalAxis.HorizontalLabelPosition.Outside
     }
 }
 
 inline fun <reified T : AxisPosition.Horizontal> createHorizontalAxis(
     title: String = "",
     typeface: Typeface = Typeface.MONOSPACE,
-    noinline valueFormatter: ((Float, ChartValues) -> String)? = null,
+    valueFormatter: CartesianValueFormatter? = null,
 ): HorizontalAxis<T> {
 
-    return createHorizontalAxis {
+    return HorizontalAxis.build {
         this.title = title
         this.titleComponent = createTextComponent(textSizeSp = 14f, typeface = typeface)
         this.label = createTextComponent()
 
         if (valueFormatter != null) {
-            this.valueFormatter = AxisValueFormatter(valueFormatter)
+            this.valueFormatter = valueFormatter
         }
 
         this.guideline = createGuideline()

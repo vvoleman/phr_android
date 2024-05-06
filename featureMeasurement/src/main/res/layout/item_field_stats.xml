@@ -19,18 +19,15 @@
         android:textStyle="bold"
         tools:text="Hmotnost" />
 
-    <com.patrykandpatrick.vico.views.chart.ChartView
+    <com.patrykandpatrick.vico.views.cartesian.CartesianChartView
         android:id="@+id/chart_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="0dp"
-        app:bottomAxisStyle="@style/ChartBottomAxisStyle"
-        app:chart="line"
-        app:horizontalLayout="fullWidth"
-        app:lineChartStyle="@style/ChartLineLayerStyle"
+        app:lineLayerStyle="@style/ChartLineLayerStyle"
         app:showBottomAxis="true"
-        app:showStartAxis="true"
-        app:startAxisStyle="@style/ChartStartAxisStyle" />
+        app:layers="line"
+        app:showStartAxis="true"/>
 
     <TableLayout
         android:id="@+id/table_heading_layout"

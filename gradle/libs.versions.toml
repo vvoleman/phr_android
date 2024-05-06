@@ -39,7 +39,7 @@ mockito-kotlin = "4.0.0"
 kotlinx-coroutines-test = "1.6.1"
 mockk = "1.13.8"
 documentScanner = "1.3.5"
-vico = "1.14.0"
+vico = "2.0.0-alpha.19"
 groupie = "2.10.1"
 
 compose_kotlin_compiler = "1.5.5"
