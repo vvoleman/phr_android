@@ -1,6 +1,7 @@
 package cz.vvoleman.phr.di.medicine
 
 import cz.vvoleman.phr.common.presentation.mapper.PatientPresentationModelToDomainMapper
+import cz.vvoleman.phr.common.presentation.mapper.problemCategory.ProblemCategoryPresentationModelToDomainMapper
 import cz.vvoleman.phr.featureMedicine.presentation.addEdit.mapper.SaveMedicineSchedulePresentationModelToDomainMapper
 import cz.vvoleman.phr.featureMedicine.presentation.addEdit.mapper.SaveScheduleItemPresentationModelToDomainMapper
 import cz.vvoleman.phr.featureMedicine.presentation.list.mapper.MedicinePresentationModelToDomainMapper
@@ -62,12 +63,14 @@ class PresentationModule {
     fun providesSaveMedicineSchedulePresentationModelToDomainMapper(
         patientMapper: PatientPresentationModelToDomainMapper,
         medicineMapper: MedicinePresentationModelToDomainMapper,
-        scheduleMapper: ScheduleItemPresentationModelToDomainMapper
+        scheduleMapper: ScheduleItemPresentationModelToDomainMapper,
+        problemCategoryMapper: ProblemCategoryPresentationModelToDomainMapper,
     ): SaveMedicineSchedulePresentationModelToDomainMapper {
         return SaveMedicineSchedulePresentationModelToDomainMapper(
             patientMapper,
             medicineMapper,
-            scheduleMapper
+            scheduleMapper,
+            problemCategoryMapper
         )
     }
 
@@ -83,12 +86,14 @@ class PresentationModule {
     fun providesMedicineSchedulePresentationModelToDomainMapper(
         patientMapper: PatientPresentationModelToDomainMapper,
         scheduleMapper: ScheduleItemPresentationModelToDomainMapper,
-        medicineMapper: MedicinePresentationModelToDomainMapper
+        medicineMapper: MedicinePresentationModelToDomainMapper,
+        problemCategoryMapper: ProblemCategoryPresentationModelToDomainMapper
     ): MedicineSchedulePresentationModelToDomainMapper {
         return MedicineSchedulePresentationModelToDomainMapper(
             patientMapper,
             scheduleMapper,
-            medicineMapper
+            medicineMapper,
+            problemCategoryMapper
         )
     }
 

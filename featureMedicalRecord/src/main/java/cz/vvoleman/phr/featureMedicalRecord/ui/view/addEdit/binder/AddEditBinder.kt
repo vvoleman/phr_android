@@ -22,7 +22,7 @@ class AddEditBinder(
 ) :
     BaseViewStateBinder<AddEditViewState, FragmentAddEditMedicalRecordBinding, AddEditBinder.Notification>() {
 
-    private lateinit var adapter: ImageAdapter
+    private var adapter: ImageAdapter? = null
 
     override fun firstBind(
         viewBinding: FragmentAddEditMedicalRecordBinding,
@@ -70,7 +70,7 @@ class AddEditBinder(
     override fun bind(viewBinding: FragmentAddEditMedicalRecordBinding, viewState: AddEditViewState) {
         super.bind(viewBinding, viewState)
 
-        adapter.submitList(viewState.assets.map { ImageItemUiModel(it) })
+        adapter?.submitList(viewState.assets.map { ImageItemUiModel(it) })
         viewBinding.textViewCurrentSizeFiles.text = viewState.assets.size.toString()
         viewBinding.buttonAddFile.isEnabled = viewState.canAddMoreFiles()
     }
@@ -84,6 +84,11 @@ class AddEditBinder(
 
         viewBinding.textViewTotalSizeFiles.text = AddEditViewState.MAX_FILES.toString()
         adapter = viewBinding.recyclerViewFiles.adapter as ImageAdapter
+    }
+
+    override fun onDestroy(viewBinding: FragmentAddEditMedicalRecordBinding) {
+        adapter = null
+        super.onDestroy(viewBinding)
     }
 
     sealed class Notification {

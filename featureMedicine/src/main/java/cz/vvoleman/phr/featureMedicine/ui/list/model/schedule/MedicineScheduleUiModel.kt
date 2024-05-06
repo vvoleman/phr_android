@@ -2,6 +2,7 @@ package cz.vvoleman.phr.featureMedicine.ui.list.model.schedule
 
 import android.os.Parcelable
 import cz.vvoleman.phr.common.ui.model.patient.PatientUiModel
+import cz.vvoleman.phr.common.ui.model.problemCategory.ProblemCategoryUiModel
 import cz.vvoleman.phr.featureMedicine.ui.list.model.MedicineUiModel
 import kotlinx.parcelize.Parcelize
 import java.time.DayOfWeek
@@ -14,6 +15,7 @@ data class MedicineScheduleUiModel(
     val patient: PatientUiModel,
     val medicine: MedicineUiModel,
     val schedules: List<ScheduleItemUiModel>,
+    val problemCategory: ProblemCategoryUiModel?,
     val createdAt: LocalDateTime,
     val isAlarmEnabled: Boolean,
 ) : Parcelable {

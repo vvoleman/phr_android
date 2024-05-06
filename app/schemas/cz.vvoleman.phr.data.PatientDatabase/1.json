@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "4248f7a498658403346659ceed812155",
+    "identityHash": "90a6c953d4988f9c7dcd1fd3ea1ce43f",
     "entities": [
       {
         "tableName": "patient",
@@ -644,7 +644,7 @@
       },
       {
         "tableName": "medicine_schedule",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `patient_id` INTEGER NOT NULL, `medicine_id` TEXT NOT NULL, `createdAt` INTEGER NOT NULL, `is_alarm_enabled` INTEGER NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `patient_id` INTEGER NOT NULL, `medicine_id` TEXT NOT NULL, `problem_category_id` INTEGER, `createdAt` INTEGER NOT NULL, `is_alarm_enabled` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "id",
@@ -663,6 +663,12 @@
             "columnName": "medicine_id",
             "affinity": "TEXT",
             "notNull": true
+          },
+          {
+            "fieldPath": "problemCategoryId",
+            "columnName": "problem_category_id",
+            "affinity": "INTEGER",
+            "notNull": false
           },
           {
             "fieldPath": "createdAt",
@@ -1034,7 +1040,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '4248f7a498658403346659ceed812155')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '90a6c953d4988f9c7dcd1fd3ea1ce43f')"
     ]
   }
 }

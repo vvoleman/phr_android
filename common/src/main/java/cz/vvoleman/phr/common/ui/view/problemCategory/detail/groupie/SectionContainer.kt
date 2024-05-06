@@ -7,8 +7,10 @@ import cz.vvoleman.phr.common.ui.adapter.MarginItemDecoration
 import cz.vvoleman.phr.common.utils.SizingConstants
 import cz.vvoleman.phr.common_datasource.R
 import cz.vvoleman.phr.common_datasource.databinding.ItemDetailSectionBinding
+import java.time.LocalDate
 
 class SectionContainer(
+    val updatedAt: LocalDate?,
     private val title: String,
     private val icon: Int,
     private val description: String,

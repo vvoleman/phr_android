@@ -10,6 +10,7 @@ import androidx.paging.PagingData
 import androidx.paging.map
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
+import cz.vvoleman.phr.base.ui.ext.collectLatestLifecycleFlow
 import cz.vvoleman.phr.base.ui.mapper.ViewStateBinder
 import cz.vvoleman.phr.base.ui.view.BaseFragment
 import cz.vvoleman.phr.common.ui.component.frequencySelector.FrequencyDayUiModel
@@ -86,6 +87,15 @@ class AddEditMedicineFragment :
         binding.buttonSave.setOnClickListener {
             lifecycleScope.launch { viewModel.onSave() }
         }
+
+        val binder = (viewStateBinder as AddEditMedicineBinder)
+        collectLatestLifecycleFlow(binder.notification) {
+            when (it) {
+                is AddEditMedicineBinder.Notification.ProblemCategorySelected -> {
+                    viewModel.onProblemCategorySelected(it.value)
+                }
+            }
+        }
     }
 
     override fun handleNotification(notification: AddEditMedicineNotification) {
@@ -155,6 +165,10 @@ class AddEditMedicineFragment :
         val time = if (index != null) {
             timeMapper.toUi(viewModel.onGetTime(index))
         } else {
+            if (!viewModel.canAddTime()) {
+                showSnackbar(R.string.add_edit_medicine_max_times)
+                return
+            }
             TimeUiModel(null, LocalTime.now(), 1)
         }
 

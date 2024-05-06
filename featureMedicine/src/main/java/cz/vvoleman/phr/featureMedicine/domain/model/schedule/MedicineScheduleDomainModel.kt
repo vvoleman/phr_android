@@ -2,6 +2,7 @@ package cz.vvoleman.phr.featureMedicine.domain.model.schedule
 
 import android.os.Parcelable
 import cz.vvoleman.phr.common.domain.model.patient.PatientDomainModel
+import cz.vvoleman.phr.common.domain.model.problemCategory.ProblemCategoryDomainModel
 import cz.vvoleman.phr.featureMedicine.domain.model.medicine.MedicineDomainModel
 import kotlinx.parcelize.Parcelize
 import java.time.LocalDateTime
@@ -12,6 +13,7 @@ data class MedicineScheduleDomainModel(
     val patient: PatientDomainModel,
     val medicine: MedicineDomainModel,
     val schedules: List<ScheduleItemDomainModel>,
+    val problemCategory: ProblemCategoryDomainModel?,
     val createdAt: LocalDateTime,
     val isAlarmEnabled: Boolean,
 ) : Parcelable {

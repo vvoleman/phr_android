@@ -63,7 +63,7 @@ class TimeAdapter(
                                 val newValue = if (it.isNullOrBlank()) {
                                     0
                                 } else {
-                                    it.toString().toInt()
+                                    it.toString().toFloat()
                                 }
 
                                 listener.onQuantityChange(

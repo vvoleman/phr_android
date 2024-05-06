@@ -5,6 +5,8 @@ import cz.vvoleman.phr.base.ui.mapper.ViewStateBinder
 import cz.vvoleman.phr.common.ui.component.nextSchedule.NextScheduleUiModelToPresentationMapper
 import cz.vvoleman.phr.common.ui.mapper.frequencySelector.FrequencyDayUiModelToPresentationMapper
 import cz.vvoleman.phr.common.ui.mapper.patient.PatientUiModelToPresentationMapper
+import cz.vvoleman.phr.common.ui.mapper.problemCategory.ProblemCategoryUiModelToColorMapper
+import cz.vvoleman.phr.common.ui.mapper.problemCategory.ProblemCategoryUiModelToPresentationMapper
 import cz.vvoleman.phr.featureMedicine.databinding.FragmentAddEditMedicineBinding
 import cz.vvoleman.phr.featureMedicine.databinding.FragmentListMedicineBinding
 import cz.vvoleman.phr.featureMedicine.presentation.addEdit.model.AddEditMedicineViewState
@@ -52,8 +54,9 @@ class UiModule {
         medicineMapper: MedicineUiModelToPresentationMapper,
         timeMapper: TimeUiModelToPresentationMapper,
         frequencyMapper: FrequencyDayUiModelToPresentationMapper,
+        problemCategoryMapper: ProblemCategoryUiModelToColorMapper
     ): ViewStateBinder<AddEditMedicineViewState, FragmentAddEditMedicineBinding> =
-        AddEditMedicineBinder(medicineMapper, timeMapper, frequencyMapper)
+        AddEditMedicineBinder(medicineMapper, timeMapper, frequencyMapper, problemCategoryMapper)
 
     @Provides
     fun provideProductFormUiModelToPresentationMapper(): ProductFormUiModelToPresentationMapper {
@@ -106,12 +109,14 @@ class UiModule {
     fun providesMedicineScheduleUiModelToPresentationMapper(
         patientMapper: PatientUiModelToPresentationMapper,
         scheduleMapper: ScheduleItemUiModelToPresentationMapper,
-        medicineMapper: MedicineUiModelToPresentationMapper
+        medicineMapper: MedicineUiModelToPresentationMapper,
+        problemCategoryMapper: ProblemCategoryUiModelToPresentationMapper
     ): MedicineScheduleUiModelToPresentationMapper {
         return MedicineScheduleUiModelToPresentationMapper(
             patientMapper,
             scheduleMapper,
-            medicineMapper
+            medicineMapper,
+            problemCategoryMapper
         )
     }
 

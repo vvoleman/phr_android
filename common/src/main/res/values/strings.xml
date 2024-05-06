@@ -120,4 +120,7 @@
     <string name="action_contact_email">Zkopírovat</string>
     <string name="action_contact_address">Zkopírovat</string>
     <string name="save_patient">Uložit pacienta</string>
+    <string name="problem_category_detail_created_at">vytvořeno %s</string>
+    <string name="problem_category_detail_updated_at">upraveno %s</string>
+    <string name="problem_category_detail_updated_at_empty">zatím neupraveno</string>
 </resources>
