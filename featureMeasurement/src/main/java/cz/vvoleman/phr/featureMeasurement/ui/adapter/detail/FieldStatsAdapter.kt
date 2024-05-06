@@ -1,62 +1,73 @@
 package cz.vvoleman.phr.featureMeasurement.ui.adapter.detail
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.patrykandpatrick.vico.core.entry.ChartEntryModel
-import com.patrykandpatrick.vico.core.entry.ChartEntryModelProducer
-import com.patrykandpatrick.vico.core.entry.entryModelOf
-import com.patrykandpatrick.vico.core.entry.entryOf
-import com.patrykandpatrick.vico.views.dimensions.dimensionsOf
+import com.patrykandpatrick.vico.core.cartesian.data.CartesianChartModelProducer
+import com.patrykandpatrick.vico.core.cartesian.data.CartesianValueFormatter
+import com.patrykandpatrick.vico.core.cartesian.data.lineSeries
+import com.patrykandpatrick.vico.core.common.data.ExtraStore
 import cz.vvoleman.phr.featureMeasurement.databinding.ItemFieldStatsBinding
 import cz.vvoleman.phr.featureMeasurement.ui.model.detail.FieldStatsUiModel
 import cz.vvoleman.phr.featureMeasurement.ui.utils.detail.createHorizontalAxis
 import cz.vvoleman.phr.featureMeasurement.ui.utils.detail.createMarker
 import cz.vvoleman.phr.featureMeasurement.ui.utils.detail.createVerticalAxis
+import kotlinx.coroutines.CoroutineScope
 import java.time.LocalDate
-import java.time.LocalDateTime
-import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 
-class FieldStatsAdapter :
+class FieldStatsAdapter(
+    private val lifecycleScope: CoroutineScope
+) :
     ListAdapter<FieldStatsUiModel, FieldStatsAdapter.FieldStatsRecyclerViewHolder>(DiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FieldStatsRecyclerViewHolder {
         val binding = ItemFieldStatsBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return FieldStatsRecyclerViewHolder(binding)
+        return FieldStatsRecyclerViewHolder(binding, lifecycleScope)
     }
 
     override fun onBindViewHolder(holder: FieldStatsRecyclerViewHolder, position: Int) {
         getItem(position)?.let { holder.bind(it) }
     }
 
-    inner class FieldStatsRecyclerViewHolder(private val binding: ItemFieldStatsBinding) :
+    inner class FieldStatsRecyclerViewHolder(private val binding: ItemFieldStatsBinding, lifecycleScope: CoroutineScope) :
         RecyclerView.ViewHolder(binding.root) {
         private var firstBind = true
+
+        private val xToDateMapKey = ExtraStore.Key<Map<Float, LocalDate>>()
 
         fun bind(item: FieldStatsUiModel) {
             if (firstBind) {
                 firstBind = false
 
-                val producer = getProducer(item)
-                binding.chartView.apply {
-                    marker = createMarker()
-                    startAxis = createVerticalAxis(
-                        title = item.unit,
-                        titleMargins = dimensionsOf(0f, 0f, 10f, 0f),
-                        labelMargins = dimensionsOf(0f, 0f, 5f, 0f),
-                    )
+                val data = getModel(item)
+                val producer = getProducer(data)
 
-                    bottomAxis = createHorizontalAxis(
-                        title = "Datum",
-                        valueFormatter = { value, _ ->
-                            val date = LocalDate.ofEpochDay(value.toLong())
-                            date.format(DateTimeFormatter.ofPattern("dd.MM"))
-                        }
+                val dateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM")
+                val formatter = CartesianValueFormatter { x, chartValues, _ ->
+                    (chartValues.model.extraStore[xToDateMapKey][x] ?: LocalDate.ofEpochDay(x.toLong()))
+                        .format(dateTimeFormatter)
+                }
+                val marker = createMarker(
+                    color = Color.parseColor("#c3c3c3")
+                )
+                binding.chartView.apply {
+                    this.marker = marker
+                    data.keys.forEach { key ->
+                        this.chart?.addPersistentMarker(key.toEpochDay().toFloat(), marker)
+                    }
+                    chart?.startAxis = createVerticalAxis(
+                        title = "Hodnota",
                     )
-                    entryProducer = producer
+//
+                    chart?.bottomAxis = createHorizontalAxis(
+                        title = "Datum",
+                        valueFormatter = formatter
+                    )
+                    modelProducer = producer
                 }
             }
 
@@ -69,12 +80,26 @@ class FieldStatsAdapter :
             }
         }
 
-        private fun getProducer(item: FieldStatsUiModel): ChartEntryModelProducer {
-            val entries = item.values.map { (dateTime, value) ->
-                entryOf(dateTime.toLocalDate().toEpochDay(), value)
+        private fun getModel(item: FieldStatsUiModel): Map<LocalDate, Float> {
+            val data = item.values.map {
+                it.key.toLocalDate() to it.value
+            }.toMap()
+
+
+            return data
+        }
+
+        private fun getProducer(data: Map<LocalDate, Float>): CartesianChartModelProducer {
+            val xToDates = data.keys.associateBy { it.toEpochDay().toFloat() }
+
+            val producer = CartesianChartModelProducer.build()
+
+            producer.tryRunTransaction {
+                lineSeries { series(xToDates.keys, data.values) }
+                updateExtras { it[xToDateMapKey] = xToDates }
             }
 
-            return ChartEntryModelProducer(entries)
+            return producer
         }
     }
 

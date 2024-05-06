@@ -2,8 +2,6 @@ package cz.vvoleman.phr.featureMeasurement.ui.view.detail
 
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.patrykandpatrick.vico.core.entry.FloatEntry
-import com.patrykandpatrick.vico.core.entry.entryOf
 import com.xwray.groupie.GroupieAdapter
 import cz.vvoleman.phr.base.ui.mapper.BaseViewStateBinder
 import cz.vvoleman.phr.common.ui.adapter.MarginItemDecoration
@@ -35,7 +33,7 @@ class DetailMeasurementGroupBinder(
     override fun bind(viewBinding: FragmentDetailMeasurementGroupBinding, viewState: DetailMeasurementGroupViewState) {
         super.bind(viewBinding, viewState)
 
-        val statsAdapter = FieldStatsAdapter()
+        val statsAdapter = FieldStatsAdapter(this.lifecycleScope)
         viewBinding.recyclerViewStats.apply {
             adapter = statsAdapter
             layoutManager = LinearLayoutManager(context)
@@ -54,11 +52,6 @@ class DetailMeasurementGroupBinder(
             layoutManager = LinearLayoutManager(context)
             setHasFixedSize(false)
         }
-    }
-
-    private fun getRandomEntries(): List<FloatEntry> {
-        val data = getRandomData()
-        return data.map { entryOf(it.key.toEpochDay().toFloat(), it.value) }
     }
 
     private fun getRandomData(): Map<LocalDate, Float> {
