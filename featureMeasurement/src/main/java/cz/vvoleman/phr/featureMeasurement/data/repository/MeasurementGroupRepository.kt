@@ -14,6 +14,7 @@ import cz.vvoleman.phr.featureMeasurement.domain.model.core.MeasurementGroupDoma
 import cz.vvoleman.phr.featureMeasurement.domain.repository.DeleteMeasurementGroupRepository
 import cz.vvoleman.phr.featureMeasurement.domain.repository.GetMeasurementGroupRepository
 import cz.vvoleman.phr.featureMeasurement.domain.repository.GetMeasurementGroupsByPatientRepository
+import cz.vvoleman.phr.featureMeasurement.domain.repository.GetMeasurementGroupsByProblemCategoryRepository
 import cz.vvoleman.phr.featureMeasurement.domain.repository.SaveMeasurementGroupRepository
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.firstOrNull
@@ -31,7 +32,8 @@ class MeasurementGroupRepository(
 ) : GetMeasurementGroupRepository,
     SaveMeasurementGroupRepository,
     GetMeasurementGroupsByPatientRepository,
-    DeleteMeasurementGroupRepository {
+    DeleteMeasurementGroupRepository,
+    GetMeasurementGroupsByProblemCategoryRepository {
 
     override suspend fun getMeasurementGroup(id: String): MeasurementGroupDomainModel? {
         return measurementGroupDao.getById(id.toInt())
@@ -93,5 +95,31 @@ class MeasurementGroupRepository(
     override suspend fun deleteMeasurementGroup(measurementGroupId: String) {
         scheduleItemDao.deleteByMeasurementGroup(measurementGroupId)
         measurementGroupDao.delete(measurementGroupId)
+    }
+
+    override suspend fun getMeasurementGroupsByProblemCategory(
+        problemCategoryId: String
+    ): List<MeasurementGroupDomainModel> {
+        return measurementGroupDao.getByProblemCategory(problemCategoryId)
+            .map { measurementGroupDataSourceMapper.toData(it) }
+            .map { measurementGroupDataMapper.toDomain(it) }
+            .first()
+    }
+
+    override suspend fun getMeasurementGroupsByProblemCategory(
+        problemCategoryIds: List<String>
+    ): Map<String,List<MeasurementGroupDomainModel>> {
+        val result = mutableMapOf<String, List<MeasurementGroupDomainModel>>()
+        measurementGroupDao
+            .getByProblemCategory(problemCategoryIds).first()
+            .map { measurementGroupDataSourceMapper.toData(it) }
+            .map { measurementGroupDataMapper.toDomain(it) }
+            .forEach {
+                if (it.problemCategory == null) return@forEach
+                result[it.problemCategory.id] =
+                    result[it.problemCategory.id]?.toMutableList()?.apply { add(it) } ?: listOf(it)
+            }
+
+        return result.toMap()
     }
 }

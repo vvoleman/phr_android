@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/BeigeInfoBox"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="0dp">
+
+    <TextView
+        android:id="@+id/text_view_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/beige_700"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Vyšší" />
+
+    <TableLayout
+        android:id="@+id/table_heading_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="4dp"
+        app:layout_constraintTop_toBottomOf="@id/text_view_name">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/text_view_last_entry_label"
+                style="@style/table_row_item"
+                android:layout_width="wrap_content"
+                android:layout_column="0"
+                android:layout_margin="1dp"
+                android:text="@string/last_entry_label"
+                android:textSize="13sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/text_view_last_entry_value"
+                style="@style/table_row_item"
+                android:layout_width="wrap_content"
+                android:layout_column="1"
+                android:layout_margin="1dp"
+                android:textSize="13sp"
+                tools:text="38 (20. září 2023)" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/text_view_minimum_label"
+                style="@style/table_row_item"
+                android:layout_width="wrap_content"
+                android:layout_column="0"
+                android:layout_margin="1dp"
+                android:text="@string/minimal_label"
+                android:textSize="13sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/text_view_minimum_value"
+                style="@style/table_row_item"
+                android:layout_width="wrap_content"
+                android:layout_column="1"
+                android:layout_margin="1dp"
+                android:text="@string/minimal_value"
+                android:textSize="13sp"
+                tools:text="80 mmHg (20. září 2023)" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/text_view_maximum_label"
+                style="@style/table_row_item"
+                android:layout_width="wrap_content"
+                android:layout_column="0"
+                android:layout_margin="1dp"
+                android:text="@string/maximal_label"
+                android:textSize="13sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/text_view_maximum_value"
+                style="@style/table_row_item"
+                android:layout_width="wrap_content"
+                android:layout_column="1"
+                android:layout_margin="1dp"
+                android:text="@string/maximal_value"
+                android:textSize="13sp"
+                tools:text="150 mmHg (20. září 2023)" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/text_view_week_average_label"
+                style="@style/table_row_item"
+                android:layout_width="wrap_content"
+                android:layout_column="0"
+                android:layout_margin="1dp"
+                android:text="@string/week_average"
+                android:textSize="13sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/text_view_week_average_value"
+                style="@style/table_row_item"
+                android:layout_width="wrap_content"
+                android:layout_column="1"
+                android:layout_margin="1dp"
+                android:text="@string/maximal_value"
+                android:textSize="13sp"
+                tools:text="150 mmHg (20. září 2023)" />
+        </TableRow>
+    </TableLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

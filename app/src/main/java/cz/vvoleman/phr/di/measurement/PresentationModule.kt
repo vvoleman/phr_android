@@ -1,7 +1,10 @@
 package cz.vvoleman.phr.di.measurement
 
+import cz.vvoleman.phr.common.presentation.eventBus.CommonEventBus
 import cz.vvoleman.phr.common.presentation.mapper.PatientPresentationModelToDomainMapper
 import cz.vvoleman.phr.common.presentation.mapper.problemCategory.ProblemCategoryPresentationModelToDomainMapper
+import cz.vvoleman.phr.featureMeasurement.domain.repository.GetMeasurementGroupsByProblemCategoryRepository
+import cz.vvoleman.phr.featureMeasurement.domain.usecase.detail.GetFieldStatsUseCase
 import cz.vvoleman.phr.featureMeasurement.presentation.mapper.addEditEntry.EntryFieldPresentationModelToDomainMapper
 import cz.vvoleman.phr.featureMeasurement.presentation.mapper.core.MeasurementGroupEntryPresentationModelToDomainMapper
 import cz.vvoleman.phr.featureMeasurement.presentation.mapper.core.MeasurementGroupFieldPresentationToDomainMapper
@@ -13,6 +16,8 @@ import cz.vvoleman.phr.featureMeasurement.presentation.mapper.core.UnitGroupPres
 import cz.vvoleman.phr.featureMeasurement.presentation.mapper.core.UnitPresentationModelToDomainMapper
 import cz.vvoleman.phr.featureMeasurement.presentation.mapper.detail.FieldStatsPresentationModelToDomainMapper
 import cz.vvoleman.phr.featureMeasurement.presentation.mapper.list.MeasurementGroupPresentationModelToNextScheduleMapper
+import cz.vvoleman.phr.featureMeasurement.presentation.subscriber.MeasurementListener
+import cz.vvoleman.phr.featureMeasurement.presentation.subscriber.ProblemCategoryDetailProvider
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -101,5 +106,22 @@ class PresentationModule {
     @Provides
     fun providesFieldStatsPresentationModelToDomainMapper() =
         FieldStatsPresentationModelToDomainMapper()
+
+    @Provides
+    fun providesMeasurementListener(
+        commonEventBus: CommonEventBus,
+        getMeasurementsByProblemCategoryRepository: GetMeasurementGroupsByProblemCategoryRepository,
+        measurementGroupMapper: MeasurementGroupPresentationModelToDomainMapper,
+        problemCategoryDetailProvider: ProblemCategoryDetailProvider,
+        fieldStatsUseCase: GetFieldStatsUseCase,
+        fieldStatsMapper: FieldStatsPresentationModelToDomainMapper,
+    ) = MeasurementListener(
+        commonEventBus = commonEventBus,
+        getMeasurementsByProblemCategoryRepository = getMeasurementsByProblemCategoryRepository,
+        measurementGroupMapper = measurementGroupMapper,
+        problemCategoryDetailProvider = problemCategoryDetailProvider,
+        fieldStatsUseCase = fieldStatsUseCase,
+        fieldStatsMapper = fieldStatsMapper,
+    )
 
 }

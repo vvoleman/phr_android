@@ -16,6 +16,7 @@ import cz.vvoleman.phr.featureMeasurement.presentation.model.addEdit.AddEditMeas
 import cz.vvoleman.phr.featureMeasurement.presentation.model.addEditEntry.AddEditEntryViewState
 import cz.vvoleman.phr.featureMeasurement.presentation.model.detail.DetailMeasurementGroupViewState
 import cz.vvoleman.phr.featureMeasurement.presentation.model.list.ListMeasurementViewState
+import cz.vvoleman.phr.featureMeasurement.presentation.subscriber.ProblemCategoryDetailProvider
 import cz.vvoleman.phr.featureMeasurement.ui.component.reminderTimeSelector.TimeUiModelToPresentationMapper
 import cz.vvoleman.phr.featureMeasurement.ui.mapper.addEdit.destination.AddEditMeasurementDestinationUiMapper
 import cz.vvoleman.phr.featureMeasurement.ui.mapper.addEditEntry.EntryFieldUiModelToEntryFieldItemMapper
@@ -31,8 +32,10 @@ import cz.vvoleman.phr.featureMeasurement.ui.mapper.core.UnitGroupUiModelToPrese
 import cz.vvoleman.phr.featureMeasurement.ui.mapper.core.UnitUiModelToPresentationMapper
 import cz.vvoleman.phr.featureMeasurement.ui.mapper.detail.EntryInfoUiModelToMeasurementGroupMapper
 import cz.vvoleman.phr.featureMeasurement.ui.mapper.detail.FieldStatsUiModelToPresentationMapper
+import cz.vvoleman.phr.featureMeasurement.ui.mapper.detail.MeasurementGroupWithStatsUiModelToPresentationMapper
 import cz.vvoleman.phr.featureMeasurement.ui.mapper.detail.destination.DetailMeasurementGroupDestinationUiMapper
 import cz.vvoleman.phr.featureMeasurement.ui.mapper.list.destination.ListMeasurementDestinationUiMapper
+import cz.vvoleman.phr.featureMeasurement.ui.subscriber.MeasurementProblemCategoryDetailProvider
 import cz.vvoleman.phr.featureMeasurement.ui.view.addEdit.AddEditMeasurementBinder
 import cz.vvoleman.phr.featureMeasurement.ui.view.addEditEntry.AddEditEntryBinder
 import cz.vvoleman.phr.featureMeasurement.ui.view.detail.DetailMeasurementGroupBinder
@@ -193,5 +196,27 @@ class UiModule {
     fun providesEntryInfoUiModelToMeasurementGroupMapper(
         measurementGroupMapper: MeasurementGroupUiModelToPresentationMapper
     ) = EntryInfoUiModelToMeasurementGroupMapper(measurementGroupMapper)
+
+    @Provides
+    fun providesProblemCategoryDetailProvider(
+        measurementGroupMapper: MeasurementGroupWithStatsUiModelToPresentationMapper,
+        @ApplicationContext context: Context
+    ): ProblemCategoryDetailProvider {
+        return MeasurementProblemCategoryDetailProvider(
+            measurementGroupMapper,
+            context
+        )
+    }
+
+    @Provides
+    fun providesMeasurementGroupWithStatsUiModelToPresentationMapper(
+        fieldStatsMapper: FieldStatsUiModelToPresentationMapper,
+        measurementGroupMapper: MeasurementGroupUiModelToPresentationMapper
+    ): MeasurementGroupWithStatsUiModelToPresentationMapper {
+        return MeasurementGroupWithStatsUiModelToPresentationMapper(
+            fieldStatsMapper = fieldStatsMapper,
+            measurementGroupMapper = measurementGroupMapper
+        )
+    }
 
 }
