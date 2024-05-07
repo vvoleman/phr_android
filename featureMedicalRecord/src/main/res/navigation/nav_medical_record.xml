@@ -20,8 +20,11 @@
             android:id="@+id/action_listMedicalRecordsFragment_to_addEditMedicalRecordsFragment"
             app:destination="@id/addEditMedicalRecordsFragment" />
         <deepLink
-            android:id="@+id/deepLinkListMedicalRecords"
+            android:id="@+id/deepLinkListMedicalRecordsWorker"
             app:uri="phr://listMedicalRecord/?medicalWorkerId={medicalWorkerId}" />
+        <deepLink
+            android:id="@+id/deepLinkListMedicalRecordsCategory"
+            app:uri="phr://listMedicalRecord/?problemCategoryId={problemCategoryId}" />
         <action
             android:id="@+id/action_listMedicalRecordsFragment_to_detailMedicalRecordFragment"
             app:destination="@id/detailMedicalRecordFragment" />

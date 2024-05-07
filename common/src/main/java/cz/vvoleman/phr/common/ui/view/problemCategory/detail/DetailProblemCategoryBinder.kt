@@ -45,6 +45,11 @@ class DetailProblemCategoryBinder :
         }
     }
 
+    override fun onDestroy(viewBinding: FragmentDetailProblemCategoryBinding) {
+        viewBinding.recyclerView.adapter = null
+        super.onDestroy(viewBinding)
+    }
+
     sealed class Notification {
     }
 

@@ -1,15 +1,14 @@
 package cz.vvoleman.phr.common.ui.adapter.problemCategory
 
 import android.content.res.ColorStateList
-import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import cz.vvoleman.phr.common.ui.model.healthcare.core.AdditionalInfoUiModel
 import cz.vvoleman.phr.common.ui.model.problemCategory.ProblemCategoryUiModel
-import cz.vvoleman.phr.common.ui.model.problemCategory.ProblemCategoryWithInfoUiModel
 import cz.vvoleman.phr.common_datasource.databinding.ItemProblemCategoryInfoBinding
 
 class ProblemCategoryInfoAdapter(
@@ -41,6 +40,10 @@ class ProblemCategoryInfoAdapter(
             binding.apply {
                 chip.chipBackgroundColor = ColorStateList.valueOf(color)
                 chip.text = item.text
+
+                if (item.icon != null) {
+                    chip.chipIcon = AppCompatResources.getDrawable(binding.root.context, item.icon)
+                }
             }
         }
 

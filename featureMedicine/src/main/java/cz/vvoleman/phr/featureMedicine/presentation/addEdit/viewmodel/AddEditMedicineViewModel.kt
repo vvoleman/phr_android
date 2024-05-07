@@ -70,7 +70,8 @@ class AddEditMedicineViewModel @Inject constructor(
             patient = patient,
             availableProblemCategories = availableProblemCategories,
             times = timesFrequencies.first,
-            frequencyDaysDefault = timesFrequencies.second,
+            frequencyDays = timesFrequencies.second,
+            frequencyDaysDefault = FrequencyDaysPresentationFactory.makeDays(),
             problemCategory = schedule?.problemCategory,
         )
     }
@@ -203,7 +204,7 @@ class AddEditMedicineViewModel @Inject constructor(
                 return@forEach
             }
             times.forEach { time ->
-                if (time.number != 0) {
+                if (time.number.toDouble() != 0.0) {
                     schedules.add(
                         ScheduleItemPresentationModel(
                             dayOfWeek = frequency.day,

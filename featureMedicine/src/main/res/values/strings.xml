@@ -67,4 +67,8 @@
     <string name="description_problem_category">Kategorie problému</string>
     <string name="field_problem_category">Kategorie problému</string>
     <string name="add_edit_medicine_select_problem_category">Vyberte kategorii</string>
+    <string name="label_last_edited">Změněno %s</string>
+    <string name="label_last_edited_no_data" />
+    <string name="medicine_schedule_problem_category_detail_title">Léky</string>
+    <string name="medicine_schedule_problem_category_detail_description">Naplánované léky, které máte v této kategorii</string>
 </resources>
