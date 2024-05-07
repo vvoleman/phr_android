@@ -36,7 +36,10 @@ class MedicineRepository(
     private val substanceDataSourceMapper: SubstanceDataSourceModelToDataMapper,
     private val productFormDataMapper: ProductFormDataModelToDomainMapper,
     private val productFormDataSourceMapper: ProductFormDataSourceModelToDataMapper
-) : SearchMedicineRepository, AddMedicineRepository, GetMedicineByIdRepository, GetMedicinesPagingStreamRepository {
+) : SearchMedicineRepository,
+    AddMedicineRepository,
+    GetMedicineByIdRepository,
+    GetMedicinesPagingStreamRepository {
 
     override suspend fun searchMedicine(query: String, page: Int): List<MedicineDomainModel> {
         return try {
@@ -126,5 +129,4 @@ class MedicineRepository(
 
         return null
     }
-
 }

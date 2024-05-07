@@ -97,6 +97,10 @@ dependencies {
     // Event Bus
     implementation(libs.eventBus)
 
+    // Groupie
+    implementation(libs.groupie.core)
+    implementation(libs.groupie.viewbinding)
+
     testImplementation(libs.junit.core)
     testImplementation(libs.mockito.kotlin)
     testImplementation(libs.mockito.inline)

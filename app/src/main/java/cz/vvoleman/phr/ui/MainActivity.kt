@@ -26,6 +26,7 @@ import cz.vvoleman.phr.common.domain.repository.patient.GetPatientByIdRepository
 import cz.vvoleman.phr.common.presentation.eventBus.CommonListener
 import cz.vvoleman.phr.databinding.ActivityMainBinding
 import cz.vvoleman.phr.featureMedicalRecord.presentation.subscriber.MedicalRecordListener
+import cz.vvoleman.phr.featureMedicine.presentation.subscriber.MedicineListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -45,6 +46,9 @@ class MainActivity : AppCompatActivity() {
 
     @Inject
     lateinit var medicalRecordListener: MedicalRecordListener
+
+    @Inject
+    lateinit var medicineListener: MedicineListener
 
     @Inject
     lateinit var patientDataStore: PatientDataStore
@@ -114,7 +118,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun getListeners(): List<ModuleListener> {
-        return listOf(commonListener, medicalRecordListener)
+        return listOf(commonListener, medicalRecordListener, medicineListener)
     }
 
     override fun onNewIntent(intent: Intent?) {

@@ -30,6 +30,7 @@ import cz.vvoleman.phr.featureMedicine.domain.repository.GetMedicineByIdReposito
 import cz.vvoleman.phr.featureMedicine.domain.repository.GetMedicineScheduleByIdRepository
 import cz.vvoleman.phr.featureMedicine.domain.repository.GetMedicinesPagingStreamRepository
 import cz.vvoleman.phr.featureMedicine.domain.repository.GetSchedulesByMedicineRepository
+import cz.vvoleman.phr.featureMedicine.domain.repository.GetSchedulesByProblemCategoryRepository
 import cz.vvoleman.phr.featureMedicine.domain.repository.MarkMedicineScheduleFinishedRepository
 import cz.vvoleman.phr.featureMedicine.domain.repository.SaveMedicineScheduleRepository
 import cz.vvoleman.phr.featureMedicine.domain.repository.SaveScheduleItemRepository
@@ -229,4 +230,9 @@ class DataModule {
     fun providesAddMedicineRepository(
         medicineRepository: MedicineRepository
     ): AddMedicineRepository = medicineRepository
+
+    @Provides
+    fun providesGetSchedulesByProblemCategoryRepository(
+        scheduleRepository: SchedulesRepository
+    ): GetSchedulesByProblemCategoryRepository = scheduleRepository
 }

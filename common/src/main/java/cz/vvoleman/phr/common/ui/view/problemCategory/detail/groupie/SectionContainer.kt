@@ -1,6 +1,7 @@
 package cz.vvoleman.phr.common.ui.view.problemCategory.detail.groupie
 
 import android.view.View
+import androidx.recyclerview.widget.GridLayoutManager
 import com.xwray.groupie.GroupieAdapter
 import com.xwray.groupie.viewbinding.BindableItem
 import cz.vvoleman.phr.common.ui.adapter.MarginItemDecoration
@@ -30,7 +31,12 @@ class SectionContainer(
 
             itemsContainer.apply {
                 adapter = groupieAdapter
-                addItemDecoration(MarginItemDecoration(SizingConstants.MARGIN_SIZE))
+                addItemDecoration(
+                    MarginItemDecoration(
+                        2*SizingConstants.MARGIN_SIZE,
+                        orientation = GridLayoutManager.HORIZONTAL
+                    )
+                )
                 setHasFixedSize(true)
             }
         }

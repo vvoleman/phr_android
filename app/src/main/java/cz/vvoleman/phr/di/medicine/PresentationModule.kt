@@ -1,7 +1,9 @@
 package cz.vvoleman.phr.di.medicine
 
+import cz.vvoleman.phr.common.presentation.eventBus.CommonEventBus
 import cz.vvoleman.phr.common.presentation.mapper.PatientPresentationModelToDomainMapper
 import cz.vvoleman.phr.common.presentation.mapper.problemCategory.ProblemCategoryPresentationModelToDomainMapper
+import cz.vvoleman.phr.featureMedicine.domain.repository.GetSchedulesByProblemCategoryRepository
 import cz.vvoleman.phr.featureMedicine.presentation.addEdit.mapper.SaveMedicineSchedulePresentationModelToDomainMapper
 import cz.vvoleman.phr.featureMedicine.presentation.addEdit.mapper.SaveScheduleItemPresentationModelToDomainMapper
 import cz.vvoleman.phr.featureMedicine.presentation.list.mapper.MedicinePresentationModelToDomainMapper
@@ -13,6 +15,8 @@ import cz.vvoleman.phr.featureMedicine.presentation.list.mapper.ScheduleItemWith
 import cz.vvoleman.phr.featureMedicine.presentation.list.mapper.ScheduleItemWithDetailsPresentationModelToDomainMapper
 import cz.vvoleman.phr.featureMedicine.presentation.list.mapper.SubstanceAmountPresentationModelToDomainMapper
 import cz.vvoleman.phr.featureMedicine.presentation.list.mapper.SubstancePresentationModelToDomainMapper
+import cz.vvoleman.phr.featureMedicine.presentation.provider.ProblemCategoryDetailProvider
+import cz.vvoleman.phr.featureMedicine.presentation.subscriber.MedicineListener
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -113,4 +117,19 @@ class PresentationModule {
     @Provides
     fun providesScheduleItemWithDetailsDomainModelToNextScheduleMapper() =
         ScheduleItemWithDetailsDomainModelToNextScheduleMapper()
+
+    @Provides
+    fun providesMedicineListener(
+        commonEventBus: CommonEventBus,
+        getSchedulesByProblemCategoryRepository: GetSchedulesByProblemCategoryRepository,
+        problemCategoryDetailProvider: ProblemCategoryDetailProvider,
+        scheduleMapper: MedicineSchedulePresentationModelToDomainMapper
+    ): MedicineListener {
+        return MedicineListener(
+            commonEventBus = commonEventBus,
+            getSchedulesByProblemCategoryRepository = getSchedulesByProblemCategoryRepository,
+            problemCategoryDetailProvider = problemCategoryDetailProvider,
+            scheduleMapper = scheduleMapper
+        )
+    }
 }

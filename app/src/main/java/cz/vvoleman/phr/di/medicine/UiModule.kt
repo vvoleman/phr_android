@@ -1,5 +1,6 @@
 package cz.vvoleman.phr.di.medicine
 
+import android.content.Context
 import cz.vvoleman.phr.base.presentation.navigation.NavManager
 import cz.vvoleman.phr.base.ui.mapper.ViewStateBinder
 import cz.vvoleman.phr.common.ui.component.nextSchedule.NextScheduleUiModelToPresentationMapper
@@ -11,6 +12,7 @@ import cz.vvoleman.phr.featureMedicine.databinding.FragmentAddEditMedicineBindin
 import cz.vvoleman.phr.featureMedicine.databinding.FragmentListMedicineBinding
 import cz.vvoleman.phr.featureMedicine.presentation.addEdit.model.AddEditMedicineViewState
 import cz.vvoleman.phr.featureMedicine.presentation.list.model.ListMedicineViewState
+import cz.vvoleman.phr.featureMedicine.presentation.provider.ProblemCategoryDetailProvider
 import cz.vvoleman.phr.featureMedicine.ui.addEdit.mapper.AddEditMedicineDestinationUiMapper
 import cz.vvoleman.phr.featureMedicine.ui.addEdit.mapper.TimeUiModelToPresentationMapper
 import cz.vvoleman.phr.featureMedicine.ui.addEdit.view.AddEditMedicineBinder
@@ -24,9 +26,11 @@ import cz.vvoleman.phr.featureMedicine.ui.list.mapper.ScheduleItemWithDetailsUiM
 import cz.vvoleman.phr.featureMedicine.ui.list.mapper.SubstanceAmountUiModelToPresentationMapper
 import cz.vvoleman.phr.featureMedicine.ui.list.mapper.SubstanceUiModelToPresentationMapper
 import cz.vvoleman.phr.featureMedicine.ui.list.view.ListMedicineBinder
+import cz.vvoleman.phr.featureMedicine.ui.provider.problemCategoryDetail.MedicineScheduleProblemCategoryDetailProvider
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 
 @Module
@@ -130,6 +134,17 @@ class UiModule {
             scheduleItemMapper,
             patientMapper,
             medicineMapper
+        )
+    }
+
+    @Provides
+    fun providesMedicineScheduleProblemCategoryDetailProvider(
+        scheduleMapper: MedicineScheduleUiModelToPresentationMapper,
+        @ApplicationContext context: Context
+    ): ProblemCategoryDetailProvider {
+        return MedicineScheduleProblemCategoryDetailProvider(
+            scheduleMapper,
+            context
         )
     }
 }

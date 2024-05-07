@@ -128,7 +128,6 @@ class MedicalRecordListener(
     ): Map<ProblemCategoryDomainModel, ProblemCategoryInfoDomainModel> {
         val map = mutableMapOf<ProblemCategoryDomainModel, ProblemCategoryInfoDomainModel>()
 
-        val ids = event.problemCategories.map { it.id }.distinct()
         val allRecords = getMedicalRecordByCategoryRepository.getMedicalRecordByProblemCategory(
             event.problemCategories.map { it.id }.distinct(),
         )
@@ -194,8 +193,8 @@ class MedicalRecordListener(
             .map { medicalRecordMapper.toPresentation(it) }
 
         val section = problemCategoryDetailProvider.getBindingItems(records) { id ->
-            val uri = Uri.parse("phr://medicalRecordDetail/?medicalRecordId=$id")
-//            navController?.navigate(uri)
+            val uri = Uri.parse("phr://listMedicalRecord/?problemCategoryId=$id")
+            navController?.navigate(uri)
         }
 
         return listOf(section)

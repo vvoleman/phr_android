@@ -26,6 +26,14 @@ interface MedicineScheduleDao {
     fun getByMedicine(medicineId: String, patientId: String): Flow<List<ScheduleWithDetailsDataSourceModel>>
 
     @Transaction
+    @Query("SELECT * FROM medicine_schedule WHERE problem_category_id IN (:problemCategoryIds)")
+    fun getByProblemCategory(problemCategoryIds: List<String>): Flow<List<ScheduleWithDetailsDataSourceModel>>
+
+    @Transaction
+    @Query("SELECT * FROM medicine_schedule WHERE problem_category_id = :problemCategoryId")
+    fun getByProblemCategory(problemCategoryId: String): Flow<List<ScheduleWithDetailsDataSourceModel>>
+
+    @Transaction
     @Query("SELECT * FROM medicine_schedule WHERE medicine_id IN (:medicineIds) AND patient_id = :patientId")
     fun getByMedicine(medicineIds: List<String>, patientId: String): Flow<List<ScheduleWithDetailsDataSourceModel>>
 

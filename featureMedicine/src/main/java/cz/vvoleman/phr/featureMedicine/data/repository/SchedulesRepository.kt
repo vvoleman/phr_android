@@ -16,6 +16,7 @@ import cz.vvoleman.phr.featureMedicine.domain.repository.ChangeMedicineScheduleA
 import cz.vvoleman.phr.featureMedicine.domain.repository.DeleteMedicineScheduleRepository
 import cz.vvoleman.phr.featureMedicine.domain.repository.GetMedicineScheduleByIdRepository
 import cz.vvoleman.phr.featureMedicine.domain.repository.GetSchedulesByMedicineRepository
+import cz.vvoleman.phr.featureMedicine.domain.repository.GetSchedulesByProblemCategoryRepository
 import cz.vvoleman.phr.featureMedicine.domain.repository.MarkMedicineScheduleFinishedRepository
 import cz.vvoleman.phr.featureMedicine.domain.repository.SaveMedicineScheduleRepository
 import cz.vvoleman.phr.featureMedicine.domain.repository.SaveScheduleItemRepository
@@ -40,7 +41,8 @@ class SchedulesRepository(
     GetMedicineScheduleByIdRepository,
     MarkMedicineScheduleFinishedRepository,
     DeleteMedicineScheduleRepository,
-    ChangeMedicineScheduleAlarmEnabledRepository {
+    ChangeMedicineScheduleAlarmEnabledRepository,
+    GetSchedulesByProblemCategoryRepository {
 
     override suspend fun getSchedulesByMedicine(
         medicineIds: List<String>,
@@ -145,5 +147,28 @@ class SchedulesRepository(
         }
 
         scheduleItemDao.insert(scheduleItems = schedules)
+    }
+
+    override suspend fun getSchedulesByProblemCategory(
+        problemCategories: List<String>
+    ): Map<String, List<MedicineScheduleDomainModel>> {
+        val result = mutableMapOf<String, List<MedicineScheduleDomainModel>>()
+        medicineScheduleDao
+            .getByProblemCategory(problemCategories).first()
+            .map { medicineScheduleDataSourceMapper.toData(it) }
+            .map { medicineScheduleDataMapper.toDomain(it) }
+            .forEach {
+                if (it.problemCategory == null) return@forEach
+                result[it.problemCategory.id] =
+                    result[it.problemCategory.id]?.toMutableList()?.apply { add(it) } ?: listOf(it)
+            }
+
+        return result.toMap()
+    }
+
+    override suspend fun getSchedulesByProblemCategory(problemCategory: String): List<MedicineScheduleDomainModel> {
+        return medicineScheduleDao.getByProblemCategory(problemCategory).first()
+            .map { medicineScheduleDataSourceMapper.toData(it) }
+            .map { medicineScheduleDataMapper.toDomain(it) }
     }
 }
