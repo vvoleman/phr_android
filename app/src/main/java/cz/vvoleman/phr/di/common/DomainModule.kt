@@ -4,13 +4,6 @@ import android.content.Context
 import cz.vvoleman.phr.base.domain.coroutine.CoroutineContextProvider
 import cz.vvoleman.phr.base.domain.eventBus.EventBusChannel
 import cz.vvoleman.phr.common.data.repository.problemCategory.ProblemCategoryRepository
-import cz.vvoleman.phr.common.presentation.event.GetMedicalFacilitiesAdditionalInfoEvent
-import cz.vvoleman.phr.common.presentation.event.GetMedicalWorkersAdditionalInfoEvent
-import cz.vvoleman.phr.common.presentation.event.MedicalWorkerDeletedEvent
-import cz.vvoleman.phr.common.presentation.event.problemCategory.DeleteProblemCategoryEvent
-import cz.vvoleman.phr.common.presentation.event.problemCategory.GetProblemCategoriesAdditionalInfoEvent
-import cz.vvoleman.phr.common.presentation.eventBus.CommonEventBus
-import cz.vvoleman.phr.common.presentation.eventBus.CommonListener
 import cz.vvoleman.phr.common.domain.mapper.patient.PatientDomainModelToAddEditMapper
 import cz.vvoleman.phr.common.domain.model.healthcare.AdditionalInfoDomainModel
 import cz.vvoleman.phr.common.domain.model.healthcare.facility.MedicalFacilityDomainModel
@@ -37,6 +30,15 @@ import cz.vvoleman.phr.common.domain.usecase.healthcare.SaveMedicalWorkerUseCase
 import cz.vvoleman.phr.common.domain.usecase.problemCategory.DeleteProblemCategoryUseCase
 import cz.vvoleman.phr.common.domain.usecase.problemCategory.GetProblemCategoriesUseCase
 import cz.vvoleman.phr.common.domain.usecase.problemCategory.SaveProblemCategoryUseCase
+import cz.vvoleman.phr.common.presentation.event.GetMedicalFacilitiesAdditionalInfoEvent
+import cz.vvoleman.phr.common.presentation.event.GetMedicalWorkersAdditionalInfoEvent
+import cz.vvoleman.phr.common.presentation.event.MedicalWorkerDeletedEvent
+import cz.vvoleman.phr.common.presentation.event.problemCategory.DeleteProblemCategoryEvent
+import cz.vvoleman.phr.common.presentation.event.problemCategory.ExportProblemCategoryEvent
+import cz.vvoleman.phr.common.presentation.event.problemCategory.GetProblemCategoriesAdditionalInfoEvent
+import cz.vvoleman.phr.common.presentation.eventBus.CommonEventBus
+import cz.vvoleman.phr.common.presentation.eventBus.CommonListener
+import cz.vvoleman.phr.common.ui.export.usecase.DocumentPage
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -163,4 +165,10 @@ class DomainModule {
     fun providesGetDefaultProblemCategoryRepository(
         problemCategoryRepository: ProblemCategoryRepository
     ): GetDefaultProblemCategoryRepository = problemCategoryRepository
+
+    @Provides
+    fun providesExportProblemCategoryEventBusChannel(
+        commonEventBus: CommonEventBus
+    ): EventBusChannel<ExportProblemCategoryEvent, List<DocumentPage>> = commonEventBus.exportProblemCategoryBus
+
 }
