@@ -5,8 +5,8 @@ import cz.vvoleman.phr.featureMeasurement.ui.model.detail.FieldStatsUiModel
 
 class FieldStatsUiModelToPresentationMapper {
 
-    fun toPresentation(model: FieldStatsUiModel): FieldStatsUiModel {
-        return FieldStatsUiModel(
+    fun toPresentation(model: FieldStatsUiModel): FieldStatsPresentationModel {
+        return FieldStatsPresentationModel(
             fieldId = model.fieldId,
             name = model.name,
             unit = model.unit,

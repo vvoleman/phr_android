@@ -20,7 +20,11 @@ interface MeasurementGroupDao {
 
     @Transaction
     @Query("SELECT * FROM measurement_group WHERE problem_category_id = :problemCategoryId")
-    fun getByProblemCategory(problemCategoryId: Int): Flow<List<MeasurementGroupWithDetailsDataSourceModel>>
+    fun getByProblemCategory(problemCategoryId: String): Flow<List<MeasurementGroupWithDetailsDataSourceModel>>
+
+    @Transaction
+    @Query("SELECT * FROM measurement_group WHERE problem_category_id IN (:problemCategoryIds)")
+    fun getByProblemCategory(problemCategoryIds: List<String>): Flow<List<MeasurementGroupWithDetailsDataSourceModel>>
 
     @Transaction
     @Query("SELECT * FROM measurement_group WHERE id = :id")

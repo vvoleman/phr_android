@@ -47,4 +47,8 @@
     <string name="description_problem_category">Kategorie problémů</string>
     <string name="field_problem_category">Kategorie problému</string>
     <string name="no_next_schedule_error">Neexistuje žádné budoucí měření</string>
+    <string name="measurement_problem_category_detail_title">Měření</string>
+    <string name="measurement_problem_category_detail_description">Skupiny měření přiřazené k této kategorii</string>
+    <string name="last_entry_label">Poslední měření</string>
+    <string name="measurement_field_info">%s (%s)</string>
 </resources>

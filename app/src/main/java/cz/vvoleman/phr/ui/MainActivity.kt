@@ -25,6 +25,7 @@ import cz.vvoleman.phr.common.data.datasource.model.PatientDataStore
 import cz.vvoleman.phr.common.domain.repository.patient.GetPatientByIdRepository
 import cz.vvoleman.phr.common.presentation.eventBus.CommonListener
 import cz.vvoleman.phr.databinding.ActivityMainBinding
+import cz.vvoleman.phr.featureMeasurement.presentation.subscriber.MeasurementListener
 import cz.vvoleman.phr.featureMedicalRecord.presentation.subscriber.MedicalRecordListener
 import cz.vvoleman.phr.featureMedicine.presentation.subscriber.MedicineListener
 import dagger.hilt.android.AndroidEntryPoint
@@ -49,6 +50,9 @@ class MainActivity : AppCompatActivity() {
 
     @Inject
     lateinit var medicineListener: MedicineListener
+
+    @Inject
+    lateinit var measurementListener: MeasurementListener
 
     @Inject
     lateinit var patientDataStore: PatientDataStore
@@ -118,7 +122,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun getListeners(): List<ModuleListener> {
-        return listOf(commonListener, medicalRecordListener, medicineListener)
+        return listOf(commonListener, medicalRecordListener, medicineListener, measurementListener)
     }
 
     override fun onNewIntent(intent: Intent?) {
