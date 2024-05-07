@@ -13,9 +13,11 @@ import cz.vvoleman.phr.common.domain.model.problemCategory.request.DataDeleteTyp
 import cz.vvoleman.phr.common.presentation.event.GetMedicalFacilitiesAdditionalInfoEvent
 import cz.vvoleman.phr.common.presentation.event.GetMedicalWorkersAdditionalInfoEvent
 import cz.vvoleman.phr.common.presentation.event.problemCategory.DeleteProblemCategoryEvent
+import cz.vvoleman.phr.common.presentation.event.problemCategory.ExportProblemCategoryEvent
 import cz.vvoleman.phr.common.presentation.event.problemCategory.GetProblemCategoriesAdditionalInfoEvent
 import cz.vvoleman.phr.common.presentation.event.problemCategory.GetProblemCategoryDetailSectionEvent
 import cz.vvoleman.phr.common.presentation.eventBus.CommonEventBus
+import cz.vvoleman.phr.common.ui.export.usecase.DocumentPage
 import cz.vvoleman.phr.common.ui.view.problemCategory.detail.groupie.SectionContainer
 import cz.vvoleman.phr.common.utils.localizedDiff
 import cz.vvoleman.phr.featureMedicalRecord.R
@@ -25,7 +27,9 @@ import cz.vvoleman.phr.featureMedicalRecord.domain.repository.GetMedicalRecordBy
 import cz.vvoleman.phr.featureMedicalRecord.domain.repository.UpdateMedicalRecordProblemCategoryRepository
 import cz.vvoleman.phr.featureMedicalRecord.domain.usecase.DeleteMedicalRecordUseCase
 import cz.vvoleman.phr.featureMedicalRecord.presentation.mapper.core.MedicalRecordPresentationModelToDomainMapper
+import cz.vvoleman.phr.featureMedicalRecord.presentation.model.export.ExportMedicalRecordParamsPresentationModel
 import cz.vvoleman.phr.featureMedicalRecord.presentation.provider.ProblemCategoryDetailProvider
+import cz.vvoleman.phr.featureMedicalRecord.ui.view.export.MedicalRecordPage
 import java.time.LocalDate
 
 class MedicalRecordListener(
@@ -59,6 +63,26 @@ class MedicalRecordListener(
         commonEventBus.getCategoryDetailSection.addListener(TAG) {
             return@addListener onGetProblemCategoryDetailSectionEvent(it)
         }
+        commonEventBus.exportProblemCategoryBus.addListener(TAG) {
+            return@addListener onExportProblemCategoryEvent(it)
+        }
+    }
+
+    private suspend fun onExportProblemCategoryEvent(event: ExportProblemCategoryEvent): List<DocumentPage> {
+        val medicalRecords = getMedicalRecordByCategoryRepository
+            .getMedicalRecordByProblemCategory(event.problemCategory.id)
+            .map { medicalRecordMapper.toPresentation(it) }
+
+        val pages = medicalRecords.map { record ->
+            record.assets.map {
+                ExportMedicalRecordParamsPresentationModel(
+                    medicalRecord = record,
+                    asset = it
+                )
+            }
+        }.flatten()
+
+        return pages.map { MedicalRecordPage(it, context) }
     }
 
     private suspend fun onGetMedicalWorkersAdditionalInfoEvent(

@@ -8,12 +8,15 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import cz.vvoleman.phr.base.ui.mapper.ViewStateBinder
-import cz.vvoleman.phr.base.ui.view.BaseFragment
 import cz.vvoleman.phr.common.presentation.model.problemCategory.detail.DetailProblemCategoryNotification
 import cz.vvoleman.phr.common.presentation.model.problemCategory.detail.DetailProblemCategoryViewState
+import cz.vvoleman.phr.common.presentation.model.problemCategory.export.ProblemCategoryParams
 import cz.vvoleman.phr.common.presentation.viewmodel.problemCategory.DetailProblemCategoryViewModel
+import cz.vvoleman.phr.common.ui.export.usecase.DocumentPage
 import cz.vvoleman.phr.common.ui.export.usecase.ExportPdfHelper
 import cz.vvoleman.phr.common.ui.mapper.problemCategory.destination.DetailProblemCategoryDestinationUiMapper
+import cz.vvoleman.phr.common.ui.view.BaseExportFragment
+import cz.vvoleman.phr.common.ui.view.problemCategory.export.ProblemCategoryDocumentPage
 import cz.vvoleman.phr.common_datasource.R
 import cz.vvoleman.phr.common_datasource.databinding.FragmentDetailProblemCategoryBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -22,7 +25,7 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class DetailProblemCategoryFragment :
-    BaseFragment<DetailProblemCategoryViewState, DetailProblemCategoryNotification, FragmentDetailProblemCategoryBinding>() {
+    BaseExportFragment<DetailProblemCategoryViewState, DetailProblemCategoryNotification, FragmentDetailProblemCategoryBinding>() {
 
     override val viewModel: DetailProblemCategoryViewModel by viewModels()
 
@@ -82,9 +85,17 @@ class DetailProblemCategoryFragment :
     override fun handleNotification(notification: DetailProblemCategoryNotification) {
         when (notification) {
             is DetailProblemCategoryNotification.ExportPdf -> {
-                showSnackbar("Temporarily disabled")
-//                _exportPdfHelper?.run()
+                val pages = mutableListOf(getTitlePage(notification.params))
+                pages.addAll(notification.pages)
+                launchExport(pages)
+            }
+            is DetailProblemCategoryNotification.ExportEmpty -> {
+                showSnackbar(R.string.error_no_data_to_export)
             }
         }
+    }
+
+    private fun getTitlePage(params: ProblemCategoryParams): DocumentPage {
+        return ProblemCategoryDocumentPage(params)
     }
 }

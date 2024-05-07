@@ -7,6 +7,7 @@ import cz.vvoleman.phr.base.presentation.viewmodel.BaseViewModel
 import cz.vvoleman.phr.base.presentation.viewmodel.usecase.UseCaseExecutorProvider
 import cz.vvoleman.phr.common.domain.repository.problemCategory.GetProblemCategoryByIdRepository
 import cz.vvoleman.phr.common.domain.usecase.patient.GetSelectedPatientUseCase
+import cz.vvoleman.phr.common.presentation.event.problemCategory.ExportProblemCategoryEvent
 import cz.vvoleman.phr.common.presentation.event.problemCategory.GetProblemCategoryDetailSectionEvent
 import cz.vvoleman.phr.common.presentation.mapper.PatientPresentationModelToDomainMapper
 import cz.vvoleman.phr.common.presentation.mapper.problemCategory.ProblemCategoryPresentationModelToDomainMapper
@@ -14,7 +15,8 @@ import cz.vvoleman.phr.common.presentation.model.patient.PatientPresentationMode
 import cz.vvoleman.phr.common.presentation.model.problemCategory.ProblemCategoryPresentationModel
 import cz.vvoleman.phr.common.presentation.model.problemCategory.detail.DetailProblemCategoryNotification
 import cz.vvoleman.phr.common.presentation.model.problemCategory.detail.DetailProblemCategoryViewState
-import cz.vvoleman.phr.common.presentation.model.problemCategory.detail.ExportDetailProblemCategoryParams
+import cz.vvoleman.phr.common.presentation.model.problemCategory.export.ProblemCategoryParams
+import cz.vvoleman.phr.common.ui.export.usecase.DocumentPage
 import cz.vvoleman.phr.common.ui.view.problemCategory.detail.groupie.SectionContainer
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.first
@@ -24,6 +26,7 @@ import javax.inject.Inject
 @HiltViewModel
 class DetailProblemCategoryViewModel @Inject constructor(
     private val detailSectionEventBus: EventBusChannel<GetProblemCategoryDetailSectionEvent, List<SectionContainer>>,
+    private val exportProblemCategoryEventBus: EventBusChannel<ExportProblemCategoryEvent, List<DocumentPage>>,
     private val getSelectedPatientUseCase: GetSelectedPatientUseCase,
     private val getProblemCategoryByIdRepository: GetProblemCategoryByIdRepository,
     private val problemCategoryMapper: ProblemCategoryPresentationModelToDomainMapper,
@@ -37,12 +40,14 @@ class DetailProblemCategoryViewModel @Inject constructor(
     override val TAG = "DetailProblemCategoryViewModel"
 
     override suspend fun initState(): DetailProblemCategoryViewState {
+        val patient = getSelectedPatient()
         val problemCategory = getProblemCategory()
         val sections = getDetailSection(problemCategory)
         val createdAt = problemCategory.createdAt
         val updatedAt = sections.mapNotNull { it.updatedAt }.maxOrNull()
 
         return DetailProblemCategoryViewState(
+            patient = patient,
             problemCategory = problemCategory,
             sections = sections,
             createdAt = createdAt.toLocalDate(),
@@ -73,11 +78,23 @@ class DetailProblemCategoryViewModel @Inject constructor(
     }
 
     fun onExport() = viewModelScope.launch{
-        val params = ExportDetailProblemCategoryParams(
+        val event = ExportProblemCategoryEvent(
             problemCategory = currentViewState.problemCategory,
-            patient = getSelectedPatient()
+        )
+        val results = exportProblemCategoryEventBus
+            .pushEvent(event)
+            .flatten()
+
+        if (results.isEmpty()) {
+            notify(DetailProblemCategoryNotification.ExportEmpty)
+            return@launch
+        }
+
+        val params = ProblemCategoryParams(
+            problemCategory = currentViewState.problemCategory,
+            patient = currentViewState.patient
         )
 
-        notify(DetailProblemCategoryNotification.ExportPdf(params))
+        notify(DetailProblemCategoryNotification.ExportPdf(params, results))
     }
 }
