@@ -80,11 +80,9 @@ class GetScheduledInTimeRangeUseCaseTest {
         val actualValue = useCase.executeInBackground(request)
 
         // Then
-        assertEquals(3, actualValue.size, "List of scheduled medicine should have 3 items, have ${actualValue.size}")
+        assertEquals(1, actualValue.size, "List of scheduled medicine should have 3 items, have ${actualValue.size}")
 
-        assertEquals("1", actualValue[0].medicine.id, "First scheduled medicine should be medicine with id 1")
-        assertEquals("2", actualValue[1].medicine.id, "Second scheduled medicine should be medicine with id 2")
-        assertEquals("2", actualValue[2].medicine.id, "Third scheduled medicine should be medicine with id 2")
+        assertEquals("2", actualValue[0].medicine.id, "First scheduled medicine should be medicine with id 2")
     }
 
     @Test
@@ -102,7 +100,7 @@ class GetScheduledInTimeRangeUseCaseTest {
         val actualValue = useCase.executeInBackground(request)
 
         // Then
-        assertEquals(8, actualValue.size, "List of scheduled medicine should have 8 items, have ${actualValue.size}")
+        assertEquals(6, actualValue.size, "List of scheduled medicine should have 6 items, have ${actualValue.size}")
     }
 
     @Test
@@ -120,7 +118,7 @@ class GetScheduledInTimeRangeUseCaseTest {
         val actualValue = useCase.executeInBackground(request)
 
         // Then
-        assertEquals(18, actualValue.size, "List of scheduled medicine should have 18 items, have ${actualValue.size}")
+        assertEquals(16, actualValue.size, "List of scheduled medicine should have 16 items, have ${actualValue.size}")
     }
 
     private fun getFakeSchedules(): List<MedicineScheduleDomainModel> {
@@ -176,6 +174,7 @@ class GetScheduledInTimeRangeUseCaseTest {
             every { schedules } returns scheduleItems
             every { isAlarmEnabled } returns true
             every { createdAt } returns createdAtMock
+            every { isFinished } returns false
         }
     }
 

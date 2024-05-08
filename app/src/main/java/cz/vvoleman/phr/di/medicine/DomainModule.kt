@@ -7,7 +7,6 @@ import cz.vvoleman.phr.featureMedicine.domain.repository.DeleteMedicineScheduleR
 import cz.vvoleman.phr.featureMedicine.domain.repository.DeleteScheduleAlarmRepository
 import cz.vvoleman.phr.featureMedicine.domain.repository.GetMedicineByIdRepository
 import cz.vvoleman.phr.featureMedicine.domain.repository.GetMedicineScheduleByIdRepository
-import cz.vvoleman.phr.featureMedicine.domain.repository.GetSchedulesByMedicineRepository
 import cz.vvoleman.phr.featureMedicine.domain.repository.SaveMedicineScheduleRepository
 import cz.vvoleman.phr.featureMedicine.domain.repository.ScheduleMedicineRepository
 import cz.vvoleman.phr.featureMedicine.domain.repository.SearchMedicineRepository
@@ -23,7 +22,6 @@ import cz.vvoleman.phr.featureMedicine.domain.usecase.SaveMedicineScheduleUseCas
 import cz.vvoleman.phr.featureMedicine.domain.usecase.ScheduleMedicineAlertUseCase
 import cz.vvoleman.phr.featureMedicine.domain.usecase.SearchMedicineUseCase
 import cz.vvoleman.phr.featureMedicine.domain.usecase.ToggleScheduleAlarmUseCase
-import cz.vvoleman.phr.featureMedicine.domain.usecase.export.GetDataForExportUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -126,17 +124,6 @@ class DomainModule {
         getMedicineScheduleByIdRepository,
         deleteMedicineScheduleRepository,
         deleteScheduleAlarmRepository,
-        coroutineContextProvider
-    )
-
-    @Provides
-    fun providesGetDataForExportUseCase(
-        getSchedulesByMedicineRepository: GetSchedulesByMedicineRepository,
-        getSchedulesByPatientRepository: GetSchedulesByPatientRepository,
-        coroutineContextProvider: CoroutineContextProvider
-    ) = GetDataForExportUseCase(
-        getSchedulesByMedicineRepository,
-        getSchedulesByPatientRepository,
         coroutineContextProvider
     )
 
