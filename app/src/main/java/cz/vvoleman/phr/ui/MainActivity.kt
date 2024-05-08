@@ -122,7 +122,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun getListeners(): List<ModuleListener> {
-        return listOf(commonListener, medicalRecordListener, medicineListener, measurementListener)
+        return listOf(
+            medicalRecordListener,
+            medicineListener,
+            measurementListener,
+            commonListener
+        )
     }
 
     override fun onNewIntent(intent: Intent?) {

@@ -95,9 +95,6 @@ dependencies {
     // OCR
     implementation(libs.textRecognition)
 
-    // Event Bus
-    implementation(libs.eventBus)
-
     // Graphs
     implementation(libs.vico.core)
     implementation(libs.vico.views)

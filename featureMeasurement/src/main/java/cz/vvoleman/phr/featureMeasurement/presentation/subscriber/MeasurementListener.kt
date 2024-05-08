@@ -3,6 +3,7 @@ package cz.vvoleman.phr.featureMeasurement.presentation.subscriber
 import android.net.Uri
 import cz.vvoleman.phr.base.domain.ModuleListener
 import cz.vvoleman.phr.common.domain.model.problemCategory.request.DataDeleteType
+import cz.vvoleman.phr.common.presentation.event.DeletePatientEvent
 import cz.vvoleman.phr.common.presentation.event.problemCategory.DeleteProblemCategoryEvent
 import cz.vvoleman.phr.common.presentation.event.problemCategory.ExportProblemCategoryEvent
 import cz.vvoleman.phr.common.presentation.event.problemCategory.GetProblemCategoryDetailSectionEvent
@@ -11,6 +12,7 @@ import cz.vvoleman.phr.common.ui.export.usecase.DocumentPage
 import cz.vvoleman.phr.common.ui.view.problemCategory.detail.groupie.SectionContainer
 import cz.vvoleman.phr.featureMeasurement.domain.model.detail.GetFieldStatsRequest
 import cz.vvoleman.phr.featureMeasurement.domain.model.list.DeleteMeasurementGroupRequest
+import cz.vvoleman.phr.featureMeasurement.domain.repository.GetMeasurementGroupsByPatientRepository
 import cz.vvoleman.phr.featureMeasurement.domain.repository.GetMeasurementGroupsByProblemCategoryRepository
 import cz.vvoleman.phr.featureMeasurement.domain.repository.UpdateMeasurementGroupProblemCategoryRepository
 import cz.vvoleman.phr.featureMeasurement.domain.usecase.detail.GetFieldStatsUseCase
@@ -28,6 +30,7 @@ class MeasurementListener(
     private val deleteMeasurementGroupUseCase: DeleteMeasurementGroupUseCase,
     private val updateMeasurementGroupProblemCategoryRepository: UpdateMeasurementGroupProblemCategoryRepository,
     private val getMeasurementsByProblemCategoryRepository: GetMeasurementGroupsByProblemCategoryRepository,
+    private val getMeasurementByPatientRepository: GetMeasurementGroupsByPatientRepository,
     private val measurementGroupMapper: MeasurementGroupPresentationModelToDomainMapper,
     private val entryMapper: EntryInfoUiModelToMeasurementGroupMapper,
     private val fieldStatsMapper: FieldStatsPresentationModelToDomainMapper,
@@ -50,6 +53,20 @@ class MeasurementListener(
         commonEventBus.deleteProblemCategoryBus.addListener(TAG) {
             return@addListener onDeleteProblemCategory(it)
         }
+
+        commonEventBus.deletePatientBus.addListener(TAG) {
+            return@addListener onDeletePatientEvent(it)
+        }
+    }
+
+    private suspend fun onDeletePatientEvent(event: DeletePatientEvent) {
+        getMeasurementByPatientRepository
+            .getMeasurementGroupsByPatient(event.patient.id)
+            .forEach {
+                deleteMeasurementGroupUseCase.executeInBackground(DeleteMeasurementGroupRequest(
+                    measurementGroup = it
+                ))
+            }
     }
 
     private suspend fun onDeleteProblemCategory(event: DeleteProblemCategoryEvent) {

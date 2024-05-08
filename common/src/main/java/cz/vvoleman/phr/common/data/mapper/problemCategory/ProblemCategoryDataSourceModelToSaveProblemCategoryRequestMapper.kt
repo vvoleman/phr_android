@@ -12,7 +12,8 @@ class ProblemCategoryDataSourceModelToSaveProblemCategoryRequestMapper {
             name = model.name,
             createdAt = model.createdAt ?: LocalDateTime.now(),
             color = model.color,
-            patientId = model.patientId.toInt()
+            patientId = model.patientId.toInt(),
+            isDefault = model.isDefault,
         )
     }
 

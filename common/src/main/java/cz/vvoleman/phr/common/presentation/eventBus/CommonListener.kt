@@ -3,16 +3,20 @@ package cz.vvoleman.phr.common.presentation.eventBus
 import android.content.Context
 import android.util.Log
 import cz.vvoleman.phr.base.domain.ModuleListener
-import cz.vvoleman.phr.common.presentation.event.GetMedicalFacilitiesAdditionalInfoEvent
-import cz.vvoleman.phr.common.presentation.event.GetMedicalWorkersAdditionalInfoEvent
-import cz.vvoleman.phr.common.presentation.event.problemCategory.GetProblemCategoriesAdditionalInfoEvent
 import cz.vvoleman.phr.common.domain.model.healthcare.AdditionalInfoDomainModel
 import cz.vvoleman.phr.common.domain.model.healthcare.facility.MedicalFacilityDomainModel
 import cz.vvoleman.phr.common.domain.model.healthcare.worker.MedicalWorkerDomainModel
 import cz.vvoleman.phr.common.domain.model.problemCategory.ProblemCategoryDomainModel
 import cz.vvoleman.phr.common.domain.model.problemCategory.ProblemCategoryInfoDomainModel
+import cz.vvoleman.phr.common.domain.repository.healthcare.DeleteMedicalWorkerRepository
 import cz.vvoleman.phr.common.domain.repository.healthcare.GetFacilityByIdRepository
 import cz.vvoleman.phr.common.domain.repository.healthcare.GetSpecificMedicalWorkersRepository
+import cz.vvoleman.phr.common.domain.repository.problemCategory.DeleteProblemCategoryRepository
+import cz.vvoleman.phr.common.domain.repository.problemCategory.GetProblemCategoriesRepository
+import cz.vvoleman.phr.common.presentation.event.DeletePatientEvent
+import cz.vvoleman.phr.common.presentation.event.GetMedicalFacilitiesAdditionalInfoEvent
+import cz.vvoleman.phr.common.presentation.event.GetMedicalWorkersAdditionalInfoEvent
+import cz.vvoleman.phr.common.presentation.event.problemCategory.GetProblemCategoriesAdditionalInfoEvent
 import cz.vvoleman.phr.common_datasource.R
 
 class CommonListener(
@@ -20,6 +24,9 @@ class CommonListener(
     private val context: Context,
     private val getSpecificMedicalWorkersRepository: GetSpecificMedicalWorkersRepository,
     private val getFacilityByIdRepository: GetFacilityByIdRepository,
+    private val getProblemCategoriesRepository: GetProblemCategoriesRepository,
+    private val deleteMedicalWorkerRepository: DeleteMedicalWorkerRepository,
+    private val deleteProblemCategoryRepository: DeleteProblemCategoryRepository
 ) : ModuleListener() {
 
     override val TAG: String = "CommonListener"
@@ -27,20 +34,38 @@ class CommonListener(
     override suspend fun onInit() {
         super.onInit()
 
-        CommonEventBus.getWorkerAdditionalInfoBus.addListener(TAG) {
+        commonEventBus.getWorkerAdditionalInfoBus.addListener(TAG) {
             Log.d(TAG, "onGetMedicalWorkersAdditionalInfoEvent")
             return@addListener onGetMedicalWorkersAdditionalInfoEvent(it)
         }
 
-        CommonEventBus.getFacilityAdditionalInfoBus.addListener(TAG) {
+        commonEventBus.getFacilityAdditionalInfoBus.addListener(TAG) {
             Log.d(TAG, "onGetMedicalFacilitiesAdditionalInfoEvent")
             return@addListener onGetMedicalFacilitiesAdditionalInfoEvent(it)
         }
 
-        CommonEventBus.getCategoryAdditionalInfoBus.addListener(TAG) {
+        commonEventBus.getCategoryAdditionalInfoBus.addListener(TAG) {
             Log.d(TAG, "onGetProblemCategoriesAdditionalInfoEvent")
             return@addListener onGetProblemCategoriesAdditionalInfoEvent(it)
         }
+
+        commonEventBus.deletePatientBus.addListener(TAG) {
+            return@addListener onDeletePatientEvent(it)
+        }
+    }
+
+    private suspend fun onDeletePatientEvent(event: DeletePatientEvent) {
+        getSpecificMedicalWorkersRepository
+            .getSpecificMedicalWorkersByPatient(event.patient.id)
+            .forEach {
+                deleteMedicalWorkerRepository.deleteMedicalWorker(it.medicalWorker)
+            }
+
+        getProblemCategoriesRepository
+            .getProblemCategories(event.patient.id)
+            .forEach {
+                deleteProblemCategoryRepository.deleteProblemCategory(it.id)
+            }
     }
 
     private suspend fun onGetMedicalWorkersAdditionalInfoEvent(

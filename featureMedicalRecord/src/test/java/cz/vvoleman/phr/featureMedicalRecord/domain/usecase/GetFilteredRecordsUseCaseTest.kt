@@ -4,11 +4,10 @@ import cz.vvoleman.phr.base.domain.coroutine.CoroutineContextProvider
 import cz.vvoleman.phr.common.domain.GroupedItemsDomainModel
 import cz.vvoleman.phr.common.domain.model.healthcare.service.MedicalServiceDomainModel
 import cz.vvoleman.phr.common.domain.model.healthcare.worker.SpecificMedicalWorkerDomainModel
+import cz.vvoleman.phr.common.domain.model.patient.PatientDomainModel
+import cz.vvoleman.phr.common.domain.model.problemCategory.ProblemCategoryDomainModel
 import cz.vvoleman.phr.common.domain.repository.patient.GetSelectedPatientRepository
 import cz.vvoleman.phr.featureMedicalRecord.domain.model.MedicalRecordDomainModel
-import cz.vvoleman.phr.featureMedicalRecord.domain.model.MedicalWorkerDomainModel
-import cz.vvoleman.phr.featureMedicalRecord.domain.model.PatientDomainModel
-import cz.vvoleman.phr.featureMedicalRecord.domain.model.ProblemCategoryDomainModel
 import cz.vvoleman.phr.featureMedicalRecord.domain.model.list.FilterRequestDomainModel
 import cz.vvoleman.phr.featureMedicalRecord.domain.model.list.GroupByDomainModel
 import cz.vvoleman.phr.featureMedicalRecord.domain.model.list.SortByDomainModel
@@ -24,6 +23,7 @@ import org.mockito.Mock
 import org.mockito.junit.jupiter.MockitoExtension
 import org.mockito.kotlin.given
 import java.time.LocalDate
+import java.time.LocalDateTime
 
 @ExtendWith(MockitoExtension::class)
 @OptIn(ExperimentalCoroutinesApi::class)
@@ -218,7 +218,9 @@ class GetFilteredRecordsUseCaseTest {
                 id = "1",
                 name = category,
                 color = "#000000",
-                patientId = "1"
+                patientId = "1",
+                createdAt = LocalDateTime.now(),
+                isDefault = false
             ),
             specificMedicalWorker = SpecificMedicalWorkerDomainModel(
                 id = "1",

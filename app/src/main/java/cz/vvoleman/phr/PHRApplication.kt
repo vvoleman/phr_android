@@ -9,7 +9,6 @@ import cz.vvoleman.phr.featureEvent.data.alarm.receiver.event.EventAlarmReceiver
 import cz.vvoleman.phr.featureMeasurement.data.alarm.receiver.measurementGroup.MeasurementGroupAlarmReceiver
 import cz.vvoleman.phr.featureMedicine.data.alarm.MedicineAlarmReceiver
 import dagger.hilt.android.HiltAndroidApp
-import org.greenrobot.eventbus.EventBus
 
 @HiltAndroidApp
 class PHRApplication : Application() {
@@ -18,7 +17,6 @@ class PHRApplication : Application() {
         super.onCreate()
 
         createNotificationChannel()
-        EventBus.builder().build()
     }
 
     private fun createNotificationChannel() {

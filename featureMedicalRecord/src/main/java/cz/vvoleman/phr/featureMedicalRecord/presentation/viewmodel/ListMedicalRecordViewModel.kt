@@ -10,7 +10,6 @@ import cz.vvoleman.phr.common.domain.model.healthcare.worker.MedicalWorkerDomain
 import cz.vvoleman.phr.common.domain.model.patient.PatientDomainModel
 import cz.vvoleman.phr.common.domain.model.problemCategory.ProblemCategoryDomainModel
 import cz.vvoleman.phr.common.domain.usecase.patient.GetSelectedPatientUseCase
-import cz.vvoleman.phr.common.presentation.event.PatientDeletedEvent
 import cz.vvoleman.phr.common.ui.model.FilterPair
 import cz.vvoleman.phr.featureMedicalRecord.domain.model.MedicalRecordDomainModel
 import cz.vvoleman.phr.featureMedicalRecord.domain.model.list.GroupByDomainModel
@@ -138,11 +137,6 @@ class ListMedicalRecordViewModel @Inject constructor(
                 Log.d(TAG, "onFilterOptionsToggle other: ${option.objectValue}")
             }
         }
-    }
-
-    fun onEventPatientDeleted(event: PatientDeletedEvent) = viewModelScope.launch {
-        Log.d(TAG, "Patient deleted: ${event.patient.id}")
-        deletePatientUseCase.execute(event.patient) {}
     }
 
     fun onSelect() {

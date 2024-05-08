@@ -18,8 +18,6 @@ class DeletePatientUseCase(
 
     override suspend fun executeInBackground(request: PatientDomainModel) {
         deleteMedicalRecordAssetsRepository.deleteMedicalRecordAssets(request.id)
-        deleteMedicalWorkersRepository.deleteMedicalWorkers(request.id)
-        deleteProblemCategoriesRepository.deleteProblemCategories(request.id)
         deleteMedicalRecordsRepository.deleteMedicalRecords(request.id)
     }
 }

@@ -1,7 +1,7 @@
 package cz.vvoleman.phr.featureMedicalRecord.domain.usecase
 
 import cz.vvoleman.phr.base.domain.coroutine.CoroutineContextProvider
-import cz.vvoleman.phr.featureMedicalRecord.domain.model.MedicalWorkerDomainModel
+import cz.vvoleman.phr.common.domain.model.healthcare.worker.MedicalWorkerDomainModel
 import cz.vvoleman.phr.featureMedicalRecord.domain.repository.GetUsedMedicalWorkersRepository
 import cz.vvoleman.phr.featureMedicalRecord.test.coroutine.FakeCoroutineContextProvider
 import kotlinx.coroutines.ExperimentalCoroutinesApi

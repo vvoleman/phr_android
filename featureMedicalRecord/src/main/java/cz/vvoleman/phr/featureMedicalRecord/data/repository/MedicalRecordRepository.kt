@@ -16,6 +16,7 @@ import cz.vvoleman.phr.featureMedicalRecord.domain.repository.AddEditMedicalReco
 import cz.vvoleman.phr.featureMedicalRecord.domain.repository.DeleteMedicalRecordRepository
 import cz.vvoleman.phr.featureMedicalRecord.domain.repository.GetMedicalRecordByFacilityRepository
 import cz.vvoleman.phr.featureMedicalRecord.domain.repository.GetMedicalRecordByMedicalWorkerRepository
+import cz.vvoleman.phr.featureMedicalRecord.domain.repository.GetMedicalRecordByPatientRepository
 import cz.vvoleman.phr.featureMedicalRecord.domain.repository.GetMedicalRecordByProblemCategoryRepository
 import cz.vvoleman.phr.featureMedicalRecord.domain.repository.GetRecordByIdRepository
 import cz.vvoleman.phr.featureMedicalRecord.domain.repository.MedicalRecordFilterRepository
@@ -31,6 +32,7 @@ class MedicalRecordRepository(
 ) : AddEditMedicalRecordRepository,
     MedicalRecordFilterRepository,
     GetRecordByIdRepository,
+    GetMedicalRecordByPatientRepository,
     GetMedicalRecordByMedicalWorkerRepository,
     GetMedicalRecordByFacilityRepository,
     GetMedicalRecordByProblemCategoryRepository,
@@ -115,6 +117,12 @@ class MedicalRecordRepository(
         patientId: String
     ): List<MedicalRecordDomainModel> {
         return medicalRecordDao.getByFacility(facilityId, patientId).first()
+            .map { medicalRecordDataSourceToDomainMapper.toDomain(it) }
+    }
+
+    override suspend fun getMedicalRecordByPatient(patientId: String): List<MedicalRecordDomainModel> {
+        return medicalRecordDao
+            .getByPatientId(patientId).first()
             .map { medicalRecordDataSourceToDomainMapper.toDomain(it) }
     }
 

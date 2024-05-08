@@ -5,6 +5,7 @@ import cz.vvoleman.phr.base.domain.coroutine.CoroutineContextProvider
 import cz.vvoleman.phr.common.domain.repository.healthcare.GetSpecificMedicalWorkersRepository
 import cz.vvoleman.phr.common.domain.repository.patient.GetPatientByIdRepository
 import cz.vvoleman.phr.common.domain.repository.patient.GetSelectedPatientRepository
+import cz.vvoleman.phr.common.domain.repository.problemCategory.GetProblemCategoriesRepository
 import cz.vvoleman.phr.common.presentation.eventBus.CommonEventBus
 import cz.vvoleman.phr.common.presentation.mapper.PatientPresentationModelToDomainMapper
 import cz.vvoleman.phr.common.presentation.mapper.healthcare.SpecificMedicalWorkerPresentationModelToDomainMapper
@@ -15,8 +16,8 @@ import cz.vvoleman.phr.featureMedicalRecord.domain.repository.CreateMedicalRecor
 import cz.vvoleman.phr.featureMedicalRecord.domain.repository.GetDiagnoseByIdRepository
 import cz.vvoleman.phr.featureMedicalRecord.domain.repository.GetMedicalRecordByFacilityRepository
 import cz.vvoleman.phr.featureMedicalRecord.domain.repository.GetMedicalRecordByMedicalWorkerRepository
+import cz.vvoleman.phr.featureMedicalRecord.domain.repository.GetMedicalRecordByPatientRepository
 import cz.vvoleman.phr.featureMedicalRecord.domain.repository.GetMedicalRecordByProblemCategoryRepository
-import cz.vvoleman.phr.featureMedicalRecord.domain.repository.GetProblemCategoriesForPatientRepository
 import cz.vvoleman.phr.featureMedicalRecord.domain.repository.GetRecordByIdRepository
 import cz.vvoleman.phr.featureMedicalRecord.domain.repository.GetUsedMedicalWorkersRepository
 import cz.vvoleman.phr.featureMedicalRecord.domain.repository.GetUsedProblemCategoriesRepository
@@ -43,7 +44,6 @@ import cz.vvoleman.phr.featureMedicalRecord.presentation.mapper.addEdit.AddEditP
 import cz.vvoleman.phr.featureMedicalRecord.presentation.mapper.addEdit.AddEditViewStateToModelMapper
 import cz.vvoleman.phr.featureMedicalRecord.presentation.mapper.addEdit.AssetPresentationToDomainModelMapper
 import cz.vvoleman.phr.featureMedicalRecord.presentation.mapper.addEdit.DiagnosePresentationModelToDomainMapper
-import cz.vvoleman.phr.featureMedicalRecord.presentation.mapper.addEdit.PatientDomainModelToPresentationMapper
 import cz.vvoleman.phr.featureMedicalRecord.presentation.mapper.core.MedicalRecordAssetPresentationModelToDomainMapper
 import cz.vvoleman.phr.featureMedicalRecord.presentation.mapper.core.MedicalRecordPresentationModelToDomainMapper
 import cz.vvoleman.phr.featureMedicalRecord.presentation.mapper.list.ListViewStateToDomainMapper
@@ -89,9 +89,6 @@ class PresentationModule {
         getUsedMedicalWorkersRepository,
         coroutineContextProvider
     )
-
-    @Provides
-    fun providesPatientDomainToPresentationMapper() = PatientDomainModelToPresentationMapper()
 
     @Provides
     fun providesListViewStateToDomainMapper() = ListViewStateToDomainMapper()
@@ -145,11 +142,11 @@ class PresentationModule {
 
     @Provides
     fun providesGetUserListsUseCase(
-        getProblemCategoriesForPatientRepository: GetProblemCategoriesForPatientRepository,
+        getProblemCategoriesRepository: GetProblemCategoriesRepository,
         getSpecificMedicalWorkersRepository: GetSpecificMedicalWorkersRepository,
         coroutineContextProvider: CoroutineContextProvider
     ) = GetUserListsUseCase(
-        getProblemCategoriesForPatientRepository,
+        getProblemCategoriesRepository,
         getSpecificMedicalWorkersRepository,
         coroutineContextProvider
     )
@@ -230,7 +227,8 @@ class PresentationModule {
         deleteMedicalRecordUseCase: DeleteMedicalRecordUseCase,
         @ApplicationContext context: Context,
         medicalRecordMapper: MedicalRecordPresentationModelToDomainMapper,
-        problemCategoryDetailProvider: ProblemCategoryDetailProvider
+        problemCategoryDetailProvider: ProblemCategoryDetailProvider,
+        getMedicalRecordByPatientRepository: GetMedicalRecordByPatientRepository,
     ) = MedicalRecordListener(
         commonEventBus = commonBus,
         problemCategoryDetailProvider = problemCategoryDetailProvider,
@@ -241,5 +239,6 @@ class PresentationModule {
         deleteMedicalRecordUseCase = deleteMedicalRecordUseCase,
         medicalRecordMapper = medicalRecordMapper,
         context = context,
+        getMedicalRecordByPatientRepository = getMedicalRecordByPatientRepository
     )
 }

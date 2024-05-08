@@ -106,9 +106,6 @@ dependencies {
     // Material
     implementation(libs.material)
 
-    // Event Bus
-    implementation(libs.eventBus)
-
     // Groupie
     implementation(libs.groupie.core)
     implementation(libs.groupie.viewbinding)
