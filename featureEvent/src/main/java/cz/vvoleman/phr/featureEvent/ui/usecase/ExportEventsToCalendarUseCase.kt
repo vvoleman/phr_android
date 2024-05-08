@@ -8,6 +8,8 @@ import android.provider.CalendarContract
 import android.util.Log
 import androidx.core.content.ContextCompat
 import cz.vvoleman.phr.featureEvent.ui.model.core.EventUiModel
+import java.time.Instant
+import java.time.ZoneId
 import java.time.ZoneOffset
 
 class ExportEventsToCalendarUseCase(
@@ -24,10 +26,12 @@ class ExportEventsToCalendarUseCase(
 
 
         for (event in events) {
+            val endAt = event.endAt ?: event.startAt.plusHours(1)
+            val zoneOffset = ZoneId.of("Europe/Prague").rules.getOffset(Instant.now())
             val values = ContentValues().apply {
-                put(CalendarContract.Events.DTSTART, event.startAt.toEpochSecond(ZoneOffset.UTC) * 1000L)
-                put(CalendarContract.Events.DTEND, event.endAt?.toEpochSecond(ZoneOffset.UTC)?.times(1000L))
-                put(CalendarContract.Events.DURATION, "P1H")
+                put(CalendarContract.Events.DTSTART, event.startAt.toEpochSecond(zoneOffset) * 1000L)
+                put(CalendarContract.Events.DTEND, endAt.toEpochSecond(zoneOffset) * 1000L)
+//                put(CalendarContract.Events.DURATION, "P1H")
                 put(CalendarContract.Events.TITLE, event.name)
                 put(CalendarContract.Events.DESCRIPTION, event.description)
                 put(CalendarContract.Events.EVENT_LOCATION, event.specificMedicalWorker?.medicalWorker?.name)

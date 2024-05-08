@@ -128,7 +128,11 @@ class ListEventFragment : BaseFragment<ListEventViewState, ListEventNotification
         when(notification) {
             is ListEventNotification.ExportEvents -> {
                 lifecycleScope.launch {
-                    exportUseCase.execute(eventMapper.toUi(notification.events))
+                    try {
+                        exportUseCase.execute(eventMapper.toUi(notification.events))
+                    } catch (e: Exception) {
+                        showSnackbar(R.string.error_export_events)
+                    }
                 }
             }
             is ListEventNotification.EventDeleted -> {
