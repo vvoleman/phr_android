@@ -1,5 +1,6 @@
 package cz.vvoleman.phr.di.medicine
 
+import android.content.Context
 import cz.vvoleman.phr.common.presentation.eventBus.CommonEventBus
 import cz.vvoleman.phr.common.presentation.mapper.PatientPresentationModelToDomainMapper
 import cz.vvoleman.phr.common.presentation.mapper.problemCategory.ProblemCategoryPresentationModelToDomainMapper
@@ -17,9 +18,11 @@ import cz.vvoleman.phr.featureMedicine.presentation.list.mapper.SubstanceAmountP
 import cz.vvoleman.phr.featureMedicine.presentation.list.mapper.SubstancePresentationModelToDomainMapper
 import cz.vvoleman.phr.featureMedicine.presentation.provider.ProblemCategoryDetailProvider
 import cz.vvoleman.phr.featureMedicine.presentation.subscriber.MedicineListener
+import cz.vvoleman.phr.featureMedicine.ui.list.mapper.MedicineScheduleUiModelToPresentationMapper
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 
 @Module
@@ -123,13 +126,17 @@ class PresentationModule {
         commonEventBus: CommonEventBus,
         getSchedulesByProblemCategoryRepository: GetSchedulesByProblemCategoryRepository,
         problemCategoryDetailProvider: ProblemCategoryDetailProvider,
-        scheduleMapper: MedicineSchedulePresentationModelToDomainMapper
+        scheduleMapper: MedicineSchedulePresentationModelToDomainMapper,
+        scheduleUiMapper: MedicineScheduleUiModelToPresentationMapper,
+        @ApplicationContext context: Context
     ): MedicineListener {
         return MedicineListener(
             commonEventBus = commonEventBus,
             getSchedulesByProblemCategoryRepository = getSchedulesByProblemCategoryRepository,
             problemCategoryDetailProvider = problemCategoryDetailProvider,
-            scheduleMapper = scheduleMapper
+            scheduleMapper = scheduleMapper,
+            scheduleUiMapper = scheduleUiMapper,
+            context = context,
         )
     }
 }

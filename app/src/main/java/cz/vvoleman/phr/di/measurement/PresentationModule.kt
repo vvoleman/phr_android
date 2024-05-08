@@ -18,6 +18,7 @@ import cz.vvoleman.phr.featureMeasurement.presentation.mapper.detail.FieldStatsP
 import cz.vvoleman.phr.featureMeasurement.presentation.mapper.list.MeasurementGroupPresentationModelToNextScheduleMapper
 import cz.vvoleman.phr.featureMeasurement.presentation.subscriber.MeasurementListener
 import cz.vvoleman.phr.featureMeasurement.presentation.subscriber.ProblemCategoryDetailProvider
+import cz.vvoleman.phr.featureMeasurement.ui.mapper.detail.EntryInfoUiModelToMeasurementGroupMapper
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -113,6 +114,7 @@ class PresentationModule {
         getMeasurementsByProblemCategoryRepository: GetMeasurementGroupsByProblemCategoryRepository,
         measurementGroupMapper: MeasurementGroupPresentationModelToDomainMapper,
         problemCategoryDetailProvider: ProblemCategoryDetailProvider,
+        entryMapper: EntryInfoUiModelToMeasurementGroupMapper,
         fieldStatsUseCase: GetFieldStatsUseCase,
         fieldStatsMapper: FieldStatsPresentationModelToDomainMapper,
     ) = MeasurementListener(
@@ -120,6 +122,7 @@ class PresentationModule {
         getMeasurementsByProblemCategoryRepository = getMeasurementsByProblemCategoryRepository,
         measurementGroupMapper = measurementGroupMapper,
         problemCategoryDetailProvider = problemCategoryDetailProvider,
+        entryMapper = entryMapper,
         fieldStatsUseCase = fieldStatsUseCase,
         fieldStatsMapper = fieldStatsMapper,
     )

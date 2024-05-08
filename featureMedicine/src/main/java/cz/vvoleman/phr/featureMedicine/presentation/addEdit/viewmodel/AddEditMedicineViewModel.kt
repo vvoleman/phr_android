@@ -67,6 +67,7 @@ class AddEditMedicineViewModel @Inject constructor(
         val timesFrequencies = getTimesAndFrequencies(schedule)
 
         return AddEditMedicineViewState(
+            selectedMedicine = schedule?.medicine,
             patient = patient,
             availableProblemCategories = availableProblemCategories,
             times = timesFrequencies.first,
