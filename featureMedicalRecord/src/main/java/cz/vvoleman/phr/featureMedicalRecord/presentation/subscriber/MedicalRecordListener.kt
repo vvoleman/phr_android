@@ -10,6 +10,7 @@ import cz.vvoleman.phr.common.domain.model.healthcare.worker.MedicalWorkerDomain
 import cz.vvoleman.phr.common.domain.model.problemCategory.ProblemCategoryDomainModel
 import cz.vvoleman.phr.common.domain.model.problemCategory.ProblemCategoryInfoDomainModel
 import cz.vvoleman.phr.common.domain.model.problemCategory.request.DataDeleteType
+import cz.vvoleman.phr.common.presentation.event.DeletePatientEvent
 import cz.vvoleman.phr.common.presentation.event.GetMedicalFacilitiesAdditionalInfoEvent
 import cz.vvoleman.phr.common.presentation.event.GetMedicalWorkersAdditionalInfoEvent
 import cz.vvoleman.phr.common.presentation.event.problemCategory.DeleteProblemCategoryEvent
@@ -23,6 +24,7 @@ import cz.vvoleman.phr.common.utils.localizedDiff
 import cz.vvoleman.phr.featureMedicalRecord.R
 import cz.vvoleman.phr.featureMedicalRecord.domain.repository.GetMedicalRecordByFacilityRepository
 import cz.vvoleman.phr.featureMedicalRecord.domain.repository.GetMedicalRecordByMedicalWorkerRepository
+import cz.vvoleman.phr.featureMedicalRecord.domain.repository.GetMedicalRecordByPatientRepository
 import cz.vvoleman.phr.featureMedicalRecord.domain.repository.GetMedicalRecordByProblemCategoryRepository
 import cz.vvoleman.phr.featureMedicalRecord.domain.repository.UpdateMedicalRecordProblemCategoryRepository
 import cz.vvoleman.phr.featureMedicalRecord.domain.usecase.DeleteMedicalRecordUseCase
@@ -35,11 +37,12 @@ import java.time.LocalDate
 class MedicalRecordListener(
     private val commonEventBus: CommonEventBus,
     private val problemCategoryDetailProvider: ProblemCategoryDetailProvider,
+    private val deleteMedicalRecordUseCase: DeleteMedicalRecordUseCase,
     private val getMedicalRecordByMedicalWorkerRepository: GetMedicalRecordByMedicalWorkerRepository,
+    private val getMedicalRecordByPatientRepository: GetMedicalRecordByPatientRepository,
     private val getMedicalRecordByFacilityRepository: GetMedicalRecordByFacilityRepository,
     private val getMedicalRecordByCategoryRepository: GetMedicalRecordByProblemCategoryRepository,
     private val updateMedicalRecordProblemCategoryRepository: UpdateMedicalRecordProblemCategoryRepository,
-    private val deleteMedicalRecordUseCase: DeleteMedicalRecordUseCase,
     private val medicalRecordMapper: MedicalRecordPresentationModelToDomainMapper,
     private val context: Context
 ) : ModuleListener() {
@@ -66,6 +69,17 @@ class MedicalRecordListener(
         commonEventBus.exportProblemCategoryBus.addListener(TAG) {
             return@addListener onExportProblemCategoryEvent(it)
         }
+        commonEventBus.deletePatientBus.addListener(TAG) {
+            return@addListener onDeletePatientEvent(it)
+        }
+    }
+
+    private suspend fun onDeletePatientEvent(event: DeletePatientEvent) {
+        getMedicalRecordByPatientRepository
+            .getMedicalRecordByPatient(event.patient.id)
+            .forEach {
+                deleteMedicalRecordUseCase.executeInBackground(it.id)
+            }
     }
 
     private suspend fun onExportProblemCategoryEvent(event: ExportProblemCategoryEvent): List<DocumentPage> {

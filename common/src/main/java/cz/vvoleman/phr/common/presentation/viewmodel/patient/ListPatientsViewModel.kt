@@ -3,14 +3,15 @@ package cz.vvoleman.phr.common.presentation.viewmodel.patient
 import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
+import cz.vvoleman.phr.base.domain.eventBus.EventBusChannel
 import cz.vvoleman.phr.base.presentation.viewmodel.BaseViewModel
 import cz.vvoleman.phr.base.presentation.viewmodel.usecase.UseCaseExecutorProvider
-import cz.vvoleman.phr.common.presentation.event.PatientDeletedEvent
 import cz.vvoleman.phr.common.domain.model.patient.PatientDomainModel
 import cz.vvoleman.phr.common.domain.usecase.patient.DeletePatientUseCase
 import cz.vvoleman.phr.common.domain.usecase.patient.GetAllPatientsUseCase
 import cz.vvoleman.phr.common.domain.usecase.patient.GetSelectedPatientUseCase
 import cz.vvoleman.phr.common.domain.usecase.patient.SwitchSelectedPatientUseCase
+import cz.vvoleman.phr.common.presentation.event.DeletePatientEvent
 import cz.vvoleman.phr.common.presentation.mapper.PatientPresentationModelToDomainMapper
 import cz.vvoleman.phr.common.presentation.model.patient.PatientPresentationModel
 import cz.vvoleman.phr.common.presentation.model.patient.listpatients.ListPatientsDestination
@@ -18,7 +19,6 @@ import cz.vvoleman.phr.common.presentation.model.patient.listpatients.ListPatien
 import cz.vvoleman.phr.common.presentation.model.patient.listpatients.ListPatientsViewState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import org.greenrobot.eventbus.EventBus
 import javax.inject.Inject
 
 @HiltViewModel
@@ -27,6 +27,7 @@ class ListPatientsViewModel @Inject constructor(
     private val getSelectedPatientUseCase: GetSelectedPatientUseCase,
     private val switchSelectedPatientUseCase: SwitchSelectedPatientUseCase,
     private val deletePatientUseCase: DeletePatientUseCase,
+    private val deletePatientBus: EventBusChannel<DeletePatientEvent, Unit>,
     private val patientPresentationModelToDomainMapper: PatientPresentationModelToDomainMapper,
     savedStateHandle: SavedStateHandle,
     useCaseExecutorProvider: UseCaseExecutorProvider
@@ -54,23 +55,15 @@ class ListPatientsViewModel @Inject constructor(
 
     @Suppress("MagicNumber")
     fun onPatientSwitch(id: String) = viewModelScope.launch {
-//        val item = AlarmItem(
-//            "switch-$id",
-//            LocalDateTime.now().plusSeconds(5),
-//            TestContent(id),
-//            AlarmReceiver::class.java
-//        )
-//
-//        val result = alarmScheduler.schedule(item)
-//        Log.d(TAG, "Scheduled patient: $result")
-
         switchSelectedPatientUseCase.execute(id) {}
     }
 
     fun onPatientDelete(patient: PatientPresentationModel) = viewModelScope.launch {
         val domainModel = patientPresentationModelToDomainMapper.toDomain(patient)
-        val event = PatientDeletedEvent(domainModel)
-        EventBus.getDefault().post(event)
+        val event = DeletePatientEvent(domainModel)
+
+        deletePatientBus.pushEvent(event)
+
         deletePatientUseCase.execute(patient.id) { success ->
             if (success) {
                 notify(ListPatientsNotification.PatientDeleted(patient))

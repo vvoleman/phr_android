@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "90a6c953d4988f9c7dcd1fd3ea1ce43f",
+    "identityHash": "ce94d28212d06107a92398c943bd6004",
     "entities": [
       {
         "tableName": "patient",
@@ -926,7 +926,7 @@
       },
       {
         "tableName": "numeric_field",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT NOT NULL, `measurement_group_id` INTEGER NOT NULL, `unitGroupId` INTEGER NOT NULL, `minimal_values` REAL, `maximal_values` REAL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT NOT NULL, `measurement_group_id` INTEGER NOT NULL, `unitGroupId` INTEGER NOT NULL, `minimal_values` REAL, `maximal_values` REAL, FOREIGN KEY(`measurement_group_id`) REFERENCES `measurement_group`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "id",
@@ -972,7 +972,19 @@
           "autoGenerate": true
         },
         "indices": [],
-        "foreignKeys": []
+        "foreignKeys": [
+          {
+            "table": "measurement_group",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "measurement_group_id"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
       },
       {
         "tableName": "event",
@@ -1040,7 +1052,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '90a6c953d4988f9c7dcd1fd3ea1ce43f')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'ce94d28212d06107a92398c943bd6004')"
     ]
   }
 }

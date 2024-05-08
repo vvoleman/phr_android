@@ -1,7 +1,6 @@
 package cz.vvoleman.phr.featureMedicalRecord.domain.usecase
 
 import cz.vvoleman.phr.base.domain.coroutine.CoroutineContextProvider
-import cz.vvoleman.phr.featureMedicalRecord.domain.model.ProblemCategoryDomainModel
 import cz.vvoleman.phr.featureMedicalRecord.domain.repository.GetUsedProblemCategoriesRepository
 import cz.vvoleman.phr.featureMedicalRecord.test.coroutine.FakeCoroutineContextProvider
 import kotlinx.coroutines.test.runTest

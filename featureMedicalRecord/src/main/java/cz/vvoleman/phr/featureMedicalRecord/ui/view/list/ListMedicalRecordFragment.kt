@@ -1,6 +1,5 @@
 package cz.vvoleman.phr.featureMedicalRecord.ui.view.list
 
-import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -11,7 +10,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import cz.vvoleman.phr.base.ui.ext.collectLifecycleFlow
 import cz.vvoleman.phr.base.ui.mapper.DestinationUiMapper
 import cz.vvoleman.phr.base.ui.mapper.ViewStateBinder
-import cz.vvoleman.phr.common.presentation.event.PatientDeletedEvent
 import cz.vvoleman.phr.common.ui.adapter.grouped.GroupedItemsAdapter
 import cz.vvoleman.phr.common.ui.adapter.grouped.OnAdapterItemListener
 import cz.vvoleman.phr.common.ui.model.GroupedItemsUiModel
@@ -28,8 +26,6 @@ import cz.vvoleman.phr.featureMedicalRecord.ui.model.MedicalRecordUiModel
 import cz.vvoleman.phr.featureMedicalRecord.ui.view.export.MedicalRecordPage
 import cz.vvoleman.phr.featureMedicalRecord.ui.view.list.adapter.MedicalRecordsAdapter
 import dagger.hilt.android.AndroidEntryPoint
-import org.greenrobot.eventbus.EventBus
-import org.greenrobot.eventbus.Subscribe
 import java.time.LocalDate
 import javax.inject.Inject
 
@@ -54,12 +50,6 @@ class ListMedicalRecordFragment :
 
     @Inject
     lateinit var groupedItemsDomainModelToUiMapper: GroupedItemsDomainModelToUiMapper
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        EventBus.getDefault().register(this)
-    }
 
     override fun setupBinding(
         inflater: LayoutInflater,
@@ -189,11 +179,6 @@ class ListMedicalRecordFragment :
         groupBinding.recyclerView.adapter = null
     }
 
-    @Subscribe
-    fun onPatientDeleted(event: PatientDeletedEvent) {
-        viewModel.onEventPatientDeleted(event)
-    }
-
     private fun showDeleteDialog(item: MedicalRecordUiModel) {
         showConfirmDialog(
             R.string.delete_record_title,
@@ -206,11 +191,5 @@ class ListMedicalRecordFragment :
             }
         )
 
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-
-        EventBus.getDefault().unregister(this)
     }
 }

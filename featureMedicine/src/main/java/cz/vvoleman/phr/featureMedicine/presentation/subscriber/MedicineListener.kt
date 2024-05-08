@@ -4,6 +4,7 @@ import android.content.Context
 import android.net.Uri
 import cz.vvoleman.phr.base.domain.ModuleListener
 import cz.vvoleman.phr.common.domain.model.problemCategory.request.DataDeleteType
+import cz.vvoleman.phr.common.presentation.event.DeletePatientEvent
 import cz.vvoleman.phr.common.presentation.event.problemCategory.DeleteProblemCategoryEvent
 import cz.vvoleman.phr.common.presentation.event.problemCategory.ExportProblemCategoryEvent
 import cz.vvoleman.phr.common.presentation.event.problemCategory.GetProblemCategoryDetailSectionEvent
@@ -12,6 +13,7 @@ import cz.vvoleman.phr.common.ui.export.usecase.DocumentPage
 import cz.vvoleman.phr.common.ui.view.problemCategory.detail.groupie.SectionContainer
 import cz.vvoleman.phr.featureMedicine.domain.repository.GetSchedulesByProblemCategoryRepository
 import cz.vvoleman.phr.featureMedicine.domain.repository.UpdateMedicineScheduleProblemCategoryRepository
+import cz.vvoleman.phr.featureMedicine.domain.repository.timeline.GetSchedulesByPatientRepository
 import cz.vvoleman.phr.featureMedicine.domain.usecase.DeleteMedicineScheduleUseCase
 import cz.vvoleman.phr.featureMedicine.presentation.list.mapper.MedicineSchedulePresentationModelToDomainMapper
 import cz.vvoleman.phr.featureMedicine.presentation.provider.ProblemCategoryDetailProvider
@@ -22,6 +24,7 @@ class MedicineListener(
     private val commonEventBus: CommonEventBus,
     private val deleteMedicineScheduleUseCase: DeleteMedicineScheduleUseCase,
     private val getSchedulesByProblemCategoryRepository: GetSchedulesByProblemCategoryRepository,
+    private val getSchedulesByPatientRepository: GetSchedulesByPatientRepository,
     private val updateMedicineScheduleProblemCategoryRepository: UpdateMedicineScheduleProblemCategoryRepository,
     private val scheduleMapper: MedicineSchedulePresentationModelToDomainMapper,
     private val scheduleUiMapper: MedicineScheduleUiModelToPresentationMapper,
@@ -45,6 +48,18 @@ class MedicineListener(
         commonEventBus.deleteProblemCategoryBus.addListener(TAG) {
             return@addListener onDeleteProblemCategory(it)
         }
+
+        commonEventBus.deletePatientBus.addListener(TAG) {
+            return@addListener onDeletePatientEvent(it)
+        }
+    }
+
+    private suspend fun onDeletePatientEvent(event: DeletePatientEvent) {
+        getSchedulesByPatientRepository
+            .getSchedulesByPatient(event.patient.id)
+            .forEach {
+                deleteMedicineScheduleUseCase.executeInBackground(it.id)
+            }
     }
 
     private suspend fun onDeleteProblemCategory(event: DeleteProblemCategoryEvent) {

@@ -44,7 +44,6 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import org.greenrobot.eventbus.EventBus
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -58,16 +57,19 @@ class DomainModule {
         commonEventBus: CommonEventBus,
         @ApplicationContext context: Context,
         getSpecificMedicalWorkersRepository: GetSpecificMedicalWorkersRepository,
-        getFacilityByIdRepository: GetFacilityByIdRepository
+        getFacilityByIdRepository: GetFacilityByIdRepository,
+        deleteMedicalWorkerRepository: DeleteMedicalWorkerRepository,
+        deleteProblemCategoryRepository: DeleteProblemCategoryRepository,
+        getProblemCategoriesRepository: GetProblemCategoriesRepository
     ) = CommonListener(
         commonEventBus,
         context,
         getSpecificMedicalWorkersRepository,
-        getFacilityByIdRepository
+        getFacilityByIdRepository,
+        getProblemCategoriesRepository,
+        deleteMedicalWorkerRepository,
+        deleteProblemCategoryRepository
     )
-
-    @Provides
-    fun providesEventBus() = EventBus.getDefault()
 
     @Provides
     fun providesGetMedicalWorkersUseCase(

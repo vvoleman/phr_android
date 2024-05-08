@@ -101,9 +101,6 @@ dependencies {
     // Image Cropper
 //    implementation(libs.documentScanner)
 
-    // Event Bus
-    implementation(libs.eventBus)
-
     testImplementation(libs.junit.core)
     testImplementation(libs.mockito.kotlin)
     testImplementation(libs.mockito.inline)
@@ -118,6 +115,8 @@ dependencies {
     testImplementation(libs.mockito.inline)
     testImplementation(libs.androidx.arch.core.testing)
     testImplementation(libs.androidx.arch.core.testing)
+    testImplementation(libs.kotlinx.coroutines.test)
+    testImplementation(libs.mockk)
 
 //    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.12'
 }

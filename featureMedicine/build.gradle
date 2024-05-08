@@ -94,9 +94,6 @@ dependencies {
     // OCR
     implementation(libs.textRecognition)
 
-    // Event Bus
-    implementation(libs.eventBus)
-
     // Groupie
     implementation(libs.groupie.core)
     implementation(libs.groupie.viewbinding)

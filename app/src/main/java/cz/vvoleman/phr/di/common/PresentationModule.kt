@@ -9,6 +9,7 @@ import cz.vvoleman.phr.common.domain.repository.patient.GetPatientByIdRepository
 import cz.vvoleman.phr.common.domain.repository.patient.GetSelectedPatientRepository
 import cz.vvoleman.phr.common.domain.repository.patient.SavePatientRepository
 import cz.vvoleman.phr.common.domain.repository.patient.SwitchSelectedPatientRepository
+import cz.vvoleman.phr.common.domain.repository.problemCategory.SaveProblemCategoryRepository
 import cz.vvoleman.phr.common.domain.usecase.patient.DeletePatientUseCase
 import cz.vvoleman.phr.common.domain.usecase.patient.GetAllPatientsUseCase
 import cz.vvoleman.phr.common.domain.usecase.patient.GetSelectedPatientUseCase
@@ -93,11 +94,13 @@ class PresentationModule {
     fun providesSavePatientUseCase(
         savePatientRepository: SavePatientRepository,
         getPatientByIdRepository: GetPatientByIdRepository,
-        coroutineContextProvider: CoroutineContextProvider
+        saveProblemCategoryRepository: SaveProblemCategoryRepository,
+        coroutineContextProvider: CoroutineContextProvider,
     ) = SavePatientUseCase(
-        savePatientRepository,
-        getPatientByIdRepository,
-        coroutineContextProvider
+        savePatientRepository = savePatientRepository,
+        getPatientByIdRepository = getPatientByIdRepository,
+        saveProblemCategoryRepository = saveProblemCategoryRepository,
+        coroutineContextProvider = coroutineContextProvider
     )
 
     @Provides
@@ -204,4 +207,9 @@ class PresentationModule {
     fun providesGetCategoryDetailSectionEventBus(
         eventBus: CommonEventBus
     ) = eventBus.getCategoryDetailSection
+
+    @Provides
+    fun providesDeletePatientBus(
+        eventBus: CommonEventBus
+    ) = eventBus.deletePatientBus
 }

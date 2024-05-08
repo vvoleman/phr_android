@@ -6,6 +6,7 @@ import cz.vvoleman.phr.common.domain.model.healthcare.facility.MedicalFacilityDo
 import cz.vvoleman.phr.common.domain.model.healthcare.worker.MedicalWorkerDomainModel
 import cz.vvoleman.phr.common.domain.model.problemCategory.ProblemCategoryDomainModel
 import cz.vvoleman.phr.common.domain.model.problemCategory.ProblemCategoryInfoDomainModel
+import cz.vvoleman.phr.common.presentation.event.DeletePatientEvent
 import cz.vvoleman.phr.common.presentation.event.GetMedicalFacilitiesAdditionalInfoEvent
 import cz.vvoleman.phr.common.presentation.event.GetMedicalWorkersAdditionalInfoEvent
 import cz.vvoleman.phr.common.presentation.event.MedicalWorkerDeletedEvent
@@ -17,6 +18,8 @@ import cz.vvoleman.phr.common.ui.export.usecase.DocumentPage
 import cz.vvoleman.phr.common.ui.view.problemCategory.detail.groupie.SectionContainer
 
 object CommonEventBus {
+
+    val deletePatientBus = EventBusChannel<DeletePatientEvent, Unit>()
 
     val getWorkerAdditionalInfoBus =
         EventBusChannel<GetMedicalWorkersAdditionalInfoEvent, Map<MedicalWorkerDomainModel, List<AdditionalInfoDomainModel<MedicalWorkerDomainModel>>>>()

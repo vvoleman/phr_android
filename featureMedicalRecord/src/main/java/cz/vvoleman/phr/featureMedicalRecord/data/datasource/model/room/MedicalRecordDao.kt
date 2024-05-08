@@ -18,7 +18,7 @@ interface MedicalRecordDao {
 
     @Transaction
     @Query("SELECT * FROM medical_record WHERE patient_id = :patientId ORDER BY :sortBy DESC")
-    fun getByPatientId(patientId: String, sortBy: String): Flow<List<MedicalRecordWithDetails>>
+    fun getByPatientId(patientId: String, sortBy: String = "id"): Flow<List<MedicalRecordWithDetails>>
 
     @Query(
         "SELECT * FROM problem_category " +
