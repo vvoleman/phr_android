@@ -38,6 +38,7 @@ import cz.vvoleman.phr.featureMeasurement.domain.repository.GetUnitGroupsReposit
 import cz.vvoleman.phr.featureMeasurement.domain.repository.SaveEntryRepository
 import cz.vvoleman.phr.featureMeasurement.domain.repository.SaveMeasurementGroupRepository
 import cz.vvoleman.phr.featureMeasurement.domain.repository.ScheduleMeasurementGroupRepository
+import cz.vvoleman.phr.featureMeasurement.domain.repository.UpdateMeasurementGroupProblemCategoryRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -239,4 +240,9 @@ class DataModule {
     fun providesGetMeasurementGroupsByProblemCategoryRepository(
         measurementGroupRepository: MeasurementGroupRepository
     ): GetMeasurementGroupsByProblemCategoryRepository = measurementGroupRepository
+
+    @Provides
+    fun providesUpdateMeasurementGroupProblemCategoryRepository(
+        measurementGroupRepository: MeasurementGroupRepository
+    ): UpdateMeasurementGroupProblemCategoryRepository = measurementGroupRepository
 }

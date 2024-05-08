@@ -47,12 +47,12 @@ class ListProblemCategoryFragment :
     override fun setupListeners() {
         super.setupListeners()
 
-        val _adapter = ProblemCategoryAdapter(this)
+        val adapter = ProblemCategoryAdapter(this)
         val binder = viewStateBinder as ListProblemCategoryBinder
-        binder.setAdapter(_adapter)
+        binder.setAdapter(adapter)
 
         binding.recyclerView.apply {
-            adapter = _adapter
+            this.adapter = adapter
             layoutManager = LinearLayoutManager(context)
             addItemDecoration(MarginItemDecoration(SizingConstants.MARGIN_SIZE))
             setHasFixedSize(false)

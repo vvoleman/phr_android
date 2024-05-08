@@ -5,6 +5,8 @@ import cz.vvoleman.phr.common.presentation.eventBus.CommonEventBus
 import cz.vvoleman.phr.common.presentation.mapper.PatientPresentationModelToDomainMapper
 import cz.vvoleman.phr.common.presentation.mapper.problemCategory.ProblemCategoryPresentationModelToDomainMapper
 import cz.vvoleman.phr.featureMedicine.domain.repository.GetSchedulesByProblemCategoryRepository
+import cz.vvoleman.phr.featureMedicine.domain.repository.UpdateMedicineScheduleProblemCategoryRepository
+import cz.vvoleman.phr.featureMedicine.domain.usecase.DeleteMedicineScheduleUseCase
 import cz.vvoleman.phr.featureMedicine.presentation.addEdit.mapper.SaveMedicineSchedulePresentationModelToDomainMapper
 import cz.vvoleman.phr.featureMedicine.presentation.addEdit.mapper.SaveScheduleItemPresentationModelToDomainMapper
 import cz.vvoleman.phr.featureMedicine.presentation.list.mapper.MedicinePresentationModelToDomainMapper
@@ -128,6 +130,8 @@ class PresentationModule {
         problemCategoryDetailProvider: ProblemCategoryDetailProvider,
         scheduleMapper: MedicineSchedulePresentationModelToDomainMapper,
         scheduleUiMapper: MedicineScheduleUiModelToPresentationMapper,
+        deleteMedicineScheduleUseCase: DeleteMedicineScheduleUseCase,
+        updateMedicineScheduleProblemCategoryRepository: UpdateMedicineScheduleProblemCategoryRepository,
         @ApplicationContext context: Context
     ): MedicineListener {
         return MedicineListener(
@@ -136,6 +140,8 @@ class PresentationModule {
             problemCategoryDetailProvider = problemCategoryDetailProvider,
             scheduleMapper = scheduleMapper,
             scheduleUiMapper = scheduleUiMapper,
+            deleteMedicineScheduleUseCase = deleteMedicineScheduleUseCase,
+            updateMedicineScheduleProblemCategoryRepository = updateMedicineScheduleProblemCategoryRepository,
             context = context,
         )
     }

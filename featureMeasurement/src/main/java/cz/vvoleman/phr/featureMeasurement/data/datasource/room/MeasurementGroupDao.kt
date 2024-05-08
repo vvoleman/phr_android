@@ -27,6 +27,10 @@ interface MeasurementGroupDao {
     fun getByProblemCategory(problemCategoryIds: List<String>): Flow<List<MeasurementGroupWithDetailsDataSourceModel>>
 
     @Transaction
+    @Query("UPDATE measurement_group SET problem_category_id = :problemCategoryId WHERE id = :id")
+    suspend fun updateProblemCategory(id: String, problemCategoryId: String?)
+
+    @Transaction
     @Query("SELECT * FROM measurement_group WHERE id = :id")
     fun getById(id: Int): Flow<MeasurementGroupWithDetailsDataSourceModel>
 

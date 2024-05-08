@@ -1,6 +1,7 @@
 package cz.vvoleman.phr.featureMeasurement.data.repository
 
 import android.util.Log
+import cz.vvoleman.phr.common.domain.model.problemCategory.ProblemCategoryDomainModel
 import cz.vvoleman.phr.featureMeasurement.data.datasource.room.MeasurementGroupDao
 import cz.vvoleman.phr.featureMeasurement.data.datasource.room.MeasurementGroupScheduleItemDao
 import cz.vvoleman.phr.featureMeasurement.data.datasource.room.mapper.MeasurementGroupDataSourceModelToDataMapper
@@ -16,6 +17,7 @@ import cz.vvoleman.phr.featureMeasurement.domain.repository.GetMeasurementGroupR
 import cz.vvoleman.phr.featureMeasurement.domain.repository.GetMeasurementGroupsByPatientRepository
 import cz.vvoleman.phr.featureMeasurement.domain.repository.GetMeasurementGroupsByProblemCategoryRepository
 import cz.vvoleman.phr.featureMeasurement.domain.repository.SaveMeasurementGroupRepository
+import cz.vvoleman.phr.featureMeasurement.domain.repository.UpdateMeasurementGroupProblemCategoryRepository
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
@@ -33,7 +35,8 @@ class MeasurementGroupRepository(
     SaveMeasurementGroupRepository,
     GetMeasurementGroupsByPatientRepository,
     DeleteMeasurementGroupRepository,
-    GetMeasurementGroupsByProblemCategoryRepository {
+    GetMeasurementGroupsByProblemCategoryRepository,
+    UpdateMeasurementGroupProblemCategoryRepository {
 
     override suspend fun getMeasurementGroup(id: String): MeasurementGroupDomainModel? {
         return measurementGroupDao.getById(id.toInt())
@@ -121,5 +124,12 @@ class MeasurementGroupRepository(
             }
 
         return result.toMap()
+    }
+
+    override suspend fun updateMeasurementGroupProblemCategory(
+        measurementGroup: MeasurementGroupDomainModel,
+        problemCategory: ProblemCategoryDomainModel?
+    ) {
+        measurementGroupDao.updateProblemCategory(measurementGroup.id, problemCategory?.id)
     }
 }
