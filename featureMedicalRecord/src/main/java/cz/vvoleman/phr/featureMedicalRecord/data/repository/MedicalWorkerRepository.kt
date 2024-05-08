@@ -18,7 +18,8 @@ class MedicalWorkerRepository(
 ) : GetUsedMedicalWorkersRepository, GetMedicalWorkersForPatientRepository {
 
     override suspend fun getUsedMedicalWorkers(patientId: String): List<SpecificMedicalWorkerDomainModel> {
-        return medicalRecordDao.getUsedWorkersByPatientId(patientId).first()
+        return medicalRecordDao
+            .getUsedWorkersByPatientId(patientId).first()
             .map { specificWorkerMapper.toDomain(it) }
     }
 
