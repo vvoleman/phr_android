@@ -2,14 +2,19 @@ package cz.vvoleman.phr.featureMeasurement.presentation.subscriber
 
 import android.net.Uri
 import cz.vvoleman.phr.base.domain.ModuleListener
+import cz.vvoleman.phr.common.domain.model.problemCategory.request.DataDeleteType
+import cz.vvoleman.phr.common.presentation.event.problemCategory.DeleteProblemCategoryEvent
 import cz.vvoleman.phr.common.presentation.event.problemCategory.ExportProblemCategoryEvent
 import cz.vvoleman.phr.common.presentation.event.problemCategory.GetProblemCategoryDetailSectionEvent
 import cz.vvoleman.phr.common.presentation.eventBus.CommonEventBus
 import cz.vvoleman.phr.common.ui.export.usecase.DocumentPage
 import cz.vvoleman.phr.common.ui.view.problemCategory.detail.groupie.SectionContainer
 import cz.vvoleman.phr.featureMeasurement.domain.model.detail.GetFieldStatsRequest
+import cz.vvoleman.phr.featureMeasurement.domain.model.list.DeleteMeasurementGroupRequest
 import cz.vvoleman.phr.featureMeasurement.domain.repository.GetMeasurementGroupsByProblemCategoryRepository
+import cz.vvoleman.phr.featureMeasurement.domain.repository.UpdateMeasurementGroupProblemCategoryRepository
 import cz.vvoleman.phr.featureMeasurement.domain.usecase.detail.GetFieldStatsUseCase
+import cz.vvoleman.phr.featureMeasurement.domain.usecase.list.DeleteMeasurementGroupUseCase
 import cz.vvoleman.phr.featureMeasurement.presentation.mapper.core.MeasurementGroupPresentationModelToDomainMapper
 import cz.vvoleman.phr.featureMeasurement.presentation.mapper.detail.FieldStatsPresentationModelToDomainMapper
 import cz.vvoleman.phr.featureMeasurement.presentation.mapper.export.ExportDetailParamsPresentationModel
@@ -20,6 +25,8 @@ import cz.vvoleman.phr.featureMeasurement.ui.view.export.DetailMeasurementGroupP
 class MeasurementListener(
     private val commonEventBus: CommonEventBus,
     private val fieldStatsUseCase: GetFieldStatsUseCase,
+    private val deleteMeasurementGroupUseCase: DeleteMeasurementGroupUseCase,
+    private val updateMeasurementGroupProblemCategoryRepository: UpdateMeasurementGroupProblemCategoryRepository,
     private val getMeasurementsByProblemCategoryRepository: GetMeasurementGroupsByProblemCategoryRepository,
     private val measurementGroupMapper: MeasurementGroupPresentationModelToDomainMapper,
     private val entryMapper: EntryInfoUiModelToMeasurementGroupMapper,
@@ -38,6 +45,34 @@ class MeasurementListener(
 
         commonEventBus.exportProblemCategoryBus.addListener(TAG) {
             return@addListener onExportProblemCategory(it)
+        }
+
+        commonEventBus.deleteProblemCategoryBus.addListener(TAG) {
+            return@addListener onDeleteProblemCategory(it)
+        }
+    }
+
+    private suspend fun onDeleteProblemCategory(event: DeleteProblemCategoryEvent) {
+        val groups = getMeasurementsByProblemCategoryRepository
+            .getMeasurementGroupsByProblemCategory(event.problemCategory.id)
+
+        when (event.deleteType) {
+            is DataDeleteType.DeleteData -> {
+                groups.forEach {
+                    deleteMeasurementGroupUseCase.executeInBackground(DeleteMeasurementGroupRequest(
+                        measurementGroup = it
+                    ))
+                }
+            }
+            is DataDeleteType.MoveToAnother -> {
+                val anotherCategory = (event.deleteType as DataDeleteType.MoveToAnother).backupProblemCategory
+                groups.forEach {
+                    updateMeasurementGroupProblemCategoryRepository.updateMeasurementGroupProblemCategory(
+                        measurementGroup = it,
+                        problemCategory = anotherCategory
+                    )
+                }
+            }
         }
     }
 

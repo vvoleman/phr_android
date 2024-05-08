@@ -45,6 +45,10 @@ interface MedicineScheduleDao {
     @Query("UPDATE medicine_schedule SET is_alarm_enabled = :enabled WHERE id = :id")
     suspend fun changeAlarmEnabled(id: String, enabled: Boolean)
 
+    @Transaction
+    @Query("UPDATE medicine_schedule SET problem_category_id = :problemCategoryId WHERE id = :id")
+    suspend fun updateProblemCategory(id: String, problemCategoryId: String?)
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(medicineSchedule: MedicineScheduleDataSourceModel): Long
 

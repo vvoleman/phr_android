@@ -7,7 +7,7 @@
     android:background="@color/beige_700"
     android:elevation="4dp"
     android:maxHeight="300dp"
-    android:minHeight="100dp"
+    android:minHeight="80dp"
     android:padding="16dp">
 
     <TextView

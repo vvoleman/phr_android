@@ -36,6 +36,7 @@ import cz.vvoleman.phr.featureMedicine.domain.repository.SaveMedicineScheduleRep
 import cz.vvoleman.phr.featureMedicine.domain.repository.SaveScheduleItemRepository
 import cz.vvoleman.phr.featureMedicine.domain.repository.ScheduleMedicineRepository
 import cz.vvoleman.phr.featureMedicine.domain.repository.SearchMedicineRepository
+import cz.vvoleman.phr.featureMedicine.domain.repository.UpdateMedicineScheduleProblemCategoryRepository
 import cz.vvoleman.phr.featureMedicine.domain.repository.timeline.GetSchedulesByPatientRepository
 import dagger.Module
 import dagger.Provides
@@ -235,4 +236,9 @@ class DataModule {
     fun providesGetSchedulesByProblemCategoryRepository(
         scheduleRepository: SchedulesRepository
     ): GetSchedulesByProblemCategoryRepository = scheduleRepository
+
+    @Provides
+    fun providesUpdateMedicineScheduleProblemCategoryRepository(
+        scheduleRepository: SchedulesRepository
+    ): UpdateMedicineScheduleProblemCategoryRepository = scheduleRepository
 }

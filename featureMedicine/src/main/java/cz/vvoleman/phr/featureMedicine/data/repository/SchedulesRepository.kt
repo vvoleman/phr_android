@@ -1,6 +1,7 @@
 package cz.vvoleman.phr.featureMedicine.data.repository
 
 import android.util.Log
+import cz.vvoleman.phr.common.domain.model.problemCategory.ProblemCategoryDomainModel
 import cz.vvoleman.phr.featureMedicine.data.datasource.room.schedule.dao.MedicineScheduleDao
 import cz.vvoleman.phr.featureMedicine.data.datasource.room.schedule.dao.ScheduleItemDao
 import cz.vvoleman.phr.featureMedicine.data.datasource.room.schedule.mapper.MedicineScheduleDataSourceModelToDataMapper
@@ -20,6 +21,7 @@ import cz.vvoleman.phr.featureMedicine.domain.repository.GetSchedulesByProblemCa
 import cz.vvoleman.phr.featureMedicine.domain.repository.MarkMedicineScheduleFinishedRepository
 import cz.vvoleman.phr.featureMedicine.domain.repository.SaveMedicineScheduleRepository
 import cz.vvoleman.phr.featureMedicine.domain.repository.SaveScheduleItemRepository
+import cz.vvoleman.phr.featureMedicine.domain.repository.UpdateMedicineScheduleProblemCategoryRepository
 import cz.vvoleman.phr.featureMedicine.domain.repository.timeline.GetSchedulesByPatientRepository
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.firstOrNull
@@ -42,7 +44,8 @@ class SchedulesRepository(
     MarkMedicineScheduleFinishedRepository,
     DeleteMedicineScheduleRepository,
     ChangeMedicineScheduleAlarmEnabledRepository,
-    GetSchedulesByProblemCategoryRepository {
+    GetSchedulesByProblemCategoryRepository,
+    UpdateMedicineScheduleProblemCategoryRepository {
 
     override suspend fun getSchedulesByMedicine(
         medicineIds: List<String>,
@@ -170,5 +173,12 @@ class SchedulesRepository(
         return medicineScheduleDao.getByProblemCategory(problemCategory).first()
             .map { medicineScheduleDataSourceMapper.toData(it) }
             .map { medicineScheduleDataMapper.toDomain(it) }
+    }
+
+    override suspend fun updateMedicineScheduleProblemCategory(
+        medicineSchedule: MedicineScheduleDomainModel,
+        problemCategory: ProblemCategoryDomainModel?
+    ) {
+        medicineScheduleDao.updateProblemCategory(medicineSchedule.id, problemCategory?.id)
     }
 }

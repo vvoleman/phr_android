@@ -4,7 +4,9 @@ import cz.vvoleman.phr.common.presentation.eventBus.CommonEventBus
 import cz.vvoleman.phr.common.presentation.mapper.PatientPresentationModelToDomainMapper
 import cz.vvoleman.phr.common.presentation.mapper.problemCategory.ProblemCategoryPresentationModelToDomainMapper
 import cz.vvoleman.phr.featureMeasurement.domain.repository.GetMeasurementGroupsByProblemCategoryRepository
+import cz.vvoleman.phr.featureMeasurement.domain.repository.UpdateMeasurementGroupProblemCategoryRepository
 import cz.vvoleman.phr.featureMeasurement.domain.usecase.detail.GetFieldStatsUseCase
+import cz.vvoleman.phr.featureMeasurement.domain.usecase.list.DeleteMeasurementGroupUseCase
 import cz.vvoleman.phr.featureMeasurement.presentation.mapper.addEditEntry.EntryFieldPresentationModelToDomainMapper
 import cz.vvoleman.phr.featureMeasurement.presentation.mapper.core.MeasurementGroupEntryPresentationModelToDomainMapper
 import cz.vvoleman.phr.featureMeasurement.presentation.mapper.core.MeasurementGroupFieldPresentationToDomainMapper
@@ -116,6 +118,8 @@ class PresentationModule {
         problemCategoryDetailProvider: ProblemCategoryDetailProvider,
         entryMapper: EntryInfoUiModelToMeasurementGroupMapper,
         fieldStatsUseCase: GetFieldStatsUseCase,
+        deleteMeasurementGroupUseCase: DeleteMeasurementGroupUseCase,
+        updateMeasurementGroupProblemCategoryRepository: UpdateMeasurementGroupProblemCategoryRepository,
         fieldStatsMapper: FieldStatsPresentationModelToDomainMapper,
     ) = MeasurementListener(
         commonEventBus = commonEventBus,
@@ -125,6 +129,8 @@ class PresentationModule {
         entryMapper = entryMapper,
         fieldStatsUseCase = fieldStatsUseCase,
         fieldStatsMapper = fieldStatsMapper,
+        deleteMeasurementGroupUseCase = deleteMeasurementGroupUseCase,
+        updateMeasurementGroupProblemCategoryRepository = updateMeasurementGroupProblemCategoryRepository,
     )
 
 }
