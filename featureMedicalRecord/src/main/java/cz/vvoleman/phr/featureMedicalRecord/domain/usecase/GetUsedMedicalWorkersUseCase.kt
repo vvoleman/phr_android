@@ -14,6 +14,8 @@ class GetUsedMedicalWorkersUseCase(
         val specificWorkers = getUsedMedicalWorkersRepository.getUsedMedicalWorkers(request)
 
         // Only unique workers
-        return specificWorkers.distinctBy { it.medicalWorker.id }.map { it.medicalWorker }
+        return specificWorkers
+            .distinctBy { it.medicalWorker.id }
+            .map { it.medicalWorker }
     }
 }

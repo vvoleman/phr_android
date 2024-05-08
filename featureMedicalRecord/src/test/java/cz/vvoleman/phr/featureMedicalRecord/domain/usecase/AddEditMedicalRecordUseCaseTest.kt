@@ -3,6 +3,7 @@ package cz.vvoleman.phr.featureMedicalRecord.domain.usecase
 import cz.vvoleman.phr.base.domain.coroutine.CoroutineContextProvider
 import cz.vvoleman.phr.featureMedicalRecord.domain.model.addEdit.AddEditDomainModel
 import cz.vvoleman.phr.featureMedicalRecord.domain.repository.AddEditMedicalRecordRepository
+import cz.vvoleman.phr.featureMedicalRecord.domain.repository.CreateDiagnoseRepository
 import cz.vvoleman.phr.featureMedicalRecord.test.coroutine.FakeCoroutineContextProvider
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
@@ -24,6 +25,9 @@ class AddEditMedicalRecordUseCaseTest {
     @Mock
     private lateinit var addEditMedicalRecordRepository: AddEditMedicalRecordRepository
 
+    @Mock
+    private lateinit var createDiagnoseRepository: CreateDiagnoseRepository
+
     private lateinit var coroutineContextProvider: CoroutineContextProvider
 
     @BeforeEach
@@ -31,7 +35,11 @@ class AddEditMedicalRecordUseCaseTest {
         coroutineContextProvider = FakeCoroutineContextProvider
 
         classUnderTest =
-            AddEditMedicalRecordUseCase(addEditMedicalRecordRepository, coroutineContextProvider)
+            AddEditMedicalRecordUseCase(
+                addEditMedicalRecordRepository,
+                createDiagnoseRepository,
+                coroutineContextProvider
+            )
     }
 
     @Test

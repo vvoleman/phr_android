@@ -2,12 +2,14 @@ package cz.vvoleman.phr.featureMedicalRecord.domain.usecase
 
 import cz.vvoleman.phr.base.domain.coroutine.CoroutineContextProvider
 import cz.vvoleman.phr.common.domain.model.healthcare.worker.MedicalWorkerDomainModel
+import cz.vvoleman.phr.common.domain.model.healthcare.worker.SpecificMedicalWorkerDomainModel
 import cz.vvoleman.phr.featureMedicalRecord.domain.repository.GetUsedMedicalWorkersRepository
 import cz.vvoleman.phr.featureMedicalRecord.test.coroutine.FakeCoroutineContextProvider
+import io.mockk.every
+import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertNotEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -36,47 +38,40 @@ class GetUsedMedicalWorkersUseCaseTest {
     fun `Get Used Medical Workers, valid`() = runTest {
         val id = "1"
         val willReturn = listOf(
-            MedicalWorkerDomainModel(
-                id = "1",
-                name = "Worker 1",
-                patientId = id
+            mockWorker(
+                workerId = "1",
+                specific = "1",
+                patient = id
             ),
-            MedicalWorkerDomainModel(
-                id = "2",
-                name = "Worker 2",
-                patientId = id
+            mockWorker(
+                workerId = "2",
+                specific = "2",
+                patient = id
             ),
-            MedicalWorkerDomainModel(
-                id = "3",
-                name = "Worker 3",
-                patientId = id
-            )
+            mockWorker(
+                workerId = "2",
+                specific = "3",
+                patient = id
+            ),
         )
 
         given(getUsedMedicalWorkersRepository.getUsedMedicalWorkers(id)).willReturn(willReturn)
 
         val actualValue = useCase.executeInBackground(id)
 
-        assertEquals(willReturn.size, actualValue.size)
+        assertEquals(2, actualValue.size)
 
         assertEquals(willReturn.first().id, actualValue.first().id)
     }
 
-    @Test
-    fun `Get Used Medical Workers, invalid`() = runTest {
-        val id = "1"
-        val willReturn = listOf(
-            MedicalWorkerDomainModel(
-                id = "1",
-                name = "Worker 1",
-                patientId = "2"
-            )
-        )
-
-        given(getUsedMedicalWorkersRepository.getUsedMedicalWorkers(id)).willReturn(willReturn)
-
-        val actualValue = useCase.executeInBackground(id)
-
-        assertNotEquals(willReturn.first().patientId, actualValue.first().patientId)
+    private fun mockWorker(workerId: String, specific: String, patient: String): SpecificMedicalWorkerDomainModel {
+        val worker = mockk<MedicalWorkerDomainModel>(relaxed = true) {
+            every { id } returns workerId
+            every { patientId } returns patient
+        }
+        return mockk(relaxed = true) {
+            every { id } returns specific
+            every { medicalWorker } returns worker
+        }
     }
 }

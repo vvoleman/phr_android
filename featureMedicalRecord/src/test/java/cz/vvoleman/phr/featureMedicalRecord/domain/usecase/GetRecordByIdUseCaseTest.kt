@@ -1,6 +1,7 @@
 package cz.vvoleman.phr.featureMedicalRecord.domain.usecase
 
 import cz.vvoleman.phr.base.domain.coroutine.CoroutineContextProvider
+import cz.vvoleman.phr.common.domain.model.patient.PatientDomainModel
 import cz.vvoleman.phr.featureMedicalRecord.domain.model.MedicalRecordDomainModel
 import cz.vvoleman.phr.featureMedicalRecord.domain.repository.GetRecordByIdRepository
 import cz.vvoleman.phr.featureMedicalRecord.test.coroutine.FakeCoroutineContextProvider
