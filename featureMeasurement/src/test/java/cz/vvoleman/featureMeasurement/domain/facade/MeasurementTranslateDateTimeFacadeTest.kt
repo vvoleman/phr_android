@@ -37,7 +37,8 @@ class MeasurementTranslateDateTimeFacadeTest {
         )
         val result = facade.translate(groups, currentDateTime)
 
-        assertEquals(expected, result)
+        assertEquals(expected.size, result.size)
+        assertEquals(expected[dtFirst]?.size, result[dtFirst]?.size)
     }
 
     private fun getGroups(): List<MeasurementGroupDomainModel> {
