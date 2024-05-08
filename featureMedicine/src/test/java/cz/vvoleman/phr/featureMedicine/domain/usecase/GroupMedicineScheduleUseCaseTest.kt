@@ -55,24 +55,24 @@ class GroupMedicineScheduleUseCaseTest {
         assertEquals(3, actualValue.size, "There should be 3 groups, ${actualValue.size} found")
 
         val firstGroup = actualValue.first()
-        assertEquals("A", firstGroup.value, "First group should have name A, ${firstGroup.value} found")
+        assertEquals("-", firstGroup.value, "First group should have name -, ${firstGroup.value} found")
         assertEquals(
             2,
             firstGroup.items.size,
             "First group should have 2 items, ${firstGroup.items.size} found"
         )
         assertEquals(
-            "2",
+            "5",
             firstGroup.items[0].medicine.id,
-            "Id of first item in first group should be 2, ${firstGroup.items[0].medicine.id} found"
+            "Id of first item in first group should be 4, ${firstGroup.items[0].medicine.id} found"
         )
 
         val secondGroup = actualValue[1]
-        assertEquals("Ž", secondGroup.value, "Second group should have name Ž, ${secondGroup.value} found")
+        assertEquals("A", secondGroup.value, "Second group should have name A, ${secondGroup.value} found")
+        assertEquals(2, secondGroup.items.size, "Second group should have 2 items, ${secondGroup.items.size} found")
 
         val thirdGroup = actualValue[2]
-        assertEquals("-", thirdGroup.value, "Third group should have name -, ${thirdGroup.value} found")
-        assertEquals(2, thirdGroup.items.size, "Third group should have 2 items, ${thirdGroup.items.size} found")
+        assertEquals("Ž", thirdGroup.value, "Third group should have name Ž, ${thirdGroup.value} found")
     }
 
     private fun getFakeSchedules(): List<MedicineScheduleDomainModel> {
