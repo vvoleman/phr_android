@@ -6,7 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
-import cz.vvoleman.phr.base.ui.ext.collectLatestLifecycleFlow
+import cz.vvoleman.phr.base.ui.ext.collectLifecycleFlow
 import cz.vvoleman.phr.base.ui.mapper.ViewStateBinder
 import cz.vvoleman.phr.base.ui.view.BaseFragment
 import cz.vvoleman.phr.featureMedicalRecord.databinding.FragmentDetailMedicalRecordBinding
@@ -38,10 +38,11 @@ class DetailMedicalRecordFragment :
         super.setupListeners()
 
         val binder = viewStateBinder as DetailMedicalRecordBinder
-        collectLatestLifecycleFlow(binder.notification) {
+        collectLifecycleFlow(binder.notification) {
             when(it) {
                 is DetailMedicalRecordBinder.Notification.FileClicked -> {
-                    openImage(it.item)
+                    Log.d("DetailMedicalRecordFragment", "setupListeners: FileClicked (${it.item.asset.id})")
+                    viewModel.onGalleryOpen(it.item.asset.id!!)
                 }
             }
         }

@@ -1,7 +1,6 @@
 package cz.vvoleman.phr.featureMedicalRecord.ui.view.addEdit.adapter
 
 import android.net.Uri
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -16,7 +15,6 @@ class ImageAdapter(
 ) : ListAdapter<ImageItemUiModel, ImageAdapter.ImageViewHolder>(DiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImageViewHolder {
-        Log.d("ImageAdapter", "onCreateViewHolder: ")
         val binding =
             ItemFileThumbnailBinding.inflate(LayoutInflater.from(parent.context), parent, false)
 
@@ -55,7 +53,6 @@ class ImageAdapter(
         }
 
         fun bind(item: ImageItemUiModel) {
-            Log.d("ImageAdapter", "bind: $item")
             binding.apply {
                 imageViewThumbnail.setImageURI(Uri.parse(item.asset.uri))
             }
@@ -64,7 +61,6 @@ class ImageAdapter(
 
     class DiffCallback : DiffUtil.ItemCallback<ImageItemUiModel>() {
         override fun areItemsTheSame(oldItem: ImageItemUiModel, newItem: ImageItemUiModel): Boolean {
-            Log.d("ImageAdapter", "areItemsTheSame: ${oldItem.asset.uri} == ${newItem.asset.uri}")
             return oldItem.asset.uri == newItem.asset.uri
         }
 
