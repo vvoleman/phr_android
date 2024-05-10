@@ -9,12 +9,38 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip_show_all"
+                style="@style/Widget.MaterialComponents.Chip.Filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:chipBackgroundColor="@color/gray_700"
+                android:textColor="@color/beige_700"
+                android:text="@string/list_event_filter_show_all" />
+
+            <TextView
+                android:layout_marginStart="8dp"
+                android:textStyle="bold"
+                android:id="@+id/text_view_event_count_hidden"
+                android:layout_width="wrap_content"
+                android:text="@string/event_count_hidden"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            tools:itemCount="2"
+            tools:listitem="@layout/item_event_month" />
     </LinearLayout>
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton

@@ -12,6 +12,7 @@ import cz.vvoleman.phr.featureEvent.domain.repository.GetEventsByPatientReposito
 import cz.vvoleman.phr.featureEvent.domain.repository.SaveEventRepository
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.firstOrNull
+import java.time.LocalDateTime
 
 class EventRepository(
     private val eventDao: EventDao,
@@ -26,8 +27,20 @@ class EventRepository(
             ?.let { eventMapper.toDomain(it) }
     }
 
-    override suspend fun getEventsByPatient(patientId: String): List<EventDomainModel> {
-        return eventDao.getAll(patientId).first()
+    override suspend fun getEventsCountByPatient(patientId: String): Int {
+        return eventDao.getCount(patientId).first()
+    }
+
+    override suspend fun getEventsByPatientInRange(
+        patientId: String,
+        startAt: LocalDateTime,
+        endAt: LocalDateTime?
+    ): List<EventDomainModel> {
+        return eventDao.getInRange(
+            patientId,
+            startAt,
+            endAt ?: LocalDateTime.MAX
+        ).first()
             .map { eventDataSourceMapper.toData(it) }
             .map { eventMapper.toDomain(it) }
     }

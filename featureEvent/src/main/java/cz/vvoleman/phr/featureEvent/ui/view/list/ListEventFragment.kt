@@ -69,6 +69,12 @@ class ListEventFragment : BaseFragment<ListEventViewState, ListEventNotification
                 is ListEventBinder.Notification.OnOptionsMenuPopup -> {
                     showPopupMenu(it.item, it.view)
                 }
+                ListEventBinder.Notification.LoadOlderEvents -> {
+                    viewModel.onLoadOlderEvents()
+                }
+                is ListEventBinder.Notification.ToggleShowAll -> {
+                    viewModel.onToggleShowAll(it.isToggle)
+                }
             }
         }
     }
