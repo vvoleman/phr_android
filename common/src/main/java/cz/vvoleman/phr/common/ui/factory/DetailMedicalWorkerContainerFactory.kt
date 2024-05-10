@@ -22,7 +22,7 @@ class DetailMedicalWorkerContainerFactory(
             val contacts = getContactItems(worker, facility)
 
             val container = SpecificWorkerContainer(
-                facility = facility,
+                specificWorker = worker,
                 items = contacts
             )
             containers.add(container)
@@ -36,6 +36,14 @@ class DetailMedicalWorkerContainerFactory(
         facility: MedicalFacilityUiModel
     ): List<ContactItem> {
         return listOf(
+            ContactItem(
+                icon = R.drawable.ic_hospital,
+                value = facility.fullName,
+                buttonText = R.string.action_contact_phone,
+                onClick = { name ->
+                    copyManager.copy(name)
+                }
+            ),
             ContactItem(
                 icon = R.drawable.ic_phone,
                 value = worker.telephone,

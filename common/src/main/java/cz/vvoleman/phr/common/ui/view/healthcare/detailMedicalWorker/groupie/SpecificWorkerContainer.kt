@@ -3,17 +3,17 @@ package cz.vvoleman.phr.common.ui.view.healthcare.detailMedicalWorker.groupie
 import android.view.View
 import com.xwray.groupie.GroupieAdapter
 import com.xwray.groupie.viewbinding.BindableItem
-import cz.vvoleman.phr.common.ui.model.healthcare.core.MedicalFacilityUiModel
+import cz.vvoleman.phr.common.ui.model.healthcare.core.SpecificMedicalWorkerUiModel
 import cz.vvoleman.phr.common_datasource.R
 import cz.vvoleman.phr.common_datasource.databinding.ItemDetailMedicalWorkerBinding
 
 class SpecificWorkerContainer(
-    private val facility: MedicalFacilityUiModel,
+    private val specificWorker: SpecificMedicalWorkerUiModel,
     private val items: List<BindableItem<*>>
 ) : BindableItem<ItemDetailMedicalWorkerBinding>() {
 
     override fun bind(viewBinding: ItemDetailMedicalWorkerBinding, position: Int) {
-        viewBinding.textViewFacilityName.text = facility.fullName
+        viewBinding.textViewFacilityName.text = specificWorker.medicalWorker?.name
 
         val groupieAdapter = GroupieAdapter().apply {
             addAll(items)

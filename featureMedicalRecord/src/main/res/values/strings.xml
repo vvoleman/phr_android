@@ -59,4 +59,8 @@
     <string name="delete_record_title">Smazat zprávu</string>
     <string name="delete_record_message">Přejete si smazat tuto lékařskou zprávu?</string>
     <string name="select_options_dialog_title">Nalezené možnosti</string>
+    <string name="navigation_detail_gallery">Galerie zpráv</string>
+    <string name="detail_medical_record_title">Lékařská zpráva</string>
+    <string name="detail_medical_record_visited_at">Ze dne %s</string>
+    <string name="detail_medical_record_files">Přílohy</string>
 </resources>

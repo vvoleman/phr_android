@@ -86,5 +86,22 @@
         <argument
             android:name="medicalRecordId"
             app:argType="string" />
+        <action
+            android:id="@+id/action_detailMedicalRecordFragment_to_detailGalleryFragment"
+            app:destination="@id/detailGalleryFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailGalleryFragment"
+        android:name="cz.vvoleman.phr.featureMedicalRecord.ui.view.detailGallery.DetailGalleryFragment"
+        android:label="@string/navigation_detail_gallery"
+        tools:layout="@layout/fragment_detail_gallery">
+        <argument
+            android:name="medicalRecordId"
+            app:argType="string" />
+        <argument
+            android:name="assetId"
+            android:defaultValue="@null"
+            app:argType="string"
+            app:nullable="true" />
     </fragment>
 </navigation>

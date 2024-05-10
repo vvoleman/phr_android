@@ -21,6 +21,8 @@ class ContactItem(
         viewBinding.buttonMail.setOnClickListener {
             onClick(value)
         }
+
+        viewBinding.buttonMail.isEnabled = value.isNotEmpty()
     }
 
     override fun getLayout() = R.layout.item_detail_medical_worker_contact

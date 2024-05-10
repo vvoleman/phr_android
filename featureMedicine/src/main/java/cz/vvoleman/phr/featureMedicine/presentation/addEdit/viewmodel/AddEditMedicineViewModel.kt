@@ -73,7 +73,7 @@ class AddEditMedicineViewModel @Inject constructor(
             times = timesFrequencies.first,
             frequencyDays = timesFrequencies.second,
             frequencyDaysDefault = FrequencyDaysPresentationFactory.makeDays(),
-            problemCategory = schedule?.problemCategory,
+            problemCategory = schedule?.problemCategory ?: availableProblemCategories.first(),
         )
     }
 

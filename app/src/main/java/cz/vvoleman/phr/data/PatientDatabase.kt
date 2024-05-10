@@ -5,18 +5,9 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import androidx.sqlite.db.SupportSQLiteDatabase
-import cz.vvoleman.phr.featureMeasurement.data.datasource.room.MeasurementGroupDao
-import cz.vvoleman.phr.featureMeasurement.data.datasource.room.MeasurementGroupDataSourceModel
-import cz.vvoleman.phr.featureMeasurement.data.datasource.room.MeasurementGroupEntryDao
-import cz.vvoleman.phr.featureMeasurement.data.datasource.room.MeasurementGroupEntryDataSourceModel
-import cz.vvoleman.phr.featureMeasurement.data.datasource.room.MeasurementGroupScheduleItemDao
-import cz.vvoleman.phr.featureMeasurement.data.datasource.room.MeasurementGroupScheduleItemDataSourceModel
-import cz.vvoleman.phr.featureMeasurement.data.datasource.room.field.NumericFieldDao
-import cz.vvoleman.phr.featureMeasurement.data.datasource.room.field.NumericFieldDataSourceModel
-import cz.vvoleman.phr.featureMeasurement.data.datasource.room.unit.UnitGroupDao
-import cz.vvoleman.phr.featureMeasurement.data.datasource.room.unit.UnitGroupDataSourceModel
 import cz.vvoleman.phr.common.data.datasource.model.PatientDao
 import cz.vvoleman.phr.common.data.datasource.model.PatientDataSourceModel
+import cz.vvoleman.phr.common.data.datasource.model.PatientDataStore
 import cz.vvoleman.phr.common.data.datasource.model.healthcare.facility.MedicalFacilityDao
 import cz.vvoleman.phr.common.data.datasource.model.healthcare.facility.MedicalFacilityDataSourceModel
 import cz.vvoleman.phr.common.data.datasource.model.healthcare.service.MedicalServiceDao
@@ -36,6 +27,16 @@ import cz.vvoleman.phr.data.fixture.UnitGroupFixture
 import cz.vvoleman.phr.di.ApplicationScope
 import cz.vvoleman.phr.featureEvent.data.datasource.room.EventDao
 import cz.vvoleman.phr.featureEvent.data.datasource.room.EventDataSourceModel
+import cz.vvoleman.phr.featureMeasurement.data.datasource.room.MeasurementGroupDao
+import cz.vvoleman.phr.featureMeasurement.data.datasource.room.MeasurementGroupDataSourceModel
+import cz.vvoleman.phr.featureMeasurement.data.datasource.room.MeasurementGroupEntryDao
+import cz.vvoleman.phr.featureMeasurement.data.datasource.room.MeasurementGroupEntryDataSourceModel
+import cz.vvoleman.phr.featureMeasurement.data.datasource.room.MeasurementGroupScheduleItemDao
+import cz.vvoleman.phr.featureMeasurement.data.datasource.room.MeasurementGroupScheduleItemDataSourceModel
+import cz.vvoleman.phr.featureMeasurement.data.datasource.room.field.NumericFieldDao
+import cz.vvoleman.phr.featureMeasurement.data.datasource.room.field.NumericFieldDataSourceModel
+import cz.vvoleman.phr.featureMeasurement.data.datasource.room.unit.UnitGroupDao
+import cz.vvoleman.phr.featureMeasurement.data.datasource.room.unit.UnitGroupDataSourceModel
 import cz.vvoleman.phr.featureMedicalRecord.data.datasource.model.room.MedicalRecordDao
 import cz.vvoleman.phr.featureMedicalRecord.data.datasource.model.room.MedicalRecordDataSourceModel
 import cz.vvoleman.phr.featureMedicalRecord.data.datasource.model.room.asset.MedicalRecordAssetDao
@@ -139,6 +140,7 @@ abstract class PatientDatabase : RoomDatabase() {
 
     class Callback @Inject constructor(
         private val database: Provider<PatientDatabase>,
+        private val patientDataStore: PatientDataStore,
         @ApplicationScope private val applicationScope: CoroutineScope
     ) : RoomDatabase.Callback() {
 
@@ -157,6 +159,8 @@ abstract class PatientDatabase : RoomDatabase() {
                 val diagnoseGroupFixture = DiagnoseGroupFixture(database.diagnoseGroupDao())
 
                 val patients = patientFixture.setup()
+                patientDataStore.updatePatient(patients.first().id.toString())
+
                 val groups = diagnoseGroupFixture.setup()
 
                 val diagnoseFixture = DiagnoseFixture(database.diagnoseDao(), groups)
