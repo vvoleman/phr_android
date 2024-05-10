@@ -39,6 +39,8 @@ class DayContainer(
             }
         }
 
+
+
         override fun getLayout() = R.layout.item_event_day
 
         override fun initializeViewBinding(view: View): ItemEventDayBinding {

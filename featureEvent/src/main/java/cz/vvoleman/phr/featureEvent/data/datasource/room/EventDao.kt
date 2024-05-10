@@ -16,6 +16,18 @@ interface EventDao {
     fun getAll(patientId: String): Flow<List<EventWithDetailsDataSourceModel>>
 
     @Transaction
+    @Query("SELECT COUNT(*) FROM event WHERE patient_id = :patientId")
+    fun getCount(patientId: String): Flow<Int>
+
+    @Transaction
+    @Query("SELECT * FROM event WHERE patient_id = :patientId AND start_at > :startAt AND start_at < :endAt")
+    fun getInRange(
+        patientId: String,
+        startAt: LocalDateTime,
+        endAt: LocalDateTime?
+    ): Flow<List<EventWithDetailsDataSourceModel>>
+
+    @Transaction
     @Query("SELECT * FROM event WHERE id = :id")
     fun getById(id: String): Flow<EventWithDetailsDataSourceModel>
 

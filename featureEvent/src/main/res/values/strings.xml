@@ -33,4 +33,6 @@
     <string name="delete_event_message">Opravdu chcete smazat plán?</string>
     <string name="event_deleted">Plán byl smazán</string>
     <string name="error_export_events">Nepodařilo se exportovat plány do kalendáře</string>
+    <string name="list_event_filter_show_all">Zobrazit vše</string>
+    <string name="event_count_hidden">Skryto %s událostí</string>
 </resources>
