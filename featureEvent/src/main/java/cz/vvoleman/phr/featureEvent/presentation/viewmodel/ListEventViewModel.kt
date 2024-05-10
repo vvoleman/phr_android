@@ -93,12 +93,8 @@ class ListEventViewModel @Inject constructor(
     fun onDeleteEvent(event: EventPresentationModel) = viewModelScope.launch {
         deleteEventUseCase.executeInBackground(eventMapper.toDomain(event))
 
-        val newEvents = currentViewState
-            .events
-            .mapValues { (_, values) ->
-                values.filter { it.id != event.id }
-            }
-        updateViewState(currentViewState.copy(events = newEvents))
+        val events = getEvents(currentViewState.patient, currentViewState.dateTimeLimit, null)
+        updateViewState(currentViewState.copy(events = events))
 
         notify(ListEventNotification.EventDeleted(event))
     }

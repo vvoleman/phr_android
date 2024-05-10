@@ -35,4 +35,5 @@
     <string name="error_export_events">Nepodařilo se exportovat plány do kalendáře</string>
     <string name="list_event_filter_show_all">Zobrazit vše</string>
     <string name="event_count_hidden">Skryto %s událostí</string>
+    <string name="no_events">Žádné události</string>
 </resources>
