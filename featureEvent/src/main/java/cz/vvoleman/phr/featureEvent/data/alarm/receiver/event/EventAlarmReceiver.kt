@@ -37,7 +37,7 @@ class EventAlarmReceiver : BroadcastReceiver() {
             }
 
             val service = EventNotificationService(context)
-            service.showNotification(event)
+            service.showNotification(event, content)
         }
     }
 
