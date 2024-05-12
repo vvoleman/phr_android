@@ -108,7 +108,7 @@ class ListMedicineViewModel @Inject constructor(
         navigateTo(ListMedicineDestination.EditSchedule(id))
     }
 
-    fun onStopScheduling(item: MedicineSchedulePresentationModel) = viewModelScope.launch  {
+    fun onStopScheduling(item: MedicineSchedulePresentationModel) = viewModelScope.launch {
         val model = medicineScheduleMapper.toDomain(item)
 
         markMedicineScheduleFinishedRepository.markMedicineScheduleFinished(model, LocalDateTime.now())

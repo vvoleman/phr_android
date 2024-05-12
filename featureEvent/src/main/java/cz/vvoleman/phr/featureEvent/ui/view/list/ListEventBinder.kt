@@ -24,7 +24,6 @@ class ListEventBinder(
     BaseViewStateBinder<ListEventViewState, FragmentListEventBinding, ListEventBinder.Notification>(),
     DayItem.EventItemListener {
 
-
     override fun firstBind(viewBinding: FragmentListEventBinding, viewState: ListEventViewState) {
         super.firstBind(viewBinding, viewState)
 
@@ -63,7 +62,6 @@ class ListEventBinder(
             (viewState.totalCount - viewState.currentCount).toString(),
         )
         viewBinding.textViewNoEvents.visibility = if (viewState.currentCount == 0) View.VISIBLE else View.GONE
-
     }
 
     private fun getItems(viewState: ListEventViewState): List<MonthContainer> {
@@ -84,5 +82,4 @@ class ListEventBinder(
     override fun onOptionsMenuPopup(item: EventUiModel, view: View) {
         notify(Notification.OnOptionsMenuPopup(item, view))
     }
-
 }

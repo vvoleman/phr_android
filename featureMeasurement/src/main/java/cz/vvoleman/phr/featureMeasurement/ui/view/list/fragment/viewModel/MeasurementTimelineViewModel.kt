@@ -10,9 +10,11 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-class MeasurementTimelineViewModel: ViewModel() {
+class MeasurementTimelineViewModel : ViewModel() {
 
-    private val _items = MutableStateFlow<UiState<List<GroupedItemsUiModel<ScheduledMeasurementGroupUiModel>>>>(UiState.Loading)
+    private val _items = MutableStateFlow<UiState<List<GroupedItemsUiModel<ScheduledMeasurementGroupUiModel>>>>(
+        UiState.Loading
+    )
     val items = _items.asStateFlow()
     private var listener: MeasurementTimelineAdapter.MeasurementTimelineAdapterInterface? = null
 
@@ -27,5 +29,4 @@ class MeasurementTimelineViewModel: ViewModel() {
     fun getListener(): MeasurementTimelineAdapter.MeasurementTimelineAdapterInterface? {
         return listener
     }
-
 }

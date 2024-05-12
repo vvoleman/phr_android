@@ -35,5 +35,4 @@ class LongToReminderOffsetMapper {
             ReminderOffset.AtStart
         )
     }
-
 }

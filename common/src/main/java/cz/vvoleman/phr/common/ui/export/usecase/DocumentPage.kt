@@ -25,5 +25,4 @@ abstract class DocumentPage {
         val totalPages: Int,
         val generatedAt: LocalDateTime = LocalDateTime.now()
     )
-
 }

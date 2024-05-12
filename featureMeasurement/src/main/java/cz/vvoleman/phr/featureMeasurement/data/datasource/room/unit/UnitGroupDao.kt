@@ -27,5 +27,4 @@ interface UnitGroupDao {
 
     @Query("DELETE FROM unit_group WHERE id = :id")
     suspend fun deleteById(id: String)
-
 }

@@ -36,5 +36,4 @@ class MeasurementGroupUiModelToPresentationMapper(
             problemCategory = model.problemCategory?.let { problemCategoryMapper.toUi(it) },
         )
     }
-
 }

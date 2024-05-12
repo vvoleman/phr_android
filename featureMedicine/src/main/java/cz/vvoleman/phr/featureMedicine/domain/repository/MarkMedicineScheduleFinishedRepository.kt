@@ -6,5 +6,4 @@ import java.time.LocalDateTime
 interface MarkMedicineScheduleFinishedRepository {
 
     suspend fun markMedicineScheduleFinished(medicineSchedule: MedicineScheduleDomainModel, endingAt: LocalDateTime)
-
 }

@@ -12,5 +12,4 @@ interface GetEventsByPatientRepository {
         startAt: LocalDateTime,
         endAt: LocalDateTime?
     ): List<EventDomainModel>
-
 }

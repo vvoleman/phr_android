@@ -82,7 +82,6 @@ class MedicineListener(
                 }
             }
         }
-
     }
 
     private suspend fun onGetCategoryDetailSection(
@@ -122,5 +121,4 @@ class MedicineListener(
     companion object {
         const val EXPORT_LIMIT_PER_PAGE = 4
     }
-
 }

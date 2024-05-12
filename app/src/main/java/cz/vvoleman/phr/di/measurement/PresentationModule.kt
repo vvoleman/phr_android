@@ -135,5 +135,4 @@ class PresentationModule {
         updateMeasurementGroupProblemCategoryRepository = updateMeasurementGroupProblemCategoryRepository,
         getMeasurementByPatientRepository = getMeasurementByPatientRepository,
     )
-
 }

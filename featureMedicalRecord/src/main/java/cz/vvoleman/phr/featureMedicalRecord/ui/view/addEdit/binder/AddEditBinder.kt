@@ -96,5 +96,4 @@ class AddEditBinder(
         data class ProblemCategorySelected(val value: String?) : Notification()
         data class MedicalWorkerSelected(val item: SpecificMedicalWorkerUiModel) : Notification()
     }
-
 }

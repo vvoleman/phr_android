@@ -30,5 +30,4 @@ class MeasurementGroupEntryDataModelToDomainMapper {
     fun toData(models: List<MeasurementGroupEntryDomainModel>): List<MeasurementGroupEntryDataModel> {
         return models.map { toData(it) }
     }
-
 }

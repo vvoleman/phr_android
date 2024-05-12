@@ -17,5 +17,4 @@ class EventDataSourceModelToSaveDomainMapper {
             reminders = model.reminders.map { it.offset },
         )
     }
-
 }

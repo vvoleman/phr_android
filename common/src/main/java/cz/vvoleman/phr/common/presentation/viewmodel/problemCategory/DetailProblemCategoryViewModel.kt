@@ -34,7 +34,8 @@ class DetailProblemCategoryViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     useCaseExecutorProvider: UseCaseExecutorProvider,
 ) : BaseViewModel<DetailProblemCategoryViewState, DetailProblemCategoryNotification>(
-    savedStateHandle, useCaseExecutorProvider
+    savedStateHandle,
+    useCaseExecutorProvider
 ) {
 
     override val TAG = "DetailProblemCategoryViewModel"
@@ -77,7 +78,7 @@ class DetailProblemCategoryViewModel @Inject constructor(
             .let { patientMapper.toPresentation(it) }
     }
 
-    fun onExport() = viewModelScope.launch{
+    fun onExport() = viewModelScope.launch {
         val event = ExportProblemCategoryEvent(
             problemCategory = currentViewState.problemCategory,
         )

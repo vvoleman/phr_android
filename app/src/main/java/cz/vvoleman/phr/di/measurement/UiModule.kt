@@ -218,5 +218,4 @@ class UiModule {
             measurementGroupMapper = measurementGroupMapper
         )
     }
-
 }

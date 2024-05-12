@@ -9,6 +9,4 @@ interface ProblemCategoryDetailProvider {
         items: List<MeasurementGroupWithStatsPresentationModel>,
         onClick: (String) -> Unit
     ): SectionContainer
-
-
 }

@@ -10,12 +10,11 @@ class NextMeasurementGroupScheduleFacade(
     fun getNextSchedule(
         list: List<MeasurementGroupDomainModel>,
         currentDateTime: LocalDateTime
-    ) : List<MeasurementGroupDomainModel> {
+    ): List<MeasurementGroupDomainModel> {
         val translated = list.groupBy { model ->
             model.scheduleItems.minOf { translateDateTimeFacade.getLocalTime(it, currentDateTime) }
         }.toSortedMap()
 
         return translated.values.firstOrNull() ?: emptyList()
     }
-
 }

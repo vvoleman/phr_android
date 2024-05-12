@@ -19,5 +19,4 @@ class SaveMeasurementGroupDataModelToDomainMapper(
             fields = fieldMapper.toData(model.fields),
         )
     }
-
 }

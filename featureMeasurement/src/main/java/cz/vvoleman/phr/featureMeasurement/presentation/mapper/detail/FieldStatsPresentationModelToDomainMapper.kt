@@ -32,5 +32,4 @@ class FieldStatsPresentationModelToDomainMapper {
     fun toPresentation(models: List<FieldStatsDomainModel>): List<FieldStatsPresentationModel> {
         return models.map { toPresentation(it) }
     }
-
 }

@@ -46,5 +46,4 @@ class EventDataSourceModelToDataMapper(
     fun toDataSourceModel(model: List<EventDataModel>): List<EventDataSourceModel> {
         return model.map { toDataSourceModel(it) }
     }
-
 }

@@ -35,7 +35,8 @@ class ListProblemCategoryFragment :
     override lateinit var destinationMapper: ListProblemCategoryDestinationUiMapper
 
     @Inject
-    override lateinit var viewStateBinder: ViewStateBinder<ListProblemCategoryViewState, FragmentListProblemCategoryBinding>
+    override lateinit var viewStateBinder:
+        ViewStateBinder<ListProblemCategoryViewState, FragmentListProblemCategoryBinding>
 
     @Inject
     lateinit var problemCategoryMapper: ProblemCategoryUiModelToPresentationMapper
@@ -118,7 +119,6 @@ class ListProblemCategoryFragment :
             R.string.delete_problem_category_message,
             negativeAction = Pair(R.string.action_delete_move_to) {
                 viewModel.onDelete(model, DataDeleteType.MoveToAnother())
-
             },
             positiveAction = Pair(R.string.action_delete_delete_data) {
                 viewModel.onDelete(model, DataDeleteType.DeleteData)

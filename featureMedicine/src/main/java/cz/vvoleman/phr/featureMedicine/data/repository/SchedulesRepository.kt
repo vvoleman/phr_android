@@ -142,7 +142,7 @@ class SchedulesRepository(
         medicineSchedule: MedicineScheduleDomainModel,
         endingAt: LocalDateTime
     ) {
-        val schedules = medicineSchedule.schedules.map{
+        val schedules = medicineSchedule.schedules.map {
             it.copy(endingAt = LocalDateTime.now())
         }.map {
             scheduleItemDataMapper.toData(it)

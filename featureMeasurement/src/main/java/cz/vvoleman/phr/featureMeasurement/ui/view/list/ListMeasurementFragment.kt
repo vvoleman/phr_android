@@ -32,7 +32,8 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class ListMeasurementFragment :
     BaseFragment<ListMeasurementViewState, ListMeasurementNotification, FragmentListMeasurementBinding>(),
-    NextSchedule.NextScheduleListener, MeasurementGroupAdapter.MeasurementGroupAdapterInterface,
+    NextSchedule.NextScheduleListener,
+    MeasurementGroupAdapter.MeasurementGroupAdapterInterface,
     MeasurementTimelineAdapter.MeasurementTimelineAdapterInterface {
 
     override val viewModel: ListMeasurementViewModel by viewModels()
@@ -138,13 +139,13 @@ class ListMeasurementFragment :
                 viewModel.onDeleteMeasurementGroup(model)
             },
             negativeAction = Pair(cz.vvoleman.phr.common_datasource.R.string.action_cancel) {
-                //do nothing
+                // do nothing
             }
         )
     }
 
     override fun onMeasurementTimelineClick(item: ScheduledMeasurementGroupUiModel) {
-        showSnackbar("Clicked on ${item}")
+        showSnackbar("Clicked on $item")
     }
 
     override fun onMeasurementTimelineMakeEntryClick(item: ScheduledMeasurementGroupUiModel) {

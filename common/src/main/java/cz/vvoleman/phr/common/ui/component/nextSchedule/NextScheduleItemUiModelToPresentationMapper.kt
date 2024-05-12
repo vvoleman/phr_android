@@ -29,5 +29,4 @@ class NextScheduleItemUiModelToPresentationMapper {
     fun toUi(models: List<NextScheduleItemPresentationModel>): List<NextScheduleItemUiModel> {
         return models.map { toUi(it) }
     }
-
 }

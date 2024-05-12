@@ -75,5 +75,4 @@ class MedicinePageAdapter :
             return oldItem == newItem
         }
     }
-
 }

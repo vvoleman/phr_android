@@ -68,7 +68,7 @@ class AddEditPatientViewModel @Inject constructor(
         return errors.isEmpty()
     }
 
-    private suspend fun getPatient(): PatientPresentationModel?{
+    private suspend fun getPatient(): PatientPresentationModel? {
         val id = savedStateHandle.get<String>(PATIENT_KEY) ?: return null
 
         val patient = getPatientByIdUseCase.executeInBackground(id)
@@ -80,7 +80,6 @@ class AddEditPatientViewModel @Inject constructor(
         }
 
         return patientPresentationModelToDomainMapper.toPresentation(patient)
-
     }
 
     companion object {

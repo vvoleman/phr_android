@@ -22,5 +22,4 @@ class MeasurementGroupEntryPresentationModelToDomainMapper {
             scheduleItemId = model.scheduleItemId,
         )
     }
-
 }

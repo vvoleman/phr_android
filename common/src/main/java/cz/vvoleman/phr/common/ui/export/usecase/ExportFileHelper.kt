@@ -24,7 +24,6 @@ abstract class ExportFileHelper(
 
     abstract val exportType: ExportType
 
-
     abstract suspend fun handleCreateFileResult(uri: Uri?)
 
     abstract fun getDefaultFileName(): String

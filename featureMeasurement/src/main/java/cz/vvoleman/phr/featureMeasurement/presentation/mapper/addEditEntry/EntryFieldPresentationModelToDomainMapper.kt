@@ -28,5 +28,4 @@ class EntryFieldPresentationModelToDomainMapper {
     fun toPresentation(models: List<EntryFieldDomainModel>): List<EntryFieldPresentationModel> {
         return models.map { toPresentation(it) }
     }
-
 }

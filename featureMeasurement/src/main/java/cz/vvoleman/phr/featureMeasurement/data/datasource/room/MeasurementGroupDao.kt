@@ -42,5 +42,4 @@ interface MeasurementGroupDao {
 
     @Query("DELETE FROM measurement_group WHERE patient_id = :patientId")
     suspend fun deleteByPatientId(patientId: String)
-
 }

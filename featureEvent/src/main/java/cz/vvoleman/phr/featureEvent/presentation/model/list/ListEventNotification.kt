@@ -7,5 +7,4 @@ sealed class ListEventNotification {
     data class ExportEvents(val events: List<EventPresentationModel>) : ListEventNotification()
 
     data class EventDeleted(val event: EventPresentationModel) : ListEventNotification()
-
 }

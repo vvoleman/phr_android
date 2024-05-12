@@ -27,5 +27,4 @@ class MeasurementGroupViewModel : ViewModel() {
     fun getListener(): MeasurementGroupAdapter.MeasurementGroupAdapterInterface? {
         return listener
     }
-
 }

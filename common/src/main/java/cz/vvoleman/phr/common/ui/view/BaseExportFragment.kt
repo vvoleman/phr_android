@@ -24,7 +24,9 @@ abstract class BaseExportFragment<VIEW_STATE : Any, NOTIFICATION : Any, VIEW_BIN
     }
 
     protected open fun setupExportHelper() {
-        val createFileLauncher = registerForActivityResult(ActivityResultContracts.CreateDocument("application/pdf")) { uri ->
+        val createFileLauncher = registerForActivityResult(
+            ActivityResultContracts.CreateDocument("application/pdf")
+        ) { uri ->
             lifecycleScope.launch {
                 kotlin.runCatching {
                     exportPdfHelper?.handleCreateFileResult(uri)
@@ -55,7 +57,8 @@ abstract class BaseExportFragment<VIEW_STATE : Any, NOTIFICATION : Any, VIEW_BIN
 
         try {
             DocumentFactory(
-                helper, pages
+                helper,
+                pages
             ).generate()
         } catch (e: PermissionDeniedException) {
             showSnackbar("Aplikace nemá oprávnění k přístupu k uložišti: ${e.message}")
@@ -65,5 +68,4 @@ abstract class BaseExportFragment<VIEW_STATE : Any, NOTIFICATION : Any, VIEW_BIN
             showSnackbar("Vyskytla se neočekávaná chyba: ${e.message}")
         }
     }
-
 }

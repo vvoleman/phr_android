@@ -5,7 +5,7 @@ import android.os.Parcelable
 import java.time.LocalDateTime
 import java.time.LocalTime
 
-sealed class AlarmItem{
+sealed class AlarmItem {
     abstract val id: String
     abstract val type: Int
     abstract val receiver: Class<*>

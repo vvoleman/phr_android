@@ -183,6 +183,4 @@ class AddEditEventViewModel @Inject constructor(
             )
         }
     }
-
-
 }

@@ -42,5 +42,4 @@ class DomainModule {
         deleteEventAlarmRepository = deleteEventAlarmRepository,
         coroutineContextProvider = coroutineContextProvider
     )
-
 }

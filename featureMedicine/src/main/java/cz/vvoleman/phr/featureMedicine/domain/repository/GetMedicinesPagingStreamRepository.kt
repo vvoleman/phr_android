@@ -7,5 +7,4 @@ import kotlinx.coroutines.flow.Flow
 interface GetMedicinesPagingStreamRepository {
 
     fun getMedicinesPagingStream(query: String): Flow<PagingData<MedicineDomainModel>>
-
 }

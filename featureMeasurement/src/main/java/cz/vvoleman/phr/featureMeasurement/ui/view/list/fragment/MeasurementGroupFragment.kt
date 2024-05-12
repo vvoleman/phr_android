@@ -92,5 +92,4 @@ class MeasurementGroupFragment : Fragment(), GroupedItemsAdapter.GroupedItemsAda
             return fragment
         }
     }
-
 }

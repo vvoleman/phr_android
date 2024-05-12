@@ -17,5 +17,4 @@ class EventPresentationModelToSaveDomainMapper {
             reminders = model.reminders
         )
     }
-
 }

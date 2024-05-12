@@ -51,7 +51,6 @@ class MeasurementGroupFieldItem(
             if (item.weekAvgValue != null) {
                 textViewWeekAverageValue.text = average.toString()
             }
-
         }
     }
 

@@ -86,5 +86,4 @@ class AddEditEntryBinder(
 
         super.onDestroy(viewBinding)
     }
-
 }

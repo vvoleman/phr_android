@@ -1,9 +1,7 @@
 package cz.vvoleman.phr.common.data.mapper.healthcare
 
 import cz.vvoleman.phr.common.data.datasource.model.healthcare.service.MedicalServiceDao
-import cz.vvoleman.phr.common.data.datasource.model.healthcare.service.MedicalServiceDataSourceModel
 import cz.vvoleman.phr.common.data.datasource.model.healthcare.worker.MedicalWorkerDao
-import cz.vvoleman.phr.common.data.datasource.model.healthcare.worker.MedicalWorkerDataSourceModel
 import cz.vvoleman.phr.common.data.datasource.model.healthcare.worker.SpecificMedicalWorkerDataSourceModel
 import cz.vvoleman.phr.common.data.datasource.model.healthcare.worker.SpecificMedicalWorkerWithDetailsDataSourceModel
 import cz.vvoleman.phr.common.domain.model.healthcare.worker.SpecificMedicalWorkerDomainModel

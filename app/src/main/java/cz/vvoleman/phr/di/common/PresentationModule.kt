@@ -164,7 +164,7 @@ class PresentationModule {
     @Provides
     fun providesColorFactory(
         @ApplicationContext context: Context
-    ) : ColorFactory = ColorFactory(context)
+    ): ColorFactory = ColorFactory(context)
 
     @Provides
     fun providesSpecificMedicalWorkerPresentationModelToDomainMapper(

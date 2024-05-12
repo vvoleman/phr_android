@@ -5,7 +5,7 @@ import cz.vvoleman.phr.common.ui.adapter.grouped.GroupedItemsAdapter
 import cz.vvoleman.phr.common.ui.model.GroupedItemsUiModel
 import java.time.LocalDateTime
 
-abstract class AbstractTimelineFragment<T: Any> : Fragment(), GroupedItemsAdapter.GroupedItemsAdapterInterface<T> {
+abstract class AbstractTimelineFragment<T : Any> : Fragment(), GroupedItemsAdapter.GroupedItemsAdapterInterface<T> {
 
     @Suppress("MagicNumber")
     protected fun isMultipleDays(schedules: List<GroupedItemsUiModel<T>>): Boolean {
@@ -37,5 +37,4 @@ abstract class AbstractTimelineFragment<T: Any> : Fragment(), GroupedItemsAdapte
         const val TIMESTAMP_PARTS = 4
         const val GROUP_STRING_PARTS = 3
     }
-
 }

@@ -30,8 +30,10 @@ object CommonEventBus {
     val medicalWorkerDeletedEvent = EventBusChannel<MedicalWorkerDeletedEvent, Unit>()
 
     val getCategoryAdditionalInfoBus =
-        EventBusChannel<GetProblemCategoriesAdditionalInfoEvent,
-                Map<ProblemCategoryDomainModel, ProblemCategoryInfoDomainModel>>()
+        EventBusChannel<
+            GetProblemCategoriesAdditionalInfoEvent,
+            Map<ProblemCategoryDomainModel, ProblemCategoryInfoDomainModel>
+            >()
 
     val deleteProblemCategoryBus = EventBusChannel<DeleteProblemCategoryEvent, Unit>()
 

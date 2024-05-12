@@ -11,5 +11,4 @@ interface GetSchedulesByProblemCategoryRepository {
     suspend fun getSchedulesByProblemCategory(
         problemCategory: String,
     ): List<MedicineScheduleDomainModel>
-
 }

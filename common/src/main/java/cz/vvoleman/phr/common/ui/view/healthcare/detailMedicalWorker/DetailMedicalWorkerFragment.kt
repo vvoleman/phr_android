@@ -25,7 +25,8 @@ class DetailMedicalWorkerFragment :
     override lateinit var destinationMapper: DetailMedicalWorkerDestinationUiMapper
 
     @Inject
-    override lateinit var viewStateBinder: ViewStateBinder<DetailMedicalWorkerViewState, FragmentDetailMedicalWorkerBinding>
+    override lateinit var viewStateBinder:
+        ViewStateBinder<DetailMedicalWorkerViewState, FragmentDetailMedicalWorkerBinding>
 
     override fun setupBinding(inflater: LayoutInflater, container: ViewGroup?): FragmentDetailMedicalWorkerBinding {
         return FragmentDetailMedicalWorkerBinding.inflate(inflater, container, false)

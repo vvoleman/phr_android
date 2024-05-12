@@ -32,7 +32,8 @@ class DatePicker @JvmOverloads constructor(
         context.theme.obtainStyledAttributes(
             attrs,
             R.styleable.Picker,
-            0, 0
+            0,
+            0
         ).apply {
 
             try {

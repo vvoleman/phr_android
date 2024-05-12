@@ -18,5 +18,4 @@ class ColorUiModelToPresentationMapper {
             color = model.color
         )
     }
-
 }

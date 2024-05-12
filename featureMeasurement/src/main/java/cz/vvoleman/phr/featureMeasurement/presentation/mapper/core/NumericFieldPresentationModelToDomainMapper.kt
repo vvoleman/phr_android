@@ -26,5 +26,4 @@ class NumericFieldPresentationModelToDomainMapper(
             maximalValue = model.maximalValue
         )
     }
-
 }

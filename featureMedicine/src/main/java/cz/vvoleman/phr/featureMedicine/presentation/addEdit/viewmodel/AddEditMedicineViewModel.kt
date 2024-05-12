@@ -85,7 +85,7 @@ class AddEditMedicineViewModel @Inject constructor(
         }
     }
 
-    fun onMedicineSearch(query: String): Flow<PagingData<MedicinePresentationModel>>{
+    fun onMedicineSearch(query: String): Flow<PagingData<MedicinePresentationModel>> {
         if (query != currentViewState.medicineQuery || currentViewState.medicineStream == null) {
             updateViewState(currentViewState.copy(medicineQuery = query))
 
@@ -226,7 +226,6 @@ class AddEditMedicineViewModel @Inject constructor(
     private fun getTimesAndFrequencies(
         schedule: MedicineSchedulePresentationModel?
     ): Pair<List<TimePresentationModel>, List<FrequencyDayPresentationModel>> {
-
         val times = if (schedule != null) {
             val itemsByDay = schedule.schedules.groupBy { it.dayOfWeek }
             itemsByDay.values.first().map {

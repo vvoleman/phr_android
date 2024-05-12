@@ -46,5 +46,4 @@ class MeasurementGroupNotificationService(
 
         notificationManager.notify(measurementGroup.id.hashCode(), notification)
     }
-
 }

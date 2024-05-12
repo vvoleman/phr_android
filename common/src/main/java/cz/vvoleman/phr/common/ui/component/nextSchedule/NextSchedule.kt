@@ -34,7 +34,9 @@ class NextSchedule @JvmOverloads constructor(
         context.theme.obtainStyledAttributes(
             attrs,
             R.styleable.NextSchedule,
-            0, 0).apply {
+            0,
+            0
+        ).apply {
 
             try {
                 _labelText = getString(R.styleable.NextSchedule_labelText)

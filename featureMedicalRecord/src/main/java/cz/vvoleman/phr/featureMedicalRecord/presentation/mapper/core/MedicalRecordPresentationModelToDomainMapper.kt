@@ -40,5 +40,4 @@ class MedicalRecordPresentationModelToDomainMapper(
             visitDate = model.visitDate,
         )
     }
-
 }

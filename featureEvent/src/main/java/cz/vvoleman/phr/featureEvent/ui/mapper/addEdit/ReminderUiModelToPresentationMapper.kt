@@ -28,5 +28,4 @@ class ReminderUiModelToPresentationMapper {
     fun toUi(models: List<ReminderPresentationModel>): List<ReminderUiModel> {
         return models.map { toUi(it) }
     }
-
 }

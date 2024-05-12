@@ -66,23 +66,23 @@ class ProblemCategoryAdapter(
                 setHasFixedSize(true)
             }
         }
-
     }
 
     private class DiffCallback : DiffUtil.ItemCallback<ProblemCategoryWithInfoUiModel>() {
-        override fun areItemsTheSame(oldItem: ProblemCategoryWithInfoUiModel, newItem: ProblemCategoryWithInfoUiModel): Boolean {
+        override fun areItemsTheSame(
+            oldItem: ProblemCategoryWithInfoUiModel,
+            newItem: ProblemCategoryWithInfoUiModel
+        ): Boolean {
             return oldItem.problemCategory.id == newItem.problemCategory.id
         }
 
         override fun areContentsTheSame(oldItem: ProblemCategoryWithInfoUiModel, newItem: ProblemCategoryWithInfoUiModel): Boolean {
             return oldItem == newItem
         }
-
     }
 
     interface ProblemCategoryListener {
         fun onClick(problemCategory: ProblemCategoryWithInfoUiModel)
         fun onOptionsMenuClick(problemCategory: ProblemCategoryWithInfoUiModel, anchorView: View)
     }
-
 }

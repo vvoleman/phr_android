@@ -28,5 +28,4 @@ class ScheduledMeasurementGroupPresentationModelToDomainMapper(
     fun toPresentation(models: List<ScheduledMeasurementGroupDomainModel>): List<ScheduledMeasurementGroupPresentationModel> {
         return models.map { toPresentation(it) }
     }
-
 }

@@ -43,5 +43,4 @@ class EventUiModelToPresentationMapper(
     fun toUi(model: List<EventPresentationModel>): List<EventUiModel> {
         return model.map { toUi(it) }
     }
-
 }

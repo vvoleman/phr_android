@@ -24,5 +24,4 @@ class UnitGroupPresentationModelToDomainMapper(
             defaultUnit = unitMapper.toPresentation(model.defaultUnit),
         )
     }
-
 }

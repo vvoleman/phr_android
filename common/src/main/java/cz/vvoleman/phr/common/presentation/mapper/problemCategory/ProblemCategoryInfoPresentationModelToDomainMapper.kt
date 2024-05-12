@@ -18,7 +18,8 @@ class ProblemCategoryInfoPresentationModelToDomainMapper(
                     icon = it.icon,
                     text = it.text,
                     onClick = it.onClick?.let { onClick ->
-                        { problemCategory ->
+                        {
+                                problemCategory ->
                             onClick(
                                 problemCategoryPresentationModelToDomainMapper.toPresentation(
                                     problemCategory
@@ -39,7 +40,8 @@ class ProblemCategoryInfoPresentationModelToDomainMapper(
                     icon = it.icon,
                     text = it.text,
                     onClick = it.onClick?.let { onClick ->
-                        { problemCategory ->
+                        {
+                                problemCategory ->
                             onClick(
                                 problemCategoryPresentationModelToDomainMapper.toDomain(
                                     problemCategory
@@ -51,5 +53,4 @@ class ProblemCategoryInfoPresentationModelToDomainMapper(
             }
         )
     }
-
 }

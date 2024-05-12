@@ -189,7 +189,9 @@ class MedicalRecordListener(
                         onClick = null
                     )
                 )
-            } else emptyList()
+            } else {
+                emptyList()
+            }
 
             map[category] =
                 ProblemCategoryInfoDomainModel(

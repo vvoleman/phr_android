@@ -17,7 +17,8 @@ class ProblemCategoryInfoUiModelToPresentationMapper(
                     icon = it.icon,
                     text = it.text,
                     onClick = it.onClick?.let { onClick ->
-                        { problemCategory ->
+                        {
+                                problemCategory ->
                             onClick(
                                 problemCategoryUiModelToPresentationMapper.toUi(
                                     problemCategory
@@ -38,7 +39,8 @@ class ProblemCategoryInfoUiModelToPresentationMapper(
                     icon = it.icon,
                     text = it.text,
                     onClick = it.onClick?.let { onClick ->
-                        { problemCategory ->
+                        {
+                                problemCategory ->
                             onClick(
                                 problemCategoryUiModelToPresentationMapper.toPresentation(
                                     problemCategory
@@ -50,5 +52,4 @@ class ProblemCategoryInfoUiModelToPresentationMapper(
             }
         )
     }
-
 }

@@ -24,7 +24,6 @@ class ExportEventsToCalendarUseCase(
 
         var result = true
 
-
         for (event in events) {
             val endAt = event.endAt ?: event.startAt.plusHours(1)
             val zoneOffset = ZoneId.of("Europe/Prague").rules.getOffset(Instant.now())
@@ -71,5 +70,4 @@ class ExportEventsToCalendarUseCase(
             Manifest.permission.WRITE_CALENDAR
         ) != PackageManager.PERMISSION_GRANTED
     }
-
 }

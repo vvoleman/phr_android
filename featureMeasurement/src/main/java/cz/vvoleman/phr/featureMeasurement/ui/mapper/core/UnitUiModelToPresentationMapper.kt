@@ -22,5 +22,4 @@ class UnitUiModelToPresentationMapper {
             addition = model.addition,
         )
     }
-
 }

@@ -21,5 +21,4 @@ class ProblemCategoryWithInfoUiModelToPresentationMapper(
             info = problemCategoryInfoUiModelToPresentationMapper.toUi(model.info)
         )
     }
-
 }

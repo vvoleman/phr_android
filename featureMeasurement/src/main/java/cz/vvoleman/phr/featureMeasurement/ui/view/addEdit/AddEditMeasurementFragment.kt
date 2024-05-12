@@ -40,7 +40,8 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class AddEditMeasurementFragment :
     BaseFragment<AddEditMeasurementViewState, AddEditMeasurementNotification, FragmentAddEditMeasurementBinding>(),
-    FieldEditor.FieldEditorListener, FrequencySelector.FrequencySelectorListener,
+    FieldEditor.FieldEditorListener,
+    FrequencySelector.FrequencySelectorListener,
     ReminderTimeSelector.TimeSelectorListener {
 
     override val viewModel: AddEditMeasurementViewModel by viewModels()
@@ -49,7 +50,8 @@ class AddEditMeasurementFragment :
     override lateinit var destinationMapper: AddEditMeasurementDestinationUiMapper
 
     @Inject
-    override lateinit var viewStateBinder: ViewStateBinder<AddEditMeasurementViewState, FragmentAddEditMeasurementBinding>
+    override lateinit var viewStateBinder:
+        ViewStateBinder<AddEditMeasurementViewState, FragmentAddEditMeasurementBinding>
 
     @Inject
     lateinit var frequencyMapper: FrequencyDayUiModelToPresentationMapper

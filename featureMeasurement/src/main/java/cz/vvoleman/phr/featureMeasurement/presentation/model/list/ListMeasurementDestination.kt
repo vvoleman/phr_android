@@ -11,5 +11,4 @@ sealed class ListMeasurementDestination : PresentationDestination {
     data class AddEntry(val measurementGroupId: String) : ListMeasurementDestination()
 
     data class Detail(val measurementGroupId: String, val name: String) : ListMeasurementDestination()
-
 }

@@ -6,5 +6,4 @@ sealed class ListEventDestination : PresentationDestination {
 
     object AddEvent : ListEventDestination()
     data class EditEvent(val eventId: String) : ListEventDestination()
-
 }

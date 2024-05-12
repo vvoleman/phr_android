@@ -30,5 +30,4 @@ class UnitDataModelToDomainMapper {
     fun toData(models: List<UnitDomainModel>): List<UnitDataModel> {
         return models.map { toData(it) }
     }
-
 }

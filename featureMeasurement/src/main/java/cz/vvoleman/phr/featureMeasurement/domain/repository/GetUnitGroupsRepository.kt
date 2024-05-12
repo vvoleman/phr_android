@@ -5,5 +5,4 @@ import cz.vvoleman.phr.featureMeasurement.domain.model.core.field.unit.UnitGroup
 interface GetUnitGroupsRepository {
 
     suspend fun getUnitGroups(): List<UnitGroupDomainModel>
-
 }

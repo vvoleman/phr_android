@@ -41,5 +41,4 @@ class EventDataModelToDomainMapper(
     fun toData(model: List<EventDomainModel>): List<EventDataModel> {
         return model.map { toData(it) }
     }
-
 }

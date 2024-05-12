@@ -13,16 +13,16 @@ import com.google.android.material.snackbar.Snackbar
 import cz.vvoleman.phr.base.ui.ext.collectLifecycleFlow
 import cz.vvoleman.phr.base.ui.mapper.ViewStateBinder
 import cz.vvoleman.phr.base.ui.view.BaseFragment
-import cz.vvoleman.phr.common.ui.mapper.healthcare.SpecificMedicalWorkerUiModelToPresentationMapper
 import cz.vvoleman.phr.common.ui.component.picker.DatePicker
+import cz.vvoleman.phr.common.ui.mapper.healthcare.SpecificMedicalWorkerUiModelToPresentationMapper
 import cz.vvoleman.phr.featureMedicalRecord.R
 import cz.vvoleman.phr.featureMedicalRecord.databinding.FragmentAddEditMedicalRecordBinding
 import cz.vvoleman.phr.featureMedicalRecord.presentation.model.addEdit.AddEditNotification
 import cz.vvoleman.phr.featureMedicalRecord.presentation.model.addEdit.AddEditViewState
 import cz.vvoleman.phr.featureMedicalRecord.presentation.viewmodel.AddEditMedicalRecordViewModel
 import cz.vvoleman.phr.featureMedicalRecord.ui.component.diagnoseSelector.DiagnoseSelector
-import cz.vvoleman.phr.featureMedicalRecord.ui.mapper.destination.AddEditDestinationUiMapper
 import cz.vvoleman.phr.featureMedicalRecord.ui.mapper.DiagnoseUiModelToPresentationMapper
+import cz.vvoleman.phr.featureMedicalRecord.ui.mapper.destination.AddEditDestinationUiMapper
 import cz.vvoleman.phr.featureMedicalRecord.ui.model.DiagnoseUiModel
 import cz.vvoleman.phr.featureMedicalRecord.ui.model.ImageItemUiModel
 import cz.vvoleman.phr.featureMedicalRecord.ui.view.addEdit.adapter.ImageAdapter
@@ -37,10 +37,10 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class AddEditMedicalRecordsFragment :
     BaseFragment<
-            AddEditViewState,
-            AddEditNotification,
-            FragmentAddEditMedicalRecordBinding
-            >(),
+        AddEditViewState,
+        AddEditNotification,
+        FragmentAddEditMedicalRecordBinding
+        >(),
     ImageAdapter.FileAdapterListener,
     DatePicker.DatePickerListener,
     DiagnoseSelector.DiagnoseSelectorListener {
@@ -52,7 +52,7 @@ class AddEditMedicalRecordsFragment :
 
     @Inject
     override lateinit var viewStateBinder:
-            ViewStateBinder<AddEditViewState, FragmentAddEditMedicalRecordBinding>
+        ViewStateBinder<AddEditViewState, FragmentAddEditMedicalRecordBinding>
 
     @Inject
     lateinit var diagnoseMapper: DiagnoseUiModelToPresentationMapper
@@ -160,7 +160,7 @@ class AddEditMedicalRecordsFragment :
     }
 
     override fun onDiagnoseSelected(diagnose: DiagnoseUiModel?, position: Int?) {
-        val model = diagnose?.let {diagnoseMapper.toPresentation(it)}
+        val model = diagnose?.let { diagnoseMapper.toPresentation(it) }
         viewModel.onDiagnoseSelected(model)
     }
 
@@ -172,7 +172,7 @@ class AddEditMedicalRecordsFragment :
 
         lifecycleScope.launch {
             stream.map { pagingData ->
-                pagingData.map {diagnoseMapper.toUi(it)}
+                pagingData.map { diagnoseMapper.toUi(it) }
             }.collectLatest { pagingData ->
                 callback(pagingData)
             }

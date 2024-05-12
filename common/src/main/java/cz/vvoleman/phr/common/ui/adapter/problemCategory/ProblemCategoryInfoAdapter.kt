@@ -46,7 +46,6 @@ class ProblemCategoryInfoAdapter(
                 }
             }
         }
-
     }
 
     private class DiffCallback : DiffUtil.ItemCallback<AdditionalInfoUiModel<ProblemCategoryUiModel>>() {
@@ -63,7 +62,5 @@ class ProblemCategoryInfoAdapter(
         ): Boolean {
             return oldItem == newItem
         }
-
     }
-
 }

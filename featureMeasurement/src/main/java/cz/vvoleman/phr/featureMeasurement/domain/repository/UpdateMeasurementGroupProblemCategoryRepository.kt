@@ -9,5 +9,4 @@ interface UpdateMeasurementGroupProblemCategoryRepository {
         measurementGroup: MeasurementGroupDomainModel,
         problemCategory: ProblemCategoryDomainModel?
     )
-
 }

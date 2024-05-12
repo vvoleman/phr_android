@@ -37,5 +37,4 @@ class DayItem(
     interface EventItemListener {
         fun onOptionsMenuPopup(item: EventUiModel, view: View)
     }
-
 }

@@ -43,6 +43,4 @@ interface EventDao {
 
     @Query("DELETE FROM event WHERE patient_id = :patientId")
     suspend fun deleteAll(patientId: String)
-
-
 }

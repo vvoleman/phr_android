@@ -9,5 +9,4 @@ sealed class ListProblemCategoryDestination : PresentationDestination {
     data class EditProblemCategory(val id: String) : ListProblemCategoryDestination()
 
     data class OpenDetail(val id: String) : ListProblemCategoryDestination()
-
 }

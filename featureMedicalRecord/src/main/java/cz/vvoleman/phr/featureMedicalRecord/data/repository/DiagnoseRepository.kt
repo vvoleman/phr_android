@@ -25,8 +25,11 @@ class DiagnoseRepository(
     private val backendApi: BackendApi,
     private val diagnoseDao: DiagnoseDao,
     private val diagnoseGroupDao: DiagnoseGroupDao,
-) : GetDiagnosesByIdsRepository, GetDiagnoseByIdRepository, SearchDiagnoseRepository,
-    GetDiagnosesPagingStreamRepository, CreateDiagnoseRepository {
+) : GetDiagnosesByIdsRepository,
+    GetDiagnoseByIdRepository,
+    SearchDiagnoseRepository,
+    GetDiagnosesPagingStreamRepository,
+    CreateDiagnoseRepository {
 
     override suspend fun getDiagnosesByIds(ids: List<String>): List<DiagnoseDomainModel> {
         // Check if all diagnoses are in local database

@@ -74,9 +74,9 @@ class DomainModule {
     @Provides
     fun providesGetMedicalWorkersUseCase(
         eventBusChannel: EventBusChannel<
-                GetMedicalWorkersAdditionalInfoEvent,
-                Map<MedicalWorkerDomainModel, List<AdditionalInfoDomainModel<MedicalWorkerDomainModel>>>
-                >,
+            GetMedicalWorkersAdditionalInfoEvent,
+            Map<MedicalWorkerDomainModel, List<AdditionalInfoDomainModel<MedicalWorkerDomainModel>>>
+            >,
         getMedicalWorkersWithServicesRepository: GetMedicalWorkersWithServicesRepository,
         coroutineContextProvider: CoroutineContextProvider
     ) = GetMedicalWorkersUseCase(
@@ -116,9 +116,9 @@ class DomainModule {
     @Provides
     fun getMedicalFacilitiesUseCase(
         eventBusChannel: EventBusChannel<
-                GetMedicalFacilitiesAdditionalInfoEvent,
-                Map<MedicalFacilityDomainModel, List<AdditionalInfoDomainModel<MedicalFacilityDomainModel>>>
-                >,
+            GetMedicalFacilitiesAdditionalInfoEvent,
+            Map<MedicalFacilityDomainModel, List<AdditionalInfoDomainModel<MedicalFacilityDomainModel>>>
+            >,
         getFacilitiesByPatientRepository: GetFacilitiesByPatientRepository,
         coroutineContextProvider: CoroutineContextProvider
     ) = GetMedicalFacilitiesUseCase(
@@ -130,9 +130,9 @@ class DomainModule {
     @Provides
     fun providesGetProblemCategoriesUseCase(
         eventBusChannel: EventBusChannel<
-                GetProblemCategoriesAdditionalInfoEvent,
-                Map<ProblemCategoryDomainModel, ProblemCategoryInfoDomainModel>
-                >,
+            GetProblemCategoriesAdditionalInfoEvent,
+            Map<ProblemCategoryDomainModel, ProblemCategoryInfoDomainModel>
+            >,
         getProblemCategoriesRepository: GetProblemCategoriesRepository,
         coroutineContextProvider: CoroutineContextProvider
     ) = GetProblemCategoriesUseCase(
@@ -172,5 +172,4 @@ class DomainModule {
     fun providesExportProblemCategoryEventBusChannel(
         commonEventBus: CommonEventBus
     ): EventBusChannel<ExportProblemCategoryEvent, List<DocumentPage>> = commonEventBus.exportProblemCategoryBus
-
 }

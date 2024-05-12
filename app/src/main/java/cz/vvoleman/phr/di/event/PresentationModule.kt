@@ -25,5 +25,4 @@ class PresentationModule {
     fun providesEventPresentationModelToSaveDomainMapper(): EventPresentationModelToSaveDomainMapper {
         return EventPresentationModelToSaveDomainMapper()
     }
-
 }

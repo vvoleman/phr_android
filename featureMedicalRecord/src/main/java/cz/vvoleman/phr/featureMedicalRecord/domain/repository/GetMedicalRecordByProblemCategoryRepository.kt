@@ -10,6 +10,5 @@ interface GetMedicalRecordByProblemCategoryRepository {
 
     suspend fun getMedicalRecordByProblemCategory(
         problemCategoryIds: List<String>,
-    ) : Map<String, List<MedicalRecordDomainModel>>
-
+    ): Map<String, List<MedicalRecordDomainModel>>
 }

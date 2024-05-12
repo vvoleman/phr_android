@@ -19,11 +19,13 @@ class GroupScheduledMeasurementsByTimeUseCase(
             val date = it.dateTime.toLocalDate().toString()
             val hour = it.dateTime.toLocalTime().hour
             "$date-$hour"
-        }.toSortedMap(if (request.sortDirection == SortDirection.ASC) {
-            compareBy { it }
-        } else {
-            compareByDescending { it }
-        })
+        }.toSortedMap(
+            if (request.sortDirection == SortDirection.ASC) {
+                compareBy { it }
+            } else {
+                compareByDescending { it }
+            }
+        )
 
         return groups.map { (key, value) ->
             GroupedItemsDomainModel(

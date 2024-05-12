@@ -9,5 +9,4 @@ interface UpdateMedicalRecordProblemCategoryRepository {
         medicalRecord: MedicalRecordDomainModel,
         problemCategory: ProblemCategoryDomainModel
     )
-
 }

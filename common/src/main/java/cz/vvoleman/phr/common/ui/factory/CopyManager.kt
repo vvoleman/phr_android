@@ -51,5 +51,4 @@ class CopyManager(
 
         return clipData
     }
-
 }

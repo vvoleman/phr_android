@@ -30,5 +30,4 @@ class MeasurementGroupFieldPresentationToDomainMapper(
     fun toPresentation(list: List<MeasurementGroupFieldDomain>): List<MeasurementGroupFieldPresentation> {
         return list.map { toPresentation(it) }
     }
-
 }

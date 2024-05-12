@@ -4,15 +4,15 @@ import android.util.Log
 import cz.vvoleman.phr.base.domain.coroutine.CoroutineContextProvider
 import cz.vvoleman.phr.base.domain.eventBus.EventBusChannel
 import cz.vvoleman.phr.base.domain.usecase.BackgroundExecutingUseCase
-import cz.vvoleman.phr.common.presentation.event.GetMedicalWorkersAdditionalInfoEvent
 import cz.vvoleman.phr.common.domain.model.healthcare.AdditionalInfoDomainModel
 import cz.vvoleman.phr.common.domain.model.healthcare.request.GetMedicalWorkersRequest
 import cz.vvoleman.phr.common.domain.model.healthcare.worker.MedicalWorkerDomainModel
 import cz.vvoleman.phr.common.domain.repository.healthcare.GetMedicalWorkersWithServicesRepository
+import cz.vvoleman.phr.common.presentation.event.GetMedicalWorkersAdditionalInfoEvent
 
 class GetMedicalWorkersUseCase(
     private val eventBusChannel: EventBusChannel<
-            GetMedicalWorkersAdditionalInfoEvent,
+        GetMedicalWorkersAdditionalInfoEvent,
         Map<MedicalWorkerDomainModel, List<AdditionalInfoDomainModel<MedicalWorkerDomainModel>>>
         >,
     private val getMedicalWorkersRepository: GetMedicalWorkersWithServicesRepository,

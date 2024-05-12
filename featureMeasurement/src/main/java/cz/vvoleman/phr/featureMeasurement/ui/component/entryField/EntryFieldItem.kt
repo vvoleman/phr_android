@@ -59,5 +59,4 @@ abstract class EntryFieldItem(
         object Invalid : ItemStatus()
         data class Valid(val value: String?) : ItemStatus()
     }
-
 }

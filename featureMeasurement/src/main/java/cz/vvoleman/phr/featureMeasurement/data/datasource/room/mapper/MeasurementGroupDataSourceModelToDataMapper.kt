@@ -54,5 +54,4 @@ class MeasurementGroupDataSourceModelToDataMapper(
             problemCategoryId = model.problemCategoryId?.toIntOrNull(),
         )
     }
-
 }

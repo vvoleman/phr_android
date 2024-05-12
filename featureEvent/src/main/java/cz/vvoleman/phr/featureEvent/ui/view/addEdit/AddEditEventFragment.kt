@@ -25,7 +25,8 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class AddEditEventFragment :
     BaseFragment<AddEditEventViewState, AddEditEventNotification, FragmentAddEditEventBinding>(),
-    TimePicker.TimePickerListener, DatePicker.DatePickerListener {
+    TimePicker.TimePickerListener,
+    DatePicker.DatePickerListener {
 
     override val viewModel: AddEditEventViewModel by viewModels()
 
@@ -83,7 +84,6 @@ class AddEditEventFragment :
     }
 
     private fun showErrors(fields: List<AddEditEventViewState.RequiredField>) {
-
         val nameError = if (fields.contains(AddEditEventViewState.RequiredField.NAME)) {
             context?.getString(cz.vvoleman.phr.common_datasource.R.string.error_required)
         } else {
@@ -142,5 +142,4 @@ class AddEditEventFragment :
     override fun injectFragmentManager(): FragmentManager {
         return childFragmentManager
     }
-
 }

@@ -34,7 +34,8 @@ class TimePicker @JvmOverloads constructor(
         context.theme.obtainStyledAttributes(
             attrs,
             R.styleable.Picker,
-            0, 0
+            0,
+            0
         ).apply {
 
             try {
@@ -84,7 +85,6 @@ class TimePicker @JvmOverloads constructor(
             editText.clearFocus()
             listener?.onTimeSelected(time)
         }
-
 
         dialog.addOnDismissListener {
             editText.clearFocus()

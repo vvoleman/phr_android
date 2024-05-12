@@ -14,10 +14,12 @@ class NumericMinFilter(
         dstart: Int,
         dend: Int
     ): CharSequence? {
-        val input = (dest.subSequence(0, dstart).toString() + source + dest.subSequence(
-            dend,
-            dest.length
-        )).toDoubleOrNull()
+        val input = (
+            dest.subSequence(0, dstart).toString() + source + dest.subSequence(
+                dend,
+                dest.length
+            )
+            ).toDoubleOrNull()
 
         if (input != null && input < min.toDouble()) {
             return ""

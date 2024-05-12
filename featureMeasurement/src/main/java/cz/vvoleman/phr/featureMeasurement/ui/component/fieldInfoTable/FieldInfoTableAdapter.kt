@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import cz.vvoleman.phr.common.utils.toLocalString
 import cz.vvoleman.phr.featureMeasurement.databinding.ItemFieldInfoTableBinding
-import cz.vvoleman.phr.featureMeasurement.ui.model.addEditEntry.EntryFieldUiModel
 import cz.vvoleman.phr.featureMeasurement.ui.model.detail.EntryInfoUiModel
 
 class FieldInfoTableAdapter(
@@ -50,7 +49,7 @@ class FieldInfoTableAdapter(
         private fun nameToValue(item: EntryInfoUiModel): Map<String, String> {
             return item.fields
                 .associate { it.id to it.name }
-                .map { it.value to (item.entry.values[it.key]?: "") }
+                .map { it.value to (item.entry.values[it.key] ?: "") }
                 .toMap()
         }
     }
@@ -68,5 +67,4 @@ class FieldInfoTableAdapter(
     interface FieldInfoTableListener {
         fun onItemOptionsMenuClicked(item: EntryInfoUiModel, anchorView: View)
     }
-
 }

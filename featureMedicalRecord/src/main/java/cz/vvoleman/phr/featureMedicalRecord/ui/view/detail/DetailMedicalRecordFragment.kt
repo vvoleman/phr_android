@@ -28,7 +28,8 @@ class DetailMedicalRecordFragment :
     override lateinit var destinationMapper: DetailMedicalRecordDestinationUiMapper
 
     @Inject
-    override lateinit var viewStateBinder: ViewStateBinder<DetailMedicalRecordViewState, FragmentDetailMedicalRecordBinding>
+    override lateinit var viewStateBinder:
+        ViewStateBinder<DetailMedicalRecordViewState, FragmentDetailMedicalRecordBinding>
 
     override fun setupBinding(inflater: LayoutInflater, container: ViewGroup?): FragmentDetailMedicalRecordBinding {
         return FragmentDetailMedicalRecordBinding.inflate(inflater, container, false)
@@ -39,7 +40,7 @@ class DetailMedicalRecordFragment :
 
         val binder = viewStateBinder as DetailMedicalRecordBinder
         collectLifecycleFlow(binder.notification) {
-            when(it) {
+            when (it) {
                 is DetailMedicalRecordBinder.Notification.FileClicked -> {
                     Log.d("DetailMedicalRecordFragment", "setupListeners: FileClicked (${it.item.asset.id})")
                     viewModel.onGalleryOpen(it.item.asset.id!!)

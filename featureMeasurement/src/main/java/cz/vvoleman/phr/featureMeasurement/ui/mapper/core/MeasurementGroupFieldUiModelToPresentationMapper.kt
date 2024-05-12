@@ -30,5 +30,4 @@ class MeasurementGroupFieldUiModelToPresentationMapper(
     fun toUi(models: List<MeasurementGroupFieldPresentation>): List<MeasurementGroupFieldUi> {
         return models.map { toUi(it) }
     }
-
 }

@@ -51,5 +51,4 @@ class DetailProblemCategoryBinder :
     }
 
     sealed class Notification
-
 }

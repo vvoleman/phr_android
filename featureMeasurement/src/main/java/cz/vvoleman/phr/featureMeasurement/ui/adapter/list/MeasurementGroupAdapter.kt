@@ -84,5 +84,4 @@ class MeasurementGroupAdapter(
     companion object {
         private const val SEPARATOR = " | "
     }
-
 }

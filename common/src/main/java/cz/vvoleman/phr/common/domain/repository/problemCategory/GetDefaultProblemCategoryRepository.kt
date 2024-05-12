@@ -5,5 +5,4 @@ import cz.vvoleman.phr.common.domain.model.problemCategory.ProblemCategoryDomain
 interface GetDefaultProblemCategoryRepository {
 
     suspend fun getDefaultProblemCategory(patientId: String): ProblemCategoryDomainModel?
-
 }

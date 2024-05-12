@@ -114,10 +114,12 @@ class ListEventViewModel @Inject constructor(
         val events = getEvents(currentViewState.patient, newLimit, currentViewState.dateTimeLimit)
 
         val newEvents = events + currentViewState.events
-        updateViewState(currentViewState.copy(
-            dateTimeLimit = newLimit,
-            events = newEvents
-        ))
+        updateViewState(
+            currentViewState.copy(
+                dateTimeLimit = newLimit,
+                events = newEvents
+            )
+        )
     }
 
     fun onToggleShowAll(toggle: Boolean) = viewModelScope.launch {

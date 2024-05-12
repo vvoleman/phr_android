@@ -41,7 +41,7 @@ class AlarmRepository(
         Log.d("AlarmRepository", "Scheduling measurement group '${model.id}'")
         val alarmItems = getAlarmItems(measurementMapper.toData(model))
 
-        Log.d("AlarmRepository", "Scheduling ${alarmItems.toString()} alarms")
+        Log.d("AlarmRepository", "Scheduling $alarmItems alarms")
 
         return alarmItems.all { alarmScheduler.schedule(it) }
     }

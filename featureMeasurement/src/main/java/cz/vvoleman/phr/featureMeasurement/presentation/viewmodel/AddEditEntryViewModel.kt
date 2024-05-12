@@ -64,7 +64,7 @@ class AddEditEntryViewModel @Inject constructor(
         val entries = currentViewState.entryFields.toMutableMap()
 
         if (!entries.containsKey(id)) {
-            Log.e(TAG, "Unable to find entry with ID#${id}")
+            Log.e(TAG, "Unable to find entry with ID#$id")
             return
         }
 
@@ -81,7 +81,6 @@ class AddEditEntryViewModel @Inject constructor(
             notify(AddEditEntryNotification.FieldErrors(errorFields))
             return@launch
         }
-
 
         val request = SaveEntryRequest(
             measurementGroup = measurementGroupMapper.toDomain(currentViewState.measurementGroup),
@@ -108,10 +107,12 @@ class AddEditEntryViewModel @Inject constructor(
     }
 
     private fun handleOnSave(unit: Unit) {
-        navigateTo(AddEditEntryDestination.EntrySaved(
-            measurementGroupId = currentViewState.measurementGroup.id,
-            source = currentViewState.navigationSource
-        ))
+        navigateTo(
+            AddEditEntryDestination.EntrySaved(
+                measurementGroupId = currentViewState.measurementGroup.id,
+                source = currentViewState.navigationSource
+            )
+        )
     }
 
     private suspend fun getMeasurementGroup(): MeasurementGroupPresentationModel {
@@ -121,7 +122,7 @@ class AddEditEntryViewModel @Inject constructor(
         val measurementGroup = getMeasurementGroupRepository.getMeasurementGroup(measurementGroupId)
             ?.let { measurementGroupMapper.toPresentation(it) }
 
-        require(measurementGroup != null) { "MeasurementGroup with ID#${measurementGroupId} is null" }
+        require(measurementGroup != null) { "MeasurementGroup with ID#$measurementGroupId is null" }
 
         return measurementGroup
     }

@@ -66,7 +66,7 @@ class ListMeasurementBinder(
 
     private fun bindFragmentAdapter(viewBinding: FragmentListMeasurementBinding) {
         viewBinding.viewPager.adapter = fragmentAdapter
-        val textIds = listOf(R.string.fragment_timeline,R.string.fragment_measurement_group)
+        val textIds = listOf(R.string.fragment_timeline, R.string.fragment_measurement_group)
 
         mediator = TabLayoutMediator(viewBinding.tabLayout, viewBinding.viewPager) { tab, position ->
             tab.text = fragmentContext.getText(textIds[position])

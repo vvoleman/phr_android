@@ -37,5 +37,4 @@ class MeasurementGroupEntryDataSourceModelToDataMapper {
     ): List<MeasurementGroupEntryDataSourceModel> {
         return models.map { toDataSource(it, measurementGroupId) }
     }
-
 }

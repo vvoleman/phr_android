@@ -31,7 +31,7 @@ class MeasurementFragmentAdapter(
     }
 
     override fun createFragment(position: Int): Fragment {
-        return when(position){
+        return when (position) {
             0 -> MeasurementTimelineFragment.newInstance(timelineViewModel)
             1 -> MeasurementGroupFragment.newInstance(measurementGroupViewModel)
             else -> {
