@@ -7,7 +7,7 @@ sdk-target = "34"
 # Plugins
 com-android-application = "8.1.1"
 com-android-library = "8.1.1"
-org-jetbrains-kotlin-android = "1.9.20"
+org-jetbrains-kotlin-android = "1.8.0"
 com-google-dagger-hilt-android = "2.48"
 io-gitlab-arturbosch-detekt = "1.23.1"
 org-jlleitschuh-gradle-ktlint = "11.5.1"
