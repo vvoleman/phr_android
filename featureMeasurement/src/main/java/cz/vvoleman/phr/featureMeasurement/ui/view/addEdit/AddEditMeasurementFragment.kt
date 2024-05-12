@@ -84,14 +84,18 @@ class AddEditMeasurementFragment :
             .debounce(TimeConstants.DEBOUNCE_TIME)
 
         collectLatestLifecycleFlow(nameChanges) {
-            viewModel.onNameUpdate(it.toString())
+            viewModel.onValueUpdate(
+                name = it.toString()
+            )
         }
 
         val binder = viewStateBinder as AddEditMeasurementBinder
         collectLatestLifecycleFlow(binder.notification) {
             when (it) {
                 is AddEditMeasurementBinder.Notification.ProblemCategorySelected -> {
-                    viewModel.onProblemCategorySelected(it.value)
+                    viewModel.onValueUpdate(
+                        problemCategoryId = it.value
+                    )
                 }
             }
         }
@@ -180,7 +184,9 @@ class AddEditMeasurementFragment :
         dialog.show(childFragmentManager, "time_picker")
     }
     override fun onValueChange(days: List<FrequencyDayUiModel>) {
-        viewModel.onFrequencyUpdate(days.map { frequencyMapper.toPresentation(it) })
+        viewModel.onValueUpdate(
+            frequency = days.map { frequencyMapper.toPresentation(it) }
+        )
     }
 
     override fun onTimeClick(index: Int, anchorView: View) {

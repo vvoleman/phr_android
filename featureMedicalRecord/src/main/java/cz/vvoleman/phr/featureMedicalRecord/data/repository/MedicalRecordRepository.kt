@@ -24,6 +24,7 @@ import cz.vvoleman.phr.featureMedicalRecord.domain.repository.UpdateMedicalRecor
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.firstOrNull
 
+@Suppress("TooManyFunctions")
 class MedicalRecordRepository(
     private val medicalRecordDao: MedicalRecordDao,
     private val filterRequestDomainModelToDataMapper: FilterRequestDomainModelToDataMapper,

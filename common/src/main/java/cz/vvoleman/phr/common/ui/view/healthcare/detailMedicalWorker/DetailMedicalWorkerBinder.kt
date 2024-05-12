@@ -36,8 +36,6 @@ class DetailMedicalWorkerBinder(
         }
     }
 
-    sealed class Notification {
-
-    }
+    sealed class Notification
 
 }

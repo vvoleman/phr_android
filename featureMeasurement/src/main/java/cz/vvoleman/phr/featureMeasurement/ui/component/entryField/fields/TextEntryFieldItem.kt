@@ -21,6 +21,7 @@ class TextEntryFieldItem(
         return value != null
     }
 
+    @Suppress("EmptyFunctionBlock")
     override fun initField(binding: ViewBinding) {
     }
 

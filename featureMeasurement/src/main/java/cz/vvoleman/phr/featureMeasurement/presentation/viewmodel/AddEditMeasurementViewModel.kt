@@ -102,8 +102,25 @@ class AddEditMeasurementViewModel @Inject constructor(
         updateViewState(currentViewState.copy(times = times.sorted().toSet()))
     }
 
-    fun onFrequencyUpdate(days: List<FrequencyDayPresentationModel>) {
-        updateViewState(currentViewState.copy(frequencyDays = days))
+    fun onValueUpdate(
+        frequency: List<FrequencyDayPresentationModel>? = null,
+        name: String? = null,
+        problemCategoryId: String? = null,
+    ) {
+        val frequencyDays = frequency ?: currentViewState.frequencyDays
+        val nameValue = name ?: currentViewState.name
+        val problemCategory = currentViewState
+            .allProblemCategories
+            .find { it.name == problemCategoryId }?.id
+            ?: currentViewState.problemCategoryId
+
+        updateViewState(
+            currentViewState.copy(
+                frequencyDays = frequencyDays,
+                name = nameValue,
+                problemCategoryId = problemCategory,
+            )
+        )
     }
 
     fun onGetTime(i: Int): LocalTime? {
@@ -125,15 +142,6 @@ class AddEditMeasurementViewModel @Inject constructor(
         times.remove(time)
 
         updateViewState(currentViewState.copy(times = times))
-    }
-
-    fun onNameUpdate(name: String) {
-        updateViewState(currentViewState.copy(name = name))
-    }
-
-    fun onProblemCategorySelected(value: String?) {
-        val problemCategory = currentViewState.allProblemCategories.find { it.name == value }
-        updateViewState(currentViewState.copy(problemCategoryId = problemCategory?.id))
     }
 
     suspend fun onSave() {

@@ -7,8 +7,9 @@ complexity:
     excludes:
       - "**/cz/vvoleman/phr/di/**"
       - "**/cz/vvoleman/phr/data/PatientDatabase.kt"
-      - "**/cz/vvoleman/phr/**/presentation/**/viewmodel/**"
+      - "**/cz/vvoleman/phr/**/presentation/**/**ViewModel**"
       - "**/cz/vvoleman/phr/**/ui/**/**Fragment**"
+      - "**/cz/vvoleman/phr/**/data/**/**Dao**"
 empty-blocks:
   EmptyDefaultConstructor:
     excludes:

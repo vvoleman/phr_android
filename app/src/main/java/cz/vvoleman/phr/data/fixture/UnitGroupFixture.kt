@@ -63,6 +63,7 @@ class UnitGroupFixture(
         )
     }
 
+    @Suppress("LongMethod")
     private fun getUnits(): Map<String, UnitDataSourceModel> {
         return mapOf(
             Pair(
