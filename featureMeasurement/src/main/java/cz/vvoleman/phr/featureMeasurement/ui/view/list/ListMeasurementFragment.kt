@@ -113,6 +113,10 @@ class ListMeasurementFragment :
         val model = measurementGroupMapper.toPresentation(item)
         popupMenu.setOnMenuItemClickListener {
             when (it.itemId) {
+                R.id.action_detail -> {
+                    viewModel.onDetailMeasurementGroup(model)
+                    true
+                }
                 R.id.action_edit -> {
                     viewModel.onEditMeasurementGroup(model.id)
                     true
