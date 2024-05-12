@@ -11,7 +11,11 @@ import cz.vvoleman.phr.common_datasource.databinding.FragmentAddEditMedicalWorke
 class AddEditMedicalWorkerBinder(
     private val addEditMapper: AddEditMedicalServiceItemUiModelToPresentationMapper
 ) :
-    BaseViewStateBinder<AddEditMedicalWorkerViewState, FragmentAddEditMedicalWorkerBinding, AddEditMedicalWorkerBinder.Notification>() {
+    BaseViewStateBinder<
+        AddEditMedicalWorkerViewState,
+        FragmentAddEditMedicalWorkerBinding,
+        AddEditMedicalWorkerBinder.Notification
+        >() {
 
     override fun init(
         viewBinding: FragmentAddEditMedicalWorkerBinding,

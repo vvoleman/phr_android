@@ -7,6 +7,7 @@ import cz.vvoleman.phr.common_datasource.R
 import cz.vvoleman.phr.common_datasource.databinding.ItemDetailProblemCategoryMedicineBinding
 import java.time.LocalDate
 
+@Suppress("UnusedPrivateProperty")
 class MedicineItem(
     private val title: String,
     private val id: String,

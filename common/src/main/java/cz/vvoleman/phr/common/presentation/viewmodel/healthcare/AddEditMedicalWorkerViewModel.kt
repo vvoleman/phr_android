@@ -108,7 +108,7 @@ class AddEditMedicalWorkerViewModel @Inject constructor(
             return flow
         }
 
-        return currentViewState.facilityStream ?: throw IllegalStateException("Facility stream is null")
+        return currentViewState.facilityStream ?: error("Facility stream is null")
     }
 
     fun onItemUpdate(item: AddEditMedicalServiceItemPresentationModel, position: Int) {
@@ -122,28 +122,6 @@ class AddEditMedicalWorkerViewModel @Inject constructor(
             )
         )
     }
-
-//    fun onItemDelete(position: Int) {
-//        val updatedList = currentViewState.details.toMutableList()
-//        updatedList.removeAt(position)
-//
-//        updateViewState(
-//            currentViewState.copy(
-//                details = updatedList
-//            )
-//        )
-//    }
-//
-//    fun onItemUndo(item: AddEditMedicalServiceItemPresentationModel, position: Int) {
-//        val updatedList = currentViewState.details.toMutableList()
-//        updatedList.add(position, item)
-//
-//        updateViewState(
-//            currentViewState.copy(
-//                details = updatedList
-//            )
-//        )
-//    }
 
     fun onSave() {
         val missingFields = currentViewState.missingFields

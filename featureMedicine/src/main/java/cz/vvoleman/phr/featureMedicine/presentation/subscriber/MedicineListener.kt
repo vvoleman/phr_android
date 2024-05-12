@@ -1,7 +1,6 @@
 package cz.vvoleman.phr.featureMedicine.presentation.subscriber
 
 import android.content.Context
-import android.net.Uri
 import cz.vvoleman.phr.base.domain.ModuleListener
 import cz.vvoleman.phr.common.domain.model.problemCategory.request.DataDeleteType
 import cz.vvoleman.phr.common.presentation.event.DeletePatientEvent
@@ -93,7 +92,7 @@ class MedicineListener(
             .map { scheduleMapper.toPresentation(it) }
 
         val section = problemCategoryDetailProvider.getBindingItems(schedules) { id ->
-            val uri = Uri.parse("phr://list/?medicalRecordId=$id")
+//            val uri = Uri.parse("phr://list/?medicalRecordId=$id")
 //            navController?.navigate(uri)
         }
 

@@ -11,7 +11,10 @@ class GroupMeasurementGroupUseCase(
     private val getMeasurementGroupsByPatientRepository: GetMeasurementGroupsByPatientRepository,
     coroutineContextProvider: CoroutineContextProvider
 ) :
-    BackgroundExecutingUseCase<GroupMeasurementGroupRequest, List<GroupedItemsDomainModel<MeasurementGroupDomainModel>>>(
+    BackgroundExecutingUseCase<
+        GroupMeasurementGroupRequest,
+        List<GroupedItemsDomainModel<MeasurementGroupDomainModel>>
+        >(
         coroutineContextProvider
     ) {
 

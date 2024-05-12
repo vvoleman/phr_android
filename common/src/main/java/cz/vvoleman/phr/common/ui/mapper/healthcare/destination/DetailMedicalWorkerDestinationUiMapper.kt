@@ -14,9 +14,10 @@ class DetailMedicalWorkerDestinationUiMapper(
         when (val dest = destination as DetailMedicalWorkerDestination) {
             is DetailMedicalWorkerDestination.Edit -> {
                 val action =
-                    DetailMedicalWorkerFragmentDirections.actionDetailMedicalWorkerFragmentToAddEditMedicalWorkerFragment(
-                        dest.medicalWorkerId
-                    )
+                    DetailMedicalWorkerFragmentDirections
+                        .actionDetailMedicalWorkerFragmentToAddEditMedicalWorkerFragment(
+                            dest.medicalWorkerId
+                        )
 
                 navManager.navigate(action)
             }

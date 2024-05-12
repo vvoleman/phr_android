@@ -14,18 +14,24 @@ class ScheduledMeasurementGroupPresentationModelToDomainMapper(
         )
     }
 
-    fun toDomain(models: List<ScheduledMeasurementGroupPresentationModel>): List<ScheduledMeasurementGroupDomainModel> {
+    fun toDomain(
+        models: List<ScheduledMeasurementGroupPresentationModel>
+    ): List<ScheduledMeasurementGroupDomainModel> {
         return models.map { toDomain(it) }
     }
 
-    fun toPresentation(model: ScheduledMeasurementGroupDomainModel): ScheduledMeasurementGroupPresentationModel {
+    fun toPresentation(
+        model: ScheduledMeasurementGroupDomainModel
+    ): ScheduledMeasurementGroupPresentationModel {
         return ScheduledMeasurementGroupPresentationModel(
             measurementGroup = measurementGroupMapper.toPresentation(model.measurementGroup),
             dateTime = model.dateTime
         )
     }
 
-    fun toPresentation(models: List<ScheduledMeasurementGroupDomainModel>): List<ScheduledMeasurementGroupPresentationModel> {
+    fun toPresentation(
+        models: List<ScheduledMeasurementGroupDomainModel>
+    ): List<ScheduledMeasurementGroupPresentationModel> {
         return models.map { toPresentation(it) }
     }
 }

@@ -5,5 +5,7 @@ import cz.vvoleman.phr.featureMedicalRecord.domain.model.MedicalRecordDomainMode
 
 interface GetMedicalRecordByMedicalWorkerRepository {
 
-    suspend fun getMedicalRecordsByMedicalWorker(medicalWorker: MedicalWorkerDomainModel): List<MedicalRecordDomainModel>
+    suspend fun getMedicalRecordsByMedicalWorker(
+        medicalWorker: MedicalWorkerDomainModel
+    ): List<MedicalRecordDomainModel>
 }

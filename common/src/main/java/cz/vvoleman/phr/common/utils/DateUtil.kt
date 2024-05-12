@@ -102,7 +102,6 @@ fun LocalDate.localizedDiff(other: LocalDate): String {
 }
 
 fun LocalDateTime.localizedDiff(other: LocalDateTime): String {
-    // This methods returns a string that represents the difference between two dateTimes. It uses the RelativeDateTimeFormatter
     val fmt = RelativeDateTimeFormatter.getInstance(Locale.getDefault())
     val direction = if (this.isBefore(other)) {
         Direction.NEXT
@@ -110,7 +109,6 @@ fun LocalDateTime.localizedDiff(other: LocalDateTime): String {
         Direction.LAST
     }
 
-    // If diff year
     if (this.year != other.year) {
         val value = abs(this.year - other.year).toDouble()
         return fmt.format(value, direction, RelativeDateTimeFormatter.RelativeUnit.YEARS)

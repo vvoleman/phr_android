@@ -2,7 +2,6 @@ package cz.vvoleman.phr.featureMedicalRecord.ui.view.detail
 
 import android.content.res.ColorStateList
 import android.graphics.Color
-import android.util.Log
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.xwray.groupie.GroupieAdapter
 import cz.vvoleman.phr.base.ui.mapper.BaseViewStateBinder
@@ -25,7 +24,11 @@ class DetailMedicalRecordBinder(
     private val specificWorkerMapper: SpecificMedicalWorkerUiModelToPresentationMapper,
     private val facilityMapper: MedicalFacilityUiModelToPresentationMapper,
 ) :
-    BaseViewStateBinder<DetailMedicalRecordViewState, FragmentDetailMedicalRecordBinding, DetailMedicalRecordBinder.Notification>(),
+    BaseViewStateBinder<
+        DetailMedicalRecordViewState,
+        FragmentDetailMedicalRecordBinding,
+        DetailMedicalRecordBinder.Notification
+        >(),
     ImageAdapter.FileAdapterListener {
 
     override fun firstBind(viewBinding: FragmentDetailMedicalRecordBinding, viewState: DetailMedicalRecordViewState) {
@@ -93,8 +96,8 @@ class DetailMedicalRecordBinder(
 
     override fun onFileClicked(item: ImageItemUiModel) {
         notify(Notification.FileClicked(item))
-        Log.d("DetailMedicalRecordBinder", "onFileClicked: ${item.asset.id}")
     }
 
+    @Suppress("EmptyFunctionBlock")
     override fun onFileDeleted(item: ImageItemUiModel) {}
 }

@@ -15,6 +15,7 @@ import cz.vvoleman.phr.common.ui.model.healthcare.addEdit.AddEditMedicalServiceI
 import cz.vvoleman.phr.common.ui.model.healthcare.addEdit.AddEditMedicalServiceItemUiModel.ItemState
 import cz.vvoleman.phr.common.ui.model.healthcare.core.MedicalFacilityUiModel
 import cz.vvoleman.phr.common.ui.model.healthcare.core.MedicalServiceWithWorkersUiModel
+import cz.vvoleman.phr.common.utils.TimeConstants
 import cz.vvoleman.phr.common.utils.itemChanges
 import cz.vvoleman.phr.common.utils.textChanges
 import cz.vvoleman.phr.common_datasource.R
@@ -81,7 +82,7 @@ class FacilityAdapter(
                 }
 
                 combinedFlow
-                    .debounce(500)
+                    .debounce(TimeConstants.DEBOUNCE_TIME)
                     .onEach {
                         Log.d(
                             "FacilityAdapter",

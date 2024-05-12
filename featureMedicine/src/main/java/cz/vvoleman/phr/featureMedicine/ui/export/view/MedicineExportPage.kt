@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import androidx.viewbinding.ViewBinding
 import cz.vvoleman.phr.common.ui.adapter.MarginItemDecoration
 import cz.vvoleman.phr.common.ui.export.usecase.DocumentPage
+import cz.vvoleman.phr.common.utils.SizingConstants
 import cz.vvoleman.phr.common.utils.toLocalString
 import cz.vvoleman.phr.featureMedicine.R
 import cz.vvoleman.phr.featureMedicine.databinding.DocumentPageMedicineBinding
@@ -43,7 +44,7 @@ class MedicineExportPage(
         val medicineAdapter = MedicinePageAdapter()
         viewBinding.recyclerViewMedicines.apply {
             adapter = medicineAdapter
-            this.addItemDecoration(MarginItemDecoration(8))
+            this.addItemDecoration(MarginItemDecoration(SizingConstants.MARGIN_SIZE / 2))
             setHasFixedSize(false)
         }
 

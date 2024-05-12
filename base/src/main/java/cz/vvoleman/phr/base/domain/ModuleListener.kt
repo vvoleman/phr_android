@@ -2,6 +2,7 @@ package cz.vvoleman.phr.base.domain
 
 import androidx.navigation.NavController
 
+@Suppress("VariableNaming")
 abstract class ModuleListener {
 
     protected abstract val TAG: String

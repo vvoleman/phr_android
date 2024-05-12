@@ -24,12 +24,12 @@ class NumericFieldEditorDialog(
         val minimalValue = binding.editTextMinimalValue.text.toString().toDoubleOrNull()
         val maximalValue = binding.editTextMaximalValue.text.toString().toDoubleOrNull()
 
-        if (minimalValue != null && maximalValue != null && minimalValue > maximalValue) {
-            throw IllegalArgumentException("Minimal value cannot be greater than maximal value")
+        require(minimalValue != null && maximalValue != null && minimalValue > maximalValue) {
+            "Minimal value or maximal value must be set"
         }
 
-        if (unitGroup == null) {
-            throw IllegalArgumentException("Unit group cannot be null")
+        require(unitGroup != null) {
+            "Unit group must be set"
         }
 
         return NumericFieldUiModel(

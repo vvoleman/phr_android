@@ -29,7 +29,9 @@ class SpecificMedicalWorkerRepository(
             } ?: emptyList()
     }
 
-    override suspend fun getSpecificMedicalWorkersByFacility(facilityId: String): List<SpecificMedicalWorkerDomainModel> {
+    override suspend fun getSpecificMedicalWorkersByFacility(
+        facilityId: String
+    ): List<SpecificMedicalWorkerDomainModel> {
         return specificMedicalWorkerDao
             .getByFacility(facilityId)
             .firstOrNull()

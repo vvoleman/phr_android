@@ -17,7 +17,10 @@ class GetMedicalWorkersUseCase(
         >,
     private val getMedicalWorkersRepository: GetMedicalWorkersWithServicesRepository,
     coroutineContextProvider: CoroutineContextProvider
-) : BackgroundExecutingUseCase<GetMedicalWorkersRequest, Map<MedicalWorkerDomainModel, List<AdditionalInfoDomainModel<MedicalWorkerDomainModel>>>>(
+) : BackgroundExecutingUseCase<
+    GetMedicalWorkersRequest,
+    Map<MedicalWorkerDomainModel, List<AdditionalInfoDomainModel<MedicalWorkerDomainModel>>>
+    >(
     coroutineContextProvider
 ) {
 

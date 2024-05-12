@@ -20,6 +20,7 @@ import cz.vvoleman.phr.common.ui.mapper.healthcare.MedicalFacilityUiModelToPrese
 import cz.vvoleman.phr.common.ui.mapper.healthcare.destination.AddEditMedicalWorkerDestinationUiMapper
 import cz.vvoleman.phr.common.ui.model.healthcare.addEdit.AddEditMedicalServiceItemUiModel
 import cz.vvoleman.phr.common.ui.model.healthcare.core.MedicalFacilityUiModel
+import cz.vvoleman.phr.common.utils.TimeConstants
 import cz.vvoleman.phr.common.utils.textChanges
 import cz.vvoleman.phr.common_datasource.R
 import cz.vvoleman.phr.common_datasource.databinding.FragmentAddEditMedicalWorkerBinding
@@ -36,7 +37,11 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class AddEditMedicalWorkerFragment :
-    BaseFragment<AddEditMedicalWorkerViewState, AddEditMedicalWorkerNotification, FragmentAddEditMedicalWorkerBinding>(),
+    BaseFragment<
+        AddEditMedicalWorkerViewState,
+        AddEditMedicalWorkerNotification,
+        FragmentAddEditMedicalWorkerBinding
+        >(),
     ServiceDetail.ServiceDetailListener {
 
     override val viewModel: AddEditMedicalWorkerViewModel by viewModels()
@@ -69,7 +74,7 @@ class AddEditMedicalWorkerFragment :
         binding.serviceDetail.setListener(this)
 
         binding.editTextMedicalWorkerName.textChanges()
-            .debounce(500)
+            .debounce(TimeConstants.DEBOUNCE_TIME)
             .map { it.toString() }
             .onEach { viewModel.onNameChanged(it) }
             .launchIn(lifecycleScope)
@@ -87,30 +92,6 @@ class AddEditMedicalWorkerFragment :
             }
         }
     }
-
-//    override fun onItemDelete(item: AddEditMedicalServiceItemUiModel, position: Int) {
-//        if (item.facility == null) {
-//            viewModel.onItemDelete(position)
-//            return
-//        }
-//
-//        showConfirmDialog(
-//            getString(R.string.dialog_delete_facility_title),
-//            getString(R.string.dialog_delete_facility_message, item.facility.fullName),
-//            Pair(getString(R.string.action_delete)) { dialog ->
-//                showSnackbar(R.string.dialog_delete_facility_done, Snackbar.LENGTH_SHORT, listOf(
-//                    Pair(getString(R.string.action_undo)) {
-//                        viewModel.onItemUndo(addEditMapper.toPresentation(item), position)
-//                    }
-//                ))
-//                viewModel.onItemDelete(position)
-//                dialog.dismiss()
-//            },
-//            Pair(getString(R.string.action_cancel)) { dialog ->
-//                dialog.dismiss()
-//            }
-//        )
-//    }
 
     private fun showFieldErrors(fields: List<RequiredField>) {
         showSnackbar(R.string.error_missing_fields, Snackbar.LENGTH_SHORT)

@@ -11,14 +11,22 @@ import cz.vvoleman.phr.common.presentation.event.GetMedicalFacilitiesAdditionalI
 
 class GetMedicalFacilitiesUseCase(
     private val eventBusChannel:
-    EventBusChannel<GetMedicalFacilitiesAdditionalInfoEvent, Map<MedicalFacilityDomainModel, List<AdditionalInfoDomainModel<MedicalFacilityDomainModel>>>>,
+    EventBusChannel<
+        GetMedicalFacilitiesAdditionalInfoEvent,
+        Map<MedicalFacilityDomainModel, List<AdditionalInfoDomainModel<MedicalFacilityDomainModel>>>
+        >,
     private val getFacilitiesByPatientRepository: GetFacilitiesByPatientRepository,
     coroutineContextProvider: CoroutineContextProvider
-) : BackgroundExecutingUseCase<GetMedicalFacilitiesRequest, Map<MedicalFacilityDomainModel, List<AdditionalInfoDomainModel<MedicalFacilityDomainModel>>>>(
+) : BackgroundExecutingUseCase<
+    GetMedicalFacilitiesRequest,
+    Map<MedicalFacilityDomainModel, List<AdditionalInfoDomainModel<MedicalFacilityDomainModel>>>
+    >(
     coroutineContextProvider
 ) {
 
-    override suspend fun executeInBackground(request: GetMedicalFacilitiesRequest): Map<MedicalFacilityDomainModel, List<AdditionalInfoDomainModel<MedicalFacilityDomainModel>>> {
+    override suspend fun executeInBackground(
+        request: GetMedicalFacilitiesRequest
+    ): Map<MedicalFacilityDomainModel, List<AdditionalInfoDomainModel<MedicalFacilityDomainModel>>> {
         val facilities = getFacilitiesByPatientRepository.getFacilitiesByPatient(request.patientId)
 
         val event = GetMedicalFacilitiesAdditionalInfoEvent(

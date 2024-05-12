@@ -4,14 +4,16 @@ import cz.vvoleman.phr.base.ui.mapper.BaseViewStateBinder
 import cz.vvoleman.phr.common.presentation.model.problemCategory.list.ListProblemCategoryNotification
 import cz.vvoleman.phr.common.presentation.model.problemCategory.list.ListProblemCategoryViewState
 import cz.vvoleman.phr.common.ui.adapter.problemCategory.ProblemCategoryAdapter
-import cz.vvoleman.phr.common.ui.mapper.problemCategory.ProblemCategoryUiModelToPresentationMapper
 import cz.vvoleman.phr.common.ui.mapper.problemCategory.ProblemCategoryWithInfoUiModelToPresentationMapper
 import cz.vvoleman.phr.common_datasource.databinding.FragmentListProblemCategoryBinding
 
 class ListProblemCategoryBinder(
-    private val mapper: ProblemCategoryUiModelToPresentationMapper,
     private val withInfoMapper: ProblemCategoryWithInfoUiModelToPresentationMapper,
-) : BaseViewStateBinder<ListProblemCategoryViewState, FragmentListProblemCategoryBinding, ListProblemCategoryNotification>() {
+) : BaseViewStateBinder<
+    ListProblemCategoryViewState,
+    FragmentListProblemCategoryBinding,
+    ListProblemCategoryNotification
+    >() {
 
     private var adapter: ProblemCategoryAdapter? = null
 

@@ -28,7 +28,9 @@ class MedicalWorkerAdapter(
         holder.bind(currentItem)
     }
 
-    inner class MedicalWorkerViewHolder(private val binding: ItemItemWithAdditionalInfoBinding) : RecyclerView.ViewHolder(
+    inner class MedicalWorkerViewHolder(
+        private val binding: ItemItemWithAdditionalInfoBinding
+    ) : RecyclerView.ViewHolder(
         binding.root
     ) {
 
@@ -59,7 +61,6 @@ class MedicalWorkerAdapter(
             binding.recyclerViewAdditionalInfo.apply {
                 adapter = _adapter
                 layoutManager = flexboxManager
-//                addItemDecoration(MarginItemDecoration(SizingConstants.MARGIN_SIZE))
                 setHasFixedSize(true)
             }
             binding.buttonOptions.setOnClickListener {
@@ -98,7 +99,10 @@ class MedicalWorkerAdapter(
             return oldItem.medicalWorker.id == newItem.medicalWorker.id
         }
 
-        override fun areContentsTheSame(oldItem: MedicalWorkerWithAdditionalInfoUiModel, newItem: MedicalWorkerWithAdditionalInfoUiModel): Boolean {
+        override fun areContentsTheSame(
+            oldItem: MedicalWorkerWithAdditionalInfoUiModel,
+            newItem: MedicalWorkerWithAdditionalInfoUiModel
+        ): Boolean {
             return oldItem == newItem
         }
     }

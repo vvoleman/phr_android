@@ -13,9 +13,10 @@ class AddEditMedicalWorkerDestinationUiMapper(
     override fun navigate(destination: PresentationDestination) {
         when (val dest = destination as AddEditMedicalWorkerDestination) {
             is AddEditMedicalWorkerDestination.Saved -> {
-                val action = AddEditMedicalWorkerFragmentDirections.actionAddEditMedicalWorkerFragmentToListHealthcareFragment(
-                    savedId = dest.id
-                )
+                val action = AddEditMedicalWorkerFragmentDirections
+                    .actionAddEditMedicalWorkerFragmentToListHealthcareFragment(
+                        savedId = dest.id
+                    )
                 navManager.navigate(action)
             }
         }

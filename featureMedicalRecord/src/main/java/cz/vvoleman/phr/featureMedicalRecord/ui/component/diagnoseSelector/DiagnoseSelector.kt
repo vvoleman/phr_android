@@ -60,7 +60,8 @@ class DiagnoseSelector @JvmOverloads constructor(
         recyclerViewAdapter = DiagnoseSelectorAdapter(this)
         recyclerViewAdapter.addLoadStateListener { loadState ->
             dialogBinding.progressBar.isVisible = loadState.refresh is LoadState.Loading
-            dialogBinding.textViewNoResults.isVisible = loadState.append.endOfPaginationReached && recyclerViewAdapter.itemCount < 1
+            dialogBinding.textViewNoResults.isVisible =
+                loadState.append.endOfPaginationReached && (recyclerViewAdapter.itemCount < 1)
             dialogBinding.textViewError.isVisible = loadState.refresh is LoadState.Error
         }
 
@@ -71,20 +72,22 @@ class DiagnoseSelector @JvmOverloads constructor(
             setHasFixedSize(false)
         }
 
-        dialogBinding.searchView.setOnQueryTextListener(object : androidx.appcompat.widget.SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                diagnose = null
-                recyclerViewAdapter.resetSelectedPosition()
-                listener?.onDiagnoseSelectorSearch(query ?: "") {
-                    setData(it)
+        dialogBinding.searchView.setOnQueryTextListener(
+            object : androidx.appcompat.widget.SearchView.OnQueryTextListener {
+                override fun onQueryTextSubmit(query: String?): Boolean {
+                    diagnose = null
+                    recyclerViewAdapter.resetSelectedPosition()
+                    listener?.onDiagnoseSelectorSearch(query ?: "") {
+                        setData(it)
+                    }
+                    return false
                 }
-                return false
-            }
 
-            override fun onQueryTextChange(newText: String?): Boolean {
-                return false
+                override fun onQueryTextChange(newText: String?): Boolean {
+                    return false
+                }
             }
-        })
+        )
     }
 
     suspend fun setData(data: PagingData<DiagnoseUiModel>) {

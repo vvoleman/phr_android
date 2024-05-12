@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import cz.vvoleman.phr.common.utils.TimeConstants
 import cz.vvoleman.phr.common.utils.getLocalString
 import cz.vvoleman.phr.common.utils.toLocalString
 import cz.vvoleman.phr.featureMedicine.R
@@ -50,7 +51,7 @@ class MedicinePageAdapter :
 
         private fun getDaysString(item: MedicineScheduleUiModel): String {
             val days = item.getDays()
-            return if (days.size == 7) {
+            return if (days.size == TimeConstants.DAYS_IN_WEEK) {
                 "Každý den"
             } else {
                 days.joinToString(",") { it.getLocalString() }

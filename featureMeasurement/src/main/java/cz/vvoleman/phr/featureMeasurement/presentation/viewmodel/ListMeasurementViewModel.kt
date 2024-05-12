@@ -11,7 +11,6 @@ import cz.vvoleman.phr.common.presentation.mapper.PatientPresentationModelToDoma
 import cz.vvoleman.phr.common.presentation.model.grouped.GroupedItemsPresentationModel
 import cz.vvoleman.phr.common.presentation.model.nextSchedule.NextSchedulePresentationModel
 import cz.vvoleman.phr.common.presentation.model.patient.PatientPresentationModel
-import cz.vvoleman.phr.featureMeasurement.domain.facade.NextMeasurementGroupScheduleFacade
 import cz.vvoleman.phr.featureMeasurement.domain.model.list.DeleteMeasurementGroupRequest
 import cz.vvoleman.phr.featureMeasurement.domain.model.list.GetScheduledMeasurementGroupInTimeRangeRequest
 import cz.vvoleman.phr.featureMeasurement.domain.model.list.GroupMeasurementGroupRequest
@@ -47,7 +46,6 @@ class ListMeasurementViewModel @Inject constructor(
     private val getScheduledMeasurementGroupInTimeRangeUseCase: GetScheduledMeasurementGroupInTimeRangeUseCase,
     private val scheduleMeasurementGroupUseCase: ScheduleMeasurementGroupAlertUseCase,
     private val groupScheduledMeasurementsByTimeUseCase: GroupScheduledMeasurementsByTimeUseCase,
-    private val nextMeasurementGroupScheduleFacade: NextMeasurementGroupScheduleFacade,
     private val patientMapper: PatientPresentationModelToDomainMapper,
     private val measurementGroupMapper: MeasurementGroupPresentationModelToDomainMapper,
     private val nextScheduleMapper: MeasurementGroupPresentationModelToNextScheduleMapper,
@@ -216,6 +214,7 @@ class ListMeasurementViewModel @Inject constructor(
         )
     }
 
+    @Suppress("UnusedParameter")
     private fun handleDeleteMeasurementGroup(unit: Unit) = viewModelScope.launch {
         val retrievedList = getNextScheduled(currentViewState.patient.id).toMutableList()
         val nextSchedule = retrievedList.removeFirstOrNull()

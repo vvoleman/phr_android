@@ -6,8 +6,6 @@ import cz.vvoleman.phr.base.domain.ModuleListener
 import cz.vvoleman.phr.common.domain.model.healthcare.AdditionalInfoDomainModel
 import cz.vvoleman.phr.common.domain.model.healthcare.facility.MedicalFacilityDomainModel
 import cz.vvoleman.phr.common.domain.model.healthcare.worker.MedicalWorkerDomainModel
-import cz.vvoleman.phr.common.domain.model.problemCategory.ProblemCategoryDomainModel
-import cz.vvoleman.phr.common.domain.model.problemCategory.ProblemCategoryInfoDomainModel
 import cz.vvoleman.phr.common.domain.repository.healthcare.DeleteMedicalWorkerRepository
 import cz.vvoleman.phr.common.domain.repository.healthcare.GetFacilityByIdRepository
 import cz.vvoleman.phr.common.domain.repository.healthcare.GetSpecificMedicalWorkersRepository
@@ -16,7 +14,6 @@ import cz.vvoleman.phr.common.domain.repository.problemCategory.GetProblemCatego
 import cz.vvoleman.phr.common.presentation.event.DeletePatientEvent
 import cz.vvoleman.phr.common.presentation.event.GetMedicalFacilitiesAdditionalInfoEvent
 import cz.vvoleman.phr.common.presentation.event.GetMedicalWorkersAdditionalInfoEvent
-import cz.vvoleman.phr.common.presentation.event.problemCategory.GetProblemCategoriesAdditionalInfoEvent
 import cz.vvoleman.phr.common_datasource.R
 
 class CommonListener(
@@ -42,11 +39,6 @@ class CommonListener(
         commonEventBus.getFacilityAdditionalInfoBus.addListener(TAG) {
             Log.d(TAG, "onGetMedicalFacilitiesAdditionalInfoEvent")
             return@addListener onGetMedicalFacilitiesAdditionalInfoEvent(it)
-        }
-
-        commonEventBus.getCategoryAdditionalInfoBus.addListener(TAG) {
-            Log.d(TAG, "onGetProblemCategoriesAdditionalInfoEvent")
-            return@addListener onGetProblemCategoriesAdditionalInfoEvent(it)
         }
 
         commonEventBus.deletePatientBus.addListener(TAG) {
@@ -124,16 +116,6 @@ class CommonListener(
         }
 
         return map.toMap()
-    }
-
-    private fun onGetProblemCategoriesAdditionalInfoEvent(event: GetProblemCategoriesAdditionalInfoEvent): Map<ProblemCategoryDomainModel, ProblemCategoryInfoDomainModel> {
-        return event.problemCategories.associateWith { category ->
-            ProblemCategoryInfoDomainModel(
-                mainSlot = Pair(15, "korun"),
-                secondarySlots = emptyList(),
-                priority = 0
-            )
-        }
     }
 
     override suspend fun onDestroy() {

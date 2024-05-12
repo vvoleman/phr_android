@@ -35,9 +35,6 @@ class ExportPdfHelper(
 
     var path: String? = null
 
-    private val currentPage: Int
-        get() = _currentPage
-
     override suspend fun handleCreateFileResult(uri: Uri?) {
         if (uri != null) {
             try {

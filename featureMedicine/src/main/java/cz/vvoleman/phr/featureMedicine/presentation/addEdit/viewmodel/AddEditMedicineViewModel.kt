@@ -107,7 +107,7 @@ class AddEditMedicineViewModel @Inject constructor(
             return flow
         }
 
-        return currentViewState.medicineStream ?: throw IllegalStateException("Medicine stream is null")
+        return currentViewState.medicineStream ?: error("Medicine stream is null")
     }
 
     fun onMedicineSelected(medicine: MedicinePresentationModel?) {
@@ -223,6 +223,7 @@ class AddEditMedicineViewModel @Inject constructor(
         return schedules
     }
 
+    @Suppress("MagicNumber")
     private fun getTimesAndFrequencies(
         schedule: MedicineSchedulePresentationModel?
     ): Pair<List<TimePresentationModel>, List<FrequencyDayPresentationModel>> {

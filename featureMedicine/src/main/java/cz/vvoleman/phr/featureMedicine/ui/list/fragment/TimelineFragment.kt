@@ -71,7 +71,10 @@ class TimelineFragment :
         }
     }
 
-    override fun bindGroupedItems(groupBinding: ItemGroupedItemsBinding, item: GroupedItemsUiModel<ScheduleItemWithDetailsUiModel>) {
+    override fun bindGroupedItems(
+        groupBinding: ItemGroupedItemsBinding,
+        item: GroupedItemsUiModel<ScheduleItemWithDetailsUiModel>
+    ) {
         val timelineAdapter = TimelineAdapter(this)
 
         val dateTime = getDateFromValue(item.value.toString())

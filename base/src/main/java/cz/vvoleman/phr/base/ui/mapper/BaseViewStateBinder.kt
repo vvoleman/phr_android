@@ -39,7 +39,11 @@ abstract class BaseViewStateBinder<VIEW_STATE : Any, VIEW_BINDING : Any, NOTIFIC
 
     open fun firstBind(viewBinding: VIEW_BINDING, viewState: VIEW_STATE) {}
 
-    protected fun getVisibility(value: Boolean, visible: Int = android.view.View.VISIBLE, hidden: Int = android.view.View.GONE): Int {
+    protected fun getVisibility(
+        value: Boolean,
+        visible: Int = android.view.View.VISIBLE,
+        hidden: Int = android.view.View.GONE
+    ): Int {
         return if (value) {
             visible
         } else {

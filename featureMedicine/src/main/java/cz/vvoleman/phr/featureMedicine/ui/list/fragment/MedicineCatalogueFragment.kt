@@ -54,7 +54,10 @@ class MedicineCatalogueFragment :
         Log.d("MedicineCatalogueFragment", "onViewCreated: ${viewModel!!.getItems().size}")
     }
 
-    override fun bindGroupedItems(groupBinding: ItemGroupedItemsBinding, item: GroupedItemsUiModel<MedicineScheduleUiModel>) {
+    override fun bindGroupedItems(
+        groupBinding: ItemGroupedItemsBinding,
+        item: GroupedItemsUiModel<MedicineScheduleUiModel>
+    ) {
         val medicineCatalogueAdapter = MedicineCatalogueAdapter(viewModel!!.getListener()!!)
 
         groupBinding.apply {

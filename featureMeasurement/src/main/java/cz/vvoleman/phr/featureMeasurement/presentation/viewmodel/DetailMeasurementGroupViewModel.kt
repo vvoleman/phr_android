@@ -57,7 +57,9 @@ class DetailMeasurementGroupViewModel @Inject constructor(
         return measurementGroupMapper.toPresentation(model)
     }
 
-    private suspend fun getFieldStats(measurementGroup: MeasurementGroupPresentationModel): List<FieldStatsPresentationModel> {
+    private suspend fun getFieldStats(
+        measurementGroup: MeasurementGroupPresentationModel
+    ): List<FieldStatsPresentationModel> {
         val request = GetFieldStatsRequest(
             measurementGroup = measurementGroupMapper.toDomain(measurementGroup),
         )

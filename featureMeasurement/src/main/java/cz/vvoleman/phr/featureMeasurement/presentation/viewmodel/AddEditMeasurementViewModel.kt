@@ -231,7 +231,9 @@ class AddEditMeasurementViewModel @Inject constructor(
         return patientMapper.toPresentation(patient)
     }
 
-    private suspend fun getProblemCategories(patient: PatientPresentationModel): List<ProblemCategoryPresentationModel> {
+    private suspend fun getProblemCategories(
+        patient: PatientPresentationModel
+    ): List<ProblemCategoryPresentationModel> {
         val result = getProblemCategoriesRepository.getProblemCategories(patient.id)
 
         return result.map { problemCategoryMapper.toPresentation(it) }

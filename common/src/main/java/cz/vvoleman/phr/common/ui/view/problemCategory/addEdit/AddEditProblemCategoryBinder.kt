@@ -10,7 +10,11 @@ import cz.vvoleman.phr.common_datasource.databinding.FragmentAddEditProblemCateg
 class AddEditProblemCategoryBinder(
     private val colorMapper: ColorUiModelToPresentationMapper
 ) :
-    BaseViewStateBinder<AddEditProblemCategoryViewState, FragmentAddEditProblemCategoryBinding, AddEditProblemCategoryBinder.Notification>() {
+    BaseViewStateBinder<
+        AddEditProblemCategoryViewState,
+        FragmentAddEditProblemCategoryBinding,
+        AddEditProblemCategoryBinder.Notification
+        >() {
 
     override fun firstBind(
         viewBinding: FragmentAddEditProblemCategoryBinding,

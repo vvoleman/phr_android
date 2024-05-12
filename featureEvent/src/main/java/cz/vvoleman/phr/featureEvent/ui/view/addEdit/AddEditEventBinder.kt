@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import cz.vvoleman.phr.base.ui.mapper.BaseViewStateBinder
 import cz.vvoleman.phr.common.ui.mapper.healthcare.SpecificMedicalWorkerUiModelToPresentationMapper
 import cz.vvoleman.phr.common.ui.model.healthcare.core.SpecificMedicalWorkerUiModel
+import cz.vvoleman.phr.common.utils.TimeConstants
 import cz.vvoleman.phr.common.utils.checkVisibility
 import cz.vvoleman.phr.common.utils.textChanges
 import cz.vvoleman.phr.featureEvent.databinding.FragmentAddEditEventBinding
@@ -53,14 +54,14 @@ class AddEditEventBinder(
         }
 
         viewBinding.editTextName.textChanges()
-            .debounce(300)
+            .debounce(TimeConstants.DEBOUNCE_TIME)
             .onEach {
                 Log.d("AddEditEventBinder", "name changes: $it")
                 notify(Notification.FieldDataChanged(name = it.toString()))
             }.launchIn(lifecycleScope)
 
         viewBinding.editTextDescription.textChanges()
-            .debounce(300)
+            .debounce(TimeConstants.DEBOUNCE_TIME)
             .onEach {
                 notify(Notification.FieldDataChanged(description = it.toString()))
             }.launchIn(lifecycleScope)

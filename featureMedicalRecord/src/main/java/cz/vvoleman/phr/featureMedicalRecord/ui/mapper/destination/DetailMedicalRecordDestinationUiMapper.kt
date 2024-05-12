@@ -13,10 +13,11 @@ class DetailMedicalRecordDestinationUiMapper(
     override fun navigate(destination: PresentationDestination) {
         when (val dest = destination as DetailMedicalRecordDestination) {
             is DetailMedicalRecordDestination.OpenGallery -> {
-                val action = DetailMedicalRecordFragmentDirections.actionDetailMedicalRecordFragmentToDetailGalleryFragment(
-                    medicalRecordId = dest.medicalRecordId,
-                    assetId = dest.assetId
-                )
+                val action = DetailMedicalRecordFragmentDirections
+                    .actionDetailMedicalRecordFragmentToDetailGalleryFragment(
+                        medicalRecordId = dest.medicalRecordId,
+                        assetId = dest.assetId
+                    )
                 navManager.navigate(action)
             }
         }

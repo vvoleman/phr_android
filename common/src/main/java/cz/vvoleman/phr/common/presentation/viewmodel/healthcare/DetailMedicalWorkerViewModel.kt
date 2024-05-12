@@ -56,7 +56,9 @@ class DetailMedicalWorkerViewModel @Inject constructor(
             .map { specificWorkerMapper.toPresentation(it) }
     }
 
-    private fun getMedicalWorker(specifics: List<SpecificMedicalWorkerPresentationModel>): MedicalWorkerPresentationModel {
+    private fun getMedicalWorker(
+        specifics: List<SpecificMedicalWorkerPresentationModel>
+    ): MedicalWorkerPresentationModel {
         val medicalWorker = specifics.firstOrNull()?.medicalWorker
         requireNotNull(medicalWorker) { "Medical Worker have no specifics" }
 

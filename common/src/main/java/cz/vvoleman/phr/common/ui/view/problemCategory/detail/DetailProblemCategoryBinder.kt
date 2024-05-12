@@ -11,7 +11,11 @@ import cz.vvoleman.phr.common_datasource.R
 import cz.vvoleman.phr.common_datasource.databinding.FragmentDetailProblemCategoryBinding
 
 class DetailProblemCategoryBinder :
-    BaseViewStateBinder<DetailProblemCategoryViewState, FragmentDetailProblemCategoryBinding, DetailProblemCategoryBinder.Notification>() {
+    BaseViewStateBinder<
+        DetailProblemCategoryViewState,
+        FragmentDetailProblemCategoryBinding,
+        DetailProblemCategoryBinder.Notification
+        >() {
 
     override fun firstBind(
         viewBinding: FragmentDetailProblemCategoryBinding,

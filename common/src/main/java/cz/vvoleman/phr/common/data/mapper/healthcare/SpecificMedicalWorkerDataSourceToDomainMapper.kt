@@ -24,7 +24,9 @@ class SpecificMedicalWorkerDataSourceToDomainMapper(
         )
     }
 
-    suspend fun toDetails(model: SpecificMedicalWorkerDataSourceModel): SpecificMedicalWorkerWithDetailsDataSourceModel {
+    suspend fun toDetails(
+        model: SpecificMedicalWorkerDataSourceModel
+    ): SpecificMedicalWorkerWithDetailsDataSourceModel {
         val worker = workerDao.getById(model.medicalWorkerId).first()
         val service = serviceDao.getById(model.medicalServiceId).first()
 

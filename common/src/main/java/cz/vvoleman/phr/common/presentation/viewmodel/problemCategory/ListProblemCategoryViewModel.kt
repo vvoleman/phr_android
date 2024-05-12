@@ -87,7 +87,9 @@ class ListProblemCategoryViewModel @Inject constructor(
         return patientMapper.toPresentation(patient)
     }
 
-    private suspend fun getProblemCategories(patient: PatientPresentationModel): List<ProblemCategoryWithInfoPresentationModel> {
+    private suspend fun getProblemCategories(
+        patient: PatientPresentationModel
+    ): List<ProblemCategoryWithInfoPresentationModel> {
         val request = GetProblemCategoriesRequest(patient.id)
         return getProblemCategoriesUseCase.executeInBackground(request).map {
             categoryWithInfoMapper.toPresentation(it)

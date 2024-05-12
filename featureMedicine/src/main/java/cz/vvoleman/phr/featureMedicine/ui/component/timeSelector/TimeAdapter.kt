@@ -8,6 +8,7 @@ import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import cz.vvoleman.phr.common.utils.TimeConstants
 import cz.vvoleman.phr.common.utils.setClearFocusOnDoneAction
 import cz.vvoleman.phr.common.utils.textChanges
 import cz.vvoleman.phr.featureMedicine.databinding.ItemTimeSelectorBinding
@@ -54,7 +55,7 @@ class TimeAdapter(
                 }
 
                 editTextQuantity.textChanges()
-                    .debounce(500)
+                    .debounce(TimeConstants.DEBOUNCE_TIME)
                     .onEach {
                         val position = bindingAdapterPosition
                         if (position != RecyclerView.NO_POSITION) {

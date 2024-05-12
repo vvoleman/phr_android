@@ -11,8 +11,10 @@ import cz.vvoleman.phr.common.domain.repository.problemCategory.GetProblemCatego
 import cz.vvoleman.phr.common.presentation.event.problemCategory.GetProblemCategoriesAdditionalInfoEvent
 
 class GetProblemCategoriesUseCase(
-    private val eventBusChannel:
-    EventBusChannel<GetProblemCategoriesAdditionalInfoEvent, Map<ProblemCategoryDomainModel, ProblemCategoryInfoDomainModel>>,
+    private val eventBusChannel: EventBusChannel<
+        GetProblemCategoriesAdditionalInfoEvent,
+        Map<ProblemCategoryDomainModel, ProblemCategoryInfoDomainModel>
+        >,
     private val getProblemCategoriesRepository: GetProblemCategoriesRepository,
     coroutineContextProvider: CoroutineContextProvider
 ) :
@@ -20,7 +22,9 @@ class GetProblemCategoriesUseCase(
         coroutineContextProvider
     ) {
 
-    override suspend fun executeInBackground(request: GetProblemCategoriesRequest): List<ProblemCategoryWithInfoDomainModel> {
+    override suspend fun executeInBackground(
+        request: GetProblemCategoriesRequest
+    ): List<ProblemCategoryWithInfoDomainModel> {
         val categories = getProblemCategoriesRepository.getProblemCategories(request.patientId)
 
         val event = GetProblemCategoriesAdditionalInfoEvent(categories)

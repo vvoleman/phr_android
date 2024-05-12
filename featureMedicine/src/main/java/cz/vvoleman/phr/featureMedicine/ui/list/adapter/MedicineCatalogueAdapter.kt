@@ -74,7 +74,10 @@ class MedicineCatalogueAdapter(
                 layoutInfo.visibility = checkVisibility(!item.isFinished)
                 layoutExpired.visibility = checkVisibility(item.isFinished)
                 buttonOptions.visibility = checkVisibility(!item.isFinished)
-                textViewExpired.text = binding.root.context.getString(R.string.medicine_catalogue_item_expired, expiredAt)
+                textViewExpired.text = binding.root.context.getString(
+                    R.string.medicine_catalogue_item_expired,
+                    expiredAt
+                )
             }
         }
     }

@@ -25,7 +25,11 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class DetailProblemCategoryFragment :
-    BaseExportFragment<DetailProblemCategoryViewState, DetailProblemCategoryNotification, FragmentDetailProblemCategoryBinding>() {
+    BaseExportFragment<
+        DetailProblemCategoryViewState,
+        DetailProblemCategoryNotification,
+        FragmentDetailProblemCategoryBinding
+        >() {
 
     override val viewModel: DetailProblemCategoryViewModel by viewModels()
 

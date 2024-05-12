@@ -35,8 +35,4 @@ class ListEventDestinationUiMapper(
 
         navManager.navigate(action)
     }
-
-    companion object {
-        private const val TAG = "ListEventDestinationUiMapper"
-    }
 }

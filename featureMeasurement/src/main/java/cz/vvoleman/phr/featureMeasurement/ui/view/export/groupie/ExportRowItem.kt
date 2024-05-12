@@ -19,8 +19,6 @@ class ExportRowItem(
                 viewBinding.root.setBackgroundColor(
                     viewBinding.root.context.getColor(cz.vvoleman.phr.base.R.color.gray_500)
                 )
-            } else {
-//                viewBinding.root.setBackgroundColor(viewBinding.root.context.getColor(cz.vvoleman.phr.base.R.color.gray_200))
             }
         }
     }

@@ -114,7 +114,8 @@ class UiModule {
     }
 
     @Provides
-    fun provideMeasurementGroupScheduleItemUiModelToPresentationMapper(): MeasurementGroupScheduleItemUiModelToPresentationMapper {
+    fun provideMeasurementGroupScheduleItemUiModelToPresentationMapper(
+    ): MeasurementGroupScheduleItemUiModelToPresentationMapper {
         return MeasurementGroupScheduleItemUiModelToPresentationMapper()
     }
 

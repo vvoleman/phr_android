@@ -27,12 +27,14 @@ class DetailGalleryBinder :
 //            PagerSnapHelper().attachToRecyclerView(this)
         }
 
-        viewBinding.viewPager.registerOnPageChangeCallback(object : androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback() {
-            override fun onPageSelected(position: Int) {
-                super.onPageSelected(position)
-                viewBinding.textViewCurrentPage.text = "${position + 1}/${images.size}"
+        viewBinding.viewPager.registerOnPageChangeCallback(
+            object : androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback() {
+                override fun onPageSelected(position: Int) {
+                    super.onPageSelected(position)
+                    viewBinding.textViewCurrentPage.text = "${position + 1}/${images.size}"
+                }
             }
-        })
+        )
     }
 
     sealed class Notification
