@@ -63,6 +63,7 @@ class ListHealthcareFragment :
     }
 
     override fun handleNotification(notification: ListHealthcareNotification) {
+        showSnackbar("Notification: $notification", Snackbar.LENGTH_SHORT)
     }
 
     override fun onMedicalWorkerClicked(item: MedicalWorkerUiModel) {

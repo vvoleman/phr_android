@@ -50,7 +50,6 @@ class DetailProblemCategoryBinder :
         super.onDestroy(viewBinding)
     }
 
-    sealed class Notification {
-    }
+    sealed class Notification
 
 }

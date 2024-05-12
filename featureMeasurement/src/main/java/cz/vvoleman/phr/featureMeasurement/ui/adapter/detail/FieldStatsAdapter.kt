@@ -18,7 +18,7 @@ import cz.vvoleman.phr.featureMeasurement.ui.utils.detail.createVerticalAxis
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
-class FieldStatsAdapter() :
+class FieldStatsAdapter :
     ListAdapter<FieldStatsUiModel, FieldStatsAdapter.FieldStatsRecyclerViewHolder>(DiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FieldStatsRecyclerViewHolder {

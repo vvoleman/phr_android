@@ -156,9 +156,6 @@ class FacilityAdapter(
         }
     }
 
-    private fun setupListeners() {
-    }
-
     private fun getServices(item: AddEditMedicalServiceItemUiModel): Map<String, MedicalServiceWithWorkersUiModel> {
         // Create map id -> service
         val services = mutableMapOf<String, MedicalServiceWithWorkersUiModel>()

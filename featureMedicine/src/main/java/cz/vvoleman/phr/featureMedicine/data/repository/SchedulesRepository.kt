@@ -27,6 +27,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.firstOrNull
 import java.time.LocalDateTime
 
+@Suppress("TooManyFunctions")
 class SchedulesRepository(
     private val medicineScheduleDao: MedicineScheduleDao,
     private val medicineScheduleDataSourceMapper: MedicineScheduleDataSourceModelToDataMapper,

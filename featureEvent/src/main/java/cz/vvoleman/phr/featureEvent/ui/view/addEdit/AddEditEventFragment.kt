@@ -1,6 +1,5 @@
 package cz.vvoleman.phr.featureEvent.ui.view.addEdit
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.fragment.app.FragmentManager
@@ -110,25 +109,34 @@ class AddEditEventFragment :
 
     private fun handleDataChange(notification: AddEditEventBinder.Notification.FieldDataChanged) {
         if (notification.name != null) {
-            viewModel.onNameChanged(notification.name)
+            viewModel.onValueChange(
+                name = notification.name
+            )
         }
 
         if (notification.description != null) {
-            viewModel.onDescriptionChanged(notification.description)
+            viewModel.onValueChange(
+                description = notification.description
+            )
         }
 
         if (notification.worker != null) {
-            viewModel.onMedicalWorkerChanged(workerMapper.toPresentation(notification.worker))
+            viewModel.onValueChange(
+                selectedWorker = workerMapper.toPresentation(notification.worker)
+            )
         }
     }
 
     override fun onTimeSelected(time: LocalTime) {
-        Log.d("AddEditEventFragment", "onTimeSelected: $time")
-        viewModel.onTimeChanged(time)
+        viewModel.onValueChange(
+            time = time
+        )
     }
 
     override fun onDateSelected(date: LocalDate) {
-        viewModel.onDateChanged(date)
+        viewModel.onValueChange(
+            date = date
+        )
     }
 
     override fun injectFragmentManager(): FragmentManager {

@@ -8,7 +8,6 @@ class DetailGalleryDestinationUiMapper(
     navManager: NavManager
 ) : DestinationUiMapper(navManager) {
 
-    override fun navigate(destination: PresentationDestination) {
-
-    }
+    @Suppress("EmptyFunctionBlock")
+    override fun navigate(destination: PresentationDestination) {}
 }

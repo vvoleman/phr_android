@@ -25,6 +25,7 @@ import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
+@Suppress("TooManyFunctions")
 class ServiceDetail @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,

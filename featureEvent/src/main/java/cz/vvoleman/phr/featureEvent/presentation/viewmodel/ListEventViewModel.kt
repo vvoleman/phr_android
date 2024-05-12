@@ -25,6 +25,7 @@ import java.time.LocalDateTime
 import javax.inject.Inject
 
 @HiltViewModel
+@Suppress("TooManyFunctions")
 class ListEventViewModel @Inject constructor(
     private val getSelectedPatientUseCase: GetSelectedPatientUseCase,
     private val getEventsByPatientRepository: GetEventsByPatientRepository,

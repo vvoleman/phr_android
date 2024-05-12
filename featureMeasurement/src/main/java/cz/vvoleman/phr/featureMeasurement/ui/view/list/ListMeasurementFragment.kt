@@ -8,7 +8,6 @@ import androidx.fragment.app.viewModels
 import com.google.android.material.snackbar.Snackbar
 import cz.vvoleman.phr.base.ui.mapper.ViewStateBinder
 import cz.vvoleman.phr.base.ui.view.BaseFragment
-import cz.vvoleman.phr.common.presentation.model.nextSchedule.NextSchedulePresentationModel
 import cz.vvoleman.phr.common.ui.component.nextSchedule.NextSchedule
 import cz.vvoleman.phr.common.ui.component.nextSchedule.NextScheduleUiModel
 import cz.vvoleman.phr.featureMeasurement.R
@@ -150,9 +149,5 @@ class ListMeasurementFragment :
 
     override fun onMeasurementTimelineMakeEntryClick(item: ScheduledMeasurementGroupUiModel) {
         viewModel.onAddEntry(scheduleMapper.toPresentation(item))
-    }
-
-    private fun openNextScheduleDialog(nextSchedule: NextSchedulePresentationModel) {
-
     }
 }

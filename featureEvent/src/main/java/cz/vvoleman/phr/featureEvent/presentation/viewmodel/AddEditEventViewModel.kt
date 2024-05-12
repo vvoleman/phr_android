@@ -85,24 +85,22 @@ class AddEditEventViewModel @Inject constructor(
         updateViewState(currentViewState.copy(areRemindersEnabled = newState))
     }
 
-    fun onNameChanged(name: String) {
-        updateViewState(currentViewState.copy(name = name))
-    }
-
-    fun onDateChanged(date: LocalDate) {
-        updateViewState(currentViewState.copy(date = date))
-    }
-
-    fun onTimeChanged(time: LocalTime) {
-        updateViewState(currentViewState.copy(time = time))
-    }
-
-    fun onDescriptionChanged(description: String) {
-        updateViewState(currentViewState.copy(description = description))
-    }
-
-    fun onMedicalWorkerChanged(model: SpecificMedicalWorkerPresentationModel) {
-        updateViewState(currentViewState.copy(selectedWorker = model))
+    fun onValueChange(
+        name: String? = null,
+        date: LocalDate? = null,
+        time: LocalTime? = null,
+        description: String? = null,
+        selectedWorker: SpecificMedicalWorkerPresentationModel? = null
+    ) {
+        updateViewState(
+            currentViewState.copy(
+                name = name ?: currentViewState.name,
+                date = date ?: currentViewState.date,
+                time = time ?: currentViewState.time,
+                description = description ?: currentViewState.description,
+                selectedWorker = selectedWorker ?: currentViewState.selectedWorker
+            )
+        )
     }
 
     fun onSave() = viewModelScope.launch {

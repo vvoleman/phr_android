@@ -16,31 +16,32 @@ class MeasurementTranslateDateTimeFacade : TranslateDateTimeFacade() {
         val currentWeekDay = currentDateTime.dayOfWeek
 
         val translatedTimes = mutableMapOf<LocalDateTime, MutableList<ScheduledMeasurementGroupDomainModel>>()
-        schedules.forEach {schedule ->
-            schedule.scheduleItems.forEach {
-                for (i in 0 until numberOfWeeks) {
-                    val translated = translateScheduleItem(
-                        scheduleDayOfWeek = it.dayOfWeek,
-                        scheduleTime = it.time,
-                        currentWeekDay = currentWeekDay,
-                        currentDateTime = currentDateTime,
-                        weekMultiplier = i
-                    )
 
-                    if (translated.isBefore(it.scheduledAt)) {
-                        continue
-                    }
+        val pairs = createPairs(schedules)
 
-                    val scheduledGroup = ScheduledMeasurementGroupDomainModel(
-                        measurementGroup = schedule,
-                        dateTime = translated
-                    )
+        pairs.forEach { (schedule, item) ->
+            for (i in 0 until numberOfWeeks) {
+                val translated = translateScheduleItem(
+                    scheduleDayOfWeek = item.dayOfWeek,
+                    scheduleTime = item.time,
+                    currentWeekDay = currentWeekDay,
+                    currentDateTime = currentDateTime,
+                    weekMultiplier = i
+                )
 
-                    if (translatedTimes.containsKey(translated)) {
-                        translatedTimes[translated]!!.add(scheduledGroup)
-                    } else {
-                        translatedTimes[translated] = mutableListOf(scheduledGroup)
-                    }
+                if (translated.isBefore(item.scheduledAt)) {
+                    continue
+                }
+
+                val scheduledGroup = ScheduledMeasurementGroupDomainModel(
+                    measurementGroup = schedule,
+                    dateTime = translated
+                )
+
+                if (translatedTimes.containsKey(translated)) {
+                    translatedTimes[translated]!!.add(scheduledGroup)
+                } else {
+                    translatedTimes[translated] = mutableListOf(scheduledGroup)
                 }
             }
         }
@@ -59,6 +60,16 @@ class MeasurementTranslateDateTimeFacade : TranslateDateTimeFacade() {
             currentDateTime = currentDateTime,
             weekMultiplier = 0
         )
+    }
+
+    private fun createPairs(
+        schedules: List<MeasurementGroupDomainModel>
+    ): List<Pair<MeasurementGroupDomainModel, MeasurementGroupScheduleItemDomainModel>> {
+        return schedules.flatMap { schedule ->
+            schedule.scheduleItems.map { item ->
+                Pair(schedule, item)
+            }
+        }
     }
 
 }
