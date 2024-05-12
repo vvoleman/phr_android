@@ -7,5 +7,4 @@ object LeafletFactory {
     fun getLeafletLink(item: MedicineUiModel): String {
         return "https://phr.vvoleman.eu/api/medical-product/document?id=${item.id}"
     }
-
 }

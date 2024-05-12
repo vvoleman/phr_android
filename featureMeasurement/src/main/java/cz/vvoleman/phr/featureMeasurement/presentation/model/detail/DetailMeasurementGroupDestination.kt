@@ -14,5 +14,4 @@ sealed class DetailMeasurementGroupDestination : PresentationDestination {
         val entryId: String,
         val name: String,
     ) : DetailMeasurementGroupDestination()
-
 }

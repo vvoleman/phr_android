@@ -220,8 +220,8 @@ class GetFilteredRecordsUseCaseTest {
         }
 
         val problem = mockk<ProblemCategoryDomainModel>(relaxed = true) {
-            every {id} returns category
-            every {name} returns category
+            every { id } returns category
+            every { name } returns category
         }
 
         return mockk(relaxed = true) {
@@ -235,6 +235,5 @@ class GetFilteredRecordsUseCaseTest {
                 birthDate = LocalDate.of(1990, 1, 1)
             )
         }
-
     }
 }

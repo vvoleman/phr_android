@@ -86,7 +86,6 @@ class AddEditEventBinder(
         }
 
         reminderAdapter?.submitList(reminderMapper.toUi(viewState.reminders))
-
     }
 
     override fun bind(viewBinding: FragmentAddEditEventBinding, viewState: AddEditEventViewState) {

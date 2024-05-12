@@ -67,7 +67,8 @@ class UnitGroupFixture(
     private fun getUnits(): Map<String, UnitDataSourceModel> {
         return mapOf(
             Pair(
-                "kg", UnitDataSourceModel(
+                "kg",
+                UnitDataSourceModel(
                     code = "kg",
                     name = "Kilogram",
                     multiplier = 1,
@@ -75,7 +76,8 @@ class UnitGroupFixture(
                 )
             ),
             Pair(
-                "g", UnitDataSourceModel(
+                "g",
+                UnitDataSourceModel(
                     code = "g",
                     name = "Gram",
                     multiplier = 0.001,
@@ -83,7 +85,8 @@ class UnitGroupFixture(
                 )
             ),
             Pair(
-                "lb", UnitDataSourceModel(
+                "lb",
+                UnitDataSourceModel(
                     code = "lb",
                     name = "Libra",
                     multiplier = 0.45359237,
@@ -91,7 +94,8 @@ class UnitGroupFixture(
                 )
             ),
             Pair(
-                "m", UnitDataSourceModel(
+                "m",
+                UnitDataSourceModel(
                     code = "m",
                     name = "Metr",
                     multiplier = 1,
@@ -99,7 +103,8 @@ class UnitGroupFixture(
                 )
             ),
             Pair(
-                "ft", UnitDataSourceModel(
+                "ft",
+                UnitDataSourceModel(
                     code = "ft",
                     name = "Stopa",
                     multiplier = 0.3048,
@@ -107,7 +112,8 @@ class UnitGroupFixture(
                 )
             ),
             Pair(
-                "cm", UnitDataSourceModel(
+                "cm",
+                UnitDataSourceModel(
                     code = "cm",
                     name = "Centimetr",
                     multiplier = 0.01,
@@ -115,7 +121,8 @@ class UnitGroupFixture(
                 )
             ),
             Pair(
-                "c", UnitDataSourceModel(
+                "c",
+                UnitDataSourceModel(
                     code = "c",
                     name = "Celsia",
                     multiplier = 1,
@@ -123,7 +130,8 @@ class UnitGroupFixture(
                 )
             ),
             Pair(
-                "f", UnitDataSourceModel(
+                "f",
+                UnitDataSourceModel(
                     code = "f",
                     name = "Fahrenheit",
                     multiplier = 1.8,
@@ -131,7 +139,8 @@ class UnitGroupFixture(
                 )
             ),
             Pair(
-                "k", UnitDataSourceModel(
+                "k",
+                UnitDataSourceModel(
                     code = "k",
                     name = "Kelvin",
                     multiplier = 1,
@@ -139,7 +148,8 @@ class UnitGroupFixture(
                 )
             ),
             Pair(
-                "custom", UnitDataSourceModel(
+                "custom",
+                UnitDataSourceModel(
                     code = "",
                     name = "Vlastní",
                     multiplier = 1,
@@ -148,5 +158,4 @@ class UnitGroupFixture(
             ),
         )
     }
-
 }

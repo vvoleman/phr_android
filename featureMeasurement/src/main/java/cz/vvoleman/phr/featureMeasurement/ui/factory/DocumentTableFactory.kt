@@ -11,16 +11,16 @@ import cz.vvoleman.phr.featureMeasurement.ui.view.export.groupie.ExportTableCont
 
 class DocumentTableFactory {
 
-    fun create(items: List<EntryInfoUiModel>) : ExportTableContainer {
+    fun create(items: List<EntryInfoUiModel>): ExportTableContainer {
         if (items.isEmpty()) {
             return ExportTableContainer(emptyList())
         }
 
         val headers = listOf("Datum").plus(items.first().fields.map { it.name }).map { ExportHeaderItem(it) }
 
-        val columns = mutableMapOf<String,MutableList<BindableItem<*>>>()
+        val columns = mutableMapOf<String, MutableList<BindableItem<*>>>()
 
-        for(i in headers.indices){
+        for (i in headers.indices) {
             columns[i.toString()] = mutableListOf(headers[i])
         }
 
@@ -29,19 +29,18 @@ class DocumentTableFactory {
 
         val fields = items.first().fields
 
-        for(i in fields.indices){
+        for (i in fields.indices) {
             val values = items.map {
                 it.entry.values[fields[i].id] ?: ""
             }
-            columns[(i+1).toString()]!!.addAll(values.map { ExportRowItem(it) })
+            columns[(i + 1).toString()]!!.addAll(values.map { ExportRowItem(it) })
         }
 
         val columnContainers = mutableListOf<ExportColumnContainer>()
-        for(column in columns.values){
+        for (column in columns.values) {
             columnContainers.add(ExportColumnContainer(column))
         }
 
         return ExportTableContainer(columnContainers)
     }
-
 }

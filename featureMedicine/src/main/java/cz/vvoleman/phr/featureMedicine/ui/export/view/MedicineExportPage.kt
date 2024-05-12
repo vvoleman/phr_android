@@ -48,7 +48,6 @@ class MedicineExportPage(
         }
 
         medicineAdapter.submitList(items)
-
     }
 
     override fun getViewBinding(inflater: LayoutInflater): DocumentPageMedicineBinding {

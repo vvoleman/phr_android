@@ -1,19 +1,19 @@
 package cz.vvoleman.phr.di.measurement
 
-import cz.vvoleman.phr.featureMeasurement.domain.repository.DeleteMeasurementGroupAlarmRepository
-import cz.vvoleman.phr.featureMeasurement.domain.repository.GetMeasurementGroupRepository
-import cz.vvoleman.phr.featureMeasurement.domain.repository.SaveMeasurementGroupRepository
-import cz.vvoleman.phr.featureMeasurement.domain.repository.ScheduleMeasurementGroupRepository
-import cz.vvoleman.phr.featureMeasurement.domain.usecase.addEdit.SaveMeasurementGroupUseCase
-import cz.vvoleman.phr.featureMeasurement.domain.usecase.addEdit.ScheduleMeasurementGroupAlertUseCase
 import cz.vvoleman.phr.base.domain.coroutine.CoroutineContextProvider
 import cz.vvoleman.phr.featureMeasurement.domain.facade.MeasurementTranslateDateTimeFacade
 import cz.vvoleman.phr.featureMeasurement.domain.facade.NextMeasurementGroupScheduleFacade
 import cz.vvoleman.phr.featureMeasurement.domain.repository.DeleteEntriesByMeasurementGroupRepository
+import cz.vvoleman.phr.featureMeasurement.domain.repository.DeleteMeasurementGroupAlarmRepository
 import cz.vvoleman.phr.featureMeasurement.domain.repository.DeleteMeasurementGroupRepository
 import cz.vvoleman.phr.featureMeasurement.domain.repository.GetEntryByIdRepository
+import cz.vvoleman.phr.featureMeasurement.domain.repository.GetMeasurementGroupRepository
 import cz.vvoleman.phr.featureMeasurement.domain.repository.GetMeasurementGroupsByPatientRepository
 import cz.vvoleman.phr.featureMeasurement.domain.repository.SaveEntryRepository
+import cz.vvoleman.phr.featureMeasurement.domain.repository.SaveMeasurementGroupRepository
+import cz.vvoleman.phr.featureMeasurement.domain.repository.ScheduleMeasurementGroupRepository
+import cz.vvoleman.phr.featureMeasurement.domain.usecase.addEdit.SaveMeasurementGroupUseCase
+import cz.vvoleman.phr.featureMeasurement.domain.usecase.addEdit.ScheduleMeasurementGroupAlertUseCase
 import cz.vvoleman.phr.featureMeasurement.domain.usecase.addEditEntry.GetEntryFieldsUseCase
 import cz.vvoleman.phr.featureMeasurement.domain.usecase.addEditEntry.SaveEntryUseCase
 import cz.vvoleman.phr.featureMeasurement.domain.usecase.detail.GetFieldStatsUseCase
@@ -133,5 +133,4 @@ class DomainModule {
     ) = GetFieldStatsUseCase(
         coroutineContextProvider = coroutineContextProvider
     )
-
 }

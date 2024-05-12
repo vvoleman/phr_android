@@ -32,7 +32,8 @@ class DetailMeasurementGroupFragment :
     override lateinit var destinationMapper: DetailMeasurementGroupDestinationUiMapper
 
     @Inject
-    override lateinit var viewStateBinder: ViewStateBinder<DetailMeasurementGroupViewState, FragmentDetailMeasurementGroupBinding>
+    override lateinit var viewStateBinder:
+        ViewStateBinder<DetailMeasurementGroupViewState, FragmentDetailMeasurementGroupBinding>
 
     @Inject
     lateinit var entryMapper: MeasurementGroupEntryUiModelToPresentationMapper

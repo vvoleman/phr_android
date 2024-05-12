@@ -16,5 +16,4 @@ class ProblemCategoryDataSourceModelToSaveProblemCategoryRequestMapper {
             isDefault = model.isDefault,
         )
     }
-
 }

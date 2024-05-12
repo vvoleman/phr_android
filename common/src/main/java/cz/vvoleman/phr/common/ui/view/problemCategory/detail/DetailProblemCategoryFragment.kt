@@ -35,7 +35,8 @@ class DetailProblemCategoryFragment :
     override lateinit var destinationMapper: DetailProblemCategoryDestinationUiMapper
 
     @Inject
-    override lateinit var viewStateBinder: ViewStateBinder<DetailProblemCategoryViewState, FragmentDetailProblemCategoryBinding>
+    override lateinit var viewStateBinder:
+        ViewStateBinder<DetailProblemCategoryViewState, FragmentDetailProblemCategoryBinding>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

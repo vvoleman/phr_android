@@ -24,5 +24,4 @@ class UnitGroupDataSourceModelToDataMapper(
             defaultUnit = unitMapper.toDataSource(model.defaultUnit)
         )
     }
-
 }

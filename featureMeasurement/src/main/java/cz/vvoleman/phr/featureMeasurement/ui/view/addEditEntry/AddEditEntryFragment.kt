@@ -23,7 +23,8 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class AddEditEntryFragment :
     BaseFragment<AddEditEntryViewState, AddEditEntryNotification, FragmentAddEditEntryBinding>(),
-    TimePicker.TimePickerListener, DatePicker.DatePickerListener {
+    TimePicker.TimePickerListener,
+    DatePicker.DatePickerListener {
 
     override val viewModel: AddEditEntryViewModel by viewModels()
 
@@ -64,7 +65,6 @@ class AddEditEntryFragment :
 //            }
 //            showDatePickerDialog(date)
 //        }
-
     }
 
     override fun handleNotification(notification: AddEditEntryNotification) {

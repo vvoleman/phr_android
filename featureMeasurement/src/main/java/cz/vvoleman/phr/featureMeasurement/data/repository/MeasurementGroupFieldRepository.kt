@@ -23,5 +23,4 @@ class MeasurementGroupFieldRepository(
         val field = numericFieldMapper.toDataSource(model, measurementGroupId)
         return numericFieldDao.insert(field).toString()
     }
-
 }

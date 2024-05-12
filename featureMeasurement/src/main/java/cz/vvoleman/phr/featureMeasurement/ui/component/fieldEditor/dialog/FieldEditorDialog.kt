@@ -45,5 +45,4 @@ abstract class FieldEditorDialog<V : ViewBinding, T : MeasurementGroupFieldUi>(
     interface FieldEditorDialogListener {
         fun onDialogSave(data: MeasurementGroupFieldUi)
     }
-
 }

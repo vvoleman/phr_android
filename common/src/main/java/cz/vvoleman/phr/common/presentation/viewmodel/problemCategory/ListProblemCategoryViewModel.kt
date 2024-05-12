@@ -35,7 +35,8 @@ class ListProblemCategoryViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     useCaseExecutorProvider: UseCaseExecutorProvider
 ) : BaseViewModel<ListProblemCategoryViewState, ListProblemCategoryNotification>(
-    savedStateHandle, useCaseExecutorProvider
+    savedStateHandle,
+    useCaseExecutorProvider
 ) {
 
     override val TAG = "ListProblemCategoryViewModel"
@@ -69,9 +70,11 @@ class ListProblemCategoryViewModel @Inject constructor(
             return@launch
         }
 
-        updateViewState(currentViewState.copy(
-            problemCategories = getProblemCategories(currentViewState.patient)
-        ))
+        updateViewState(
+            currentViewState.copy(
+                problemCategories = getProblemCategories(currentViewState.patient)
+            )
+        )
         notify(ListProblemCategoryNotification.Deleted)
     }
 
@@ -90,5 +93,4 @@ class ListProblemCategoryViewModel @Inject constructor(
             categoryWithInfoMapper.toPresentation(it)
         }
     }
-
 }

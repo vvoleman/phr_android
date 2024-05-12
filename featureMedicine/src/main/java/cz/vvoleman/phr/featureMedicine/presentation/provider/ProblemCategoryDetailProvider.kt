@@ -9,5 +9,4 @@ interface ProblemCategoryDetailProvider {
         items: List<MedicineSchedulePresentationModel>,
         onClick: (String) -> Unit
     ): SectionContainer
-
 }

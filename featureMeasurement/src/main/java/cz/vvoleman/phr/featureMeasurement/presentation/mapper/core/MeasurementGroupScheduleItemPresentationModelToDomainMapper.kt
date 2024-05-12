@@ -22,5 +22,4 @@ class MeasurementGroupScheduleItemPresentationModelToDomainMapper {
             scheduledAt = model.scheduledAt,
         )
     }
-
 }

@@ -36,5 +36,4 @@ class ColorAdapter(
 
         return view
     }
-
 }

@@ -79,5 +79,4 @@ class TranslateDateTimeFacadeTest {
     companion object {
         private val currentDateTime = LocalDateTime.of(2024, 1, 23, 8, 0)
     }
-
 }

@@ -13,7 +13,7 @@ import cz.vvoleman.phr.featureMeasurement.ui.model.core.field.NumericFieldUiMode
 
 class FieldAdapter(
     private val listener: FieldAdapterListener
-): ListAdapter<MeasurementGroupFieldUi, FieldAdapter.FieldViewHolder>(DiffCallback()) {
+) : ListAdapter<MeasurementGroupFieldUi, FieldAdapter.FieldViewHolder>(DiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FieldViewHolder {
         val binding = ItemFieldEditBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -26,7 +26,7 @@ class FieldAdapter(
         holder.bind(item)
     }
 
-    inner class FieldViewHolder(private val binding: ItemFieldEditBinding): ViewHolder(binding.root) {
+    inner class FieldViewHolder(private val binding: ItemFieldEditBinding) : ViewHolder(binding.root) {
         init {
             binding.root.setOnClickListener {
                 if (bindingAdapterPosition != RecyclerView.NO_POSITION) {
@@ -57,7 +57,7 @@ class FieldAdapter(
         }
     }
 
-    private class DiffCallback: DiffUtil.ItemCallback<MeasurementGroupFieldUi>() {
+    private class DiffCallback : DiffUtil.ItemCallback<MeasurementGroupFieldUi>() {
         override fun areItemsTheSame(oldItem: MeasurementGroupFieldUi, newItem: MeasurementGroupFieldUi): Boolean {
             return oldItem.id == newItem.id
         }
@@ -71,5 +71,4 @@ class FieldAdapter(
         fun onFieldClick(item: MeasurementGroupFieldUi, position: Int)
         fun onFieldOptionsMenuClicked(item: MeasurementGroupFieldUi, view: View)
     }
-
 }

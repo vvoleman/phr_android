@@ -18,5 +18,4 @@ class FieldInfoTable @JvmOverloads constructor(
     init {
         binding = ViewFieldInfoTableBinding.inflate(LayoutInflater.from(context), this, true)
     }
-
 }

@@ -112,5 +112,4 @@ class DiagnoseSelector @JvmOverloads constructor(
     override fun onDiagnoseSelected(diagnose: DiagnoseUiModel?) {
         this.diagnose = diagnose
     }
-
 }

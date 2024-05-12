@@ -54,7 +54,9 @@ class DataModule {
     }
 
     @Provides
-    fun providesUnitGroupDataModelToDomainMapper(unitMapper: UnitDataModelToDomainMapper): UnitGroupDataModelToDomainMapper {
+    fun providesUnitGroupDataModelToDomainMapper(
+        unitMapper: UnitDataModelToDomainMapper
+    ): UnitGroupDataModelToDomainMapper {
         return UnitGroupDataModelToDomainMapper(unitMapper)
     }
 
@@ -66,8 +68,7 @@ class DataModule {
     }
 
     @Provides
-    fun providesMeasurementGroupScheduleItemDataModelToDomainMapper(
-    ): MeasurementGroupScheduleItemDataModelToDomainMapper {
+    fun providesMeasurementGroupScheduleItemDataModelToDomainMapper(): MeasurementGroupScheduleItemDataModelToDomainMapper {
         return MeasurementGroupScheduleItemDataModelToDomainMapper()
     }
 

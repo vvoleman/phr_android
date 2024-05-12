@@ -21,5 +21,4 @@ class MeasurementGroupScheduleItemUiModelToPresentationMapper {
             scheduledAt = model.scheduledAt,
         )
     }
-
 }

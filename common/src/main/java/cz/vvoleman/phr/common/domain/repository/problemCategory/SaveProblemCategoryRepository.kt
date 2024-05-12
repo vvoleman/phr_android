@@ -5,5 +5,4 @@ import cz.vvoleman.phr.common.domain.model.problemCategory.request.SaveProblemCa
 interface SaveProblemCategoryRepository {
 
     suspend fun saveProblemCategory(request: SaveProblemCategoryRequest): String
-
 }

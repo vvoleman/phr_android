@@ -16,5 +16,4 @@ class ScheduleItemValueConverter {
         val mapType = object : TypeToken<Map<String, String>>() {}.type
         return Gson().fromJson(json, mapType)
     }
-
 }

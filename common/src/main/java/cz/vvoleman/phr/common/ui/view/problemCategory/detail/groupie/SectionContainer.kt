@@ -33,7 +33,7 @@ class SectionContainer(
                 adapter = groupieAdapter
                 addItemDecoration(
                     MarginItemDecoration(
-                        2*SizingConstants.MARGIN_SIZE,
+                        2 * SizingConstants.MARGIN_SIZE,
                         orientation = GridLayoutManager.HORIZONTAL
                     )
                 )

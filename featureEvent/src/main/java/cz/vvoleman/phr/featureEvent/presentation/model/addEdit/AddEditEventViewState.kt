@@ -39,5 +39,4 @@ data class AddEditEventViewState(
         DATE,
         TIME,
     }
-
 }

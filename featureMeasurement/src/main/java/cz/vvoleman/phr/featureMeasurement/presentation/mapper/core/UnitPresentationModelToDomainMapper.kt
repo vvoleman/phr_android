@@ -22,5 +22,4 @@ class UnitPresentationModelToDomainMapper {
             addition = model.addition,
         )
     }
-
 }

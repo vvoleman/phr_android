@@ -25,5 +25,4 @@ class DataSourceModule {
 
     @Provides
     fun providesEventDataSourceModelToSaveDomainMapper() = EventDataSourceModelToSaveDomainMapper()
-
 }

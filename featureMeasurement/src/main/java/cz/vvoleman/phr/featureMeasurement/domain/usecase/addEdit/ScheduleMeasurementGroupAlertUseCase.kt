@@ -1,12 +1,12 @@
 package cz.vvoleman.phr.featureMeasurement.domain.usecase.addEdit
 
+import cz.vvoleman.phr.base.domain.coroutine.CoroutineContextProvider
+import cz.vvoleman.phr.base.domain.usecase.BackgroundExecutingUseCase
 import cz.vvoleman.phr.featureMeasurement.domain.repository.DeleteMeasurementGroupAlarmRepository
 import cz.vvoleman.phr.featureMeasurement.domain.repository.GetMeasurementGroupRepository
 import cz.vvoleman.phr.featureMeasurement.domain.repository.ScheduleMeasurementGroupRepository
-import cz.vvoleman.phr.base.domain.coroutine.CoroutineContextProvider
-import cz.vvoleman.phr.base.domain.usecase.BackgroundExecutingUseCase
 
-class ScheduleMeasurementGroupAlertUseCase (
+class ScheduleMeasurementGroupAlertUseCase(
     private val scheduleMeasurementGroupRepository: ScheduleMeasurementGroupRepository,
     private val deleteMeasurementGroupAlarmRepository: DeleteMeasurementGroupAlarmRepository,
     private val getMeasurementGroupByIdRepository: GetMeasurementGroupRepository,

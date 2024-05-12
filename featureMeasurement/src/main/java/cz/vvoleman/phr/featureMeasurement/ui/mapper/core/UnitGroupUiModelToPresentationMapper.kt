@@ -24,5 +24,4 @@ class UnitGroupUiModelToPresentationMapper(
             defaultUnit = unitMapper.toUi(model.defaultUnit),
         )
     }
-
 }

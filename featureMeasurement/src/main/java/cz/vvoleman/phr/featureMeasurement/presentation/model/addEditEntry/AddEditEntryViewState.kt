@@ -36,6 +36,5 @@ data class AddEditEntryViewState(
         data class FieldRequired(val fieldId: String) : FieldError()
         object DateTimeRequired : FieldError()
         object DateTimeInFuture : FieldError()
-
     }
 }

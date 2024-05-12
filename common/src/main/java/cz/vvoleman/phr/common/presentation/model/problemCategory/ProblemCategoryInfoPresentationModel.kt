@@ -8,4 +8,4 @@ import kotlinx.parcelize.Parcelize
 data class ProblemCategoryInfoPresentationModel(
     val mainSlot: Pair<Number, String>,
     val secondarySlots: List<AdditionalInfoPresentationModel<ProblemCategoryPresentationModel>>
-) :Parcelable
+) : Parcelable

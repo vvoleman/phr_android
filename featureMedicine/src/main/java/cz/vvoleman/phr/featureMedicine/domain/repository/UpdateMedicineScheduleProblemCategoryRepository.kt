@@ -9,5 +9,4 @@ interface UpdateMedicineScheduleProblemCategoryRepository {
         medicineSchedule: MedicineScheduleDomainModel,
         problemCategory: ProblemCategoryDomainModel?
     )
-
 }

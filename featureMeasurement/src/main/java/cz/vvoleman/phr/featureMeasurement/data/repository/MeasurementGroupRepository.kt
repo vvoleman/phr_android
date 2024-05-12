@@ -111,7 +111,7 @@ class MeasurementGroupRepository(
 
     override suspend fun getMeasurementGroupsByProblemCategory(
         problemCategoryIds: List<String>
-    ): Map<String,List<MeasurementGroupDomainModel>> {
+    ): Map<String, List<MeasurementGroupDomainModel>> {
         val result = mutableMapOf<String, List<MeasurementGroupDomainModel>>()
         measurementGroupDao
             .getByProblemCategory(problemCategoryIds).first()

@@ -32,8 +32,8 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class ListMedicalRecordFragment :
     BaseExportFragment<
-            ListMedicalRecordViewState,
-            ListMedicalRecordNotification,
+        ListMedicalRecordViewState,
+        ListMedicalRecordNotification,
         FragmentListMedicalRecordsBinding
         >(),
     OnAdapterItemListener<MedicalRecordUiModel>,
@@ -101,11 +101,14 @@ class ListMedicalRecordFragment :
                 showSnackbar("Not implemented")
             }
             is ListMedicalRecordNotification.RecordDeleted -> {
-                showSnackbar(R.string.record_deleted, actions = listOf(
-                    Pair(getString(cz.vvoleman.phr.common_datasource.R.string.action_undo)) {
-                        viewModel.onRecordDeleteUndo(notification.id)
-                    }
-                ))
+                showSnackbar(
+                    R.string.record_deleted,
+                    actions = listOf(
+                        Pair(getString(cz.vvoleman.phr.common_datasource.R.string.action_undo)) {
+                            viewModel.onRecordDeleteUndo(notification.id)
+                        }
+                    )
+                )
             }
             is ListMedicalRecordNotification.Export -> {
                 val pages = notification.params.map { MedicalRecordPage(it, requireContext()) }
@@ -190,6 +193,5 @@ class ListMedicalRecordFragment :
                 it.dismiss()
             }
         )
-
     }
 }

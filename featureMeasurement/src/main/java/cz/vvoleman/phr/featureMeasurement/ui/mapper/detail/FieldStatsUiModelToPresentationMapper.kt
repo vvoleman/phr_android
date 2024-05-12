@@ -28,5 +28,4 @@ class FieldStatsUiModelToPresentationMapper {
             weekAvgValue = model.weekAvgValue,
         )
     }
-
 }

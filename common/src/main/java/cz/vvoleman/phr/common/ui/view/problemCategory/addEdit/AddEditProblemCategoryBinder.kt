@@ -39,7 +39,6 @@ class AddEditProblemCategoryBinder(
 
     sealed class Notification {
         data class ColorSelected(val value: String?) : Notification()
-
     }
 
     private fun getColorName(value: String, colorList: List<ColorUiModel>): String {

@@ -21,7 +21,7 @@ data class AddEditMeasurementViewState(
     val allProblemCategories: List<ProblemCategoryPresentationModel> = emptyList()
 ) {
 
-   val missingFields: List<RequiredField>
+    val missingFields: List<RequiredField>
         get() {
             val missingFields = mutableListOf<RequiredField>()
             if (name.isEmpty()) {

@@ -8,6 +8,5 @@ interface GetMeasurementGroupsByProblemCategoryRepository {
 
     suspend fun getMeasurementGroupsByProblemCategory(
         problemCategoryIds: List<String>
-    ): Map<String,List<MeasurementGroupDomainModel>>
-
+    ): Map<String, List<MeasurementGroupDomainModel>>
 }

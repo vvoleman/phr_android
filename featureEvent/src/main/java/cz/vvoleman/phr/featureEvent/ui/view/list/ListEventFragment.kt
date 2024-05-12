@@ -131,7 +131,7 @@ class ListEventFragment : BaseFragment<ListEventViewState, ListEventNotification
     }
 
     override fun handleNotification(notification: ListEventNotification) {
-        when(notification) {
+        when (notification) {
             is ListEventNotification.ExportEvents -> {
                 lifecycleScope.launch {
                     try {

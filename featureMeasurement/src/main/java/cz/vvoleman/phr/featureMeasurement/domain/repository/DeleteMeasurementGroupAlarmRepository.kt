@@ -5,5 +5,4 @@ import cz.vvoleman.phr.featureMeasurement.domain.model.core.MeasurementGroupDoma
 interface DeleteMeasurementGroupAlarmRepository {
 
     suspend fun deleteMeasurementGroupAlarm(model: MeasurementGroupDomainModel): Boolean
-
 }

@@ -63,9 +63,11 @@ class MeasurementListener(
         getMeasurementByPatientRepository
             .getMeasurementGroupsByPatient(event.patient.id)
             .forEach {
-                deleteMeasurementGroupUseCase.executeInBackground(DeleteMeasurementGroupRequest(
-                    measurementGroup = it
-                ))
+                deleteMeasurementGroupUseCase.executeInBackground(
+                    DeleteMeasurementGroupRequest(
+                        measurementGroup = it
+                    )
+                )
             }
     }
 
@@ -76,9 +78,11 @@ class MeasurementListener(
         when (event.deleteType) {
             is DataDeleteType.DeleteData -> {
                 groups.forEach {
-                    deleteMeasurementGroupUseCase.executeInBackground(DeleteMeasurementGroupRequest(
-                        measurementGroup = it
-                    ))
+                    deleteMeasurementGroupUseCase.executeInBackground(
+                        DeleteMeasurementGroupRequest(
+                            measurementGroup = it
+                        )
+                    )
                 }
             }
             is DataDeleteType.MoveToAnother -> {
@@ -125,10 +129,12 @@ class MeasurementListener(
                 measurementGroup = group
             )
             val result = fieldStatsUseCase.executeInBackground(request)
-            stats.add(MeasurementGroupWithStatsPresentationModel(
-                measurementGroup = measurementGroupMapper.toPresentation(group),
-                fieldStats = fieldStatsMapper.toPresentation(result)
-            ))
+            stats.add(
+                MeasurementGroupWithStatsPresentationModel(
+                    measurementGroup = measurementGroupMapper.toPresentation(group),
+                    fieldStats = fieldStatsMapper.toPresentation(result)
+                )
+            )
         }
 
         val section = problemCategoryDetailProvider.getBindingItems(stats) { id ->
@@ -156,5 +162,4 @@ class MeasurementListener(
     companion object {
         const val EXPORT_LIMIT_PER_PAGE = 11
     }
-
 }

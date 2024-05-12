@@ -28,7 +28,6 @@ class DetailMedicalRecordBinder(
     BaseViewStateBinder<DetailMedicalRecordViewState, FragmentDetailMedicalRecordBinding, DetailMedicalRecordBinder.Notification>(),
     ImageAdapter.FileAdapterListener {
 
-
     override fun firstBind(viewBinding: FragmentDetailMedicalRecordBinding, viewState: DetailMedicalRecordViewState) {
         super.firstBind(viewBinding, viewState)
 

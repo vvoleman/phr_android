@@ -59,5 +59,4 @@ class DetailMeasurementGroupBinder(
     override fun onItemOptionsMenuClicked(item: EntryInfoUiModel, anchorView: View) {
         notify(Notification.ShowTableItemOptionsMenu(item, anchorView))
     }
-
 }

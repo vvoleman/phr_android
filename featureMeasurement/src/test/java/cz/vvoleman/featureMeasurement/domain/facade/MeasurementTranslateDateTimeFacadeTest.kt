@@ -26,7 +26,8 @@ class MeasurementTranslateDateTimeFacadeTest {
         val dtFourth = LocalDateTime.of(2024, 1, 30, 7, 0)
         val expected = mapOf(
             Pair(
-                dtFirst, listOf(
+                dtFirst,
+                listOf(
                     ScheduledMeasurementGroupDomainModel(groups[0], dtFirst),
                     ScheduledMeasurementGroupDomainModel(groups[1], dtFirst),
                 )
@@ -107,5 +108,4 @@ class MeasurementTranslateDateTimeFacadeTest {
             every { time } returns itemTime
         }
     }
-
 }

@@ -3,11 +3,11 @@ package cz.vvoleman.phr.common.domain.usecase.problemCategory
 import cz.vvoleman.phr.base.domain.coroutine.CoroutineContextProvider
 import cz.vvoleman.phr.base.domain.eventBus.EventBusChannel
 import cz.vvoleman.phr.base.domain.usecase.BackgroundExecutingUseCase
-import cz.vvoleman.phr.common.presentation.event.problemCategory.DeleteProblemCategoryEvent
 import cz.vvoleman.phr.common.domain.model.problemCategory.request.DataDeleteType
 import cz.vvoleman.phr.common.domain.model.problemCategory.request.DeleteProblemCategoryRequest
 import cz.vvoleman.phr.common.domain.repository.problemCategory.DeleteProblemCategoryRepository
 import cz.vvoleman.phr.common.domain.repository.problemCategory.GetDefaultProblemCategoryRepository
+import cz.vvoleman.phr.common.presentation.event.problemCategory.DeleteProblemCategoryEvent
 
 class DeleteProblemCategoryUseCase(
     private val eventBusChannel: EventBusChannel<DeleteProblemCategoryEvent, Unit>,

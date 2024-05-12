@@ -38,7 +38,7 @@ class MedicalRecordRepository(
     GetMedicalRecordByFacilityRepository,
     GetMedicalRecordByProblemCategoryRepository,
     DeleteMedicalRecordRepository,
-    UpdateMedicalRecordProblemCategoryRepository{
+    UpdateMedicalRecordProblemCategoryRepository {
 
     override suspend fun save(addEditMedicalRecordModel: AddEditDomainModel): String {
         val model = addEditDomainModelToToDataSourceMapper.toDataSource(addEditMedicalRecordModel)

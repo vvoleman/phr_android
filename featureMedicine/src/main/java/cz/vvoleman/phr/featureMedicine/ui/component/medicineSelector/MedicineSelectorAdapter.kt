@@ -51,7 +51,6 @@ class MedicineSelectorAdapter(
                         notifyItemChanged(previousSelectedItemPosition)
                     }
                     listener.onItemClick(getItem(selectedItemPosition))
-
                 }
             }
         }

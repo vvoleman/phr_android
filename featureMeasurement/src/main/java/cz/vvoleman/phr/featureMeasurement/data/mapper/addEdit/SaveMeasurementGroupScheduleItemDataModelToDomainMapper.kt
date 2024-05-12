@@ -14,8 +14,7 @@ class SaveMeasurementGroupScheduleItemDataModelToDomainMapper {
         )
     }
 
-    fun toData( models: List<SaveMeasurementGroupScheduleItemDomainModel>): List<SaveMeasurementGroupScheduleItemDataModel> {
+    fun toData(models: List<SaveMeasurementGroupScheduleItemDomainModel>): List<SaveMeasurementGroupScheduleItemDataModel> {
         return models.map { toData(it) }
     }
-
 }

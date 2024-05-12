@@ -26,5 +26,4 @@ interface MeasurementGroupEntryDao {
 
     @Query("DELETE FROM measurement_group_entry WHERE measurement_group_id = :measurementGroupId")
     suspend fun deleteByMeasurementGroupId(measurementGroupId: String)
-
 }

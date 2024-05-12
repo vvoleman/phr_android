@@ -22,7 +22,8 @@ class FieldEditor @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
-) : LinearLayout(context, attrs, defStyleAttr), FieldAdapter.FieldAdapterListener,
+) : LinearLayout(context, attrs, defStyleAttr),
+    FieldAdapter.FieldAdapterListener,
     FieldEditorDialog.FieldEditorDialogListener {
 
     private val binding: ViewFieldEditorBinding
@@ -78,9 +79,9 @@ class FieldEditor @JvmOverloads constructor(
     }
 
     private fun openDialog(item: MeasurementGroupFieldUi) {
-        when(item) {
+        when (item) {
             is NumericFieldUiModel -> {
-                val dialog = NumericFieldEditorDialog(_unitGroups,this, item)
+                val dialog = NumericFieldEditorDialog(_unitGroups, this, item)
                 _listener?.onStartDialog(dialog, item)
             }
             else -> {
@@ -97,5 +98,4 @@ class FieldEditor @JvmOverloads constructor(
     fun setUnitGroups(groups: List<UnitGroupUiModel>) {
         _unitGroups = groups
     }
-
 }

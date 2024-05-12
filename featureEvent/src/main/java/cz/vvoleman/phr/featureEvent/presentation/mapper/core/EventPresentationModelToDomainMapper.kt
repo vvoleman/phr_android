@@ -43,5 +43,4 @@ class EventPresentationModelToDomainMapper(
     fun toPresentation(model: List<EventDomainModel>): List<EventPresentationModel> {
         return model.map { toPresentation(it) }
     }
-
 }

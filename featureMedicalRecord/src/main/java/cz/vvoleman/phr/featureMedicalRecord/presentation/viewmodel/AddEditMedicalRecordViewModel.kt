@@ -115,7 +115,6 @@ class AddEditMedicalRecordViewModel @Inject constructor(
         viewModelScope.launch {
             // Get param
 
-
             val fileAsset = savedStateHandle.get<AssetPresentationModel>("fileAsset")
             if (fileAsset != null) {
                 addFileThumbnail(fileAsset)

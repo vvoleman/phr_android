@@ -28,5 +28,4 @@ class EntryFieldUiModelToPresentationMapper {
     fun toUi(models: List<EntryFieldPresentationModel>): List<EntryFieldUiModel> {
         return models.map { toUi(it) }
     }
-
 }

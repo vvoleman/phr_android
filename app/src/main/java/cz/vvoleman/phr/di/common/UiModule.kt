@@ -215,8 +215,7 @@ class UiModule {
     ) = DetailProblemCategoryDestinationUiMapper(navManager)
 
     @Provides
-    fun providesDetailProblemCategoryBinder(
-    ): ViewStateBinder<DetailProblemCategoryViewState, FragmentDetailProblemCategoryBinding> =
+    fun providesDetailProblemCategoryBinder(): ViewStateBinder<DetailProblemCategoryViewState, FragmentDetailProblemCategoryBinding> =
         DetailProblemCategoryBinder()
 
     @Provides
@@ -254,5 +253,4 @@ class UiModule {
     fun providesDetailMedicalWorkerContainerFactory(
         copyManager: CopyManager
     ) = DetailMedicalWorkerContainerFactory(copyManager)
-
 }

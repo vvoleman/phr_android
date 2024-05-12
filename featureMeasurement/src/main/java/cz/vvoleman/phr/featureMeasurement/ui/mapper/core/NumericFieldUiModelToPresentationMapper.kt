@@ -26,5 +26,4 @@ class NumericFieldUiModelToPresentationMapper(
             maximalValue = model.maximalValue
         )
     }
-
 }

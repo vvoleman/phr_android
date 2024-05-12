@@ -14,7 +14,6 @@ class AndroidAlarmScheduler(
     private val context: Context
 ) : AlarmScheduler {
 
-
     private val alarmManager = context.getSystemService(AlarmManager::class.java) as AlarmManager
 
     @SuppressLint("MissingPermission")
@@ -31,7 +30,7 @@ class AndroidAlarmScheduler(
         when (item) {
             is AlarmItem.Repeat -> {
                 val millis = TimeUnit.SECONDS.toMillis(item.triggerAt.toEpochSeconds())
-                Log.d("AndroidAlarmScheduler", "Scheduling repeating alarm, triggerAt: ${millis} for item: $item")
+                Log.d("AndroidAlarmScheduler", "Scheduling repeating alarm, triggerAt: $millis for item: $item")
                 alarmManager.setRepeating(
                     item.type,
                     TimeUnit.SECONDS.toMillis(item.triggerAt.toEpochSeconds()),

@@ -1,18 +1,11 @@
 package cz.vvoleman.phr.di.medicalRecord
 
-import android.content.Context
 import cz.vvoleman.phr.base.domain.coroutine.CoroutineContextProvider
-import cz.vvoleman.phr.common.presentation.eventBus.CommonEventBus
 import cz.vvoleman.phr.common.domain.repository.patient.GetPatientByBirthDateRepository
 import cz.vvoleman.phr.featureMedicalRecord.domain.mapper.TextToTextDomainModelMapper
 import cz.vvoleman.phr.featureMedicalRecord.domain.repository.DeleteMedicalRecordRepository
-import cz.vvoleman.phr.featureMedicalRecord.domain.repository.GetMedicalRecordByFacilityRepository
-import cz.vvoleman.phr.featureMedicalRecord.domain.repository.GetMedicalRecordByMedicalWorkerRepository
-import cz.vvoleman.phr.featureMedicalRecord.domain.repository.GetMedicalRecordByProblemCategoryRepository
-import cz.vvoleman.phr.featureMedicalRecord.domain.repository.UpdateMedicalRecordProblemCategoryRepository
 import cz.vvoleman.phr.featureMedicalRecord.domain.repository.patientDelete.DeleteMedicalRecordAssetsRepository
 import cz.vvoleman.phr.featureMedicalRecord.domain.repository.selectFile.GetDiagnosesByIdsRepository
-import cz.vvoleman.phr.featureMedicalRecord.presentation.subscriber.MedicalRecordListener
 import cz.vvoleman.phr.featureMedicalRecord.domain.usecase.DeleteMedicalRecordUseCase
 import cz.vvoleman.phr.featureMedicalRecord.domain.usecase.selectFile.GetRecognizedOptionsFromTextUseCase
 import cz.vvoleman.phr.featureMedicalRecord.domain.usecase.selectFile.GetTextFromInputImageUseCase
@@ -23,7 +16,6 @@ import cz.vvoleman.phr.featureMedicalRecord.domain.usecase.selectFile.ocr.field.
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 
 @Module

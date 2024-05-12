@@ -77,5 +77,4 @@ class DiagnoseSelectorAdapter(
     interface DiagnoseSelectorAdapterListener {
         fun onDiagnoseSelected(diagnose: DiagnoseUiModel?)
     }
-
 }

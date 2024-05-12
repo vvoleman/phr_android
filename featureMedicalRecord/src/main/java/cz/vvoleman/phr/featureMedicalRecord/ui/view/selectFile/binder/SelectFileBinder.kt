@@ -99,11 +99,13 @@ class SelectFileBinder :
 
         selectOptionsBinding.apply {
             val diagnoses = viewState.recognizedOptions.diagnose.map { OptionItem(it.id, it.name) }
-            diagnoseSpinner.setAdapter(OptionAdapter(
-                fragmentContext,
-                android.R.layout.simple_spinner_dropdown_item,
-                diagnoses
-            ))
+            diagnoseSpinner.setAdapter(
+                OptionAdapter(
+                    fragmentContext,
+                    android.R.layout.simple_spinner_dropdown_item,
+                    diagnoses
+                )
+            )
 
             if (viewState.recognizedOptions.diagnose.isNotEmpty()) {
                 diagnoseSpinner.setText(diagnoses[0].toString(), false)

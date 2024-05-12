@@ -35,5 +35,4 @@ class SpecificMedicalWorkerPresentationModelToDomainMapper(
     fun toPresentation(models: List<SpecificMedicalWorkerDomainModel>): List<SpecificMedicalWorkerPresentationModel> {
         return models.map { toPresentation(it) }
     }
-
 }

@@ -101,7 +101,6 @@ class MainActivity : AppCompatActivity() {
             headerName.text = patient?.name ?: "-"
         }
 
-
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 getListeners().forEach {
@@ -118,7 +117,6 @@ class MainActivity : AppCompatActivity() {
 //                }
 //            }
         }
-
     }
 
     private fun getListeners(): List<ModuleListener> {
@@ -201,7 +199,6 @@ class MainActivity : AppCompatActivity() {
                     binding.drawerLayout.close()
                     true
                 }
-
 
                 else -> false
             }

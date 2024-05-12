@@ -41,10 +41,12 @@ class DetailMedicalRecordViewModel @Inject constructor(
     }
 
     fun onGalleryOpen(assetId: String) {
-        navigateTo(DetailMedicalRecordDestination.OpenGallery(
-            medicalRecordId = currentViewState.medicalRecord.id,
-            assetId = assetId
-        ))
+        navigateTo(
+            DetailMedicalRecordDestination.OpenGallery(
+                medicalRecordId = currentViewState.medicalRecord.id,
+                assetId = assetId
+            )
+        )
     }
 
     private suspend fun getMedicalRecord(): MedicalRecordPresentationModel {

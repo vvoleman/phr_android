@@ -6,5 +6,4 @@ import cz.vvoleman.phr.featureMeasurement.domain.model.core.MeasurementGroupDoma
 interface SaveMeasurementGroupRepository {
 
     suspend fun saveMeasurementGroup(model: SaveMeasurementGroupDomainModel): MeasurementGroupDomainModel?
-
 }

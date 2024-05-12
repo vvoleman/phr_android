@@ -30,5 +30,4 @@ class MeasurementGroupScheduleItemDataModelToDomainMapper {
     fun toData(models: List<MeasurementGroupScheduleItemDomainModel>): List<MeasurementGroupScheduleItemDataModel> {
         return models.map { toData(it) }
     }
-
 }

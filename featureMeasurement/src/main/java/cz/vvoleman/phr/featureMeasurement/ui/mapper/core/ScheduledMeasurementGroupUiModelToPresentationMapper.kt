@@ -24,5 +24,4 @@ class ScheduledMeasurementGroupUiModelToPresentationMapper(
             dateTime = model.dateTime
         )
     }
-
 }

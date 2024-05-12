@@ -100,7 +100,6 @@ class AddEditMedicineFragment :
 
     override fun handleNotification(notification: AddEditMedicineNotification) {
         when (notification) {
-
             is AddEditMedicineNotification.CannotSave -> {
                 showSnackbar(R.string.add_edit_medicine_cannot_save)
             }
@@ -191,5 +190,4 @@ class AddEditMedicineFragment :
     override fun onValueChange(days: List<FrequencyDayUiModel>) {
         viewModel.onFrequencyUpdate(days.map { frequencyDayMapper.toPresentation(it) })
     }
-
 }

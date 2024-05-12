@@ -57,5 +57,4 @@ class ReminderAdapter(
     interface ReminderListener {
         fun onReminderClick(reminder: ReminderUiModel)
     }
-
 }

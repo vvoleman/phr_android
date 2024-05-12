@@ -16,6 +16,6 @@ fun Fragment.checkVisibility(condition: Boolean): Int {
     return cz.vvoleman.phr.common.utils.checkVisibility(condition)
 }
 
-fun BaseViewStateBinder<*,*,*>.checkVisibility(condition: Boolean): Int {
+fun BaseViewStateBinder<*, *, *>.checkVisibility(condition: Boolean): Int {
     return cz.vvoleman.phr.common.utils.checkVisibility(condition)
 }

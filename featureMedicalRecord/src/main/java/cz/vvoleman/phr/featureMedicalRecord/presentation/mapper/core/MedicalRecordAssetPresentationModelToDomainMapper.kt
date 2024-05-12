@@ -22,5 +22,4 @@ class MedicalRecordAssetPresentationModelToDomainMapper {
             createdAt = model.createdAt
         )
     }
-
 }

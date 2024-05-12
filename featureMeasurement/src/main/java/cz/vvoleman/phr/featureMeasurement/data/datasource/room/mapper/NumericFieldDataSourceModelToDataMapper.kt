@@ -44,5 +44,4 @@ class NumericFieldDataSourceModelToDataMapper(
     ): List<NumericFieldDataSourceModel> {
         return models.map { toDataSource(it, measurementGroupId) }
     }
-
 }

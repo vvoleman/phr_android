@@ -26,5 +26,4 @@ interface NumericFieldDao {
 
     @Query("DELETE FROM numeric_field WHERE measurement_group_id = :measurementGroupId")
     fun deleteByMeasurementGroup(measurementGroupId: Int)
-
 }

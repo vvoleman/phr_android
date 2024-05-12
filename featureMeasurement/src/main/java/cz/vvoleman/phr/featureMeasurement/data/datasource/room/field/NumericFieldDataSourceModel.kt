@@ -22,6 +22,6 @@ data class NumericFieldDataSourceModel(
     val name: String,
     @ColumnInfo(name = "measurement_group_id") val measurementGroupId: Int,
     val unitGroupId: Int,
-    @ColumnInfo(name="minimal_values") val minimalValue: Number? = null,
-    @ColumnInfo(name="maximal_values") val maximalValue: Number? = null,
+    @ColumnInfo(name = "minimal_values") val minimalValue: Number? = null,
+    @ColumnInfo(name = "maximal_values") val maximalValue: Number? = null,
 )

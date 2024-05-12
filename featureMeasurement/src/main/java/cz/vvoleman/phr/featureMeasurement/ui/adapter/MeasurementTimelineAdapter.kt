@@ -10,7 +10,9 @@ import cz.vvoleman.phr.featureMeasurement.ui.model.core.ScheduledMeasurementGrou
 
 class MeasurementTimelineAdapter(
     private val listener: MeasurementTimelineAdapterInterface
-) : ListAdapter<ScheduledMeasurementGroupUiModel, MeasurementTimelineAdapter.MeasurementTimelineViewHolder>(DiffCallback()) {
+) : ListAdapter<ScheduledMeasurementGroupUiModel, MeasurementTimelineAdapter.MeasurementTimelineViewHolder>(
+    DiffCallback()
+) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MeasurementTimelineViewHolder {
         val binding = ItemMeasurementTimelineBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -23,7 +25,9 @@ class MeasurementTimelineAdapter(
         }
     }
 
-    inner class MeasurementTimelineViewHolder(private val binding: ItemMeasurementTimelineBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class MeasurementTimelineViewHolder(private val binding: ItemMeasurementTimelineBinding) : RecyclerView.ViewHolder(
+        binding.root
+    ) {
 
         init {
             binding.root.setOnClickListener {
@@ -45,11 +49,13 @@ class MeasurementTimelineAdapter(
             binding.textViewName.text = item.measurementGroup.name
             binding.textViewInfoTime.text = item.dateTime.toLocalTime().toString()
         }
-
     }
 
     private class DiffCallback : DiffUtil.ItemCallback<ScheduledMeasurementGroupUiModel>() {
-        override fun areItemsTheSame(oldItem: ScheduledMeasurementGroupUiModel, newItem: ScheduledMeasurementGroupUiModel): Boolean {
+        override fun areItemsTheSame(
+            oldItem: ScheduledMeasurementGroupUiModel,
+            newItem: ScheduledMeasurementGroupUiModel
+        ): Boolean {
             return oldItem.dateTime == newItem.dateTime
         }
 
@@ -62,5 +68,4 @@ class MeasurementTimelineAdapter(
         fun onMeasurementTimelineClick(item: ScheduledMeasurementGroupUiModel)
         fun onMeasurementTimelineMakeEntryClick(item: ScheduledMeasurementGroupUiModel)
     }
-
 }

@@ -93,5 +93,4 @@ class DataModule {
     fun providesDeleteEventRepository(
         eventRepository: EventRepository
     ): DeleteEventRepository = eventRepository
-
 }

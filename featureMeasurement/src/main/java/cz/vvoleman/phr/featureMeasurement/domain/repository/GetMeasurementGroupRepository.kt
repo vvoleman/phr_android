@@ -5,5 +5,4 @@ import cz.vvoleman.phr.featureMeasurement.domain.model.core.MeasurementGroupDoma
 interface GetMeasurementGroupRepository {
 
     suspend fun getMeasurementGroup(id: String): MeasurementGroupDomainModel?
-
 }

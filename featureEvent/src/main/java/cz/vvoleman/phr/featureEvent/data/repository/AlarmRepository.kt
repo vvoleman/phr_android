@@ -56,7 +56,7 @@ class AlarmRepository(
         return futureReminders.map { reminder ->
             val triggerAt = model.startAt.minusSeconds(reminder)
             val alarmItem = AlarmItem.Single(
-                id = "event-${model.id}-reminder-${reminder}",
+                id = "event-${model.id}-reminder-$reminder",
                 triggerAt = triggerAt,
                 content = EventAlarmContent(
                     eventId = model.id,

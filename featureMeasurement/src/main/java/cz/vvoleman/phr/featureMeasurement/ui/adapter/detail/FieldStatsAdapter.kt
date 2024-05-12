@@ -82,7 +82,6 @@ class FieldStatsAdapter :
                 it.key.toLocalDate() to it.value
             }.toMap()
 
-
             return data
         }
 
@@ -109,5 +108,4 @@ class FieldStatsAdapter :
             return oldItem == newItem
         }
     }
-
 }

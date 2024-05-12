@@ -21,5 +21,4 @@ class ProblemCategoryWithInfoPresentationModelToDomainMapper(
             info = problemCategoryInfoPresentationModelToDomainMapper.toPresentation(model.info)
         )
     }
-
 }

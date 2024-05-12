@@ -75,7 +75,6 @@ inline fun <reified T : AxisPosition.Vertical> createVerticalAxis(
     labelMargins: Dimensions = Dimensions(0f, 0f, 0f, 0f),
     valueFormatter: CartesianValueFormatter? = null,
 ): VerticalAxis<T> {
-
     return VerticalAxis.build {
         this.title = title
         this.titleComponent = createTextComponent(typeface = typeface, margins = titleMargins)
@@ -93,7 +92,6 @@ inline fun <reified T : AxisPosition.Horizontal> createHorizontalAxis(
     typeface: Typeface = Typeface.MONOSPACE,
     valueFormatter: CartesianValueFormatter? = null,
 ): HorizontalAxis<T> {
-
     return HorizontalAxis.build {
         this.title = title
         this.titleComponent = createTextComponent(textSizeSp = 14f, typeface = typeface)

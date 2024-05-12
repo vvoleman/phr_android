@@ -51,5 +51,4 @@ class MeasurementGroupScheduleItemDataSourceModelToDataMapper {
             measurementGroupId = measurementGroupId.toInt()
         )
     }
-
 }

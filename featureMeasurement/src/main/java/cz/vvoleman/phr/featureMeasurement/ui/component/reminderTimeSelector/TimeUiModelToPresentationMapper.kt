@@ -12,5 +12,4 @@ class TimeUiModelToPresentationMapper {
     fun toUi(model: List<TimePresentationModel>): List<TimeUiModel> {
         return model.map { TimeUiModel(time = it.time) }
     }
-
 }

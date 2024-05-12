@@ -74,5 +74,4 @@ class UiModule {
     fun providesExportEventsToCalendarUseCase(
         @ApplicationContext context: Context
     ) = ExportEventsToCalendarUseCase(context)
-
 }

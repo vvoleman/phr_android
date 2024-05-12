@@ -34,5 +34,4 @@ class NumericFieldDataModelToDomainMapper(
     fun toData(models: List<NumericFieldDomainModel>): List<NumericFieldDataModel> {
         return models.map { toData(it) }
     }
-
 }

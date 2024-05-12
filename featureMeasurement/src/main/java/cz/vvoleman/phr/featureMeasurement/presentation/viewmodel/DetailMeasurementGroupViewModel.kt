@@ -81,9 +81,11 @@ class DetailMeasurementGroupViewModel @Inject constructor(
 
         val measurementGroup = getMeasurementGroup(currentViewState.measurementGroup.id)
 
-        updateViewState(currentViewState.copy(
-            measurementGroup = measurementGroup
-        ))
+        updateViewState(
+            currentViewState.copy(
+                measurementGroup = measurementGroup
+            )
+        )
     }
 
     fun onEditEntry(model: MeasurementGroupEntryPresentationModel) {
@@ -99,5 +101,4 @@ class DetailMeasurementGroupViewModel @Inject constructor(
     fun onExport() {
         notify(DetailMeasurementGroupNotification.Export(currentViewState.measurementGroup))
     }
-
 }

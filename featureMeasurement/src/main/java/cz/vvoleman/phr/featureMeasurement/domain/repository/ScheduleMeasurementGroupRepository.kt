@@ -5,5 +5,4 @@ import cz.vvoleman.phr.featureMeasurement.domain.model.core.MeasurementGroupDoma
 interface ScheduleMeasurementGroupRepository {
 
     suspend fun scheduleMeasurementGroup(model: MeasurementGroupDomainModel): Boolean
-
 }

@@ -15,5 +15,4 @@ class ProblemCategoryUiModelToColorMapper {
     fun toColor(model: List<ProblemCategoryPresentationModel>): List<ColorUiModel> {
         return model.map { toColor(it) }
     }
-
 }

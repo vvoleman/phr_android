@@ -30,5 +30,4 @@ class MeasurementGroupFieldDataToDomainMapper(
     fun toData(list: List<MeasurementGroupFieldDomain>): List<MeasurementGroupFieldData> {
         return list.map { toData(it) }
     }
-
 }

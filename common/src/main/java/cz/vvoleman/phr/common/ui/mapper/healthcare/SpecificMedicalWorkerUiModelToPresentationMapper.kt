@@ -35,5 +35,4 @@ class SpecificMedicalWorkerUiModelToPresentationMapper(
     fun toUi(models: List<SpecificMedicalWorkerPresentationModel>): List<SpecificMedicalWorkerUiModel> {
         return models.map { toUi(it) }
     }
-
 }

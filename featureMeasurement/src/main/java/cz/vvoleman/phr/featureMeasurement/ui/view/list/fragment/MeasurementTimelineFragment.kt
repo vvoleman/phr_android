@@ -45,7 +45,6 @@ class MeasurementTimelineFragment : AbstractTimelineFragment<ScheduledMeasuremen
         }
 
         collectLatestLifecycleFlow(viewModel!!.items) {
-
             binding.textViewEmpty.visibility = checkVisibility(it is UiState.Success && it.data.isEmpty())
             binding.recyclerView.visibility = checkVisibility(it is UiState.Success && it.data.isNotEmpty())
             binding.progressBar.visibility = checkVisibility(it is UiState.Loading)
@@ -67,7 +66,9 @@ class MeasurementTimelineFragment : AbstractTimelineFragment<ScheduledMeasuremen
 
         val dateTime = getDateFromValue(item.value.toString())
         var text = if (isMultipleDays) {
-            "${dateTime.dayOfMonth}. ${dateTime.monthValue}. - ${dateTime.plusDays(item.items.size.toLong() - 1).dayOfMonth}. ${dateTime.plusDays(item.items.size.toLong() - 1).monthValue}."
+            "${dateTime.dayOfMonth}. ${dateTime.monthValue}. - ${dateTime.plusDays(
+                item.items.size.toLong() - 1
+            ).dayOfMonth}. ${dateTime.plusDays(item.items.size.toLong() - 1).monthValue}."
         } else {
             ""
         }
@@ -104,7 +105,4 @@ class MeasurementTimelineFragment : AbstractTimelineFragment<ScheduledMeasuremen
             return fragment
         }
     }
-
-
-
 }

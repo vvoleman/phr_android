@@ -14,4 +14,4 @@ data class AddEditPresentationModel(
     val patientId: String,
     val specificMedicalWorker: String? = null,
     val assets: List<AssetPresentationModel> = listOf()
-): Parcelable
+) : Parcelable

@@ -14,9 +14,11 @@ class MeasurementGroupItem(
     private val onClick: (String) -> Unit
 ) : BindableItem<ItemProblemCategoryDetailBinding>() {
     override fun bind(viewBinding: ItemProblemCategoryDetailBinding, position: Int) {
-        val items = item.fieldStats.map { MeasurementGroupFieldItem(it) {
-            onClick(item.measurementGroup.id)
-        } }
+        val items = item.fieldStats.map {
+            MeasurementGroupFieldItem(it) {
+                onClick(item.measurementGroup.id)
+            }
+        }
 
         val groupieAdapter = GroupieAdapter()
         groupieAdapter.addAll(items)

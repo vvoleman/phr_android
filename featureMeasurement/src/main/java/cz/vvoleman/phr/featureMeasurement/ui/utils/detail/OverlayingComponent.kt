@@ -19,7 +19,8 @@ public class OverlayingComponent(
     public val innerPaddingStartDp: Float = 0f,
     public val innerPaddingTopDp: Float = 0f,
     public val innerPaddingEndDp: Float = 0f,
-    public val innerPaddingBottomDp: Float = 0f, override val margins: Dimensions,
+    public val innerPaddingBottomDp: Float = 0f,
+    override val margins: Dimensions,
 ) : Component {
 
     override fun draw(

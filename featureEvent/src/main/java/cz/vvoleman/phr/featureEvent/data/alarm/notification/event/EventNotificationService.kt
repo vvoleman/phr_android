@@ -48,7 +48,6 @@ class EventNotificationService(
             .setAutoCancel(true)
             .build()
 
-        notificationManager.notify(event.id.hashCode()+content.triggerAt.toInt(), notification)
+        notificationManager.notify(event.id.hashCode() + content.triggerAt.toInt(), notification)
     }
-
 }

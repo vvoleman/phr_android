@@ -12,4 +12,4 @@ data class ProblemCategoryPresentationModel(
     val createdAt: LocalDateTime,
     val patientId: String,
     val isDefault: Boolean
-): Parcelable
+) : Parcelable

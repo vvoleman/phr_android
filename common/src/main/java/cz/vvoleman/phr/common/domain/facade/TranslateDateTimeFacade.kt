@@ -10,7 +10,6 @@ open class TranslateDateTimeFacade {
 
     private val alreadyTranslated = mutableMapOf<String, LocalDateTime>()
 
-
     fun translateScheduleItem(
         scheduleDayOfWeek: DayOfWeek,
         scheduleTime: LocalTime,
@@ -55,5 +54,4 @@ open class TranslateDateTimeFacade {
     companion object {
         private const val DEFAULT_CACHE_LIMIT = 100
     }
-
 }

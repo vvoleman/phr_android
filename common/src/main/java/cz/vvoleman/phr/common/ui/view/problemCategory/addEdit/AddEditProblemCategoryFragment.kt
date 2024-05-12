@@ -33,7 +33,8 @@ class AddEditProblemCategoryFragment :
     override lateinit var destinationMapper: AddEditProblemCategoryDestinationUiMapper
 
     @Inject
-    override lateinit var viewStateBinder: ViewStateBinder<AddEditProblemCategoryViewState, FragmentAddEditProblemCategoryBinding>
+    override lateinit var viewStateBinder:
+        ViewStateBinder<AddEditProblemCategoryViewState, FragmentAddEditProblemCategoryBinding>
 
     override fun setupBinding(inflater: LayoutInflater, container: ViewGroup?): FragmentAddEditProblemCategoryBinding {
         return FragmentAddEditProblemCategoryBinding.inflate(inflater, container, false)
