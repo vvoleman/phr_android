@@ -1,5 +1,6 @@
 package cz.vvoleman.phr.common.domain.facade
 
+import cz.vvoleman.phr.common.utils.TimeConstants
 import cz.vvoleman.phr.common.utils.plusDayOfWeek
 import java.time.DayOfWeek
 import java.time.LocalDateTime
@@ -28,10 +29,12 @@ open class TranslateDateTimeFacade {
 
             alreadyTranslated[key] =
                 if (currentWeekDay === scheduleDayOfWeek && scheduleTime.isBefore(currentTime)) {
-                    currentDate.plusDays(7L * (weekMultiplier + 1)).atTime(scheduleTime)
+                    currentDate
+                        .plusDays(TimeConstants.DAYS_IN_WEEK.toLong() * (weekMultiplier + 1))
+                        .atTime(scheduleTime)
                 } else {
                     currentDate.plusDayOfWeek(scheduleDayOfWeek).atTime(scheduleTime)
-                        .plusDays(7L * weekMultiplier)
+                        .plusDays(TimeConstants.DAYS_IN_WEEK.toLong() * weekMultiplier)
                 }
         }
 

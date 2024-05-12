@@ -16,7 +16,11 @@ class AddEditMeasurementBinder(
     private val frequencyMapper: FrequencyDayUiModelToPresentationMapper,
     private val problemCategoryMapper: ProblemCategoryUiModelToColorMapper,
 ) :
-    BaseViewStateBinder<AddEditMeasurementViewState, FragmentAddEditMeasurementBinding, AddEditMeasurementBinder.Notification>() {
+    BaseViewStateBinder<
+        AddEditMeasurementViewState,
+        FragmentAddEditMeasurementBinding,
+        AddEditMeasurementBinder.Notification
+        >() {
 
     override fun firstBind(viewBinding: FragmentAddEditMeasurementBinding, viewState: AddEditMeasurementViewState) {
         super.firstBind(viewBinding, viewState)

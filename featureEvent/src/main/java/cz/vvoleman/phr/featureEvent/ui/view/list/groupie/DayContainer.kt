@@ -20,7 +20,7 @@ class DayContainer(
     override fun bind(viewBinding: ItemEventDayBinding, position: Int) {
         viewBinding.apply {
             if (date.isBefore(LocalDate.now())) {
-                root.alpha = 0.5f
+                root.alpha = CONTAINER_ALPHA_PAST
             }
 
             textViewDay.text = date.dayOfMonth.toString()
@@ -43,5 +43,9 @@ class DayContainer(
 
     override fun initializeViewBinding(view: View): ItemEventDayBinding {
         return ItemEventDayBinding.bind(view)
+    }
+
+    companion object {
+        private const val CONTAINER_ALPHA_PAST = 0.5f
     }
 }

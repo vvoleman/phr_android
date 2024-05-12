@@ -10,7 +10,9 @@ class MedicalFacilityAdditionalInfoUiModelToPresentationMapper(
     private val facilityMapper: MedicalFacilityUiModelToPresentationMapper,
 ) {
 
-    fun toUi(model: AdditionalInfoPresentationModel<MedicalFacilityPresentationModel>): AdditionalInfoUiModel<MedicalFacilityUiModel> {
+    fun toUi(
+        model: AdditionalInfoPresentationModel<MedicalFacilityPresentationModel>
+    ): AdditionalInfoUiModel<MedicalFacilityUiModel> {
         return AdditionalInfoUiModel(
             icon = model.icon,
             text = model.text,

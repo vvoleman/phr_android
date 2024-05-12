@@ -68,7 +68,8 @@ class DataModule {
     }
 
     @Provides
-    fun providesMeasurementGroupScheduleItemDataModelToDomainMapper(): MeasurementGroupScheduleItemDataModelToDomainMapper {
+    fun providesMeasurementGroupScheduleItemDataModelToDomainMapper(
+    ): MeasurementGroupScheduleItemDataModelToDomainMapper {
         return MeasurementGroupScheduleItemDataModelToDomainMapper()
     }
 

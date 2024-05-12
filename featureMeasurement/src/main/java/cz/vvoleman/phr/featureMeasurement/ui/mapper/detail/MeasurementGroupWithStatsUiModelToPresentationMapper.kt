@@ -16,7 +16,9 @@ class MeasurementGroupWithStatsUiModelToPresentationMapper(
         )
     }
 
-    fun toPresentation(models: List<MeasurementGroupWithStatsUiModel>): List<MeasurementGroupWithStatsPresentationModel> {
+    fun toPresentation(
+        models: List<MeasurementGroupWithStatsUiModel>
+    ): List<MeasurementGroupWithStatsPresentationModel> {
         return models.map { toPresentation(it) }
     }
 

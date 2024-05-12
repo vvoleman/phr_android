@@ -164,24 +164,16 @@ abstract class PatientDatabase : RoomDatabase() {
                 val groups = diagnoseGroupFixture.setup()
 
                 val diagnoseFixture = DiagnoseFixture(database.diagnoseDao(), groups)
-                val diagnoses = diagnoseFixture.setup()
+                diagnoseFixture.setup()
 
                 val problemCategoryFixture = ProblemCategoryFixture(database.problemCategoryDao(), patients)
-                val problemCategories = problemCategoryFixture.setup()
+                problemCategoryFixture.setup()
 
                 val medicalWorkerFixture = MedicalWorkerFixture(database.medicalWorkerDao())
-                val medicalWorkers = medicalWorkerFixture.setup()
+                medicalWorkerFixture.setup()
 
                 val unitGroupFixture = UnitGroupFixture(database.unitGroupDao())
                 unitGroupFixture.setup()
-//                val medicalRecordFixture = MedicalRecordFixture(
-//                    medicalRecordDao,
-//                    patients,
-//                    diagnoses,
-//                    problemCategories,
-//                    medicalWorkers
-//                )
-//                medicalRecordFixture.setup()
             }
         }
     }

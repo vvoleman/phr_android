@@ -18,13 +18,11 @@ import cz.vvoleman.phr.featureMedicalRecord.domain.model.MedicalRecordDomainMode
 import cz.vvoleman.phr.featureMedicalRecord.domain.model.addEdit.UserListsDomainModel
 import cz.vvoleman.phr.featureMedicalRecord.domain.model.selectFile.SaveFileRequestDomainModel
 import cz.vvoleman.phr.featureMedicalRecord.domain.model.selectFile.SelectedObjectsDomainModel
-import cz.vvoleman.phr.featureMedicalRecord.domain.repository.GetDiagnoseByIdRepository
 import cz.vvoleman.phr.featureMedicalRecord.domain.repository.addEdit.DeleteUnusedFilesRepository
 import cz.vvoleman.phr.featureMedicalRecord.domain.repository.addEdit.GetDiagnosesPagingStreamRepository
 import cz.vvoleman.phr.featureMedicalRecord.domain.usecase.AddEditMedicalRecordUseCase
 import cz.vvoleman.phr.featureMedicalRecord.domain.usecase.GetRecordByIdUseCase
 import cz.vvoleman.phr.featureMedicalRecord.domain.usecase.GetUserListsUseCase
-import cz.vvoleman.phr.featureMedicalRecord.domain.usecase.addEdit.SearchDiagnoseUseCase
 import cz.vvoleman.phr.featureMedicalRecord.domain.usecase.selectFile.GetDataForSelectedOptionsUseCase
 import cz.vvoleman.phr.featureMedicalRecord.domain.usecase.selectFile.SaveMedicalRecordFileUseCase
 import cz.vvoleman.phr.featureMedicalRecord.presentation.mapper.addEdit.AddEditPresentationModelToDomainMapper
@@ -49,11 +47,9 @@ class AddEditMedicalRecordViewModel @Inject constructor(
     private val getSelectedPatientUseCase: GetSelectedPatientUseCase,
     private val saveMedicalRecordFileUseCase: SaveMedicalRecordFileUseCase,
     private val deleteUnusedFilesRepository: DeleteUnusedFilesRepository,
-    private val searchDiagnoseUseCase: SearchDiagnoseUseCase,
     private val getDataForSelectedOptionsUseCase: GetDataForSelectedOptionsUseCase,
     private val getUserListsUseCase: GetUserListsUseCase,
     private val getDiagnosesPagingStreamRepository: GetDiagnosesPagingStreamRepository,
-    private val getDiagnoseByIdRepository: GetDiagnoseByIdRepository,
     private val selectedOptionsPresentationToDomainMapper: SelectedOptionsPresentationToDomainMapper,
     private val diagnoseMapper: DiagnosePresentationModelToDomainMapper,
     private val addEditPresentationModelToDomainMapper: AddEditPresentationModelToDomainMapper,
@@ -156,7 +152,7 @@ class AddEditMedicalRecordViewModel @Inject constructor(
             return flow
         }
 
-        return currentViewState.diagnoseStream ?: throw IllegalStateException("Diagnose stream is null")
+        return currentViewState.diagnoseStream ?: error("Diagnose stream is null")
     }
 
     suspend fun onSubmit() {
@@ -213,31 +209,6 @@ class AddEditMedicalRecordViewModel @Inject constructor(
         updateViewState(currentViewState.copy(assets = currentViewState.assets + asset))
     }
 
-    private fun setSelectedOptions(options: SelectedObjectsDomainModel) = viewModelScope.launch {
-        var state = currentViewState.copy()
-
-        var diagnose: String? = null
-        if (options.diagnose != null) {
-            diagnose = options.diagnose.id
-        }
-
-        var patient: String? = null
-        if (options.patient != null) {
-            patient = options.patient.id
-        }
-
-        var visitDate: LocalDate? = null
-        if (options.visitDate != null) {
-            visitDate = options.visitDate
-        }
-
-        diagnose?.let { state = state.copy(diagnose = getDiagnose(it)) }
-        patient?.let { state = state.copy(patientId = it) }
-        visitDate?.let { state = state.copy(visitDate = it) }
-
-        updateViewState(state)
-    }
-
     private suspend fun getSelectedPatient(): PatientPresentationModel {
         val patient = getSelectedPatientUseCase.execute(null).first()
         return patientMapper.toPresentation(patient)
@@ -251,12 +222,6 @@ class AddEditMedicalRecordViewModel @Inject constructor(
 
     private suspend fun getUserLists(patientId: String): UserListsDomainModel {
         return getUserListsUseCase.executeInBackground(patientId)
-    }
-
-    private suspend fun getDiagnose(id: String): DiagnosePresentationModel? {
-        return getDiagnoseByIdRepository.getDiagnoseById(id)?.let {
-            diagnoseMapper.toPresentation(it)
-        }
     }
 
     private suspend fun getSelectedOptions(): SelectedObjectsDomainModel? {

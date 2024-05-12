@@ -14,7 +14,6 @@ import cz.vvoleman.phr.common.ui.model.FilterPair
 import cz.vvoleman.phr.featureMedicalRecord.domain.model.MedicalRecordDomainModel
 import cz.vvoleman.phr.featureMedicalRecord.domain.model.list.GroupByDomainModel
 import cz.vvoleman.phr.featureMedicalRecord.domain.usecase.DeleteMedicalRecordUseCase
-import cz.vvoleman.phr.featureMedicalRecord.domain.usecase.DeletePatientUseCase
 import cz.vvoleman.phr.featureMedicalRecord.domain.usecase.GetFilteredRecordsUseCase
 import cz.vvoleman.phr.featureMedicalRecord.domain.usecase.GetUsedMedicalWorkersUseCase
 import cz.vvoleman.phr.featureMedicalRecord.domain.usecase.GetUsedProblemCategoriesUseCase
@@ -38,7 +37,6 @@ class ListMedicalRecordViewModel @Inject constructor(
     private val listViewStateToDomainMapper: ListViewStateToDomainMapper,
     private val getSelectedPatientUseCase: GetSelectedPatientUseCase,
     private val deleteMedicalRecordUseCase: DeleteMedicalRecordUseCase,
-    private val deletePatientUseCase: DeletePatientUseCase,
     savedStateHandle: SavedStateHandle,
     useCaseExecutorProvider: UseCaseExecutorProvider
 ) : BaseViewModel<ListMedicalRecordViewState, ListMedicalRecordNotification>(
@@ -103,6 +101,7 @@ class ListMedicalRecordViewModel @Inject constructor(
         navigateTo(ListMedicalRecordDestination.EditMedicalRecord(id))
     }
 
+    @Suppress("UnusedParameter")
     fun onRecordDeleteUndo(id: String) {
         notify(ListMedicalRecordNotification.NotImplemented)
     }

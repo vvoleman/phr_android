@@ -61,7 +61,8 @@ class FacilitySelector @JvmOverloads constructor(
         recyclerViewAdapter = FacilitySelectorAdapter(this)
         recyclerViewAdapter.addLoadStateListener { loadState ->
             dialogBinding.progressBar.isVisible = loadState.refresh is LoadState.Loading
-            dialogBinding.textViewNoResults.isVisible = loadState.append.endOfPaginationReached && recyclerViewAdapter.itemCount < 1
+            dialogBinding.textViewNoResults.isVisible =
+                loadState.append.endOfPaginationReached && (recyclerViewAdapter.itemCount < 1)
             dialogBinding.textViewError.isVisible = loadState.refresh is LoadState.Error
         }
 
@@ -72,20 +73,22 @@ class FacilitySelector @JvmOverloads constructor(
             setHasFixedSize(false)
         }
 
-        dialogBinding.searchView.setOnQueryTextListener(object : androidx.appcompat.widget.SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                facility = null
-                recyclerViewAdapter.resetSelectedPosition()
-                listener?.onFacilitySelectorSearch(query ?: "") {
-                    setData(it)
+        dialogBinding.searchView.setOnQueryTextListener(
+            object : androidx.appcompat.widget.SearchView.OnQueryTextListener {
+                override fun onQueryTextSubmit(query: String?): Boolean {
+                    facility = null
+                    recyclerViewAdapter.resetSelectedPosition()
+                    listener?.onFacilitySelectorSearch(query ?: "") {
+                        setData(it)
+                    }
+                    return false
                 }
-                return false
-            }
 
-            override fun onQueryTextChange(newText: String?): Boolean {
-                return false
+                override fun onQueryTextChange(newText: String?): Boolean {
+                    return false
+                }
             }
-        })
+        )
     }
 
     private fun setupFacility() {

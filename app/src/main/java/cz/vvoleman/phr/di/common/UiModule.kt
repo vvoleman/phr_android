@@ -162,10 +162,9 @@ class UiModule {
 
     @Provides
     fun providesListProblemCategoryBinder(
-        problemCategoryMapper: ProblemCategoryUiModelToPresentationMapper,
         withInfoMapper: ProblemCategoryWithInfoUiModelToPresentationMapper
     ): ViewStateBinder<ListProblemCategoryViewState, FragmentListProblemCategoryBinding> =
-        ListProblemCategoryBinder(problemCategoryMapper, withInfoMapper)
+        ListProblemCategoryBinder( withInfoMapper)
 
     @Provides
     fun providesProblemCategoryInfoUiModelToPresentationMapper(
@@ -215,7 +214,8 @@ class UiModule {
     ) = DetailProblemCategoryDestinationUiMapper(navManager)
 
     @Provides
-    fun providesDetailProblemCategoryBinder(): ViewStateBinder<DetailProblemCategoryViewState, FragmentDetailProblemCategoryBinding> =
+    fun providesDetailProblemCategoryBinder(
+    ): ViewStateBinder<DetailProblemCategoryViewState, FragmentDetailProblemCategoryBinding> =
         DetailProblemCategoryBinder()
 
     @Provides

@@ -55,12 +55,14 @@ class PresentationModule {
     }
 
     @Provides
-    fun provideMeasurementGroupScheduleItemPresentationModelToDomainMapper(): MeasurementGroupScheduleItemPresentationModelToDomainMapper {
+    fun provideMeasurementGroupScheduleItemPresentationModelToDomainMapper(
+    ): MeasurementGroupScheduleItemPresentationModelToDomainMapper {
         return MeasurementGroupScheduleItemPresentationModelToDomainMapper()
     }
 
     @Provides
-    fun provideMeasurementGroupEntryPresentationModelToDomainMapper(): MeasurementGroupEntryPresentationModelToDomainMapper {
+    fun provideMeasurementGroupEntryPresentationModelToDomainMapper(
+    ): MeasurementGroupEntryPresentationModelToDomainMapper {
         return MeasurementGroupEntryPresentationModelToDomainMapper()
     }
 

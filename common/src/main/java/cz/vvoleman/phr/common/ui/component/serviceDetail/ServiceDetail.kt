@@ -15,6 +15,7 @@ import cz.vvoleman.phr.common.ui.model.healthcare.addEdit.AddEditMedicalServiceI
 import cz.vvoleman.phr.common.ui.model.healthcare.addEdit.AddEditMedicalServiceItemUiModel.ItemState
 import cz.vvoleman.phr.common.ui.model.healthcare.core.MedicalFacilityUiModel
 import cz.vvoleman.phr.common.ui.model.healthcare.core.MedicalServiceWithWorkersUiModel
+import cz.vvoleman.phr.common.utils.TimeConstants
 import cz.vvoleman.phr.common.utils.itemChanges
 import cz.vvoleman.phr.common.utils.textChanges
 import cz.vvoleman.phr.common_datasource.R
@@ -69,6 +70,7 @@ class ServiceDetail @JvmOverloads constructor(
         _listener?.onDataChanged(item)
     }
 
+    @Suppress("UnusedParameter")
     private fun redrawByState(oldState: ItemState, newState: ItemState) {
         binding.apply {
             textInputLayoutServices.isVisible = newState !is ItemState.NoFacility
@@ -154,16 +156,17 @@ class ServiceDetail @JvmOverloads constructor(
             .launchIn(lifecycleScope)
 
         binding.editTextEmail.textChanges()
-            .debounce(500)
+            .debounce(TimeConstants.DEBOUNCE_TIME)
             .onEach { itemChanged(email = it.toString()) }
             .launchIn(lifecycleScope)
 
         binding.editTextTelephone.textChanges()
-            .debounce(500)
+            .debounce(TimeConstants.DEBOUNCE_TIME)
             .onEach { itemChanged(telephone = it.toString()) }
             .launchIn(lifecycleScope)
     }
 
+    @Suppress("UnusedParameter")
     private fun redrawServices(oldState: ItemState, newState: ItemState) {
         if (newState !is ItemState.NoFacility) {
             val services = getServices(item!!).mapValues { it.value.medicalService.careField }

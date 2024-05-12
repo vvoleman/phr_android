@@ -28,9 +28,10 @@ class ListProblemCategoryDestinationUiMapper(
 
             is ListProblemCategoryDestination.OpenDetail -> {
                 val action =
-                    ListProblemCategoryFragmentDirections.actionListProblemCategoryFragmentToDetailProblemCategoryFragment(
-                        det.id
-                    )
+                    ListProblemCategoryFragmentDirections
+                        .actionListProblemCategoryFragmentToDetailProblemCategoryFragment(
+                            det.id
+                        )
                 navManager.navigate(action)
             }
         }
@@ -39,10 +40,11 @@ class ListProblemCategoryDestinationUiMapper(
     private fun navigateAddEdit(action: Int, id: String? = null) {
         val actionString = context.getString(action).capitalize()
         navManager.navigate(
-            ListProblemCategoryFragmentDirections.actionListProblemCategoryFragmentToAddEditProblemCategoryFragment(
-                action = actionString,
-                problemCategoryId = id
-            )
+            ListProblemCategoryFragmentDirections
+                .actionListProblemCategoryFragmentToAddEditProblemCategoryFragment(
+                    action = actionString,
+                    problemCategoryId = id
+                )
         )
     }
 }

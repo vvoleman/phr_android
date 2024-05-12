@@ -1,7 +1,5 @@
 package cz.vvoleman.phr.featureMedicalRecord.ui.view.detail
 
-import android.content.Intent
-import android.net.Uri
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -14,7 +12,6 @@ import cz.vvoleman.phr.featureMedicalRecord.presentation.model.detail.DetailMedi
 import cz.vvoleman.phr.featureMedicalRecord.presentation.model.detail.DetailMedicalRecordViewState
 import cz.vvoleman.phr.featureMedicalRecord.presentation.viewmodel.DetailMedicalRecordViewModel
 import cz.vvoleman.phr.featureMedicalRecord.ui.mapper.destination.DetailMedicalRecordDestinationUiMapper
-import cz.vvoleman.phr.featureMedicalRecord.ui.model.ImageItemUiModel
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -54,13 +51,5 @@ class DetailMedicalRecordFragment :
             else -> {
             }
         }
-    }
-
-    private fun openImage(item: ImageItemUiModel) {
-        Log.d("DetailMedicalRecordFragment", "openImage: ${item.asset.uri}")
-        val imageUri = Uri.parse(item.asset.uri)
-        val intent = Intent(Intent.ACTION_VIEW)
-        intent.setDataAndType(imageUri, "image/*")
-        startActivity(intent)
     }
 }

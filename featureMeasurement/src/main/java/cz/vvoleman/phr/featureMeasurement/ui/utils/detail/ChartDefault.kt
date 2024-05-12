@@ -48,6 +48,7 @@ fun createTextComponent(
     }.build()
 }
 
+@Suppress("MagicNumber")
 fun createMarker(
     indicatorSizeDp: Float = 0f,
     color: Int = Color.BLACK,

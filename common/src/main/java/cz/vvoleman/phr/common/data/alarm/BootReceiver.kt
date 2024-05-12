@@ -13,7 +13,8 @@ import kotlinx.coroutines.launch
 abstract class BootReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
-        Log.d("BootReceiver", "${this.toString()}onReceive: $intent")
+        val className = this.javaClass.simpleName
+        Log.d("BootReceiver", "$className:onReceive: $intent")
         if (intent.action == Intent.ACTION_BOOT_COMPLETED) {
             val scope = CoroutineScope(Dispatchers.IO)
 

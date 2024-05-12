@@ -22,10 +22,16 @@ object CommonEventBus {
     val deletePatientBus = EventBusChannel<DeletePatientEvent, Unit>()
 
     val getWorkerAdditionalInfoBus =
-        EventBusChannel<GetMedicalWorkersAdditionalInfoEvent, Map<MedicalWorkerDomainModel, List<AdditionalInfoDomainModel<MedicalWorkerDomainModel>>>>()
+        EventBusChannel<
+            GetMedicalWorkersAdditionalInfoEvent,
+            Map<MedicalWorkerDomainModel, List<AdditionalInfoDomainModel<MedicalWorkerDomainModel>>>
+            >()
 
     val getFacilityAdditionalInfoBus =
-        EventBusChannel<GetMedicalFacilitiesAdditionalInfoEvent, Map<MedicalFacilityDomainModel, List<AdditionalInfoDomainModel<MedicalFacilityDomainModel>>>>()
+        EventBusChannel<
+            GetMedicalFacilitiesAdditionalInfoEvent,
+            Map<MedicalFacilityDomainModel, List<AdditionalInfoDomainModel<MedicalFacilityDomainModel>>>
+            >()
 
     val medicalWorkerDeletedEvent = EventBusChannel<MedicalWorkerDeletedEvent, Unit>()
 

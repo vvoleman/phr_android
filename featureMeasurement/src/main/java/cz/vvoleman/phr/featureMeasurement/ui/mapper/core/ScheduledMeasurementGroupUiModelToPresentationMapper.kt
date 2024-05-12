@@ -14,7 +14,9 @@ class ScheduledMeasurementGroupUiModelToPresentationMapper(
         )
     }
 
-    fun toPresentation(models: List<ScheduledMeasurementGroupUiModel>): List<ScheduledMeasurementGroupPresentationModel> {
+    fun toPresentation(
+        models: List<ScheduledMeasurementGroupUiModel>
+    ): List<ScheduledMeasurementGroupPresentationModel> {
         return models.map { toPresentation(it) }
     }
 

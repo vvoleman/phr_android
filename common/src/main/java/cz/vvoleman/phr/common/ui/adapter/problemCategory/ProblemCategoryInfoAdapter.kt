@@ -13,10 +13,10 @@ import cz.vvoleman.phr.common_datasource.databinding.ItemProblemCategoryInfoBind
 
 class ProblemCategoryInfoAdapter(
     private val color: Int
-) :
-    ListAdapter<AdditionalInfoUiModel<ProblemCategoryUiModel>, ProblemCategoryInfoAdapter.ProblemCategoryInfoViewHolder>(
-        DiffCallback()
-    ) {
+) : ListAdapter<
+    AdditionalInfoUiModel<ProblemCategoryUiModel>,
+    ProblemCategoryInfoAdapter.ProblemCategoryInfoViewHolder
+    >(DiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProblemCategoryInfoViewHolder {
         val binding =

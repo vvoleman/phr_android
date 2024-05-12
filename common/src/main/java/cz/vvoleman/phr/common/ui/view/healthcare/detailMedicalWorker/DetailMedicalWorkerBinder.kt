@@ -15,7 +15,11 @@ class DetailMedicalWorkerBinder(
     private val facilityMapper: MedicalFacilityUiModelToPresentationMapper,
     private val factory: DetailMedicalWorkerContainerFactory
 ) :
-    BaseViewStateBinder<DetailMedicalWorkerViewState, FragmentDetailMedicalWorkerBinding, DetailMedicalWorkerBinder.Notification>() {
+    BaseViewStateBinder<
+        DetailMedicalWorkerViewState,
+        FragmentDetailMedicalWorkerBinding,
+        DetailMedicalWorkerBinder.Notification
+        >() {
 
     override fun firstBind(viewBinding: FragmentDetailMedicalWorkerBinding, viewState: DetailMedicalWorkerViewState) {
         super.firstBind(viewBinding, viewState)

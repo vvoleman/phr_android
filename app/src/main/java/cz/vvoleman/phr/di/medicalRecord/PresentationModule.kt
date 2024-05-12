@@ -26,8 +26,6 @@ import cz.vvoleman.phr.featureMedicalRecord.domain.repository.UpdateMedicalRecor
 import cz.vvoleman.phr.featureMedicalRecord.domain.repository.addEdit.SearchDiagnoseRepository
 import cz.vvoleman.phr.featureMedicalRecord.domain.repository.patientDelete.DeleteMedicalRecordAssetsRepository
 import cz.vvoleman.phr.featureMedicalRecord.domain.repository.patientDelete.DeleteMedicalRecordsRepository
-import cz.vvoleman.phr.featureMedicalRecord.domain.repository.patientDelete.DeleteMedicalWorkersRepository
-import cz.vvoleman.phr.featureMedicalRecord.domain.repository.patientDelete.DeleteProblemCategoriesRepository
 import cz.vvoleman.phr.featureMedicalRecord.domain.repository.selectFile.SaveFileRepository
 import cz.vvoleman.phr.featureMedicalRecord.domain.usecase.AddEditMedicalRecordUseCase
 import cz.vvoleman.phr.featureMedicalRecord.domain.usecase.DeleteMedicalRecordUseCase
@@ -184,14 +182,10 @@ class PresentationModule {
     fun providesDeletePatientUseCase(
         deleteMedicalRecordAssetsRepository: DeleteMedicalRecordAssetsRepository,
         deleteMedicalRecordsRepository: DeleteMedicalRecordsRepository,
-        deleteMedicalWorkersRepository: DeleteMedicalWorkersRepository,
-        deleteProblemCategoriesRepository: DeleteProblemCategoriesRepository,
         coroutineContextProvider: CoroutineContextProvider
     ) = DeletePatientUseCase(
         deleteMedicalRecordAssetsRepository,
         deleteMedicalRecordsRepository,
-        deleteMedicalWorkersRepository,
-        deleteProblemCategoriesRepository,
         coroutineContextProvider
     )
 

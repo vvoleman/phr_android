@@ -16,10 +16,12 @@ class GetNextScheduledMeasurementGroupUseCase(
         coroutineContextProvider
     ) {
 
-    override suspend fun executeInBackground(request: NextScheduledRequestDomainModel): List<ScheduledMeasurementGroupDomainModel> {
+    override suspend fun executeInBackground(
+        request: NextScheduledRequestDomainModel
+    ): List<ScheduledMeasurementGroupDomainModel> {
         val groups = getMeasurementGroupsByPatientRepository.getMeasurementGroupsByPatient(request.patientId)
         val translatedTimes =
-            translateDateTimeFacade.translate(groups, request.currentLocalDateTime, request.limit ?: 5)
+            translateDateTimeFacade.translate(groups, request.currentLocalDateTime, request.limit ?: DEFAULT_LIMIT)
 
         // Sort by date time
         val sorted = translatedTimes.toSortedMap()
@@ -45,5 +47,9 @@ class GetNextScheduledMeasurementGroupUseCase(
         }
 
         return nextSchedules
+    }
+
+    companion object {
+        private const val DEFAULT_LIMIT = 5
     }
 }

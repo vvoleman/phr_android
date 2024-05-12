@@ -9,7 +9,7 @@ import androidx.viewbinding.ViewBinding
 import cz.vvoleman.phr.featureMeasurement.ui.model.core.MeasurementGroupFieldUi
 
 abstract class FieldEditorDialog<V : ViewBinding, T : MeasurementGroupFieldUi>(
-    private val _listener: FieldEditorDialogListener,
+    private val listener: FieldEditorDialogListener,
     private val existingField: T? = null
 ) : DialogFragment() {
 
@@ -24,7 +24,7 @@ abstract class FieldEditorDialog<V : ViewBinding, T : MeasurementGroupFieldUi>(
             .setPositiveButton("Save") { _, _ ->
                 try {
                     val data = getData(existingField)
-                    _listener.onDialogSave(data)
+                    listener.onDialogSave(data)
                 } catch (e: IllegalArgumentException) {
                     Log.e("FieldEditorDialog", "onCreateDialog: ", e)
                     return@setPositiveButton

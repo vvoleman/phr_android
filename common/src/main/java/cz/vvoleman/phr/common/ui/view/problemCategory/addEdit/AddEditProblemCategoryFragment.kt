@@ -12,6 +12,7 @@ import cz.vvoleman.phr.common.presentation.model.problemCategory.addEdit.AddEdit
 import cz.vvoleman.phr.common.presentation.model.problemCategory.addEdit.AddEditProblemCategoryViewState
 import cz.vvoleman.phr.common.presentation.viewmodel.problemCategory.AddEditProblemCategoryViewModel
 import cz.vvoleman.phr.common.ui.mapper.problemCategory.destination.AddEditProblemCategoryDestinationUiMapper
+import cz.vvoleman.phr.common.utils.TimeConstants
 import cz.vvoleman.phr.common.utils.textChanges
 import cz.vvoleman.phr.common_datasource.R
 import cz.vvoleman.phr.common_datasource.databinding.FragmentAddEditProblemCategoryBinding
@@ -25,7 +26,11 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class AddEditProblemCategoryFragment :
-    BaseFragment<AddEditProblemCategoryViewState, AddEditProblemCategoryNotification, FragmentAddEditProblemCategoryBinding>() {
+    BaseFragment<
+        AddEditProblemCategoryViewState,
+        AddEditProblemCategoryNotification,
+        FragmentAddEditProblemCategoryBinding
+        >() {
 
     override val viewModel: AddEditProblemCategoryViewModel by viewModels()
 
@@ -49,7 +54,7 @@ class AddEditProblemCategoryFragment :
         }
 
         binding.editTextProblemCategoryName.textChanges()
-            .debounce(300)
+            .debounce(TimeConstants.DEBOUNCE_TIME)
             .onEach {
                 viewModel.onNameChanged(it?.toString())
                 if (it != null) {

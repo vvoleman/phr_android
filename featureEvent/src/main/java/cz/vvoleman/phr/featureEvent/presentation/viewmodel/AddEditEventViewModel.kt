@@ -153,7 +153,9 @@ class AddEditEventViewModel @Inject constructor(
             ?.let { eventMapper.toPresentation(it) }
     }
 
-    private suspend fun getSpecificMedicalWorkers(patient: PatientPresentationModel): List<SpecificMedicalWorkerPresentationModel> {
+    private suspend fun getSpecificMedicalWorkers(
+        patient: PatientPresentationModel
+    ): List<SpecificMedicalWorkerPresentationModel> {
         val workers = getSpecificMedicalWorkerRepository.getSpecificMedicalWorkersByPatient(patient.id)
 
         return workerMapper.toPresentation(workers)

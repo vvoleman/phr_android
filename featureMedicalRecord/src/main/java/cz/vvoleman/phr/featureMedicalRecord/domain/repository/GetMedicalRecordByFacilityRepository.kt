@@ -4,7 +4,13 @@ import cz.vvoleman.phr.featureMedicalRecord.domain.model.MedicalRecordDomainMode
 
 interface GetMedicalRecordByFacilityRepository {
 
-    suspend fun getMedicalRecordsByFacility(facilityId: String, patientId: String): List<MedicalRecordDomainModel>
+    suspend fun getMedicalRecordsByFacility(
+        facilityId: String,
+        patientId: String
+    ): List<MedicalRecordDomainModel>
 
-    suspend fun getMedicalRecordsByFacility(facilityIds: List<String>, patientId: String): Map<String, List<MedicalRecordDomainModel>>
+    suspend fun getMedicalRecordsByFacility(
+        facilityIds: List<String>,
+        patientId: String
+    ): Map<String, List<MedicalRecordDomainModel>>
 }

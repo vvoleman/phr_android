@@ -23,10 +23,15 @@ formatting:
     maxLineLength: 120
   NoWildcardImports:
     active: false
+  SpacingAroundParens:
+    excludes:
+      - "**/cz/vvoleman/phr/di/**Module**"
 naming:
   FunctionParameterNaming:
     excludes:
       - "**/model/retrofit/**"
 style:
   WildcardImport:
+    active: false
+  ReturnCount:
     active: false

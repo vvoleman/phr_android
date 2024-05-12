@@ -72,8 +72,4 @@ class ReminderTimeSelector @JvmOverloads constructor(
     interface TimeSelectorListener {
         fun onTimeClick(index: Int, anchorView: View)
     }
-
-    companion object {
-        private const val TAG = "TimeSelector"
-    }
 }

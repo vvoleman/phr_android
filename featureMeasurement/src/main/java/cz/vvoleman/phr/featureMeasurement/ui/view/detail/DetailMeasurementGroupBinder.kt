@@ -18,7 +18,11 @@ class DetailMeasurementGroupBinder(
     private val entryInfoMapper: EntryInfoUiModelToMeasurementGroupMapper,
     private val statsMapper: FieldStatsUiModelToPresentationMapper
 ) :
-    BaseViewStateBinder<DetailMeasurementGroupViewState, FragmentDetailMeasurementGroupBinding, DetailMeasurementGroupBinder.Notification>(),
+    BaseViewStateBinder<
+        DetailMeasurementGroupViewState,
+        FragmentDetailMeasurementGroupBinding,
+        DetailMeasurementGroupBinder.Notification
+        >(),
     TableFactory.EntryTableInterface {
 
     override fun firstBind(

@@ -25,7 +25,9 @@ class MeasurementTimelineAdapter(
         }
     }
 
-    inner class MeasurementTimelineViewHolder(private val binding: ItemMeasurementTimelineBinding) : RecyclerView.ViewHolder(
+    inner class MeasurementTimelineViewHolder(
+        private val binding: ItemMeasurementTimelineBinding
+    ) : RecyclerView.ViewHolder(
         binding.root
     ) {
 
@@ -59,7 +61,10 @@ class MeasurementTimelineAdapter(
             return oldItem.dateTime == newItem.dateTime
         }
 
-        override fun areContentsTheSame(oldItem: ScheduledMeasurementGroupUiModel, newItem: ScheduledMeasurementGroupUiModel): Boolean {
+        override fun areContentsTheSame(
+            oldItem: ScheduledMeasurementGroupUiModel,
+            newItem: ScheduledMeasurementGroupUiModel
+        ): Boolean {
             return oldItem == newItem
         }
     }

@@ -16,6 +16,7 @@ class ExportEventsToCalendarUseCase(
     private val context: Context,
 ) {
 
+    @Suppress("MagicNumber")
     suspend fun execute(events: List<EventUiModel>): Boolean {
         if (checkPermissions()) {
             Log.d("ExportEventsToCalendarUseCase", "No permissions")
@@ -45,7 +46,6 @@ class ExportEventsToCalendarUseCase(
 
             Log.d("ExportEventsToCalendarUseCase", "Event inserted with id: $eventId")
 
-            // Add all reminders
             for (reminder in event.reminders) {
                 val minutes = event.startAt.minusSeconds(reminder.offset).toEpochSecond(ZoneOffset.UTC) / 60
                 val reminderValues = ContentValues().apply {

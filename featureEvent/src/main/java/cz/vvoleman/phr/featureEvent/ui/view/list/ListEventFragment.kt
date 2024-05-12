@@ -130,13 +130,14 @@ class ListEventFragment : BaseFragment<ListEventViewState, ListEventNotification
         }
     }
 
+    @Suppress("SwallowedException")
     override fun handleNotification(notification: ListEventNotification) {
         when (notification) {
             is ListEventNotification.ExportEvents -> {
                 lifecycleScope.launch {
                     try {
                         exportUseCase.execute(eventMapper.toUi(notification.events))
-                    } catch (e: Exception) {
+                    } catch (e: IllegalArgumentException) {
                         showSnackbar(R.string.error_export_events)
                     }
                 }

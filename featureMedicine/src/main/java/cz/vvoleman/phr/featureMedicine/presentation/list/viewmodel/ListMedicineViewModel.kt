@@ -230,13 +230,15 @@ class ListMedicineViewModel @Inject constructor(
         val patient = getSelectedPatientUseCase.execute(null).firstOrNull()
         if (patient == null) {
             notify(ListMedicineNotification.UnableToLoad)
-            throw IllegalStateException("Patient not found")
+            error("Patient not found")
         }
 
         return patientMapper.toPresentation(patient)
     }
 
-    private suspend fun getNextSchedules(patient: PatientPresentationModel): List<ScheduleItemWithDetailsPresentationModel> {
+    private suspend fun getNextSchedules(
+        patient: PatientPresentationModel
+    ): List<ScheduleItemWithDetailsPresentationModel> {
         val nextRequest = NextScheduledRequestDomainModel(
             patientId = patient.id
         )
@@ -246,7 +248,9 @@ class ListMedicineViewModel @Inject constructor(
         return results.map { scheduleItemDetailsMapper.toPresentation(it) }
     }
 
-    private suspend fun getTimelineSchedules(patient: PatientPresentationModel): List<GroupedItemsPresentationModel<ScheduleItemWithDetailsPresentationModel>> {
+    private suspend fun getTimelineSchedules(
+        patient: PatientPresentationModel
+    ): List<GroupedItemsPresentationModel<ScheduleItemWithDetailsPresentationModel>> {
         val today = LocalDate.now()
         val rangeRequest = SchedulesInRangeRequest(
             patientId = patient.id,
@@ -272,7 +276,9 @@ class ListMedicineViewModel @Inject constructor(
         }
     }
 
-    private suspend fun getMedicineCatalogue(patient: PatientPresentationModel): List<GroupedItemsPresentationModel<MedicineSchedulePresentationModel>> {
+    private suspend fun getMedicineCatalogue(
+        patient: PatientPresentationModel
+    ): List<GroupedItemsPresentationModel<MedicineSchedulePresentationModel>> {
         val results = groupMedicineSchedulesUseCase.executeInBackground(patient.id)
 
         return results.map { group ->

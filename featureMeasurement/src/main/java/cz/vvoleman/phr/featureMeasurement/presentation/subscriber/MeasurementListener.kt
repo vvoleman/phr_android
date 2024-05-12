@@ -1,6 +1,5 @@
 package cz.vvoleman.phr.featureMeasurement.presentation.subscriber
 
-import android.net.Uri
 import cz.vvoleman.phr.base.domain.ModuleListener
 import cz.vvoleman.phr.common.domain.model.problemCategory.request.DataDeleteType
 import cz.vvoleman.phr.common.presentation.event.DeletePatientEvent
@@ -118,7 +117,6 @@ class MeasurementListener(
     private suspend fun onGetCategoryDetailSection(
         event: GetProblemCategoryDetailSectionEvent
     ): List<SectionContainer> {
-        // Get all records for category
         val groups = getMeasurementsByProblemCategoryRepository
             .getMeasurementGroupsByProblemCategory(event.problemCategory.id)
 
@@ -138,7 +136,7 @@ class MeasurementListener(
         }
 
         val section = problemCategoryDetailProvider.getBindingItems(stats) { id ->
-            val uri = Uri.parse("phr://list/?medicalRecordId=$id")
+//            val uri = Uri.parse("phr://list/?medicalRecordId=$id")
 //            navController?.navigate(uri)
         }
 

@@ -106,6 +106,7 @@ class AddEditEntryViewModel @Inject constructor(
         updateViewState(currentViewState.copy(dateTime = dateTime))
     }
 
+    @Suppress("UnusedParameter")
     private fun handleOnSave(unit: Unit) {
         navigateTo(
             AddEditEntryDestination.EntrySaved(

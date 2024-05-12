@@ -25,7 +25,7 @@ class MeasurementTimelineFragment : AbstractTimelineFragment<ScheduledMeasuremen
     private val binding get() = _binding!!
     private var isMultipleDays = false
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentMeasurementTimelineBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -61,7 +61,10 @@ class MeasurementTimelineFragment : AbstractTimelineFragment<ScheduledMeasuremen
         this.viewModel = viewModel
     }
 
-    override fun bindGroupedItems(groupBinding: ItemGroupedItemsBinding, item: GroupedItemsUiModel<ScheduledMeasurementGroupUiModel>) {
+    override fun bindGroupedItems(
+        groupBinding: ItemGroupedItemsBinding,
+        item: GroupedItemsUiModel<ScheduledMeasurementGroupUiModel>
+    ) {
         val adapter = MeasurementTimelineAdapter(viewModel!!.getListener()!!)
 
         val dateTime = getDateFromValue(item.value.toString())

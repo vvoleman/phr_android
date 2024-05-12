@@ -2,6 +2,7 @@ package cz.vvoleman.phr.featureEvent.domain.model.core
 
 import cz.vvoleman.phr.common.utils.TimeConstants
 
+@Suppress("MagicNumber")
 sealed class ReminderOffset(val offset: Long) {
     object OneWeek : ReminderOffset(7 * TimeConstants.DAY_EPOCH)
     object TwoDays : ReminderOffset(2 * TimeConstants.DAY_EPOCH)

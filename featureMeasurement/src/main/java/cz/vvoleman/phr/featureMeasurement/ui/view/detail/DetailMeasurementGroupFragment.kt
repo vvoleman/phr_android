@@ -24,7 +24,11 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class DetailMeasurementGroupFragment :
-    BaseExportFragment<DetailMeasurementGroupViewState, DetailMeasurementGroupNotification, FragmentDetailMeasurementGroupBinding>() {
+    BaseExportFragment<
+        DetailMeasurementGroupViewState,
+        DetailMeasurementGroupNotification,
+        FragmentDetailMeasurementGroupBinding
+        >() {
 
     override val viewModel: DetailMeasurementGroupViewModel by viewModels()
 
@@ -115,7 +119,7 @@ class DetailMeasurementGroupFragment :
     private fun splitEntriesToPages(params: ExportDetailParamsPresentationModel): List<DetailMeasurementGroupPage> {
         val pages = mutableListOf<DetailMeasurementGroupPage>()
         val entries = params.entries.sortedBy { it.entry.createdAt }
-        val pageSize = 11
+        val pageSize = ENTRIES_PER_PAGE
         val pageCount = entries.size / pageSize + 1
         for (i in 0 until pageCount) {
             val start = i * pageSize
@@ -125,5 +129,9 @@ class DetailMeasurementGroupFragment :
             pages.add(DetailMeasurementGroupPage(subParams))
         }
         return pages
+    }
+
+    companion object {
+        const val ENTRIES_PER_PAGE = 11
     }
 }

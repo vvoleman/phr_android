@@ -76,7 +76,10 @@ class ProblemCategoryAdapter(
             return oldItem.problemCategory.id == newItem.problemCategory.id
         }
 
-        override fun areContentsTheSame(oldItem: ProblemCategoryWithInfoUiModel, newItem: ProblemCategoryWithInfoUiModel): Boolean {
+        override fun areContentsTheSame(
+            oldItem: ProblemCategoryWithInfoUiModel,
+            newItem: ProblemCategoryWithInfoUiModel
+        ): Boolean {
             return oldItem == newItem
         }
     }

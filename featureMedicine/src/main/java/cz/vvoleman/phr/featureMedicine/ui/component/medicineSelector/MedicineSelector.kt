@@ -70,7 +70,8 @@ class MedicineSelector @JvmOverloads constructor(
         recyclerViewAdapter = MedicineSelectorAdapter(this)
         recyclerViewAdapter.addLoadStateListener { loadState ->
             dialogBinding.progressBar.isVisible = loadState.source.refresh is LoadState.Loading
-            dialogBinding.textViewNoResults.isVisible = loadState.append.endOfPaginationReached && recyclerViewAdapter.itemCount < 1
+            dialogBinding.textViewNoResults.isVisible =
+                loadState.append.endOfPaginationReached && (recyclerViewAdapter.itemCount < 1)
             dialogBinding.textViewError.isVisible = loadState.refresh is LoadState.Error
         }
 

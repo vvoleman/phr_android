@@ -1,8 +1,8 @@
 package cz.vvoleman.phr.featureMeasurement.ui.component.entryField.fields
 
 import android.content.res.Resources
-import android.util.Log
 import androidx.viewbinding.ViewBinding
+import cz.vvoleman.phr.common.utils.TimeConstants
 import cz.vvoleman.phr.common.utils.textChanges
 import cz.vvoleman.phr.featureMeasurement.R
 import cz.vvoleman.phr.featureMeasurement.databinding.ItemNumericFieldEntryBinding
@@ -33,9 +33,8 @@ class NumericEntryFieldItem(
 
         numericBinding.editText.setText(value.toString())
 
-        Log.d("NumericEntryField", "initField: $label")
         numericBinding.editText.textChanges(false)
-            .debounce(150)
+            .debounce(TimeConstants.DEBOUNCE_TIME)
             .onEach {
                 val error = getErrorMessage(it.toString(), numericBinding.root.resources)
                 numericBinding.textInputLayout.error = error

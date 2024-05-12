@@ -10,11 +10,16 @@ import cz.vvoleman.phr.featureMeasurement.domain.model.list.ScheduledMeasurement
 class GroupScheduledMeasurementsByTimeUseCase(
     coroutineContextProvider: CoroutineContextProvider
 ) :
-    BackgroundExecutingUseCase<GroupScheduledMeasurementsRequest, List<GroupedItemsDomainModel<ScheduledMeasurementGroupDomainModel>>>(
+    BackgroundExecutingUseCase<
+        GroupScheduledMeasurementsRequest,
+        List<GroupedItemsDomainModel<ScheduledMeasurementGroupDomainModel>>
+        >(
         coroutineContextProvider
     ) {
 
-    override suspend fun executeInBackground(request: GroupScheduledMeasurementsRequest): List<GroupedItemsDomainModel<ScheduledMeasurementGroupDomainModel>> {
+    override suspend fun executeInBackground(
+        request: GroupScheduledMeasurementsRequest
+    ): List<GroupedItemsDomainModel<ScheduledMeasurementGroupDomainModel>> {
         val groups = request.scheduleItems.groupBy {
             val date = it.dateTime.toLocalDate().toString()
             val hour = it.dateTime.toLocalTime().hour

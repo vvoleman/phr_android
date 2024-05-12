@@ -81,6 +81,7 @@ class AndroidAlarmScheduler(
         }
     }
 
+    @Suppress("FunctionOnlyReturningConstant")
     private fun checkPermissions(): Boolean {
 //        return ContextCompat.checkSelfPermission(
 //            context,
