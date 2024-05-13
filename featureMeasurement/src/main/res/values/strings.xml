@@ -51,4 +51,7 @@
     <string name="measurement_problem_category_detail_description">Skupiny měření přiřazené k této kategorii</string>
     <string name="last_entry_label">Poslední měření</string>
     <string name="measurement_field_info">%s (%s)</string>
+    <string name="detail_measurement_group_no_entries">Žádné záznamy</string>
+    <string name="detail_measurement_group_add_entry">Přidat záznam</string>
+    <string name="detail_measurement_group_export">Exportovat</string>
 </resources>

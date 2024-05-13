@@ -83,7 +83,18 @@ class TimeAdapter(
                 .appendPattern("HH:mm")
                 .toFormatter()
             binding.textViewTime.text = time.time.format(formatter)
-            binding.editTextQuantity.setText(time.number.toString())
+
+            if (time.number == 0) {
+                binding.editTextQuantity.setText("")
+            } else {
+                // Has number decimal part?
+                if (time.number.toFloat() % 1 == 0.0f) {
+                    binding.editTextQuantity.setText(time.number.toInt().toString())
+                } else {
+                    binding.editTextQuantity.setText(time.number.toString())
+                }
+//                binding.editTextQuantity.setText(time.number.toString())
+            }
 
             binding.editTextQuantity.setClearFocusOnDoneAction()
 

@@ -19,37 +19,50 @@
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_view_table"
-                android:elevation="8dp"
-                android:layout_marginTop="16dp"
                 android:layout_width="wrap_content"
-                android:layout_marginHorizontal="16dp"
                 android:layout_height="match_parent"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="16dp"
                 android:background="@drawable/layout_rounded"
+                android:elevation="8dp"
                 tools:itemCount="3"
                 tools:listitem="@layout/item_field_info_table" />
 
+            <TextView
+                android:id="@+id/text_view_empty"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/detail_measurement_group_no_entries"
+                android:textAlignment="center"
+                android:textColor="@color/beige_500"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
             <com.google.android.flexbox.FlexboxLayout
                 android:layout_width="match_parent"
-                app:justifyContent="space_between"
-                android:layout_marginTop="8dp"
-                app:flexDirection="column"
+                android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="8dp"
                 app:alignItems="stretch"
-                android:layout_height="wrap_content">
+                app:flexDirection="column"
+                app:justifyContent="space_between">
+
                 <com.google.android.material.button.MaterialButton
-                    android:backgroundTint="@color/beige_700"
                     android:id="@+id/button_add_entry"
                     android:layout_width="wrap_content"
-                    android:text="Přidat záznam"
-                    app:iconGravity="textStart"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/beige_700"
+                    android:text="@string/detail_measurement_group_add_entry"
                     app:icon="@drawable/ic_add"
-                    android:layout_height="wrap_content" />
+                    app:iconGravity="textStart" />
+
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/button_export"
                     android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:backgroundTint="@color/beige_500"
-                    android:text="Exportovat"
-                    android:layout_height="wrap_content" />
+                    android:text="@string/detail_measurement_group_export" />
             </com.google.android.flexbox.FlexboxLayout>
 
             <androidx.recyclerview.widget.RecyclerView

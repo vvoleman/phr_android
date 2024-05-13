@@ -10,7 +10,9 @@ import cz.vvoleman.phr.common_datasource.databinding.FragmentAddEditPatientBindi
 class AddEditPatientBinder :
     BaseViewStateBinder<AddEditViewState, FragmentAddEditPatientBinding, AddEditPatientBinder.Notification>() {
 
-    override fun bind(viewBinding: FragmentAddEditPatientBinding, viewState: AddEditViewState) {
+    override fun firstBind(viewBinding: FragmentAddEditPatientBinding, viewState: AddEditViewState) {
+        super.firstBind(viewBinding, viewState)
+
         viewState.patient?.let {
             val date = it.birthDate
             date?.let {
@@ -19,7 +21,9 @@ class AddEditPatientBinder :
 
             viewBinding.textFieldName.setText(it.name)
         }
+    }
 
+    override fun bind(viewBinding: FragmentAddEditPatientBinding, viewState: AddEditViewState) {
         Log.d("AddEditPatientBinder", "Has errors: ${viewState.hasErrors()}")
         if (viewState.hasErrors()) {
             if (viewState.errorFields.containsKey("name")) {
