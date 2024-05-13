@@ -72,7 +72,6 @@
             </intent-filter>
         </receiver>
 
-        <receiver android:name=".featureMedicine.data.alarm.CounterNotificationReceiver" />
         <receiver android:name=".featureMedicine.data.alarm.MedicineAlarmReceiver" />
         <receiver android:name=".featureMeasurement.data.alarm.receiver.measurementGroup.MeasurementGroupAlarmReceiver" />
         <receiver android:name=".featureEvent.data.alarm.receiver.event.EventAlarmReceiver" />

@@ -71,4 +71,6 @@
     <string name="label_last_edited_no_data" />
     <string name="medicine_schedule_problem_category_detail_title">Léky</string>
     <string name="medicine_schedule_problem_category_detail_description">Naplánované léky, které máte v této kategorii</string>
+    <string name="notification_medicine_title">Upozornění na léky</string>
+    <string name="notification_medicine_text">Je čas si vzít lék %s (%s)</string>
 </resources>
