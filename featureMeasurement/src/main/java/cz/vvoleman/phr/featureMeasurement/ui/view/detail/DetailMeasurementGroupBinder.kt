@@ -6,6 +6,7 @@ import com.xwray.groupie.GroupieAdapter
 import cz.vvoleman.phr.base.ui.mapper.BaseViewStateBinder
 import cz.vvoleman.phr.common.ui.adapter.MarginItemDecoration
 import cz.vvoleman.phr.common.utils.SizingConstants
+import cz.vvoleman.phr.common.utils.checkVisibility
 import cz.vvoleman.phr.featureMeasurement.databinding.FragmentDetailMeasurementGroupBinding
 import cz.vvoleman.phr.featureMeasurement.presentation.model.detail.DetailMeasurementGroupViewState
 import cz.vvoleman.phr.featureMeasurement.ui.adapter.detail.FieldStatsAdapter
@@ -30,6 +31,9 @@ class DetailMeasurementGroupBinder(
         viewState: DetailMeasurementGroupViewState
     ) {
         super.firstBind(viewBinding, viewState)
+
+        viewBinding.recyclerViewTable.visibility = checkVisibility(viewState.measurementGroup.entries.isNotEmpty())
+        viewBinding.textViewEmpty.visibility = checkVisibility(!viewState.measurementGroup.entries.isNotEmpty())
     }
 
     override fun bind(viewBinding: FragmentDetailMeasurementGroupBinding, viewState: DetailMeasurementGroupViewState) {

@@ -26,7 +26,6 @@ class TimeSelector @JvmOverloads constructor(
 
     init {
         binding = ViewTimeSelectorBinding.inflate(LayoutInflater.from(context), this, true)
-        Log.d(TAG, "init: ")
     }
 
     fun setLifecycleScope(lifecycleScope: LifecycleCoroutineScope) {
@@ -39,9 +38,6 @@ class TimeSelector @JvmOverloads constructor(
         val timeAdapter = getAdapter()
         timeAdapter.submitList(times)
 
-        Log.d(TAG, "calling setTimes")
-
-        Log.d(TAG, "spanCount ${if (times.isNotEmpty()) times.size else 1}")
         binding.recyclerViewTimes.apply {
             val layout = layoutManager as GridLayoutManager
             layout.spanCount = if (times.isNotEmpty()) times.size else 1
