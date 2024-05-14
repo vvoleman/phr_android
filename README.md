@@ -37,7 +37,10 @@
 Tato mobilní aplikace byla vypracována jako součást bakalářské práce na FM TUL. Aplikace má za cíl
 ulehčit uživateli evidenci svého zdravotní stavu a své zdravotní péče. Data o léčivých přípravcích,
 diagnózách a lékařských zařízeních aplikace čerpá z [API serveru](https://github.com/vvoleman/phr),
-který byl v rámci této práce také vypracován.
+který byl v rámci této práce také vypracován. Uživatelské rozhraní bylo navrženo v nástroji Figma,
+odkaz na prototyp je k
+dispozici [zde](https://www.figma.com/design/DAySWnTruVGtQRTTjM7kh4/PHR?node-id=102%3A40&t=xTlttjfjksAryQjZ-1).
+Finální verze bakalářské práce je k dispozici v souboru [bp_vvoleman_final.pdf](bp_vvoleman_final.pdf).
 
 ### Cílové skupiny
 
@@ -108,7 +111,7 @@ Mimo tyto hlavní moduly aplikace obsahuje i funkce, které jsou součástí mod
    starají.
    U pracovníka vybírá zařízení z Národního registru poskytovatelů zdravotních služeb.
 
-## Technologie a nástroje
+## Technologie
 
 Aplikace je vyvíjena v jazyce Kotlin a je stavěna dle systémové architektury Clean Architecture.
 Pro konkrétní implementaci bylo čerpáno z knihy *Clean Architecture for Android: Implement
@@ -122,9 +125,6 @@ knihovna [Room](https://developer.android.com/training/data-storage/room),
 pro komunikaci s API serverem je využita knihovna [Retrofit](https://square.github.io/retrofit/).
 Pro převod fotografie na text (OCR) je využit
 nástroj [Google ML Kit](https://developers.google.com/ml-kit).
-
-Uživatelské rozhraní bylo navrženo v nástroji Figma, odkaz na prototyp je k
-dispozici [zde](https://www.figma.com/design/DAySWnTruVGtQRTTjM7kh4/PHR?node-id=102%3A40&t=xTlttjfjksAryQjZ-1).
 
 ## Instalace
 
