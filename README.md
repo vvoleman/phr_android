@@ -32,16 +32,40 @@
    0132350882.
 3. MKN-10 klasifikace [online]. [cit. 2022-10-12]. Dostupné z: https://mkn10.uzis.cz
 
-## Popis
+## O projektu
 
 Tato mobilní aplikace byla vypracována jako součást bakalářské práce na FM TUL. Aplikace má za cíl
 ulehčit uživateli evidenci svého zdravotní stavu a své zdravotní péče. Data o léčivých přípravcích,
 diagnózách a lékařských zařízeních aplikace čerpá z [API serveru](https://github.com/vvoleman/phr),
 který byl v rámci této práce také vypracován.
 
-Aplikace se dělí na 4 hlavní moduly:
+### Cílové skupiny
 
-### Lékařské zprávy
+#### Běžný uživatel
+
+- je systematický, chodí spíše jen na preventivní prohlídky
+- chce mít pořádek v lékařských zprávách
+- chce všechny kontakty na využívané lékaře na jednom místě
+- chce přehled o termínech, "kalendář"
+
+#### Uživatel se zdravotní indispozicí
+
+- běžné funkce
+- potřebuje si udržovat, kdy má brát jaké léky
+- rád by měl po ruce příbalové letáky
+- musí si zaznamenávat některé zdravotní hodnoty (tlak, tep...)
+
+#### Rodinný příslušník/opatrovník
+
+- potřebuje si udržovat pořádek v lék. zprávách svého "pacienta"
+- chce znát termíny návstěv
+- musí pravidelně více pacientům podávat rozdílné léky
+
+### Funkce
+
+Aplikace rozděluje své funkce do několika modulů, které se týkají různých aspektů zdravotní péče.
+
+#### Lékařské zprávy
 
 V tomto modulu si uživatel zaznamenává lékařské zprávy obdržené při návštěvě lékařského zařízení.
 Při přidání uživatel vyfotí zprávu a aplikace se pokusí z fotky extrahovat některá data (datum
@@ -50,7 +74,7 @@ Uživatel může následně doplnit chybějící informace a zprávu uložit. U�
 prohlížet,
 upravovat, exportovat do PDF a mazat.
 
-### Léky
+#### Léky
 
 V tomto modulu si uživatel eviduje léky, které užívá a aplikace mu připomíná jejich užití. Při
 přidání
@@ -59,19 +83,19 @@ vidí,
 které léky má dnes ještě užít. Po kliknutí na lék si může zobrazit jeho detaily či otevřít
 příbalový leták.
 
-### Měření
+#### Měření
 
 V tomto modulu si uživatel eviduje svá měření (např. krevní tlak, hmotnost, teplota). Uživatel si
 nejprve
 definuje jaké položky mají v rámci jednoho měření a posléže si nastaví upozornění na měření.
 
-### Plány návštěv
+#### Plány návštěv
 
 V tomto modulu si uživatel eviduje své budoucí návštěvy lékařských zařízení. Při vytváření může
 určit,
 kterého problémy či lékaře se návštěva týká. Aplikace uživatele upozorní na blížící se návštěvu.
 
-### Ostatní
+#### Ostatní
 
 Mimo tyto hlavní moduly aplikace obsahuje i funkce, které jsou součástí modulu Obecné. Patří sem
 
@@ -84,7 +108,7 @@ Mimo tyto hlavní moduly aplikace obsahuje i funkce, které jsou součástí mod
    starají.
    U pracovníka vybírá zařízení z Národního registru poskytovatelů zdravotních služeb.
 
-## Technologie
+## Technologie a nástroje
 
 Aplikace je vyvíjena v jazyce Kotlin a je stavěna dle systémové architektury Clean Architecture.
 Pro konkrétní implementaci bylo čerpáno z knihy *Clean Architecture for Android: Implement
@@ -99,12 +123,18 @@ pro komunikaci s API serverem je využita knihovna [Retrofit](https://square.git
 Pro převod fotografie na text (OCR) je využit
 nástroj [Google ML Kit](https://developers.google.com/ml-kit).
 
-## Spuštění
+Uživatelské rozhraní bylo navrženo v nástroji Figma, odkaz na prototyp je k
+dispozici [zde](https://www.figma.com/design/DAySWnTruVGtQRTTjM7kh4/PHR?node-id=102%3A40&t=xTlttjfjksAryQjZ-1).
 
-Build aplikace je dostupný v repozitáři v sekci Releases, poslední
-release [zde](https://github.com/vvoleman/phr_android/releases/latest). Pro instalaci je potřeba v
-zařízení
-povolit instalaci aplikací z neznámých zdrojů.
+## Instalace
 
-Pro vlastní sestavení aplikace je třeba mít nainstalovaný Android Studio.
-Po synchronizaci Gradle je možné aplikaci spustit na emulátoru nebo na fyzickém zařízení.
+Aplikaci lze stáhnout z [Releases](https://github.com/vvoleman/phr_android/releases/latest) v tomto
+repozitáři. Pro instalaci je třeba povolit instalaci aplikací z neznámých zdrojů.
+
+Pro vlastní sestavení aplikace je třeba mít nainstalovaný Android Studio a SDK pro Android 13 (API
+level 33).
+
+## Prvotní spuštění
+
+Aplikace neobsahuje žádný "onboarding" proces, uživateli je k dispozici výchozí pacient s názvem "
+Výchozí". Prvotní obrazovkou aplikace jsou "Lékařské zprávy".
