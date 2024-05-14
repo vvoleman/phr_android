@@ -70,7 +70,8 @@ class SelectFileBinder :
 
             val formatter = DateTimeFormatter.ofLocalizedDate(java.time.format.FormatStyle.MEDIUM)
                 .withLocale(Locale.getDefault())
-            val date = LocalDate.parse(selectOptionsBinding.dateSpinner.text, formatter)
+            val dateText = selectOptionsBinding.dateSpinner.text.toString()
+            val date = if (dateText.isNotEmpty()) LocalDate.parse(dateText, formatter) else null
 
             notify(
                 Notification.ConfirmWithOptions(

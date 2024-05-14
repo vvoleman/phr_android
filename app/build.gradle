@@ -114,7 +114,7 @@ dependencies {
     testImplementation(libs.mockito.kotlin)
     testImplementation(libs.mockito.inline)
 
-    debugImplementation(libs.leakcanary.android)
+//    debugImplementation(libs.leakcanary.android)
 
     implementation project(':base')
     implementation project(':common')
